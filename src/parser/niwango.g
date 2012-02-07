@@ -40,7 +40,7 @@ postfix: primary
 	( '++'
 	| '--'
 	| '.' name
-	| '[' expr ']'
+	| '[' args ']'
 	| '(' args ')'
 	)*
 	;
@@ -92,6 +92,8 @@ LETTER:
 	'A'..'Z'
 	| 'a'..'z'
 	| '_'
+	| '@'
+	| '$'
 	;
 fragment
 DIGIT :
