@@ -9,16 +9,12 @@
 
 namespace tree{
 
-const logging::Location& LiteralNode::location(){
-	return loc;
-}
-
 BoolLiteralNode::BoolLiteralNode(const logging::Location& loc, const bool literal)
 	:LiteralNode(loc), literal(literal)
 {
 }
 
-const bool BoolLiteralNode::getLiteral(){
+const bool BoolLiteralNode::getLiteral() const{
 	return literal;
 }
 
@@ -27,7 +23,7 @@ StringLiteralNode::StringLiteralNode(const logging::Location & loc, const std::s
 {
 }
 
-const std::string& StringLiteralNode::getLiteral()
+const std::string& StringLiteralNode::getLiteral() const
 {
 	return literal;
 }
@@ -39,7 +35,7 @@ IntegerLiteralNode::IntegerLiteralNode(const logging::Location & loc, const int 
 {
 }
 
-const int tree::IntegerLiteralNode::getLiteral()
+const int tree::IntegerLiteralNode::getLiteral() const
 {
 	return literal;
 }

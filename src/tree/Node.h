@@ -11,40 +11,67 @@
 #include "../classdefs.h"
 #include "../logging/Logging.h"
 #include "../machine/NodeWalker.h"
+#include <tr1/memory>
+#include <map>
+#include <vector>
 
 namespace tree
 {
+using std::tr1::shared_ptr;
 
 class Node : public virtual logging::Dumpable
 {
+private:
+	const logging::Location loc;
 protected:
-	Node(){};
+	Node(const logging::Location& loc):loc(loc){};
 	virtual ~Node(){};
 public:
-	virtual const logging::Location& location() = 0;
 	//for lexical debug
-	virtual void dump(logging::Dumper& dumper){}
+	virtual void dump(logging::Dumper& dumper) const{}
+	const logging::Location& location() const{return loc;};
 //	virtual void accept(machine::NodeWalker& walker) = 0;
 };
 
 class ExprNode : public Node
 {
 protected:
-	ExprNode(){};
-	virtual ~ExprNode(){};
+	ExprNode(const logging::Location& loc):Node(loc){};
 public:
+	virtual ~ExprNode(){};
 };
 
-class NameNode : public ExprNode
+class NameNode : public Node
 {
 private:
-	const logging::Location loc;
 	const std::string& name;
 public:
-	NameNode(const logging::Location& loc, const std::string& name);
-	virtual ~NameNode();
-	virtual const logging::Location& location();
-	const std::string& getName();
+	NameNode(const logging::Location& loc, const std::string& name) :Node(loc), name(name) {};
+	virtual ~NameNode(){};
+	const std::string getName() const {return name;};
+};
+
+class SlotNode : public ExprNode
+{
+private:
+	const shared_ptr<const ExprNode> scope;
+	const shared_ptr<const NameNode> nameNode;
+public:
+	SlotNode(const logging::Location& loc, shared_ptr<const ExprNode>, shared_ptr<const NameNode> nameNode) :ExprNode(loc), scope(scope), nameNode(nameNode) {};
+	virtual ~SlotNode(){};
+	const shared_ptr<const NameNode> getNameNode() const {return nameNode;};
+	const shared_ptr<const ExprNode> getScopeNode() const{return scope;};
+};
+
+class ObjectNode : public ExprNode
+{
+private:
+	std::map<std::string, shared_ptr<const ExprNode> > exprMap;
+	std::vector<shared_ptr<const ExprNode> > exprVector;
+public:
+	ObjectNode(const logging::Location& loc);
+	virtual ~ObjectNode(){};
+	void append(shared_ptr<const NameNode> nameNode, shared_ptr<const ExprNode> exprNode);
 };
 
 class CallNode : public ExprNode
@@ -54,25 +81,17 @@ public:
 	virtual ~CallNode(){};
 };
 
-class ArrayNode : public ExprNode
-{
-public:
-	ArrayNode();
-	virtual ~ArrayNode(){};
-	void append(const ExprNode* node);
-};
-
 class AbstractAssignNode : public ExprNode
 {
 protected:
-	AbstractAssignNode(){};
+	AbstractAssignNode(const logging::Location& loc) : ExprNode(loc) {};
 	virtual ~AbstractAssignNode(){};
 public:
 };
 
 class AssignNode : public AbstractAssignNode
 {
-	AssignNode();
+	AssignNode(const logging::Location& loc);
 	virtual ~AssignNode();
 public:
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
@@ -80,7 +99,7 @@ public:
 
 class OpAssignNode : public AbstractAssignNode
 {
-	OpAssignNode();
+	OpAssignNode(const logging::Location& loc);
 	virtual ~OpAssignNode();
 public:
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
@@ -89,11 +108,9 @@ public:
 class LiteralNode : public ExprNode
 {
 private:
-	const logging::Location loc;
 public:
-	LiteralNode(const logging::Location& loc) :loc(loc) {};
+	LiteralNode(const logging::Location& loc) : ExprNode(loc) {};
 	virtual ~LiteralNode(){};
-	virtual const logging::Location& location();
 };
 
 class StringLiteralNode : public LiteralNode
@@ -104,7 +121,7 @@ public:
 	StringLiteralNode(const logging::Location& loc, const std::string& literal);
 	virtual ~StringLiteralNode(){};
 
-	const std::string& getLiteral();
+	const std::string& getLiteral() const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
@@ -115,7 +132,7 @@ private:
 public:
 	IntegerLiteralNode(const logging::Location& loc, const int literal);
 	virtual ~IntegerLiteralNode(){};
-	const int getLiteral();
+	const int getLiteral() const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
@@ -126,7 +143,7 @@ private:
 public:
 	BoolLiteralNode(const logging::Location& loc, const bool literal);
 	virtual ~BoolLiteralNode(){};
-	const bool getLiteral();
+	const bool getLiteral() const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 

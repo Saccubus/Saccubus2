@@ -22,7 +22,7 @@ protected:
 	Dumpable(){};
 	virtual ~Dumpable(){};
 public:
-	virtual void dump(Dumper& dumper) = 0;
+	virtual void dump(Dumper& dumper) const = 0;
 };
 
 class Location{
