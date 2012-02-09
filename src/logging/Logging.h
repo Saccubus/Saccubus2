@@ -9,6 +9,10 @@
 #define LOGGING_H_
 
 #include <string>
+#include <map>
+#include <vector>
+#include <iostream>
+#include <tr1/memory>
 
 namespace logging
 {
@@ -44,8 +48,21 @@ public:
 class Dumper
 {
 public:
-	Dumper();
+	Dumper(std::ostream& stream);
 	virtual ~Dumper();
+	void printName(const std::string& name);
+	void printNode(const std::string& name, std::tr1::shared_ptr<const Dumpable>& member);
+	void printNodeList(const std::string& name, std::vector<std::tr1::shared_ptr<const Dumpable> >& memberList);
+	void printNodeList(const std::string& name, std::map<std::string, std::tr1::shared_ptr<const Dumpable> >& memberList);
+	void print(const std::string& name, const std::string& member);
+	void print(const std::string& name, const int member);
+	void print(const std::string& name, const bool member);
+private:
+	int indent;
+	std::ostream& stream;
+	void startLine();
+	void in();
+	void out();
 };
 
 }

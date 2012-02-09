@@ -12,7 +12,7 @@ options {
 #include <string>
 #include <iostream>
 #include <tr1/memory>
-#include "./ParseUtil.h"
+#include "ParseUtil.h"
 #include "../tree/Node.h"
 using namespace parse;
 using namespace tree;
@@ -21,7 +21,23 @@ using std::tr1::shared_ptr;
 }
 
 program returns [shared_ptr<const ExprNode> result]
-	: (expr ((';' | ',') expr)*)?;
+@init{
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: (
+	fst=expr
+	{
+		resultNode=$fst.result;
+	}
+	(
+		t=(';' | ',') nxt=expr
+		{
+			resultNode = shared_ptr<const ContNode>(new ContNode(createLocation($t), resultNode, $nxt.result));
+		}
+	)*)?;
 
 expr returns [shared_ptr<const ExprNode> result]
 @init{
@@ -51,11 +67,11 @@ expr returns [shared_ptr<const ExprNode> result]
 	;
 
 assign_op returns [std::string result]
-	: '+=' {result="add";}
-	| '-=' {result="subtract";}
-	| '*=' {result="multiply";}
-	| '/=' {result="divide";}
-	| '%=' {result="modulo";}
+	: '+=' {$result="add";}
+	| '-=' {$result="subtract";}
+	| '*=' {$result="multiply";}
+	| '/=' {$result="divide";}
+	| '%=' {$result="modulo";}
 	;
 	
 
@@ -67,6 +83,9 @@ expr5 returns [shared_ptr<const ExprNode> result]
 	$result=resultNode;
 }
 	: fst=expr4
+	{
+		resultNode=$fst.result;
+	}
 	(
 		tok='||' nxt=expr4
 		{
@@ -82,6 +101,9 @@ expr4 returns [shared_ptr<const ExprNode> result]
 	$result=resultNode;
 }
 	: fst=expr3
+	{
+		resultNode=$fst.result;
+	}
 	(
 		tok='&&' nxt=expr3
 		{
@@ -136,7 +158,10 @@ expr1 returns [shared_ptr<const ExprNode> result]
 @after{
 	$result=resultNode;
 }
-	: fst=term { resultNode=$fst.result; }
+	: fst=term 
+	{
+		resultNode=$fst.result;
+	}
 	(
 		tok=('*' {op="multiply";} | '/' {op="divide";} | '%' {op="modulo";})
 		nxt=term
@@ -178,34 +203,31 @@ term returns [shared_ptr<const ExprNode> result]
 	}
 	;
 postfix returns [shared_ptr<const ExprNode> result]
-@init{
-shared_ptr<const ExprNode> primaryNode;
-}
 	: primary
 	{
-		primaryNode=$primary.result;
+		$result=$primary.result;
 	}
 	( tok='++'
 	{
-		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), primaryNode, "increase"));
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), $result, "increase"));
 	}
 	| tok='--'
 	{
-		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), primaryNode, "decrease"));
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), $result, "decrease"));
 	}
 	| tok=('.' name)
 	{
-		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), primaryNode, $name.result));
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), $result, $name.result));
 	}
 	| tok=('[' array_idx=object_def ']')
 	{
 		shared_ptr<const ObjectNode> objNode = $array_idx.result;
-		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocation($tok), primaryNode, objNode));
+		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocation($tok), $result, objNode));
 	}
 	| tok=('(' binded=object_def ')')
 	{
 		shared_ptr<const ObjectNode> objNode = $binded.result;
-		$result=shared_ptr<const BindNode>(new BindNode(createLocation($tok), primaryNode, objNode));
+		$result=shared_ptr<const BindNode>(new BindNode(createLocation($tok), $result, objNode));
 	}
 	)*
 	;
@@ -324,7 +346,6 @@ integer returns [shared_ptr<const IntegerLiteralNode> result]
 	{
 		int num = strtol(createStringFromToken($str).c_str(), 0, 0);
 		$result = shared_ptr<const IntegerLiteralNode>(new IntegerLiteralNode(createLocation($str), num));
-		
 	};
 string returns [shared_ptr<const StringLiteralNode> result]
 	: str=(STRING_SINGLE | STRING_DOUBLE)

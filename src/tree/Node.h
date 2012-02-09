@@ -19,7 +19,7 @@ namespace tree
 {
 using std::tr1::shared_ptr;
 
-class Node : public virtual logging::Dumpable
+class Node : public logging::Dumpable
 {
 private:
 	const logging::Location loc;
@@ -28,7 +28,7 @@ protected:
 	virtual ~Node(){};
 public:
 	//for lexical debug
-	virtual void dump(logging::Dumper& dumper) const{}
+	virtual void dump(logging::Dumper& dumper) const = 0;
 	const logging::Location& location() const{return loc;};
 //	virtual void accept(machine::NodeWalker& walker) = 0;
 };
@@ -44,22 +44,26 @@ public:
 class ContNode : public ExprNode
 {
 private:
-	shared_ptr<const ExprNode> fistNode;
+	shared_ptr<const ExprNode> firstNode;
 	shared_ptr<const ExprNode> nextNode;
 public:
 	ContNode(const logging::Location& loc, shared_ptr<const ExprNode> fistNode, shared_ptr<const ExprNode> nextNode)
-	:ExprNode(loc), fistNode(fistNode), nextNode(nextNode){};
+	:ExprNode(loc), firstNode(fistNode), nextNode(nextNode){};
 	virtual ~ContNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
+#include <stdio.h>
 class InvokeNode : public ExprNode
 {
 private:
 	const shared_ptr<const ExprNode> exprNode;
 	const std::string messageName;
 public:
-	InvokeNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, std::string messageName) :ExprNode(loc), exprNode(exprNode), messageName(messageName) {};
+	InvokeNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, std::string messageName)
+	:ExprNode(loc), exprNode(exprNode), messageName(messageName) {};
 	virtual ~InvokeNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class ObjectNode : public ExprNode
@@ -71,6 +75,7 @@ public:
 	ObjectNode(const logging::Location& loc);
 	virtual ~ObjectNode(){};
 	void append(std::string name, shared_ptr<const ExprNode> exprNode);
+	void dump(logging::Dumper& dumper) const;
 };
 
 class BinOpNode : public ExprNode{
@@ -83,6 +88,7 @@ public:
 		:ExprNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
 	{};
 	virtual ~BinOpNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class PreOpNode : public ExprNode{
@@ -94,6 +100,7 @@ public:
 		:ExprNode(loc), exprNode(exprNode), op(op)
 	{};
 	virtual ~PreOpNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class PostOpNode : public ExprNode{
@@ -105,6 +112,7 @@ public:
 		:ExprNode(loc), exprNode(exprNode), op(op)
 	{};
 	virtual ~PostOpNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class BindNode : public ExprNode
@@ -117,6 +125,7 @@ public:
 		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
 	{};
 	virtual ~BindNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class IndexAcessNode : public ExprNode
@@ -129,6 +138,7 @@ public:
 		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
 	{};
 	virtual ~IndexAcessNode(){};
+	void dump(logging::Dumper& dumper) const;
 };
 
 class AbstractAssignNode : public ExprNode
@@ -150,6 +160,7 @@ public:
 		:AbstractAssignNode(loc), leftNode(leftNode), rightNode(rightNode), isLocal(isLocal)
 	{};
 	virtual ~AssignNode(){};
+	void dump(logging::Dumper& dumper) const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
@@ -164,6 +175,7 @@ public:
 		:AbstractAssignNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
 	{};
 	virtual ~OpAssignNode(){};
+	void dump(logging::Dumper& dumper) const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
@@ -182,6 +194,7 @@ private:
 public:
 	StringLiteralNode(const logging::Location& loc, const std::string& literal);
 	virtual ~StringLiteralNode(){};
+	void dump(logging::Dumper& dumper) const;
 
 	const std::string& getLiteral() const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
@@ -195,6 +208,7 @@ public:
 	IntegerLiteralNode(const logging::Location& loc, const int literal);
 	virtual ~IntegerLiteralNode(){};
 	const int getLiteral() const;
+	void dump(logging::Dumper& dumper) const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
@@ -206,6 +220,7 @@ public:
 	BoolLiteralNode(const logging::Location& loc, const bool literal);
 	virtual ~BoolLiteralNode(){};
 	const bool getLiteral() const;
+	void dump(logging::Dumper& dumper) const;
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
