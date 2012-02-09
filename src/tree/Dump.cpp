@@ -5,7 +5,6 @@
  *      Author: psi
  */
 #include "Node.h"
-#include "../logging/Logging.h"
 
 using logging::Dumper;
 using namespace tree;

@@ -10,15 +10,5 @@
 namespace machine
 {
 
-NodeWalker::NodeWalker()
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-NodeWalker::~NodeWalker()
-{
-	// TODO Auto-generated destructor stub
-}
 
 } /* namespace machine */

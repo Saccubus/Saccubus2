@@ -10,7 +10,6 @@
 
 #include "../classdefs.h"
 #include "../logging/Logging.h"
-#include "../machine/NodeWalker.h"
 #include <tr1/memory>
 #include <map>
 #include <vector>
@@ -29,7 +28,7 @@ protected:
 public:
 	virtual void dump(logging::Dumper& dumper) const = 0;
 	const logging::Location& location() const{return loc;};
-//	virtual void accept(machine::NodeWalker& walker) = 0;
+	virtual void accept(machine::NodeWalker& walker) const = 0;
 };
 
 class ExprNode : public Node
@@ -50,6 +49,7 @@ public:
 	:ExprNode(loc), firstNode(fistNode), nextNode(nextNode){};
 	virtual ~ContNode(){};
 	void dump(logging::Dumper& dumper) const;
+	virtual void accept(machine::NodeWalker& walker) const;
 };
 
 class InvokeNode : public ExprNode
@@ -62,6 +62,7 @@ public:
 	:ExprNode(loc), exprNode(exprNode), messageName(messageName) {};
 	virtual ~InvokeNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class ObjectNode : public ExprNode
@@ -74,6 +75,7 @@ public:
 	virtual ~ObjectNode(){};
 	void append(std::string name, shared_ptr<const ExprNode> exprNode);
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class BinOpNode : public ExprNode{
@@ -87,6 +89,7 @@ public:
 	{};
 	virtual ~BinOpNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class PreOpNode : public ExprNode{
@@ -99,6 +102,7 @@ public:
 	{};
 	virtual ~PreOpNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class PostOpNode : public ExprNode{
@@ -111,6 +115,7 @@ public:
 	{};
 	virtual ~PostOpNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class BindNode : public ExprNode
@@ -124,6 +129,7 @@ public:
 	{};
 	virtual ~BindNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class IndexAcessNode : public ExprNode
@@ -137,6 +143,7 @@ public:
 	{};
 	virtual ~IndexAcessNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class AbstractAssignNode : public ExprNode
@@ -159,6 +166,7 @@ public:
 	{};
 	virtual ~AssignNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class OpAssignNode : public AbstractAssignNode
@@ -173,6 +181,7 @@ public:
 	{};
 	virtual ~OpAssignNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class LiteralNode : public ExprNode
@@ -191,6 +200,7 @@ public:
 	StringLiteralNode(const logging::Location& loc, const std::string& literal);
 	virtual ~StringLiteralNode(){};
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 
 	const std::string& getLiteral() const;
 };
@@ -204,6 +214,7 @@ public:
 	virtual ~IntegerLiteralNode(){};
 	const int getLiteral() const;
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 class BoolLiteralNode : public LiteralNode
@@ -215,6 +226,7 @@ public:
 	virtual ~BoolLiteralNode(){};
 	const bool getLiteral() const;
 	void dump(logging::Dumper& dumper) const;
+	void accept(machine::NodeWalker& walker) const;
 };
 
 } /* namespace tree */
