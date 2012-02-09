@@ -19,6 +19,7 @@ namespace machine{
 };
 
 namespace tree{
+	class Node;
 	class BoolLiteralNode;
 	class IntegerLiteralNode;
 	class StringLiteralNode;

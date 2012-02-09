@@ -6,9 +6,13 @@
  */
 
 #include "NodeWalker.h"
+#include "../tree/Node.h"
 
 namespace machine
 {
+void NodeWalker::eval(const tree::Node& node){
+	node.accept(*this);
+}
 
 
 } /* namespace machine */
