@@ -17,7 +17,7 @@ options {
 using namespace parse;
 using namespace tree;
 using std::tr1::shared_ptr;
-
+typedef pANTLR3_COMMON_TOKEN Token;
 }
 
 program returns [shared_ptr<const ExprNode> result]
@@ -35,7 +35,7 @@ program returns [shared_ptr<const ExprNode> result]
 	(
 		t=(';' | ',') nxt=expr
 		{
-			resultNode = shared_ptr<const ContNode>(new ContNode(createLocation($t), resultNode, $nxt.result));
+			resultNode = shared_ptr<const ContNode>(new ContNode(createLocationFromToken($t), resultNode, $nxt.result));
 		}
 	)*)?;
 
@@ -54,24 +54,24 @@ expr returns [shared_ptr<const ExprNode> result]
 		resultNode = $fst.result;
 	}
 	(
-		tok=(':=' {isLocal = true;isOp=false;}|'='{isLocal=false;isOp=false;}| assign_op {isLocal=false;isOp=true;op=$assign_op.result;})
+		(tok=':=' {isLocal = true;isOp=false;}|tok='='{isLocal=false;isOp=false;}| assign_op {isLocal=false;isOp=true;op=$assign_op.result;})
 		nxt=expr
 		{
 			if(isOp){
-				resultNode=shared_ptr<const OpAssignNode>(new OpAssignNode(createLocation($tok), resultNode, op, $nxt.result));
+				resultNode=shared_ptr<const OpAssignNode>(new OpAssignNode(createLocationFromToken($assign_op.token), resultNode, op, $nxt.result));
 			}else{
-				resultNode=shared_ptr<const AssignNode>(new AssignNode(createLocation($tok), resultNode, $nxt.result, isLocal));
+				resultNode=shared_ptr<const AssignNode>(new AssignNode(createLocationFromToken($tok), resultNode, $nxt.result, isLocal));
 			}
 		}
 	)?
 	;
 
-assign_op returns [std::string result]
-	: '+=' {$result="add";}
-	| '-=' {$result="subtract";}
-	| '*=' {$result="multiply";}
-	| '/=' {$result="divide";}
-	| '%=' {$result="modulo";}
+assign_op returns [std::string result, Token token]
+	: tok='+=' {$result="add";$token=$tok;}
+	| tok='-=' {$result="subtract";$token=$tok;}
+	| tok='*=' {$result="multiply";$token=$tok;}
+	| tok='/=' {$result="divide";$token=$tok;}
+	| tok='%=' {$result="modulo";$token=$tok;}
 	;
 	
 
@@ -89,7 +89,7 @@ expr5 returns [shared_ptr<const ExprNode> result]
 	(
 		tok='||' nxt=expr4
 		{
-			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, "or", $nxt.result));
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, "or", $nxt.result));
 		}
 	)*
 	;
@@ -107,7 +107,7 @@ expr4 returns [shared_ptr<const ExprNode> result]
 	(
 		tok='&&' nxt=expr3
 		{
-			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, "and", $nxt.result));
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, "and", $nxt.result));
 		}
 	)*
 	;
@@ -124,10 +124,10 @@ expr3 returns [shared_ptr<const ExprNode> result]
 		resultNode = $fst.result;
 	}
 	(
-		tok=('<' {op="lessThan";} | '>' {op="greaterThan";} | '==' {op="equals";} | '!=' {op="notEquals";} | '<=' {op="notGreaterThan";} | '>=' {op="notLessThan";} )
+		(tok='<' {op="lessThan";} | tok='>' {op="greaterThan";} | tok='==' {op="equals";} | tok='!=' {op="notEquals";} | tok='<=' {op="notGreaterThan";} | tok='>=' {op="notLessThan";} )
 		nxt=expr2
 		{
-			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, op, $nxt.result));
 		}
 	)*
 	;
@@ -144,10 +144,10 @@ expr2 returns [shared_ptr<const ExprNode> result]
 		resultNode = $fst.result;
 	}
 	(
-		tok=('+' {op="add";} |'-' {op="subtract";})
+		(tok='+' {op="add";} |tok='-' {op="subtract";})
 		nxt=expr1
 		{
-			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, op, $nxt.result));
 		}
 	)*;
 expr1 returns [shared_ptr<const ExprNode> result]
@@ -166,36 +166,36 @@ expr1 returns [shared_ptr<const ExprNode> result]
 		tok=('*' {op="multiply";} | '/' {op="divide";} | '%' {op="modulo";})
 		nxt=term
 		{
-			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, op, $nxt.result));
 		}
 	)*
 	;
 
 term returns [shared_ptr<const ExprNode> result]
-	: tok=('++' t=term)
+	: tok='++' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "increase"));
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "increase"));
 	}
-	| tok=('--' t=term)
+	| tok='--' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "decrease"));
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "decrease"));
 	}
-	| tok=('+' t=term)
+	| tok='+' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "plus"));
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "plus"));
 	}
-	| tok=('-' t=term)
+	| tok='-' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "minus"));
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "minus"));
 	}
-	| tok=('!' t=term)
+	| tok='!' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "not"));
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "not"));
 	}
 	| postfix
 	{
@@ -209,25 +209,25 @@ postfix returns [shared_ptr<const ExprNode> result]
 	}
 	( tok='++'
 	{
-		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), $result, "increase"));
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocationFromToken($tok), $result, "increase"));
 	}
 	| tok='--'
 	{
-		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), $result, "decrease"));
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocationFromToken($tok), $result, "decrease"));
 	}
-	| tok=('.' name)
+	| tok='.' name
 	{
-		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), $result, $name.result));
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), $result, $name.result));
 	}
 	| tok=('[' array_idx=object_def ']')
 	{
 		shared_ptr<const ObjectNode> objNode = $array_idx.result;
-		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocation($tok), $result, objNode));
+		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocationFromToken($tok), $result, objNode));
 	}
 	| tok=('(' binded=object_def ')')
 	{
 		shared_ptr<const ObjectNode> objNode = $binded.result;
-		$result=shared_ptr<const BindNode>(new BindNode(createLocation($tok), $result, objNode));
+		$result=shared_ptr<const BindNode>(new BindNode(createLocationFromToken($tok), $result, objNode));
 	}
 	)*
 	;
@@ -240,9 +240,9 @@ primary returns [shared_ptr<const ExprNode> result]
 	{
 		$result = $array.result;
 	}
-	| tok=(name)
+	| name
 	{
-		$result = shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), shared_ptr<const ExprNode>(), $name.result));
+		$result = shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($name.token), shared_ptr<const ExprNode>(), $name.result));
 	}
 	| '(' expr ')'
 	{
@@ -257,9 +257,9 @@ object_def returns [shared_ptr<const ObjectNode> result]
 @after{
 	$result=obj;
 }
-	:(tok=(fst=object_element)
+	:((fst=object_element)
 	{
-		obj=shared_ptr<ObjectNode>(new ObjectNode(createLocation($tok)));
+		obj=shared_ptr<ObjectNode>(new ObjectNode(createLocationFromNode($fst.exprNode)));
 		obj->append($fst.name, $fst.exprNode);
 	}
 	(',' nxt=object_element
@@ -286,17 +286,18 @@ object_expr_list returns [shared_ptr<const ExprNode> result]
 	$result=resultNode;
 }
 	: fst=expr {resultNode = $fst.result;}
-	(t=(';' nxt=expr)
+	((t=';' nxt=expr)
 		{
-			resultNode = shared_ptr<const ContNode>(new ContNode(createLocation($t), resultNode, $nxt.result));
+			resultNode = shared_ptr<const ContNode>(new ContNode(createLocationFromToken($t), resultNode, $nxt.result));
 		}
 	)*
 	;
 
-name returns [std::string result]
+name returns [std::string result, Token token]
 	: t=IDENT
 	{
 		$result= createStringFromToken($t);
+		$token=$t;
 	}
 	;
 
@@ -306,7 +307,7 @@ array returns [shared_ptr<const ObjectNode> result]
 }
 @after{
 	if(resultNode.get() == 0){
-		resultNode = shared_ptr<ObjectNode>(new ObjectNode(createLocation($tok)));
+		resultNode = shared_ptr<ObjectNode>(new ObjectNode(createLocationFromToken($tok)));
 	}
 	$result=resultNode;
 }
@@ -334,23 +335,23 @@ literal returns [shared_ptr<const LiteralNode> result]:
 boolean returns [shared_ptr<const BoolLiteralNode> result]
 	: lt='true'
 	{
-		$result = shared_ptr<const BoolLiteralNode>(new BoolLiteralNode(createLocation($lt), true));
+		$result = shared_ptr<const BoolLiteralNode>(new BoolLiteralNode(createLocationFromToken($lt), true));
 	}
 	| lt='false'
 	{
-		$result = shared_ptr<const BoolLiteralNode>(new BoolLiteralNode(createLocation($lt), false));
+		$result = shared_ptr<const BoolLiteralNode>(new BoolLiteralNode(createLocationFromToken($lt), false));
 	}
 	;
 integer returns [shared_ptr<const IntegerLiteralNode> result]
 	: str=(INT_LITERAL | HEX_LITERAL | OCT_LITERAL)
 	{
 		int num = strtol(createStringFromToken($str).c_str(), 0, 0);
-		$result = shared_ptr<const IntegerLiteralNode>(new IntegerLiteralNode(createLocation($str), num));
+		$result = shared_ptr<const IntegerLiteralNode>(new IntegerLiteralNode(createLocationFromToken($str), num));
 	};
 string returns [shared_ptr<const StringLiteralNode> result]
 	: str=(STRING_SINGLE | STRING_DOUBLE)
 	{
-		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocation($str), createStringFromToken($str)));
+		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($str), createStringFromToken($str)));
 	}
 	;
 

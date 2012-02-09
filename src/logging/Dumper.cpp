@@ -29,6 +29,11 @@ void Dumper::printName(const std::string& name)
 	this->startLine();
 	stream << "<<" << name << ">>" << std::endl;
 }
+void Dumper::printName(const std::string& name, const Location& loc)
+{
+	this->startLine();
+	stream << "<<" << name << ">>" << " (pos: " << loc.getLineNo() << "," << loc.getColNo() << ")" << std::endl;
+}
 void Dumper::print(const std::string& name, const std::string& member)
 {
 	this->startLine();
@@ -99,4 +104,6 @@ void Dumper::out()
 }
 
 
-} /* namespace logging */
+}
+
+ /* namespace logging */

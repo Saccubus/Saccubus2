@@ -27,7 +27,6 @@ protected:
 	Node(const logging::Location& loc):loc(loc){};
 	virtual ~Node(){};
 public:
-	//for lexical debug
 	virtual void dump(logging::Dumper& dumper) const = 0;
 	const logging::Location& location() const{return loc;};
 //	virtual void accept(machine::NodeWalker& walker) = 0;
@@ -53,7 +52,6 @@ public:
 	void dump(logging::Dumper& dumper) const;
 };
 
-#include <stdio.h>
 class InvokeNode : public ExprNode
 {
 private:
@@ -161,7 +159,6 @@ public:
 	{};
 	virtual ~AssignNode(){};
 	void dump(logging::Dumper& dumper) const;
-//	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 class OpAssignNode : public AbstractAssignNode
@@ -176,7 +173,6 @@ public:
 	{};
 	virtual ~OpAssignNode(){};
 	void dump(logging::Dumper& dumper) const;
-//	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 class LiteralNode : public ExprNode
@@ -197,7 +193,6 @@ public:
 	void dump(logging::Dumper& dumper) const;
 
 	const std::string& getLiteral() const;
-//	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 class IntegerLiteralNode : public LiteralNode
@@ -209,7 +204,6 @@ public:
 	virtual ~IntegerLiteralNode(){};
 	const int getLiteral() const;
 	void dump(logging::Dumper& dumper) const;
-//	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 class BoolLiteralNode : public LiteralNode
@@ -221,7 +215,6 @@ public:
 	virtual ~BoolLiteralNode(){};
 	const bool getLiteral() const;
 	void dump(logging::Dumper& dumper) const;
-//	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 } /* namespace tree */
