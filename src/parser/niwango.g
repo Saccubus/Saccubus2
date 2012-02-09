@@ -12,13 +12,51 @@ options {
 #include <string>
 #include <iostream>
 #include <tr1/memory>
+#include <stdlib.h>
 #include "ParseUtil.h"
 #include "../tree/Node.h"
+#include "../timeline/TimeLine.h"
 using namespace parse;
 using namespace tree;
 using std::tr1::shared_ptr;
 typedef pANTLR3_COMMON_TOKEN Token;
 }
+
+time_line returns [shared_ptr<timeline::TimeLine> result]
+@init{
+	shared_ptr<timeline::TimeLine> timeLine = shared_ptr<timeline::TimeLine>(new timeline::TimeLine());
+}
+@after{
+	$result=timeLine;
+}
+	: (time_point
+	{
+		timeLine->insertLast($time_point.time, $time_point.node);
+	}
+	)*
+	;
+
+time_point returns [float time, shared_ptr<const ExprNode> node]
+	: float_number=FLOAT ':' (~(':'))*  ':' '/' program
+	{
+		$time=static_cast<float>(atof(createStringFromToken($float_number).c_str()));
+		$node=$program.result;
+	}
+	| integer ':' (~(':'))*  ':' '/' program
+	{
+		$time=$integer.result->getLiteral();
+		$node=$program.result;
+	}
+	;
+
+FLOAT
+    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    |   '.' ('0'..'9')+ EXPONENT?
+    |   ('0'..'9')+ EXPONENT
+    ;
+
+fragment
+EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
 program returns [shared_ptr<const ExprNode> result]
 @init{
@@ -37,7 +75,8 @@ program returns [shared_ptr<const ExprNode> result]
 		{
 			resultNode = shared_ptr<const ContNode>(new ContNode(createLocationFromToken($t), resultNode, $nxt.result));
 		}
-	)*)?;
+	)*)?
+	(';' | ',')?;
 
 expr returns [shared_ptr<const ExprNode> result]
 @init{
@@ -219,12 +258,12 @@ postfix returns [shared_ptr<const ExprNode> result]
 	{
 		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), $result, $name.result));
 	}
-	| tok=('[' array_idx=object_def ']')
+	| tok='[' array_idx=object_def ']'
 	{
 		shared_ptr<const ObjectNode> objNode = $array_idx.result;
 		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocationFromToken($tok), $result, objNode));
 	}
-	| tok=('(' binded=object_def ')')
+	| tok='(' binded=object_def ')'
 	{
 		shared_ptr<const ObjectNode> objNode = $binded.result;
 		$result=shared_ptr<const BindNode>(new BindNode(createLocationFromToken($tok), $result, objNode));
@@ -290,7 +329,7 @@ object_expr_list returns [shared_ptr<const ExprNode> result]
 		{
 			resultNode = shared_ptr<const ContNode>(new ContNode(createLocationFromToken($t), resultNode, $nxt.result));
 		}
-	)*
+	)* (';')?
 	;
 
 name returns [std::string result, Token token]
@@ -311,12 +350,12 @@ array returns [shared_ptr<const ObjectNode> result]
 	}
 	$result=resultNode;
 }
-	: tok=('['
+	: tok='['
 	object_def
 	{
 		resultNode=$object_def.result;
 	}
-	']');
+	']';
 
 literal returns [shared_ptr<const LiteralNode> result]:
 	i=integer
@@ -343,13 +382,13 @@ boolean returns [shared_ptr<const BoolLiteralNode> result]
 	}
 	;
 integer returns [shared_ptr<const IntegerLiteralNode> result]
-	: str=(INT_LITERAL | HEX_LITERAL | OCT_LITERAL)
+	: (str=INT_LITERAL | str=HEX_LITERAL | str=OCT_LITERAL)
 	{
 		int num = strtol(createStringFromToken($str).c_str(), 0, 0);
 		$result = shared_ptr<const IntegerLiteralNode>(new IntegerLiteralNode(createLocationFromToken($str), num));
 	};
 string returns [shared_ptr<const StringLiteralNode> result]
-	: str=(STRING_SINGLE | STRING_DOUBLE)
+	: (str=STRING_SINGLE | str=STRING_DOUBLE)
 	{
 		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($str), createStringFromToken($str)));
 	}
@@ -386,12 +425,28 @@ DIGIT :
   '0'..'9';
 
 STRING_SINGLE
-	: '\'' t=STRING_SINGLE_ELEMENT* {SETTEXT($t->tokText.text);} '\'';
+	: '\''
+	t=STRING_SINGLE_ELEMENT*
+	{
+		if($t){
+			SETTEXT($t->tokText.text);
+		}else{
+			SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)""));
+		}
+	} '\'';
 fragment
 STRING_SINGLE_ELEMENT: ESC_SEQ | ~('\\'|'\''|'\r'|'\n');
 
 STRING_DOUBLE
-	: '"' t=STRING_DOUBLE_ELEMENT* {SETTEXT($t->tokText.text);} '"';
+	: '"'
+	t=STRING_DOUBLE_ELEMENT*
+	{
+		if($t){
+			SETTEXT($t->tokText.text);
+		}else{
+			SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)""));
+		}
+	} '"';
 
 fragment
 STRING_DOUBLE_ELEMENT: ESC_SEQ | ~('\\'|'"'|'\r'|'\n');
