@@ -41,26 +41,25 @@ public:
 	virtual ~ExprNode(){};
 };
 
-class NameNode : public Node
+class ContNode : public ExprNode
 {
 private:
-	const std::string& name;
+	shared_ptr<const ExprNode> fistNode;
+	shared_ptr<const ExprNode> nextNode;
 public:
-	NameNode(const logging::Location& loc, const std::string& name) :Node(loc), name(name) {};
-	virtual ~NameNode(){};
-	const std::string getName() const {return name;};
+	ContNode(const logging::Location& loc, shared_ptr<const ExprNode> fistNode, shared_ptr<const ExprNode> nextNode)
+	:ExprNode(loc), fistNode(fistNode), nextNode(nextNode){};
+	virtual ~ContNode(){};
 };
 
-class SlotNode : public ExprNode
+class InvokeNode : public ExprNode
 {
 private:
-	const shared_ptr<const ExprNode> scope;
-	const shared_ptr<const NameNode> nameNode;
+	const shared_ptr<const ExprNode> exprNode;
+	const std::string messageName;
 public:
-	SlotNode(const logging::Location& loc, shared_ptr<const ExprNode>, shared_ptr<const NameNode> nameNode) :ExprNode(loc), scope(scope), nameNode(nameNode) {};
-	virtual ~SlotNode(){};
-	const shared_ptr<const NameNode> getNameNode() const {return nameNode;};
-	const shared_ptr<const ExprNode> getScopeNode() const{return scope;};
+	InvokeNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, std::string messageName) :ExprNode(loc), exprNode(exprNode), messageName(messageName) {};
+	virtual ~InvokeNode(){};
 };
 
 class ObjectNode : public ExprNode
@@ -71,14 +70,65 @@ private:
 public:
 	ObjectNode(const logging::Location& loc);
 	virtual ~ObjectNode(){};
-	void append(shared_ptr<const NameNode> nameNode, shared_ptr<const ExprNode> exprNode);
+	void append(std::string name, shared_ptr<const ExprNode> exprNode);
 };
 
-class CallNode : public ExprNode
-{
+class BinOpNode : public ExprNode{
+private:
+	shared_ptr<const ExprNode> leftNode;
+	const std::string op;
+	shared_ptr<const ExprNode> rightNode;
 public:
-	CallNode();
-	virtual ~CallNode(){};
+	BinOpNode(const logging::Location& loc, shared_ptr<const ExprNode> leftNode, const std::string op, shared_ptr<const ExprNode> rightNode)
+		:ExprNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
+	{};
+	virtual ~BinOpNode(){};
+};
+
+class PreOpNode : public ExprNode{
+private:
+	shared_ptr<const ExprNode> exprNode;
+	std::string op;
+public:
+	PreOpNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, std::string op)
+		:ExprNode(loc), exprNode(exprNode), op(op)
+	{};
+	virtual ~PreOpNode(){};
+};
+
+class PostOpNode : public ExprNode{
+private:
+	shared_ptr<const ExprNode> exprNode;
+	std::string op;
+public:
+	PostOpNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, std::string op)
+		:ExprNode(loc), exprNode(exprNode), op(op)
+	{};
+	virtual ~PostOpNode(){};
+};
+
+class BindNode : public ExprNode
+{
+private:
+	shared_ptr<const ExprNode> exprNode;
+	shared_ptr<const ObjectNode> objectNode;
+public:
+	BindNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, shared_ptr<const ObjectNode> objectNode)
+		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
+	{};
+	virtual ~BindNode(){};
+};
+
+class IndexAcessNode : public ExprNode
+{
+private:
+	shared_ptr<const ExprNode> exprNode;
+	shared_ptr<const ObjectNode> objectNode;
+public:
+	IndexAcessNode(const logging::Location& loc, shared_ptr<const ExprNode> exprNode, shared_ptr<const ObjectNode> objectNode)
+		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
+	{};
+	virtual ~IndexAcessNode(){};
 };
 
 class AbstractAssignNode : public ExprNode
@@ -91,17 +141,29 @@ public:
 
 class AssignNode : public AbstractAssignNode
 {
-	AssignNode(const logging::Location& loc);
-	virtual ~AssignNode();
+private:
+	shared_ptr<const ExprNode> leftNode;
+	shared_ptr<const ExprNode> rightNode;
+	const bool isLocal;
 public:
+	AssignNode(const logging::Location& loc, shared_ptr<const ExprNode> leftNode, shared_ptr<const ExprNode> rightNode, const bool isLocal)
+		:AbstractAssignNode(loc), leftNode(leftNode), rightNode(rightNode), isLocal(isLocal)
+	{};
+	virtual ~AssignNode(){};
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 
 class OpAssignNode : public AbstractAssignNode
 {
-	OpAssignNode(const logging::Location& loc);
-	virtual ~OpAssignNode();
+private:
+	shared_ptr<const ExprNode> leftNode;
+	std::string op;
+	shared_ptr<const ExprNode> rightNode;
 public:
+	OpAssignNode(const logging::Location& loc, shared_ptr<const ExprNode> leftNode, const std::string op, shared_ptr<const ExprNode> rightNode)
+		:AbstractAssignNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
+	{};
+	virtual ~OpAssignNode(){};
 //	virtual void accept(machine::NodeWalker& walker){walker.walk(this);};
 };
 

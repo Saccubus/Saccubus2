@@ -24,41 +24,189 @@ program returns [shared_ptr<const ExprNode> result]
 	: (expr ((';' | ',') expr)*)?;
 
 expr returns [shared_ptr<const ExprNode> result]
-	: expr5 ((':='|'=') expr5)?
+@init{
+	bool isLocal=false;
+	bool isOp=false;
+	std::string op;
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr5
+	{
+		resultNode = $fst.result;
+	}
+	(
+		tok=(':=' {isLocal = true;isOp=false;}|'='{isLocal=false;isOp=false;}| assign_op {isLocal=false;isOp=true;op=$assign_op.result;})
+		nxt=expr
+		{
+			if(isOp){
+				resultNode=shared_ptr<const OpAssignNode>(new OpAssignNode(createLocation($tok), resultNode, op, $nxt.result));
+			}else{
+				resultNode=shared_ptr<const AssignNode>(new AssignNode(createLocation($tok), resultNode, $nxt.result, isLocal));
+			}
+		}
+	)?
 	;
+
+assign_op returns [std::string result]
+	: '+=' {result="add";}
+	| '-=' {result="subtract";}
+	| '*=' {result="multiply";}
+	| '/=' {result="divide";}
+	| '%=' {result="modulo";}
+	;
+	
 
 expr5 returns [shared_ptr<const ExprNode> result]
-	: expr4 ('||' expr4)*
+@init{
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr4
+	(
+		tok='||' nxt=expr4
+		{
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, "or", $nxt.result));
+		}
+	)*
 	;
 expr4 returns [shared_ptr<const ExprNode> result]
-	: expr3 ('&&' expr3)*
+@init{
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr3
+	(
+		tok='&&' nxt=expr3
+		{
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, "and", $nxt.result));
+		}
+	)*
 	;
 expr3 returns [shared_ptr<const ExprNode> result]
-	: expr2
-	( ('<' | '>' | '==' | '!=' | '<=' | '>=' ) expr2)*
+@init{
+	std::string op;
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr2
+	{
+		resultNode = $fst.result;
+	}
+	(
+		tok=('<' {op="lessThan";} | '>' {op="greaterThan";} | '==' {op="equals";} | '!=' {op="notEquals";} | '<=' {op="notGreaterThan";} | '>=' {op="notLessThan";} )
+		nxt=expr2
+		{
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+		}
+	)*
 	;
 expr2 returns [shared_ptr<const ExprNode> result]
-	: expr1
-	( ('+'|'-') expr1)*;
+@init{
+	std::string op;
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr1
+	{
+		resultNode = $fst.result;
+	}
+	(
+		tok=('+' {op="add";} |'-' {op="subtract";})
+		nxt=expr1
+		{
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+		}
+	)*;
 expr1 returns [shared_ptr<const ExprNode> result]
-	: term
-	( ('*' | '/' | '%') term)*;
+@init{
+	std::string op;
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=term { resultNode=$fst.result; }
+	(
+		tok=('*' {op="multiply";} | '/' {op="divide";} | '%' {op="modulo";})
+		nxt=term
+		{
+			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocation($tok), resultNode, op, $nxt.result));
+		}
+	)*
+	;
 
 term returns [shared_ptr<const ExprNode> result]
-	: '++' term
-	| '--' term
-	| '+' term
-	| '-' term
-	| '!' term
+	: tok=('++' t=term)
+	{
+		shared_ptr<const ExprNode> termNode = $t.result;
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "increase"));
+	}
+	| tok=('--' t=term)
+	{
+		shared_ptr<const ExprNode> termNode = $t.result;
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "decrease"));
+	}
+	| tok=('+' t=term)
+	{
+		shared_ptr<const ExprNode> termNode = $t.result;
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "plus"));
+	}
+	| tok=('-' t=term)
+	{
+		shared_ptr<const ExprNode> termNode = $t.result;
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "minus"));
+	}
+	| tok=('!' t=term)
+	{
+		shared_ptr<const ExprNode> termNode = $t.result;
+		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocation($tok), termNode, "not"));
+	}
 	| postfix
+	{
+		$result = $postfix.result;
+	}
 	;
 postfix returns [shared_ptr<const ExprNode> result]
+@init{
+shared_ptr<const ExprNode> primaryNode;
+}
 	: primary
-	( '++'
-	| '--'
-	| '.' name
-	| '[' object_def ']'
-	| '(' object_def ')'
+	{
+		primaryNode=$primary.result;
+	}
+	( tok='++'
+	{
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), primaryNode, "increase"));
+	}
+	| tok='--'
+	{
+		$result=shared_ptr<const PostOpNode>(new PostOpNode(createLocation($tok), primaryNode, "decrease"));
+	}
+	| tok=('.' name)
+	{
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), primaryNode, $name.result));
+	}
+	| tok=('[' array_idx=object_def ']')
+	{
+		shared_ptr<const ObjectNode> objNode = $array_idx.result;
+		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocation($tok), primaryNode, objNode));
+	}
+	| tok=('(' binded=object_def ')')
+	{
+		shared_ptr<const ObjectNode> objNode = $binded.result;
+		$result=shared_ptr<const BindNode>(new BindNode(createLocation($tok), primaryNode, objNode));
+	}
 	)*
 	;
 primary returns [shared_ptr<const ExprNode> result]
@@ -70,10 +218,9 @@ primary returns [shared_ptr<const ExprNode> result]
 	{
 		$result = $array.result;
 	}
-	| name
+	| tok=(name)
 	{
-		shared_ptr<const NameNode> nameNode = $name.result;
-		$result = shared_ptr<const SlotNode>(new SlotNode(nameNode->location(), shared_ptr<const ExprNode>(), nameNode));
+		$result = shared_ptr<const InvokeNode>(new InvokeNode(createLocation($tok), shared_ptr<const ExprNode>(), $name.result));
 	}
 	| '(' expr ')'
 	{
@@ -85,23 +232,24 @@ object_def returns [shared_ptr<const ObjectNode> result]
 @init{
 	shared_ptr<ObjectNode> obj;
 }
-	:(fst=object_element
+@after{
+	$result=obj;
+}
+	:(tok=(fst=object_element)
 	{
-		if($fst.nameNode.get() == 0){
-			obj=shared_ptr<ObjectNode>(new ObjectNode($fst.exprNode->location()));
-		}else{
-			obj=shared_ptr<ObjectNode>(new ObjectNode($fst.nameNode->location()));
-		}
-		$result=obj;
-		obj->append($fst.nameNode, $fst.exprNode);
+		obj=shared_ptr<ObjectNode>(new ObjectNode(createLocation($tok)));
+		obj->append($fst.name, $fst.exprNode);
 	}
 	(',' nxt=object_element
 	{
-		obj->append($nxt.nameNode, $nxt.exprNode);
+		obj->append($nxt.name, $nxt.exprNode);
 	})*)?;
 
-object_element returns [shared_ptr<const NameNode> nameNode, shared_ptr<const ExprNode> exprNode]
-	: (name {$nameNode = $name.result;} ':')?
+object_element returns [bool hasName, std::string name, shared_ptr<const ExprNode> exprNode]
+@init{
+	$hasName=false;
+}
+	: (name {$hasName = true; $name = $name.result;} ':')?
 	object_expr_list
 	{
 		$exprNode = $object_expr_list.result;
@@ -109,22 +257,43 @@ object_element returns [shared_ptr<const NameNode> nameNode, shared_ptr<const Ex
 	;
 	
 object_expr_list returns [shared_ptr<const ExprNode> result]
-	:expr (';' expr)*;
+@init{
+	shared_ptr<const ExprNode> resultNode;
+}
+@after{
+	$result=resultNode;
+}
+	: fst=expr {resultNode = $fst.result;}
+	(t=(';' nxt=expr)
+		{
+			resultNode = shared_ptr<const ContNode>(new ContNode(createLocation($t), resultNode, $nxt.result));
+		}
+	)*
+	;
 
-name returns [shared_ptr<const NameNode> result]
+name returns [std::string result]
 	: t=IDENT
 	{
-		$result= shared_ptr<const NameNode>(new NameNode(createLocation($t), createStringFromToken($t)));
+		$result= createStringFromToken($t);
 	}
 	;
 
 array returns [shared_ptr<const ObjectNode> result]
-	: '['
+@init{
+	shared_ptr<const ObjectNode> resultNode;
+}
+@after{
+	if(resultNode.get() == 0){
+		resultNode = shared_ptr<ObjectNode>(new ObjectNode(createLocation($tok)));
+	}
+	$result=resultNode;
+}
+	: tok=('['
 	object_def
 	{
-		$result=$object_def.result;
+		resultNode=$object_def.result;
 	}
-	']';
+	']');
 
 literal returns [shared_ptr<const LiteralNode> result]:
 	i=integer

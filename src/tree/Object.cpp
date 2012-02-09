@@ -11,11 +11,11 @@
 namespace tree
 {
 ObjectNode::ObjectNode(const logging::Location& loc):ExprNode(loc){}
-void ObjectNode::append(shared_ptr<const NameNode> nameNode, shared_ptr<const ExprNode> exprNode){
-	if(nameNode.get() == 0){
+void ObjectNode::append(std::string name, shared_ptr<const ExprNode> exprNode){
+	if(name.size() == 0){
 		exprVector.push_back(exprNode);
 	}else{
-		exprMap.insert(std::pair<std::string, shared_ptr<const ExprNode> >(nameNode->getName(), exprNode));
+		exprMap.insert(std::pair<std::string, shared_ptr<const ExprNode> >(name, exprNode));
 	}
 }
 
