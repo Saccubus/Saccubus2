@@ -15,26 +15,9 @@ namespace machine
 class NodeWalker{
 public:
 	NodeWalker(){};
-	~NodeWalker(){};
-	virtual void eval(const tree::Node& node) =0;
-	virtual void walk(const tree::BoolLiteralNode& node) =0;
-	virtual void walk(const tree::IntegerLiteralNode& node) =0;
-	virtual void walk(const tree::StringLiteralNode& node) =0;
-	virtual void walk(const tree::AssignNode& node) =0;
-	virtual void walk(const tree::OpAssignNode& node) =0;
-	virtual void walk(const tree::IndexAcessNode& node) =0;
-	virtual void walk(const tree::BindNode& node) =0;
-	virtual void walk(const tree::PostOpNode& node) =0;
-	virtual void walk(const tree::PreOpNode& node) =0;
-	virtual void walk(const tree::BinOpNode& node) =0;
-	virtual void walk(const tree::ObjectNode& node) =0;
-	virtual void walk(const tree::InvokeNode& node) =0;
-	virtual void walk(const tree::ContNode& node) =0;
-};
-class EvalWalker : public NodeWalker{
-public:
-	EvalWalker();
-	~EvalWalker();
+	virtual ~NodeWalker(){};
+	virtual void walkIn() = 0;
+	virtual void walkOut() = 0;
 	void walk(const tree::BoolLiteralNode& node);
 	void walk(const tree::IntegerLiteralNode& node);
 	void walk(const tree::StringLiteralNode& node);
@@ -48,6 +31,41 @@ public:
 	void walk(const tree::ObjectNode& node);
 	void walk(const tree::InvokeNode& node);
 	void walk(const tree::ContNode& node);
+protected:
+	virtual void walkImpl(const tree::BoolLiteralNode& node) = 0;
+	virtual void walkImpl(const tree::IntegerLiteralNode& node) = 0;
+	virtual void walkImpl(const tree::StringLiteralNode& node) = 0;
+	virtual void walkImpl(const tree::AssignNode& node) = 0;
+	virtual void walkImpl(const tree::OpAssignNode& node) = 0;
+	virtual void walkImpl(const tree::IndexAcessNode& node) = 0;
+	virtual void walkImpl(const tree::BindNode& node) = 0;
+	virtual void walkImpl(const tree::PostOpNode& node) = 0;
+	virtual void walkImpl(const tree::PreOpNode& node) = 0;
+	virtual void walkImpl(const tree::BinOpNode& node) = 0;
+	virtual void walkImpl(const tree::ObjectNode& node) = 0;
+	virtual void walkImpl(const tree::InvokeNode& node) = 0;
+	virtual void walkImpl(const tree::ContNode& node) = 0;
+};
+class EvalWalker : public NodeWalker{
+public:
+	EvalWalker();
+	~EvalWalker();
+protected:
+	void walkIn();
+	void walkOut();
+	void walkImpl(const tree::BoolLiteralNode& node);
+	void walkImpl(const tree::IntegerLiteralNode& node);
+	void walkImpl(const tree::StringLiteralNode& node);
+	void walkImpl(const tree::AssignNode& node);
+	void walkImpl(const tree::OpAssignNode& node);
+	void walkImpl(const tree::IndexAcessNode& node);
+	void walkImpl(const tree::BindNode& node);
+	void walkImpl(const tree::PostOpNode& node);
+	void walkImpl(const tree::PreOpNode& node);
+	void walkImpl(const tree::BinOpNode& node);
+	void walkImpl(const tree::ObjectNode& node);
+	void walkImpl(const tree::InvokeNode& node);
+	void walkImpl(const tree::ContNode& node);
 };
 
 } /* namespace machine */
