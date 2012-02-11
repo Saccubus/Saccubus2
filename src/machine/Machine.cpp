@@ -23,25 +23,26 @@ Machine::~Machine()
 }
 
 void Machine::walkIn(){
-	bindStack.push_back(0);
+	bindStack.push(0);
 }
 
 void Machine::walkOut(){
-	bindStack.pop_back();
+	bindStack.pop();
 }
-void Machine::eval(const Node & node){
+void Machine::eval(const Node * node){
+	node->accept(*this);
 }
 void Machine::walkImpl(const BoolLiteralNode & node)
 {
-	//resultStack.push_back(heap.newBoolean(node.getLiteral()));
+	resultStack.push(heap.newBooleanObject(node.getLiteral()));
 }
 void Machine::walkImpl(const NumericLiteralNode & node)
 {
-	//resultStack.push_back(heap.newNumeric(node.getLiteral()));
+	resultStack.push(heap.newNumericObject(node.getLiteral()));
 }
 void Machine::walkImpl(const StringLiteralNode & node)
 {
-	//resultStack.push_back(heap.newString(node.getLiteral()));
+	resultStack.push(heap.newStringObject(node.getLiteral()));
 }
 void Machine::walkImpl(const AssignNode & node)
 {
@@ -59,7 +60,8 @@ void Machine::walkImpl(const IndexAcessNode & node)
 }
 void Machine::walkImpl(const BindNode & node)
 {
-	//bindStack.assign(bindStack.end(), heap.newObject(node.getObjectNode()));
+	//bindStack.replace(heap.newObject(node.getObjectNode()));
+	//eval(node.getExprNode());
 }
 void Machine::walkImpl(const PostOpNode & node)
 {

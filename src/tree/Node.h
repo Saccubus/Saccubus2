@@ -129,9 +129,8 @@ public:
 	virtual ~BindNode(){};
 	void dump(logging::Dumper& dumper) const;
 	void accept(machine::NodeWalker& walker) const;
-	std::tr1::shared_ptr<const ObjectNode> getObjectNode() const{return objectNode;}
-	std::tr1::shared_ptr<const ExprNode> getExprNode() const{return exprNode;}
-
+	const ObjectNode* getObjectNode() const{return objectNode.get();}
+	const ExprNode* getExprNode() const{return exprNode.get();}
 };
 
 class IndexAcessNode : public ExprNode

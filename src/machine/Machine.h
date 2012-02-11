@@ -11,7 +11,7 @@
 #include <map>
 #include "object/Object.h"
 #include "NodeWalker.h"
-
+#include "Stack.h"
 namespace machine
 {
 
@@ -19,9 +19,9 @@ class Machine: public machine::NodeWalker
 {
 private:
 	ObjectHeap heap;
-	std::vector<Object*> scopeStack;
-	std::vector<Object*> bindStack;
-	std::vector<Object*> resultStack;
+	Stack<Object*> scopeStack;
+	Stack<Object*> bindStack;
+	Stack<Object*> resultStack;
 public:
 	Machine();
 	virtual ~Machine();
@@ -42,7 +42,7 @@ protected:
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	void eval(const tree::Node& node);
+	void eval(const tree::Node* node);
 };
 
 } /* namespace machine */
