@@ -7,6 +7,8 @@
 
 
 #include "Node.h"
+#include <tr1/memory>
+using namespace std::tr1;
 
 namespace tree
 {

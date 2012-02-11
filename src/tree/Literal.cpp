@@ -30,12 +30,12 @@ const std::string& StringLiteralNode::getLiteral() const
 
 
 
-IntegerLiteralNode::IntegerLiteralNode(const logging::Location & loc, const int literal)
+NumericLiteralNode::NumericLiteralNode(const logging::Location & loc, const double literal)
 :LiteralNode(loc), literal(literal)
 {
 }
 
-const int tree::IntegerLiteralNode::getLiteral() const
+const double NumericLiteralNode::getLiteral() const
 {
 	return literal;
 }

@@ -14,7 +14,7 @@ using namespace machine;
 void BoolLiteralNode::accept(NodeWalker& walker) const{
 	walker.walk(*this);
 }
-void IntegerLiteralNode::accept(NodeWalker& walker) const{
+void NumericLiteralNode::accept(NodeWalker& walker) const{
 	walker.walk(*this);
 }
 void StringLiteralNode::accept(NodeWalker& walker) const{

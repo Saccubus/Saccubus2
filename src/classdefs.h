@@ -28,7 +28,7 @@ class Node;
 class ExprNode;
 
 class BoolLiteralNode;
-class IntegerLiteralNode;
+class NumericLiteralNode;
 class StringLiteralNode;
 class AssignNode;
 class OpAssignNode;

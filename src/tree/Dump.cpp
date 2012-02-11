@@ -8,13 +8,14 @@
 
 using logging::Dumper;
 using namespace tree;
+using namespace std::tr1;
 
 void BoolLiteralNode::dump(Dumper& dumper) const{
 	dumper.printName("BoolLiteralNode", location());
 	dumper.print("literal", (bool)this->literal);
 }
-void IntegerLiteralNode::dump(Dumper& dumper) const{
-	dumper.printName("IntegerLiteralNode", location());
+void NumericLiteralNode::dump(Dumper& dumper) const{
+	dumper.printName("NumericLiteralNode", location());
 	dumper.print("literal", (int)this->literal);
 }
 void StringLiteralNode::dump(Dumper& dumper) const{
@@ -64,7 +65,7 @@ void BinOpNode::dump(Dumper& dumper) const{
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
 	dumper.printNodeList("exprVector", (std::vector<shared_ptr<const Dumpable> >&)this->exprVector);
-	dumper.printNodeList("exprMap", (std::map<std::string, std::tr1::shared_ptr<const Dumpable> >&)this->exprMap);
+	dumper.printNodeList("exprMap", (std::map<std::string, shared_ptr<const Dumpable> >&)this->exprMap);
 }
 void InvokeNode::dump(Dumper& dumper) const{
 	dumper.printName("InvokeNode", location());

@@ -37,26 +37,12 @@ time_line returns [shared_ptr<timeline::TimeLine> result]
 	;
 
 time_point returns [float time, shared_ptr<const ExprNode> node]
-	: float_number=FLOAT ':' (~(':'))*  ':' '/' program
+	: numeric ':' (~(':'))*  ':' '/' program
 	{
-		$time=static_cast<float>(atof(createStringFromToken($float_number).c_str()));
-		$node=$program.result;
-	}
-	| integer ':' (~(':'))*  ':' '/' program
-	{
-		$time=$integer.result->getLiteral();
+		$time=$numeric.result->getLiteral();
 		$node=$program.result;
 	}
 	;
-
-FLOAT
-    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-    |   '.' ('0'..'9')+ EXPONENT?
-    |   ('0'..'9')+ EXPONENT
-    ;
-
-fragment
-EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
 program returns [shared_ptr<const ExprNode> result]
 @init{
@@ -358,9 +344,9 @@ array returns [shared_ptr<const ObjectNode> result]
 	']';
 
 literal returns [shared_ptr<const LiteralNode> result]:
-	i=integer
+	n=numeric
 	{
-		$result = $i.result;
+		$result = $n.result;
 	}
 	| b=boolean
 	{
@@ -381,12 +367,18 @@ boolean returns [shared_ptr<const BoolLiteralNode> result]
 		$result = shared_ptr<const BoolLiteralNode>(new BoolLiteralNode(createLocationFromToken($lt), false));
 	}
 	;
-integer returns [shared_ptr<const IntegerLiteralNode> result]
+numeric returns [shared_ptr<const NumericLiteralNode> result]
 	: (str=INT_LITERAL | str=HEX_LITERAL | str=OCT_LITERAL)
 	{
 		int num = strtol(createStringFromToken($str).c_str(), 0, 0);
-		$result = shared_ptr<const IntegerLiteralNode>(new IntegerLiteralNode(createLocationFromToken($str), num));
-	};
+		$result = shared_ptr<const NumericLiteralNode>(new NumericLiteralNode(createLocationFromToken($str), num));
+	}
+	| str=FLOAT_LITERAL
+	{
+		double num = atof(createStringFromToken($str).c_str());
+		$result = shared_ptr<const NumericLiteralNode>(new NumericLiteralNode(createLocationFromToken($str), num));
+	}
+	;
 string returns [shared_ptr<const StringLiteralNode> result]
 	: (str=STRING_SINGLE | str=STRING_DOUBLE)
 	{
@@ -395,6 +387,14 @@ string returns [shared_ptr<const StringLiteralNode> result]
 	;
 
 //---------------------------------------------------------------------------------------------------------------------
+FLOAT_LITERAL
+    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    |   '.' ('0'..'9')+ EXPONENT?
+    |   ('0'..'9')+ EXPONENT
+    ;
+
+fragment
+EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
 INT_LITERAL: ('1'..'9' DIGIT*) | '0';
 
