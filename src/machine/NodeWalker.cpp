@@ -17,7 +17,7 @@ void NodeWalker::walk(const tree::BoolLiteralNode & node)
 	walk(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::IntegerLiteralNode & node)
+void NodeWalker::walk(const tree::NumericLiteralNode & node)
 {
 	walkIn();
 	walk(node);
