@@ -7,6 +7,7 @@
 
 #include "Logging.h"
 #include <sstream>
+#include <tr1/memory>
 
 namespace logging
 {
@@ -49,7 +50,7 @@ void Dumper::print(const std::string& name, const int member)
 	this->startLine();
 	stream << name << ":" << member << std::endl;
 }
-void Dumper::printNode(const std::string& name, shared_ptr<const Dumpable>& member)
+void Dumper::printNode(const std::string& name, shared_ptr<const Dumpable> member)
 {
 	this->startLine();
 	if(member.get() == 0){
@@ -69,14 +70,14 @@ void Dumper::printNodeList(const std::string& name, std::vector<shared_ptr<const
 	stream << name << ":" << std::endl;
 	in();
 	for(std::vector<shared_ptr<const Dumpable> >::const_iterator member=memberList.begin(); member != memberList.end(); ++member, i++){
-		std::tr1::shared_ptr<const Dumpable> item = *member;
+		shared_ptr<const Dumpable> item = *member;
 		ss.str("");
 		ss << "[" << i << "]";
 		printNode(ss.str(), item);
 	}
 	out();
 }
-void Dumper::printNodeList(const std::string& name, std::map<std::string, std::tr1::shared_ptr<const Dumpable> >& memberList)
+void Dumper::printNodeList(const std::string& name, std::map<std::string, shared_ptr<const Dumpable> >& memberList)
 {
 	this->startLine();
 	stream << name << ":" << std::endl;
