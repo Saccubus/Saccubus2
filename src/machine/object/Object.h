@@ -5,54 +5,74 @@
  *      Author: psi
  */
 
-#ifndef OBJECT_H_
-#define OBJECT_H_
+#ifndef MACHINE_OBJECT_H_
+#define MACHINE_OBJECT_H_
 
 #include <string>
 #include <vector>
 #include <map>
 #include <tr1/memory>
+#include "../classdef.h"
 #include "../../tree/Node.h"
 
 namespace machine
 {
 
-class ObjectHeap;
-class LiteralObject;
-class StringObject;
-class BooleanObject;
-class NumericObject;
-class NodeObject;
-class UndefinedObject;
-
 class Object
 {
 private:
-	ObjectHeap* const heap;
+	ObjectHeap& heap;
 	const int hash;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
 protected:
-	ObjectHeap& getHeap(){return *heap;};
+	ObjectHeap& getHeap(){return heap;};
 public:
-	Object(ObjectHeap* const heap, const unsigned int hash);
+	Object(ObjectHeap& heap, const unsigned int hash);
 	virtual ~Object();
 	unsigned int getHash(){return hash;};
 public:
-	virtual void send(std::string& message, Object* with){};
+	int push(Object* const item);
+	Object* setSlot(const std::string& name, Object* const item);
+	Object* getSlot(const std::string& name);
+	virtual bool isUndefined();
+	virtual void eval(Machine& machine);
 	virtual StringObject* toStringObject() = 0;
 	virtual NumericObject* toNumericObject() = 0;
 	virtual BooleanObject* toBooleanObject() = 0;
 };
 
-class NodeObject : public Object
+//-----------------------------------------------------------------------------
+
+class LazyEvalObject : public Object
 {
 
 };
+class LazyEvalNodeObject : public Object
+{
+
+};
+
+class MethodObject : public Object
+{
+
+};
+
+class NativeMethodObject : public MethodObject
+{
+
+};
+class MethodNodeObject : public MethodObject
+{
+
+};
+
+//-----------------------------------------------------------------------------
+
 class LiteralObject : public Object
 {
 protected:
-	LiteralObject(ObjectHeap* const heap, const unsigned int hash):Object(heap,hash){};
+	LiteralObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
 	~LiteralObject(){};
 };
 class StringObject : public LiteralObject
@@ -60,7 +80,7 @@ class StringObject : public LiteralObject
 private:
 	const std::string value;
 public:
-	StringObject(ObjectHeap* const heap, const unsigned int hash, const std::string& value);
+	StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value);
 	~StringObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -72,7 +92,7 @@ class BooleanObject : public LiteralObject
 private:
 	const bool value;
 public:
-	BooleanObject(ObjectHeap* const heap, const unsigned int hash, const bool value);
+	BooleanObject(ObjectHeap& heap, const unsigned int hash, const bool value);
 	~BooleanObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -85,7 +105,7 @@ private:
 	const double value;
 public:
 	const static double EPSILON;
-	NumericObject(ObjectHeap* const heap, const unsigned int hash, const double value);
+	NumericObject(ObjectHeap& heap, const unsigned int hash, const double value);
 	~NumericObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -96,12 +116,13 @@ public:
 class UndefinedObject : public Object
 {
 public:
-	UndefinedObject(ObjectHeap* const heap, const unsigned int hash);
+	UndefinedObject(ObjectHeap& heap, const unsigned int hash);
 	~UndefinedObject();
 public:
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
 	BooleanObject* toBooleanObject();
+	bool isUndefined();
 };
 
 //-----------------------------------------------------------------------------
@@ -121,15 +142,21 @@ private:
 public:
 	ObjectHeap();
 	~ObjectHeap();
+	Object* newObject();
 	Object* newObject(const Object* parent);
-	Object* newObject(const tree::ObjectNode* objNode);
+public:
+	LazyEvalObject* newLazyEvalObject(const tree::ObjectNode* objNode);
+	LazyEvalNodeObject* newLazyEvalNodeObject(tree::Node* node);
+public:
+	Object* newArray(Object* obj, ...);
+public:
 	StringObject* newStringObject(const std::string& str);
 	BooleanObject* newBooleanObject(const bool val);
 	NumericObject* newNumericObject(const double num);
-	NodeObject* newNodeObject(tree::Node* node);
 	UndefinedObject* newUndefinedObject();
+public:
 	void gc(const Object* global);
 };
 
 } /* namespace machine */
-#endif /* OBJECT_H_ */
+#endif /* MACHINE_OBJECT_H_ */

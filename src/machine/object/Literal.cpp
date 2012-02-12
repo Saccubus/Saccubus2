@@ -11,7 +11,7 @@
 
 namespace machine{
 
-BooleanObject::BooleanObject(ObjectHeap* const heap, const unsigned int hash, const bool value)
+BooleanObject::BooleanObject(ObjectHeap& heap, const unsigned int hash, const bool value)
 :LiteralObject(heap,hash), value(value)
 {
 
@@ -48,7 +48,7 @@ bool BooleanObject::toBool()
 
 //---------------------------------------------------------------------------------------------------------------------
 const double NumericObject::EPSILON = 1e-10;
-NumericObject::NumericObject(ObjectHeap* const heap, const unsigned int hash, const double value)
+NumericObject::NumericObject(ObjectHeap& heap, const unsigned int hash, const double value)
 : LiteralObject(heap,hash), value(value)
 {
 }
@@ -79,7 +79,7 @@ double NumericObject::toNumeric(){
 	return value;
 }
 //---------------------------------------------------------------------------------------------------------------------
-StringObject::StringObject(ObjectHeap* const heap, const unsigned int hash, const std::string& value)
+StringObject::StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value)
 :LiteralObject(heap, hash), value(value)
 {
 

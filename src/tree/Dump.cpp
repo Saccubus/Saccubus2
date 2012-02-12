@@ -25,7 +25,7 @@ void StringLiteralNode::dump(Dumper& dumper) const{
 
 void AssignNode::dump(Dumper& dumper) const{
 	dumper.printName("AssignNode", location());
-	dumper.print("isLocal?", isLocal);
+	dumper.print("isLocal?", local);
 	dumper.printNode("leftNode", (shared_ptr<const Dumpable>&)this->leftNode);
 	dumper.printNode("rightNode", (shared_ptr<const Dumpable>&)this->rightNode);
 }

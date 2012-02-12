@@ -9,7 +9,7 @@
 #include <math.h>
 
 namespace machine{
-UndefinedObject::UndefinedObject(ObjectHeap* const heap, const unsigned int hash)
+UndefinedObject::UndefinedObject(ObjectHeap& heap, const unsigned int hash)
 :Object(heap, hash)
 {
 
@@ -29,6 +29,9 @@ NumericObject* UndefinedObject::toNumericObject()
 BooleanObject* UndefinedObject::toBooleanObject()
 {
 	return getHeap().newBooleanObject(false);
+}
+bool UndefinedObject::isUndefined(){
+	return true;
 }
 
 }

@@ -25,7 +25,11 @@ private:
 public:
 	Machine();
 	virtual ~Machine();
-protected:
+	Object* eval(const tree::Node* node, Object* const with=0);
+public: //for Object
+	void pushReturnValue(Object* obj);
+	Object* fetchBindedObject();
+protected: //for tree
 	void walkIn();
 	void walkOut();
 	void walkImpl(const tree::BoolLiteralNode& node);
@@ -42,7 +46,8 @@ protected:
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	void eval(const tree::Node* node);
+	Object* eval(Object* const obj, Object* const with=0);
+	Object* resolveScope(const std::string& name, const bool isLocal=true);
 };
 
 } /* namespace machine */
