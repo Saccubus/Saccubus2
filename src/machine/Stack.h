@@ -41,8 +41,8 @@ public:
     }
     T replace(T elm)
     {
-    	T val = this->pop();
-    	push(elm);
+    	T val = stack.back();
+    	stack.assign(stack.size()-1, elm);
     	return val;
     }
 public:

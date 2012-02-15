@@ -5,6 +5,7 @@
  *      Author: psi
  */
 #include "Object.h"
+#include "Heap.h"
 #include <sstream>
 #include <math.h>
 #include <stdlib.h>

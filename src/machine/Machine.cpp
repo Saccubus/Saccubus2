@@ -9,6 +9,7 @@
 
 #include "NodeWalker.h"
 #include "object/Object.h"
+#include "object/Heap.h"
 #include "../tree/Node.h"
 #include <tr1/memory>
 using namespace tree;
@@ -115,7 +116,7 @@ void Machine::walkImpl(const BinOpNode & node)
 void Machine::walkImpl(const ObjectNode & node)
 {
 	Object* const obj = heap.newObject();
-	//TODO: ‚·‚×‚Ä‚Ìqƒm[ƒh‚ğW‚ß‚ÄAeval‚µ‚Ä\’z‚·‚éì‹Æ
+	//TODO: ï¿½ï¿½ï¿½×‚Ä‚Ìqï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½Wï¿½ß‚ÄAevalï¿½ï¿½ï¿½Ä\ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	pushReturnValue(obj);
 }
 void Machine::walkImpl(const InvokeNode & node)

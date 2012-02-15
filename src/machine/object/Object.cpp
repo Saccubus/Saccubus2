@@ -7,6 +7,8 @@
 
 #include "Object.h"
 #include "../Machine.h"
+#include <math.h>
+#include <sstream>
 
 namespace machine
 {
@@ -32,6 +34,14 @@ int Object::push(Object* const item)
 	objectList.push_back(item);
 	return objectList.size();
 }
+Object* Object::index(size_t idx)
+{
+	if(objectList.size() > idx){
+		return objectList.at(idx);
+	}else{
+		return getHeap().newUndefinedObject();
+	}
+}
 
 bool Object::isUndefined(){
 	return false;
@@ -39,10 +49,57 @@ bool Object::isUndefined(){
 
 Object* Object::setSlot(const std::string& name, Object* const item)
 {
-	return 0;
+	MapIterator it = objectMap.find(name);
+	Object* original;
+	if(it == objectMap.end()){
+		original = getHeap().newUndefinedObject();
+	}else{
+		original = it->second;
+	}
+	objectMap.insert(MapPair(name, item));
+	return original;
 }
 Object* Object::getSlot(const std::string& name){
-	return 0;
+	MapIterator it = objectMap.find(name);
+	return it == objectMap.end() ? getHeap().newUndefinedObject() : it->second;
+}
+
+StringObject* Object::toStringObject()
+{
+	std::stringstream ss;
+	ss << "Object: " << getHash();
+	return getHeap().newStringObject(ss.str());
+}
+NumericObject* Object::toNumericObject()
+{
+	return getHeap().newNumericObject(NAN);
+}
+BooleanObject* Object::toBooleanObject()
+{
+	return getHeap().newBooleanObject(true);
+}
+
+void Object::inject(Object* to){
+	to->objectList.insert(to->objectList.end(), objectList.begin(), objectList.end());
+	to->objectMap.insert(objectMap.begin(), objectMap.end());
+}
+
+void Object::_method_def(NativeMethodObject* method, Machine& machine)
+{
+
+}
+void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
+{
+
+}
+void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
+{
+
+}
+void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
+{
+}
+void Object::_method_clone(NativeMethodObject* method, Machine& machine){
 }
 
 }

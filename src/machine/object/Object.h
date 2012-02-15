@@ -25,6 +25,8 @@ private:
 	const int hash;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
+	typedef std::map<std::string, Object*>::iterator MapIterator;
+	typedef std::pair<std::string, Object*> MapPair;
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
@@ -32,39 +34,60 @@ public:
 	virtual ~Object();
 	unsigned int getHash(){return hash;};
 public:
+	void inject(Object* to);
 	int push(Object* const item);
+	Object* index(size_t idx);
 	Object* setSlot(const std::string& name, Object* const item);
 	Object* getSlot(const std::string& name);
 	virtual bool isUndefined();
 	virtual void eval(Machine& machine);
-	virtual StringObject* toStringObject() = 0;
-	virtual NumericObject* toNumericObject() = 0;
-	virtual BooleanObject* toBooleanObject() = 0;
+	virtual StringObject* toStringObject();
+	virtual NumericObject* toNumericObject();
+	virtual BooleanObject* toBooleanObject();
+public:
+	static void _method_def(NativeMethodObject* method, Machine& machine);
+	static void _method_def_kari(NativeMethodObject* method, Machine& machine);
+	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
+	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
+	static void _method_clone(NativeMethodObject* method, Machine& machine);
 };
 
 //-----------------------------------------------------------------------------
 
 class LazyEvalObject : public Object
 {
-
+public:
+	LazyEvalObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
+	virtual ~LazyEvalObject(){}
 };
 class LazyEvalNodeObject : public Object
 {
+	LazyEvalNodeObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
+	virtual ~LazyEvalNodeObject(){}
 
 };
 
-class MethodObject : public Object
-{
-
+class MethodObject : public Object{
+protected:
+	MethodObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
+	virtual ~MethodObject(){}
 };
 
 class NativeMethodObject : public MethodObject
 {
-
+public:
+	typedef void (*Method)(NativeMethodObject* method, Machine& machine);
+private:
+	const Method method;
+public:
+	NativeMethodObject(ObjectHeap& heap, const unsigned int hash, Method method):MethodObject(heap,hash), method(method){};
+	virtual ~NativeMethodObject(){};
+	virtual void eval(Machine& machine){method(this, machine);}
 };
 class MethodNodeObject : public MethodObject
 {
-
+	MethodNodeObject(ObjectHeap& heap, const unsigned int hash):MethodObject(heap,hash){};
+	virtual ~MethodNodeObject(){}
 };
 
 //-----------------------------------------------------------------------------
@@ -125,38 +148,6 @@ public:
 	bool isUndefined();
 };
 
-//-----------------------------------------------------------------------------
-
-class ObjectHeap
-{
-private:
-	std::vector<Object*> area1;
-	std::vector<Object*> area2;
-	std::vector<Object*> *from;
-	std::vector<Object*> *to;
-	unsigned int count;
-private:
-	BooleanObject trueObject;
-	BooleanObject falseObject;
-	UndefinedObject undefinedObject;
-public:
-	ObjectHeap();
-	~ObjectHeap();
-	Object* newObject();
-	Object* newObject(const Object* parent);
-public:
-	LazyEvalObject* newLazyEvalObject(const tree::ObjectNode* objNode);
-	LazyEvalNodeObject* newLazyEvalNodeObject(tree::Node* node);
-public:
-	Object* newArray(Object* obj, ...);
-public:
-	StringObject* newStringObject(const std::string& str);
-	BooleanObject* newBooleanObject(const bool val);
-	NumericObject* newNumericObject(const double num);
-	UndefinedObject* newUndefinedObject();
-public:
-	void gc(const Object* global);
-};
 
 } /* namespace machine */
 #endif /* MACHINE_OBJECT_H_ */

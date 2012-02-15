@@ -5,8 +5,9 @@
  *      Author: psi
  */
 
-#include "Object.h"
 #include <math.h>
+#include "Object.h"
+#include "Heap.h"
 
 namespace machine{
 UndefinedObject::UndefinedObject(ObjectHeap& heap, const unsigned int hash)

@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 #include "object/Object.h"
+#include "object/Heap.h"
 #include "NodeWalker.h"
 #include "Stack.h"
 namespace machine
