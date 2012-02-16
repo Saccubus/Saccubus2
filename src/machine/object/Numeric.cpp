@@ -1,9 +1,10 @@
 /*
- * Literal.cpp
+ * Numeric.cpp
  *
- *  Created on: 2012/02/11
+ *  Created on: 2012/02/16
  *      Author: psi
  */
+
 #include "../Machine.h"
 #include "Object.h"
 #include "Heap.h"
@@ -13,44 +14,7 @@
 
 namespace machine{
 
-BooleanObject::BooleanObject(ObjectHeap& heap, const unsigned int hash, const bool value)
-:LiteralObject(heap,hash), value(value)
-{
-
-}
-BooleanObject::~BooleanObject()
-{
-
-}
-StringObject* BooleanObject::toStringObject()
-{
-	if(value){
-		return getHeap().newStringObject("true");
-	}else{
-		return getHeap().newStringObject("false");
-	}
-}
-NumericObject* BooleanObject::toNumericObject()
-{
-	if(value){
-		return getHeap().newNumericObject(1);
-	}else{
-		return getHeap().newNumericObject(0);
-	}
-}
-BooleanObject* BooleanObject::toBooleanObject()
-{
-	return this;
-}
-
-bool BooleanObject::toBool()
-{
-	return value;
-}
-
-//---------------------------------------------------------------------------------------------------------------------
 const double NumericObject::EPSILON = 1e-10;
-#include <math.h>
 NumericObject::NumericObject(ObjectHeap& heap, const unsigned int hash, const double value)
 : LiteralObject(heap,hash), value(value)
 {
@@ -130,34 +94,5 @@ void NumericObject::_method_clone(NativeMethodObject* method, Machine& machine)
 	machine.pushResult(newObj);
 }
 
-//---------------------------------------------------------------------------------------------------------------------
-StringObject::StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value)
-:LiteralObject(heap, hash), value(value)
-{
 
 }
-StringObject::~StringObject()
-{
-
-}
-StringObject* StringObject::toStringObject()
-{
-	return this;
-}
-NumericObject* StringObject::toNumericObject()
-{
-	double val = strtol(this->value.c_str(), 0, 0);
-	return getHeap().newNumericObject(val);
-}
-BooleanObject* StringObject::toBooleanObject()
-{
-	return getHeap().newBooleanObject(value.size() > 0);
-}
-const std::string& StringObject::toString()
-{
-	return value;
-}
-
-
-}
-

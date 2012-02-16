@@ -156,7 +156,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 void Machine::walkImpl(const IndexAcessNode & node)
 {
 	Object* const destObj = eval(node.getExprNode());
-	pushResult(send(destObj, "index", heap.newArray(heap.newLazyEvalObject(node.getObjectNode()), 0)));
+	pushResult(send(destObj, "index", heap.newLazyEvalObject(node.getObjectNode())));
 }
 void Machine::walkImpl(const BindNode & node)
 {
