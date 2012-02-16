@@ -1,3 +1,5 @@
 src/parser/*.*
 !src/parser/niwango.g
 Release/
+/Debug
+/_LinuxDebug
