@@ -210,17 +210,17 @@ term returns [shared_ptr<const ExprNode> result]
 	| tok='+' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "plus"));
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), termNode, "plus"));
 	}
 	| tok='-' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "minus"));
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), termNode, "minus"));
 	}
 	| tok='!' t=term
 	{
 		shared_ptr<const ExprNode> termNode = $t.result;
-		$result=shared_ptr<const PreOpNode>(new PreOpNode(createLocationFromToken($tok), termNode, "not"));
+		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), termNode, "not"));
 	}
 	| postfix
 	{

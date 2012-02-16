@@ -164,9 +164,44 @@ void Machine::walkImpl(const BindNode & node)
 }
 void Machine::walkImpl(const PostOpNode & node)
 {
+	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
+	if(invokeNode){
+		Object* destObj = 0;
+		if(invokeNode->getExprNode()){
+			destObj = eval(invokeNode->getExprNode());
+		}else{
+			destObj = resolveScope(invokeNode->getMessageName(), false);
+		}
+		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+
+		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		Object* const result = send(operandObj, node.getOp());
+
+		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
+		pushResult(operandObj);
+	}else{
+		pushResult(eval(node.getExprNode()));
+	}
 }
 void Machine::walkImpl(const PreOpNode & node)
 {
+	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
+	if(invokeNode){
+		Object* destObj = 0;
+		if(invokeNode->getExprNode()){
+			destObj = eval(invokeNode->getExprNode());
+		}else{
+			destObj = resolveScope(invokeNode->getMessageName(), false);
+		}
+		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+
+		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		Object* const result = send(operandObj, node.getOp());
+
+		pushResult(send(destObj, "setSlot", heap.newArray(nameObj, result, 0)));
+	}else{
+		pushResult(eval(node.getExprNode()));
+	}
 }
 void Machine::walkImpl(const BinOpNode & node)
 {

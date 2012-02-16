@@ -48,6 +48,7 @@ bool Object::isUndefined(){
 }
 Object* Object::setSlot(const std::string& name, Object* const item)
 {
+	objectMap.erase(name);
 	objectMap.insert(MapPair(name, item));
 	return item;
 }
