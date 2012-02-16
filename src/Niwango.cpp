@@ -11,6 +11,7 @@
 #include "parser/niwangoParser.h"
 #include "logging/Logging.h"
 #include "machine/Machine.h"
+#include "machine/object/Object.h"
 using namespace std;
 using namespace std::tr1;
 
@@ -29,7 +30,8 @@ int main(const int argc, const char* args[]) {
 //	}
 	shared_ptr<const Node> node = parser->program(parser);
 	machine::Machine machine;
-	machine.eval(node.get());
+	machine::Object* const obj = machine.eval(node.get());
+	cout << "result=" << obj->toStringObject()->toString() << endl;
 
 
 	stream->free(stream);

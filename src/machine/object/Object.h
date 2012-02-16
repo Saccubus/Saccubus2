@@ -34,11 +34,11 @@ public:
 	virtual ~Object();
 	unsigned int getHash(){return hash;};
 public:
-	void inject(Object* to);
-	int push(Object* const item);
-	Object* index(size_t idx);
-	Object* setSlot(const std::string& name, Object* const item);
-	Object* getSlot(const std::string& name);
+	virtual void inject(Object* to);
+	virtual int push(Object* const item);
+	virtual Object* index(size_t idx);
+	virtual Object* setSlot(const std::string& name, Object* const item);
+	virtual Object* getSlot(const std::string& name);
 	virtual bool isUndefined();
 	virtual void eval(Machine& machine);
 	virtual StringObject* toStringObject();

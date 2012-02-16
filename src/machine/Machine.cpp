@@ -18,7 +18,11 @@ namespace machine{
 
 Machine::Machine()
 :heap()
+,topLevel(heap.newObject())
+,localObject(heap, 0, localStack)
 {
+	localStack.push(topLevel);
+	selfStack.push(topLevel);
 }
 
 Machine::~Machine()
@@ -31,45 +35,55 @@ void Machine::walkIn(){
 void Machine::walkOut(){
 }
 
-void Machine::pushReturnValue(Object* obj){
+void Machine::pushResult(Object* obj){
 	resultStack.push(obj);
 }
-Object* Machine::fetchBindedObject(){
-	return bindStack.top();
+Object* Machine::getLocal(){
+	return &localObject;
+}
+Object* Machine::getSelf(){
+	return selfStack.top();
+}
+Object* Machine::getTopLevel(){
+	return selfStack.bottom();
 }
 Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 {
-	Object* const localObject = scopeStack.top();
-	if(!localObject->getSlot(name)->isUndefined()){
-		return localObject;
+	if(name.compare("self") == 0){
+		return selfStack.top();
+	}else if(name.compare("local") == 0){
+		return &localObject;
+	}else if(isLocal){
+		return &localObject;
+	}else{
+		return localStack.bottom();
 	}
-	return scopeStack.bottom();
 }
 
 Object* Machine::eval(const Node * node, Object* const with){
-	bindStack.push(with);
+	localStack.push(with);
 	node->accept(*this);
-	bindStack.pop();
+	localStack.pop();
 	return resultStack.pop();
 }
 Object* Machine::eval(Object* const obj, Object* const with){
-	bindStack.push(with);
+	localStack.push(with);
 	obj->eval(*this);
-	bindStack.pop();
+	localStack.pop();
 	return resultStack.pop();
 }
 
 void Machine::walkImpl(const BoolLiteralNode & node)
 {
-	pushReturnValue(heap.newBooleanObject(node.getLiteral()));
+	pushResult(heap.newBooleanObject(node.getLiteral()));
 }
 void Machine::walkImpl(const NumericLiteralNode & node)
 {
-	pushReturnValue(heap.newNumericObject(node.getLiteral()));
+	pushResult(heap.newNumericObject(node.getLiteral()));
 }
 void Machine::walkImpl(const StringLiteralNode & node)
 {
-	pushReturnValue(heap.newStringObject(node.getLiteral()));
+	pushResult(heap.newStringObject(node.getLiteral()));
 }
 void Machine::walkImpl(const AssignNode & node)
 {
@@ -83,9 +97,9 @@ void Machine::walkImpl(const AssignNode & node)
 			destObj = resolveScope(invokeNode->getMessageName(), node.isLocal());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
-		pushReturnValue(eval(destObj->getSlot("setSlot"), heap.newArray(nameObj,rhsObj, 0)));
+		pushResult(eval(destObj->getSlot("setSlot"), heap.newArray(nameObj,rhsObj, 0)));
 	}else{
-		pushReturnValue(heap.newUndefinedObject());
+		pushResult(heap.newUndefinedObject());
 	}
 }
 void Machine::walkImpl(const OpAssignNode & node)
@@ -94,11 +108,11 @@ void Machine::walkImpl(const OpAssignNode & node)
 void Machine::walkImpl(const IndexAcessNode & node)
 {
 	Object* const destObj = eval(node.getExprNode());
-	pushReturnValue(eval(destObj->getSlot("index"), heap.newArray(heap.newLazyEvalObject(node.getObjectNode()), 0)));
+	pushResult(eval(destObj->getSlot("index"), heap.newArray(heap.newLazyEvalObject(node.getObjectNode()), 0)));
 }
 void Machine::walkImpl(const BindNode & node)
 {
-	pushReturnValue(eval(node.getExprNode(), heap.newLazyEvalObject(node.getObjectNode())));
+	pushResult(eval(node.getExprNode(), heap.newLazyEvalObject(node.getObjectNode())));
 }
 void Machine::walkImpl(const PostOpNode & node)
 {
@@ -111,27 +125,29 @@ void Machine::walkImpl(const BinOpNode & node)
 	Object* const leftObj = eval(node.getLeftNode());
 	Object* const rightObj = eval(node.getRightNode());
 	Object* const result = eval(leftObj->getSlot(node.getOp()), heap.newArray(rightObj, 0));
-	pushReturnValue(result);
+	pushResult(result);
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
 	Object* const obj = heap.newObject();
-	//TODO: ���ׂĂ̎q�m�[�h���W�߂āAeval���č\�z������
-	pushReturnValue(obj);
+	pushResult(obj);
 }
 void Machine::walkImpl(const InvokeNode & node)
 {
 	if(node.getExprNode()){
 		Object* const destObj = eval(node.getExprNode());
-		pushReturnValue(eval(destObj->getSlot(node.getMessageName()), this->fetchBindedObject()));
+		pushResult(eval(destObj->getSlot(node.getMessageName()), this->localStack.top()));
 	}else{
-		pushReturnValue(eval(resolveScope(node.getMessageName()), this->fetchBindedObject()));
+		pushResult(eval(getLocal()->getSlot(node.getMessageName())));
 	}
 }
 void Machine::walkImpl(const ContNode & node)
 {
 	eval(node.getFirstNode());
-	pushReturnValue(eval(node.getNextNode()));
+	pushResult(eval(node.getNextNode()));
 }
 
-} /* namespace machine */
+}
+
+
+ /* namespace machine */

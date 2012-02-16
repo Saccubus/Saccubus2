@@ -14,7 +14,6 @@ namespace machine{
 ObjectHeap::ObjectHeap()
 :from(&area1)
 ,to(&area2)
-,topLevelObject(*this, 0)
 ,baseObject(*this, 0)
 ,baseStringObject(*this, 0, "")
 ,baseNumericObject(*this, 0, NAN)

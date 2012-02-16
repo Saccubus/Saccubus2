@@ -16,6 +16,7 @@
 
 namespace machine
 {
+
 class ObjectHeap
 {
 private:
@@ -25,13 +26,9 @@ private:
 	std::vector<Object*> *to;
 	unsigned int count;
 private:
-	/* これらの関数はGCで管理しない */
 	void injectMethods(Object& obj, std::map<std::string, NativeMethodObject>& methods);
 	void setWorld();
-
-	Object topLevelObject;
-	std::map<std::string, NativeMethodObject> topLebelObjectBuiltinMethod;
-
+	/* これらの関数はGCで管理しない */
 	Object baseObject;
 	std::map<std::string, NativeMethodObject> baseObjectBuiltinMethod;
 

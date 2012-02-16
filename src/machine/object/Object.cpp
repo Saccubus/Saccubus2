@@ -26,7 +26,7 @@ Object::~Object()
 }
 
 void Object::eval(Machine& machine){
-	machine.pushReturnValue(this);
+	machine.pushResult(this);
 }
 
 int Object::push(Object* const item)
@@ -94,10 +94,16 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 }
 void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
-
+	Object* const self = machine.getSelf();
+	std::string name = machine.getLocal()->index(0)->toStringObject()->toString();
+	Object* const obj = machine.getLocal()->index(1);
+	machine.pushResult(self->setSlot(name, obj));
 }
 void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
 {
+	Object* const self = machine.getSelf();
+	std::string name = machine.getLocal()->index(0)->toStringObject()->toString();
+	machine.pushResult(self->getSlot(name));
 }
 void Object::_method_clone(NativeMethodObject* method, Machine& machine){
 }

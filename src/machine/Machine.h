@@ -15,21 +15,43 @@
 #include "Stack.h"
 namespace machine
 {
+class LocalObject : public Object{
+private:
+	Stack<Object*>& localStack;
+public:
+	LocalObject(ObjectHeap& heap, const unsigned int hash, Stack<Object*>& localStack);
+	virtual ~LocalObject();
+public:
+	virtual void inject(Object* to);
+	virtual int push(Object* const item);
+	virtual Object* index(size_t idx);
+	virtual Object* setSlot(const std::string& name, Object* const item);
+	virtual Object* getSlot(const std::string& name);
+	virtual bool isUndefined();
+	virtual void eval(Machine& machine);
+	virtual StringObject* toStringObject();
+	virtual NumericObject* toNumericObject();
+	virtual BooleanObject* toBooleanObject();
+};
 
 class Machine: public machine::NodeWalker
 {
 private:
 	ObjectHeap heap;
-	Stack<Object*> scopeStack;
-	Stack<Object*> bindStack;
+	Stack<Object*> selfStack;
+	Stack<Object*> localStack;
 	Stack<Object*> resultStack;
+	Object* topLevel;
+	LocalObject localObject;
 public:
 	Machine();
 	virtual ~Machine();
 	Object* eval(const tree::Node* node, Object* const with=0);
 public: //for Object
-	void pushReturnValue(Object* obj);
-	Object* fetchBindedObject();
+	void pushResult(Object* obj);
+	Object* getLocal();
+	Object* getSelf();
+	Object* getTopLevel();
 protected: //for tree
 	void walkIn();
 	void walkOut();
