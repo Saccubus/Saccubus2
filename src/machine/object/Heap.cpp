@@ -67,7 +67,7 @@ Object* ObjectHeap::newArray(Object* obj, ...)
 	va_list list;
 	va_start(list, obj);
 	Object* const result = newObject();
-	Object* item;
+	Object* item = obj;
 	while(item !=0){
 		result->push(item);
 		item = va_arg(list, Object*);

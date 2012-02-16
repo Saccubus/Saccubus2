@@ -19,7 +19,6 @@ namespace machine{
 Machine::Machine()
 :heap()
 ,topLevel(heap.newObject())
-,localObject(heap, 0, localStack)
 {
 	localStack.push(topLevel);
 	selfStack.push(topLevel);
@@ -38,8 +37,8 @@ void Machine::walkOut(){
 void Machine::pushResult(Object* obj){
 	resultStack.push(obj);
 }
-Object* Machine::getLocal(){
-	return &localObject;
+Object* Machine::getArgument(){
+	return argStack.top();
 }
 Object* Machine::getSelf(){
 	return selfStack.top();
@@ -47,29 +46,58 @@ Object* Machine::getSelf(){
 Object* Machine::getTopLevel(){
 	return selfStack.bottom();
 }
+Object* Machine::getLocal()
+{
+	return localStack.top();
+}
 Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 {
 	if(name.compare("self") == 0){
-		return selfStack.top();
+		return getSelf();
 	}else if(name.compare("local") == 0){
-		return &localObject;
-	}else if(isLocal){
-		return &localObject;
+		if(isLocal){
+			return getLocal();
+		}else{
+			return localStack.top();
+		}
+	}else if(!isLocal){
+		return localStack.top();
 	}else{
-		return localStack.bottom();
+		for(Stack<Object*>::ReverseIterator it = localStack.rbegin();it!=localStack.rend();++it){
+			Object* const obj = *it;
+			Object* const slot = obj->getSlot(name);
+			if(!slot->isUndefined()){
+				return obj;
+			}
+		}
+		return getLocal();
 	}
 }
 
-Object* Machine::eval(const Node * node, Object* const with){
-	localStack.push(with);
+Object* Machine::eval(const Node * node, Object* const arg){
+	if(arg){
+		argStack.push(arg);
+	}else{
+		argStack.push(heap.newUndefinedObject());
+	}
 	node->accept(*this);
-	localStack.pop();
+	argStack.pop();
 	return resultStack.pop();
 }
-Object* Machine::eval(Object* const obj, Object* const with){
-	localStack.push(with);
-	obj->eval(*this);
-	localStack.pop();
+Object* Machine::send(Object* const self, const std::string& message, Object* const arg){
+	if(arg){
+		argStack.push(arg);
+	}else{
+		argStack.push(heap.newUndefinedObject());
+	}
+	if(self){
+		selfStack.push(self);
+		self->getSlot(message)->eval(*this);
+		selfStack.pop();
+	}else{
+		self->getSlot(message)->eval(*this);
+	}
+	argStack.pop();
 	return resultStack.pop();
 }
 
@@ -97,10 +125,9 @@ void Machine::walkImpl(const AssignNode & node)
 			destObj = resolveScope(invokeNode->getMessageName(), node.isLocal());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
-		selfStack.push(destObj);
-		Object* arg = heap.newArray(nameObj,rhsObj, 0);
-		pushResult(eval(destObj->getSlot("setSlot"), arg));
-		selfStack.pop();
+		Object* const arg = heap.newArray(nameObj,rhsObj, 0);
+
+		pushResult(send(destObj, "setSlot", arg));
 	}else{
 		pushResult(heap.newUndefinedObject());
 	}
@@ -111,7 +138,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 void Machine::walkImpl(const IndexAcessNode & node)
 {
 	Object* const destObj = eval(node.getExprNode());
-	pushResult(eval(destObj->getSlot("index"), heap.newArray(heap.newLazyEvalObject(node.getObjectNode()), 0)));
+	pushResult(send(destObj, "index", heap.newArray(heap.newLazyEvalObject(node.getObjectNode()), 0)));
 }
 void Machine::walkImpl(const BindNode & node)
 {
@@ -127,8 +154,7 @@ void Machine::walkImpl(const BinOpNode & node)
 {
 	Object* const leftObj = eval(node.getLeftNode());
 	Object* const rightObj = eval(node.getRightNode());
-	Object* const result = eval(leftObj->getSlot(node.getOp()), heap.newArray(rightObj, 0));
-	pushResult(result);
+	pushResult( send(leftObj, node.getOp(), heap.newArray(rightObj, 0)) );
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
@@ -139,9 +165,9 @@ void Machine::walkImpl(const InvokeNode & node)
 {
 	if(node.getExprNode()){
 		Object* const destObj = eval(node.getExprNode());
-		pushResult(eval(destObj->getSlot(node.getMessageName()), this->localStack.top()));
+		pushResult(send(destObj, node.getMessageName(), this->localStack.top()));
 	}else{
-		pushResult(eval(getLocal()->getSlot(node.getMessageName())));
+		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName()));
 	}
 }
 void Machine::walkImpl(const ContNode & node)

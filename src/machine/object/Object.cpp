@@ -46,7 +46,6 @@ Object* Object::index(size_t idx)
 bool Object::isUndefined(){
 	return false;
 }
-#include <iostream>
 Object* Object::setSlot(const std::string& name, Object* const item)
 {
 	objectMap.insert(MapPair(name, item));
@@ -96,9 +95,11 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 }
 void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
+	Object* const arg = machine.getArgument();
 	Object* const self = machine.getSelf();
-	std::string name = machine.getLocal()->index(0)->toStringObject()->toString();
-	Object* const obj = machine.getLocal()->index(1);
+	Object* const arg0 = arg->index(0);
+	std::string name = arg0->toStringObject()->toString();
+	Object* const obj = arg->index(1);
 	machine.pushResult(self->setSlot(name, obj));
 }
 void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
