@@ -135,6 +135,17 @@ public:
 	NumericObject* toNumericObject();
 	BooleanObject* toBooleanObject();
 	double toNumeric();
+public:
+	static void _method_plus(NativeMethodObject* method, Machine& machine);
+	static void _method_minus(NativeMethodObject* method, Machine& machine);
+	static void _method_increase(NativeMethodObject* method, Machine& machine);
+	static void _method_decrease(NativeMethodObject* method, Machine& machine);
+	static void _method_add(NativeMethodObject* method, Machine& machine);
+	static void _method_subtract(NativeMethodObject* method, Machine& machine);
+	static void _method_multiply(NativeMethodObject* method, Machine& machine);
+	static void _method_divide(NativeMethodObject* method, Machine& machine);
+	static void _method_modulo(NativeMethodObject* method, Machine& machine);
+	static void _method_clone(NativeMethodObject* method, Machine& machine);
 };
 
 class UndefinedObject : public Object

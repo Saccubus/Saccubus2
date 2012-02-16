@@ -60,9 +60,7 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 		}else{
 			return localStack.top();
 		}
-	}else if(!isLocal){
-		return localStack.top();
-	}else{
+	}else if(isLocal){
 		for(Stack<Object*>::ReverseIterator it = localStack.rbegin();it!=localStack.rend();++it){
 			Object* const obj = *it;
 			Object* const slot = obj->getSlot(name);
@@ -71,6 +69,8 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 			}
 		}
 		return getLocal();
+	}else{
+		return getTopLevel();
 	}
 }
 

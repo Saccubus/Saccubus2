@@ -28,7 +28,7 @@ void ObjectHeap::injectMethods(Object& obj, std::map<std::string, NativeMethodOb
 {
 	typedef std::map<std::string, NativeMethodObject>::iterator _it;
 	for(_it it = methods.begin(); it!=methods.end();++it){
-		baseObject.setSlot(it->first, &it->second);
+		obj.setSlot(it->first, &it->second);
 	}
 }
 
@@ -42,6 +42,19 @@ void ObjectHeap::setWorld()
 		baseObjectBuiltinMethod.insert(_pair("setSlot", NativeMethodObject(*this, 0, Object::_method_setSlot)));
 		baseObjectBuiltinMethod.insert(_pair("clone", NativeMethodObject(*this, 0, Object::_method_clone)));
 		injectMethods(baseObject, baseObjectBuiltinMethod);
+	}
+	{
+		baseNumericObjectBuiltinMethod.insert(_pair("plus", NativeMethodObject(*this, 0, NumericObject::_method_plus)));
+		baseNumericObjectBuiltinMethod.insert(_pair("minus", NativeMethodObject(*this, 0, NumericObject::_method_minus)));
+		baseNumericObjectBuiltinMethod.insert(_pair("increase", NativeMethodObject(*this, 0, NumericObject::_method_increase)));
+		baseNumericObjectBuiltinMethod.insert(_pair("decrease", NativeMethodObject(*this, 0, NumericObject::_method_decrease)));
+		baseNumericObjectBuiltinMethod.insert(_pair("add", NativeMethodObject(*this, 0, NumericObject::_method_add)));
+		baseNumericObjectBuiltinMethod.insert(_pair("subtract", NativeMethodObject(*this, 0, NumericObject::_method_subtract)));
+		baseNumericObjectBuiltinMethod.insert(_pair("multiply", NativeMethodObject(*this, 0, NumericObject::_method_multiply)));
+		baseNumericObjectBuiltinMethod.insert(_pair("divide", NativeMethodObject(*this, 0, NumericObject::_method_divide)));
+		baseNumericObjectBuiltinMethod.insert(_pair("modulo", NativeMethodObject(*this, 0, NumericObject::_method_modulo)));
+		injectMethods(baseNumericObject, baseObjectBuiltinMethod);
+		injectMethods(baseNumericObject, baseNumericObjectBuiltinMethod);
 	}
 }
 
