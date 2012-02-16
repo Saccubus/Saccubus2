@@ -25,6 +25,7 @@ private:
 	const int hash;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
+	typedef std::vector<Object*>::iterator Iterator;
 	typedef std::map<std::string, Object*>::iterator MapIterator;
 	typedef std::pair<std::string, Object*> MapPair;
 protected:

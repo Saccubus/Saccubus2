@@ -36,7 +36,7 @@ int Object::push(Object* const item)
 }
 Object* Object::index(size_t idx)
 {
-	if(objectList.size() > idx){
+	if(idx < objectList.size() && idx>=0){
 		return objectList.at(idx);
 	}else{
 		return getHeap().newUndefinedObject();
@@ -46,18 +46,11 @@ Object* Object::index(size_t idx)
 bool Object::isUndefined(){
 	return false;
 }
-
+#include <iostream>
 Object* Object::setSlot(const std::string& name, Object* const item)
 {
-	MapIterator it = objectMap.find(name);
-	Object* original;
-	if(it == objectMap.end()){
-		original = getHeap().newUndefinedObject();
-	}else{
-		original = it->second;
-	}
 	objectMap.insert(MapPair(name, item));
-	return original;
+	return item;
 }
 Object* Object::getSlot(const std::string& name){
 	MapIterator it = objectMap.find(name);
@@ -67,7 +60,16 @@ Object* Object::getSlot(const std::string& name){
 StringObject* Object::toStringObject()
 {
 	std::stringstream ss;
-	ss << "Object: " << getHash();
+	ss << "<< Object: " << getHash() << ">> {";
+	for(MapIterator it = objectMap.begin();it != objectMap.end();++it){
+		ss << std::endl << it->first << " : " << it->second->toStringObject()->toString();
+	}
+	int cnt=0;
+	for(Iterator it = objectList.begin();it != objectList.end();++it){
+		ss << std::endl << "$" << cnt << " : " << (*it)->toStringObject()->toString();
+		++cnt;
+	}
+	ss << "}";
 	return getHeap().newStringObject(ss.str());
 }
 NumericObject* Object::toNumericObject()

@@ -97,7 +97,10 @@ void Machine::walkImpl(const AssignNode & node)
 			destObj = resolveScope(invokeNode->getMessageName(), node.isLocal());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
-		pushResult(eval(destObj->getSlot("setSlot"), heap.newArray(nameObj,rhsObj, 0)));
+		selfStack.push(destObj);
+		Object* arg = heap.newArray(nameObj,rhsObj, 0);
+		pushResult(eval(destObj->getSlot("setSlot"), arg));
+		selfStack.pop();
 	}else{
 		pushResult(heap.newUndefinedObject());
 	}
