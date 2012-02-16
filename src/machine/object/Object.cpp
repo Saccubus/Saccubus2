@@ -105,8 +105,9 @@ void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-	std::string name = machine.getLocal()->index(0)->toStringObject()->toString();
-	machine.pushResult(self->getSlot(name));
+	std::string name = machine.getArgument()->index(0)->toStringObject()->toString();
+	Object* const obj = self->getSlot(name);
+	machine.pushResult(obj);
 }
 void Object::_method_clone(NativeMethodObject* method, Machine& machine){
 }

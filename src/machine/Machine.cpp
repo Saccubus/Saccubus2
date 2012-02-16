@@ -134,6 +134,24 @@ void Machine::walkImpl(const AssignNode & node)
 }
 void Machine::walkImpl(const OpAssignNode & node)
 {
+	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
+	if(invokeNode){
+		Object* destObj = 0;
+		Object* const rhsObj = eval(node.getRightNode());
+		if(invokeNode->getExprNode()){
+			destObj = eval(invokeNode->getExprNode());
+		}else{
+			destObj = resolveScope(invokeNode->getMessageName(), false);
+		}
+		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+
+		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
+
+		pushResult(send(destObj, "setSlot", heap.newArray(nameObj, result, 0)));
+	}else{
+		pushResult(heap.newUndefinedObject());
+	}
 }
 void Machine::walkImpl(const IndexAcessNode & node)
 {
