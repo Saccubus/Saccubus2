@@ -131,6 +131,14 @@ LazyEvalObject* ObjectHeap::newLazyEvalObject(Machine& machine, const tree::Obje
 	return obj;
 }
 
+MethodNodeObject* ObjectHeap::newMethodNodeObject(const tree::Node* node, std::vector<std::string>& argList, MethodNodeObject::LocalScopeRule rule)
+{
+	MethodNodeObject* const obj = new MethodNodeObject(*this, createHash(), node, argList, rule);
+	registObject(obj);
+	return obj;
+}
+
+
 void ObjectHeap::gc(const Object *global)
 {
 }

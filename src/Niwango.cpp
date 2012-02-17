@@ -17,7 +17,7 @@ using namespace std::tr1;
 
 int main(const int argc, const char* args[]) {
 	//pANTLR3_INPUT_STREAM stream = antlr3FileStreamNew((ANTLR3_UINT8*)args[1], ANTLR3_ENC_UTF8);
-	std::string src = "a=1;a++";
+	std::string src = "def_kari('test', 1+1);test";
 	pANTLR3_INPUT_STREAM stream = antlr3StringStreamNew((pANTLR3_UINT8)src.c_str(), ANTLR3_ENC_UTF8, src.size(), (pANTLR3_UINT8)"test_file");
 	pniwangoLexer lexer = niwangoLexerNew(stream);
 	pANTLR3_COMMON_TOKEN_STREAM tokenStream = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lexer));

@@ -118,7 +118,17 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 }
 void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 {
-
+	Object* const self = machine.getSelf();
+	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	if(!arg || !arg->hasIndex(0) || !arg->hasIndex(1)){
+		machine.pushResult(self->getHeap().newUndefinedObject());
+		return;
+	}
+	std::string methodName = arg->getIndex(0)->toStringObject()->toString();
+	std::vector<std::string> argList;
+	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), argList, MethodNodeObject::def_kari);
+	self->setSlot(methodName, _method);
+	machine.pushResult(_method);
 }
 void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
