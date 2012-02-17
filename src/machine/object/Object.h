@@ -80,6 +80,8 @@ public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);
 	virtual Object* getSlot(const std::string& name);
 	virtual bool hasSlot(const std::string& name);
+public:
+	const tree::ObjectNode* const getRawNode() const{return node;};
 };
 class MethodObject : public Object{
 protected:
