@@ -73,13 +73,17 @@ class ObjectNode : public ExprNode
 {
 private:
 	std::map<std::string, std::tr1::shared_ptr<const ExprNode> > exprMap;
-	std::vector<std::tr1::shared_ptr<const ExprNode> > exprVector;
+	std::vector<std::tr1::shared_ptr<const ExprNode> > exprList;
 public:
 	ObjectNode(const logging::Location& loc);
 	virtual ~ObjectNode(){};
 	void append(std::string name, std::tr1::shared_ptr<const ExprNode> exprNode);
 	void dump(logging::Dumper& dumper) const;
 	void accept(machine::NodeWalker& walker) const;
+	bool hasNode(const std::string& name) const{return exprMap.count(name) > 0;}
+	bool hasNode(const size_t idx) const{return idx>=0 && idx < exprList.size();}
+	const ExprNode* getNode(const std::string& name) const;
+	const ExprNode* getNode(const size_t idx) const;
 };
 
 class BinOpNode : public ExprNode{

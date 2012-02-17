@@ -36,10 +36,16 @@ public:
 	unsigned int getHash(){return hash;};
 public:
 	virtual void inject(Object* to);
+public: /* INDEXアクセス */
 	virtual int push(Object* const item);
-	virtual Object* index(size_t idx);
+	virtual Object* getIndex(size_t idx);
+	virtual Object* setIndex(size_t idx, Object* obj);
+	virtual bool hasIndex(size_t idx);
+public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);
 	virtual Object* getSlot(const std::string& name);
+	virtual bool hasSlot(const std::string& name);
+public: /* 基本操作 */
 	virtual bool isUndefined();
 	virtual void eval(Machine& machine);
 	virtual StringObject* toStringObject();
@@ -57,17 +63,22 @@ public:
 
 class LazyEvalObject : public Object
 {
+private:
+	Machine& machine;
+	const tree::ObjectNode* const node;
 public:
-	LazyEvalObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
-	virtual ~LazyEvalObject(){}
+	LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const tree::ObjectNode* const node);
+	virtual ~LazyEvalObject();
+public: /* INDEXアクセス */
+	virtual int push(Object* const item);
+	virtual Object* getIndex(size_t idx);
+	virtual Object* setIndex(size_t idx, Object* obj);
+	virtual bool hasIndex(size_t idx);
+public: /* KEYアクセス */
+	virtual Object* setSlot(const std::string& name, Object* const item);
+	virtual Object* getSlot(const std::string& name);
+	virtual bool hasSlot(const std::string& name);
 };
-class LazyEvalNodeObject : public Object
-{
-	LazyEvalNodeObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
-	virtual ~LazyEvalNodeObject(){}
-
-};
-
 class MethodObject : public Object{
 protected:
 	MethodObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};

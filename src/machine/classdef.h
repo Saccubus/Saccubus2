@@ -14,7 +14,6 @@ namespace machine
 class ObjectHeap;
 
 class LazyEvalObject;
-class LazyEvalNodeObject;
 class MethodObject;
 class NativeMethodObject;
 class MethodNodeObject;

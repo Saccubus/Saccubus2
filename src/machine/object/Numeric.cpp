@@ -63,27 +63,27 @@ void NumericObject::_method_decrease(NativeMethodObject* method, Machine& machin
 }
 void NumericObject::_method_add(NativeMethodObject* method, Machine& machine){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	NumericObject* const other = machine.getArgument()->getIndex(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()+other->toNumeric()));
 }
 void NumericObject::_method_subtract(NativeMethodObject* method, Machine& machine){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	NumericObject* const other = machine.getArgument()->getIndex(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()-other->toNumeric()));
 }
 void NumericObject::_method_multiply(NativeMethodObject* method, Machine& machine){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	NumericObject* const other = machine.getArgument()->getIndex(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()*other->toNumeric()));
 }
 void NumericObject::_method_divide(NativeMethodObject* method, Machine& machine){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	NumericObject* const other = machine.getArgument()->getIndex(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()/other->toNumeric()));
 }
 void NumericObject::_method_modulo(NativeMethodObject* method, Machine& machine){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	NumericObject* const other = machine.getArgument()->getIndex(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(static_cast<long>(self->toNumeric())%static_cast<long>(other->toNumeric())));
 }
 void NumericObject::_method_clone(NativeMethodObject* method, Machine& machine)

@@ -34,13 +34,31 @@ int Object::push(Object* const item)
 	objectList.push_back(item);
 	return objectList.size();
 }
-Object* Object::index(size_t idx)
+Object* Object::getIndex(size_t idx)
 {
 	if(idx < objectList.size() && idx>=0){
 		return objectList.at(idx);
 	}else{
 		return getHeap().newUndefinedObject();
 	}
+}
+Object* Object::setIndex(size_t idx, Object* obj)
+{
+	if(idx < objectList.size()){
+		objectList[idx] = obj;
+	}else{
+		objectList.insert(objectList.end(), objectList.size()-idx, getHeap().newUndefinedObject());
+		objectList.push_back(obj);
+	}
+	return obj;
+}
+bool Object::hasIndex(size_t idx)
+{
+	return idx >= 0 && idx < objectList.size();
+}
+bool Object::hasSlot(const std::string& name)
+{
+	return objectMap.count(name) > 0;
 }
 
 bool Object::isUndefined(){
@@ -98,15 +116,14 @@ void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const arg = machine.getArgument();
 	Object* const self = machine.getSelf();
-	Object* const arg0 = arg->index(0);
-	std::string name = arg0->toStringObject()->toString();
-	Object* const obj = arg->index(1);
+	std::string name = arg->getIndex(0)->toStringObject()->toString();
+	Object* const obj = arg->getIndex(1);
 	machine.pushResult(self->setSlot(name, obj));
 }
 void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-	std::string name = machine.getArgument()->index(0)->toStringObject()->toString();
+	std::string name = machine.getArgument()->getIndex(0)->toStringObject()->toString();
 	Object* const obj = self->getSlot(name);
 	machine.pushResult(obj);
 }

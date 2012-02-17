@@ -52,8 +52,7 @@ public:
 	~ObjectHeap();
 	Object* newObject();
 public:
-	LazyEvalObject* newLazyEvalObject(const tree::ObjectNode* objNode);
-	LazyEvalNodeObject* newLazyEvalNodeObject(const tree::Node* node);
+	LazyEvalObject* newLazyEvalObject(Machine& machine, const tree::ObjectNode* objNode);
 public:
 	Object* newArray(Object* obj, ...);
 public:

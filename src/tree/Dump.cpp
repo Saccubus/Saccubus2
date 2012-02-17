@@ -64,7 +64,7 @@ void BinOpNode::dump(Dumper& dumper) const{
 }
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
-	dumper.printNodeList("exprVector", (std::vector<shared_ptr<const Dumpable> >&)this->exprVector);
+	dumper.printNodeList("exprList", (std::vector<shared_ptr<const Dumpable> >&)this->exprList);
 	dumper.printNodeList("exprMap", (std::map<std::string, shared_ptr<const Dumpable> >&)this->exprMap);
 }
 void InvokeNode::dump(Dumper& dumper) const{

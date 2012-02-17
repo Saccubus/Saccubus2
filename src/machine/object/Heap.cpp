@@ -123,16 +123,11 @@ UndefinedObject* ObjectHeap::newUndefinedObject()
 	return &undefinedObject;
 }
 
-
-
-LazyEvalNodeObject* ObjectHeap::newLazyEvalNodeObject(const tree::Node *node)
+LazyEvalObject* ObjectHeap::newLazyEvalObject(Machine& machine, const tree::ObjectNode *objNode)
 {
-	return 0;
-}
-
-LazyEvalObject* ObjectHeap::newLazyEvalObject(const tree::ObjectNode *objNode)
-{
-	return 0;
+	LazyEvalObject* const obj = new LazyEvalObject(*this, createHash(), machine, objNode);
+	registObject(obj);
+	return obj;
 }
 
 void ObjectHeap::gc(const Object *global)
