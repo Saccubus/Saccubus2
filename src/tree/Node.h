@@ -85,6 +85,8 @@ public:
 	const ExprNode* getNode(const std::string& name) const;
 	const ExprNode* getNode(const size_t idx) const;
 	std::vector<std::string> getNodeNames() const;
+	size_t getIndexedNodeSize() const;
+
 };
 
 class BinOpNode : public ExprNode{

@@ -48,6 +48,11 @@ bool LazyEvalObject::hasIndex(size_t idx)
 {
 	return node->hasNode(idx);
 }
+size_t LazyEvalObject::getIndexSize()
+{
+	return node->getIndexedNodeSize();
+}
+
 /*******************************************************************
  *  KEYアクセス
  *******************************************************************/

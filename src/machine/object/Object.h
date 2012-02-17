@@ -41,6 +41,7 @@ public: /* INDEXアクセス */
 	virtual Object* getIndex(size_t idx);
 	virtual Object* setIndex(size_t idx, Object* obj);
 	virtual bool hasIndex(size_t idx);
+	virtual size_t getIndexSize();
 public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);
 	virtual Object* getSlot(const std::string& name);
@@ -75,6 +76,7 @@ public: /* INDEXアクセス */
 	virtual Object* getIndex(size_t idx);
 	virtual Object* setIndex(size_t idx, Object* obj);
 	virtual bool hasIndex(size_t idx);
+	virtual size_t getIndexSize();
 	virtual std::vector<std::string> getSlotNames();
 public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);

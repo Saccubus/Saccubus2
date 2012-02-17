@@ -31,10 +31,10 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 	{
 	case def:
 	{
+		size_t idx = 0;
 		for(std::vector<std::string>::const_iterator it = argList.begin();it!=argList.end();++it){
-			if(arg->hasSlot(*it)){
-				local->setSlot(*it, arg->getSlot(*it));
-			}
+			local->setSlot((*it), arg->getIndex(idx));
+			++idx;
 		}
 	}
 		break;

@@ -380,9 +380,11 @@ numeric returns [shared_ptr<const NumericLiteralNode> result]
 	}
 	;
 string returns [shared_ptr<const StringLiteralNode> result]
-	: (str=STRING_SINGLE | str=STRING_DOUBLE)
+	: (t=STRING_SINGLE | t=STRING_DOUBLE)
 	{
-		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($str), createStringFromToken($str)));
+		std::string str = createStringFromToken($t);
+		//FIXME: ちょっと醜い。どうにかならないかな。
+		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($t), str.substr(1, str.length()-2)));
 	}
 	;
 
@@ -425,28 +427,14 @@ DIGIT :
   '0'..'9';
 
 STRING_SINGLE
-	: '\''
-	t=STRING_SINGLE_ELEMENT*
-	{
-		if($t){
-			SETTEXT($t->tokText.text);
-		}else{
-			SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)""));
-		}
-	} '\'';
+	: '\'' t=STRING_SINGLE_ELEMENT* '\'';
+
 fragment
 STRING_SINGLE_ELEMENT: ESC_SEQ | ~('\\'|'\''|'\r'|'\n');
 
 STRING_DOUBLE
-	: '"'
-	t=STRING_DOUBLE_ELEMENT*
-	{
-		if($t){
-			SETTEXT($t->tokText.text);
-		}else{
-			SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)""));
-		}
-	} '"';
+	: '"' t=STRING_DOUBLE_ELEMENT*
+'"';
 
 fragment
 STRING_DOUBLE_ELEMENT: ESC_SEQ | ~('\\'|'"'|'\r'|'\n');

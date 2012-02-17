@@ -1,4 +1,4 @@
-#Fri Feb 17 13:28:17 JST 2012
+#Fri Feb 17 13:50:59 JST 2012
 eclipse.preferences.version=1
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/CPATH/delimiter=\:
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/CPATH/operation=remove
@@ -24,10 +24,10 @@ environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.releas
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/CPATH/operation=remove
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/CPLUS_INCLUDE_PATH/delimiter=\:
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/CPLUS_INCLUDE_PATH/operation=replace
-environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/CPLUS_INCLUDE_PATH/value=\:/usr/local/include\:/home/psi/Dev/sdl20/include
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/CPLUS_INCLUDE_PATH/value=\:/usr/local/include\:/home/psi/dev/sdl20/include
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/C_INCLUDE_PATH/delimiter=\:
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/C_INCLUDE_PATH/operation=replace
-environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/C_INCLUDE_PATH/value=\:/usr/local/include\:/home/psi/Dev/sdl20/include
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/C_INCLUDE_PATH/value=\:/usr/local/include\:/home/psi/dev/sdl20/include
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/append=true
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/appendContributed=true
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/LIBRARY_PATH/delimiter=\:
@@ -42,6 +42,6 @@ environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.775998722/appendContributed=true
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/LIBRARY_PATH/delimiter=\:
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/LIBRARY_PATH/operation=replace
-environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/LIBRARY_PATH/value=\:/usr/local/lib\:/home/psi/Dev/sdl20/lib
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/LIBRARY_PATH/value=\:/usr/local/lib\:/home/psi/dev/sdl20/lib
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/append=true
 environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.release.764677260/appendContributed=true

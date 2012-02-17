@@ -56,6 +56,10 @@ bool Object::hasIndex(size_t idx)
 {
 	return idx >= 0 && idx < objectList.size();
 }
+size_t Object::getIndexSize()
+{
+	return objectList.size();
+}
 bool Object::hasSlot(const std::string& name)
 {
 	return objectMap.count(name) > 0;
@@ -114,13 +118,37 @@ void Object::inject(Object* to){
 
 void Object::_method_def(NativeMethodObject* method, Machine& machine)
 {
-
+	Object* const self = machine.getSelf();
+	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	if(!arg || arg->getIndexSize() < 2){
+		machine.pushResult(self->getHeap().newUndefinedObject());
+		return;
+	}
+	const tree::InvokeNode* const invokeNode = dynamic_cast<const tree::InvokeNode*>(arg->getRawNode()->getNode(0));
+	const tree::BindNode* const bindNode = dynamic_cast<const tree::BindNode*>(arg->getRawNode()->getNode(0));
+	if(invokeNode){
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def);
+		self->setSlot(invokeNode->getMessageName(), _method);
+		machine.pushResult(_method);
+	}else if(bindNode){
+		const tree::InvokeNode* const nameNode = dynamic_cast<const tree::InvokeNode*>(bindNode->getExprNode());
+		if(!nameNode){
+			machine.pushResult(self->getHeap().newUndefinedObject());
+			return;
+		}
+		std::vector<std::string> argList=bindNode->getObjectNode()->getNodeNames();
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def, argList);
+		self->setSlot(nameNode->getMessageName(), _method);
+		machine.pushResult(_method);
+	}else{
+		machine.pushResult(self->getHeap().newUndefinedObject());
+	}
 }
 void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
-	if(!arg || !arg->hasIndex(0) || !arg->hasIndex(1)){
+	if(!arg || !arg->getIndexSize() < 2){
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}

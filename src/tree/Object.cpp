@@ -44,13 +44,19 @@ std::vector<std::string> ObjectNode::getNodeNames() const
 
 {
 	std::vector<std::string> names;
-	for(std::map<std::string, shared_ptr<const ExprNode> >::const_iterator it = exprMap.begin(); it != exprMap.end();++it){
-		names.push_back(it->first);
+	for(std::vector<shared_ptr<const ExprNode> >::const_iterator it = exprList.begin(); it != exprList.end();++it){
+		const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>((*it).get());
+		if(invokeNode && invokeNode->getExprNode() == 0){
+			names.push_back(invokeNode->getMessageName());
+		}
 	}
 	return names;
 
 }
-
+size_t ObjectNode::getIndexedNodeSize() const
+{
+	return exprList.size();
+}
 }
 
 

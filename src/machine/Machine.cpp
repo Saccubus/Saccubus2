@@ -230,9 +230,9 @@ void Machine::walkImpl(const InvokeNode & node)
 {
 	if(node.getExprNode()){
 		Object* const destObj = eval(node.getExprNode());
-		pushResult(send(destObj, node.getMessageName(), this->localStack.top()));
+		pushResult(send(destObj, node.getMessageName(), getArgument()));
 	}else{
-		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName()));
+		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName(), getArgument()));
 	}
 }
 void Machine::walkImpl(const ContNode & node)
