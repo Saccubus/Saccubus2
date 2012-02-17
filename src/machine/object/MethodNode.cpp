@@ -13,8 +13,12 @@
 #include "../../tree/Node.h"
 
 namespace machine{
-MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, std::vector<std::string>& argList, LocalScopeRule rule)
-:MethodObject(heap, hash), node(node), argList(argList), rule(rule)
+MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
+:MethodObject(heap, hash), node(node),argList(argList), rule(rule)
+{
+}
+MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule)
+:MethodObject(heap, hash), node(node),rule(rule)
 {
 }
 MethodNodeObject::~MethodNodeObject()

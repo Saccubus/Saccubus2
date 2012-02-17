@@ -125,8 +125,7 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 		return;
 	}
 	std::string methodName = arg->getIndex(0)->toStringObject()->toString();
-	std::vector<std::string> argList;
-	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), argList, MethodNodeObject::def_kari);
+	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def_kari);
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
 }

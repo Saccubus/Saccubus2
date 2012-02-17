@@ -53,7 +53,8 @@ public:
 	Object* newObject();
 public:
 	LazyEvalObject* newLazyEvalObject(Machine& machine, const tree::ObjectNode* objNode);
-	MethodNodeObject* newMethodNodeObject(const tree::Node* node, std::vector<std::string>& argList, MethodNodeObject::LocalScopeRule rule);
+	MethodNodeObject* newMethodNodeObject(const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
+	MethodNodeObject* newMethodNodeObject(const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
 public:
 	Object* newArray(Object* obj, ...);
 public:

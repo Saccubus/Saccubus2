@@ -113,7 +113,8 @@ private:
 	const LocalScopeRule rule;
 	void mergeArg(Machine& machine, Object* const local, Object* const arg);
 public:
-	MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, std::vector<std::string>& argList, LocalScopeRule rule);
+	MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
+	MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule);
 	virtual ~MethodNodeObject();
 	virtual void eval(Machine& machine);
 };
