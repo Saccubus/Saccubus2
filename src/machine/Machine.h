@@ -35,6 +35,8 @@ public: //for Object
 	Object* getLocal();
 	Object* getSelf();
 	Object* getTopLevel();
+	Object* newLocal();
+	void endLocal(Object* local);
 protected: //for tree
 	void walkIn();
 	void walkOut();

@@ -40,6 +40,17 @@ const ExprNode* ObjectNode::getNode(const size_t idx) const
 	}
 }
 
+std::vector<std::string> ObjectNode::getNodeNames() const
+
+{
+	std::vector<std::string> names;
+	for(std::map<std::string, shared_ptr<const ExprNode> >::const_iterator it = exprMap.begin(); it != exprMap.end();++it){
+		names.push_back(it->first);
+	}
+	return names;
+
+}
+
 }
 
 

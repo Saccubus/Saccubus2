@@ -45,6 +45,7 @@ public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);
 	virtual Object* getSlot(const std::string& name);
 	virtual bool hasSlot(const std::string& name);
+	virtual std::vector<std::string> getSlotNames();
 public: /* 基本操作 */
 	virtual bool isUndefined();
 	virtual void eval(Machine& machine);
@@ -74,6 +75,7 @@ public: /* INDEXアクセス */
 	virtual Object* getIndex(size_t idx);
 	virtual Object* setIndex(size_t idx, Object* obj);
 	virtual bool hasIndex(size_t idx);
+	virtual std::vector<std::string> getSlotNames();
 public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& name, Object* const item);
 	virtual Object* getSlot(const std::string& name);
@@ -98,8 +100,20 @@ public:
 };
 class MethodNodeObject : public MethodObject
 {
-	MethodNodeObject(ObjectHeap& heap, const unsigned int hash):MethodObject(heap,hash){};
-	virtual ~MethodNodeObject(){}
+public:
+	enum LocalScopeRule{
+			def_kari,
+			def
+	};
+private:
+	const tree::Node* const node;
+	const std::vector<std::string> argList;
+	const LocalScopeRule rule;
+	void mergeArg(Machine& machine, Object* const local, Object* const arg);
+public:
+	MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, std::vector<std::string>& argList, LocalScopeRule rule);
+	virtual ~MethodNodeObject();
+	virtual void eval(Machine& machine);
 };
 
 //-----------------------------------------------------------------------------

@@ -50,6 +50,19 @@ Object* Machine::getLocal()
 {
 	return localStack.top();
 }
+Object* Machine::newLocal()
+{
+	Object* const local = heap.newObject();
+	localStack.push(local);
+	return local;
+}
+void Machine::endLocal(Object* local)
+{
+	if(localStack.pop() != local){
+
+	}
+}
+
 Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 {
 	if(name.compare("self") == 0){
@@ -211,8 +224,7 @@ void Machine::walkImpl(const BinOpNode & node)
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
-	Object* const obj = heap.newObject();
-	pushResult(obj);
+	pushResult(heap.newLazyEvalObject(*this, &node));
 }
 void Machine::walkImpl(const InvokeNode & node)
 {

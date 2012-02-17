@@ -15,7 +15,6 @@ using namespace tree;
 namespace machine{
 LazyEvalObject::LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const ObjectNode* const node)
 :Object(heap, hash), machine(machine), node(node){
-
 }
 LazyEvalObject::~LazyEvalObject(){
 
@@ -72,6 +71,10 @@ Object* LazyEvalObject::getSlot(const std::string& name)
 bool LazyEvalObject::hasSlot(const std::string& name)
 {
 	return node->hasNode(name);
+}
+std::vector<std::string> LazyEvalObject::getSlotNames()
+{
+	return node->getNodeNames();
 }
 
 }

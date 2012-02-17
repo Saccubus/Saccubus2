@@ -84,6 +84,7 @@ public:
 	bool hasNode(const size_t idx) const{return idx>=0 && idx < exprList.size();}
 	const ExprNode* getNode(const std::string& name) const;
 	const ExprNode* getNode(const size_t idx) const;
+	std::vector<std::string> getNodeNames() const;
 };
 
 class BinOpNode : public ExprNode{

@@ -60,6 +60,14 @@ bool Object::hasSlot(const std::string& name)
 {
 	return objectMap.count(name) > 0;
 }
+std::vector<std::string> Object::getSlotNames()
+{
+	std::vector<std::string> slotList;
+	for(MapIterator it = objectMap.begin(); it != objectMap.end(); ++it){
+		slotList.push_back(it->first);
+	}
+	return slotList;
+}
 
 bool Object::isUndefined(){
 	return false;
