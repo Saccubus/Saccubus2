@@ -128,7 +128,7 @@ void Machine::walkImpl(const StringLiteralNode & node)
 }
 void Machine::walkImpl(const AssignNode & node)
 {
-	if(typeid(node.getLeftNode()) == InvokeNode){
+	if(typeid(node.getLeftNode()) == typeid (InvokeNode)){
 		const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
 		Object* destObj = 0;
 		Object* const rhsObj = eval(node.getRightNode());
@@ -141,7 +141,7 @@ void Machine::walkImpl(const AssignNode & node)
 		Object* const arg = heap.newArray(nameObj,rhsObj, 0);
 
 		pushResult(send(destObj, "setSlot", arg));
-	}else if(typeid(node.getLeftNode()) == IndexAcessNode){
+	}else if(typeid(node.getLeftNode()) == typeid (IndexAcessNode)){
 		const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 		Object* const destObj = eval(idxNode->getExprNode());
 		Object* const idxObj = eval(idxNode->getObjectNode());
@@ -153,7 +153,7 @@ void Machine::walkImpl(const AssignNode & node)
 }
 void Machine::walkImpl(const OpAssignNode & node)
 {
-	if(typeid(node.getLeftNode()) == InvokeNode){
+	if(typeid(node.getLeftNode()) == typeid(InvokeNode)){
 		const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
 		Object* destObj = 0;
 		Object* const rhsObj = eval(node.getRightNode());
@@ -168,7 +168,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
 		pushResult(send(destObj, "setSlot", heap.newArray(nameObj, result, 0)));
-	}else if(typeid(node.getLeftNode()) == IndexAcessNode){
+	}else if(typeid(node.getLeftNode()) == typeid(IndexAcessNode)){
 		const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 		Object* const destObj = eval(idxNode->getExprNode());
 		Object* const idxObj = eval(idxNode->getObjectNode());
@@ -177,7 +177,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 		Object* const operandObj = send(destObj, "index", idxObj);
 		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
-		pushResult(send(destObj, "indexSet", heap.newArray(idxObj->index(0), rhsObj, 0)));
+		pushResult(send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0)));
 	}else{
 		pushResult(heap.newUndefinedObject());
 	}
