@@ -39,6 +39,17 @@ void ObjectHeap::setWorld()
 	{
 		baseObjectBuiltinMethod.insert(_pair("def", NativeMethodObject(*this, 0, Object::_method_def)));
 		baseObjectBuiltinMethod.insert(_pair("def_kari", NativeMethodObject(*this, 0, Object::_method_def_kari)));
+		baseObjectBuiltinMethod.insert(_pair("index", NativeMethodObject(*this, 0, Object::_method_index)));
+		baseObjectBuiltinMethod.insert(_pair("indexSet", NativeMethodObject(*this, 0, Object::_method_indexSet)));
+		baseObjectBuiltinMethod.insert(_pair("size", NativeMethodObject(*this, 0, Object::_method_size)));
+		baseObjectBuiltinMethod.insert(_pair("unshift", NativeMethodObject(*this, 0, Object::_method_unshift)));
+		baseObjectBuiltinMethod.insert(_pair("push", NativeMethodObject(*this, 0, Object::_method_push)));
+		baseObjectBuiltinMethod.insert(_pair("shift", NativeMethodObject(*this, 0, Object::_method_shift)));
+		baseObjectBuiltinMethod.insert(_pair("pop", NativeMethodObject(*this, 0, Object::_method_pop)));
+		baseObjectBuiltinMethod.insert(_pair("sort", NativeMethodObject(*this, 0, Object::_method_sort)));
+		baseObjectBuiltinMethod.insert(_pair("sum", NativeMethodObject(*this, 0, Object::_method_sum)));
+		baseObjectBuiltinMethod.insert(_pair("product", NativeMethodObject(*this, 0, Object::_method_product)));
+		baseObjectBuiltinMethod.insert(_pair("join", NativeMethodObject(*this, 0, Object::_method_join)));
 		baseObjectBuiltinMethod.insert(_pair("getSlot", NativeMethodObject(*this, 0, Object::_method_getSlot)));
 		baseObjectBuiltinMethod.insert(_pair("setSlot", NativeMethodObject(*this, 0, Object::_method_setSlot)));
 		baseObjectBuiltinMethod.insert(_pair("clone", NativeMethodObject(*this, 0, Object::_method_clone)));

@@ -194,6 +194,78 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
 }
+
+void Object::_method_index(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->index(static_cast<size_t>(machine.getArgument()->index(0)->toNumericObject()->toNumeric())));
+}
+void Object::_method_indexSet(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	Object* const arg = machine.getArgument();
+	size_t const idx = static_cast<size_t>(arg->index(0)->toNumericObject()->toNumeric());
+	machine.pushResult(self->indexSet(idx, arg->index(1)));
+}
+void Object::_method_size(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->getHeap().newNumericObject(self->size()));
+}
+void Object::_method_unshift(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->unshift(machine.getArgument()->index(0)));
+}
+void Object::_method_push(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->push(machine.getArgument()->index(0)));
+}
+void Object::_method_shift(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->shift());
+}
+void Object::_method_pop(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	machine.pushResult(self->pop());
+}
+void Object::_method_sort(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+
+}
+void Object::_method_sum(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+
+}
+void Object::_method_product(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+
+}
+void Object::_method_join(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	std::stringstream ss;
+	Object* const arg = machine.getArgument();
+	const size_t max = arg->size();
+	if(max <= 0){
+		machine.pushResult(self->getHeap().newStringObject(""));
+		return;
+	}
+	std::string sep = arg->index(0)->toStringObject()->toString();
+	ss << self->index(0)->toStringObject()->toString();
+	for(size_t i=1;i<max;++i){
+		ss << sep << self->index(i)->toStringObject()->toString();
+	}
+	machine.pushResult(self->getHeap().newStringObject(ss.str()));
+}
+
+
 void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const arg = machine.getArgument();

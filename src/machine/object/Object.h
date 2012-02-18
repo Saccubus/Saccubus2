@@ -60,6 +60,19 @@ public: /* 基本操作 */
 public:
 	static void _method_def(NativeMethodObject* method, Machine& machine);
 	static void _method_def_kari(NativeMethodObject* method, Machine& machine);
+
+	static void _method_index(NativeMethodObject* method, Machine& machine);
+	static void _method_indexSet(NativeMethodObject* method, Machine& machine);
+	static void _method_size(NativeMethodObject* method, Machine& machine);
+	static void _method_unshift(NativeMethodObject* method, Machine& machine);
+	static void _method_push(NativeMethodObject* method, Machine& machine);
+	static void _method_shift(NativeMethodObject* method, Machine& machine);
+	static void _method_pop(NativeMethodObject* method, Machine& machine);
+	static void _method_sort(NativeMethodObject* method, Machine& machine);
+	static void _method_sum(NativeMethodObject* method, Machine& machine);
+	static void _method_product(NativeMethodObject* method, Machine& machine);
+	static void _method_join(NativeMethodObject* method, Machine& machine);
+
 	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
 	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
 	static void _method_clone(NativeMethodObject* method, Machine& machine);
