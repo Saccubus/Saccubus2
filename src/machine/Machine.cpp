@@ -154,7 +154,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), false);
+			destObj = resolveScope(invokeNode->getMessageName(), true);
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -183,7 +183,7 @@ void Machine::walkImpl(const PostOpNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), false);
+			destObj = resolveScope(invokeNode->getMessageName(), true);
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -204,7 +204,7 @@ void Machine::walkImpl(const PreOpNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), false);
+			destObj = resolveScope(invokeNode->getMessageName(), true);
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -224,7 +224,18 @@ void Machine::walkImpl(const BinOpNode & node)
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
-	pushResult(heap.newLazyEvalObject(*this, &node));
+	Object* const obj = heap.newObject();
+	//評価していない項目について、すべて評価する
+	const size_t argc = node.size();
+	for(size_t i=0;i<argc;++i){
+		obj->push(eval(node.index(i)));
+	}
+
+	std::vector<std::string> args = node.getSlotNames();
+	for(std::vector<std::string>::const_iterator it = args.begin();it!=args.end();++it){
+		obj->setSlot(*it, eval(node.getSlot(*it)));
+	}
+	pushResult(obj);
 }
 void Machine::walkImpl(const InvokeNode & node)
 {

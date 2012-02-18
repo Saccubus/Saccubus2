@@ -102,7 +102,6 @@ size_t LazyEvalObject::slotSize()
 	return node->slotSize();
 }
 
-
 }
 
 
