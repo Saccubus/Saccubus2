@@ -41,7 +41,7 @@ Object* Object::push(Object* const item)
 }
 Object* Object::shift()
 {
-	if(size() > 0){
+	if(Object::size() > 0){
 		Object* const obj = objectList.front();
 		objectList.erase(objectList.begin());
 		return obj;
@@ -51,7 +51,7 @@ Object* Object::shift()
 }
 Object* Object::pop()
 {
-	if(size() > 0){
+	if(Object::size() > 0){
 		Object* const obj = objectList.back();
 		objectList.pop_back();
 		return obj;
@@ -61,7 +61,7 @@ Object* Object::pop()
 }
 Object* Object::index(size_t idx)
 {
-	if(has(idx)){
+	if(Object::has(idx)){
 		return objectList.at(idx);
 	}else{
 		return heap.newUndefinedObject();
@@ -84,7 +84,7 @@ size_t Object::size()
 }
 bool Object::has(size_t idx)
 {
-	return idx >= 0 && idx < size();
+	return idx >= 0 && idx < Object::size();
 }
 
 bool Object::has(const std::string& key)
