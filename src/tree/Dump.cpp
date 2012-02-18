@@ -12,70 +12,70 @@ using namespace std::tr1;
 
 void BoolLiteralNode::dump(Dumper& dumper) const{
 	dumper.printName("BoolLiteralNode", location());
-	dumper.print("literal", (bool)this->literal);
+	dumper.print("literal", this->literal);
 }
 void NumericLiteralNode::dump(Dumper& dumper) const{
 	dumper.printName("NumericLiteralNode", location());
-	dumper.print("literal", (int)this->literal);
+	dumper.print("literal", this->literal);
 }
 void StringLiteralNode::dump(Dumper& dumper) const{
 	dumper.printName("StringLiteralNode", location());
-	dumper.print("literal", (std::string&)this->literal);
+	dumper.print("literal", this->literal);
 }
 
 void AssignNode::dump(Dumper& dumper) const{
 	dumper.printName("AssignNode", location());
 	dumper.print("isLocal?", local);
-	dumper.printNode("leftNode", (shared_ptr<const Dumpable>&)this->leftNode);
-	dumper.printNode("rightNode", (shared_ptr<const Dumpable>&)this->rightNode);
+	dumper.printNode("leftNode", this->leftNode);
+	dumper.printNode("rightNode", this->rightNode);
 }
 void OpAssignNode::dump(Dumper& dumper) const{
 	dumper.printName("OpAssignNode:", location());
-	dumper.printNode("leftNode", (shared_ptr<const Dumpable>&)this->leftNode);
+	dumper.printNode("leftNode", this->leftNode);
 	dumper.print("op", this->op);
-	dumper.printNode("rightNode", (shared_ptr<const Dumpable>&)this->rightNode);
+	dumper.printNode("rightNode", this->rightNode);
 }
 
 void IndexAcessNode::dump(Dumper& dumper) const{
 	dumper.printName("IndexAcessNode", location());
-	dumper.printNode("exprNode", (shared_ptr<const Dumpable>&)this->exprNode);
-	dumper.printNode("with obj", (shared_ptr<const Dumpable>&)this->objectNode);
+	dumper.printNode("exprNode", this->exprNode);
+	dumper.printNode("with obj", this->objectNode);
 }
 void BindNode::dump(Dumper& dumper) const{
 	dumper.printName("BindNode", location());
-	dumper.printNode("exprNode", (shared_ptr<const Dumpable>&)this->exprNode);
-	dumper.printNode("with obj", (shared_ptr<const Dumpable>&)this->objectNode);
+	dumper.printNode("exprNode", this->exprNode);
+	dumper.printNode("with obj", this->objectNode);
 }
 void PostOpNode::dump(Dumper& dumper) const{
 	dumper.printName("PostOpNode", location());
 	dumper.print("op", this->op);
-	dumper.printNode("exprNode", (shared_ptr<const Dumpable>&)this->exprNode);
+	dumper.printNode("exprNode", this->exprNode);
 }
 void PreOpNode::dump(Dumper& dumper) const{
 	dumper.printName("PreOpNode", location());
 	dumper.print("op", this->op);
-	dumper.printNode("exprNode", (shared_ptr<const Dumpable>&)this->exprNode);
+	dumper.printNode("exprNode", this->exprNode);
 }
 void BinOpNode::dump(Dumper& dumper) const{
 	dumper.printName("BinOpNode", location());
-	dumper.printNode("leftNode", (shared_ptr<const Dumpable>&)this->leftNode);
+	dumper.printNode("leftNode", this->leftNode);
 	dumper.print("op", this->op);
-	dumper.printNode("rightNode", (shared_ptr<const Dumpable>&)this->rightNode);
+	dumper.printNode("rightNode", this->rightNode);
 }
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
-	dumper.printNodeList("exprList", (std::vector<shared_ptr<const Dumpable> >&)this->exprList);
-	dumper.printNodeList("exprMap", (std::map<std::string, shared_ptr<const Dumpable> >&)this->exprMap);
+	dumper.printDumpableList("exprList", (const std::vector<shared_ptr<const Dumpable> >&)this->exprList);
+	dumper.printDumpableList("exprMap", (const std::map<std::string, shared_ptr<const Dumpable> >&)this->exprMap);
 }
 void InvokeNode::dump(Dumper& dumper) const{
 	dumper.printName("InvokeNode", location());
 	dumper.print("messageName", this->messageName);
-	dumper.printNode("exprNode", (shared_ptr<const Dumpable>&)this->exprNode);
+	dumper.printNode("exprNode", this->exprNode);
 }
 void ContNode::dump(Dumper& dumper) const{
 	dumper.printName("ContNode", location());
-	dumper.printNode("firstNode", (shared_ptr<const Dumpable>&)this->firstNode);
-	dumper.printNode("nextNode", (shared_ptr<const Dumpable>&)this->nextNode);
+	dumper.printNode("firstNode", this->firstNode);
+	dumper.printNode("nextNode", this->nextNode);
 }
 
 

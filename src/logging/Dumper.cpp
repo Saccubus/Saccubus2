@@ -45,12 +45,12 @@ void Dumper::print(const std::string& name, const bool member)
 	this->startLine();
 	stream << name << ":" << (member?"true":"false") << std::endl;
 }
-void Dumper::print(const std::string& name, const int member)
+void Dumper::print(const std::string& name, const double member)
 {
 	this->startLine();
 	stream << name << ":" << member << std::endl;
 }
-void Dumper::printNode(const std::string& name, shared_ptr<const Dumpable> member)
+void Dumper::printNode(const std::string& name, const shared_ptr<const Dumpable> member)
 {
 	this->startLine();
 	if(member.get() == 0){
@@ -62,7 +62,7 @@ void Dumper::printNode(const std::string& name, shared_ptr<const Dumpable> membe
 		this->out();
 	}
 }
-void Dumper::printNodeList(const std::string& name, std::vector<shared_ptr<const Dumpable> >& memberList)
+void Dumper::printDumpableList(const std::string& name, const std::vector<shared_ptr<const Dumpable> >& memberList)
 {
 	std::stringstream ss;
 	int i=0;
@@ -77,7 +77,7 @@ void Dumper::printNodeList(const std::string& name, std::vector<shared_ptr<const
 	}
 	out();
 }
-void Dumper::printNodeList(const std::string& name, std::map<std::string, shared_ptr<const Dumpable> >& memberList)
+void Dumper::printDumpableList(const std::string& name, const std::map<std::string, shared_ptr<const Dumpable> >& memberList)
 {
 	this->startLine();
 	stream << name << ":" << std::endl;

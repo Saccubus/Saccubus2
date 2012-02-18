@@ -11,10 +11,11 @@
 #include <vector>
 #include <tr1/memory>
 #include "../classdefs.h"
+#include "../logging/Logging.h"
 namespace timeline
 {
 
-class TimePoint
+class TimePoint : public logging::Dumpable
 {
 private:
 	float time;
@@ -33,9 +34,10 @@ public:
 	virtual ~TimePoint(){}
 	const float getTime() const{return time;}
 	const std::tr1::shared_ptr<const tree::ExprNode> getNode() const{return node;}
+	virtual void dump(logging::Dumper& dumper) const;
 };
 
-class TimeLine
+class TimeLine : public logging::Dumpable
 {
 private:
 	std::vector<TimePoint> timePointList;
@@ -47,6 +49,7 @@ public:
 	Iterator begin();
 	Iterator end();
 	size_t size();
+	virtual void dump(logging::Dumper& dumper) const;
 };
 
 } /* namespace machine */

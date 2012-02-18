@@ -7,6 +7,8 @@
 
 #include "TimeLine.h"
 #include <algorithm>
+#include <tr1/memory>
+#include "../tree/Node.h"
 
 namespace timeline
 {
@@ -40,6 +42,20 @@ TimeLine::Iterator TimeLine::end()
 size_t TimeLine::size()
 {
 	return this->timePointList.size();
+}
+
+void TimeLine::dump(logging::Dumper& dumper) const
+{
+	for(Iterator it = timePointList.begin();it!=this->timePointList.end();++it){
+		(*it).dump(dumper);
+	}
+}
+
+void TimePoint::dump(logging::Dumper& dumper) const
+{
+	dumper.printName("TimePoint");
+	dumper.print("time: ", this->time);
+	dumper.printNode("node", node);
 }
 
 }
