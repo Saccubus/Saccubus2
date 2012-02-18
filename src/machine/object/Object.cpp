@@ -29,40 +29,67 @@ void Object::eval(Machine& machine){
 	machine.pushResult(this);
 }
 
-int Object::push(Object* const item)
+Object* Object::unshift(Object* const item)
+{
+	objectList.insert(objectList.begin(), item);
+	return this;
+}
+Object* Object::push(Object* const item)
 {
 	objectList.push_back(item);
-	return objectList.size();
+	return this;
 }
-Object* Object::getIndex(size_t idx)
+Object* Object::shift()
 {
-	if(idx < objectList.size() && idx>=0){
+	if(size() > 0){
+		Object* const obj = objectList.front();
+		objectList.erase(objectList.begin());
+		return obj;
+	}else{
+		return heap.newUndefinedObject();
+	}
+}
+Object* Object::pop()
+{
+	if(size() > 0){
+		Object* const obj = objectList.back();
+		objectList.pop_back();
+		return obj;
+	}else{
+		return heap.newUndefinedObject();
+	}
+}
+Object* Object::index(size_t idx)
+{
+	if(has(idx)){
 		return objectList.at(idx);
 	}else{
-		return getHeap().newUndefinedObject();
+		return heap.newUndefinedObject();
 	}
 }
-Object* Object::setIndex(size_t idx, Object* obj)
+Object* Object::indexSet(size_t idx, Object* item)
 {
 	if(idx < objectList.size()){
-		objectList[idx] = obj;
+		objectList[idx] = item;
 	}else{
 		objectList.insert(objectList.end(), objectList.size()-idx, getHeap().newUndefinedObject());
-		objectList.push_back(obj);
+		objectList.push_back(item);
 	}
-	return obj;
+	return item;
 }
-bool Object::hasIndex(size_t idx)
-{
-	return idx >= 0 && idx < objectList.size();
-}
-size_t Object::getIndexSize()
+
+size_t Object::size()
 {
 	return objectList.size();
 }
-bool Object::hasSlot(const std::string& name)
+bool Object::has(size_t idx)
 {
-	return objectMap.count(name) > 0;
+	return idx >= 0 && idx < size();
+}
+
+bool Object::has(const std::string& key)
+{
+	return objectMap.count(key) > 0;
 }
 std::vector<std::string> Object::getSlotNames()
 {
@@ -80,12 +107,22 @@ Object* Object::setSlot(const std::string& name, Object* const item)
 {
 	objectMap.erase(name);
 	objectMap.insert(MapPair(name, item));
-	return item;
+	return this;
 }
 Object* Object::getSlot(const std::string& name){
 	MapIterator it = objectMap.find(name);
-	return it == objectMap.end() ? getHeap().newUndefinedObject() : it->second;
+	if(it == objectMap.end()){
+		return getHeap().newUndefinedObject();
+	}else{
+		return it->second;
+	}
 }
+
+size_t Object::slotSize()
+{
+	return objectMap.size();
+}
+
 
 StringObject* Object::toStringObject()
 {
@@ -120,14 +157,14 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
-	if(!arg || arg->getIndexSize() < 2){
+	if(!arg || arg->size() < 2){
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
-	const tree::InvokeNode* const invokeNode = dynamic_cast<const tree::InvokeNode*>(arg->getRawNode()->getNode(0));
-	const tree::BindNode* const bindNode = dynamic_cast<const tree::BindNode*>(arg->getRawNode()->getNode(0));
+	const tree::InvokeNode* const invokeNode = dynamic_cast<const tree::InvokeNode*>(arg->getRawNode()->index(0));
+	const tree::BindNode* const bindNode = dynamic_cast<const tree::BindNode*>(arg->getRawNode()->index(0));
 	if(invokeNode){
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def);
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def);
 		self->setSlot(invokeNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else if(bindNode){
@@ -136,8 +173,8 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 			machine.pushResult(self->getHeap().newUndefinedObject());
 			return;
 		}
-		std::vector<std::string> argList=bindNode->getObjectNode()->getNodeNames();
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def, argList);
+		std::vector<std::string> argList=bindNode->getObjectNode()->getSlotNames();
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def, argList);
 		self->setSlot(nameNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else{
@@ -148,12 +185,12 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
-	if(!arg || !arg->getIndexSize() < 2){
+	if(!arg || !arg->size() < 2){
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
-	std::string methodName = arg->getIndex(0)->toStringObject()->toString();
-	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->getNode(1), MethodNodeObject::def_kari);
+	std::string methodName = arg->index(0)->toStringObject()->toString();
+	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def_kari);
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
 }
@@ -161,14 +198,14 @@ void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const arg = machine.getArgument();
 	Object* const self = machine.getSelf();
-	std::string name = arg->getIndex(0)->toStringObject()->toString();
-	Object* const obj = arg->getIndex(1);
+	std::string name = arg->index(0)->toStringObject()->toString();
+	Object* const obj = arg->index(1);
 	machine.pushResult(self->setSlot(name, obj));
 }
 void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-	std::string name = machine.getArgument()->getIndex(0)->toStringObject()->toString();
+	std::string name = machine.getArgument()->index(0)->toStringObject()->toString();
 	Object* const obj = self->getSlot(name);
 	machine.pushResult(obj);
 }

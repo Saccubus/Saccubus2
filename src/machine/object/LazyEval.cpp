@@ -22,65 +22,86 @@ LazyEvalObject::~LazyEvalObject(){
 /*******************************************************************
  *  INDEXアクセス
  *******************************************************************/
-int LazyEvalObject::push(Object* const item)
+Object* LazyEvalObject::unshift(Object* const item)
 {
 	/* セットはできない。アクセスだけ。 */
-	return 0;
+	return this;
 }
-Object* LazyEvalObject::setIndex(size_t idx, Object* obj)
+Object* LazyEvalObject::push(Object* const item)
 {
 	/* セットはできない。アクセスだけ。 */
-	return obj;
+	return this;
 }
-Object* LazyEvalObject::getIndex(size_t idx)
+Object* LazyEvalObject::shift()
 {
-	if(Object::hasIndex(idx)){
-		return Object::getIndex(idx);
-	}else if(node->hasNode(idx)){
-		const ExprNode* const expr = node->getNode(idx);
+	/* セットはできない。アクセスだけ。 */
+	return index(0);
+}
+Object* LazyEvalObject::pop()
+{
+	/* セットはできない。アクセスだけ。 */
+	return index(size()-1);
+}
+Object* LazyEvalObject::index(size_t idx)
+{
+	if(Object::has(idx)){
+		return Object::index(idx);
+	}else if(node->has(idx)){
+		const ExprNode* const expr = node->index(idx);
 		Object* const result = machine.eval(expr);
-		return setIndex(idx, result);
+		return indexSet(idx, result);
 	}else{
 		return getHeap().newUndefinedObject();
 	}
 }
-bool LazyEvalObject::hasIndex(size_t idx)
+Object* LazyEvalObject::indexSet(size_t idx, Object* item)
 {
-	return node->hasNode(idx);
+	/* セットはできない。アクセスだけ。 */
+	return item;
 }
-size_t LazyEvalObject::getIndexSize()
+size_t LazyEvalObject::size()
 {
-	return node->getIndexedNodeSize();
+	return node->size();
+}
+bool LazyEvalObject::has(size_t idx)
+{
+	return node->has(idx);
 }
 
 /*******************************************************************
  *  KEYアクセス
  *******************************************************************/
-Object* LazyEvalObject::setSlot(const std::string& name, Object* const item)
+Object* LazyEvalObject::setSlot(const std::string& key, Object* const value)
 {
 	/* セットはできない。アクセスだけ。 */
-	return item;
+	return this;
 }
-Object* LazyEvalObject::getSlot(const std::string& name)
+Object* LazyEvalObject::getSlot(const std::string& key)
 {
-	if(Object::hasSlot(name)){ //すでに評価済み
-		return Object::getSlot(name);
-	}else if(node->hasNode(name)){ //未評価
-		const ExprNode* const expr = node->getNode(name);
+	if(Object::has(key)){ //すでに評価済み
+		return Object::getSlot(key);
+	}else if(node->has(key)){ //未評価
+		const ExprNode* const expr = node->getSlot(key);
 		Object* const result = machine.eval(expr);
-		return Object::setSlot(name, result);
+		Object::setSlot(key, result);
+		return result;
 	}else{
 		return getHeap().newUndefinedObject();
 	}
 }
-bool LazyEvalObject::hasSlot(const std::string& name)
+bool LazyEvalObject::has(const std::string& key)
 {
-	return node->hasNode(name);
+	return node->has(key);
 }
 std::vector<std::string> LazyEvalObject::getSlotNames()
 {
-	return node->getNodeNames();
+	return node->getSlotNames();
 }
+size_t LazyEvalObject::slotSize()
+{
+	return node->slotSize();
+}
+
 
 }
 

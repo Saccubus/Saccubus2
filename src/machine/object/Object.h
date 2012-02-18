@@ -37,16 +37,20 @@ public:
 public:
 	virtual void inject(Object* to);
 public: /* INDEXアクセス */
-	virtual int push(Object* const item);
-	virtual Object* getIndex(size_t idx);
-	virtual Object* setIndex(size_t idx, Object* obj);
-	virtual bool hasIndex(size_t idx);
-	virtual size_t getIndexSize();
+	virtual Object* unshift(Object* const item);
+	virtual Object* push(Object* const item);
+	virtual Object* shift();
+	virtual Object* pop();
+	virtual Object* index(size_t idx);
+	virtual Object* indexSet(size_t idx, Object* item);
+	virtual size_t size();
+	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Object* setSlot(const std::string& name, Object* const item);
-	virtual Object* getSlot(const std::string& name);
-	virtual bool hasSlot(const std::string& name);
+	virtual Object* setSlot(const std::string& key, Object* const value);
+	virtual Object* getSlot(const std::string& key);
+	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
+	virtual size_t slotSize();
 public: /* 基本操作 */
 	virtual bool isUndefined();
 	virtual void eval(Machine& machine);
@@ -72,16 +76,20 @@ public:
 	LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
 public: /* INDEXアクセス */
-	virtual int push(Object* const item);
-	virtual Object* getIndex(size_t idx);
-	virtual Object* setIndex(size_t idx, Object* obj);
-	virtual bool hasIndex(size_t idx);
-	virtual size_t getIndexSize();
-	virtual std::vector<std::string> getSlotNames();
+	virtual Object* unshift(Object* const item);
+	virtual Object* push(Object* const item);
+	virtual Object* shift();
+	virtual Object* pop();
+	virtual Object* index(size_t idx);
+	virtual Object* indexSet(size_t idx, Object* item);
+	virtual size_t size();
+	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Object* setSlot(const std::string& name, Object* const item);
-	virtual Object* getSlot(const std::string& name);
-	virtual bool hasSlot(const std::string& name);
+	virtual Object* setSlot(const std::string& key, Object* const value);
+	virtual Object* getSlot(const std::string& key);
+	virtual bool has(const std::string& key);
+	virtual std::vector<std::string> getSlotNames();
+	virtual size_t slotSize();
 public:
 	const tree::ObjectNode* const getRawNode() const{return node;};
 };

@@ -54,7 +54,7 @@ void TimeLine::dump(logging::Dumper& dumper) const
 void TimePoint::dump(logging::Dumper& dumper) const
 {
 	dumper.printName("TimePoint");
-	dumper.print("time: ", this->time);
+	dumper.print("time", this->time);
 	dumper.printNode("node", node);
 }
 

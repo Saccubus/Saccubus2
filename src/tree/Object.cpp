@@ -22,7 +22,7 @@ void ObjectNode::append(std::string name, shared_ptr<const ExprNode> exprNode){
 		exprMap.insert(std::pair<std::string, shared_ptr<const ExprNode> >(name, exprNode));
 	}
 }
-const ExprNode* ObjectNode::getNode(const std::string& name) const
+const ExprNode* ObjectNode::getSlot(const std::string& name) const
 {
 	std::map<std::string, shared_ptr<const ExprNode> >::const_iterator it = exprMap.find(name);
 	if(it != exprMap.end()){
@@ -31,16 +31,16 @@ const ExprNode* ObjectNode::getNode(const std::string& name) const
 		return 0;
 	}
 }
-const ExprNode* ObjectNode::getNode(const size_t idx) const
+const ExprNode* ObjectNode::index(const size_t idx) const
 {
-	if(hasNode(idx)){
+	if(has(idx)){
 		return exprList.at(idx).get();
 	}else{
 		return 0;
 	}
 }
 
-std::vector<std::string> ObjectNode::getNodeNames() const
+std::vector<std::string> ObjectNode::getSlotNames() const
 
 {
 	std::vector<std::string> names;
@@ -53,9 +53,13 @@ std::vector<std::string> ObjectNode::getNodeNames() const
 	return names;
 
 }
-size_t ObjectNode::getIndexedNodeSize() const
+size_t ObjectNode::size() const
 {
 	return exprList.size();
+}
+size_t ObjectNode::slotSize() const
+{
+	return exprMap.size();
 }
 }
 

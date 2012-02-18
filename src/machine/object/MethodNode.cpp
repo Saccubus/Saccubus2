@@ -33,7 +33,7 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 	{
 		size_t idx = 0;
 		for(std::vector<std::string>::const_iterator it = argList.begin();it!=argList.end();++it){
-			local->setSlot((*it), arg->getIndex(idx));
+			local->setSlot((*it), arg->index(idx));
 			++idx;
 		}
 	}
@@ -42,10 +42,10 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 	{
 		std::stringstream ss;
 		size_t idx=0;
-		while(arg->hasIndex(idx)){
+		while(arg->has(idx)){
 			ss.str("");
 			ss << "$" << (idx+1);
-			local->setSlot(ss.str(), arg->getIndex(idx));
+			local->setSlot(ss.str(), arg->index(idx));
 		}
 		std::vector<std::string> names = arg->getSlotNames();
 		for(std::vector<std::string>::const_iterator it = names.begin();it!=names.end();++it){
