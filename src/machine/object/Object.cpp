@@ -252,7 +252,7 @@ void Object::_method_join(NativeMethodObject* method, Machine& machine)
 	Object* const self = machine.getSelf();
 	std::stringstream ss;
 	Object* const arg = machine.getArgument();
-	const size_t max = arg->size();
+	const size_t max = self->size();
 	if(max <= 0){
 		machine.pushResult(self->getHeap().newStringObject(""));
 		return;
