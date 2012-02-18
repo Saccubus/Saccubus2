@@ -240,12 +240,22 @@ void Object::_method_sort(NativeMethodObject* method, Machine& machine)
 void Object::_method_sum(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-
+	double result = 0.0;
+	const size_t max = self->size();
+	for(size_t i=0;i<max;++i){
+		result += self->index(i)->toNumericObject()->toNumeric();
+	}
+	machine.pushResult(self->getHeap().newNumericObject(result));
 }
 void Object::_method_product(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-
+	double result = 1.0;
+	const size_t max = self->size();
+	for(size_t i=0;i<max;++i){
+		result *= self->index(i)->toNumericObject()->toNumeric();
+	}
+	machine.pushResult(self->getHeap().newNumericObject(result));
 }
 void Object::_method_join(NativeMethodObject* method, Machine& machine)
 {
