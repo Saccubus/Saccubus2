@@ -52,6 +52,30 @@ public:
     const std::string getOrigin() const{return origin;}
 };
 
+class Logger
+{
+public:
+	enum Level{
+		TRACE=0,
+		VERBOSE=1,
+		DEBUG=2,
+		WARNING=3,
+		ERROR=4
+	};
+public:
+	Logger(std::ostream& stream, Level level = VERBOSE);
+	virtual ~Logger();
+	void e(const std::string& tag, const std::string& str, const Location* loc=0);
+	void w(const std::string& tag, const std::string& str, const Location* loc=0);
+	void d(const std::string& tag, const std::string& str, const Location* loc=0);
+	void v(const std::string& tag, const std::string& str, const Location* loc=0);
+	void t(const std::string& tag, const std::string& str, const Location* loc=0);
+private:
+	void msg(Level level, const std::string& tag, const std::string& str, const Location* loc);
+	Level level;
+	std::ostream& stream;
+};
+
 class Dumper
 {
 public:
