@@ -11,6 +11,7 @@
 #include <sstream>
 #include <math.h>
 #include <stdlib.h>
+#include <unicode/unistr.h>
 
 namespace machine{
 
@@ -80,26 +81,84 @@ void StringObject::_method_lessThan(NativeMethodObject* method, Machine& machine
 void StringObject::_method_index(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	Object* const arg = machine.getArgument();
+	UnicodeString uni(self->value.c_str(), "utf-8");
+	size_t idx = static_cast<size_t>(arg->index(0)->toNumericObject()->toNumeric());
+	std::string result;
+	uni.tempSubString(idx, 1).toUTF8String(result);
+	machine.pushResult( self->getHeap().newStringObject(result) );
 }
 void StringObject::_method_size(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	UnicodeString uni(self->value.c_str(), "utf-8");
+	machine.pushResult( self->getHeap().newNumericObject(uni.length()) );
 }
 void StringObject::_method_indexOf(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	Object* const arg = machine.getArgument();
+	StringObject* const key = arg->index(0)->toStringObject();
+	size_t from = 0;
+	if(arg->size() > 1){
+		from = static_cast<size_t>(arg->index(1)->toNumericObject()->toNumeric());
+	}
+	UnicodeString uni(self->value.c_str(), "utf-8");
+	UnicodeString other(key->value.c_str(), "utf-8");
+	machine.pushResult( self->getHeap().newNumericObject(uni.indexOf(other, from)) );
 }
 void StringObject::_method_slice(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	UnicodeString uni(self->value.c_str(), "utf-8");
+	Object* const arg = machine.getArgument();
+	if(arg->size() <= 0){
+		machine.pushResult(self);
+	}else if(arg->size() == 1){
+		UnicodeString uni(self->value.c_str(), "utf-8");
+		int start=static_cast<int>(arg->index(0)->toNumericObject()->toNumeric());
+		if(start < 0){
+			start = uni.length()+start;
+		}
+		std::string result;
+		uni.tempSubString(start).toUTF8String(result);
+		machine.pushResult( self->getHeap().newStringObject(result) );
+	}else{
+		int start=static_cast<int>(arg->index(0)->toNumericObject()->toNumeric());
+		if(start < 0){
+			start = uni.length()+start;
+		}
+		const int limit=static_cast<int>(arg->index(1)->toNumericObject()->toNumeric());
+		std::string result;
+		uni.tempSubString(start, limit).toUTF8String(result);
+		machine.pushResult( self->getHeap().newStringObject(result) );
+	}
 }
 void StringObject::_method_toInteger(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	char* ptr;
+	const size_t len = self->toString().size();
+	const char* str = self->toString().c_str();
+	double num = strtol( str, &ptr, 0);
+	if(ptr < &str[len]){
+		machine.pushResult( self->getHeap().newNumericObject(NAN) );
+	}else{
+		machine.pushResult( self->getHeap().newNumericObject(num) );
+	}
 }
 void StringObject::_method_toFloat(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
+	char* ptr;
+	const size_t len = self->toString().size();
+	const char* str = self->toString().c_str();
+	double num = strtod(str, &ptr);
+	if(ptr < &str[len]){
+		machine.pushResult( self->getHeap().newNumericObject(NAN) );
+	}else{
+		machine.pushResult( self->getHeap().newNumericObject(num) );
+	}
 }
 void StringObject::_method_eval(NativeMethodObject* method, Machine& machine)
 {
