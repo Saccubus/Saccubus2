@@ -41,5 +41,43 @@ const std::string& StringObject::toString()
 	return value;
 }
 
+void StringObject::_method_equals(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() == other->toString() ) );
+}
+void StringObject::_method_notEquals(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() != other->toString() ) );
+}
+void StringObject::_method_notLessThan(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() >= other->toString() ) );
+}
+void StringObject::_method_notGreaterThan(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() <= other->toString() ) );
+}
+void StringObject::_method_greaterThan(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() > other->toString() ) );
+}
+void StringObject::_method_less(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newBooleanObject( self->toString() < other->toString() ) );
+}
+
+
 }
 

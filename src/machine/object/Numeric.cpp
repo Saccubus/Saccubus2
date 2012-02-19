@@ -94,5 +94,42 @@ void NumericObject::_method_clone(NativeMethodObject* method, Machine& machine)
 	machine.pushResult(newObj);
 }
 
+void NumericObject::_method_equals(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) < EPSILON ) );
+}
+void NumericObject::_method_notEquals(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) >= EPSILON ) );
+}
+void NumericObject::_method_notLessThan(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() >= other->toNumeric()) );
+}
+void NumericObject::_method_notGreaterThan(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() <= other->toNumeric()) );
+}
+void NumericObject::_method_greaterThan(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() > other->toNumeric()) );
+}
+void NumericObject::_method_less(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() < other->toNumeric()) );
+}
+
 
 }

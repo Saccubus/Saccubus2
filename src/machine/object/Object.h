@@ -162,6 +162,13 @@ public:
 	NumericObject* toNumericObject();
 	BooleanObject* toBooleanObject();
 	const std::string& toString();
+public:
+	static void _method_equals(NativeMethodObject* method, Machine& machine);
+	static void _method_notEquals(NativeMethodObject* method, Machine& machine);
+	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
+	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
+	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
+	static void _method_less(NativeMethodObject* method, Machine& machine);
 };
 class BooleanObject : public LiteralObject
 {
@@ -174,6 +181,11 @@ public:
 	NumericObject* toNumericObject();
 	BooleanObject* toBooleanObject();
 	bool toBool();
+public:
+	static void _method_and(NativeMethodObject* method, Machine& machine);
+	static void _method_or(NativeMethodObject* method, Machine& machine);
+	static void _method_not(NativeMethodObject* method, Machine& machine);
+	static void _method_alternate(NativeMethodObject* method, Machine& machine);
 };
 class NumericObject : public LiteralObject
 {
@@ -198,6 +210,14 @@ public:
 	static void _method_divide(NativeMethodObject* method, Machine& machine);
 	static void _method_modulo(NativeMethodObject* method, Machine& machine);
 	static void _method_clone(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_equals(NativeMethodObject* method, Machine& machine);
+	static void _method_notEquals(NativeMethodObject* method, Machine& machine);
+	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
+	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
+	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
+	static void _method_less(NativeMethodObject* method, Machine& machine);
+
 };
 
 class UndefinedObject : public Object

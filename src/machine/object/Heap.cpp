@@ -65,8 +65,36 @@ void ObjectHeap::setWorld()
 		baseNumericObjectBuiltinMethod.insert(_pair("multiply", NativeMethodObject(*this, 0, NumericObject::_method_multiply)));
 		baseNumericObjectBuiltinMethod.insert(_pair("divide", NativeMethodObject(*this, 0, NumericObject::_method_divide)));
 		baseNumericObjectBuiltinMethod.insert(_pair("modulo", NativeMethodObject(*this, 0, NumericObject::_method_modulo)));
+		//
+		baseNumericObjectBuiltinMethod.insert(_pair("equals", NativeMethodObject(*this, 0, NumericObject::_method_equals)));
+		baseNumericObjectBuiltinMethod.insert(_pair("notEquals", NativeMethodObject(*this, 0, NumericObject::_method_notEquals)));
+		baseNumericObjectBuiltinMethod.insert(_pair("notLessThan", NativeMethodObject(*this, 0, NumericObject::_method_notLessThan)));
+		baseNumericObjectBuiltinMethod.insert(_pair("notGreaterThan", NativeMethodObject(*this, 0, NumericObject::_method_notGreaterThan)));
+		baseNumericObjectBuiltinMethod.insert(_pair("greaterThan", NativeMethodObject(*this, 0, NumericObject::_method_greaterThan)));
+		baseNumericObjectBuiltinMethod.insert(_pair("less", NativeMethodObject(*this, 0, NumericObject::_method_less)));
 		injectMethods(baseNumericObject, baseObjectBuiltinMethod);
 		injectMethods(baseNumericObject, baseNumericObjectBuiltinMethod);
+	}
+	{
+		baseStringObjectBuiltinMethod.insert(_pair("equals", NativeMethodObject(*this, 0, StringObject::_method_equals)));
+		baseStringObjectBuiltinMethod.insert(_pair("notEquals", NativeMethodObject(*this, 0, StringObject::_method_notEquals)));
+		baseStringObjectBuiltinMethod.insert(_pair("notLessThan", NativeMethodObject(*this, 0, StringObject::_method_notLessThan)));
+		baseStringObjectBuiltinMethod.insert(_pair("notGreaterThan", NativeMethodObject(*this, 0, StringObject::_method_notGreaterThan)));
+		baseStringObjectBuiltinMethod.insert(_pair("greaterThan", NativeMethodObject(*this, 0, StringObject::_method_greaterThan)));
+		baseStringObjectBuiltinMethod.insert(_pair("less", NativeMethodObject(*this, 0, StringObject::_method_less)));
+		injectMethods(baseStringObject, baseObjectBuiltinMethod);
+		injectMethods(baseStringObject, baseStringObjectBuiltinMethod);
+	}
+	{
+		baseBooleanObjectBuiltinMethod.insert(_pair("or", NativeMethodObject(*this, 0, BooleanObject::_method_or)));
+		baseBooleanObjectBuiltinMethod.insert(_pair("not", NativeMethodObject(*this, 0, BooleanObject::_method_not)));
+		baseBooleanObjectBuiltinMethod.insert(_pair("and", NativeMethodObject(*this, 0, BooleanObject::_method_and)));
+		baseBooleanObjectBuiltinMethod.insert(_pair("alternate", NativeMethodObject(*this, 0, BooleanObject::_method_alternate)));
+		baseBooleanObjectBuiltinMethod.insert(_pair("alt", NativeMethodObject(*this, 0, BooleanObject::_method_alternate)));
+		injectMethods(trueObject, baseObjectBuiltinMethod);
+		injectMethods(trueObject, baseBooleanObjectBuiltinMethod);
+		injectMethods(falseObject, baseObjectBuiltinMethod);
+		injectMethods(falseObject, baseBooleanObjectBuiltinMethod);
 	}
 }
 

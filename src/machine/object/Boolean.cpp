@@ -48,6 +48,35 @@ bool BooleanObject::toBool()
 {
 	return value;
 }
+
+void BooleanObject::_method_and(NativeMethodObject* method, Machine& machine)
+{
+	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
+	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other->toBool()));
+}
+void BooleanObject::_method_or(NativeMethodObject* method, Machine& machine)
+{
+	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
+	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other->toBool()));
+}
+void BooleanObject::_method_not(NativeMethodObject* method, Machine& machine)
+{
+	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	machine.pushResult(self->getHeap().newBooleanObject(!self->toBool()));
+}
+void BooleanObject::_method_alternate(NativeMethodObject* method, Machine& machine)
+{
+	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	if(self->toBool()){
+		machine.pushResult(machine.getArgument()->index(0));
+	}else{
+		machine.pushResult(machine.getArgument()->index(1));
+	}
+}
+
+
 }
 
 
