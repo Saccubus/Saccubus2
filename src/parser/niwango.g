@@ -188,7 +188,7 @@ expr1 returns [shared_ptr<const ExprNode> result]
 		resultNode=$fst.result;
 	}
 	(
-		tok=('*' {op="multiply";} | '/' {op="divide";} | '%' {op="modulo";})
+		(tok='*' {op="multiply";} | tok='/' {op="divide";} | tok='%' {op="modulo";})
 		nxt=term
 		{
 			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, op, $nxt.result));

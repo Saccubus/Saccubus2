@@ -26,25 +26,20 @@ private:
 	std::vector<Object*> *to;
 	unsigned int count;
 private:
-	void injectMethods(Object& obj, std::map<std::string, NativeMethodObject>& methods);
+	void injectMethods(Object* const obj, std::map<std::string, NativeMethodObject>& methods);
 	void setWorld();
 	/* これらの関数はGCで管理しない */
-	Object rawObject;
-	std::map<std::string, NativeMethodObject> rawObjectBuiltinMethod;
-	Object baseObject;
-	std::map<std::string, NativeMethodObject> baseObjectBuiltinMethod;
-
-	StringObject baseStringObject;
-	std::map<std::string, NativeMethodObject> baseStringObjectBuiltinMethod;
-
-	NumericObject baseNumericObject;
-	std::map<std::string, NativeMethodObject> baseNumericObjectBuiltinMethod;
-
 	BooleanObject trueObject;
 	BooleanObject falseObject;
+	UndefinedObject undefinedObject;
+	std::map<std::string, NativeMethodObject> rawObjectBuiltinMethod;
+	std::map<std::string, NativeMethodObject> baseObjectBuiltinMethod;
+	std::map<std::string, NativeMethodObject> baseLambdaObjectBuiltinMethod;
+	std::map<std::string, NativeMethodObject> baseLambdaScopeObjectBuiltinMethod;
+	std::map<std::string, NativeMethodObject> baseStringObjectBuiltinMethod;
+	std::map<std::string, NativeMethodObject> baseNumericObjectBuiltinMethod;
 	std::map<std::string, NativeMethodObject> baseBooleanObjectBuiltinMethod;
 
-	UndefinedObject undefinedObject;
 
 	/*GCで管理するオブジェクトを登録*/
 	unsigned int createHash();
@@ -54,11 +49,13 @@ public:
 	~ObjectHeap();
 public:
 	Object* newRawObject();
+	LambdaScopeObject* newLambdaScopeObject(Object* const arg);
 	Object* newObject();
 public:
 	LazyEvalObject* newLazyEvalObject(Machine& machine, const tree::ObjectNode* objNode);
 	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
 	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
+	LambdaObject* newLambdaObject(Object* const scope, const tree::Node* node);
 public:
 	Object* newArray(Object* obj, ...);
 public:

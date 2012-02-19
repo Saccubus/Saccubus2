@@ -150,6 +150,26 @@ public:
 	virtual void eval(Machine& machine);
 };
 
+class LambdaObject : public MethodObject
+{
+private:
+	const tree::Node* const node;
+public:
+	LambdaObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node);
+	virtual ~LambdaObject();
+public:
+	static void _method_index(NativeMethodObject* method, Machine& machine);
+};
+
+class LambdaScopeObject : public Object
+{
+public:
+	LambdaScopeObject(ObjectHeap& heap, const unsigned int hash, Object* const arg);
+	virtual ~LambdaScopeObject();
+public:
+	static void _method_atmark(NativeMethodObject* method, Machine& machine);
+};
+
 //-----------------------------------------------------------------------------
 
 class LiteralObject : public Object

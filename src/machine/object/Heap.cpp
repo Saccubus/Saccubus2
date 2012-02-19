@@ -15,10 +15,6 @@ ObjectHeap::ObjectHeap()
 :from(&area1)
 ,to(&area2)
 ,count(0)
-,rawObject(*this, 0)
-,baseObject(*this, 0)
-,baseStringObject(*this, 0, "")
-,baseNumericObject(*this, 0, NAN)
 ,trueObject(*this, 0, true)
 ,falseObject(*this, 0, false)
 ,undefinedObject(*this, 0)
@@ -26,11 +22,11 @@ ObjectHeap::ObjectHeap()
 	setWorld();
 }
 
-void ObjectHeap::injectMethods(Object& obj, std::map<std::string, NativeMethodObject>& methods)
+void ObjectHeap::injectMethods(Object* const obj, std::map<std::string, NativeMethodObject>& methods)
 {
 	typedef std::map<std::string, NativeMethodObject>::iterator _it;
 	for(_it it = methods.begin(); it!=methods.end();++it){
-		obj.setSlot(it->first, &it->second);
+		obj->setSlot(it->first, &it->second);
 	}
 }
 
@@ -40,7 +36,6 @@ void ObjectHeap::setWorld()
 	{
 		rawObjectBuiltinMethod.insert(_pair("getSlot", NativeMethodObject(*this, 0, Object::_method_getSlot)));
 		rawObjectBuiltinMethod.insert(_pair("setSlot", NativeMethodObject(*this, 0, Object::_method_setSlot)));
-		injectMethods(rawObject, rawObjectBuiltinMethod);
 	}
 	{
 		baseObjectBuiltinMethod.insert(_pair("def", NativeMethodObject(*this, 0, Object::_method_def)));
@@ -61,8 +56,10 @@ void ObjectHeap::setWorld()
 		baseObjectBuiltinMethod.insert(_pair("if", NativeMethodObject(*this, 0, Object::_method_if)));
 		baseObjectBuiltinMethod.insert(_pair("while_kari", NativeMethodObject(*this, 0, Object::_method_while_kari)));
 		baseObjectBuiltinMethod.insert(_pair("lambda", NativeMethodObject(*this, 0, Object::_method_lambda)));
-		injectMethods(baseObject, rawObjectBuiltinMethod);
-		injectMethods(baseObject, baseObjectBuiltinMethod);
+	}
+	{
+		baseLambdaObjectBuiltinMethod.insert(_pair("index", NativeMethodObject(*this, 0, LambdaObject::_method_index)));
+		baseLambdaScopeObjectBuiltinMethod.insert(_pair("@", NativeMethodObject(*this, 0, LambdaScopeObject::_method_atmark)));
 	}
 	{
 		baseNumericObjectBuiltinMethod.insert(_pair("plus", NativeMethodObject(*this, 0, NumericObject::_method_plus)));
@@ -87,9 +84,6 @@ void ObjectHeap::setWorld()
 		baseNumericObjectBuiltinMethod.insert(_pair("sin", NativeMethodObject(*this, 0, NumericObject::_method_sin)));
 		baseNumericObjectBuiltinMethod.insert(_pair("cos", NativeMethodObject(*this, 0, NumericObject::_method_cos)));
 		baseNumericObjectBuiltinMethod.insert(_pair("pow", NativeMethodObject(*this, 0, NumericObject::_method_pow)));
-		injectMethods(baseNumericObject, rawObjectBuiltinMethod);
-		injectMethods(baseNumericObject, baseObjectBuiltinMethod);
-		injectMethods(baseNumericObject, baseNumericObjectBuiltinMethod);
 	}
 	{
 		baseStringObjectBuiltinMethod.insert(_pair("equals", NativeMethodObject(*this, 0, StringObject::_method_equals)));
@@ -108,10 +102,6 @@ void ObjectHeap::setWorld()
 		baseStringObjectBuiltinMethod.insert(_pair("eval", NativeMethodObject(*this, 0, StringObject::_method_eval)));
 
 		baseStringObjectBuiltinMethod.insert(_pair("add", NativeMethodObject(*this, 0, StringObject::_method_add)));
-
-		injectMethods(baseStringObject, rawObjectBuiltinMethod);
-		injectMethods(baseStringObject, baseObjectBuiltinMethod);
-		injectMethods(baseStringObject, baseStringObjectBuiltinMethod);
 	}
 	{
 		baseBooleanObjectBuiltinMethod.insert(_pair("or", NativeMethodObject(*this, 0, BooleanObject::_method_or)));
@@ -119,12 +109,12 @@ void ObjectHeap::setWorld()
 		baseBooleanObjectBuiltinMethod.insert(_pair("and", NativeMethodObject(*this, 0, BooleanObject::_method_and)));
 		baseBooleanObjectBuiltinMethod.insert(_pair("alternate", NativeMethodObject(*this, 0, BooleanObject::_method_alternate)));
 		baseBooleanObjectBuiltinMethod.insert(_pair("alt", NativeMethodObject(*this, 0, BooleanObject::_method_alternate)));
-		injectMethods(trueObject, rawObjectBuiltinMethod);
-		injectMethods(trueObject, baseObjectBuiltinMethod);
-		injectMethods(trueObject, baseBooleanObjectBuiltinMethod);
-		injectMethods(falseObject, rawObjectBuiltinMethod);
-		injectMethods(falseObject, baseObjectBuiltinMethod);
-		injectMethods(falseObject, baseBooleanObjectBuiltinMethod);
+		injectMethods(&trueObject, rawObjectBuiltinMethod);
+		injectMethods(&trueObject, baseObjectBuiltinMethod);
+		injectMethods(&trueObject, baseBooleanObjectBuiltinMethod);
+		injectMethods(&falseObject, rawObjectBuiltinMethod);
+		injectMethods(&falseObject, baseObjectBuiltinMethod);
+		injectMethods(&falseObject, baseBooleanObjectBuiltinMethod);
 	}
 }
 
@@ -136,7 +126,8 @@ ObjectHeap::~ObjectHeap()
 Object* ObjectHeap::newObject()
 {
 	Object* obj = new Object(*this, createHash());
-	baseObject.inject(obj);
+	injectMethods(obj, rawObjectBuiltinMethod);
+	injectMethods(obj, baseObjectBuiltinMethod);
 	registObject(obj);
 	return obj;
 }
@@ -144,7 +135,14 @@ Object* ObjectHeap::newObject()
 Object* ObjectHeap::newRawObject()
 {
 	Object* obj = new Object(*this, createHash());
-	rawObject.inject(obj);
+	injectMethods(obj, rawObjectBuiltinMethod);
+	registObject(obj);
+	return obj;
+}
+LambdaScopeObject* ObjectHeap::newLambdaScopeObject(Object* const arg)
+{
+	LambdaScopeObject* obj = new LambdaScopeObject(*this, createHash(), arg);
+	injectMethods(obj, baseLambdaScopeObjectBuiltinMethod);
 	registObject(obj);
 	return obj;
 }
@@ -170,7 +168,9 @@ Object* ObjectHeap::newArray(Object* obj, ...)
 StringObject* ObjectHeap::newStringObject(const std::string & str)
 {
 	StringObject* obj = new StringObject(*this, createHash(), str);
-	baseStringObject.inject(obj);
+	injectMethods(obj, rawObjectBuiltinMethod);
+	injectMethods(obj, baseObjectBuiltinMethod);
+	injectMethods(obj, baseStringObjectBuiltinMethod);
 	registObject(obj);
 	return obj;
 }
@@ -191,7 +191,9 @@ BooleanObject* ObjectHeap::newBooleanObject(const bool val)
 NumericObject* ObjectHeap::newNumericObject(const double num)
 {
 	NumericObject* obj = new NumericObject(*this, createHash(), num);
-	baseNumericObject.inject(obj);
+	injectMethods(obj, rawObjectBuiltinMethod);
+	injectMethods(obj, baseObjectBuiltinMethod);
+	injectMethods(obj, baseNumericObjectBuiltinMethod);
 	registObject(obj);
 	return obj;
 }
@@ -217,6 +219,14 @@ MethodNodeObject* ObjectHeap::newMethodNodeObject(Object* const scope, const tre
 MethodNodeObject* ObjectHeap::newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule)
 {
 	MethodNodeObject* const obj = new MethodNodeObject(*this, createHash(), scope, node, rule);
+	registObject(obj);
+	return obj;
+}
+
+LambdaObject* ObjectHeap::newLambdaObject(Object* const scope, const tree::Node* node)
+{
+	LambdaObject* const obj = new LambdaObject(*this, createHash(), scope, node);
+	injectMethods(obj, baseLambdaObjectBuiltinMethod);
 	registObject(obj);
 	return obj;
 }

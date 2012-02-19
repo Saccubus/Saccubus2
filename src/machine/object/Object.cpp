@@ -191,7 +191,7 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
-	if(!arg || !arg->size() < 2){
+	if(!arg || arg->size() < 2){
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
@@ -346,6 +346,12 @@ void Object::_method_while_kari(NativeMethodObject* method, Machine& machine)
 void Object::_method_lambda(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
+	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	if(!arg || arg->size() < 1){
+		machine.pushResult(self->getHeap().newUndefinedObject());
+		return;
+	}
+	machine.pushResult(self->getHeap().newLambdaObject(machine.getLocal(), arg->getRawNode()->index(0)));
 }
 
 }
