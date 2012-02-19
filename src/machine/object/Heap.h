@@ -29,6 +29,8 @@ private:
 	void injectMethods(Object& obj, std::map<std::string, NativeMethodObject>& methods);
 	void setWorld();
 	/* これらの関数はGCで管理しない */
+	Object rawObject;
+	std::map<std::string, NativeMethodObject> rawObjectBuiltinMethod;
 	Object baseObject;
 	std::map<std::string, NativeMethodObject> baseObjectBuiltinMethod;
 
@@ -50,11 +52,13 @@ private:
 public:
 	ObjectHeap();
 	~ObjectHeap();
+public:
+	Object* newRawObject();
 	Object* newObject();
 public:
 	LazyEvalObject* newLazyEvalObject(Machine& machine, const tree::ObjectNode* objNode);
-	MethodNodeObject* newMethodNodeObject(const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
-	MethodNodeObject* newMethodNodeObject(const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
+	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
+	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
 public:
 	Object* newArray(Object* obj, ...);
 public:

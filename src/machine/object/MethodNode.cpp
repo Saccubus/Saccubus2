@@ -13,13 +13,15 @@
 #include "../../tree/Node.h"
 
 namespace machine{
-MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
+MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
 :MethodObject(heap, hash), node(node),argList(argList), rule(rule)
 {
+	Object::setSlot("$$scope", scope);
 }
-MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, const tree::Node* const node, LocalScopeRule rule)
+MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule)
 :MethodObject(heap, hash), node(node),rule(rule)
 {
+	Object::setSlot("$$scope", scope);
 }
 MethodNodeObject::~MethodNodeObject()
 {
@@ -63,9 +65,9 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 
 void MethodNodeObject::eval(Machine& machine)
 {
-	Object* const local = getHeap().newObject();
+	Object* const local = getHeap().newRawObject();
 	mergeArg(machine, local, machine.getArgument());
-	machine.enterLocal(local);
+	machine.enterLocal(Object::getSlot("$$scope"), local);
 	machine.pushResult(machine.eval(this->node));
 	machine.endLocal(local);
 }

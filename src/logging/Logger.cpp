@@ -91,6 +91,7 @@ void Logger::msg(enum Level level, const std::string& tag, const Location* loc, 
 		ss << buff << std::endl;
 	}
 	stream << ss.str();
+	stream << std::flush;
 }
 
 }

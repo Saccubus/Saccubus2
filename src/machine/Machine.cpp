@@ -20,11 +20,11 @@ static const std::string TAG("Machine");
 
 Machine::Machine(logging::Logger& log)
 :heap()
-,topLevel(heap.newObject())
 ,log(log)
 {
-	localStack.push(topLevel);
+	Object* const topLevel(heap.newObject());
 	selfStack.push(topLevel);
+	this->enterLocal(heap.newUndefinedObject(), topLevel);
 }
 
 Machine::~Machine()
@@ -51,17 +51,19 @@ Object* Machine::getTopLevel(){
 }
 Object* Machine::getLocal()
 {
-	return localStack.top();
+	return scopeStack.top();
 }
-void Machine::enterLocal(Object* local)
+void Machine::enterLocal(Object* parent, Object* local)
 {
-	localStack.push(local);
+	local->setSlot("$$parent", parent);
+	scopeStack.push(local);
 }
 void Machine::endLocal(Object* local)
 {
-	if(localStack.pop() != local){
+	if(scopeStack.top() != local){
 		this->log.e(TAG, 0, "[BUG] calling \"end local\" was forgotten!");
 	}
+	scopeStack.pop();
 }
 
 Object* Machine::resolveScope(const std::string& name, const bool isLocal)
@@ -70,16 +72,10 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 		this->log.t(TAG, 0, "Scope Resolved: self");
 		return getSelf();
 	}else if(name.compare("local") == 0){
-		if(isLocal){
-			this->log.t(TAG, 0, "Scope Resolved: \"local\"");
-			return getLocal();
-		}else{
-			this->log.t(TAG, 0, "Scope Resolved: \"local\"(bottom)");
-			return localStack.bottom();
-		}
+		this->log.t(TAG, 0, "Scope Resolved: \"local\"");
+		return getLocal();
 	}else if(isLocal){
-		for(Stack<Object*>::ReverseIterator it = localStack.rbegin();it!=localStack.rend();++it){
-			Object* const obj = *it;
+		for(Object* obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
 			Object* const slot = obj->getSlot(name);
 			if(!slot->isUndefined()){
 				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), obj->toStringObject()->toString().c_str());
@@ -316,7 +312,7 @@ void Machine::walkImpl(const InvokeNode & node)
 		Object* const destObj = eval(node.getExprNode());
 		pushResult(send(destObj, node.getMessageName(), getArgument()));
 	}else{
-		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName(), getArgument()));
+		pushResult(send(resolveScope(node.getMessageName(), true), node.getMessageName(), getArgument()));
 	}
 }
 void Machine::walkImpl(const ContNode & node)

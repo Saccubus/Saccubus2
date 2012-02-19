@@ -131,11 +131,11 @@ StringObject* Object::toStringObject()
 	std::stringstream ss;
 	ss << "<< Object: " << getHash() << ">> {";
 	for(MapIterator it = objectMap.begin();it != objectMap.end();++it){
-		ss << std::endl << it->first << " : " << it->second->toStringObject()->toString();
+		ss << std::endl << it->first << " : " << "<<Object"<< it->second->getHash() <<">>";
 	}
 	int cnt=0;
 	for(Iterator it = objectList.begin();it != objectList.end();++it){
-		ss << std::endl << "$" << cnt << " : " << (*it)->toStringObject()->toString();
+		ss << std::endl << "$" << cnt << " : " << (*it)->getHash();
 		++cnt;
 	}
 	ss << "}";
@@ -170,7 +170,7 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 	const tree::InvokeNode* const invokeNode = dynamic_cast<const tree::InvokeNode*>(arg->getRawNode()->index(0));
 	const tree::BindNode* const bindNode = dynamic_cast<const tree::BindNode*>(arg->getRawNode()->index(0));
 	if(invokeNode){
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def);
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def);
 		self->setSlot(invokeNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else if(bindNode){
@@ -180,7 +180,7 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 			return;
 		}
 		std::vector<std::string> argList=bindNode->getObjectNode()->getSlotNames();
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def, argList);
+		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def, argList);
 		self->setSlot(nameNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else{
@@ -196,7 +196,7 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 		return;
 	}
 	std::string methodName = arg->index(0)->toStringObject()->toString();
-	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(arg->getRawNode()->index(1), MethodNodeObject::def_kari);
+	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def_kari);
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
 }

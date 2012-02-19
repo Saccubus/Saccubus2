@@ -22,9 +22,8 @@ private:
 	ObjectHeap heap;
 	Stack<Object*> argStack;
 	Stack<Object*> selfStack;
-	Stack<Object*> localStack;
 	Stack<Object*> resultStack;
-	Object* topLevel;
+	Stack<Object*> scopeStack;
 public:
 	Machine(logging::Logger& log);
 	virtual ~Machine();
@@ -37,7 +36,7 @@ public: //for Object
 	Object* getLocal();
 	Object* getSelf();
 	Object* getTopLevel();
-	void enterLocal(Object* local);
+	void enterLocal(Object* parent, Object* local);
 	void endLocal(Object* local);
 protected: //for tree
 	void walkIn();
@@ -56,7 +55,7 @@ protected: //for tree
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	Object* resolveScope(const std::string& name, const bool isLocal=true);
+	Object* resolveScope(const std::string& name, const bool isLocal);
 };
 
 } /* namespace machine */
