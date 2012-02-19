@@ -155,13 +155,16 @@ void Machine::walkImpl(const AssignNode & node)
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 		Object* const arg = heap.newArray(nameObj,rhsObj, 0);
 
-		pushResult(send(destObj, "setSlot", arg));
+		send(destObj, "setSlot", arg);
+		pushResult(rhsObj);
 	}else if(idxNode){
 		this->log.t(TAG, &idxNode->location(), "Evaluating assign node with index access node.");
 		Object* const destObj = eval(idxNode->getExprNode());
 		Object* const idxObj = eval(idxNode->getObjectNode());
 		Object* const rhsObj = eval(node.getRightNode());
-		pushResult(send(destObj, "indexSet", heap.newArray(idxObj->index(0), rhsObj, 0)));
+
+		send(destObj, "indexSet", heap.newArray(idxObj->index(0), rhsObj, 0));
+		pushResult(rhsObj);
 	}else{
 		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid assign node.");
 		pushResult(heap.newUndefinedObject());
@@ -186,7 +189,8 @@ void Machine::walkImpl(const OpAssignNode & node)
 		Object* const operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
 		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
-		pushResult(send(destObj, "setSlot", heap.newArray(nameObj, result, 0)));
+		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
+		pushResult(result);
 	}else if(idxNode){
 		this->log.t(TAG, &idxNode->location(), "Evaluating op assign node with index access node.");
 		Object* const destObj = eval(idxNode->getExprNode());
@@ -196,7 +200,8 @@ void Machine::walkImpl(const OpAssignNode & node)
 		Object* const operandObj = send(destObj, "index", idxObj);
 		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
-		pushResult(send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0)));
+		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
+		pushResult(result);
 	}else{
 		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid op assign node.");
 		pushResult(heap.newUndefinedObject());
@@ -215,9 +220,10 @@ void Machine::walkImpl(const BindNode & node)
 }
 void Machine::walkImpl(const PostOpNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating post op node.");
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
+	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
+		this->log.t(TAG, &node.location(), "Evaluating post op node with invoke node.");
 		Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -231,15 +237,28 @@ void Machine::walkImpl(const PostOpNode & node)
 
 		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 		pushResult(operandObj);
+	}else if(idxNode){
+		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node.");
+		Object* const destObj = eval(idxNode->getExprNode());
+		Object* const idxObj = eval(idxNode->getObjectNode());
+
+		Object* const operandObj = send(destObj, "index", idxObj);
+		Object* const result = send(operandObj, node.getOp());
+
+		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
+
+		pushResult(operandObj);
 	}else{
+		this->log.w(TAG, &node.location(), "Invalid post op node.");
 		pushResult(eval(node.getExprNode()));
 	}
 }
 void Machine::walkImpl(const PreOpNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating pre op node.");
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
+	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
+		this->log.t(TAG, &node.location(), "Evaluating pre op node with invoke node.");
 		Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -250,9 +269,22 @@ void Machine::walkImpl(const PreOpNode & node)
 
 		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
 		Object* const result = send(operandObj, node.getOp());
+		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 
-		pushResult(send(destObj, "setSlot", heap.newArray(nameObj, result, 0)));
+		pushResult(result);
+	}else if(idxNode){
+		this->log.t(TAG, &node.location(), "Evaluating pre op node with index access node.");
+		Object* const destObj = eval(idxNode->getExprNode());
+		Object* const idxObj = eval(idxNode->getObjectNode());
+
+		Object* const operandObj = send(destObj, "index", idxObj);
+		Object* const result = send(operandObj, node.getOp());
+
+		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
+
+		pushResult(operandObj);
 	}else{
+		this->log.w(TAG, &node.location(), "Invalid pre op node.");
 		pushResult(eval(node.getExprNode()));
 	}
 }
@@ -267,7 +299,7 @@ void Machine::walkImpl(const ObjectNode & node)
 {
 	this->log.t(TAG, &node.location(), "Evaluating object node.");
 	Object* const obj = heap.newObject();
-	//評価していない項目について、すべて評価する
+
 	const size_t argc = node.size();
 	for(size_t i=0;i<argc;++i){
 		obj->push(eval(node.index(i)));
