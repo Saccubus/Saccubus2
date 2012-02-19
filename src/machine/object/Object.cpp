@@ -302,6 +302,46 @@ void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
 	machine.pushResult(obj);
 }
 void Object::_method_clone(NativeMethodObject* method, Machine& machine){
+	Object* const self = machine.getSelf();
+}
+
+void Object::_method_if(NativeMethodObject* method, Machine& machine)
+{
+	Object* const arg = machine.getArgument();
+	bool result;
+	if(arg->has("when")){
+		result = arg->getSlot("when")->toBooleanObject()->toBool();
+	}else{
+		result = arg->index(0)->toBooleanObject()->toBool();
+	}
+	if(result){
+		machine.pushResult(arg->getSlot("then"));
+	}else{
+		machine.pushResult(arg->getSlot("else"));
+	}
+}
+void Object::_method_while_kari(NativeMethodObject* method, Machine& machine)
+{
+	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	if(arg){
+		const tree::ObjectNode* const node = arg->getRawNode();
+		if(node->size() < 2){
+			machine.pushResult(arg->getHeap().newUndefinedObject());
+			return;
+		}
+		Object* obj = arg->getHeap().newUndefinedObject();
+		while(machine.eval(node->index(0))->toBooleanObject()->toBool()){
+			obj = machine.eval(node->index(1));
+		}
+		machine.pushResult(obj);
+	}else{
+		machine.log.w("Machine", 0, "Invalid while_kari");
+		machine.pushResult(arg->getHeap().newUndefinedObject());
+	}
+}
+void Object::_method_lambda(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
 }
 
 }

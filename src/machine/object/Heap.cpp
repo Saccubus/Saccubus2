@@ -53,6 +53,10 @@ void ObjectHeap::setWorld()
 		baseObjectBuiltinMethod.insert(_pair("getSlot", NativeMethodObject(*this, 0, Object::_method_getSlot)));
 		baseObjectBuiltinMethod.insert(_pair("setSlot", NativeMethodObject(*this, 0, Object::_method_setSlot)));
 		baseObjectBuiltinMethod.insert(_pair("clone", NativeMethodObject(*this, 0, Object::_method_clone)));
+		//
+		baseObjectBuiltinMethod.insert(_pair("if", NativeMethodObject(*this, 0, Object::_method_if)));
+		baseObjectBuiltinMethod.insert(_pair("while_kari", NativeMethodObject(*this, 0, Object::_method_while_kari)));
+		baseObjectBuiltinMethod.insert(_pair("lambda", NativeMethodObject(*this, 0, Object::_method_lambda)));
 		injectMethods(baseObject, baseObjectBuiltinMethod);
 	}
 	{

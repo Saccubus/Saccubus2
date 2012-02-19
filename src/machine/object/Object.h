@@ -45,7 +45,6 @@ public: /* INDEXアクセス */
 	virtual Object* indexSet(size_t idx, Object* item);
 	virtual size_t size();
 	virtual bool has(size_t idx);
-	//virtual Object* sort();
 public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& key, Object* const value);
 	virtual Object* getSlot(const std::string& key);
@@ -58,6 +57,8 @@ public: /* 基本操作 */
 	virtual StringObject* toStringObject();
 	virtual NumericObject* toNumericObject();
 	virtual BooleanObject* toBooleanObject();
+private:
+	static bool _sort_func(Machine& machine, Object* const self, Object* const other);
 public:
 	static void _method_def(NativeMethodObject* method, Machine& machine);
 	static void _method_def_kari(NativeMethodObject* method, Machine& machine);
@@ -69,7 +70,6 @@ public:
 	static void _method_push(NativeMethodObject* method, Machine& machine);
 	static void _method_shift(NativeMethodObject* method, Machine& machine);
 	static void _method_pop(NativeMethodObject* method, Machine& machine);
-	static bool _sort_func(Machine& machine, Object* const self, Object* const other);
 	static void _method_sort(NativeMethodObject* method, Machine& machine);
 	static void _method_sum(NativeMethodObject* method, Machine& machine);
 	static void _method_product(NativeMethodObject* method, Machine& machine);
@@ -78,6 +78,10 @@ public:
 	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
 	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
 	static void _method_clone(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_if(NativeMethodObject* method, Machine& machine);
+	static void _method_while_kari(NativeMethodObject* method, Machine& machine);
+	static void _method_lambda(NativeMethodObject* method, Machine& machine);
 };
 
 //-----------------------------------------------------------------------------
