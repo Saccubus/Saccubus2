@@ -53,16 +53,14 @@ Object* Machine::getLocal()
 {
 	return localStack.top();
 }
-Object* Machine::newLocal()
+void Machine::enterLocal(Object* local)
 {
-	Object* const local = heap.newObject();
 	localStack.push(local);
-	return local;
 }
 void Machine::endLocal(Object* local)
 {
 	if(localStack.pop() != local){
-
+		this->log.e(TAG, 0, "[BUG] calling \"end local\" was forgotten!");
 	}
 }
 
@@ -73,10 +71,10 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 		return getSelf();
 	}else if(name.compare("local") == 0){
 		if(isLocal){
-			this->log.t(TAG, 0, "Scope Resolved: local");
+			this->log.t(TAG, 0, "Scope Resolved: \"local\"");
 			return getLocal();
 		}else{
-			this->log.t(TAG, 0, "Scope Resolved: local(bottom)");
+			this->log.t(TAG, 0, "Scope Resolved: \"local\"(bottom)");
 			return localStack.bottom();
 		}
 	}else if(isLocal){
@@ -84,14 +82,14 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 			Object* const obj = *it;
 			Object* const slot = obj->getSlot(name);
 			if(!slot->isUndefined()){
-				this->log.t(TAG, 0, "Scope Resolved: %s", name.c_str());
+				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), obj->toStringObject()->toString().c_str());
 				return obj;
 			}
 		}
 		this->log.t(TAG, 0, "%s not found.", name.c_str());
 		return getLocal();
 	}else{
-		this->log.t(TAG, 0, "Scope resolved in top level: %s", name.c_str());
+		this->log.t(TAG, 0, "Scope resolved: %s in TopLevelObject", name.c_str());
 		return getTopLevel();
 	}
 }
@@ -172,7 +170,7 @@ void Machine::walkImpl(const AssignNode & node)
 }
 void Machine::walkImpl(const OpAssignNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating op assign node");
+	this->log.t(TAG, &node.location(), "Evaluating op assign node: %s", node.getOp().c_str());
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 	if(invokeNode){
@@ -223,7 +221,7 @@ void Machine::walkImpl(const PostOpNode & node)
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
-		this->log.t(TAG, &node.location(), "Evaluating post op node with invoke node.");
+		this->log.t(TAG, &node.location(), "Evaluating post op node with invoke node: %s", node.getOp().c_str());
 		Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -238,7 +236,7 @@ void Machine::walkImpl(const PostOpNode & node)
 		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 		pushResult(operandObj);
 	}else if(idxNode){
-		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node.");
+		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node: %s", node.getOp().c_str());
 		Object* const destObj = eval(idxNode->getExprNode());
 		Object* const idxObj = eval(idxNode->getObjectNode());
 
@@ -258,7 +256,7 @@ void Machine::walkImpl(const PreOpNode & node)
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
-		this->log.t(TAG, &node.location(), "Evaluating pre op node with invoke node.");
+		this->log.t(TAG, &node.location(), "Evaluating pre op node with invoke node: %s", node.getOp().c_str());
 		Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -273,7 +271,7 @@ void Machine::walkImpl(const PreOpNode & node)
 
 		pushResult(result);
 	}else if(idxNode){
-		this->log.t(TAG, &node.location(), "Evaluating pre op node with index access node.");
+		this->log.t(TAG, &node.location(), "Evaluating pre op node with index access node: %s", node.getOp().c_str());
 		Object* const destObj = eval(idxNode->getExprNode());
 		Object* const idxObj = eval(idxNode->getObjectNode());
 
@@ -290,7 +288,7 @@ void Machine::walkImpl(const PreOpNode & node)
 }
 void Machine::walkImpl(const BinOpNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating bin op node.");
+	this->log.t(TAG, &node.location(), "Evaluating bin op node: %s", node.getOp().c_str());
 	Object* const leftObj = eval(node.getLeftNode());
 	Object* const rightObj = eval(node.getRightNode());
 	pushResult( send(leftObj, node.getOp(), heap.newArray(rightObj, 0)) );

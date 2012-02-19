@@ -91,6 +91,8 @@ class LazyEvalObject : public Object
 private:
 	Machine& machine;
 	const tree::ObjectNode* const node;
+	std::map<std::string, bool> slotEvalState;
+	std::map<size_t, bool> indexEvalState;
 public:
 	LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();

@@ -74,7 +74,7 @@ Object* Object::indexSet(size_t idx, Object* item)
 	if(idx < objectList.size()){
 		objectList[idx] = item;
 	}else{
-		objectList.insert(objectList.end(), objectList.size()-idx, getHeap().newUndefinedObject());
+		objectList.insert(objectList.end(), idx-objectList.size(), getHeap().newUndefinedObject());
 		objectList.push_back(item);
 	}
 	return item;

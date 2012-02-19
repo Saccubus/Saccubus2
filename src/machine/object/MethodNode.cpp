@@ -33,7 +33,8 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 	{
 		size_t idx = 0;
 		for(std::vector<std::string>::const_iterator it = argList.begin();it!=argList.end();++it){
-			local->setSlot((*it), arg->index(idx));
+			Object* const obj = arg->index(idx);
+			local->setSlot((*it), obj);
 			++idx;
 		}
 	}
@@ -62,8 +63,9 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 
 void MethodNodeObject::eval(Machine& machine)
 {
-	Object* const local = machine.newLocal();
+	Object* const local = getHeap().newObject();
 	mergeArg(machine, local, machine.getArgument());
+	machine.enterLocal(local);
 	machine.pushResult(machine.eval(this->node));
 	machine.endLocal(local);
 }
