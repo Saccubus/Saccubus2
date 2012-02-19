@@ -8,8 +8,9 @@
 #include "Logging.h"
 #include <sstream>
 #include <iomanip>
+#include <stdio.h>
 namespace logging{
-Logger::Logger(std::ostream& stream, Level level)
+Logger::Logger(std::ostream& stream, enum Level level)
 :level(level), stream(stream)
 {
 
@@ -18,28 +19,44 @@ Logger::~Logger()
 {
 
 }
-void Logger::e(const std::string& tag, const std::string& str, const Location* loc)
+
+void Logger::e(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
-	msg(ERROR, tag, str, loc);
+	va_list list;
+	va_start(list, str);
+	msg(ERROR, tag, loc, str, list);
+	va_end(list);
 }
-void Logger::w(const std::string& tag, const std::string& str, const Location* loc)
+void Logger::w(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
-	msg(WARNING, tag, str, loc);
+	va_list list;
+	va_start(list, str);
+	msg(WARNING, tag, loc, str, list);
+	va_end(list);
 }
-void Logger::d(const std::string& tag, const std::string& str, const Location* loc)
+void Logger::d(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
-	msg(DEBUG, tag, str, loc);
+	va_list list;
+	va_start(list, str);
+	msg(DEBUG, tag, loc, str, list);
+	va_end(list);
 }
-void Logger::v(const std::string& tag, const std::string& str, const Location* loc)
+void Logger::v(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
-	msg(VERBOSE, tag, str, loc);
+	va_list list;
+	va_start(list, str);
+	msg(VERBOSE, tag, loc, str, list);
+	va_end(list);
 }
-void Logger::t(const std::string& tag, const std::string& str, const Location* loc)
+void Logger::t(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
-	msg(TRACE, tag, str, loc);
+	va_list list;
+	va_start(list, str);
+	msg(TRACE, tag, loc, str, list);
+	va_end(list);
 }
 
-void Logger::msg(Level level, const std::string& tag, const std::string& str, const Location* loc)
+void Logger::msg(enum Level level, const std::string& tag, const Location* loc, const std::string& str, va_list list)
 {
 	if(level < this->level){
 		return;
@@ -66,7 +83,13 @@ void Logger::msg(Level level, const std::string& tag, const std::string& str, co
 	if(loc){
 		ss << "[" << std::setw(3) <<  loc->getLineNo() << "," << std::setw(3) << loc->getColNo() << "]";
 	}
-	ss << str << std::endl;
+
+	char buff[1024];
+
+	const size_t len = vsnprintf(buff, 1024, str.c_str(), list);
+	if(len > 0){
+		ss << buff << std::endl;
+	}
 	stream << ss.str();
 }
 

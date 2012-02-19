@@ -45,6 +45,7 @@ public: /* INDEXアクセス */
 	virtual Object* indexSet(size_t idx, Object* item);
 	virtual size_t size();
 	virtual bool has(size_t idx);
+	//virtual Object* sort();
 public: /* KEYアクセス */
 	virtual Object* setSlot(const std::string& key, Object* const value);
 	virtual Object* getSlot(const std::string& key);

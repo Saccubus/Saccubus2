@@ -26,9 +26,10 @@ private:
 	Stack<Object*> resultStack;
 	Object* topLevel;
 public:
-	Machine();
+	Machine(logging::Logger& log);
 	virtual ~Machine();
 	Object* eval(const tree::Node* node, Object* const arg=0);
+	logging::Logger& log;
 public: //for Object
 	void pushResult(Object* obj);
 	Object* getArgument();

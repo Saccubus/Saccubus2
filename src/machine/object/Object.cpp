@@ -9,6 +9,7 @@
 #include "../Machine.h"
 #include <math.h>
 #include <sstream>
+#include <algorithm>
 
 namespace machine
 {

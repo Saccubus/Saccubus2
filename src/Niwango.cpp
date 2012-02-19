@@ -22,7 +22,11 @@ using namespace std::tr1;
 void usage(int argc, char* args[]){
 	cout << "Usage: " << basename(args[0]) << " [switches] [--] [programfile]" << endl;
 	cout << "\t-t, --trace\t output trace log." << endl;
-	cout << "\t-d, --dump\t output dump of AST, then exit." << endl;
+	cout << "\t-v, --verbose\t output trace log." << endl;
+	cout << "\t-d, --debug\t output trace log." << endl;
+	cout << "\t-w, --warning\t output trace log." << endl;
+	cout << "\t-e, --error\t output trace log." << endl;
+	cout << "\t--dump\t output dump of AST, then exit." << endl;
 	cout << "\t--version\t output the version, then exit." << endl;
 	cout << "\t-h, --help\t output the help, then exit." << endl;
 	exit(0);
@@ -35,7 +39,11 @@ void version(int argc, char* args[]){
 
 const struct option ARG_OPTIONS[] = {
 		{"trace", no_argument, 0, 't'},
-		{"dump", no_argument, 0, 'd'},
+		{"verbose", no_argument, 0, 'v'},
+		{"debug", no_argument, 0, 'd'},
+		{"warning", no_argument, 0, 'w'},
+		{"error", no_argument, 0, 'e'},
+		{"dump", no_argument, 0, 'u'},
 		{"help", no_argument, 0, 'h'},
 		{"version", no_argument, 0, 1},
 		{0,0,0,0}
@@ -43,10 +51,10 @@ const struct option ARG_OPTIONS[] = {
 
 int main(int argc, char* args[]) {
 	int indexptr=0;
-	bool trace = false;
+	logging::Logger::Level level = logging::Logger::WARNING;
 	bool dump = false;
 	while(1){
-		int opt = getopt_long(argc, args, "tdh", ARG_OPTIONS, &indexptr);
+		int opt = getopt_long(argc, args, "tvdweh", ARG_OPTIONS, &indexptr);
 		if(opt < 0){
 			break;
 		}
@@ -59,9 +67,21 @@ int main(int argc, char* args[]) {
 			usage(argc, args);
 			break;
 		case 't':
-			trace = true;
+			level = logging::Logger::TRACE;
+			break;
+		case 'v':
+			level = logging::Logger::VERBOSE;
 			break;
 		case 'd':
+			level = logging::Logger::DEBUG;
+			break;
+		case 'w':
+			level = logging::Logger::WARNING;
+			break;
+		case 'e':
+			level = logging::Logger::ERROR;
+			break;
+		case 'u':
 			dump = true;
 			break;
 		case '?':
@@ -100,7 +120,8 @@ int main(int argc, char* args[]) {
 		return 0;
 	}
 
-	machine::Machine machine;
+	logging::Logger log(std::cout, level);
+	machine::Machine machine(log);
 	machine::Object* obj;
 	for(timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());
