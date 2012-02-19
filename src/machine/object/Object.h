@@ -82,6 +82,9 @@ public:
 	static void _method_if(NativeMethodObject* method, Machine& machine);
 	static void _method_while_kari(NativeMethodObject* method, Machine& machine);
 	static void _method_lambda(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_distance(NativeMethodObject* method, Machine& machine);
+	static void _method_rand(NativeMethodObject* method, Machine& machine);
 };
 
 //-----------------------------------------------------------------------------

@@ -353,6 +353,31 @@ void Object::_method_lambda(NativeMethodObject* method, Machine& machine)
 	}
 	machine.pushResult(self->getHeap().newLambdaObject(machine.getLocal(), arg->getRawNode()->index(0)));
 }
+void Object::_method_distance(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	Object* const arg = machine.getArgument();
+	double const x1 = arg->index(0)->toNumericObject()->toNumeric();
+	double const y1 = arg->index(1)->toNumericObject()->toNumeric();
+	double const x2 = arg->index(2)->toNumericObject()->toNumeric();
+	double const y2 = arg->index(3)->toNumericObject()->toNumeric();
+	double const dx = x1-x2;
+	double const dy = y1-y2;
+	machine.pushResult(self->getHeap().newNumericObject( sqrt(dx*dx+dy*dy) ));
+}
+void Object::_method_rand(NativeMethodObject* method, Machine& machine)
+{
+	Object* const self = machine.getSelf();
+	Object* const arg = machine.getArgument();
+	std::string txt = arg->index(0)->toStringObject()->toString();
+	unsigned int seed = 0;
+	const char* str = txt.c_str();
+	const size_t max = txt.size();
+	for(size_t i = 0;i<max;++i){
+		seed += str[i];
+	}
+	machine.pushResult(self->getHeap().newNumericObject( rand_r(&seed) >> 5 ));
+}
 
 }
  /* namespace machine */

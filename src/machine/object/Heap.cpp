@@ -56,7 +56,10 @@ void ObjectHeap::setWorld()
 		baseObjectBuiltinMethod.insert(_pair("if", NativeMethodObject(*this, 0, Object::_method_if)));
 		baseObjectBuiltinMethod.insert(_pair("while_kari", NativeMethodObject(*this, 0, Object::_method_while_kari)));
 		baseObjectBuiltinMethod.insert(_pair("lambda", NativeMethodObject(*this, 0, Object::_method_lambda)));
-	}
+
+		baseObjectBuiltinMethod.insert(_pair("rand", NativeMethodObject(*this, 0, Object::_method_rand)));
+		baseObjectBuiltinMethod.insert(_pair("distance", NativeMethodObject(*this, 0, Object::_method_distance)));
+}
 	{
 		baseLambdaObjectBuiltinMethod.insert(_pair("index", NativeMethodObject(*this, 0, LambdaObject::_method_index)));
 		baseLambdaScopeObjectBuiltinMethod.insert(_pair("@", NativeMethodObject(*this, 0, LambdaScopeObject::_method_atmark)));
