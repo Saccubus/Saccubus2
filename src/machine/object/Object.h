@@ -182,6 +182,8 @@ public:
 	static void _method_toInteger(NativeMethodObject* method, Machine& machine);
 	static void _method_toFloat(NativeMethodObject* method, Machine& machine);
 	static void _method_eval(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_add(NativeMethodObject* method, Machine& machine);
 };
 class BooleanObject : public LiteralObject
 {

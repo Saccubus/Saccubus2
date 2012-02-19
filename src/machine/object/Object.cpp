@@ -155,6 +155,10 @@ void Object::inject(Object* to){
 	to->objectMap.insert(objectMap.begin(), objectMap.end());
 }
 
+//---------------------------------------------------------------------------------------------------------------------
+// メソッド
+//---------------------------------------------------------------------------------------------------------------------
+
 void Object::_method_def(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();

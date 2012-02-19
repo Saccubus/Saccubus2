@@ -166,6 +166,14 @@ void StringObject::_method_eval(NativeMethodObject* method, Machine& machine)
 	//FIXME:
 }
 
+void StringObject::_method_add(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
+	machine.pushResult( self->getHeap().newStringObject(self->toString()+other->toString()) );
+
+}
+
 
 }
 

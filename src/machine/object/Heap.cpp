@@ -101,6 +101,7 @@ void ObjectHeap::setWorld()
 		baseStringObjectBuiltinMethod.insert(_pair("toFloat", NativeMethodObject(*this, 0, StringObject::_method_toFloat)));
 		baseStringObjectBuiltinMethod.insert(_pair("eval", NativeMethodObject(*this, 0, StringObject::_method_eval)));
 
+		baseStringObjectBuiltinMethod.insert(_pair("add", NativeMethodObject(*this, 0, StringObject::_method_add)));
 
 		injectMethods(baseStringObject, baseObjectBuiltinMethod);
 		injectMethods(baseStringObject, baseStringObjectBuiltinMethod);
