@@ -29,6 +29,7 @@ public:
 	Machine(logging::Logger& log);
 	virtual ~Machine();
 	Object* eval(const tree::Node* node, Object* const arg=0);
+	Object* send(Object* const self, const std::string& message, Object* const arg=0);
 	logging::Logger& log;
 public: //for Object
 	void pushResult(Object* obj);
@@ -55,7 +56,6 @@ protected: //for tree
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	Object* send(Object* const self, const std::string& message, Object* const arg=0);
 	Object* resolveScope(const std::string& name, const bool isLocal=true);
 };
 

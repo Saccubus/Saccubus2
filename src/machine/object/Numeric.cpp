@@ -124,11 +124,32 @@ void NumericObject::_method_greaterThan(NativeMethodObject* method, Machine& mac
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() > other->toNumeric()) );
 }
-void NumericObject::_method_less(NativeMethodObject* method, Machine& machine)
+void NumericObject::_method_lessThan(NativeMethodObject* method, Machine& machine)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() < other->toNumeric()) );
+}
+void NumericObject::_method_floor(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	machine.pushResult( self->getHeap().newNumericObject( floor(self->toNumeric()) ) );
+}
+void NumericObject::_method_sin(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	machine.pushResult( self->getHeap().newNumericObject( sin(self->toNumeric()) ) );
+}
+void NumericObject::_method_cos(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	machine.pushResult( self->getHeap().newNumericObject( cos(self->toNumeric()) ) );
+}
+void NumericObject::_method_pow(NativeMethodObject* method, Machine& machine)
+{
+	NumericObject* const self = machine.getSelf()->toNumericObject();
+	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
+	machine.pushResult( self->getHeap().newNumericObject( pow(self->toNumeric(), other->toNumeric()) ) );
 }
 
 

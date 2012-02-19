@@ -69,6 +69,7 @@ public:
 	static void _method_push(NativeMethodObject* method, Machine& machine);
 	static void _method_shift(NativeMethodObject* method, Machine& machine);
 	static void _method_pop(NativeMethodObject* method, Machine& machine);
+	static bool _sort_func(Machine& machine, Object* const self, Object* const other);
 	static void _method_sort(NativeMethodObject* method, Machine& machine);
 	static void _method_sum(NativeMethodObject* method, Machine& machine);
 	static void _method_product(NativeMethodObject* method, Machine& machine);
@@ -168,7 +169,15 @@ public:
 	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
 	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
 	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_less(NativeMethodObject* method, Machine& machine);
+	static void _method_lessThan(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_index(NativeMethodObject* method, Machine& machine);
+	static void _method_size(NativeMethodObject* method, Machine& machine);
+	static void _method_indexOf(NativeMethodObject* method, Machine& machine);
+	static void _method_slice(NativeMethodObject* method, Machine& machine);
+	static void _method_toInteger(NativeMethodObject* method, Machine& machine);
+	static void _method_toFloat(NativeMethodObject* method, Machine& machine);
+	static void _method_eval(NativeMethodObject* method, Machine& machine);
 };
 class BooleanObject : public LiteralObject
 {
@@ -216,7 +225,12 @@ public:
 	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
 	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
 	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_less(NativeMethodObject* method, Machine& machine);
+	static void _method_lessThan(NativeMethodObject* method, Machine& machine);
+public:
+	static void _method_floor(NativeMethodObject* method, Machine& machine);
+	static void _method_sin(NativeMethodObject* method, Machine& machine);
+	static void _method_cos(NativeMethodObject* method, Machine& machine);
+	static void _method_pow(NativeMethodObject* method, Machine& machine);
 
 };
 

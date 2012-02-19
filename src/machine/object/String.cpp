@@ -71,11 +71,40 @@ void StringObject::_method_greaterThan(NativeMethodObject* method, Machine& mach
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() > other->toString() ) );
 }
-void StringObject::_method_less(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_lessThan(NativeMethodObject* method, Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() < other->toString() ) );
+}
+void StringObject::_method_index(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_size(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_indexOf(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_slice(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_toInteger(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_toFloat(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+}
+void StringObject::_method_eval(NativeMethodObject* method, Machine& machine)
+{
+	StringObject* const self = machine.getSelf()->toStringObject();
+	//FIXME:
 }
 
 

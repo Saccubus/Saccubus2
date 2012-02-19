@@ -10,6 +10,7 @@
 #include <math.h>
 #include <sstream>
 #include <algorithm>
+#include <tr1/functional>
 
 namespace machine
 {
@@ -233,10 +234,18 @@ void Object::_method_pop(NativeMethodObject* method, Machine& machine)
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->pop());
 }
+
+bool Object::_sort_func(Machine& machine, Object* const self, Object* const other)
+{
+	Object* result = machine.send(self, "lessThan", self->getHeap().newArray(other, 0));
+	return result->toBooleanObject()->toBool();
+}
+
 void Object::_method_sort(NativeMethodObject* method, Machine& machine)
 {
 	Object* const self = machine.getSelf();
-
+	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
+	machine.pushResult(self);
 }
 void Object::_method_sum(NativeMethodObject* method, Machine& machine)
 {

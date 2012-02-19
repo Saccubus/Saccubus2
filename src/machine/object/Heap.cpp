@@ -71,7 +71,13 @@ void ObjectHeap::setWorld()
 		baseNumericObjectBuiltinMethod.insert(_pair("notLessThan", NativeMethodObject(*this, 0, NumericObject::_method_notLessThan)));
 		baseNumericObjectBuiltinMethod.insert(_pair("notGreaterThan", NativeMethodObject(*this, 0, NumericObject::_method_notGreaterThan)));
 		baseNumericObjectBuiltinMethod.insert(_pair("greaterThan", NativeMethodObject(*this, 0, NumericObject::_method_greaterThan)));
-		baseNumericObjectBuiltinMethod.insert(_pair("less", NativeMethodObject(*this, 0, NumericObject::_method_less)));
+		baseNumericObjectBuiltinMethod.insert(_pair("lessThan", NativeMethodObject(*this, 0, NumericObject::_method_lessThan)));
+
+
+		baseNumericObjectBuiltinMethod.insert(_pair("floor", NativeMethodObject(*this, 0, NumericObject::_method_floor)));
+		baseNumericObjectBuiltinMethod.insert(_pair("sin", NativeMethodObject(*this, 0, NumericObject::_method_sin)));
+		baseNumericObjectBuiltinMethod.insert(_pair("cos", NativeMethodObject(*this, 0, NumericObject::_method_cos)));
+		baseNumericObjectBuiltinMethod.insert(_pair("pow", NativeMethodObject(*this, 0, NumericObject::_method_pow)));
 		injectMethods(baseNumericObject, baseObjectBuiltinMethod);
 		injectMethods(baseNumericObject, baseNumericObjectBuiltinMethod);
 	}
@@ -81,7 +87,17 @@ void ObjectHeap::setWorld()
 		baseStringObjectBuiltinMethod.insert(_pair("notLessThan", NativeMethodObject(*this, 0, StringObject::_method_notLessThan)));
 		baseStringObjectBuiltinMethod.insert(_pair("notGreaterThan", NativeMethodObject(*this, 0, StringObject::_method_notGreaterThan)));
 		baseStringObjectBuiltinMethod.insert(_pair("greaterThan", NativeMethodObject(*this, 0, StringObject::_method_greaterThan)));
-		baseStringObjectBuiltinMethod.insert(_pair("less", NativeMethodObject(*this, 0, StringObject::_method_less)));
+		baseStringObjectBuiltinMethod.insert(_pair("lessThan", NativeMethodObject(*this, 0, StringObject::_method_lessThan)));
+
+		baseStringObjectBuiltinMethod.insert(_pair("index", NativeMethodObject(*this, 0, StringObject::_method_index)));
+		baseStringObjectBuiltinMethod.insert(_pair("size", NativeMethodObject(*this, 0, StringObject::_method_size)));
+		baseStringObjectBuiltinMethod.insert(_pair("indexOf", NativeMethodObject(*this, 0, StringObject::_method_indexOf)));
+		baseStringObjectBuiltinMethod.insert(_pair("slice", NativeMethodObject(*this, 0, StringObject::_method_slice)));
+		baseStringObjectBuiltinMethod.insert(_pair("toInteger", NativeMethodObject(*this, 0, StringObject::_method_toInteger)));
+		baseStringObjectBuiltinMethod.insert(_pair("toFloat", NativeMethodObject(*this, 0, StringObject::_method_toFloat)));
+		baseStringObjectBuiltinMethod.insert(_pair("eval", NativeMethodObject(*this, 0, StringObject::_method_eval)));
+
+
 		injectMethods(baseStringObject, baseObjectBuiltinMethod);
 		injectMethods(baseStringObject, baseStringObjectBuiltinMethod);
 	}
