@@ -66,7 +66,7 @@ void Machine::endLocal(Object* local)
 	scopeStack.pop();
 }
 
-Object* Machine::resolveScope(const std::string& name, const bool isLocal)
+Object* Machine::resolveScope(const std::string& name)
 {
 	if(name.compare("self") == 0){
 		this->log.t(TAG, 0, "Scope Resolved: self");
@@ -74,7 +74,7 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 	}else if(name.compare("local") == 0){
 		this->log.t(TAG, 0, "Scope Resolved: \"local\"");
 		return getLocal();
-	}else if(isLocal){
+	}else{
 		for(Object* obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
 			Object* const slot = obj->getSlot(name);
 			if(!slot->isUndefined()){
@@ -84,9 +84,6 @@ Object* Machine::resolveScope(const std::string& name, const bool isLocal)
 		}
 		this->log.t(TAG, 0, "%s not found.", name.c_str());
 		return getLocal();
-	}else{
-		this->log.t(TAG, 0, "Scope resolved: %s in TopLevelObject", name.c_str());
-		return getTopLevel();
 	}
 }
 
@@ -144,7 +141,11 @@ void Machine::walkImpl(const AssignNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), node.isLocal());
+			if(node.isLocal()){
+				destObj = getLocal();
+			}else{
+				destObj = resolveScope(invokeNode->getMessageName());
+			}
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 		Object* const arg = heap.newArray(nameObj,rhsObj, 0);
@@ -176,7 +177,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), true);
+			destObj = resolveScope(invokeNode->getMessageName());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -222,7 +223,7 @@ void Machine::walkImpl(const PostOpNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), true);
+			destObj = resolveScope(invokeNode->getMessageName());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -257,7 +258,7 @@ void Machine::walkImpl(const PreOpNode & node)
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
-			destObj = resolveScope(invokeNode->getMessageName(), true);
+			destObj = resolveScope(invokeNode->getMessageName());
 		}
 		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
@@ -312,7 +313,7 @@ void Machine::walkImpl(const InvokeNode & node)
 		Object* const destObj = eval(node.getExprNode());
 		pushResult(send(destObj, node.getMessageName(), getArgument()));
 	}else{
-		pushResult(send(resolveScope(node.getMessageName(), true), node.getMessageName(), getArgument()));
+		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName(), getArgument()));
 	}
 }
 void Machine::walkImpl(const ContNode & node)

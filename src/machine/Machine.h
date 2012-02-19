@@ -55,7 +55,7 @@ protected: //for tree
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	Object* resolveScope(const std::string& name, const bool isLocal);
+	Object* resolveScope(const std::string& name);
 };
 
 } /* namespace machine */
