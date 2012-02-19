@@ -10,6 +10,7 @@
 #include <sstream>
 #include <getopt.h>
 #include <libgen.h>
+#include <iomanip>
 #include "const.h"
 #include "parser/niwangoLexer.h"
 #include "parser/niwangoParser.h"
@@ -21,14 +22,14 @@ using namespace std::tr1;
 
 void usage(int argc, char* args[]){
 	cout << "Usage: " << basename(args[0]) << " [switches] [--] [programfile]" << endl;
-	cout << "\t-t, --trace\t output trace log." << endl;
-	cout << "\t-v, --verbose\t output trace log." << endl;
-	cout << "\t-d, --debug\t output trace log." << endl;
-	cout << "\t-w, --warning\t output trace log." << endl;
-	cout << "\t-e, --error\t output trace log." << endl;
-	cout << "\t--dump\t output dump of AST, then exit." << endl;
-	cout << "\t--version\t output the version, then exit." << endl;
-	cout << "\t-h, --help\t output the help, then exit." << endl;
+	cout << "    " << std::left << std::setw(15) << "--trace" << "set log level." << endl;
+	cout << "    " << std::left << std::setw(15) << "--verbose" << "set log level." << endl;
+	cout << "    " << std::left << std::setw(15) << "--debug"<<"set log level." << endl;
+	cout << "    " << std::left << std::setw(15) << "--warning"<<"set log level." << endl;
+	cout << "    " << std::left << std::setw(15) << "--error"<<"set log level." << endl;
+	cout << "    " << std::left << std::setw(15) << "--dump"<<"output dump of AST, then exit." << endl;
+	cout << "    " << std::left << std::setw(15) << "--version"<<"output the version, then exit." << endl;
+	cout << "    " << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << endl;
 	exit(0);
 }
 
@@ -38,14 +39,14 @@ void version(int argc, char* args[]){
 }
 
 const struct option ARG_OPTIONS[] = {
-		{"trace", no_argument, 0, 't'},
-		{"verbose", no_argument, 0, 'v'},
-		{"debug", no_argument, 0, 'd'},
-		{"warning", no_argument, 0, 'w'},
-		{"error", no_argument, 0, 'e'},
-		{"dump", no_argument, 0, 'u'},
-		{"help", no_argument, 0, 'h'},
-		{"version", no_argument, 0, 1},
+		{"trace", no_argument, 0, 1},
+		{"verbose", no_argument, 0, 2},
+		{"debug", no_argument, 0, 3},
+		{"warning", no_argument, 0, 4},
+		{"error", no_argument, 0, 5},
+		{"dump", no_argument, 0, 6},
+		{"help", no_argument, 0, 7},
+		{"version", no_argument, 0, 8},
 		{0,0,0,0}
 };
 
@@ -54,35 +55,36 @@ int main(int argc, char* args[]) {
 	logging::Logger::Level level = logging::Logger::WARNING;
 	bool dump = false;
 	while(1){
-		int opt = getopt_long(argc, args, "tvdweh", ARG_OPTIONS, &indexptr);
+		int opt = getopt_long(argc, args, "h", ARG_OPTIONS, &indexptr);
 		if(opt < 0){
 			break;
 		}
 		switch(opt)
 		{
 		case 1:
-			version(argc, args);
+			level = logging::Logger::TRACE;
 			break;
+		case 2:
+			level = logging::Logger::VERBOSE;
+			break;
+		case 3:
+			level = logging::Logger::DEBUG;
+			break;
+		case 4:
+			level = logging::Logger::WARNING;
+			break;
+		case 5:
+			level = logging::Logger::ERROR;
+			break;
+		case 6:
+			dump = true;
+			break;
+		case 7:
 		case 'h':
 			usage(argc, args);
 			break;
-		case 't':
-			level = logging::Logger::TRACE;
-			break;
-		case 'v':
-			level = logging::Logger::VERBOSE;
-			break;
-		case 'd':
-			level = logging::Logger::DEBUG;
-			break;
-		case 'w':
-			level = logging::Logger::WARNING;
-			break;
-		case 'e':
-			level = logging::Logger::ERROR;
-			break;
-		case 'u':
-			dump = true;
+		case 8:
+			version(argc, args);
 			break;
 		case '?':
 			exit(0);
