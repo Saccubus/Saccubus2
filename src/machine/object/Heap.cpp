@@ -132,7 +132,10 @@ void ObjectHeap::setWorld()
 
 ObjectHeap::~ObjectHeap()
 {
-
+	for(std::vector<Object*>::iterator it = from->begin();it!=from->begin();++it)
+	{
+		delete *it;
+	}
 }
 
 Object* ObjectHeap::newObject()

@@ -73,7 +73,7 @@ public:
 	Nekomata();
 	virtual ~Nekomata();
 public:
-	void registAdapter(adapter);
+	void registAdapter(Adapter* adapter);
 	void getAdapter();
 	void removeAdapter();
 	void parseTimelineStr(std::string& str);
