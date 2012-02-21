@@ -16,7 +16,7 @@ namespace machine
 {
 
 Object::Object(ObjectHeap& heap, const unsigned int hash)
-:heap(heap), hash(hash)
+:heap(heap), hash(hash), color(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -30,6 +30,25 @@ Object::~Object()
 void Object::eval(Machine& machine){
 	machine.pushResult(this);
 }
+
+void Object::mark(int color)
+{
+	if(this->color == color){
+		return;
+	}
+	this->color = color;
+	for(std::vector<Object*>::const_iterator it=objectList.begin();it!=objectList.end();++it){
+		(*it)->mark(color);
+	}
+	for(std::map<std::string, Object*>::const_iterator it=objectMap.begin();it!=objectMap.end();++it){
+		it->second->mark(color);
+	}
+}
+
+int Object::getColor(){
+	return this->color;
+}
+
 
 Object* Object::unshift(Object* const item)
 {

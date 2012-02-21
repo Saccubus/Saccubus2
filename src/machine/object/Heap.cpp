@@ -9,12 +9,21 @@
 #include "Heap.h"
 #include <cstdarg>
 #include <math.h>
+#include <set>
+#include <algorithm>
+#include <tr1/functional>
 namespace machine{
 
-ObjectHeap::ObjectHeap()
-:from(&area1)
+const static std::string TAG("HEAP");
+
+ObjectHeap::ObjectHeap(logging::Logger& log, GarbageCollectionCallback& callback)
+:callback(callback)
+,log(log)
+,from(&area1)
 ,to(&area2)
 ,count(0)
+,lastObjectSize(50)
+,gcCount(0)
 ,trueObject(*this, 0, true)
 ,falseObject(*this, 0, false)
 ,undefinedObject(*this, 0)
@@ -234,12 +243,54 @@ LambdaObject* ObjectHeap::newLambdaObject(Object* const scope, const tree::Node*
 	return obj;
 }
 
-
-void ObjectHeap::gc(const Object *global)
+bool deleteFunc(int color, std::set<Object*, std::tr1::function<bool(Object*, Object*)> >* unused, Object* obj)
 {
+	if(obj->getColor() == color){
+		return false;
+	}else{
+		unused->insert(obj);
+		return true;
+	}
 }
 
-unsigned int ObjectHeap::createHash()
+void ObjectHeap::checkGC()
+{
+	if(from->size() > lastObjectSize){
+		this->callback.needGC(*this);
+		lastObjectSize = from->size()*2;
+	}
+}
+
+void ObjectHeap::gc(std::vector<Object*>& root)
+{
+	gcCount++;
+	size_t before = this->from->size();
+
+	for(std::vector<Object*>::const_iterator it=root.begin();it!=root.end();++it)
+	{
+		(*it)->mark(this->gcCount);
+	}
+	std::set<Object*> unused;
+	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
+	{
+		if((*it)->getColor() != gcCount){
+			unused.insert(*it);
+		}else{
+			to->push_back(*it);
+		}
+	}
+
+	log.d(TAG, 0, "Garbage collected: %d objects from %d objects", unused.size(), before);
+	for(std::set<Object*>::const_iterator it=unused.begin();it!=unused.end();++it)
+	{
+		delete (*it);
+	}
+
+	this->from->clear();
+	std::swap(from, to);
+}
+
+int ObjectHeap::createHash()
 {
 	return ++count;
 }

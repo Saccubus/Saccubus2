@@ -59,6 +59,9 @@ public:
 	ReverseIterator rend(){
 		return stack.rend();
 	}
+	void merge(std::vector<T>& vec){
+		vec.insert(vec.end(),stack.begin(), stack.end());
+	}
 
 public:
 	Stack(){}

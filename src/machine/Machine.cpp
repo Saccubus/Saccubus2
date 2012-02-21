@@ -19,12 +19,12 @@ namespace machine{
 static const std::string TAG("Machine");
 
 Machine::Machine(logging::Logger& log)
-:heap()
+:heap(log, *this)
 ,log(log)
 {
 	Object* const topLevel(heap.newObject());
 	selfStack.push(topLevel);
-	this->enterLocal(heap.newUndefinedObject(), topLevel);
+	this->enterLocal(topLevel, heap.newUndefinedObject());
 }
 
 Machine::~Machine()
@@ -35,6 +35,7 @@ void Machine::walkIn(){
 }
 
 void Machine::walkOut(){
+	heap.checkGC();
 }
 
 void Machine::pushResult(Object* obj){
@@ -53,9 +54,11 @@ Object* Machine::getLocal()
 {
 	return scopeStack.top();
 }
-void Machine::enterLocal(Object* parent, Object* local)
+void Machine::enterLocal(Object* local, Object* parent)
 {
-	local->setSlot("$$parent", parent);
+	if(parent){
+		local->setSlot("$$parent", parent);
+	}
 	scopeStack.push(local);
 }
 void Machine::endLocal(Object* local)
@@ -112,6 +115,16 @@ Object* Machine::send(Object* const self, const std::string& message, Object* co
 	}
 	argStack.pop();
 	return resultStack.pop();
+}
+
+void Machine::needGC(ObjectHeap& self)
+{
+	std::vector<Object*> objList;
+	argStack.merge(objList);
+	selfStack.merge(objList);
+	scopeStack.merge(objList);
+	resultStack.merge(objList);
+	self.gc(objList);
 }
 
 void Machine::walkImpl(const BoolLiteralNode & node)

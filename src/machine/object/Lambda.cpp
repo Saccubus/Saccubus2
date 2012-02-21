@@ -19,7 +19,7 @@ void LambdaObject::_method_index(NativeMethodObject* method, Machine& machine)
 {
 	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
 	Object* const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
-	machine.enterLocal(self->Object::getSlot("$$scope"), local);
+	machine.enterLocal(local, self->Object::getSlot("$$scope"));
 	machine.pushResult(machine.eval(self->node));
 	machine.endLocal(local);
 }

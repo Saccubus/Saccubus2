@@ -23,6 +23,7 @@ class Object
 private:
 	ObjectHeap& heap;
 	const int hash;
+	int color;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
 	typedef std::vector<Object*>::iterator Iterator;
@@ -34,6 +35,8 @@ public:
 	Object(ObjectHeap& heap, const unsigned int hash);
 	virtual ~Object();
 	unsigned int getHash(){return hash;};
+	void mark(int color);
+	int getColor();
 public:
 	virtual void inject(Object* to);
 public: /* INDEXアクセス */

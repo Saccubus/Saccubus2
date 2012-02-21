@@ -16,7 +16,7 @@
 namespace machine
 {
 
-class Machine: public machine::NodeWalker
+class Machine: public machine::NodeWalker, public ObjectHeap::GarbageCollectionCallback
 {
 private:
 	ObjectHeap heap;
@@ -25,18 +25,20 @@ private:
 	Stack<Object*> resultStack;
 	Stack<Object*> scopeStack;
 public:
-	Machine(logging::Logger& log);
+	explicit Machine(logging::Logger& log);
 	virtual ~Machine();
 	Object* eval(const tree::Node* node, Object* const arg=0);
 	Object* send(Object* const self, const std::string& message, Object* const arg=0);
 	logging::Logger& log;
+public:
+	void needGC(ObjectHeap& self);
 public: //for Object
 	void pushResult(Object* obj);
 	Object* getArgument();
 	Object* getLocal();
 	Object* getSelf();
 	Object* getTopLevel();
-	void enterLocal(Object* parent, Object* local);
+	void enterLocal(Object* local, Object* parent = 0);
 	void endLocal(Object* local);
 protected: //for tree
 	void walkIn();

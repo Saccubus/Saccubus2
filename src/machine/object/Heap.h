@@ -17,14 +17,26 @@
 namespace machine
 {
 
+
 class ObjectHeap
 {
+public:
+	class GarbageCollectionCallback{
+	public:
+		GarbageCollectionCallback(){};
+		virtual ~GarbageCollectionCallback(){};
+		virtual void needGC(ObjectHeap& self) = 0;
+	};
 private:
+	GarbageCollectionCallback& callback;
+	logging::Logger& log;
 	std::vector<Object*> area1;
 	std::vector<Object*> area2;
 	std::vector<Object*> *from;
 	std::vector<Object*> *to;
-	unsigned int count;
+	int count;
+	size_t lastObjectSize;
+	int gcCount;
 private:
 	void injectMethods(Object* const obj, std::map<std::string, NativeMethodObject>& methods);
 	void setWorld();
@@ -42,10 +54,10 @@ private:
 
 
 	/*GCで管理するオブジェクトを登録*/
-	unsigned int createHash();
+	int createHash();
 	void registObject(Object* obj);
 public:
-	ObjectHeap();
+	explicit ObjectHeap(logging::Logger& log, GarbageCollectionCallback& callback);
 	~ObjectHeap();
 public:
 	Object* newRawObject();
@@ -64,7 +76,8 @@ public:
 	NumericObject* newNumericObject(const double num);
 	UndefinedObject* newUndefinedObject();
 public:
-	void gc(const Object* global);
+	void checkGC();
+	void gc(std::vector<Object*>& root);
 };
 }
 
