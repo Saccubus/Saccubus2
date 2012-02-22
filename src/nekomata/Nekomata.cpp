@@ -18,4 +18,4 @@ Nekomata::~Nekomata() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace nekomata */
+}

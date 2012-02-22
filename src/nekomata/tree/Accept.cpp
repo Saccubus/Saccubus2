@@ -6,9 +6,7 @@
  */
 
 #include "Node.h"
-#include "../machine/NodeWalker.h"
-
-using namespace nekomata::machine;
+#include "../tree/NodeWalker.h"
 
 namespace nekomata{
 namespace tree{

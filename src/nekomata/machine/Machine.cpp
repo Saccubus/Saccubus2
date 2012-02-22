@@ -7,7 +7,7 @@
 
 #include "Machine.h"
 
-#include "NodeWalker.h"
+#include "../tree/NodeWalker.h"
 #include "object/Object.h"
 #include "object/Heap.h"
 #include "../tree/Node.h"

@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
+#include "Node.h"
 #include "NodeWalker.h"
-#include "../Node.h"
 
 namespace nekomata{
 namespace tree{

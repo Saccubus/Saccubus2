@@ -95,13 +95,45 @@ public:
 class TopLevelObject : public Object
 {
 private:
+	typedef Object* (*Getter)(TopLevelObject& self, ObjectHeap& heap);
+	typedef void (*Setter)(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	std::map<std::string, Getter> getterList;
+	std::map<std::string, Setter> setterList;
 	System& system;
 public:
 	TopLevelObject(ObjectHeap& heap, const unsigned int hash, System& system);
 	virtual ~TopLevelObject();
 public:
-	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
-	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
+	virtual Object* setSlot(const std::string& key, Object* const value);
+	virtual Object* getSlot(const std::string& key);
+	virtual bool has(const std::string& key);
+	virtual std::vector<std::string> getSlotNames();
+	virtual size_t slotSize();
+public:
+	static Object* __getter__commentColor(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__commentColor(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__commentPlace(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__commentPlace(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__commentSize(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__commentSize(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__commentInvisible(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__commentInvisible(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__commentReverse(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__commentReverse(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__defaultSage(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__defaultSage(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__postDisabled(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__postDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__seekDisabled(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__seekDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__isLoaded(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__isLoaded(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__isWide(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__isWide(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+	static Object* __getter__lastVideo(TopLevelObject& self, ObjectHeap& heap);
+	static void __setter__lastVideo(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
+public:
+
 };
 
 //-----------------------------------------------------------------------------

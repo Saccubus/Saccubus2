@@ -12,13 +12,13 @@
 #include "../classdefs.h"
 #include "object/Object.h"
 #include "object/Heap.h"
-#include "NodeWalker.h"
+#include "../tree/NodeWalker.h"
 #include "Stack.h"
 
 namespace nekomata{
 namespace machine{
 
-class Machine: public machine::NodeWalker, public ObjectHeap::GarbageCollectionCallback
+class Machine: public tree::NodeWalker, public ObjectHeap::GarbageCollectionCallback
 {
 private:
 	ObjectHeap heap;

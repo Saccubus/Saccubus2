@@ -82,5 +82,5 @@ public:
 
 };
 
-} /* namespace nekomata */
+}
 #endif /* NEKOMATA_H_ */
