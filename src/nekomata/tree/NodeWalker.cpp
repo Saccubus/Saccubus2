@@ -6,85 +6,84 @@
  */
 
 #include "NodeWalker.h"
-#include "../tree/Node.h"
+#include "../Node.h"
 
 namespace nekomata{
-namespace machine
-{
+namespace tree{
 
-void NodeWalker::walk(const tree::BoolLiteralNode & node)
+void NodeWalker::walk(const BoolLiteralNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::NumericLiteralNode & node)
+void NodeWalker::walk(const NumericLiteralNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::StringLiteralNode & node)
+void NodeWalker::walk(const StringLiteralNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::AssignNode & node)
+void NodeWalker::walk(const AssignNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::OpAssignNode & node)
+void NodeWalker::walk(const OpAssignNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::IndexAcessNode & node)
+void NodeWalker::walk(const IndexAcessNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::BindNode & node)
+void NodeWalker::walk(const BindNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::PostOpNode & node)
+void NodeWalker::walk(const PostOpNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::PreOpNode & node)
+void NodeWalker::walk(const PreOpNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::BinOpNode & node)
+void NodeWalker::walk(const BinOpNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::ObjectNode & node)
+void NodeWalker::walk(const ObjectNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::InvokeNode & node)
+void NodeWalker::walk(const InvokeNode & node)
 {
 	walkIn();
 	walkImpl(node);
 	walkOut();
 }
-void NodeWalker::walk(const tree::ContNode & node)
+void NodeWalker::walk(const ContNode & node)
 {
 	walkIn();
 	walkImpl(node);
