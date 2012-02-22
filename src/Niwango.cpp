@@ -11,12 +11,12 @@
 #include <getopt.h>
 #include <libgen.h>
 #include <iomanip>
-#include "const.h"
-#include "parser/niwangoLexer.h"
-#include "parser/niwangoParser.h"
-#include "logging/Logging.h"
-#include "machine/Machine.h"
-#include "machine/object/Object.h"
+#include "nekomata/const.h"
+#include "nekomata/parser/niwangoLexer.h"
+#include "nekomata/parser/niwangoParser.h"
+#include "nekomata/logging/Logging.h"
+#include "nekomata/machine/Machine.h"
+#include "nekomata/machine/object/Object.h"
 using namespace std;
 using namespace std::tr1;
 
@@ -34,7 +34,7 @@ void usage(int argc, char* args[]){
 }
 
 void version(int argc, char* args[]){
-	cout << PROGRAM_NAME << ": "<< PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << endl;
+	cout << nekomata::PROGRAM_NAME << ": "<< nekomata::PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << endl;
 	exit(0);
 }
 
@@ -52,7 +52,7 @@ const struct option ARG_OPTIONS[] = {
 
 int main(int argc, char* args[]) {
 	int indexptr=0;
-	logging::Logger::Level level = logging::Logger::WARNING;
+	nekomata::logging::Logger::Level level = nekomata::logging::Logger::WARNING;
 	bool dump = false;
 	while(1){
 		int opt = getopt_long(argc, args, "h", ARG_OPTIONS, &indexptr);
@@ -62,19 +62,19 @@ int main(int argc, char* args[]) {
 		switch(opt)
 		{
 		case 1:
-			level = logging::Logger::TRACE;
+			level = nekomata::logging::Logger::TRACE;
 			break;
 		case 2:
-			level = logging::Logger::VERBOSE;
+			level = nekomata::logging::Logger::VERBOSE;
 			break;
 		case 3:
-			level = logging::Logger::DEBUG;
+			level = nekomata::logging::Logger::DEBUG;
 			break;
 		case 4:
-			level = logging::Logger::WARNING;
+			level = nekomata::logging::Logger::WARNING;
 			break;
 		case 5:
-			level = logging::Logger::ERROR;
+			level = nekomata::logging::Logger::ERROR;
 			break;
 		case 6:
 			dump = true;
@@ -114,18 +114,18 @@ int main(int argc, char* args[]) {
 	pANTLR3_COMMON_TOKEN_STREAM tokenStream = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lexer));
 	pniwangoParser parser = niwangoParserNew(tokenStream);
 
-	shared_ptr<timeline::TimeLine> timeLine = parser->time_line(parser);
+	shared_ptr<nekomata::timeline::TimeLine> timeLine = parser->time_line(parser);
 
 	if(dump){
-		logging::Dumper dumper(cout);
+		nekomata::logging::Dumper dumper(cout);
 		timeLine->dump(dumper);
 		return 0;
 	}
 
-	logging::Logger log(std::cout, level);
-	machine::Machine machine(log);
-	machine::Object* obj;
-	for(timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
+	nekomata::logging::Logger log(std::cout, level);
+	nekomata::machine::Machine machine(log);
+	nekomata::machine::Object* obj;
+	for(nekomata::timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());
 	}
 	cout << "result=" << obj->toStringObject()->toString() << endl;
