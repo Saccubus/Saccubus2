@@ -6,6 +6,7 @@
  */
 
 #include <math.h>
+#include "../classdef.h"
 #include "Object.h"
 #include "Heap.h"
 

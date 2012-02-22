@@ -12,7 +12,6 @@
 #include <map>
 #include <tr1/memory>
 #include "../classdef.h"
-#include "Object.h"
 
 namespace machine
 {

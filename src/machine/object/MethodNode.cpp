@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <sstream>
+#include "../classdef.h"
 #include "Object.h"
 #include "Heap.h"
 #include "../Machine.h"

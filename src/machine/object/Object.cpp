@@ -395,7 +395,8 @@ void Object::_method_rand(NativeMethodObject* method, Machine& machine)
 	for(size_t i = 0;i<max;++i){
 		seed += str[i];
 	}
-	machine.pushResult(self->getHeap().newNumericObject( rand_r(&seed) >> 5 ));
+	srand(seed);
+	machine.pushResult(self->getHeap().newNumericObject( rand() >> 5 ));
 }
 
 }

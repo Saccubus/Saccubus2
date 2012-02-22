@@ -13,10 +13,17 @@ namespace machine
 
 class ObjectHeap;
 
+class Object;
+
 class LazyEvalObject;
 class MethodObject;
 class NativeMethodObject;
 class MethodNodeObject;
+
+class LambdaObject;
+class SambdaScopeObject;
+
+class TopLevelObject;
 
 class LiteralObject;
 class StringObject;
@@ -27,6 +34,7 @@ class UndefinedObject;
 
 //-----------------------------------------------
 class Machine;
+class System;
 
 };
 

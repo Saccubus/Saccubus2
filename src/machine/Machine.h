@@ -9,6 +9,7 @@
 #define MACHINE_H_
 #include <vector>
 #include <map>
+#include "../classdefs.h"
 #include "object/Object.h"
 #include "object/Heap.h"
 #include "NodeWalker.h"

@@ -63,7 +63,7 @@ public:
 	virtual bool getIsWide();
 	virtual void setIsWide(bool isWide);
 	virtual std::string& getLastVideo();
-	virtual void setLastVideo(std::string& last);
+	virtual void setLastVideo(const std::string& last);
 };
 
 class Nekomata {

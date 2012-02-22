@@ -89,6 +89,19 @@ public:
 	static void _method_distance(NativeMethodObject* method, Machine& machine);
 	static void _method_rand(NativeMethodObject* method, Machine& machine);
 };
+//-----------------------------------------------------------------------------
+
+class TopLevelObject : public Object
+{
+private:
+	System& system;
+public:
+	TopLevelObject(ObjectHeap& heap, const unsigned int hash, System& system);
+	virtual ~TopLevelObject();
+public:
+	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
+	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
+};
 
 //-----------------------------------------------------------------------------
 
