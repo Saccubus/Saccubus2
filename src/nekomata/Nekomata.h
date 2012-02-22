@@ -14,14 +14,14 @@ namespace nekomata {
 class ChatAdapter
 {
 public:
-	ChatAdapter();
+	explicit ChatAdapter();
 	virtual ~ChatAdapter();
 };
 
 class Adapter
 {
 public:
-	Adapter();
+	explicit Adapter();
 	virtual ~Adapter();
 
 	virtual void drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
@@ -70,7 +70,7 @@ class Nekomata {
 private:
 	Adapter* adapter;
 public:
-	Nekomata();
+	explicit Nekomata();
 	virtual ~Nekomata();
 public:
 	void registAdapter(Adapter* adapter);

@@ -65,7 +65,7 @@ public:
 	}
 
 public:
-	Stack(){}
+	explicit Stack(){}
 	virtual ~Stack(){}
 };
 

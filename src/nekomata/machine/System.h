@@ -15,7 +15,7 @@ class System {
 private:
 	nekomata::Adapter& adapter;
 public:
-	System(nekomata::Adapter& adapter);
+	explicit System(nekomata::Adapter& adapter);
 	virtual ~System();
 public:
 	unsigned int getCommentColor();

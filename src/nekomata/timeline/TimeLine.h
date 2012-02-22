@@ -22,7 +22,7 @@ private:
 	float time;
 	std::tr1::shared_ptr<const tree::ExprNode> node;
 public:
-	TimePoint(const float time, const std::tr1::shared_ptr<const tree::ExprNode> node)
+	explicit TimePoint(const float time, const std::tr1::shared_ptr<const tree::ExprNode> node)
 		:time(time), node(node){};
 	TimePoint(const TimePoint& other)
 		:time(other.time), node(other.node){};
