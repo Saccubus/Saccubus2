@@ -18,11 +18,37 @@ class Location;
 
 namespace machine
 {
-class NodeWalker;
-}
+
+class ObjectHeap;
+
+class Object;
+
+class LazyEvalObject;
+class MethodObject;
+class NativeMethodObject;
+class MethodNodeObject;
+
+class LambdaObject;
+class SambdaScopeObject;
+
+class TopLevelObject;
+
+class LiteralObject;
+class StringObject;
+class BooleanObject;
+class NumericObject;
+
+class UndefinedObject;
+
+class Machine;
+class System;
+
+};
 
 namespace tree
 {
+class NodeWalker;
+
 class Node;
 class ExprNode;
 

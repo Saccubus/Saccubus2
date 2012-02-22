@@ -69,6 +69,12 @@ public:
 class Nekomata {
 private:
 	Adapter* adapter;
+	/*
+	machine::System system;
+	machine::ObjectHeap heap;
+	machine::Machine machine;
+	logging::Logger log;
+	*/
 public:
 	explicit Nekomata();
 	virtual ~Nekomata();

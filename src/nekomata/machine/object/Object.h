@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../classdef.h"
+#include "../../classdefs.h"
 #include "../../tree/Node.h"
 
 namespace nekomata{

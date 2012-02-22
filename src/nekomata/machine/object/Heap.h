@@ -11,7 +11,7 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../classdef.h"
+#include "../../classdefs.h"
 
 namespace nekomata{
 namespace machine{

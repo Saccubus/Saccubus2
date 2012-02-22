@@ -6,7 +6,7 @@
  */
 
 #include <math.h>
-#include "../classdef.h"
+#include "../../classdefs.h"
 #include "Object.h"
 #include "Heap.h"
 
