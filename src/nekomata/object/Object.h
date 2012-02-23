@@ -27,6 +27,8 @@ public:
 public: /* Builtin Method Utils */
 #define ADD_BUILTIN(builtins, heap, name) \
 		(builtins)->insert(BuiltinMethodPair(#name, NativeMethodObject((heap), _method_##name)));
+#define ADD_BUILTIN_ALT(builtins, heap, name, func) \
+		(builtins)->insert(BuiltinMethodPair((name), NativeMethodObject((heap), _method_##func)));
 	typedef std::map<std::string, NativeMethodObject> BuiltinMethods;
 	typedef std::pair<std::string, NativeMethodObject> BuiltinMethodPair;
 protected:

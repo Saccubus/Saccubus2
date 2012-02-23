@@ -41,7 +41,7 @@ void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& m
 LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
 :Object(heap), builtins(new BuiltinMethods())
 {
-	builtins->insert(BuiltinMethodPair("@", NativeMethodObject(heap, LambdaScopeObject::_method_atmark)));
+	ADD_BUILTIN_ALT(builtins, heap, "@", atmark);
 	includeBuitin(builtins);
 }
 

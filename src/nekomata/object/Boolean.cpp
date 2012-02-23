@@ -22,7 +22,7 @@ BooleanObject::BooleanObject(Object& parent, bool literal)
 	ADD_BUILTIN(builtins, getHeap(), or);
 	ADD_BUILTIN(builtins, getHeap(), not);
 	ADD_BUILTIN(builtins, getHeap(), alternate);
-	builtins->insert(BuiltinMethodPair("alt", NativeMethodObject(getHeap(), _method_alternate)));
+	ADD_BUILTIN_ALT(builtins, getHeap(), "alt", alternate);
 	includeBuitin(builtins);
 }
 BooleanObject::~BooleanObject()
