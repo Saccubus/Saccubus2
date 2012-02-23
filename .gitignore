@@ -1,5 +1,8 @@
-src/nekomata/parser/*.*
-!src/nekomata/parser/niwango.g
-Release/
+src/nekomata/parser/niwangoLexer.c
+src/nekomata/parser/niwangoLexer.h
+src/nekomata/parser/niwangoParser.c
+src/nekomata/parser/niwangoParser.h
+src/nekomata/parser/niwango.tokens
+/Release
 /Debug
 /_LinuxDebug
