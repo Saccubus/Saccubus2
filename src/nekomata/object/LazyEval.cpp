@@ -7,14 +7,14 @@
 
 #include "Object.h"
 #include "Heap.h"
-#include "../Machine.h"
-#include "../../tree/Node.h"
+#include "../machine/Machine.h"
+#include "../tree/Node.h"
 
 using namespace nekomata::tree;
 
 namespace nekomata{
-namespace machine{
-LazyEvalObject::LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const ObjectNode* const node)
+namespace object{
+LazyEvalObject::LazyEvalObject(ObjectHeap& heap, const unsigned int hash, machine::Machine& machine, const ObjectNode* const node)
 :Object(heap, hash), machine(machine), node(node){
 }
 LazyEvalObject::~LazyEvalObject(){

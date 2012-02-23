@@ -6,14 +6,15 @@
  */
 
 #include "Object.h"
-#include "../Machine.h"
+#include "../machine/Machine.h"
+#include "../tree/Node.h"
 #include <math.h>
 #include <sstream>
 #include <algorithm>
 #include <tr1/functional>
 
 namespace nekomata{
-namespace machine
+namespace object
 {
 
 Object::Object(ObjectHeap& heap, const unsigned int hash)
@@ -28,7 +29,7 @@ Object::~Object()
 	// TODO Auto-generated destructor stub
 }
 
-void Object::eval(Machine& machine){
+void Object::eval(machine::Machine& machine){
 	machine.pushResult(this);
 }
 
@@ -179,7 +180,7 @@ void Object::inject(Object* to){
 // メソッド
 //---------------------------------------------------------------------------------------------------------------------
 
-void Object::_method_def(NativeMethodObject* method, Machine& machine)
+void Object::_method_def(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
@@ -207,7 +208,7 @@ void Object::_method_def(NativeMethodObject* method, Machine& machine)
 		machine.pushResult(self->getHeap().newUndefinedObject());
 	}
 }
-void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
+void Object::_method_def_kari(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
@@ -221,57 +222,57 @@ void Object::_method_def_kari(NativeMethodObject* method, Machine& machine)
 	machine.pushResult(_method);
 }
 
-void Object::_method_index(NativeMethodObject* method, Machine& machine)
+void Object::_method_index(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->index(static_cast<size_t>(machine.getArgument()->index(0)->toNumericObject()->toNumeric())));
 }
-void Object::_method_indexSet(NativeMethodObject* method, Machine& machine)
+void Object::_method_indexSet(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();
 	size_t const idx = static_cast<size_t>(arg->index(0)->toNumericObject()->toNumeric());
 	machine.pushResult(self->indexSet(idx, arg->index(1)));
 }
-void Object::_method_size(NativeMethodObject* method, Machine& machine)
+void Object::_method_size(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->getHeap().newNumericObject(self->size()));
 }
-void Object::_method_unshift(NativeMethodObject* method, Machine& machine)
+void Object::_method_unshift(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->unshift(machine.getArgument()->index(0)));
 }
-void Object::_method_push(NativeMethodObject* method, Machine& machine)
+void Object::_method_push(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->push(machine.getArgument()->index(0)));
 }
-void Object::_method_shift(NativeMethodObject* method, Machine& machine)
+void Object::_method_shift(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->shift());
 }
-void Object::_method_pop(NativeMethodObject* method, Machine& machine)
+void Object::_method_pop(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	machine.pushResult(self->pop());
 }
 
-bool Object::_sort_func(Machine& machine, Object* const self, Object* const other)
+bool Object::_sort_func(machine::Machine& machine, Object* const self, Object* const other)
 {
 	Object* result = machine.send(self, "lessThan", self->getHeap().newArray(other, 0));
 	return result->toBooleanObject()->toBool();
 }
 
-void Object::_method_sort(NativeMethodObject* method, Machine& machine)
+void Object::_method_sort(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
 	machine.pushResult(self);
 }
-void Object::_method_sum(NativeMethodObject* method, Machine& machine)
+void Object::_method_sum(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	double result = 0.0;
@@ -281,7 +282,7 @@ void Object::_method_sum(NativeMethodObject* method, Machine& machine)
 	}
 	machine.pushResult(self->getHeap().newNumericObject(result));
 }
-void Object::_method_product(NativeMethodObject* method, Machine& machine)
+void Object::_method_product(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	double result = 1.0;
@@ -291,7 +292,7 @@ void Object::_method_product(NativeMethodObject* method, Machine& machine)
 	}
 	machine.pushResult(self->getHeap().newNumericObject(result));
 }
-void Object::_method_join(NativeMethodObject* method, Machine& machine)
+void Object::_method_join(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	std::stringstream ss;
@@ -310,7 +311,7 @@ void Object::_method_join(NativeMethodObject* method, Machine& machine)
 }
 
 
-void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
+void Object::_method_setSlot(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const arg = machine.getArgument();
 	Object* const self = machine.getSelf();
@@ -318,18 +319,18 @@ void Object::_method_setSlot(NativeMethodObject* method, Machine& machine)
 	Object* const obj = arg->index(1);
 	machine.pushResult(self->setSlot(name, obj));
 }
-void Object::_method_getSlot(NativeMethodObject* method, Machine& machine)
+void Object::_method_getSlot(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	std::string name = machine.getArgument()->index(0)->toStringObject()->toString();
 	Object* const obj = self->getSlot(name);
 	machine.pushResult(obj);
 }
-void Object::_method_clone(NativeMethodObject* method, Machine& machine){
+void Object::_method_clone(NativeMethodObject* method, machine::Machine& machine){
 	Object* const self = machine.getSelf();
 }
 
-void Object::_method_if(NativeMethodObject* method, Machine& machine)
+void Object::_method_if(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const arg = machine.getArgument();
 	bool result;
@@ -344,7 +345,7 @@ void Object::_method_if(NativeMethodObject* method, Machine& machine)
 		machine.pushResult(arg->getSlot("else"));
 	}
 }
-void Object::_method_while_kari(NativeMethodObject* method, Machine& machine)
+void Object::_method_while_kari(NativeMethodObject* method, machine::Machine& machine)
 {
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(arg){
@@ -363,7 +364,7 @@ void Object::_method_while_kari(NativeMethodObject* method, Machine& machine)
 		machine.pushResult(arg->getHeap().newUndefinedObject());
 	}
 }
-void Object::_method_lambda(NativeMethodObject* method, Machine& machine)
+void Object::_method_lambda(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
@@ -373,7 +374,7 @@ void Object::_method_lambda(NativeMethodObject* method, Machine& machine)
 	}
 	machine.pushResult(self->getHeap().newLambdaObject(machine.getLocal(), arg->getRawNode()->index(0)));
 }
-void Object::_method_distance(NativeMethodObject* method, Machine& machine)
+void Object::_method_distance(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();
@@ -385,7 +386,7 @@ void Object::_method_distance(NativeMethodObject* method, Machine& machine)
 	double const dy = y1-y2;
 	machine.pushResult(self->getHeap().newNumericObject( sqrt(dx*dx+dy*dy) ));
 }
-void Object::_method_rand(NativeMethodObject* method, Machine& machine)
+void Object::_method_rand(NativeMethodObject* method, machine::Machine& machine)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();

@@ -5,21 +5,21 @@
  *      Author: psi
  */
 
-#include "../../Nekomata.h"
-#include "../Machine.h"
-#include "../System.h"
+#include "../Nekomata.h"
 #include "Object.h"
 #include "Heap.h"
+#include "../machine/Machine.h"
+#include "../machine/System.h"
 
 namespace nekomata{
-namespace machine{
+namespace object{
 
 #define ADD(name) \
 		getterList.insert(GetterPair(#name, TopLevelObject::__getter__##name));\
 		setterList.insert(SetterPair(#name, TopLevelObject::__setter__##name));
 
 
-TopLevelObject::TopLevelObject(ObjectHeap& heap, const unsigned int hash, System& system):
+TopLevelObject::TopLevelObject(ObjectHeap& heap, const unsigned int hash, machine::System& system):
 	Object(heap, hash), system(system)
 {
 	typedef std::pair<std::string, Getter> GetterPair;

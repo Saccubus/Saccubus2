@@ -6,12 +6,12 @@
  */
 
 #include <math.h>
-#include "../../classdefs.h"
+#include "../classdefs.h"
 #include "Object.h"
 #include "Heap.h"
 
 namespace nekomata{
-namespace machine{
+namespace object{
 UndefinedObject::UndefinedObject(ObjectHeap& heap, const unsigned int hash)
 :Object(heap, hash)
 {

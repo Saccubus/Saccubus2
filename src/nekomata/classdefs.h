@@ -8,16 +8,15 @@
 #ifndef CLASSDEFS_H_
 #define CLASSDEFS_H_
 
-namespace nekomata{
-namespace logging{
-
+namespace nekomata {
+namespace logging {
 class Dumpable;
 class Dumper;
+class Logger;
 class Location;
 }
 
-namespace machine
-{
+namespace object {
 
 class ObjectHeap;
 
@@ -40,13 +39,14 @@ class NumericObject;
 
 class UndefinedObject;
 
+}
+
+namespace machine{
 class Machine;
 class System;
+}
 
-};
-
-namespace tree
-{
+namespace tree {
 class NodeWalker;
 
 class Node;

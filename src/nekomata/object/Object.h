@@ -12,12 +12,10 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../../classdefs.h"
-#include "../../tree/Node.h"
+#include "../classdefs.h"
 
 namespace nekomata{
-namespace machine
-{
+namespace object{
 
 class Object
 {
@@ -57,38 +55,38 @@ public: /* KEYアクセス */
 	virtual size_t slotSize();
 public: /* 基本操作 */
 	virtual bool isUndefined();
-	virtual void eval(Machine& machine);
+	virtual void eval(machine::Machine& machine);
 	virtual StringObject* toStringObject();
 	virtual NumericObject* toNumericObject();
 	virtual BooleanObject* toBooleanObject();
 private:
-	static bool _sort_func(Machine& machine, Object* const self, Object* const other);
+	static bool _sort_func(machine::Machine& machine, Object* const self, Object* const other);
 public:
-	static void _method_def(NativeMethodObject* method, Machine& machine);
-	static void _method_def_kari(NativeMethodObject* method, Machine& machine);
+	static void _method_def(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_def_kari(NativeMethodObject* method, machine::Machine& machine);
 
-	static void _method_index(NativeMethodObject* method, Machine& machine);
-	static void _method_indexSet(NativeMethodObject* method, Machine& machine);
-	static void _method_size(NativeMethodObject* method, Machine& machine);
-	static void _method_unshift(NativeMethodObject* method, Machine& machine);
-	static void _method_push(NativeMethodObject* method, Machine& machine);
-	static void _method_shift(NativeMethodObject* method, Machine& machine);
-	static void _method_pop(NativeMethodObject* method, Machine& machine);
-	static void _method_sort(NativeMethodObject* method, Machine& machine);
-	static void _method_sum(NativeMethodObject* method, Machine& machine);
-	static void _method_product(NativeMethodObject* method, Machine& machine);
-	static void _method_join(NativeMethodObject* method, Machine& machine);
+	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_indexSet(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_size(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_unshift(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_push(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_shift(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_pop(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_sort(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_sum(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_product(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_join(NativeMethodObject* method, machine::Machine& machine);
 
-	static void _method_setSlot(NativeMethodObject* method, Machine& machine);
-	static void _method_getSlot(NativeMethodObject* method, Machine& machine);
-	static void _method_clone(NativeMethodObject* method, Machine& machine);
+	static void _method_setSlot(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_getSlot(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_clone(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_if(NativeMethodObject* method, Machine& machine);
-	static void _method_while_kari(NativeMethodObject* method, Machine& machine);
-	static void _method_lambda(NativeMethodObject* method, Machine& machine);
+	static void _method_if(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_while_kari(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_lambda(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_distance(NativeMethodObject* method, Machine& machine);
-	static void _method_rand(NativeMethodObject* method, Machine& machine);
+	static void _method_distance(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_rand(NativeMethodObject* method, machine::Machine& machine);
 };
 //-----------------------------------------------------------------------------
 
@@ -99,9 +97,9 @@ private:
 	typedef void (*Setter)(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
 	std::map<std::string, Getter> getterList;
 	std::map<std::string, Setter> setterList;
-	System& system;
+	machine::System& system;
 public:
-	explicit TopLevelObject(ObjectHeap& heap, const unsigned int hash, System& system);
+	explicit TopLevelObject(ObjectHeap& heap, const unsigned int hash, machine::System& system);
 	virtual ~TopLevelObject();
 public:
 	virtual Object* setSlot(const std::string& key, Object* const value);
@@ -141,12 +139,12 @@ public:
 class LazyEvalObject : public Object
 {
 private:
-	Machine& machine;
+	machine::Machine& machine;
 	const tree::ObjectNode* const node;
 	std::map<std::string, bool> slotEvalState;
 	std::map<size_t, bool> indexEvalState;
 public:
-	explicit LazyEvalObject(ObjectHeap& heap, const unsigned int hash, Machine& machine, const tree::ObjectNode* const node);
+	explicit LazyEvalObject(ObjectHeap& heap, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
 public: /* INDEXアクセス */
 	virtual Object* unshift(Object* const item);
@@ -175,13 +173,13 @@ protected:
 class NativeMethodObject : public MethodObject
 {
 public:
-	typedef void (*Method)(NativeMethodObject* method, Machine& machine);
+	typedef void (*Method)(NativeMethodObject* method, machine::Machine& machine);
 private:
 	const Method method;
 public:
 	explicit NativeMethodObject(ObjectHeap& heap, const unsigned int hash, Method method):MethodObject(heap,hash), method(method){};
 	virtual ~NativeMethodObject(){};
-	virtual void eval(Machine& machine){method(this, machine);}
+	virtual void eval(machine::Machine& machine){method(this, machine);}
 };
 class MethodNodeObject : public MethodObject
 {
@@ -194,12 +192,12 @@ private:
 	const tree::Node* const node;
 	const std::vector<std::string> argList;
 	const LocalScopeRule rule;
-	void mergeArg(Machine& machine, Object* const local, Object* const arg);
+	void mergeArg(machine::Machine& machine, Object* const local, Object* const arg);
 public:
 	explicit MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
 	explicit MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule);
 	virtual ~MethodNodeObject();
-	virtual void eval(Machine& machine);
+	virtual void eval(machine::Machine& machine);
 };
 
 class LambdaObject : public MethodObject
@@ -210,7 +208,7 @@ public:
 	explicit LambdaObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node);
 	virtual ~LambdaObject();
 public:
-	static void _method_index(NativeMethodObject* method, Machine& machine);
+	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
 };
 
 class LambdaScopeObject : public Object
@@ -219,7 +217,7 @@ public:
 	explicit LambdaScopeObject(ObjectHeap& heap, const unsigned int hash, Object* const arg);
 	virtual ~LambdaScopeObject();
 public:
-	static void _method_atmark(NativeMethodObject* method, Machine& machine);
+	static void _method_atmark(NativeMethodObject* method, machine::Machine& machine);
 };
 
 //-----------------------------------------------------------------------------
@@ -242,22 +240,22 @@ public:
 	BooleanObject* toBooleanObject();
 	const std::string& toString();
 public:
-	static void _method_equals(NativeMethodObject* method, Machine& machine);
-	static void _method_notEquals(NativeMethodObject* method, Machine& machine);
-	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
-	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_lessThan(NativeMethodObject* method, Machine& machine);
+	static void _method_equals(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notEquals(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notLessThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_greaterThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_lessThan(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_index(NativeMethodObject* method, Machine& machine);
-	static void _method_size(NativeMethodObject* method, Machine& machine);
-	static void _method_indexOf(NativeMethodObject* method, Machine& machine);
-	static void _method_slice(NativeMethodObject* method, Machine& machine);
-	static void _method_toInteger(NativeMethodObject* method, Machine& machine);
-	static void _method_toFloat(NativeMethodObject* method, Machine& machine);
-	static void _method_eval(NativeMethodObject* method, Machine& machine);
+	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_size(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_indexOf(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_slice(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_toInteger(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_toFloat(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_eval(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_add(NativeMethodObject* method, Machine& machine);
+	static void _method_add(NativeMethodObject* method, machine::Machine& machine);
 };
 class BooleanObject : public LiteralObject
 {
@@ -271,10 +269,10 @@ public:
 	BooleanObject* toBooleanObject();
 	bool toBool();
 public:
-	static void _method_and(NativeMethodObject* method, Machine& machine);
-	static void _method_or(NativeMethodObject* method, Machine& machine);
-	static void _method_not(NativeMethodObject* method, Machine& machine);
-	static void _method_alternate(NativeMethodObject* method, Machine& machine);
+	static void _method_and(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_or(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_not(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_alternate(NativeMethodObject* method, machine::Machine& machine);
 };
 class NumericObject : public LiteralObject
 {
@@ -289,28 +287,28 @@ public:
 	BooleanObject* toBooleanObject();
 	double toNumeric();
 public:
-	static void _method_plus(NativeMethodObject* method, Machine& machine);
-	static void _method_minus(NativeMethodObject* method, Machine& machine);
-	static void _method_increase(NativeMethodObject* method, Machine& machine);
-	static void _method_decrease(NativeMethodObject* method, Machine& machine);
-	static void _method_add(NativeMethodObject* method, Machine& machine);
-	static void _method_subtract(NativeMethodObject* method, Machine& machine);
-	static void _method_multiply(NativeMethodObject* method, Machine& machine);
-	static void _method_divide(NativeMethodObject* method, Machine& machine);
-	static void _method_modulo(NativeMethodObject* method, Machine& machine);
-	static void _method_clone(NativeMethodObject* method, Machine& machine);
+	static void _method_plus(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_minus(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_increase(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_decrease(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_add(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_subtract(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_multiply(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_divide(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_modulo(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_clone(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_equals(NativeMethodObject* method, Machine& machine);
-	static void _method_notEquals(NativeMethodObject* method, Machine& machine);
-	static void _method_notLessThan(NativeMethodObject* method, Machine& machine);
-	static void _method_notGreaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_greaterThan(NativeMethodObject* method, Machine& machine);
-	static void _method_lessThan(NativeMethodObject* method, Machine& machine);
+	static void _method_equals(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notEquals(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notLessThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_greaterThan(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_lessThan(NativeMethodObject* method, machine::Machine& machine);
 public:
-	static void _method_floor(NativeMethodObject* method, Machine& machine);
-	static void _method_sin(NativeMethodObject* method, Machine& machine);
-	static void _method_cos(NativeMethodObject* method, Machine& machine);
-	static void _method_pow(NativeMethodObject* method, Machine& machine);
+	static void _method_floor(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_sin(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_cos(NativeMethodObject* method, machine::Machine& machine);
+	static void _method_pow(NativeMethodObject* method, machine::Machine& machine);
 
 };
 

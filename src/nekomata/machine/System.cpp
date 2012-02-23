@@ -5,10 +5,10 @@
  *      Author: psi
  */
 
-#include "object/Object.h"
-#include "object/Heap.h"
 #include "../Nekomata.h"
 #include "System.h"
+#include "../object/Object.h"
+#include "../object/Heap.h"
 
 namespace nekomata{
 namespace machine {

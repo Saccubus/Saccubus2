@@ -16,7 +16,7 @@
 #include "nekomata/parser/niwangoParser.h"
 #include "nekomata/logging/Logging.h"
 #include "nekomata/machine/Machine.h"
-#include "nekomata/machine/object/Object.h"
+#include "nekomata/object/Object.h"
 using namespace std;
 using namespace std::tr1;
 
@@ -124,7 +124,7 @@ int main(int argc, char* args[]) {
 
 	nekomata::logging::Logger log(std::cout, level);
 	nekomata::machine::Machine machine(log);
-	nekomata::machine::Object* obj;
+	nekomata::object::Object* obj;
 	for(nekomata::timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());
 	}

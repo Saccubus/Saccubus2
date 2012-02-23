@@ -7,6 +7,7 @@
 
 #include "Object.h"
 #include "Heap.h"
+#include "../logging/Logging.h"
 #include <cstdarg>
 #include <math.h>
 #include <set>
@@ -14,7 +15,7 @@
 #include <tr1/functional>
 
 namespace nekomata{
-namespace machine{
+namespace object{
 
 const static std::string TAG("HEAP");
 
@@ -220,7 +221,7 @@ UndefinedObject* ObjectHeap::newUndefinedObject()
 	return &undefinedObject;
 }
 
-LazyEvalObject* ObjectHeap::newLazyEvalObject(Machine& machine, const tree::ObjectNode *objNode)
+LazyEvalObject* ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)
 {
 	LazyEvalObject* const obj = new LazyEvalObject(*this, createHash(), machine, objNode);
 	registObject(obj);

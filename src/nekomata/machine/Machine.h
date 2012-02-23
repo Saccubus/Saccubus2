@@ -10,56 +10,56 @@
 #include <vector>
 #include <map>
 #include "../classdefs.h"
-#include "object/Object.h"
-#include "object/Heap.h"
+#include "../object/Object.h"
+#include "../object/Heap.h"
 #include "../tree/NodeWalker.h"
 #include "Stack.h"
 
 namespace nekomata{
 namespace machine{
 
-class Machine: public tree::NodeWalker, public ObjectHeap::GarbageCollectionCallback
+class Machine: public tree::NodeWalker, public object::ObjectHeap::GarbageCollectionCallback
 {
 private:
-	ObjectHeap heap;
-	Stack<Object*> argStack;
-	Stack<Object*> selfStack;
-	Stack<Object*> resultStack;
-	Stack<Object*> scopeStack;
+	object::ObjectHeap heap;
+	Stack<object::Object*> argStack;
+	Stack<object::Object*> selfStack;
+	Stack<object::Object*> resultStack;
+	Stack<object::Object*> scopeStack;
 public:
 	explicit Machine(logging::Logger& log);
 	virtual ~Machine();
-	Object* eval(const nekomata::tree::Node* node, Object* const arg=0);
-	Object* send(Object* const self, const std::string& message, Object* const arg=0);
+	object::Object* eval(const nekomata::tree::Node* node, object::Object* const arg=0);
+	object::Object* send(object::Object* const self, const std::string& message, object::Object* const arg=0);
 	logging::Logger& log;
 public:
-	void needGC(ObjectHeap& self);
+	void needGC(object::ObjectHeap& self);
 public: //for Object
-	void pushResult(Object* obj);
-	Object* getArgument();
-	Object* getLocal();
-	Object* getSelf();
-	Object* getTopLevel();
-	void enterLocal(Object* local, Object* parent = 0);
-	void endLocal(Object* local);
+	void pushResult(object::Object* obj);
+	object::Object* getArgument();
+	object::Object* getLocal();
+	object::Object* getSelf();
+	object::Object* getTopLevel();
+	void enterLocal(object::Object* local, object::Object* parent = 0);
+	void endLocal(object::Object* local);
 protected: //for tree
 	void walkIn();
 	void walkOut();
-	void walkImpl(const nekomata::tree::BoolLiteralNode& node);
-	void walkImpl(const nekomata::tree::NumericLiteralNode& node);
-	void walkImpl(const nekomata::tree::StringLiteralNode& node);
-	void walkImpl(const nekomata::tree::AssignNode& node);
-	void walkImpl(const nekomata::tree::OpAssignNode& node);
-	void walkImpl(const nekomata::tree::IndexAcessNode& node);
-	void walkImpl(const nekomata::tree::BindNode& node);
-	void walkImpl(const nekomata::tree::PostOpNode& node);
-	void walkImpl(const nekomata::tree::PreOpNode& node);
-	void walkImpl(const nekomata::tree::BinOpNode& node);
-	void walkImpl(const nekomata::tree::ObjectNode& node);
-	void walkImpl(const nekomata::tree::InvokeNode& node);
-	void walkImpl(const nekomata::tree::ContNode& node);
+	void walkImpl(const tree::BoolLiteralNode& node);
+	void walkImpl(const tree::NumericLiteralNode& node);
+	void walkImpl(const tree::StringLiteralNode& node);
+	void walkImpl(const tree::AssignNode& node);
+	void walkImpl(const tree::OpAssignNode& node);
+	void walkImpl(const tree::IndexAcessNode& node);
+	void walkImpl(const tree::BindNode& node);
+	void walkImpl(const tree::PostOpNode& node);
+	void walkImpl(const tree::PreOpNode& node);
+	void walkImpl(const tree::BinOpNode& node);
+	void walkImpl(const tree::ObjectNode& node);
+	void walkImpl(const tree::InvokeNode& node);
+	void walkImpl(const tree::ContNode& node);
 private:
-	Object* resolveScope(const std::string& name);
+	object::Object* resolveScope(const std::string& name);
 };
 
 }

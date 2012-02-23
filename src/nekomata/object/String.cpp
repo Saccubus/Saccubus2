@@ -5,16 +5,16 @@
  *      Author: psi
  */
 
-#include "../Machine.h"
 #include "Object.h"
 #include "Heap.h"
+#include "../machine/Machine.h"
 #include <sstream>
 #include <math.h>
 #include <stdlib.h>
 #include <unicode/unistr.h>
 
 namespace nekomata{
-namespace machine{
+namespace object{
 
 StringObject::StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value)
 :LiteralObject(heap, hash), value(value)
@@ -43,43 +43,43 @@ const std::string& StringObject::toString()
 	return value;
 }
 
-void StringObject::_method_equals(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_equals(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() == other->toString() ) );
 }
-void StringObject::_method_notEquals(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_notEquals(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() != other->toString() ) );
 }
-void StringObject::_method_notLessThan(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_notLessThan(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() >= other->toString() ) );
 }
-void StringObject::_method_notGreaterThan(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() <= other->toString() ) );
 }
-void StringObject::_method_greaterThan(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_greaterThan(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() > other->toString() ) );
 }
-void StringObject::_method_lessThan(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_lessThan(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();
 	machine.pushResult( self->getHeap().newBooleanObject( self->toString() < other->toString() ) );
 }
-void StringObject::_method_index(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_index(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	Object* const arg = machine.getArgument();
@@ -89,13 +89,13 @@ void StringObject::_method_index(NativeMethodObject* method, Machine& machine)
 	uni.tempSubString(idx, 1).toUTF8String(result);
 	machine.pushResult( self->getHeap().newStringObject(result) );
 }
-void StringObject::_method_size(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_size(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	UnicodeString uni(self->value.c_str(), "utf-8");
 	machine.pushResult( self->getHeap().newNumericObject(uni.length()) );
 }
-void StringObject::_method_indexOf(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_indexOf(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	Object* const arg = machine.getArgument();
@@ -108,7 +108,7 @@ void StringObject::_method_indexOf(NativeMethodObject* method, Machine& machine)
 	UnicodeString other(key->value.c_str(), "utf-8");
 	machine.pushResult( self->getHeap().newNumericObject(uni.indexOf(other, from)) );
 }
-void StringObject::_method_slice(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_slice(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	UnicodeString uni(self->value.c_str(), "utf-8");
@@ -135,7 +135,7 @@ void StringObject::_method_slice(NativeMethodObject* method, Machine& machine)
 		machine.pushResult( self->getHeap().newStringObject(result) );
 	}
 }
-void StringObject::_method_toInteger(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_toInteger(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	char* ptr;
@@ -148,7 +148,7 @@ void StringObject::_method_toInteger(NativeMethodObject* method, Machine& machin
 		machine.pushResult( self->getHeap().newNumericObject(num) );
 	}
 }
-void StringObject::_method_toFloat(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_toFloat(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	char* ptr;
@@ -161,13 +161,13 @@ void StringObject::_method_toFloat(NativeMethodObject* method, Machine& machine)
 		machine.pushResult( self->getHeap().newNumericObject(num) );
 	}
 }
-void StringObject::_method_eval(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_eval(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	//FIXME:
 }
 
-void StringObject::_method_add(NativeMethodObject* method, Machine& machine)
+void StringObject::_method_add(NativeMethodObject* method, machine::Machine& machine)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	StringObject* const other = machine.getArgument()->index(0)->toStringObject();

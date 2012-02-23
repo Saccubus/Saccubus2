@@ -7,14 +7,13 @@
 
 #include <vector>
 #include <sstream>
-#include "../../classdefs.h"
 #include "Object.h"
 #include "Heap.h"
-#include "../Machine.h"
-#include "../../tree/Node.h"
+#include "../machine/Machine.h"
+#include "../tree/Node.h"
 
 namespace nekomata{
-namespace machine{
+namespace object{
 MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
 :MethodObject(heap, hash), node(node),argList(argList), rule(rule)
 {
@@ -29,7 +28,7 @@ MethodNodeObject::~MethodNodeObject()
 {
 
 }
-void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* const arg)
+void MethodNodeObject::mergeArg(machine::Machine& machine, Object* const local, Object* const arg)
 {
 	switch(rule)
 	{
@@ -65,7 +64,7 @@ void MethodNodeObject::mergeArg(Machine& machine, Object* const local, Object* c
 	}
 }
 
-void MethodNodeObject::eval(Machine& machine)
+void MethodNodeObject::eval(machine::Machine& machine)
 {
 	Object* const origLocal = machine.getLocal();
 	Object* const arg = machine.getArgument();

@@ -6,17 +6,18 @@
  */
 
 #include "Object.h"
-#include "../Machine.h"
+#include "../machine/Machine.h"
+#include "../tree/Node.h"
 
 namespace nekomata{
-namespace machine{
+namespace object{
 LambdaObject::LambdaObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node)
 :MethodObject(heap, hash),node(node){
 	Object::setSlot("$$scope", scope);
 }
 LambdaObject::~LambdaObject(){
 }
-void LambdaObject::_method_index(NativeMethodObject* method, Machine& machine)
+void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& machine)
 {
 	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
 	Object* const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
@@ -34,7 +35,7 @@ LambdaScopeObject::~LambdaScopeObject()
 {
 
 }
-void LambdaScopeObject::_method_atmark(NativeMethodObject* method, Machine& machine)
+void LambdaScopeObject::_method_atmark(NativeMethodObject* method, machine::Machine& machine)
 {
 	LazyEvalObject* const mergeArg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	Object* const local = machine.getLocal();

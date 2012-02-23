@@ -8,8 +8,8 @@
 #include "Machine.h"
 
 #include "../tree/NodeWalker.h"
-#include "object/Object.h"
-#include "object/Heap.h"
+#include "../object/Object.h"
+#include "../object/Heap.h"
 #include "../tree/Node.h"
 #include <tr1/memory>
 using namespace nekomata::tree;
@@ -22,7 +22,7 @@ Machine::Machine(logging::Logger& log)
 :heap(log, *this)
 ,log(log)
 {
-	Object* const topLevel(heap.newObject());
+	object::Object* const topLevel(heap.newObject());
 	selfStack.push(topLevel);
 	this->enterLocal(topLevel, heap.newUndefinedObject());
 }
@@ -38,30 +38,30 @@ void Machine::walkOut(){
 	heap.checkGC();
 }
 
-void Machine::pushResult(Object* obj){
+void Machine::pushResult(object::Object* obj){
 	resultStack.push(obj);
 }
-Object* Machine::getArgument(){
+object::Object* Machine::getArgument(){
 	return argStack.top();
 }
-Object* Machine::getSelf(){
+object::Object* Machine::getSelf(){
 	return selfStack.top();
 }
-Object* Machine::getTopLevel(){
+object::Object* Machine::getTopLevel(){
 	return selfStack.bottom();
 }
-Object* Machine::getLocal()
+object::Object* Machine::getLocal()
 {
 	return scopeStack.top();
 }
-void Machine::enterLocal(Object* local, Object* parent)
+void Machine::enterLocal(object::Object* local, object::Object* parent)
 {
 	if(parent){
 		local->setSlot("$$parent", parent);
 	}
 	scopeStack.push(local);
 }
-void Machine::endLocal(Object* local)
+void Machine::endLocal(object::Object* local)
 {
 	if(scopeStack.top() != local){
 		this->log.e(TAG, 0, "[BUG] calling \"end local\" was forgotten!");
@@ -69,7 +69,7 @@ void Machine::endLocal(Object* local)
 	scopeStack.pop();
 }
 
-Object* Machine::resolveScope(const std::string& name)
+object::Object* Machine::resolveScope(const std::string& name)
 {
 	if(name.compare("self") == 0){
 		this->log.t(TAG, 0, "Scope Resolved: self");
@@ -78,8 +78,8 @@ Object* Machine::resolveScope(const std::string& name)
 		this->log.t(TAG, 0, "Scope Resolved: \"local\"");
 		return getLocal();
 	}else{
-		for(Object* obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
-			Object* const slot = obj->getSlot(name);
+		for(object::Object* obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
+			object::Object* const slot = obj->getSlot(name);
 			if(!slot->isUndefined()){
 				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), obj->toStringObject()->toString().c_str());
 				return obj;
@@ -90,7 +90,7 @@ Object* Machine::resolveScope(const std::string& name)
 	}
 }
 
-Object* Machine::eval(const Node * node, Object* const arg){
+object::Object* Machine::eval(const Node * node, object::Object* const arg){
 	if(arg){
 		argStack.push(arg);
 	}else{
@@ -100,7 +100,7 @@ Object* Machine::eval(const Node * node, Object* const arg){
 	argStack.pop();
 	return resultStack.pop();
 }
-Object* Machine::send(Object* const self, const std::string& message, Object* const arg){
+object::Object* Machine::send(object::Object* const self, const std::string& message, object::Object* const arg){
 	if(arg){
 		argStack.push(arg);
 	}else{
@@ -117,9 +117,9 @@ Object* Machine::send(Object* const self, const std::string& message, Object* co
 	return resultStack.pop();
 }
 
-void Machine::needGC(ObjectHeap& self)
+void Machine::needGC(object::ObjectHeap& self)
 {
-	std::vector<Object*> objList;
+	std::vector<object::Object*> objList;
 	argStack.merge(objList);
 	selfStack.merge(objList);
 	scopeStack.merge(objList);
@@ -149,8 +149,8 @@ void Machine::walkImpl(const AssignNode & node)
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 	if(invokeNode){
 		this->log.t(TAG, &invokeNode->location(), "Evaluating assign node with invoke node.");
-		Object* destObj = 0;
-		Object* const rhsObj = eval(node.getRightNode());
+		object::Object* destObj = 0;
+		object::Object* const rhsObj = eval(node.getRightNode());
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
@@ -160,16 +160,16 @@ void Machine::walkImpl(const AssignNode & node)
 				destObj = resolveScope(invokeNode->getMessageName());
 			}
 		}
-		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
-		Object* const arg = heap.newArray(nameObj,rhsObj, 0);
+		object::StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		object::Object* const arg = heap.newArray(nameObj,rhsObj, 0);
 
 		send(destObj, "setSlot", arg);
 		pushResult(rhsObj);
 	}else if(idxNode){
 		this->log.t(TAG, &idxNode->location(), "Evaluating assign node with index access node.");
-		Object* const destObj = eval(idxNode->getExprNode());
-		Object* const idxObj = eval(idxNode->getObjectNode());
-		Object* const rhsObj = eval(node.getRightNode());
+		object::Object* const destObj = eval(idxNode->getExprNode());
+		object::Object* const idxObj = eval(idxNode->getObjectNode());
+		object::Object* const rhsObj = eval(node.getRightNode());
 
 		send(destObj, "indexSet", heap.newArray(idxObj->index(0), rhsObj, 0));
 		pushResult(rhsObj);
@@ -185,28 +185,28 @@ void Machine::walkImpl(const OpAssignNode & node)
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 	if(invokeNode){
 		this->log.t(TAG, &invokeNode->location(), "Evaluating op assign node with invoke node.");
-			Object* destObj = 0;
-		Object* const rhsObj = eval(node.getRightNode());
+			object::Object* destObj = 0;
+		object::Object* const rhsObj = eval(node.getRightNode());
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		object::StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
-		Object* const operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
-		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
+		object::Object* const operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		object::Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
 		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 		pushResult(result);
 	}else if(idxNode){
 		this->log.t(TAG, &idxNode->location(), "Evaluating op assign node with index access node.");
-		Object* const destObj = eval(idxNode->getExprNode());
-		Object* const idxObj = eval(idxNode->getObjectNode());
-		Object* const rhsObj = eval(node.getRightNode());
+		object::Object* const destObj = eval(idxNode->getExprNode());
+		object::Object* const idxObj = eval(idxNode->getObjectNode());
+		object::Object* const rhsObj = eval(node.getRightNode());
 
-		Object* const operandObj = send(destObj, "index", idxObj);
-		Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
+		object::Object* const operandObj = send(destObj, "index", idxObj);
+		object::Object* const result = send(operandObj, node.getOp(), heap.newArray(rhsObj, 0));
 
 		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
 		pushResult(result);
@@ -218,7 +218,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 void Machine::walkImpl(const IndexAcessNode & node)
 {
 	this->log.t(TAG, &node.location(), "Evaluating index access node.");
-	Object* const destObj = eval(node.getExprNode());
+	object::Object* const destObj = eval(node.getExprNode());
 	pushResult(send(destObj, "index", heap.newLazyEvalObject(*this, node.getObjectNode())));
 }
 void Machine::walkImpl(const BindNode & node)
@@ -232,26 +232,26 @@ void Machine::walkImpl(const PostOpNode & node)
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
 		this->log.t(TAG, &node.location(), "Evaluating post op node with invoke node: %s", node.getOp().c_str());
-		Object* destObj = 0;
+		object::Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		object::StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
-		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
-		Object* const result = send(operandObj, node.getOp());
+		object::Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		object::Object* const result = send(operandObj, node.getOp());
 
 		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 		pushResult(operandObj);
 	}else if(idxNode){
 		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node: %s", node.getOp().c_str());
-		Object* const destObj = eval(idxNode->getExprNode());
-		Object* const idxObj = eval(idxNode->getObjectNode());
+		object::Object* const destObj = eval(idxNode->getExprNode());
+		object::Object* const idxObj = eval(idxNode->getObjectNode());
 
-		Object* const operandObj = send(destObj, "index", idxObj);
-		Object* const result = send(operandObj, node.getOp());
+		object::Object* const operandObj = send(destObj, "index", idxObj);
+		object::Object* const result = send(operandObj, node.getOp());
 
 		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
 
@@ -267,26 +267,26 @@ void Machine::walkImpl(const PreOpNode & node)
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
 		this->log.t(TAG, &node.location(), "Evaluating pre op node with invoke node: %s", node.getOp().c_str());
-		Object* destObj = 0;
+		object::Object* destObj = 0;
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		object::StringObject* const nameObj = heap.newStringObject(invokeNode->getMessageName());
 
-		Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
-		Object* const result = send(operandObj, node.getOp());
+		object::Object* operandObj = send(destObj, "getSlot", heap.newArray(nameObj, 0));
+		object::Object* const result = send(operandObj, node.getOp());
 		send(destObj, "setSlot", heap.newArray(nameObj, result, 0));
 
 		pushResult(result);
 	}else if(idxNode){
 		this->log.t(TAG, &node.location(), "Evaluating pre op node with index access node: %s", node.getOp().c_str());
-		Object* const destObj = eval(idxNode->getExprNode());
-		Object* const idxObj = eval(idxNode->getObjectNode());
+		object::Object* const destObj = eval(idxNode->getExprNode());
+		object::Object* const idxObj = eval(idxNode->getObjectNode());
 
-		Object* const operandObj = send(destObj, "index", idxObj);
-		Object* const result = send(operandObj, node.getOp());
+		object::Object* const operandObj = send(destObj, "index", idxObj);
+		object::Object* const result = send(operandObj, node.getOp());
 
 		send(destObj, "indexSet", heap.newArray(idxObj->index(0), result, 0));
 
@@ -299,14 +299,14 @@ void Machine::walkImpl(const PreOpNode & node)
 void Machine::walkImpl(const BinOpNode & node)
 {
 	this->log.t(TAG, &node.location(), "Evaluating bin op node: %s", node.getOp().c_str());
-	Object* const leftObj = eval(node.getLeftNode());
-	Object* const rightObj = eval(node.getRightNode());
+	object::Object* const leftObj = eval(node.getLeftNode());
+	object::Object* const rightObj = eval(node.getRightNode());
 	pushResult( send(leftObj, node.getOp(), heap.newArray(rightObj, 0)) );
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
 	this->log.t(TAG, &node.location(), "Evaluating object node.");
-	Object* const obj = heap.newObject();
+	object::Object* const obj = heap.newObject();
 
 	const size_t argc = node.size();
 	for(size_t i=0;i<argc;++i){
@@ -323,7 +323,7 @@ void Machine::walkImpl(const InvokeNode & node)
 {
 	this->log.t(TAG, &node.location(), "Evaluating invoke node.");
 	if(node.getExprNode()){
-		Object* const destObj = eval(node.getExprNode());
+		object::Object* const destObj = eval(node.getExprNode());
 		pushResult(send(destObj, node.getMessageName(), getArgument()));
 	}else{
 		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName(), getArgument()));

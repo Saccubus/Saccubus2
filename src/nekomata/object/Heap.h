@@ -11,10 +11,10 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../../classdefs.h"
+#include "../classdefs.h"
 
 namespace nekomata{
-namespace machine{
+namespace object{
 
 class ObjectHeap
 {
@@ -62,7 +62,7 @@ public:
 	LambdaScopeObject* newLambdaScopeObject(Object* const arg);
 	Object* newObject();
 public:
-	LazyEvalObject* newLazyEvalObject(Machine& machine, const tree::ObjectNode* objNode);
+	LazyEvalObject* newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode* objNode);
 	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
 	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
 	LambdaObject* newLambdaObject(Object* const scope, const tree::Node* node);
