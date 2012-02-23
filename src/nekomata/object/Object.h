@@ -19,25 +19,35 @@ namespace object{
 
 class Object
 {
-private:
+public:
+	explicit Object(ObjectHeap& heap);
+	explicit Object(ObjectHeap& heap, bool isRaw);
+	explicit Object(Object& parent, const unsigned int hash);
+	virtual ~Object();
+public: /* Builtin Method Utils */
+#define ADD_BUILTIN(builtins, heap, name) \
+		(builtins)->insert(BuiltinMethodPair(#name, NativeMethodObject((heap), _method_##name)));
+	typedef std::map<std::string, NativeMethodObject> BuiltinMethods;
+	typedef std::pair<std::string, NativeMethodObject> BuiltinMethodPair;
+protected:
+	void includeBuitin(BuiltinMethods* const method);
+public: /* SlotTypeDefinition */
+	typedef std::vector<Object*>::iterator SlotListIterator;
+	typedef std::map<std::string, Object*>::iterator SlotMapIterator;
+	typedef std::pair<std::string, Object*> SlotMapPair;
+private: /* Heap management */
 	ObjectHeap& heap;
 	const int hash;
 	int color;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
-	typedef std::vector<Object*>::iterator Iterator;
-	typedef std::map<std::string, Object*>::iterator MapIterator;
-	typedef std::pair<std::string, Object*> MapPair;
+	BuiltinMethods* const builtins;
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
-	explicit Object(ObjectHeap& heap, const unsigned int hash);
-	virtual ~Object();
 	unsigned int getHash(){return hash;};
 	void mark(int color);
 	int getColor();
-public:
-	virtual void inject(Object* to);
 public: /* INDEXアクセス */
 	virtual Object* unshift(Object* const item);
 	virtual Object* push(Object* const item);
@@ -99,7 +109,7 @@ private:
 	std::map<std::string, Setter> setterList;
 	machine::System& system;
 public:
-	explicit TopLevelObject(ObjectHeap& heap, const unsigned int hash, machine::System& system);
+	explicit TopLevelObject(ObjectHeap& heap, machine::System& system);
 	virtual ~TopLevelObject();
 public:
 	virtual Object* setSlot(const std::string& key, Object* const value);
@@ -144,7 +154,7 @@ private:
 	std::map<std::string, bool> slotEvalState;
 	std::map<size_t, bool> indexEvalState;
 public:
-	explicit LazyEvalObject(ObjectHeap& heap, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
+	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
 public: /* INDEXアクセス */
 	virtual Object* unshift(Object* const item);
@@ -164,9 +174,13 @@ public: /* KEYアクセス */
 public:
 	const tree::ObjectNode* const getRawNode() const{return node;};
 };
+
+//---------------------------------------------------------------------------------------------------------------------
+
 class MethodObject : public Object{
 protected:
-	MethodObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
+	MethodObject(ObjectHeap& heap):Object(heap){};
+	MethodObject(Object& parent, const unsigned int hash):Object(parent, hash){};
 	virtual ~MethodObject(){}
 };
 
@@ -177,7 +191,7 @@ public:
 private:
 	const Method method;
 public:
-	explicit NativeMethodObject(ObjectHeap& heap, const unsigned int hash, Method method):MethodObject(heap,hash), method(method){};
+	explicit NativeMethodObject(ObjectHeap& heap, Method method):MethodObject(heap), method(method){};
 	virtual ~NativeMethodObject(){};
 	virtual void eval(machine::Machine& machine){method(this, machine);}
 };
@@ -194,8 +208,8 @@ private:
 	const LocalScopeRule rule;
 	void mergeArg(machine::Machine& machine, Object* const local, Object* const arg);
 public:
-	explicit MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
-	explicit MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule);
+	explicit MethodNodeObject(Object& parent, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
+	explicit MethodNodeObject(Object& parent, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule);
 	virtual ~MethodNodeObject();
 	virtual void eval(machine::Machine& machine);
 };
@@ -203,9 +217,11 @@ public:
 class LambdaObject : public MethodObject
 {
 private:
+	BuiltinMethods* const builtins;
 	const tree::Node* const node;
 public:
-	explicit LambdaObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node);
+	explicit LambdaObject(ObjectHeap& heap);
+	explicit LambdaObject(LambdaObject& parent, const unsigned int hash, Object* const scope, const tree::Node* const node);
 	virtual ~LambdaObject();
 public:
 	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
@@ -214,26 +230,31 @@ public:
 class LambdaScopeObject : public Object
 {
 public:
-	explicit LambdaScopeObject(ObjectHeap& heap, const unsigned int hash, Object* const arg);
+	BuiltinMethods* const builtins;
+	explicit LambdaScopeObject(ObjectHeap& heap);
+	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Object* const arg);
 	virtual ~LambdaScopeObject();
 public:
 	static void _method_atmark(NativeMethodObject* method, machine::Machine& machine);
 };
 
-//-----------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
 
 class LiteralObject : public Object
 {
 protected:
-	explicit LiteralObject(ObjectHeap& heap, const unsigned int hash):Object(heap,hash){};
+	explicit LiteralObject(Object& parent):Object(parent, 0){};
+	explicit LiteralObject(LiteralObject& parent, int hash):Object(parent, hash){};
 	virtual ~LiteralObject(){};
 };
 class StringObject : public LiteralObject
 {
 private:
 	const std::string value;
+	BuiltinMethods* builtins;
 public:
-	explicit StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value);
+	explicit StringObject(Object& parent);
+	explicit StringObject(StringObject& parent, int hash, const std::string& literal);
 	virtual ~StringObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -261,8 +282,9 @@ class BooleanObject : public LiteralObject
 {
 private:
 	const bool value;
+	BuiltinMethods* builtins;
 public:
-	explicit BooleanObject(ObjectHeap& heap, const unsigned int hash, const bool value);
+	explicit BooleanObject(Object& parent, bool literal);
 	virtual ~BooleanObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -278,9 +300,11 @@ class NumericObject : public LiteralObject
 {
 private:
 	const double value;
+	BuiltinMethods* builtins;
 public:
 	const static double EPSILON;
-	explicit NumericObject(ObjectHeap& heap, const unsigned int hash, const double value);
+	explicit NumericObject(Object& parent);
+	explicit NumericObject(NumericObject& parent, int hash, const double literal);
 	virtual ~NumericObject();
 	StringObject* toStringObject();
 	NumericObject* toNumericObject();
@@ -315,7 +339,7 @@ public:
 class UndefinedObject : public Object
 {
 public:
-	explicit UndefinedObject(ObjectHeap& heap, const unsigned int hash);
+	explicit UndefinedObject(ObjectHeap& heap);
 	virtual ~UndefinedObject();
 public:
 	StringObject* toStringObject();

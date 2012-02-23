@@ -16,17 +16,61 @@
 namespace nekomata{
 namespace object
 {
-
-Object::Object(ObjectHeap& heap, const unsigned int hash)
-:heap(heap), hash(hash), color(0)
+Object::Object(ObjectHeap& heap)
+:heap(heap), hash(-1), color(0), builtins(0)
 {
-	// TODO Auto-generated constructor stub
-
 }
+Object::Object(ObjectHeap& heap, bool isRaw)
+:heap(heap), hash(-1), color(0), builtins(new BuiltinMethods())
+{
+	ADD_BUILTIN(builtins, heap, setSlot);
+	ADD_BUILTIN(builtins, heap, getSlot);
+	ADD_BUILTIN(builtins, heap, clone);
+	if(!isRaw){
+		ADD_BUILTIN(builtins, heap, def);
+		ADD_BUILTIN(builtins, heap, def_kari);
+
+		ADD_BUILTIN(builtins, heap, index);
+		ADD_BUILTIN(builtins, heap, indexSet);
+		ADD_BUILTIN(builtins, heap, size);
+		ADD_BUILTIN(builtins, heap, unshift);
+		ADD_BUILTIN(builtins, heap, push);
+		ADD_BUILTIN(builtins, heap, shift);
+		ADD_BUILTIN(builtins, heap, pop);
+		ADD_BUILTIN(builtins, heap, sort);
+		ADD_BUILTIN(builtins, heap, sum);
+		ADD_BUILTIN(builtins, heap, product);
+		ADD_BUILTIN(builtins, heap, join);
+
+		ADD_BUILTIN(builtins, heap, if);
+		ADD_BUILTIN(builtins, heap, while_kari);
+		ADD_BUILTIN(builtins, heap, lambda);
+
+		ADD_BUILTIN(builtins, heap, distance);
+		ADD_BUILTIN(builtins, heap, rand);
+	}
+	includeBuitin(builtins);
+}
+Object::Object(Object& parent, const unsigned int hash)
+:heap(parent.getHeap()), hash(hash), color(0), builtins(0)
+{
+	objectList.insert(objectList.end(), parent.objectList.begin(), parent.objectList.end());
+	objectMap.insert(parent.objectMap.begin(), parent.objectMap.end());
+}
+
 
 Object::~Object()
 {
-	// TODO Auto-generated destructor stub
+	if(builtins){
+		delete builtins;
+	}
+}
+
+void Object::includeBuitin(BuiltinMethods* methods)
+{
+	for(BuiltinMethods::iterator it = methods->begin(); it!=methods->end();++it){
+		Object::setSlot(it->first, &it->second);
+	}
 }
 
 void Object::eval(machine::Machine& machine){
@@ -117,7 +161,7 @@ bool Object::has(const std::string& key)
 std::vector<std::string> Object::getSlotNames()
 {
 	std::vector<std::string> slotList;
-	for(MapIterator it = objectMap.begin(); it != objectMap.end(); ++it){
+	for(SlotMapIterator it = objectMap.begin(); it != objectMap.end(); ++it){
 		slotList.push_back(it->first);
 	}
 	return slotList;
@@ -129,11 +173,11 @@ bool Object::isUndefined(){
 Object* Object::setSlot(const std::string& name, Object* const item)
 {
 	objectMap.erase(name);
-	objectMap.insert(MapPair(name, item));
+	objectMap.insert(SlotMapPair(name, item));
 	return this;
 }
 Object* Object::getSlot(const std::string& name){
-	MapIterator it = objectMap.find(name);
+	SlotMapIterator it = objectMap.find(name);
 	if(it == objectMap.end()){
 		return getHeap().newUndefinedObject();
 	}else{
@@ -151,11 +195,11 @@ StringObject* Object::toStringObject()
 {
 	std::stringstream ss;
 	ss << "<< Object: " << getHash() << ">> {";
-	for(MapIterator it = objectMap.begin();it != objectMap.end();++it){
+	for(SlotMapIterator it = objectMap.begin();it != objectMap.end();++it){
 		ss << std::endl << it->first << " : " << "<<Object"<< it->second->getHash() <<">>";
 	}
 	int cnt=0;
-	for(Iterator it = objectList.begin();it != objectList.end();++it){
+	for(SlotListIterator it = objectList.begin();it != objectList.end();++it){
 		ss << std::endl << "$" << cnt << " : " << (*it)->getHash();
 		++cnt;
 	}
@@ -169,11 +213,6 @@ NumericObject* Object::toNumericObject()
 BooleanObject* Object::toBooleanObject()
 {
 	return getHeap().newBooleanObject(true);
-}
-
-void Object::inject(Object* to){
-	to->objectList.insert(to->objectList.end(), objectList.begin(), objectList.end());
-	to->objectMap.insert(objectMap.begin(), objectMap.end());
 }
 
 //---------------------------------------------------------------------------------------------------------------------

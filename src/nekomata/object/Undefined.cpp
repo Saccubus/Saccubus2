@@ -12,8 +12,8 @@
 
 namespace nekomata{
 namespace object{
-UndefinedObject::UndefinedObject(ObjectHeap& heap, const unsigned int hash)
-:Object(heap, hash)
+UndefinedObject::UndefinedObject(ObjectHeap& heap)
+:Object(heap)
 {
 
 }

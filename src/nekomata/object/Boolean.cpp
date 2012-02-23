@@ -15,14 +15,21 @@
 namespace nekomata{
 namespace object{
 
-BooleanObject::BooleanObject(ObjectHeap& heap, const unsigned int hash, const bool value)
-:LiteralObject(heap,hash), value(value)
+BooleanObject::BooleanObject(Object& parent, bool literal)
+:LiteralObject(parent), value(literal), builtins(new BuiltinMethods())
 {
-
+	ADD_BUILTIN(builtins, getHeap(), and);
+	ADD_BUILTIN(builtins, getHeap(), or);
+	ADD_BUILTIN(builtins, getHeap(), not);
+	ADD_BUILTIN(builtins, getHeap(), alternate);
+	builtins->insert(BuiltinMethodPair("alt", NativeMethodObject(getHeap(), _method_alternate)));
+	includeBuitin(builtins);
 }
 BooleanObject::~BooleanObject()
 {
-
+	if(builtins){
+		delete builtins;
+	}
 }
 StringObject* BooleanObject::toStringObject()
 {

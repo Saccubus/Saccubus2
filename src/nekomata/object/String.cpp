@@ -16,14 +16,38 @@
 namespace nekomata{
 namespace object{
 
-StringObject::StringObject(ObjectHeap& heap, const unsigned int hash, const std::string& value)
-:LiteralObject(heap, hash), value(value)
+StringObject::StringObject(Object& parent)
+:LiteralObject(parent), value("null"), builtins(new BuiltinMethods())
+{
+	ADD_BUILTIN(builtins, getHeap(), equals);
+	ADD_BUILTIN(builtins, getHeap(), notEquals);
+	ADD_BUILTIN(builtins, getHeap(), notLessThan);
+	ADD_BUILTIN(builtins, getHeap(), notGreaterThan);
+	ADD_BUILTIN(builtins, getHeap(), greaterThan);
+	ADD_BUILTIN(builtins, getHeap(), lessThan);
+
+	ADD_BUILTIN(builtins, getHeap(), index);
+	ADD_BUILTIN(builtins, getHeap(), size);
+	ADD_BUILTIN(builtins, getHeap(), indexOf);
+	ADD_BUILTIN(builtins, getHeap(), slice);
+	ADD_BUILTIN(builtins, getHeap(), toInteger);
+	ADD_BUILTIN(builtins, getHeap(), toFloat);
+	ADD_BUILTIN(builtins, getHeap(), eval);
+
+	ADD_BUILTIN(builtins, getHeap(), add);
+	includeBuitin(builtins);
+}
+
+StringObject::StringObject(StringObject& parent, int hash, const std::string& literal)
+:LiteralObject(parent, hash), value(literal), builtins(0)
 {
 
 }
 StringObject::~StringObject()
 {
-
+	if(builtins){
+		delete builtins;
+	}
 }
 StringObject* StringObject::toStringObject()
 {

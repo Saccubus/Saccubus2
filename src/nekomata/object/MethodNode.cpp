@@ -14,13 +14,13 @@
 
 namespace nekomata{
 namespace object{
-MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
-:MethodObject(heap, hash), node(node),argList(argList), rule(rule)
+MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
+:MethodObject(parent, hash), node(node),argList(argList), rule(rule)
 {
 	Object::setSlot("$$scope", scope);
 }
-MethodNodeObject::MethodNodeObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule)
-:MethodObject(heap, hash), node(node),rule(rule)
+MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, Object* const scope, const tree::Node* const node, LocalScopeRule rule)
+:MethodObject(parent, hash), node(node),rule(rule)
 {
 	Object::setSlot("$$scope", scope);
 }

@@ -19,8 +19,8 @@ namespace object{
 		setterList.insert(SetterPair(#name, TopLevelObject::__setter__##name));
 
 
-TopLevelObject::TopLevelObject(ObjectHeap& heap, const unsigned int hash, machine::System& system):
-	Object(heap, hash), system(system)
+TopLevelObject::TopLevelObject(ObjectHeap& heap, machine::System& system):
+	Object(heap), system(system)
 {
 	typedef std::pair<std::string, Getter> GetterPair;
 	typedef std::pair<std::string, Setter> SetterPair;

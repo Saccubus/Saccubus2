@@ -1,5 +1,5 @@
-src/parser/*.*
-!src/parser/niwango.g
+src/nekomata/parser/*.*
+!src/nekomata/parser/niwango.g
 Release/
 /Debug
 /_LinuxDebug

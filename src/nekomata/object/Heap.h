@@ -36,21 +36,16 @@ private:
 	size_t lastObjectSize;
 	int gcCount;
 private:
-	void injectMethods(Object* const obj, std::map<std::string, NativeMethodObject>& methods);
-	void setWorld();
 	/* これらの関数はGCで管理しない */
+	Object rawObject;
+	Object baseObject;
+	LambdaObject baseLambdaObject;
+	LambdaScopeObject baseLambdaScopeObject;
+	StringObject baseStringObject;
+	NumericObject baseNumericObject;
 	BooleanObject trueObject;
 	BooleanObject falseObject;
 	UndefinedObject undefinedObject;
-	std::map<std::string, NativeMethodObject> rawObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseLambdaObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseLambdaScopeObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseStringObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseNumericObjectBuiltinMethod;
-	std::map<std::string, NativeMethodObject> baseBooleanObjectBuiltinMethod;
-
-
 	/*GCで管理するオブジェクトを登録*/
 	int createHash();
 	void registObject(Object* obj);

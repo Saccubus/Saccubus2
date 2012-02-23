@@ -14,8 +14,8 @@ using namespace nekomata::tree;
 
 namespace nekomata{
 namespace object{
-LazyEvalObject::LazyEvalObject(ObjectHeap& heap, const unsigned int hash, machine::Machine& machine, const ObjectNode* const node)
-:Object(heap, hash), machine(machine), node(node){
+LazyEvalObject::LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node)
+:Object(parent, hash), machine(machine), node(node){
 }
 LazyEvalObject::~LazyEvalObject(){
 

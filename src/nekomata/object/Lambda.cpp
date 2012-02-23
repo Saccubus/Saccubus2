@@ -11,11 +11,23 @@
 
 namespace nekomata{
 namespace object{
-LambdaObject::LambdaObject(ObjectHeap& heap, const unsigned int hash, Object* const scope, const tree::Node* const node)
-:MethodObject(heap, hash),node(node){
+
+LambdaObject::LambdaObject(ObjectHeap& heap)
+:MethodObject(heap), builtins(new BuiltinMethods()), node(0)
+{
+	ADD_BUILTIN(builtins, heap, index);
+	includeBuitin(builtins);
+}
+LambdaObject::LambdaObject(LambdaObject& parent, const unsigned int hash, Object* const scope, const tree::Node* const node)
+:MethodObject(parent, hash), builtins(0),node(node)
+{
 	Object::setSlot("$$scope", scope);
 }
+
 LambdaObject::~LambdaObject(){
+	if(builtins){
+		delete builtins;
+	}
 }
 void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& machine)
 {
@@ -26,14 +38,23 @@ void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& m
 	machine.endLocal(local);
 }
 
-LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap, const unsigned int hash, Object* const arg)
-:Object(heap, hash)
+LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
+:Object(heap), builtins(new BuiltinMethods())
+{
+	builtins->insert(BuiltinMethodPair("@", NativeMethodObject(heap, LambdaScopeObject::_method_atmark)));
+	includeBuitin(builtins);
+}
+
+LambdaScopeObject::LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Object* const arg)
+:Object(parent, hash), builtins(0)
 {
 	Object::setSlot("$$arg", arg);
 }
 LambdaScopeObject::~LambdaScopeObject()
 {
-
+	if(builtins){
+		delete builtins;
+	}
 }
 void LambdaScopeObject::_method_atmark(NativeMethodObject* method, machine::Machine& machine)
 {

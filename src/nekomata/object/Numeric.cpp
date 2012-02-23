@@ -16,13 +16,43 @@ namespace nekomata{
 namespace object{
 
 const double NumericObject::EPSILON = 1e-10;
-NumericObject::NumericObject(ObjectHeap& heap, const unsigned int hash, const double value)
-: LiteralObject(heap,hash), value(value)
+
+NumericObject::NumericObject(Object& parent)
+:LiteralObject(parent), value(NAN), builtins(new BuiltinMethods())
+{
+	ADD_BUILTIN(builtins, getHeap(), plus);
+	ADD_BUILTIN(builtins, getHeap(), minus);
+	ADD_BUILTIN(builtins, getHeap(), increase);
+	ADD_BUILTIN(builtins, getHeap(), decrease);
+	ADD_BUILTIN(builtins, getHeap(), add);
+	ADD_BUILTIN(builtins, getHeap(), subtract);
+	ADD_BUILTIN(builtins, getHeap(), multiply);
+	ADD_BUILTIN(builtins, getHeap(), divide);
+	ADD_BUILTIN(builtins, getHeap(), modulo);
+
+	ADD_BUILTIN(builtins, getHeap(), equals);
+	ADD_BUILTIN(builtins, getHeap(), notEquals);
+	ADD_BUILTIN(builtins, getHeap(), notLessThan);
+	ADD_BUILTIN(builtins, getHeap(), notGreaterThan);
+	ADD_BUILTIN(builtins, getHeap(), greaterThan);
+	ADD_BUILTIN(builtins, getHeap(), lessThan);
+
+
+	ADD_BUILTIN(builtins, getHeap(), floor);
+	ADD_BUILTIN(builtins, getHeap(), sin);
+	ADD_BUILTIN(builtins, getHeap(), cos);
+	ADD_BUILTIN(builtins, getHeap(), pow);
+	includeBuitin(builtins);
+}
+NumericObject::NumericObject(NumericObject& parent, int hash, const double literal)
+: LiteralObject(parent,hash), value(literal), builtins(0)
 {
 }
 NumericObject::~NumericObject()
 {
-
+	if(builtins){
+		delete builtins;
+	}
 }
 StringObject* NumericObject::toStringObject()
 {
@@ -90,9 +120,6 @@ void NumericObject::_method_modulo(NativeMethodObject* method, machine::Machine&
 void NumericObject::_method_clone(NativeMethodObject* method, machine::Machine& machine)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
-	NumericObject* const newObj = self->getHeap().newNumericObject(self->toNumeric());
-	self->inject(newObj);
-	machine.pushResult(newObj);
 }
 
 void NumericObject::_method_equals(NativeMethodObject* method, machine::Machine& machine)
