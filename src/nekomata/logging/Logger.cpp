@@ -5,10 +5,12 @@
  *      Author: psi
  */
 
-#include "Logging.h"
 #include <sstream>
 #include <iomanip>
 #include <stdio.h>
+#include "Logging.h"
+#include "../util/StringUtil.h"
+#include "Exception.h"
 namespace nekomata{
 namespace logging{
 Logger::Logger(std::ostream& stream, enum Level level)
@@ -27,6 +29,11 @@ void Logger::e(const std::string& tag, const Location* loc, const std::string& s
 	va_start(list, str);
 	msg(ERROR, tag, loc, str, list);
 	va_end(list);
+}
+
+void Logger::e(Exception& exception)
+{
+	msg(ERROR, "Exception", 0, exception.what(), 0);
 }
 void Logger::w(const std::string& tag, const Location* loc, const std::string& str, ...)
 {
@@ -85,13 +92,7 @@ void Logger::msg(enum Level level, const std::string& tag, const Location* loc, 
 		ss << "[" << std::setw(3) <<  loc->getLineNo() << "," << std::setw(3) << loc->getColNo() << "]";
 	}
 
-	char buff[1024];
-
-	const size_t len = vsnprintf(buff, 1024, str.c_str(), list);
-	if(len > 0){
-		ss << buff << std::endl;
-	}
-	stream << ss.str();
+	ss << nekomata::utl::format(str.c_str(), list);
 	stream.flush();
 }
 

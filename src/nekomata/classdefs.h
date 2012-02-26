@@ -14,6 +14,7 @@ class Dumpable;
 class Dumper;
 class Logger;
 class Location;
+class Exception;
 }
 
 namespace object {

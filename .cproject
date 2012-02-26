@@ -5,7 +5,9 @@
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.debug.775998722">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.debug.775998722" moduleId="org.eclipse.cdt.core.settings" name="Debug">
-				<externalSettings/>
+				<externalSettings>
+					<externalSetting/>
+				</externalSettings>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -28,41 +30,24 @@
 								</outputEntries>
 							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug.1721948597" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug">
-								<option id="gnu.both.asm.option.include.paths.1351884023" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Dropbox/src/niwango/:/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/icu/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/antlr/include"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.965821220" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.991423685" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.88737802" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug">
 								<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.487096830" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.621025127" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.include.paths.116280518" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Dropbox/src/niwango/:/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/icu/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/antlr/include"/>
-								</option>
 								<option id="gnu.cpp.compiler.option.other.other.670601936" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1314798596" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool command="g++" id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.1347518763" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.mingw.exe.debug.option.optimization.level.554261874" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.debug.option.debugging.level.1549209361" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.1567714304" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Dropbox/src/niwango/:/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/icu/include"/>
-									<listOptionValue builtIn="false" value="D:/software/dev/lib/antlr/include"/>
-								</option>
 								<option id="gnu.c.compiler.option.misc.other.1420386748" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -Wunused-variable -Wunknown-pragmas -Wunused-function" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.allwarn.1615401573" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1249762913" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.202592054" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.386990280" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
-								<option id="gnu.cpp.link.option.paths.2042536975" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths"/>
-								<option id="gnu.cpp.link.option.libs.2120588253" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1485931343" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -107,9 +92,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.681570074" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.386990280"/>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -135,45 +117,21 @@
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.GNU_ELF;org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1222780194" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
 							<builder buildPath="${workspace_loc:/Niwango/Release}" id="cdt.managedbuild.tool.gnu.builder.mingw.base.499586940" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
 							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.730266088" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
-								<option id="gnu.both.asm.option.include.paths.425926216" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value=".::/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1488503573" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1075329513" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.23948420" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release">
 								<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.540428827" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.mingw.exe.release.option.debugging.level.1424232882" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.include.paths.1248520222" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value=".::/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1449626180" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool command="g++" id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.1518535097" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.exe.release.option.optimization.level.1687748539" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.release.option.debugging.level.523360282" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.1946484619" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;D:\software\utl\lib\core\antlr\include&quot;"/>
-									<listOptionValue builtIn="false" value=".::/D/software/dev/msys/mingw/include:/D/software/dev/msys/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/cairo/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/xml/include"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1387721134" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.1426030071" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.112907358" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release">
-								<option id="gnu.cpp.link.option.paths.1097031311" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value=".::/D/software/dev/msys/mingw/lib:/D/software/dev/msys/lib:/D/software/dev/lib/antlr/lib:/D/software/dev/lib/cairo/lib:/D/software/dev/lib/glib/lib:/D/software/dev/lib/icu/lib:/D/software/dev/lib/intl/lib:/D/software/dev/lib/xml/lib"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\lib&quot;"/>
-								</option>
-								<option id="gnu.cpp.link.option.libs.1955351808" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="antlr3c"/>
-									<listOptionValue builtIn="false" value="icuuc"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1679680905" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -181,9 +139,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -213,31 +168,16 @@
 								<option id="gnu.c.compiler.option.debugging.level.787186770" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.warnings.allwarn.1619573044" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.nowarn.1042006834" name="Inhibit all warnings (-w)" superClass="gnu.c.compiler.option.warnings.nowarn" value="true" valueType="boolean"/>
-								<option id="gnu.c.compiler.option.include.paths.491315431" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1012369401" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.assembler.base.325545265" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<option id="gnu.both.asm.option.include.paths.1109360098" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/home/psi/Dev/sdl20/include"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1963300377" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.108830009" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.base.1816638675" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.1687891215" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+								<option id="gnu.cpp.link.option.libs.367988906" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="antlr3c"/>
 									<listOptionValue builtIn="false" value="icuuc"/>
-									<listOptionValue builtIn="false" value="icudata"/>
-								</option>
-								<option id="gnu.cpp.link.option.paths.736901985" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
-									<listOptionValue builtIn="false" value="/home/psi/Dev/sdl20/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1762190241" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -247,17 +187,10 @@
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1702537900" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.optimization.level.1387658380" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.84658539" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.include.paths.839213771" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.494299514" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

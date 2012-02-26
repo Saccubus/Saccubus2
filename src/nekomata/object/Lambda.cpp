@@ -8,6 +8,7 @@
 #include "Object.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
+#include "../logging/Exception.h"
 
 namespace nekomata{
 namespace object{
@@ -32,6 +33,9 @@ LambdaObject::~LambdaObject(){
 void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& machine)
 {
 	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
+	if(!self){
+		throw nekomata:: logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
+	}
 	Object* const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
 	machine.enterLocal(local, self->Object::getSlot("$$scope"));
 	machine.pushResult(machine.eval(self->node));
@@ -59,6 +63,9 @@ LambdaScopeObject::~LambdaScopeObject()
 void LambdaScopeObject::_method_atmark(NativeMethodObject* method, machine::Machine& machine)
 {
 	LazyEvalObject* const mergeArg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	if(!mergeArg){
+		throw nekomata:: logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!! Argument is not LazyEvalObject");
+	}
 	Object* const local = machine.getLocal();
 	Object* const arg = machine.getSelf()->getSlot("$$arg");
 	size_t const max = mergeArg->getRawNode()->size();

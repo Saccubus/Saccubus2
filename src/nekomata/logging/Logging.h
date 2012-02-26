@@ -14,6 +14,7 @@
 #include <iostream>
 #include <tr1/memory>
 #include <stdarg.h>
+#include "../classdefs.h"
 
 namespace nekomata{
 namespace logging
@@ -69,6 +70,7 @@ public:
 	Logger(std::ostream& stream, enum Level level = VERBOSE);
 	virtual ~Logger();
 	void e(const std::string& tag, const Location* loc, const std::string& str, ...);
+	void e(Exception& exception);
 	void w(const std::string& tag, const Location* loc, const std::string& str, ...);
 	void d(const std::string& tag, const Location* loc, const std::string& str, ...);
 	void v(const std::string& tag, const Location* loc, const std::string& str, ...);
