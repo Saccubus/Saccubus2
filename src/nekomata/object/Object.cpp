@@ -16,6 +16,9 @@
 namespace nekomata{
 namespace object
 {
+
+static std::string TAG(__FILE__);
+
 Object::Object(ObjectHeap& heap)
 :heap(heap), hash(-1), color(0), builtins(0)
 {
@@ -224,6 +227,7 @@ void Object::_method_def(NativeMethodObject* method, machine::Machine& machine)
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(!arg || arg->size() < 2){
+		machine.log.w(TAG, 0, "Invalid method define call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
@@ -236,6 +240,7 @@ void Object::_method_def(NativeMethodObject* method, machine::Machine& machine)
 	}else if(bindNode){
 		const tree::InvokeNode* const nameNode = dynamic_cast<const tree::InvokeNode*>(bindNode->getExprNode());
 		if(!nameNode){
+			machine.log.w(TAG, 0, "Invalid method define. Method was defined without name.");
 			machine.pushResult(self->getHeap().newUndefinedObject());
 			return;
 		}
@@ -244,6 +249,7 @@ void Object::_method_def(NativeMethodObject* method, machine::Machine& machine)
 		self->setSlot(nameNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else{
+		machine.log.w(TAG, 0, "Invalid method define. There is no name for the method.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
 	}
 }
@@ -252,6 +258,7 @@ void Object::_method_def_kari(NativeMethodObject* method, machine::Machine& mach
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(!arg || arg->size() < 2){
+		machine.log.w(TAG, 0, "Invalid def_kari call. There is neither name nor method body.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
@@ -390,6 +397,7 @@ void Object::_method_while_kari(NativeMethodObject* method, machine::Machine& ma
 	if(arg){
 		const tree::ObjectNode* const node = arg->getRawNode();
 		if(node->size() < 2){
+			machine.log.w(TAG, 0, "Invalid while_kari.");
 			machine.pushResult(arg->getHeap().newUndefinedObject());
 			return;
 		}
@@ -408,6 +416,7 @@ void Object::_method_lambda(NativeMethodObject* method, machine::Machine& machin
 	Object* const self = machine.getSelf();
 	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(!arg || arg->size() < 1){
+		machine.log.w(TAG, 0, "Invalid lambda call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
