@@ -384,6 +384,8 @@ public:
 	bool isUndefined();
 };
 
+#undef DEC_BUILTIN
+#undef DEC_HOOK_ACCESSOR
 
 }
 }

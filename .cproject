@@ -49,6 +49,7 @@
 								<option id="gnu.c.compiler.mingw.exe.debug.option.debugging.level.1549209361" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.misc.other.1420386748" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -Wunused-variable -Wunknown-pragmas -Wunused-function" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.allwarn.1615401573" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.nowarn.387733544" superClass="gnu.c.compiler.option.warnings.nowarn" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1249762913" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.202592054" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
@@ -166,7 +167,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\lib&quot;"/>
 								</option>
-								<option id="gnu.cpp.link.option.libs.928828795" superClass="gnu.cpp.link.option.libs" valueType="libs">
+								<option id="gnu.cpp.link.option.libs.928828795" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="icuuc"/>
 									<listOptionValue builtIn="false" value="antlr3c"/>
 								</option>

@@ -16,7 +16,7 @@
 
 namespace nekomata {
 
-#define DEC_ACCESSOR(name, type) \
+#define DEC_ADAPTER_ACCESSOR(name, type) \
 	virtual type name() = 0; \
 	virtual void name(const type& name) = 0;
 
@@ -26,20 +26,20 @@ public:
 	explicit ShapeAdapter(){};
 	virtual ~ShapeAdapter(){};
 public:
-	DEC_ACCESSOR(x, double);
-	DEC_ACCESSOR(y, double);
-	DEC_ACCESSOR(z, double);
-	DEC_ACCESSOR(shape, std::string);
-	DEC_ACCESSOR(width, double);
-	DEC_ACCESSOR(height, double);
-	DEC_ACCESSOR(color,unsigned int);
-	DEC_ACCESSOR(visible, bool)
-	DEC_ACCESSOR(pos, std::string);
-	DEC_ACCESSOR(mask, bool);
-	DEC_ACCESSOR(commentmask, bool);
-	DEC_ACCESSOR(alpha, double);
-	DEC_ACCESSOR(rotation, double)
-	DEC_ACCESSOR(mover, std::string);
+	DEC_ADAPTER_ACCESSOR(x, double);
+	DEC_ADAPTER_ACCESSOR(y, double);
+	DEC_ADAPTER_ACCESSOR(z, double);
+	DEC_ADAPTER_ACCESSOR(shape, std::string);
+	DEC_ADAPTER_ACCESSOR(width, double);
+	DEC_ADAPTER_ACCESSOR(height, double);
+	DEC_ADAPTER_ACCESSOR(color,unsigned int);
+	DEC_ADAPTER_ACCESSOR(visible, bool)
+	DEC_ADAPTER_ACCESSOR(pos, std::string);
+	DEC_ADAPTER_ACCESSOR(mask, bool);
+	DEC_ADAPTER_ACCESSOR(commentmask, bool);
+	DEC_ADAPTER_ACCESSOR(alpha, double);
+	DEC_ADAPTER_ACCESSOR(rotation, double)
+	DEC_ADAPTER_ACCESSOR(mover, std::string);
 };
 
 class SumAdapter
@@ -48,17 +48,17 @@ public:
 	explicit SumAdapter(){};
 	virtual ~SumAdapter(){};
 public:
-	DEC_ACCESSOR(x, double);
-	DEC_ACCESSOR(y, double);
-	DEC_ACCESSOR(size, double);
-	DEC_ACCESSOR(color,unsigned int);
-	DEC_ACCESSOR(visible, bool)
-	DEC_ACCESSOR(enabled, bool)
-	DEC_ACCESSOR(pos, std::string);
-	DEC_ACCESSOR(asc, bool);
-	DEC_ACCESSOR(unit, std::string);
-	DEC_ACCESSOR(buttononly, bool);
-	DEC_ACCESSOR(words, std::vector<std::string>);
+	DEC_ADAPTER_ACCESSOR(x, double);
+	DEC_ADAPTER_ACCESSOR(y, double);
+	DEC_ADAPTER_ACCESSOR(size, double);
+	DEC_ADAPTER_ACCESSOR(color,unsigned int);
+	DEC_ADAPTER_ACCESSOR(visible, bool)
+	DEC_ADAPTER_ACCESSOR(enabled, bool)
+	DEC_ADAPTER_ACCESSOR(pos, std::string);
+	DEC_ADAPTER_ACCESSOR(asc, bool);
+	DEC_ADAPTER_ACCESSOR(unit, std::string);
+	DEC_ADAPTER_ACCESSOR(buttononly, bool);
+	DEC_ADAPTER_ACCESSOR(words, std::vector<std::string>);
 };
 class SumResultAdapter
 {
@@ -66,14 +66,14 @@ public:
 	explicit SumResultAdapter(){};
 	virtual ~SumResultAdapter(){};
 public:
-	DEC_ACCESSOR(x, double);
-	DEC_ACCESSOR(y, double);
-	DEC_ACCESSOR(color,unsigned int);
-	DEC_ACCESSOR(visible, bool)
-	DEC_ACCESSOR(pos, std::string);
-	DEC_ACCESSOR(unit, std::string);
-	DEC_ACCESSOR(asc, bool);
-	DEC_ACCESSOR(sum, std::vector<SumAdapter*>);
+	DEC_ADAPTER_ACCESSOR(x, double);
+	DEC_ADAPTER_ACCESSOR(y, double);
+	DEC_ADAPTER_ACCESSOR(color,unsigned int);
+	DEC_ADAPTER_ACCESSOR(visible, bool)
+	DEC_ADAPTER_ACCESSOR(pos, std::string);
+	DEC_ADAPTER_ACCESSOR(unit, std::string);
+	DEC_ADAPTER_ACCESSOR(asc, bool);
+	DEC_ADAPTER_ACCESSOR(sum, std::vector<SumAdapter*>);
 };
 class ChatAdapter
 {
@@ -81,18 +81,18 @@ public:
 	explicit ChatAdapter(){};
 	virtual ~ChatAdapter(){};
 public:
-	DEC_ACCESSOR(text, std::string);
-	DEC_ACCESSOR(x, double);
-	DEC_ACCESSOR(y, double);
-	DEC_ACCESSOR(z, double);
-	DEC_ACCESSOR(size, std::string);
-	DEC_ACCESSOR(pos, std::string);
-	DEC_ACCESSOR(color, unsigned int);
-	DEC_ACCESSOR(bold, bool);
-	DEC_ACCESSOR(visible, bool);
-	DEC_ACCESSOR(filter, std::string);
-	DEC_ACCESSOR(alpha, double);
-	DEC_ACCESSOR(mover, std::string);
+	DEC_ADAPTER_ACCESSOR(text, std::string);
+	DEC_ADAPTER_ACCESSOR(x, double);
+	DEC_ADAPTER_ACCESSOR(y, double);
+	DEC_ADAPTER_ACCESSOR(z, double);
+	DEC_ADAPTER_ACCESSOR(size, std::string);
+	DEC_ADAPTER_ACCESSOR(pos, std::string);
+	DEC_ADAPTER_ACCESSOR(color, unsigned int);
+	DEC_ADAPTER_ACCESSOR(bold, bool);
+	DEC_ADAPTER_ACCESSOR(visible, bool);
+	DEC_ADAPTER_ACCESSOR(filter, std::string);
+	DEC_ADAPTER_ACCESSOR(alpha, double);
+	DEC_ADAPTER_ACCESSOR(mover, std::string);
 };
 
 class ButtonAdapter
@@ -101,14 +101,14 @@ public:
 	explicit ButtonAdapter(){};
 	virtual ~ButtonAdapter(){};
 public:
-	DEC_ACCESSOR(message, std::string);
-	DEC_ACCESSOR(mail, std::string);
-	DEC_ACCESSOR(vpos, double);
-	DEC_ACCESSOR(commes, std::string);
-	DEC_ACCESSOR(commail, std::string);
-	DEC_ACCESSOR(comvisible, bool);
-	DEC_ACCESSOR(limit, int);
-	DEC_ACCESSOR(hidden, bool);
+	DEC_ADAPTER_ACCESSOR(message, std::string);
+	DEC_ADAPTER_ACCESSOR(mail, std::string);
+	DEC_ADAPTER_ACCESSOR(vpos, double);
+	DEC_ADAPTER_ACCESSOR(commes, std::string);
+	DEC_ADAPTER_ACCESSOR(commail, std::string);
+	DEC_ADAPTER_ACCESSOR(comvisible, bool);
+	DEC_ADAPTER_ACCESSOR(limit, int);
+	DEC_ADAPTER_ACCESSOR(hidden, bool);
 };
 
 class ReplaceAdapter
@@ -117,15 +117,15 @@ public:
 	explicit ReplaceAdapter(){};
 	virtual ~ReplaceAdapter(){};
 public:
-	DEC_ACCESSOR(src, std::string);
-	DEC_ACCESSOR(dst, std::string);
-	DEC_ACCESSOR(enabled, bool);
-	DEC_ACCESSOR(target, std::string);
-	DEC_ACCESSOR(fill, bool);
-	DEC_ACCESSOR(partial, bool);
-	DEC_ACCESSOR(color, unsigned int);
-	DEC_ACCESSOR(size, double);
-	DEC_ACCESSOR(pos, std::string);
+	DEC_ADAPTER_ACCESSOR(src, std::string);
+	DEC_ADAPTER_ACCESSOR(dst, std::string);
+	DEC_ADAPTER_ACCESSOR(enabled, bool);
+	DEC_ADAPTER_ACCESSOR(target, std::string);
+	DEC_ADAPTER_ACCESSOR(fill, bool);
+	DEC_ADAPTER_ACCESSOR(partial, bool);
+	DEC_ADAPTER_ACCESSOR(color, unsigned int);
+	DEC_ADAPTER_ACCESSOR(size, double);
+	DEC_ADAPTER_ACCESSOR(pos, std::string);
 };
 
 class Adapter
@@ -153,17 +153,17 @@ public:
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume) = 0;
 	virtual void playCM(int id) = 0;
 //
-	DEC_ACCESSOR(commentColor, unsigned int);
-	DEC_ACCESSOR(commentPlace, std::string);
-	DEC_ACCESSOR(commentSize, std::string);
-	DEC_ACCESSOR(commentInvisible, bool);
-	DEC_ACCESSOR(commentReverse, bool);
-	DEC_ACCESSOR(defaultSage, bool);
-	DEC_ACCESSOR(postDisabled, bool);
-	DEC_ACCESSOR(seekDisabled, bool);
-	DEC_ACCESSOR(isLoaded, bool);
-	DEC_ACCESSOR(isWide, bool);
-	DEC_ACCESSOR(lastVideo, std::string);
+	DEC_ADAPTER_ACCESSOR(commentColor, unsigned int);
+	DEC_ADAPTER_ACCESSOR(commentPlace, std::string);
+	DEC_ADAPTER_ACCESSOR(commentSize, std::string);
+	DEC_ADAPTER_ACCESSOR(commentInvisible, bool);
+	DEC_ADAPTER_ACCESSOR(commentReverse, bool);
+	DEC_ADAPTER_ACCESSOR(defaultSage, bool);
+	DEC_ADAPTER_ACCESSOR(postDisabled, bool);
+	DEC_ADAPTER_ACCESSOR(seekDisabled, bool);
+	DEC_ADAPTER_ACCESSOR(isLoaded, bool);
+	DEC_ADAPTER_ACCESSOR(isWide, bool);
+	DEC_ADAPTER_ACCESSOR(lastVideo, std::string);
 };
 
 class Nekomata {
@@ -184,7 +184,7 @@ public:
 	void seek(float time);
 };
 
-#undef DEC_ACCESSOR
+#undef DEC_ADAPTER_ACCESSOR
 
 }
 #endif /* NEKOMATA_H_ */
