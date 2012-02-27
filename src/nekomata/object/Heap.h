@@ -37,6 +37,7 @@ private:
 	int gcCount;
 private:
 	/* これらの関数はGCで管理しない */
+	TopLevelObject topLevelObject;
 	Object rawObject;
 	Object baseObject;
 	LambdaObject baseLambdaObject;
@@ -50,8 +51,10 @@ private:
 	int createHash();
 	void registObject(Object* obj);
 public:
-	explicit ObjectHeap(logging::Logger& log, GarbageCollectionCallback& callback);
+	explicit ObjectHeap(logging::Logger& log, machine::System& system, GarbageCollectionCallback& callback);
 	~ObjectHeap();
+public:
+	TopLevelObject* getTopLevelObject();
 public:
 	Object* newRawObject();
 	LambdaScopeObject* newLambdaScopeObject(Object* const arg);

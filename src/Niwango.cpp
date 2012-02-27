@@ -12,13 +12,18 @@
 #include <libgen.h>
 #include <iomanip>
 #include "nekomata/const.h"
+#include "nekomata/Nekomata.h"
 #include "nekomata/parser/niwangoLexer.h"
 #include "nekomata/parser/niwangoParser.h"
-#include "nekomata/logging/Logging.h"
+#include "nekomata/machine/System.h"
 #include "nekomata/machine/Machine.h"
 #include "nekomata/object/Object.h"
+#include "nekomata/logging/Logging.h"
 using namespace std;
 using namespace std::tr1;
+#ifdef ERROR
+#undef ERROR
+#endif
 
 void usage(int argc, char* args[]){
 	cout << "Usage: " << basename(args[0]) << " [switches] [--] [programfile]" << endl;
@@ -122,8 +127,10 @@ int main(int argc, char* args[]) {
 		return 0;
 	}
 
+	nekomata::Adapter* adapter = 0;
 	nekomata::logging::Logger log(std::cout, level);
-	nekomata::machine::Machine machine(log);
+	nekomata::machine::System _system(*adapter);
+	nekomata::machine::Machine machine(log, _system);
 	nekomata::object::Object* obj;
 	for(nekomata::timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());

@@ -79,91 +79,91 @@ size_t TopLevelObject::slotSize()
 
 Object* TopLevelObject::__getter__commentColor(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newNumericObject(self.system.getCommentColor());
+	return heap.newNumericObject(self.system.commentColor());
 }
 void TopLevelObject::__setter__commentColor(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setCommentColor(static_cast<unsigned int>(obj->index(0)->toNumericObject()->toNumeric()));
+	self.system.commentColor(static_cast<unsigned int>(obj->index(0)->toNumericObject()->toNumeric()));
 }
 Object* TopLevelObject::__getter__commentPlace(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newStringObject(self.system.getCommentPlace());
+	return heap.newStringObject(self.system.commentPlace());
 }
 void TopLevelObject::__setter__commentPlace(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setCommentPlace(obj->index(0)->toStringObject()->toString());
+	self.system.commentPlace(obj->index(0)->toStringObject()->toString());
 }
 Object* TopLevelObject::__getter__commentSize(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newStringObject(self.system.getCommentSize());
+	return heap.newStringObject(self.system.commentSize());
 }
 void TopLevelObject::__setter__commentSize(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setCommentSize(obj->index(0)->toStringObject()->toString());
+	self.system.commentSize(obj->index(0)->toStringObject()->toString());
 }
 Object* TopLevelObject::__getter__commentInvisible(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getCommentInvisible());
+	return heap.newBooleanObject(self.system.commentInvisible());
 }
 void TopLevelObject::__setter__commentInvisible(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setCommentInvisible(obj->index(0)->toBooleanObject()->toBool());
+	self.system.commentInvisible(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__commentReverse(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getCommentReverse());
+	return heap.newBooleanObject(self.system.commentReverse());
 }
 void TopLevelObject::__setter__commentReverse(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setCommentReverse(obj->index(0)->toBooleanObject()->toBool());
+	self.system.commentReverse(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__defaultSage(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getDefaultSage());
+	return heap.newBooleanObject(self.system.defaultSage());
 }
 void TopLevelObject::__setter__defaultSage(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setDefaultSage(obj->index(0)->toBooleanObject()->toBool());
+	self.system.defaultSage(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__postDisabled(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getPostDisabled());
+	return heap.newBooleanObject(self.system.postDisabled());
 }
 void TopLevelObject::__setter__postDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setPostDisabled(obj->index(0)->toBooleanObject()->toBool());
+	self.system.postDisabled(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__seekDisabled(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getSeekDisabled());
+	return heap.newBooleanObject(self.system.seekDisabled());
 }
 void TopLevelObject::__setter__seekDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setSeekDisabled(obj->index(0)->toBooleanObject()->toBool());
+	self.system.seekDisabled(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__isLoaded(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getIsLoaded());
+	return heap.newBooleanObject(self.system.isLoaded());
 }
 void TopLevelObject::__setter__isLoaded(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setIsLoaded(obj->index(0)->toBooleanObject()->toBool());
+	self.system.isLoaded(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__isWide(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newBooleanObject(self.system.getIsWide());
+	return heap.newBooleanObject(self.system.isWide());
 }
 void TopLevelObject::__setter__isWide(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setIsWide(obj->index(0)->toBooleanObject()->toBool());
+	self.system.isWide(obj->index(0)->toBooleanObject()->toBool());
 }
 Object* TopLevelObject::__getter__lastVideo(TopLevelObject& self, ObjectHeap& heap)
 {
-	return heap.newStringObject(self.system.getLastVideo());
+	return heap.newStringObject(self.system.lastVideo());
 }
 void TopLevelObject::__setter__lastVideo(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
 {
-	self.system.setLastVideo(obj->index(0)->toStringObject()->toString());
+	self.system.lastVideo(obj->index(0)->toStringObject()->toString());
 }
 
 }

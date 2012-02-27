@@ -15,6 +15,9 @@
 #include <tr1/memory>
 #include <stdarg.h>
 #include "../classdefs.h"
+#ifdef ERROR
+#undef ERROR
+#endif
 
 namespace nekomata{
 namespace logging
@@ -31,6 +34,7 @@ protected:
 public:
 	virtual void dump(Dumper& dumper) const = 0;
 };
+
 
 class Location{
 private:

@@ -9,9 +9,9 @@
 
 namespace nekomata {
 
-Nekomata::Nekomata() {
-	// TODO Auto-generated constructor stub
-
+Nekomata::Nekomata(Adapter& adapter, logging::Logger& log)
+:adapter(adapter), log(log), system(adapter), machine(log, system)
+{
 }
 
 Nekomata::~Nekomata() {

@@ -27,7 +27,7 @@ private:
 	Stack<object::Object*> resultStack;
 	Stack<object::Object*> scopeStack;
 public:
-	explicit Machine(logging::Logger& log);
+	explicit Machine(logging::Logger& log, System& system);
 	virtual ~Machine();
 	object::Object* eval(const nekomata::tree::Node* node, object::Object* const arg=0);
 	object::Object* send(object::Object* const self, const std::string& message, object::Object* const arg=0);

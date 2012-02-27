@@ -25,14 +25,18 @@ public:
 	explicit Object(Object& parent, const unsigned int hash);
 	virtual ~Object();
 public: /* Builtin Method Utils */
-#define ADD_BUILTIN(builtins, heap, name) \
-		(builtins)->insert(BuiltinMethodPair(#name, NativeMethodObject((heap), _method_##name)));
-#define ADD_BUILTIN_ALT(builtins, heap, name, func) \
-		(builtins)->insert(BuiltinMethodPair((name), NativeMethodObject((heap), _method_##func)));
+#define ADD_BUILTIN(name) \
+		addBuiltin(#name, NativeMethodObject(getHeap(), _method_##name));
+#define ADD_BUILTIN_ALT(name, func) \
+		addBuiltin((name), NativeMethodObject(getHeap(), _method_##func));
+#define DEC_BUILTIN(name) \
+	static void _method_##name(NativeMethodObject* method, machine::Machine& machine);
+
 	typedef std::map<std::string, NativeMethodObject> BuiltinMethods;
 	typedef std::pair<std::string, NativeMethodObject> BuiltinMethodPair;
 protected:
-	void includeBuitin(BuiltinMethods* const method);
+	void addBuiltin(const std::string& name, NativeMethodObject obj);
+	void includeBuitin();
 public: /* SlotTypeDefinition */
 	typedef std::vector<Object*>::iterator SlotListIterator;
 	typedef std::map<std::string, Object*>::iterator SlotMapIterator;
@@ -41,9 +45,9 @@ private: /* Heap management */
 	ObjectHeap& heap;
 	const int hash;
 	int color;
+	BuiltinMethods* builtins;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
-	BuiltinMethods* const builtins;
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
@@ -74,31 +78,31 @@ public: /* 基本操作 */
 private:
 	static bool _sort_func(machine::Machine& machine, Object* const self, Object* const other);
 public:
-	static void _method_def(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_def_kari(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(def);
+	DEC_BUILTIN(def_kari);
 
-	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_indexSet(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_size(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_unshift(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_push(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_shift(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_pop(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_sort(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_sum(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_product(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_join(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(index);
+	DEC_BUILTIN(indexSet);
+	DEC_BUILTIN(size);
+	DEC_BUILTIN(unshift);
+	DEC_BUILTIN(push);
+	DEC_BUILTIN(shift);
+	DEC_BUILTIN(pop);
+	DEC_BUILTIN(sort);
+	DEC_BUILTIN(sum);
+	DEC_BUILTIN(product);
+	DEC_BUILTIN(join);
 
-	static void _method_setSlot(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_getSlot(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_clone(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(setSlot);
+	DEC_BUILTIN(getSlot);
+	DEC_BUILTIN(clone);
 public:
-	static void _method_if(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_while_kari(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_lambda(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(if);
+	DEC_BUILTIN(while_kari);
+	DEC_BUILTIN(lambda);
 public:
-	static void _method_distance(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_rand(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(distance);
+	DEC_BUILTIN(rand);
 };
 //-----------------------------------------------------------------------------
 
@@ -219,25 +223,23 @@ public:
 class LambdaObject : public MethodObject
 {
 private:
-	BuiltinMethods* const builtins;
 	const tree::Node* const node;
 public:
 	explicit LambdaObject(ObjectHeap& heap);
 	explicit LambdaObject(LambdaObject& parent, const unsigned int hash, Object* const scope, const tree::Node* const node);
 	virtual ~LambdaObject();
 public:
-	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(index);
 };
 
 class LambdaScopeObject : public Object
 {
 public:
-	BuiltinMethods* const builtins;
 	explicit LambdaScopeObject(ObjectHeap& heap);
 	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Object* const arg);
 	virtual ~LambdaScopeObject();
 public:
-	static void _method_atmark(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(atmark);
 };
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -253,7 +255,6 @@ class StringObject : public LiteralObject
 {
 private:
 	const std::string value;
-	BuiltinMethods* builtins;
 public:
 	explicit StringObject(Object& parent);
 	explicit StringObject(StringObject& parent, int hash, const std::string& literal);
@@ -263,28 +264,27 @@ public:
 	BooleanObject* toBooleanObject();
 	const std::string& toString();
 public:
-	static void _method_equals(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notEquals(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notLessThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_greaterThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_lessThan(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(equals);
+	DEC_BUILTIN(notEquals);
+	DEC_BUILTIN(notLessThan);
+	DEC_BUILTIN(notGreaterThan);
+	DEC_BUILTIN(greaterThan);
+	DEC_BUILTIN(lessThan);
 public:
-	static void _method_index(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_size(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_indexOf(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_slice(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_toInteger(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_toFloat(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_eval(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(index);
+	DEC_BUILTIN(size);
+	DEC_BUILTIN(indexOf);
+	DEC_BUILTIN(slice);
+	DEC_BUILTIN(toInteger);
+	DEC_BUILTIN(toFloat);
+	DEC_BUILTIN(eval);
 public:
-	static void _method_add(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(add);
 };
 class BooleanObject : public LiteralObject
 {
 private:
 	const bool value;
-	BuiltinMethods* builtins;
 public:
 	explicit BooleanObject(Object& parent, bool literal);
 	virtual ~BooleanObject();
@@ -293,16 +293,15 @@ public:
 	BooleanObject* toBooleanObject();
 	bool toBool();
 public:
-	static void _method_and(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_or(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_not(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_alternate(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(and);
+	DEC_BUILTIN(or);
+	DEC_BUILTIN(not);
+	DEC_BUILTIN(alternate);
 };
 class NumericObject : public LiteralObject
 {
 private:
 	const double value;
-	BuiltinMethods* builtins;
 public:
 	const static double EPSILON;
 	explicit NumericObject(Object& parent);
@@ -313,28 +312,28 @@ public:
 	BooleanObject* toBooleanObject();
 	double toNumeric();
 public:
-	static void _method_plus(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_minus(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_increase(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_decrease(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_add(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_subtract(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_multiply(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_divide(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_modulo(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_clone(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(plus);
+	DEC_BUILTIN(minus);
+	DEC_BUILTIN(increase);
+	DEC_BUILTIN(decrease);
+	DEC_BUILTIN(add);
+	DEC_BUILTIN(subtract);
+	DEC_BUILTIN(multiply);
+	DEC_BUILTIN(divide);
+	DEC_BUILTIN(modulo);
+	DEC_BUILTIN(clone);
 public:
-	static void _method_equals(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notEquals(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notLessThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_greaterThan(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_lessThan(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(equals);
+	DEC_BUILTIN(notEquals);
+	DEC_BUILTIN(notLessThan);
+	DEC_BUILTIN(notGreaterThan);
+	DEC_BUILTIN(greaterThan);
+	DEC_BUILTIN(lessThan);
 public:
-	static void _method_floor(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_sin(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_cos(NativeMethodObject* method, machine::Machine& machine);
-	static void _method_pow(NativeMethodObject* method, machine::Machine& machine);
+	DEC_BUILTIN(floor);
+	DEC_BUILTIN(sin);
+	DEC_BUILTIN(cos);
+	DEC_BUILTIN(pow);
 
 };
 

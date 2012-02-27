@@ -16,20 +16,17 @@ namespace nekomata{
 namespace object{
 
 BooleanObject::BooleanObject(Object& parent, bool literal)
-:LiteralObject(parent), value(literal), builtins(new BuiltinMethods())
+:LiteralObject(parent), value(literal)
 {
-	ADD_BUILTIN(builtins, getHeap(), and);
-	ADD_BUILTIN(builtins, getHeap(), or);
-	ADD_BUILTIN(builtins, getHeap(), not);
-	ADD_BUILTIN(builtins, getHeap(), alternate);
-	ADD_BUILTIN_ALT(builtins, getHeap(), "alt", alternate);
-	includeBuitin(builtins);
+	ADD_BUILTIN(and);
+	ADD_BUILTIN(or);
+	ADD_BUILTIN(not);
+	ADD_BUILTIN(alternate);
+	ADD_BUILTIN_ALT("alt", alternate);
+	includeBuitin();
 }
 BooleanObject::~BooleanObject()
 {
-	if(builtins){
-		delete builtins;
-	}
 }
 StringObject* BooleanObject::toStringObject()
 {

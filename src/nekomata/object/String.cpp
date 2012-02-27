@@ -17,37 +17,34 @@ namespace nekomata{
 namespace object{
 
 StringObject::StringObject(Object& parent)
-:LiteralObject(parent), value("null"), builtins(new BuiltinMethods())
+:LiteralObject(parent), value("null")
 {
-	ADD_BUILTIN(builtins, getHeap(), equals);
-	ADD_BUILTIN(builtins, getHeap(), notEquals);
-	ADD_BUILTIN(builtins, getHeap(), notLessThan);
-	ADD_BUILTIN(builtins, getHeap(), notGreaterThan);
-	ADD_BUILTIN(builtins, getHeap(), greaterThan);
-	ADD_BUILTIN(builtins, getHeap(), lessThan);
+	ADD_BUILTIN(equals);
+	ADD_BUILTIN(notEquals);
+	ADD_BUILTIN(notLessThan);
+	ADD_BUILTIN(notGreaterThan);
+	ADD_BUILTIN(greaterThan);
+	ADD_BUILTIN(lessThan);
 
-	ADD_BUILTIN(builtins, getHeap(), index);
-	ADD_BUILTIN(builtins, getHeap(), size);
-	ADD_BUILTIN(builtins, getHeap(), indexOf);
-	ADD_BUILTIN(builtins, getHeap(), slice);
-	ADD_BUILTIN(builtins, getHeap(), toInteger);
-	ADD_BUILTIN(builtins, getHeap(), toFloat);
-	ADD_BUILTIN(builtins, getHeap(), eval);
+	ADD_BUILTIN(index);
+	ADD_BUILTIN(size);
+	ADD_BUILTIN(indexOf);
+	ADD_BUILTIN(slice);
+	ADD_BUILTIN(toInteger);
+	ADD_BUILTIN(toFloat);
+	ADD_BUILTIN(eval);
 
-	ADD_BUILTIN(builtins, getHeap(), add);
-	includeBuitin(builtins);
+	ADD_BUILTIN(add);
+	includeBuitin();
 }
 
 StringObject::StringObject(StringObject& parent, int hash, const std::string& literal)
-:LiteralObject(parent, hash), value(literal), builtins(0)
+:LiteralObject(parent, hash), value(literal)
 {
 
 }
 StringObject::~StringObject()
 {
-	if(builtins){
-		delete builtins;
-	}
 }
 StringObject* StringObject::toStringObject()
 {

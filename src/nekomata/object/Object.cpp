@@ -24,35 +24,35 @@ Object::Object(ObjectHeap& heap)
 {
 }
 Object::Object(ObjectHeap& heap, bool isRaw)
-:heap(heap), hash(-1), color(0), builtins(new BuiltinMethods())
+:heap(heap), hash(-1), color(0), builtins(0)
 {
-	ADD_BUILTIN(builtins, heap, setSlot);
-	ADD_BUILTIN(builtins, heap, getSlot);
-	ADD_BUILTIN(builtins, heap, clone);
+	ADD_BUILTIN(setSlot);
+	ADD_BUILTIN(getSlot);
+	ADD_BUILTIN(clone);
 	if(!isRaw){
-		ADD_BUILTIN(builtins, heap, def);
-		ADD_BUILTIN(builtins, heap, def_kari);
+		ADD_BUILTIN(def);
+		ADD_BUILTIN(def_kari);
 
-		ADD_BUILTIN(builtins, heap, index);
-		ADD_BUILTIN(builtins, heap, indexSet);
-		ADD_BUILTIN(builtins, heap, size);
-		ADD_BUILTIN(builtins, heap, unshift);
-		ADD_BUILTIN(builtins, heap, push);
-		ADD_BUILTIN(builtins, heap, shift);
-		ADD_BUILTIN(builtins, heap, pop);
-		ADD_BUILTIN(builtins, heap, sort);
-		ADD_BUILTIN(builtins, heap, sum);
-		ADD_BUILTIN(builtins, heap, product);
-		ADD_BUILTIN(builtins, heap, join);
+		ADD_BUILTIN(index);
+		ADD_BUILTIN(indexSet);
+		ADD_BUILTIN(size);
+		ADD_BUILTIN(unshift);
+		ADD_BUILTIN(push);
+		ADD_BUILTIN(shift);
+		ADD_BUILTIN(pop);
+		ADD_BUILTIN(sort);
+		ADD_BUILTIN(sum);
+		ADD_BUILTIN(product);
+		ADD_BUILTIN(join);
 
-		ADD_BUILTIN(builtins, heap, if);
-		ADD_BUILTIN(builtins, heap, while_kari);
-		ADD_BUILTIN(builtins, heap, lambda);
+		ADD_BUILTIN(if);
+		ADD_BUILTIN(while_kari);
+		ADD_BUILTIN(lambda);
 
-		ADD_BUILTIN(builtins, heap, distance);
-		ADD_BUILTIN(builtins, heap, rand);
+		ADD_BUILTIN(distance);
+		ADD_BUILTIN(rand);
 	}
-	includeBuitin(builtins);
+	includeBuitin();
 }
 Object::Object(Object& parent, const unsigned int hash)
 :heap(parent.getHeap()), hash(hash), color(0), builtins(0)
@@ -68,10 +68,19 @@ Object::~Object()
 		delete builtins;
 	}
 }
-
-void Object::includeBuitin(BuiltinMethods* methods)
+void Object::addBuiltin(const std::string& name, NativeMethodObject obj)
 {
-	for(BuiltinMethods::iterator it = methods->begin(); it!=methods->end();++it){
+	if(!builtins){
+		builtins = new BuiltinMethods();
+	}
+	builtins->insert(BuiltinMethodPair(name, obj));
+}
+void Object::includeBuitin()
+{
+	if(!builtins){
+		return;
+	}
+	for(BuiltinMethods::iterator it = builtins->begin(); it!=builtins->end();++it){
 		Object::setSlot(it->first, &it->second);
 	}
 }

@@ -19,7 +19,7 @@ namespace object{
 
 const static std::string TAG("HEAP");
 
-ObjectHeap::ObjectHeap(logging::Logger& log, GarbageCollectionCallback& callback)
+ObjectHeap::ObjectHeap(logging::Logger& log, machine::System& system, GarbageCollectionCallback& callback)
 :callback(callback)
 ,log(log)
 ,from(&area1)
@@ -27,6 +27,7 @@ ObjectHeap::ObjectHeap(logging::Logger& log, GarbageCollectionCallback& callback
 ,count(0)
 ,lastObjectSize(50)
 ,gcCount(0)
+,topLevelObject(*this, system)
 ,rawObject(*this, true)
 ,baseObject(*this, false)
 ,baseLambdaObject(*this)
@@ -44,6 +45,11 @@ ObjectHeap::~ObjectHeap()
 	{
 		delete *it;
 	}
+}
+
+TopLevelObject* ObjectHeap::getTopLevelObject()
+{
+	return &topLevelObject;
 }
 
 Object* ObjectHeap::newObject()

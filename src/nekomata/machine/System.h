@@ -11,6 +11,8 @@
 namespace nekomata{
 namespace machine {
 
+#include "../classdefs.h"
+
 class System {
 private:
 	nekomata::Adapter& adapter;
@@ -18,38 +20,38 @@ public:
 	explicit System(nekomata::Adapter& adapter);
 	virtual ~System();
 public:
-	unsigned int getCommentColor();
-	void setCommentColor(unsigned int color);
+	unsigned int commentColor();
+	void commentColor(unsigned int color);
 
-	std::string getCommentPlace();
-	void setCommentPlace(const std::string& place);
+	std::string commentPlace();
+	void commentPlace(const std::string& place);
 
-	std::string getCommentSize();
-	void setCommentSize(const std::string& size);
+	std::string commentSize();
+	void commentSize(const std::string& size);
 
-	bool getCommentInvisible();
-	void setCommentInvisible(bool commentInvisible);
+	bool commentInvisible();
+	void commentInvisible(bool commentInvisible);
 
-	bool getCommentReverse();
-	void setCommentReverse(bool commentReverse);
+	bool commentReverse();
+	void commentReverse(bool commentReverse);
 
-	bool getDefaultSage();
-	void setDefaultSage(bool defaultSage);
+	bool defaultSage();
+	void defaultSage(bool defaultSage);
 
-	bool getPostDisabled();
-	void setPostDisabled(bool postDisabled);
+	bool postDisabled();
+	void postDisabled(bool postDisabled);
 
-	bool getSeekDisabled();
-	void setSeekDisabled(bool seekDisabled);
+	bool seekDisabled();
+	void seekDisabled(bool seekDisabled);
 
-	bool getIsLoaded();
-	void setIsLoaded(bool isLoaded);
+	bool isLoaded();
+	void isLoaded(bool isLoaded);
 
-	bool getIsWide();
-	void setIsWide(bool isWide);
+	bool isWide();
+	void isWide(bool isWide);
 
-	std::string getLastVideo();
-	void setLastVideo(const std::string& lastVideo);
+	std::string lastVideo();
+	void lastVideo(const std::string& lastVideo);
 
 public:
 };

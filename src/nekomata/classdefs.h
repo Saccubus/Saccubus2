@@ -9,6 +9,11 @@
 #define CLASSDEFS_H_
 
 namespace nekomata {
+
+class Nekomata;
+class Adapter;
+class ChatAdapter;
+
 namespace logging {
 class Dumpable;
 class Dumper;

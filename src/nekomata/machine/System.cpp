@@ -23,102 +23,102 @@ System::~System() {
 	// TODO Auto-generated destructor stub
 }
 
-unsigned int System::getCommentColor()
+unsigned int System::commentColor()
 {
-	return adapter.getCommentColor();
+	return adapter.commentColor();
 }
-void System::setCommentColor(unsigned int color)
+void System::commentColor(unsigned int color)
 {
-	adapter.setCommentColor(color);
-}
-
-std::string System::getCommentPlace()
-{
-	return adapter.getCommentPlace();
-}
-void System::setCommentPlace(const std::string& place)
-{
-	adapter.setCommentPlace(place);
+	adapter.commentColor(color);
 }
 
-std::string System::getCommentSize()
+std::string System::commentPlace()
 {
-	return adapter.getCommentSize();
+	return adapter.commentPlace();
 }
-void System::setCommentSize(const std::string& size)
+void System::commentPlace(const std::string& place)
 {
-	adapter.setCommentSize(size);
-}
-
-bool System::getCommentInvisible()
-{
-	return adapter.getCommentInvisile();
-}
-void System::setCommentInvisible(bool commentInvisible)
-{
-	adapter.setCommentInvisible(commentInvisible);
+	adapter.commentPlace(place);
 }
 
-bool System::getCommentReverse()
+std::string System::commentSize()
 {
-	return adapter.getCommentReverse();
+	return adapter.commentSize();
 }
-void System::setCommentReverse(bool commentReverse)
+void System::commentSize(const std::string& size)
 {
-	adapter.setCommentReverse(commentReverse);
-}
-bool System::getDefaultSage()
-{
-	return adapter.getDefaultSage();
-}
-void System::setDefaultSage(bool defaultSage)
-{
-	adapter.setDefaultSage(defaultSage);
+	adapter.commentSize(size);
 }
 
-bool System::getPostDisabled()
+bool System::commentInvisible()
 {
-	return adapter.getPostDisabled();
+	return adapter.commentInvisible();
 }
-void System::setPostDisabled(bool postDisabled)
+void System::commentInvisible(bool commentInvisible)
 {
-	adapter.setPostDisabled(postDisabled);
-}
-
-bool System::getSeekDisabled()
-{
-	return adapter.getSeekDisabled();
-}
-void System::setSeekDisabled(bool seekDisabled)
-{
-	adapter.setSeekDisabled(seekDisabled);
+	adapter.commentInvisible(commentInvisible);
 }
 
-bool System::getIsLoaded()
+bool System::commentReverse()
 {
-	return adapter.getIsLoaded();
+	return adapter.commentReverse();
 }
-void System::setIsLoaded(bool isLoaded)
+void System::commentReverse(bool commentReverse)
 {
-	adapter.setIsLoaded(isLoaded);
+	adapter.commentReverse(commentReverse);
+}
+bool System::defaultSage()
+{
+	return adapter.defaultSage();
+}
+void System::defaultSage(bool defaultSage)
+{
+	adapter.defaultSage(defaultSage);
 }
 
-bool System::getIsWide()
+bool System::postDisabled()
 {
-	return adapter.getIsWide();
+	return adapter.postDisabled();
 }
-void System::setIsWide(bool isWide)
+void System::postDisabled(bool postDisabled)
 {
-	adapter.setIsWide(isWide);
+	adapter.postDisabled(postDisabled);
 }
 
-std::string System::getLastVideo()
+bool System::seekDisabled()
 {
-	return adapter.getLastVideo();
+	return adapter.seekDisabled();
 }
-void System::setLastVideo(const std::string& lastVideo)
+void System::seekDisabled(bool seekDisabled)
 {
-	adapter.setLastVideo(lastVideo);
+	adapter.seekDisabled(seekDisabled);
+}
+
+bool System::isLoaded()
+{
+	return adapter.isLoaded();
+}
+void System::isLoaded(bool isLoaded)
+{
+	adapter.isLoaded(isLoaded);
+}
+
+bool System::isWide()
+{
+	return adapter.isWide();
+}
+void System::isWide(bool isWide)
+{
+	adapter.isWide(isWide);
+}
+
+std::string System::lastVideo()
+{
+	return adapter.lastVideo();
+}
+void System::lastVideo(const std::string& lastVideo)
+{
+	adapter.lastVideo(lastVideo);
 }
 
 }
