@@ -73,104 +73,104 @@ BooleanObject* NumericObject::toBooleanObject()
 double NumericObject::toNumeric(){
 	return value;
 }
-void NumericObject::_method_plus(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, plus){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(fabs(self->toNumeric())));
 }
-void NumericObject::_method_minus(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, minus){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(-1*fabs(self->toNumeric())));
 }
-void NumericObject::_method_increase(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, increase){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()+1));
 }
-void NumericObject::_method_decrease(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, decrease){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()-1));
 }
-void NumericObject::_method_add(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, add){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()+other->toNumeric()));
 }
-void NumericObject::_method_subtract(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, subtract){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()-other->toNumeric()));
 }
-void NumericObject::_method_multiply(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, multiply){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()*other->toNumeric()));
 }
-void NumericObject::_method_divide(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, divide){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()/other->toNumeric()));
 }
-void NumericObject::_method_modulo(NativeMethodObject* method, machine::Machine& machine){
+DEF_BUILTIN(NumericObject, modulo){
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult(self->getHeap().newNumericObject(static_cast<long>(self->toNumeric())%static_cast<long>(other->toNumeric())));
 }
-void NumericObject::_method_clone(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, clone)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 }
 
-void NumericObject::_method_equals(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, equals)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) < EPSILON ) );
 }
-void NumericObject::_method_notEquals(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, notEquals)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) >= EPSILON ) );
 }
-void NumericObject::_method_notLessThan(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, notLessThan)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric()-other->toNumeric() >= EPSILON) );
 }
-void NumericObject::_method_notGreaterThan(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, notGreaterThan)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() <= -EPSILON) );
 }
-void NumericObject::_method_greaterThan(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, greaterThan)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() > EPSILON) );
 }
-void NumericObject::_method_lessThan(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, lessThan)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() < EPSILON) );
 }
-void NumericObject::_method_floor(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, floor)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult( self->getHeap().newNumericObject( floor(self->toNumeric()) ) );
 }
-void NumericObject::_method_sin(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, sin)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult( self->getHeap().newNumericObject( sin(self->toNumeric()) ) );
 }
-void NumericObject::_method_cos(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, cos)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	machine.pushResult( self->getHeap().newNumericObject( cos(self->toNumeric()) ) );
 }
-void NumericObject::_method_pow(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(NumericObject, pow)
 {
 	NumericObject* const self = machine.getSelf()->toNumericObject();
 	NumericObject* const other = machine.getArgument()->index(0)->toNumericObject();

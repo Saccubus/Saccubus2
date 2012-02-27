@@ -27,10 +27,12 @@ public:
 public: /* Builtin Method Utils */
 #define ADD_BUILTIN(name) \
 		addBuiltin(#name, NativeMethodObject(getHeap(), _method_##name));
-#define ADD_BUILTIN_ALT(name, func) \
-		addBuiltin((name), NativeMethodObject(getHeap(), _method_##func));
+#define ADD_BUILTIN_ALT(name, alt) \
+		addBuiltin((alt), NativeMethodObject(getHeap(), _method_##name));
 #define DEC_BUILTIN(name) \
 	static void _method_##name(NativeMethodObject* method, machine::Machine& machine);
+#define DEF_BUILTIN(clazz, name) \
+	void clazz::_method_##name(NativeMethodObject* method, machine::Machine& machine)
 
 	typedef std::map<std::string, NativeMethodObject> BuiltinMethods;
 	typedef std::pair<std::string, NativeMethodObject> BuiltinMethodPair;
@@ -106,48 +108,81 @@ public:
 };
 //-----------------------------------------------------------------------------
 
-class TopLevelObject : public Object
+class HookableObject : public Object
 {
+public:
+	typedef Object* (*Getter)(HookableObject& self, ObjectHeap& heap);
+	typedef void (*Setter)(HookableObject& self, ObjectHeap& heap, Object* const obj);
+	explicit HookableObject(ObjectHeap& heap);
+	explicit HookableObject(HookableObject& parent, int hash);
+	virtual ~HookableObject();
+#define ADD_HOOK_ACCESSOR(name) \
+		addGetter(#name, _getter_##name);\
+		addSetter(#name, _setter_##name);
+#define DEC_HOOK_ACCESSOR(name) \
+	static Object* _getter_##name(HookableObject& self, ObjectHeap& heap); \
+	static void _setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj);
+#define DEF_HOOK_GETTER(clazz, name) \
+	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)
+#define DEF_HOOK_SETTER(clazz, name) \
+	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)
+
 private:
-	typedef Object* (*Getter)(TopLevelObject& self, ObjectHeap& heap);
-	typedef void (*Setter)(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
 	std::map<std::string, Getter> getterList;
 	std::map<std::string, Setter> setterList;
-	machine::System& system;
-public:
-	explicit TopLevelObject(ObjectHeap& heap, machine::System& system);
-	virtual ~TopLevelObject();
+protected:
+	void addGetter(const std::string& name, Getter getter);
+	void addSetter(const std::string& name, Setter setter);
 public:
 	virtual Object* setSlot(const std::string& key, Object* const value);
 	virtual Object* getSlot(const std::string& key);
 	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
-public:
-	static Object* __getter__commentColor(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__commentColor(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__commentPlace(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__commentPlace(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__commentSize(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__commentSize(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__commentInvisible(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__commentInvisible(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__commentReverse(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__commentReverse(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__defaultSage(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__defaultSage(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__postDisabled(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__postDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__seekDisabled(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__seekDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__isLoaded(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__isLoaded(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__isWide(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__isWide(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-	static Object* __getter__lastVideo(TopLevelObject& self, ObjectHeap& heap);
-	static void __setter__lastVideo(TopLevelObject& self, ObjectHeap& heap, Object* const obj);
-public:
+};
 
+class TopLevelObject : public HookableObject
+{
+	machine::System& system;
+public:
+	explicit TopLevelObject(ObjectHeap& heap, machine::System& system);
+	virtual ~TopLevelObject();
+public:
+	DEC_HOOK_ACCESSOR(commentColor);
+	DEC_HOOK_ACCESSOR(commentPlace);
+	DEC_HOOK_ACCESSOR(commentSize);
+	DEC_HOOK_ACCESSOR(commentInvisible);
+	DEC_HOOK_ACCESSOR(commentReverse);
+	DEC_HOOK_ACCESSOR(defaultSage);
+	DEC_HOOK_ACCESSOR(postDisabled);
+	DEC_HOOK_ACCESSOR(seekDisabled);
+	DEC_HOOK_ACCESSOR(isLoaded);
+	DEC_HOOK_ACCESSOR(isWide);
+	DEC_HOOK_ACCESSOR(lastVideo);
+public:
+	DEC_BUILTIN(drawShape);
+	DEC_BUILTIN(drawText);
+	DEC_BUILTIN(commentTrigger);
+	DEC_BUILTIN(timer);
+	DEC_BUILTIN(jump);
+	DEC_BUILTIN(jumpCancel);
+	DEC_BUILTIN(seek);
+	DEC_BUILTIN(addMarker);
+	DEC_BUILTIN(getMarker);
+	DEC_BUILTIN(sum);
+	DEC_BUILTIN(showResult);
+	DEC_BUILTIN(replace);
+	DEC_BUILTIN(screenWidth);
+	DEC_BUILTIN(screenHeight);
+	DEC_BUILTIN(addButton);
+	DEC_BUILTIN(playStartTime);
+	DEC_BUILTIN(BGM);
+	DEC_BUILTIN(playBGM);
+	DEC_BUILTIN(stopBGM);
+	DEC_BUILTIN(addAtPausePoint);
+	DEC_BUILTIN(addPostRoute);
+	DEC_BUILTIN(CM);
+	DEC_BUILTIN(playCM);
 };
 
 //-----------------------------------------------------------------------------

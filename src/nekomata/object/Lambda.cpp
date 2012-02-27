@@ -27,7 +27,7 @@ LambdaObject::LambdaObject(LambdaObject& parent, const unsigned int hash, Object
 
 LambdaObject::~LambdaObject(){
 }
-void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(LambdaObject, index)
 {
 	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
 	if(!self){
@@ -42,7 +42,7 @@ void LambdaObject::_method_index(NativeMethodObject* method, machine::Machine& m
 LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
 :Object(heap)
 {
-	ADD_BUILTIN_ALT("@", atmark);
+	ADD_BUILTIN_ALT(atmark, "alt");
 	includeBuitin();
 }
 
@@ -54,7 +54,7 @@ LambdaScopeObject::LambdaScopeObject(LambdaScopeObject& parent, const unsigned i
 LambdaScopeObject::~LambdaScopeObject()
 {
 }
-void LambdaScopeObject::_method_atmark(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(LambdaScopeObject, atmark)
 {
 	LazyEvalObject* const mergeArg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(!mergeArg){

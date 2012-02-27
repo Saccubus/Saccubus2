@@ -14,156 +14,168 @@
 namespace nekomata{
 namespace object{
 
-#define ADD(name) \
-		getterList.insert(GetterPair(#name, TopLevelObject::__getter__##name));\
-		setterList.insert(SetterPair(#name, TopLevelObject::__setter__##name));
-
-
-TopLevelObject::TopLevelObject(ObjectHeap& heap, machine::System& system):
-	Object(heap), system(system)
+TopLevelObject::TopLevelObject(ObjectHeap& heap, machine::System& system)
+:HookableObject(heap), system(system)
 {
-	typedef std::pair<std::string, Getter> GetterPair;
-	typedef std::pair<std::string, Setter> SetterPair;
-	ADD(commentColor);
-	ADD(commentPlace);
-	ADD(commentSize);
-	ADD(commentInvisible);
-	ADD(commentReverse);
-	ADD(defaultSage);
-	ADD(postDisabled);
-	ADD(seekDisabled);
-	ADD(isLoaded);
-	ADD(isWide);
-	ADD(lastVideo);
+	ADD_HOOK_ACCESSOR(commentColor);
+	ADD_HOOK_ACCESSOR(commentPlace);
+	ADD_HOOK_ACCESSOR(commentSize);
+	ADD_HOOK_ACCESSOR(commentInvisible);
+	ADD_HOOK_ACCESSOR(commentReverse);
+	ADD_HOOK_ACCESSOR(defaultSage);
+	ADD_HOOK_ACCESSOR(postDisabled);
+	ADD_HOOK_ACCESSOR(seekDisabled);
+	ADD_HOOK_ACCESSOR(isLoaded);
+	ADD_HOOK_ACCESSOR(isWide);
+	ADD_HOOK_ACCESSOR(lastVideo);
+
+	ADD_BUILTIN(drawShape);
+	ADD_BUILTIN(drawText);
+	ADD_BUILTIN_ALT(drawText, "dt");
+	ADD_BUILTIN(commentTrigger);
+	ADD_BUILTIN_ALT(commentTrigger, "ctrig");
+	ADD_BUILTIN(timer);
+	ADD_BUILTIN(jump);
+	ADD_BUILTIN(jumpCancel);
+	ADD_BUILTIN(seek);
+	ADD_BUILTIN(addMarker);
+	ADD_BUILTIN(getMarker);
+	ADD_BUILTIN(sum);
+	ADD_BUILTIN(showResult);
+	ADD_BUILTIN(replace);
+	ADD_BUILTIN(screenWidth);
+	ADD_BUILTIN(screenHeight);
+	ADD_BUILTIN(addButton);
+	ADD_BUILTIN(playStartTime);
+	ADD_BUILTIN(BGM);
+	ADD_BUILTIN(playBGM);
+	ADD_BUILTIN(stopBGM);
+	ADD_BUILTIN(addAtPausePoint);
+	ADD_BUILTIN(addPostRoute);
+	ADD_BUILTIN(CM);
+	ADD_BUILTIN(playCM);
+	includeBuitin();
 }
 TopLevelObject::~TopLevelObject()
 {
 
 }
 
-Object* TopLevelObject::setSlot(const std::string& key, Object* const value)
-{
-	if(setterList.count(key) > 0){
-		setterList.at(key)(*this, getHeap(), value);
-		return value;
-	}else{
-		return Object::setSlot(key, value);
-	}
-}
-Object* TopLevelObject::getSlot(const std::string& key)
-{
-	if(getterList.count(key) > 0){
-		return getterList.at(key)(*this, getHeap());
-	}else{
-		return Object::getSlot(key);
-	}
-}
-bool TopLevelObject::has(const std::string& key)
-{
-	return getterList.count(key) > 0 || Object::has(key);
-}
-std::vector<std::string> TopLevelObject::getSlotNames()
-{
-	std::vector<std::string> list = Object::getSlotNames();
-	for(std::map<std::string, Getter>::iterator it = getterList.begin();it!=getterList.end();++it){
-		list.push_back(it->first);
-	}
-	return list;
-}
-size_t TopLevelObject::slotSize()
-{
-	return Object::slotSize()+getterList.size();
-}
+
+//---------------------------------------------------------------------------------------------------------------------
+DEF_BUILTIN(TopLevelObject, drawShape){}
+DEF_BUILTIN(TopLevelObject, drawText){}
+DEF_BUILTIN(TopLevelObject, commentTrigger){}
+DEF_BUILTIN(TopLevelObject, timer){}
+DEF_BUILTIN(TopLevelObject, jump){}
+DEF_BUILTIN(TopLevelObject, jumpCancel){}
+DEF_BUILTIN(TopLevelObject, seek){}
+DEF_BUILTIN(TopLevelObject, addMarker){}
+DEF_BUILTIN(TopLevelObject, getMarker){}
+DEF_BUILTIN(TopLevelObject, sum){}
+DEF_BUILTIN(TopLevelObject, showResult){}
+DEF_BUILTIN(TopLevelObject, replace){}
+DEF_BUILTIN(TopLevelObject, screenWidth){}
+DEF_BUILTIN(TopLevelObject, screenHeight){}
+DEF_BUILTIN(TopLevelObject, addButton){}
+DEF_BUILTIN(TopLevelObject, playStartTime){}
+DEF_BUILTIN(TopLevelObject, BGM){}
+DEF_BUILTIN(TopLevelObject, playBGM){}
+DEF_BUILTIN(TopLevelObject, stopBGM){}
+DEF_BUILTIN(TopLevelObject, addAtPausePoint){}
+DEF_BUILTIN(TopLevelObject, addPostRoute){}
+DEF_BUILTIN(TopLevelObject, CM){}
+DEF_BUILTIN(TopLevelObject, playCM){}
 
 //---------------------------------------------------------------------------------------------------------------------
 
-Object* TopLevelObject::__getter__commentColor(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, commentColor)
 {
-	return heap.newNumericObject(self.system.commentColor());
+	return heap.newNumericObject(dynamic_cast<TopLevelObject&>(self).system.commentColor());
 }
-void TopLevelObject::__setter__commentColor(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, commentColor)
 {
-	self.system.commentColor(static_cast<unsigned int>(obj->index(0)->toNumericObject()->toNumeric()));
+	dynamic_cast<TopLevelObject&>(self).system.commentColor(static_cast<unsigned int>(obj->index(0)->toNumericObject()->toNumeric()));
 }
-Object* TopLevelObject::__getter__commentPlace(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, commentPlace)
 {
-	return heap.newStringObject(self.system.commentPlace());
+	return heap.newStringObject(dynamic_cast<TopLevelObject&>(self).system.commentPlace());
 }
-void TopLevelObject::__setter__commentPlace(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, commentPlace)
 {
-	self.system.commentPlace(obj->index(0)->toStringObject()->toString());
+	dynamic_cast<TopLevelObject&>(self).system.commentPlace(obj->index(0)->toStringObject()->toString());
 }
-Object* TopLevelObject::__getter__commentSize(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, commentSize)
 {
-	return heap.newStringObject(self.system.commentSize());
+	return heap.newStringObject(dynamic_cast<TopLevelObject&>(self).system.commentSize());
 }
-void TopLevelObject::__setter__commentSize(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, commentSize)
 {
-	self.system.commentSize(obj->index(0)->toStringObject()->toString());
+	dynamic_cast<TopLevelObject&>(self).system.commentSize(obj->index(0)->toStringObject()->toString());
 }
-Object* TopLevelObject::__getter__commentInvisible(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, commentInvisible)
 {
-	return heap.newBooleanObject(self.system.commentInvisible());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.commentInvisible());
 }
-void TopLevelObject::__setter__commentInvisible(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, commentInvisible)
 {
-	self.system.commentInvisible(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.commentInvisible(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__commentReverse(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, commentReverse)
 {
-	return heap.newBooleanObject(self.system.commentReverse());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.commentReverse());
 }
-void TopLevelObject::__setter__commentReverse(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, commentReverse)
 {
-	self.system.commentReverse(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.commentReverse(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__defaultSage(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, defaultSage)
 {
-	return heap.newBooleanObject(self.system.defaultSage());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.defaultSage());
 }
-void TopLevelObject::__setter__defaultSage(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, defaultSage)
 {
-	self.system.defaultSage(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.defaultSage(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__postDisabled(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, postDisabled)
 {
-	return heap.newBooleanObject(self.system.postDisabled());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.postDisabled());
 }
-void TopLevelObject::__setter__postDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, postDisabled)
 {
-	self.system.postDisabled(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.postDisabled(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__seekDisabled(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, seekDisabled)
 {
-	return heap.newBooleanObject(self.system.seekDisabled());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.seekDisabled());
 }
-void TopLevelObject::__setter__seekDisabled(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, seekDisabled)
 {
-	self.system.seekDisabled(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.seekDisabled(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__isLoaded(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, isLoaded)
 {
-	return heap.newBooleanObject(self.system.isLoaded());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.isLoaded());
 }
-void TopLevelObject::__setter__isLoaded(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, isLoaded)
 {
-	self.system.isLoaded(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.isLoaded(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__isWide(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, isWide)
 {
-	return heap.newBooleanObject(self.system.isWide());
+	return heap.newBooleanObject(dynamic_cast<TopLevelObject&>(self).system.isWide());
 }
-void TopLevelObject::__setter__isWide(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, isWide)
 {
-	self.system.isWide(obj->index(0)->toBooleanObject()->toBool());
+	dynamic_cast<TopLevelObject&>(self).system.isWide(obj->index(0)->toBooleanObject()->toBool());
 }
-Object* TopLevelObject::__getter__lastVideo(TopLevelObject& self, ObjectHeap& heap)
+DEF_HOOK_GETTER(TopLevelObject, lastVideo)
 {
-	return heap.newStringObject(self.system.lastVideo());
+	return heap.newStringObject(dynamic_cast<TopLevelObject&>(self).system.lastVideo());
 }
-void TopLevelObject::__setter__lastVideo(TopLevelObject& self, ObjectHeap& heap, Object* const obj)
+DEF_HOOK_SETTER(TopLevelObject, lastVideo)
 {
-	self.system.lastVideo(obj->index(0)->toStringObject()->toString());
+	dynamic_cast<TopLevelObject&>(self).system.lastVideo(obj->index(0)->toStringObject()->toString());
 }
 
 }

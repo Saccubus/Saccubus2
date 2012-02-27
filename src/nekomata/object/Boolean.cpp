@@ -22,7 +22,7 @@ BooleanObject::BooleanObject(Object& parent, bool literal)
 	ADD_BUILTIN(or);
 	ADD_BUILTIN(not);
 	ADD_BUILTIN(alternate);
-	ADD_BUILTIN_ALT("alt", alternate);
+	ADD_BUILTIN_ALT(alternate, "alt");
 	includeBuitin();
 }
 BooleanObject::~BooleanObject()
@@ -54,24 +54,24 @@ bool BooleanObject::toBool()
 	return value;
 }
 
-void BooleanObject::_method_and(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(BooleanObject, and)
 {
 	BooleanObject* const self = machine.getSelf()->toBooleanObject();
 	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other->toBool()));
 }
-void BooleanObject::_method_or(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(BooleanObject, or)
 {
 	BooleanObject* const self = machine.getSelf()->toBooleanObject();
 	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other->toBool()));
 }
-void BooleanObject::_method_not(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(BooleanObject, not)
 {
 	BooleanObject* const self = machine.getSelf()->toBooleanObject();
 	machine.pushResult(self->getHeap().newBooleanObject(!self->toBool()));
 }
-void BooleanObject::_method_alternate(NativeMethodObject* method, machine::Machine& machine)
+DEF_BUILTIN(BooleanObject, alternate)
 {
 	BooleanObject* const self = machine.getSelf()->toBooleanObject();
 	if(self->toBool()){
