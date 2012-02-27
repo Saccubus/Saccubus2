@@ -15,7 +15,7 @@
 #include "nekomata/Nekomata.h"
 #include "nekomata/parser/niwangoLexer.h"
 #include "nekomata/parser/niwangoParser.h"
-#include "nekomata/machine/System.h"
+#include "nekomata/system/System.h"
 #include "nekomata/machine/Machine.h"
 #include "nekomata/object/Object.h"
 #include "nekomata/logging/Logging.h"
@@ -127,10 +127,9 @@ int main(int argc, char* args[]) {
 		return 0;
 	}
 
-	nekomata::Adapter* adapter = 0;
 	nekomata::logging::Logger log(std::cout, level);
-	nekomata::machine::System _system(*adapter);
-	nekomata::machine::Machine machine(log, _system);
+	nekomata::system::System* _system = 0;
+	nekomata::machine::Machine machine(log, *_system);
 	nekomata::object::Object* obj = 0;
 	for(nekomata::timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());

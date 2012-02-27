@@ -11,8 +11,6 @@
 namespace nekomata {
 
 class Nekomata;
-class Adapter;
-class ChatAdapter;
 
 namespace logging {
 class Dumpable;
@@ -49,6 +47,9 @@ class UndefinedObject;
 
 namespace machine{
 class Machine;
+}
+
+namespace system{
 class System;
 }
 

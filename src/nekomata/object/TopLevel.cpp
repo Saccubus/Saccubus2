@@ -9,12 +9,12 @@
 #include "Object.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
-#include "../machine/System.h"
+#include "../system/System.h"
 
 namespace nekomata{
 namespace object{
 
-TopLevelObject::TopLevelObject(Object& parent, machine::System& system)
+TopLevelObject::TopLevelObject(Object& parent, system::System& system)
 :HookableObject(parent), system(system)
 {
 	ADD_HOOK_ACCESSOR(commentColor);

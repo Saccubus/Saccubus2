@@ -18,7 +18,7 @@ namespace nekomata{
 namespace machine{
 static const std::string TAG("Machine");
 
-Machine::Machine(logging::Logger& log, System& system)
+Machine::Machine(logging::Logger& log, system::System& system)
 :heap(log, system, *this)
 ,log(log)
 {

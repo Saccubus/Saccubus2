@@ -19,7 +19,7 @@ namespace object{
 
 const static std::string TAG("HEAP");
 
-ObjectHeap::ObjectHeap(logging::Logger& log, machine::System& system, GarbageCollectionCallback& callback)
+ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, GarbageCollectionCallback& callback)
 :callback(callback)
 ,log(log)
 ,from(&area1)

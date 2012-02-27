@@ -9,8 +9,8 @@
 
 namespace nekomata {
 
-Nekomata::Nekomata(Adapter& adapter, logging::Logger& log)
-:adapter(adapter), log(log), system(adapter), machine(log, system)
+Nekomata::Nekomata(system::System& system, logging::Logger& log)
+:system(system), log(log), machine(log, system)
 {
 }
 

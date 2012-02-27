@@ -51,7 +51,7 @@ private:
 	int createHash();
 	void registObject(Object* obj);
 public:
-	explicit ObjectHeap(logging::Logger& log, machine::System& system, GarbageCollectionCallback& callback);
+	explicit ObjectHeap(logging::Logger& log, system::System& system, GarbageCollectionCallback& callback);
 	~ObjectHeap();
 public:
 	TopLevelObject* getTopLevelObject();

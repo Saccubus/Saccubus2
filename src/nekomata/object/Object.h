@@ -143,9 +143,9 @@ public:
 
 class TopLevelObject : public HookableObject
 {
-	machine::System& system;
+	system::System& system;
 public:
-	explicit TopLevelObject(Object& parent, machine::System& system);
+	explicit TopLevelObject(Object& parent, system::System& system);
 	virtual ~TopLevelObject();
 public:
 	DEC_HOOK_ACCESSOR(commentColor);
@@ -184,6 +184,29 @@ public:
 	DEC_BUILTIN(CM);
 	DEC_BUILTIN(playCM);
 };
+
+class ShapeObject : public HookableObject
+{
+};
+
+class SumObject : public HookableObject
+{
+};
+class SumResultObject : public HookableObject
+{
+};
+class ChatObject : public HookableObject
+{
+};
+
+class ButtonObject : public HookableObject
+{
+};
+
+class ReplaceObject : public HookableObject
+{
+};
+
 
 //-----------------------------------------------------------------------------
 
