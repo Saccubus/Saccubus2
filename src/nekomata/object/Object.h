@@ -232,9 +232,9 @@ public:
 private:
 	const Method method;
 public:
-	explicit NativeMethodObject(ObjectHeap& heap, Method method):MethodObject(heap), method(method){};
-	virtual ~NativeMethodObject(){};
-	virtual void eval(machine::Machine& machine){method(this, machine);}
+	explicit NativeMethodObject(ObjectHeap& heap, Method method);
+	virtual ~NativeMethodObject();
+	virtual void eval(machine::Machine& machine);
 };
 class MethodNodeObject : public MethodObject
 {
