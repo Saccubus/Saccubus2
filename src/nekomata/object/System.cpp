@@ -62,29 +62,130 @@ SystemObject::~SystemObject()
 
 
 //---------------------------------------------------------------------------------------------------------------------
-DEF_BUILTIN(SystemObject, drawShape){}
-DEF_BUILTIN(SystemObject, drawText){}
-DEF_BUILTIN(SystemObject, commentTrigger){}
-DEF_BUILTIN(SystemObject, timer){}
-DEF_BUILTIN(SystemObject, jump){}
-DEF_BUILTIN(SystemObject, jumpCancel){}
-DEF_BUILTIN(SystemObject, seek){}
-DEF_BUILTIN(SystemObject, addMarker){}
-DEF_BUILTIN(SystemObject, getMarker){}
-DEF_BUILTIN(SystemObject, sum){}
-DEF_BUILTIN(SystemObject, showResult){}
-DEF_BUILTIN(SystemObject, replace){}
-DEF_BUILTIN(SystemObject, screenWidth){}
-DEF_BUILTIN(SystemObject, screenHeight){}
-DEF_BUILTIN(SystemObject, addButton){}
-DEF_BUILTIN(SystemObject, playStartTime){}
-DEF_BUILTIN(SystemObject, BGM){}
-DEF_BUILTIN(SystemObject, playBGM){}
-DEF_BUILTIN(SystemObject, stopBGM){}
-DEF_BUILTIN(SystemObject, addAtPausePoint){}
-DEF_BUILTIN(SystemObject, addPostRoute){}
-DEF_BUILTIN(SystemObject, CM){}
-DEF_BUILTIN(SystemObject, playCM){}
+DEF_BUILTIN(SystemObject, drawShape)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, drawText)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, commentTrigger)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, timer)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, jump)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, jumpCancel)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, seek)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, addMarker)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, getMarker)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, sum)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, showResult)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, replace)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, screenWidth)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	machine.pushResult(heap.newNumericObject(system.screenWidth()));
+}
+DEF_BUILTIN(SystemObject, screenHeight)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	machine.pushResult(heap.newNumericObject(system.screenHeight()));
+}
+DEF_BUILTIN(SystemObject, addButton)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, playStartTime)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	machine.pushResult(heap.newNumericObject(system.playStartTime()));
+}
+DEF_BUILTIN(SystemObject, BGM)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, playBGM)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	system.playBGM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
+	machine.pushResult(heap.newUndefinedObject());
+}
+DEF_BUILTIN(SystemObject, stopBGM)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	system.stopBGM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
+	machine.pushResult(heap.newUndefinedObject());
+}
+DEF_BUILTIN(SystemObject, addAtPausePoint)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, addPostRoute)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, CM)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+}
+DEF_BUILTIN(SystemObject, playCM)
+{
+	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	system::System& system = self->system;
+	system.playCM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
+	machine.pushResult(heap.newUndefinedObject());
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 
