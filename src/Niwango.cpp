@@ -131,11 +131,11 @@ int main(int argc, char* args[]) {
 	nekomata::logging::Logger log(std::cout, level);
 	nekomata::machine::System _system(*adapter);
 	nekomata::machine::Machine machine(log, _system);
-	nekomata::object::Object* obj;
+	nekomata::object::Object* obj = 0;
 	for(nekomata::timeline::TimeLine::Iterator it = timeLine->begin();it != timeLine->end();++it){
 		obj = machine.eval((*it).getNode().get());
 	}
-	cout << "result=" << obj->toStringObject()->toString() << endl;
+	cout << "result=" << (obj ? obj->toStringObject()->toString() : "none") << endl;
 
 
 	stream->free(stream);
