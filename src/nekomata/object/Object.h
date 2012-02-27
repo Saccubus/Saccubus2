@@ -113,7 +113,7 @@ class HookableObject : public Object
 public:
 	typedef Object* (*Getter)(HookableObject& self, ObjectHeap& heap);
 	typedef void (*Setter)(HookableObject& self, ObjectHeap& heap, Object* const obj);
-	explicit HookableObject(ObjectHeap& heap);
+	explicit HookableObject(Object& parent);
 	explicit HookableObject(HookableObject& parent, int hash);
 	virtual ~HookableObject();
 #define ADD_HOOK_ACCESSOR(name) \
@@ -145,7 +145,7 @@ class TopLevelObject : public HookableObject
 {
 	machine::System& system;
 public:
-	explicit TopLevelObject(ObjectHeap& heap, machine::System& system);
+	explicit TopLevelObject(Object& parent, machine::System& system);
 	virtual ~TopLevelObject();
 public:
 	DEC_HOOK_ACCESSOR(commentColor);

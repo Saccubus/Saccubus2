@@ -10,8 +10,8 @@
 namespace nekomata{
 namespace object{
 
-HookableObject::HookableObject(ObjectHeap& heap)
-:Object(heap)
+HookableObject::HookableObject(Object& parent)
+:Object(parent, 0)
 {
 
 }

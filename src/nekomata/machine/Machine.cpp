@@ -22,9 +22,8 @@ Machine::Machine(logging::Logger& log, System& system)
 :heap(log, system, *this)
 ,log(log)
 {
-	object::Object* const topLevel(heap.newObject());
-	selfStack.push(topLevel);
-	this->enterLocal(topLevel, heap.newUndefinedObject());
+	selfStack.push(heap.getTopLevelObject());
+	this->enterLocal(heap.getTopLevelObject(), heap.newUndefinedObject());
 }
 
 Machine::~Machine()

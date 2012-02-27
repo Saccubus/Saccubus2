@@ -14,8 +14,8 @@
 namespace nekomata{
 namespace object{
 
-TopLevelObject::TopLevelObject(ObjectHeap& heap, machine::System& system)
-:HookableObject(heap), system(system)
+TopLevelObject::TopLevelObject(Object& parent, machine::System& system)
+:HookableObject(parent), system(system)
 {
 	ADD_HOOK_ACCESSOR(commentColor);
 	ADD_HOOK_ACCESSOR(commentPlace);

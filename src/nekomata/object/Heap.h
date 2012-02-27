@@ -37,9 +37,9 @@ private:
 	int gcCount;
 private:
 	/* これらの関数はGCで管理しない */
-	TopLevelObject topLevelObject;
 	Object rawObject;
 	Object baseObject;
+	TopLevelObject topLevelObject;
 	LambdaObject baseLambdaObject;
 	LambdaScopeObject baseLambdaScopeObject;
 	StringObject baseStringObject;
