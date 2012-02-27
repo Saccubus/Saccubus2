@@ -51,6 +51,12 @@ class Machine;
 
 namespace system{
 class System;
+class Chat;
+class Replace;
+class Sum;
+class SumResult;
+class Button;
+class Shape;
 }
 
 namespace tree {

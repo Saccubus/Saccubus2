@@ -29,7 +29,13 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, GarbageColl
 ,gcCount(0)
 ,rawObject(*this, true)
 ,baseObject(*this, false)
-,topLevelObject(baseObject, system)
+,systemObject(baseObject, system)
+,baseChatObject(baseObject)
+,baseReplaceObject(baseObject)
+,baseSumObject(baseObject)
+,baseSumResultObject(baseObject)
+,baseButtonObject(baseObject)
+,baseShapePbject(baseObject)
 ,baseLambdaObject(*this)
 ,baseLambdaScopeObject(*this)
 ,baseStringObject(baseObject)
@@ -47,9 +53,46 @@ ObjectHeap::~ObjectHeap()
 	}
 }
 
-TopLevelObject* ObjectHeap::getTopLevelObject()
+SystemObject* ObjectHeap::getSystemObject()
 {
-	return &topLevelObject;
+	return &systemObject;
+}
+
+ChatObject* ObjectHeap::newChatObject(std::tr1::shared_ptr<system::Chat> chat)
+{
+	ChatObject* const obj = new ChatObject(baseChatObject, createHash(), chat);
+	registObject(obj);
+	return obj;
+}
+ReplaceObject* ObjectHeap::newReplaceObject(std::tr1::shared_ptr<system::Replace> replace)
+{
+	ReplaceObject* const obj = new ReplaceObject(baseReplaceObject, createHash(), replace);
+	registObject(obj);
+	return obj;
+}
+SumObject* ObjectHeap::newSumObject(std::tr1::shared_ptr<system::Sum> sum)
+{
+	SumObject* const obj = new SumObject(baseSumObject, createHash(), sum);
+	registObject(obj);
+	return obj;
+}
+SumResultObject* ObjectHeap::newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult)
+{
+	SumResultObject* const obj = new SumResultObject(baseSumResultObject, createHash(), sumResult);
+	registObject(obj);
+	return obj;
+}
+ButtonObject* ObjectHeap::newButtonObject(std::tr1::shared_ptr<system::Button> button)
+{
+	ButtonObject* const obj = new ButtonObject(baseButtonObject, createHash(), button);
+	registObject(obj);
+	return obj;
+}
+ShapeObject* ObjectHeap::newShapeObject(std::tr1::shared_ptr<system::Shape> shape)
+{
+	ShapeObject* const obj = new ShapeObject(baseShapePbject, createHash(), shape);
+	registObject(obj);
+	return obj;
 }
 
 Object* ObjectHeap::newObject()

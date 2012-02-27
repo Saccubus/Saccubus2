@@ -22,8 +22,8 @@ Machine::Machine(logging::Logger& log, system::System& system)
 :heap(log, system, *this)
 ,log(log)
 {
-	selfStack.push(heap.getTopLevelObject());
-	this->enterLocal(heap.getTopLevelObject(), heap.newUndefinedObject());
+	selfStack.push(heap.getSystemObject());
+	this->enterLocal(heap.getSystemObject(), heap.newUndefinedObject());
 }
 
 Machine::~Machine()

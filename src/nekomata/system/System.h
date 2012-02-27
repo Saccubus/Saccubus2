@@ -8,6 +8,8 @@
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
 
+#include <tr1/memory>
+
 namespace nekomata{
 namespace system {
 
@@ -33,12 +35,12 @@ public:
 	DEC_ADAPTER_ACCESSOR(width, double);
 	DEC_ADAPTER_ACCESSOR(height, double);
 	DEC_ADAPTER_ACCESSOR(color,unsigned int);
-	DEC_ADAPTER_ACCESSOR(visible, bool)
+	DEC_ADAPTER_ACCESSOR(visible, bool);
 	DEC_ADAPTER_ACCESSOR(pos, std::string);
 	DEC_ADAPTER_ACCESSOR(mask, bool);
 	DEC_ADAPTER_ACCESSOR(commentmask, bool);
 	DEC_ADAPTER_ACCESSOR(alpha, double);
-	DEC_ADAPTER_ACCESSOR(rotation, double)
+	DEC_ADAPTER_ACCESSOR(rotation, double);
 	DEC_ADAPTER_ACCESSOR(mover, std::string);
 };
 
@@ -52,8 +54,8 @@ public:
 	DEC_ADAPTER_ACCESSOR(y, double);
 	DEC_ADAPTER_ACCESSOR(size, double);
 	DEC_ADAPTER_ACCESSOR(color,unsigned int);
-	DEC_ADAPTER_ACCESSOR(visible, bool)
-	DEC_ADAPTER_ACCESSOR(enabled, bool)
+	DEC_ADAPTER_ACCESSOR(visible, bool);
+	DEC_ADAPTER_ACCESSOR(enabled, bool);
 	DEC_ADAPTER_ACCESSOR(pos, std::string);
 	DEC_ADAPTER_ACCESSOR(asc, bool);
 	DEC_ADAPTER_ACCESSOR(unit, std::string);
@@ -69,11 +71,11 @@ public:
 	DEC_ADAPTER_ACCESSOR(x, double);
 	DEC_ADAPTER_ACCESSOR(y, double);
 	DEC_ADAPTER_ACCESSOR(color,unsigned int);
-	DEC_ADAPTER_ACCESSOR(visible, bool)
+	DEC_ADAPTER_ACCESSOR(visible, bool);
 	DEC_ADAPTER_ACCESSOR(pos, std::string);
 	DEC_ADAPTER_ACCESSOR(unit, std::string);
 	DEC_ADAPTER_ACCESSOR(asc, bool);
-	DEC_ADAPTER_ACCESSOR(sum, std::vector<Sum*>);
+	DEC_ADAPTER_ACCESSOR(sum, std::vector<std::tr1::shared_ptr<Sum> >);
 };
 class Chat
 {
@@ -85,7 +87,7 @@ public:
 	DEC_ADAPTER_ACCESSOR(x, double);
 	DEC_ADAPTER_ACCESSOR(y, double);
 	DEC_ADAPTER_ACCESSOR(z, double);
-	DEC_ADAPTER_ACCESSOR(size, std::string);
+	DEC_ADAPTER_ACCESSOR(size, double);
 	DEC_ADAPTER_ACCESSOR(pos, std::string);
 	DEC_ADAPTER_ACCESSOR(color, unsigned int);
 	DEC_ADAPTER_ACCESSOR(bold, bool);
@@ -124,7 +126,7 @@ public:
 	DEC_ADAPTER_ACCESSOR(fill, bool);
 	DEC_ADAPTER_ACCESSOR(partial, bool);
 	DEC_ADAPTER_ACCESSOR(color, unsigned int);
-	DEC_ADAPTER_ACCESSOR(size, double);
+	DEC_ADAPTER_ACCESSOR(size, std::string);
 	DEC_ADAPTER_ACCESSOR(pos, std::string);
 };
 
@@ -134,11 +136,11 @@ public:
 	explicit System();
 	virtual ~System();
 
-	virtual Chat* drawText(const std::string& text, double x, double y, double z, const std::string& size,const std::string& pos,unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover) = 0;
-	virtual Shape* drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover) = 0;
-	virtual Sum* sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, std::string& unit,bool buttononly, std::vector<std::string>& words) = 0;
-	virtual SumResult* showResult(double x, double y, unsigned int color, bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<Sum*>& sum) = 0;
-	virtual Replace* replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, double size, const std::string& pos) = 0;
+	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size,const std::string& pos,unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover) = 0;
+	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover) = 0;
+	virtual std::tr1::shared_ptr<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, std::string& unit,bool buttononly, std::vector<std::string>& words) = 0;
+	virtual std::tr1::shared_ptr<SumResult> showResult(double x, double y, unsigned int color, bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<Sum*>& sum) = 0;
+	virtual std::tr1::shared_ptr<Replace> replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, double size, const std::string& pos) = 0;
 	virtual void seek(double vpos, const std::string& msg) = 0;
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow) = 0;
 	virtual double screenWidth() = 0;

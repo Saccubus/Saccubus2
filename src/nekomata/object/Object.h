@@ -127,6 +127,45 @@ public:
 #define DEF_HOOK_SETTER(clazz, name) \
 	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)
 
+#define DEF_HOOK_ACCESSOR_STR(clazz, name, adapter) \
+	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)\
+	{\
+		return heap.newStringObject(dynamic_cast<clazz&>(self).adapter->name());\
+	}\
+	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
+	{\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toStringObject()->toString());\
+	}
+
+#define DEF_HOOK_ACCESSOR_DOUBLE(clazz, name, adapter) \
+	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)\
+	{\
+		return heap.newNumericObject(dynamic_cast<clazz&>(self).adapter->name());\
+	}\
+	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
+	{\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toNumericObject()->toNumeric());\
+	}
+
+#define DEF_HOOK_ACCESSOR_INT(clazz, name, adapter, type) \
+	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)\
+	{\
+		return heap.newNumericObject(dynamic_cast<clazz&>(self).adapter->name());\
+	}\
+	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
+	{\
+		dynamic_cast<clazz&>(self).adapter->name(static_cast<type>(obj->toNumericObject()->toNumeric()));\
+	}
+#define DEF_HOOK_ACCESSOR_BOOL(clazz, name, adapter) \
+	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)\
+	{\
+		return heap.newBooleanObject(dynamic_cast<clazz&>(self).adapter->name());\
+	}\
+	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
+	{\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toBooleanObject()->toBool());\
+	}
+
 private:
 	std::map<std::string, Getter> getterList;
 	std::map<std::string, Setter> setterList;
@@ -141,12 +180,12 @@ public:
 	virtual size_t slotSize();
 };
 
-class TopLevelObject : public HookableObject
+class SystemObject : public HookableObject
 {
 	system::System& system;
 public:
-	explicit TopLevelObject(Object& parent, system::System& system);
-	virtual ~TopLevelObject();
+	explicit SystemObject(Object& parent, system::System& system);
+	virtual ~SystemObject();
 public:
 	DEC_HOOK_ACCESSOR(commentColor);
 	DEC_HOOK_ACCESSOR(commentPlace);
@@ -187,24 +226,135 @@ public:
 
 class ShapeObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::Shape> shape;
+public:
+	explicit ShapeObject(Object& parent);
+	explicit ShapeObject(ShapeObject& parent, int hash, std::tr1::shared_ptr<system::Shape> shape);
+	virtual ~ShapeObject();
+	std::tr1::shared_ptr<system::Shape> getShape(){return shape;};
+public:
+	DEC_HOOK_ACCESSOR(x);
+	DEC_HOOK_ACCESSOR(y);
+	DEC_HOOK_ACCESSOR(z);
+	DEC_HOOK_ACCESSOR(shape);
+	DEC_HOOK_ACCESSOR(width);
+	DEC_HOOK_ACCESSOR(height);
+	DEC_HOOK_ACCESSOR(color);
+	DEC_HOOK_ACCESSOR(visible);
+	DEC_HOOK_ACCESSOR(pos);
+	DEC_HOOK_ACCESSOR(mask);
+	DEC_HOOK_ACCESSOR(commentmask);
+	DEC_HOOK_ACCESSOR(alpha);
+	DEC_HOOK_ACCESSOR(rotation);
+	DEC_HOOK_ACCESSOR(mover);
+
 };
 
 class SumObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::Sum> sum;
+public:
+	explicit SumObject(Object& parent);
+	explicit SumObject(SumObject& parent, int hash, std::tr1::shared_ptr<system::Sum> sum);
+	virtual ~SumObject();
+	std::tr1::shared_ptr<system::Sum> getSum(){return sum;};
+public:
+	DEC_HOOK_ACCESSOR(x);
+	DEC_HOOK_ACCESSOR(y);
+	DEC_HOOK_ACCESSOR(size);
+	DEC_HOOK_ACCESSOR(color);
+	DEC_HOOK_ACCESSOR(visible);
+	DEC_HOOK_ACCESSOR(enabled);
+	DEC_HOOK_ACCESSOR(pos);
+	DEC_HOOK_ACCESSOR(asc);
+	DEC_HOOK_ACCESSOR(unit);
+	DEC_HOOK_ACCESSOR(buttononly);
+	DEC_HOOK_ACCESSOR(words);
 };
 class SumResultObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::SumResult> sumResult;
+public:
+	explicit SumResultObject(Object& parent);
+	explicit SumResultObject(SumResultObject& parent, int hash, std::tr1::shared_ptr<system::SumResult> sumResult);
+	virtual ~SumResultObject();
+	std::tr1::shared_ptr<system::SumResult> getSumResult(){return sumResult;};
+public:
+	DEC_HOOK_ACCESSOR(x);
+	DEC_HOOK_ACCESSOR(y);
+	DEC_HOOK_ACCESSOR(color);
+	DEC_HOOK_ACCESSOR(visible);
+	DEC_HOOK_ACCESSOR(pos);
+	DEC_HOOK_ACCESSOR(unit);
+	DEC_HOOK_ACCESSOR(asc);
+	DEC_HOOK_ACCESSOR(sum);
 };
 class ChatObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::Chat> chat;
+public:
+	explicit ChatObject(Object& parent);
+	explicit ChatObject(ChatObject& parent, int hash, std::tr1::shared_ptr<system::Chat> chat);
+	virtual ~ChatObject();
+	std::tr1::shared_ptr<system::Chat> getChat(){return chat;};
+public:
+	DEC_HOOK_ACCESSOR(text);
+	DEC_HOOK_ACCESSOR(x);
+	DEC_HOOK_ACCESSOR(y);
+	DEC_HOOK_ACCESSOR(z);
+	DEC_HOOK_ACCESSOR(size);
+	DEC_HOOK_ACCESSOR(pos);
+	DEC_HOOK_ACCESSOR(color);
+	DEC_HOOK_ACCESSOR(bold);
+	DEC_HOOK_ACCESSOR(visible);
+	DEC_HOOK_ACCESSOR(filter);
+	DEC_HOOK_ACCESSOR(alpha);
+	DEC_HOOK_ACCESSOR(mover);
 };
 
 class ButtonObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::Button> button;
+public:
+	explicit ButtonObject(Object& parent);
+	explicit ButtonObject(ButtonObject& parent, int hash, std::tr1::shared_ptr<system::Button> button);
+	virtual ~ButtonObject();
+	std::tr1::shared_ptr<system::Button> getButton(){return button;};
+public:
+	DEC_HOOK_ACCESSOR(message);
+	DEC_HOOK_ACCESSOR(mail);
+	DEC_HOOK_ACCESSOR(vpos);
+	DEC_HOOK_ACCESSOR(commes);
+	DEC_HOOK_ACCESSOR(commail);
+	DEC_HOOK_ACCESSOR(comvisible);
+	DEC_HOOK_ACCESSOR(limit);
+	DEC_HOOK_ACCESSOR(hidden);
 };
 
 class ReplaceObject : public HookableObject
 {
+private:
+	std::tr1::shared_ptr<system::Replace> replace;
+public:
+	explicit ReplaceObject(Object& parent);
+	explicit ReplaceObject(ReplaceObject& parent, int hash, std::tr1::shared_ptr<system::Replace> replace);
+	virtual ~ReplaceObject();
+	std::tr1::shared_ptr<system::Replace> getReplace(){return replace;};
+public:
+	DEC_HOOK_ACCESSOR(src);
+	DEC_HOOK_ACCESSOR(dst);
+	DEC_HOOK_ACCESSOR(enabled);
+	DEC_HOOK_ACCESSOR(target);
+	DEC_HOOK_ACCESSOR(fill);
+	DEC_HOOK_ACCESSOR(partial);
+	DEC_HOOK_ACCESSOR(color);
+	DEC_HOOK_ACCESSOR(size);
+	DEC_HOOK_ACCESSOR(pos);
 };
 
 

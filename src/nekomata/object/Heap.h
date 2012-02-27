@@ -39,7 +39,15 @@ private:
 	/* これらの関数はGCで管理しない */
 	Object rawObject;
 	Object baseObject;
-	TopLevelObject topLevelObject;
+//
+	SystemObject systemObject;
+	ChatObject baseChatObject;
+	ReplaceObject baseReplaceObject;
+	SumObject baseSumObject;
+	SumResultObject baseSumResultObject;
+	ButtonObject baseButtonObject;
+	ShapeObject baseShapePbject;
+//
 	LambdaObject baseLambdaObject;
 	LambdaScopeObject baseLambdaScopeObject;
 	StringObject baseStringObject;
@@ -54,7 +62,13 @@ public:
 	explicit ObjectHeap(logging::Logger& log, system::System& system, GarbageCollectionCallback& callback);
 	~ObjectHeap();
 public:
-	TopLevelObject* getTopLevelObject();
+	SystemObject* getSystemObject();
+	ChatObject* newChatObject(std::tr1::shared_ptr<system::Chat> chat);
+	ReplaceObject* newReplaceObject(std::tr1::shared_ptr<system::Replace> replace);
+	SumObject* newSumObject(std::tr1::shared_ptr<system::Sum> sum);
+	SumResultObject* newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult);
+	ButtonObject* newButtonObject(std::tr1::shared_ptr<system::Button> button);
+	ShapeObject* newShapeObject(std::tr1::shared_ptr<system::Shape> shape);
 public:
 	Object* newRawObject();
 	LambdaScopeObject* newLambdaScopeObject(Object* const arg);
