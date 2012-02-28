@@ -272,6 +272,7 @@ public:
 	DEC_HOOK_ACCESSOR(unit);
 	DEC_HOOK_ACCESSOR(buttononly);
 	DEC_HOOK_ACCESSOR(words);
+	DEC_HOOK_ACCESSOR(partial);
 };
 class SumResultObject : public HookableObject
 {

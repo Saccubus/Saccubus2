@@ -13,6 +13,8 @@
 namespace nekomata{
 namespace system {
 
+#define SET(name, _default) this->name(_default);
+
 System::System()
 {
 	// TODO Auto-generated constructor stub

@@ -22,10 +22,27 @@ public:\
 	virtual type name(){return name##_;}; \
 	virtual void name(const type& name##__){name##_=name##__;};
 
+#define DEF_DEFAULT(name, value) name##_(value)
+
 class Shape
 {
 public:
-	explicit Shape(){};
+	explicit Shape():
+	DEF_DEFAULT(x, 0),
+	DEF_DEFAULT(y, 0),
+	DEF_DEFAULT(z, 0),
+	DEF_DEFAULT(shape, "circle"),
+	DEF_DEFAULT(width, 30),
+	DEF_DEFAULT(height, 30),
+	DEF_DEFAULT(color, 16777215),
+	DEF_DEFAULT(visible, true),
+	DEF_DEFAULT(pos, "naka"),
+	DEF_DEFAULT(mask, false),
+	DEF_DEFAULT(commentmask, false),
+	DEF_DEFAULT(alpha, 0),
+	DEF_DEFAULT(rotation, 0),
+	DEF_DEFAULT(mover, "")
+	{};
 	virtual ~Shape(){};
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
@@ -47,7 +64,20 @@ public:
 class Sum
 {
 public:
-	explicit Sum(){};
+	explicit Sum():
+	DEF_DEFAULT(x, 0),
+	DEF_DEFAULT(y, 0),
+	DEF_DEFAULT(size, 30),
+	DEF_DEFAULT(color,16777215),
+	DEF_DEFAULT(visible, true),
+	DEF_DEFAULT(enabled, true),
+	DEF_DEFAULT(pos, "naka"),
+	DEF_DEFAULT(asc, false),
+	DEF_DEFAULT(unit, "人"),
+	DEF_DEFAULT(buttononly, false),
+	DEF_DEFAULT(words, std::vector<std::string>()),
+	DEF_DEFAULT(partial, false)
+	{};
 	virtual ~Sum(){};
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
@@ -61,11 +91,21 @@ public:
 	DEC_ADAPTER_ACCESSOR(unit, std::string);
 	DEC_ADAPTER_ACCESSOR(buttononly, bool);
 	DEC_ADAPTER_ACCESSOR(words, std::vector<std::string>);
+	DEC_ADAPTER_ACCESSOR(partial, bool);
 };
 class SumResult
 {
 public:
-	explicit SumResult(){};
+	explicit SumResult():
+	DEF_DEFAULT(x, 0),
+	DEF_DEFAULT(y, 0),
+	DEF_DEFAULT(color,16777215),
+	DEF_DEFAULT(visible, true),
+	DEF_DEFAULT(pos, "naka"),
+	DEF_DEFAULT(unit, "人"),
+	DEF_DEFAULT(asc, false),
+	DEF_DEFAULT(sum, std::vector<std::tr1::shared_ptr<Sum> >())
+	{};
 	virtual ~SumResult(){};
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
@@ -80,7 +120,20 @@ public:
 class Chat
 {
 public:
-	explicit Chat(){};
+	explicit Chat():
+	DEF_DEFAULT(text, std::string),
+	DEF_DEFAULT(x, 0),
+	DEF_DEFAULT(y, 0),
+	DEF_DEFAULT(z, 0),
+	DEF_DEFAULT(size, 14),
+	DEF_DEFAULT(pos, "naka"),
+	DEF_DEFAULT(color, 0),
+	DEF_DEFAULT(bold, false),
+	DEF_DEFAULT(visible, true),
+	DEF_DEFAULT(filter, ""),
+	DEF_DEFAULT(alpha, 0),
+	DEF_DEFAULT(mover, "")
+	{};
 	virtual ~Chat(){};
 public:
 	DEC_ADAPTER_ACCESSOR(text, std::string);
@@ -100,7 +153,16 @@ public:
 class Button
 {
 public:
-	explicit Button(){};
+	explicit Button():
+	DEF_DEFAULT(message, ""),
+	DEF_DEFAULT(mail, ""),
+	DEF_DEFAULT(vpos, 0), //FIXME: Wikiに書いてない
+	DEF_DEFAULT(commes, ""), //FIXME: Wikiに書いてない
+	DEF_DEFAULT(commail, ""),
+	DEF_DEFAULT(comvisible, true),
+	DEF_DEFAULT(limit, 1),
+	DEF_DEFAULT(hidden, false)
+	{};
 	virtual ~Button(){};
 public:
 	DEC_ADAPTER_ACCESSOR(message, std::string);
@@ -115,8 +177,21 @@ public:
 
 class Replace
 {
+	enum{
+		SAME_COLOR=0xffffffff
+	};
 public:
-	explicit Replace(){};
+	explicit Replace():
+	DEF_DEFAULT(src, ""),
+	DEF_DEFAULT(dst, ""), //TODO: SRCと同じ文字
+	DEF_DEFAULT(enabled, true),
+	DEF_DEFAULT(target, ""),
+	DEF_DEFAULT(fill, false),
+	DEF_DEFAULT(partial, true),
+	DEF_DEFAULT(color, SAME_COLOR), //変更しない
+	DEF_DEFAULT(size, ""),
+	DEF_DEFAULT(pos, "")
+	{};
 	virtual ~Replace(){};
 public:
 	DEC_ADAPTER_ACCESSOR(src, std::string);
@@ -169,6 +244,7 @@ public:
 };
 
 #undef DEC_ADAPTER_ACCESSOR
+#undef DEF_DEFAULT
 
 }
 }

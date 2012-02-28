@@ -62,6 +62,27 @@ SystemObject::~SystemObject()
 
 
 //---------------------------------------------------------------------------------------------------------------------
+#define TRY_DOUBLE(arg, adapter, name)\
+if(arg->has(name))\
+{\
+	adapter->name(arg->getSlot(name)->toNumericObject()->toNumeric());\
+}
+#define TRY_INT(arg, adapter, name, type)\
+if(arg->has(name))\
+{\
+	adapter->name(static_cast<type>(arg->getSlot(name)->toNumericObject()->toNumeric()));\
+}
+#define TRY_STR(arg, adapter, name)\
+if(arg->has(name))\
+{\
+	adapter->name(arg->getSlot(name)->toStringObject()->toString());\
+}
+#define TRY_BOOL(arg, adapter, name)\
+if(arg->has(name))\
+{\
+	adapter->name(arg->getSlot(name)->toBooleanObject()->toBool());\
+}
+
 DEF_BUILTIN(SystemObject, drawShape)
 {
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());

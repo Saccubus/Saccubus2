@@ -27,6 +27,7 @@ SumObject::SumObject(Object& parent)
 	ADD_HOOK_ACCESSOR(unit);
 	ADD_HOOK_ACCESSOR(buttononly);
 	ADD_HOOK_ACCESSOR(words);
+	ADD_HOOK_ACCESSOR(partial);
 }
 DEF_HOOK_ACCESSOR_DOUBLE(SumObject, x, sum);
 DEF_HOOK_ACCESSOR_DOUBLE(SumObject, y, sum);
@@ -56,6 +57,7 @@ DEF_HOOK_SETTER(SumObject, words)
 	}
 	dynamic_cast<SumObject&>(self).sum->words(vec);
 }
+DEF_HOOK_ACCESSOR_BOOL(SumObject, partial, sum);
 
 SumObject::SumObject(SumObject& parent, int hash, std::tr1::shared_ptr<system::Sum> sum)
 :HookableObject(parent, hash), sum(sum)
