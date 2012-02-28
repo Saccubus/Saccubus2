@@ -12,7 +12,9 @@
 
 using std::tr1::shared_ptr;
 namespace nekomata{
-namespace parse{
+namespace parser{
+namespace util{
+
 
 const std::string createStringFromString(pANTLR3_STRING string){
 	if(string->encoding != ANTLR3_ENC_UTF8){
@@ -31,8 +33,4 @@ const logging::Location createLocationFromNode(std::tr1::shared_ptr<const tree::
 	return logging::Location(node->location());
 }
 
-}
-}
-
-
-
+}}}

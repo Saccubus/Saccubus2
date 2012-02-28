@@ -16,7 +16,7 @@ options {
 #include "ParseUtil.h"
 #include "../tree/Node.h"
 #include "../timeline/TimeLine.h"
-using namespace nekomata::parse;
+using namespace nekomata::parser::util;
 using namespace nekomata::tree;
 using namespace nekomata::timeline;
 using std::tr1::shared_ptr;

@@ -126,13 +126,13 @@ DEF_BUILTIN(SystemObject, screenWidth)
 {
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
-	machine.pushResult(heap.newNumericObject(system.screenWidth()));
+	machine.pushResult(self->getHeap().newNumericObject(system.screenWidth()));
 }
 DEF_BUILTIN(SystemObject, screenHeight)
 {
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
-	machine.pushResult(heap.newNumericObject(system.screenHeight()));
+	machine.pushResult(self->getHeap().newNumericObject(system.screenHeight()));
 }
 DEF_BUILTIN(SystemObject, addButton)
 {
@@ -143,7 +143,7 @@ DEF_BUILTIN(SystemObject, playStartTime)
 {
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
-	machine.pushResult(heap.newNumericObject(system.playStartTime()));
+	machine.pushResult(self->getHeap().newNumericObject(system.playStartTime()));
 }
 DEF_BUILTIN(SystemObject, BGM)
 {
@@ -155,14 +155,14 @@ DEF_BUILTIN(SystemObject, playBGM)
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
 	system.playBGM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
-	machine.pushResult(heap.newUndefinedObject());
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 DEF_BUILTIN(SystemObject, stopBGM)
 {
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
 	system.stopBGM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
-	machine.pushResult(heap.newUndefinedObject());
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 DEF_BUILTIN(SystemObject, addAtPausePoint)
 {
@@ -184,7 +184,7 @@ DEF_BUILTIN(SystemObject, playCM)
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	system::System& system = self->system;
 	system.playCM(static_cast<int>(machine.getArgument()->index(0)->toNumericObject()->toNumeric()));
-	machine.pushResult(heap.newUndefinedObject());
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 //---------------------------------------------------------------------------------------------------------------------

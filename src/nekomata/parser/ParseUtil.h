@@ -14,14 +14,16 @@
 #include "../tree/Node.h"
 #include <tr1/memory>
 namespace nekomata{
-namespace parse{
+namespace parser{
+namespace util{
 
 const std::string createStringFromString(pANTLR3_STRING string);
 const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok);
 const logging::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node);
 const logging::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
-}
-}
 
+}
+}
+}
 
 #endif /* PARSEUTIL_H_ */
