@@ -21,6 +21,7 @@ private:
 	logging::Logger& log;
 	machine::Machine machine;
 	timeline::TimeLine timeline;
+	float currentTime;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);
 	virtual ~Nekomata();

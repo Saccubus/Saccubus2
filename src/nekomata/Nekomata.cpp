@@ -5,16 +5,21 @@
  *      Author: psi
  */
 
+#include <string>
 #include "Nekomata.h"
 #include "tree/Node.h"
 #include "parser/Parser.h"
 #include "system/System.h"
 #include "logging/Logging.h"
 
+using namespace std::tr1;
+
 namespace nekomata {
 
+static const std::string TAG("TOP");
+
 Nekomata::Nekomata(system::System& system, logging::Logger& log)
-:system(system), log(log), machine(log, system), timeline()
+:system(system), log(log), machine(log, system), timeline(), currentTime(0)
 {
 }
 
@@ -40,7 +45,20 @@ float Nekomata::getLastTime()
 }
 void Nekomata::seek(float time)
 {
-
+	if(time < currentTime){
+		log.e(TAG, 0, "Sorry, rewind operation is not supported yet!");
+	}else{
+		timeline::TimeLine::Iterator it = timeline.begin(currentTime);
+		timeline::TimeLine::Iterator const end = timeline.end(time);
+		for(; it!=end;++it){
+			//TODO: 実際にseekする
+			const float playTime = it->getTime();
+			shared_ptr<const tree::ExprNode> node = it->getNode();
+			log.t(TAG, &node->location(), "Now evaluating node at %f", playTime);
+			machine.eval(node.get());
+		}
+		currentTime = time;
+	}
 }
 
 

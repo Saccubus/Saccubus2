@@ -49,8 +49,8 @@ public:
 	virtual ~TimeLine();
 	void insertLast(const float time, std::tr1::shared_ptr<const tree::ExprNode> node);
 	void merge(std::tr1::shared_ptr<TimeLine> other);
-	Iterator begin();
-	Iterator end();
+	Iterator begin(float start=NAN);
+	Iterator end(float end=NAN);
 	size_t size() const;
 	float getLastTime() const;
 	virtual void dump(logging::Dumper& dumper) const;
