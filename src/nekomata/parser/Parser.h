@@ -19,8 +19,9 @@ class ParserImpl;
 class Parser
 {
 private:
+	/* Pimplイディオムで、ANTLR3のヘッダを隔離しています */
 	std::tr1::shared_ptr<ParserImpl> impl;
-	Parser(std::tr1::shared_ptr<ParserImpl> impl);
+	explicit Parser(std::tr1::shared_ptr<ParserImpl> impl);
 public:
 	~Parser();
 	static std::tr1::shared_ptr<Parser> fromFile(const std::string& filename);

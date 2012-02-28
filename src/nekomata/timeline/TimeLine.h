@@ -47,6 +47,7 @@ public:
 	TimeLine();
 	virtual ~TimeLine();
 	void insertLast(const float time, const std::tr1::shared_ptr<const tree::ExprNode> node);
+	void merge(std::tr1::shared_ptr<TimeLine> other);
 	Iterator begin();
 	Iterator end();
 	size_t size();

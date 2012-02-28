@@ -5,13 +5,13 @@
  *      Author: psi
  */
 
-#include "nekomata/parser/niwangoLexer.h"
-#include "nekomata/parser/niwangoParser.h"
-#include "Parser.h"
-#include "../logging/Exception.h"
 #include <iostream>
 #include <sstream>
 #include <tr1/memory>
+#include "niwangoLexer.h"
+#include "niwangoParser.h"
+#include "Parser.h"
+#include "../logging/Exception.h"
 
 namespace nekomata {
 namespace parser {
@@ -29,19 +29,19 @@ private:
 	{
 		this->lexer = niwangoLexerNew(this->stream);
 		if(!this->lexer){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to read stream for %s", filename);
+			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to read stream for %s", filename.c_str());
 		}
 		this->tokenStream = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lexer));
 		if(!this->tokenStream){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create token stream for %s", filename);
+			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create token stream for %s", filename.c_str());
 		}
 		this->parser = niwangoParserNew(tokenStream);
 		if(!this->parser){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create parser for %s", filename);
+			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create parser for %s", filename.c_str());
 		}
 	}
 public:
-	ParserImpl():stream(0), src(), filename(), lexer(0), tokenStream(0), parser(0){}
+	explicit ParserImpl():stream(0), src(), filename(), lexer(0), tokenStream(0), parser(0){}
 	virtual ~ParserImpl()
 	{
 		if(stream){
@@ -62,7 +62,7 @@ public:
 		}
 	}
 
-	Parser& fromFile(const std::string& filename)
+	ParserImpl& fromFile(const std::string& filename)
 	{
 		this->filename = filename;
 		stream = antlr3FileStreamNew((ANTLR3_UINT8*)filename.c_str(), ANTLR3_ENC_UTF8);
@@ -72,7 +72,7 @@ public:
 		setup();
 		return *this;
 	}
-	Parser& fromString(const std::string& src, const std::string& filename="<ON MEMORY>")
+	ParserImpl& fromString(const std::string& src, const std::string& filename="<ON MEMORY>")
 	{
 		this->src = src;
 		this->filename = filename;
@@ -83,7 +83,7 @@ public:
 		setup();
 		return *this;
 	}
-	Parser& fromStream(std::istream& stream_, const std::string filename){
+	ParserImpl& fromStream(std::istream& stream_, const std::string filename){
 		std::stringstream ss;
 		char buff[8192];
 		while(1){
@@ -93,11 +93,18 @@ public:
 			}
 			ss << buff;
 		}
-		return fromString(ss.str(), filename);
+		std::string src = ss.str();
+		return fromString(src, filename);
 	}
 public:
-	std::tr1::shared_ptr<nekomata::timeline::TimeLine> parseTimeline();
-	std::tr1::shared_ptr<const ExprNode> parseProgram();
+	std::tr1::shared_ptr<nekomata::timeline::TimeLine> parseTimeline()
+	{
+		return parser->time_line(parser);
+	}
+	std::tr1::shared_ptr<const ExprNode> parseProgram()
+	{
+		return parser->program(parser);
+	}
 };
 
 Parser::Parser(std::tr1::shared_ptr<ParserImpl> impl)
@@ -140,6 +147,4 @@ std::tr1::shared_ptr<const nekomata::tree::ExprNode> Parser::parseProgram()
 	return impl->parseProgram();
 }
 
-
-} /* namespace parser */
-} /* namespace nekomata */
+}}

@@ -32,6 +32,13 @@ void TimeLine::insertLast(const float time, const std::tr1::shared_ptr<const tre
 	timePointList.insert(it, tp);
 }
 
+void TimeLine::merge(std::tr1::shared_ptr<TimeLine> other)
+{
+	for(Iterator it = other->begin(); it != other->end();++it){
+		this->insertLast(it->getTime(), it->getNode());
+	}
+}
+
 TimeLine::Iterator TimeLine::begin()
 {
 	return this->timePointList.begin();
