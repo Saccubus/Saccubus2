@@ -6,8 +6,8 @@
  */
 
 #include "StringUtil.h"
-#include <stdio.h>
-#include <stdarg.h>
+#include <cstdio>
+#include <cstdarg>
 
 namespace nekomata {
 namespace utl {

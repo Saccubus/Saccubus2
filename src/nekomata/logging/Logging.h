@@ -13,7 +13,7 @@
 #include <vector>
 #include <iostream>
 #include <tr1/memory>
-#include <stdarg.h>
+#include <cstdarg>
 #include "../classdefs.h"
 #ifdef ERROR
 #undef ERROR

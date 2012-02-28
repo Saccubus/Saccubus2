@@ -10,7 +10,7 @@
 
 #include <exception>
 #include <string>
-#include <stdarg.h>
+#include <cstdarg>
 
 namespace nekomata {
 namespace logging{

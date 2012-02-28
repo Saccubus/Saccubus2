@@ -9,8 +9,8 @@
 #include "Object.h"
 #include "Heap.h"
 #include <sstream>
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 
 namespace nekomata{
 namespace object{

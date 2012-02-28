@@ -8,7 +8,7 @@
 #include "Object.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include <math.h>
+#include <cmath>
 #include <sstream>
 #include <algorithm>
 #include <tr1/functional>

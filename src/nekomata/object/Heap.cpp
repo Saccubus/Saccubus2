@@ -9,7 +9,7 @@
 #include "Heap.h"
 #include "../logging/Logging.h"
 #include <cstdarg>
-#include <math.h>
+#include <cmath>
 #include <set>
 #include <algorithm>
 #include <tr1/functional>

@@ -12,7 +12,7 @@ options {
 #include <string>
 #include <iostream>
 #include <tr1/memory>
-#include <stdlib.h>
+#include <cstdlib>
 #include "ParseUtil.h"
 #include "../tree/Node.h"
 #include "../timeline/TimeLine.h"

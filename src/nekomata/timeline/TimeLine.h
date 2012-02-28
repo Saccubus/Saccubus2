@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <tr1/memory>
+#include <cmath>
 #include "../classdefs.h"
 #include "../logging/Logging.h"
 namespace nekomata{

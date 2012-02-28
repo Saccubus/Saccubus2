@@ -7,7 +7,7 @@
 
 #include <sstream>
 #include <iomanip>
-#include <stdio.h>
+#include <cstdio>
 #include "Logging.h"
 #include "../util/StringUtil.h"
 #include "Exception.h"

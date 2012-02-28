@@ -9,8 +9,8 @@
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include <sstream>
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <unicode/unistr.h>
 
 namespace nekomata{

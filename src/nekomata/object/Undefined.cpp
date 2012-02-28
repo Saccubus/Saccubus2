@@ -5,7 +5,7 @@
  *      Author: psi
  */
 
-#include <math.h>
+#include <cmath>
 #include "../classdefs.h"
 #include "Object.h"
 #include "Heap.h"

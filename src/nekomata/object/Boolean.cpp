@@ -5,12 +5,12 @@
  *      Author: psi
  */
 
+#include <cmath>
+#include <cstdlib>
+#include <sstream>
 #include "Object.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
-#include <sstream>
-#include <math.h>
-#include <stdlib.h>
 
 namespace nekomata{
 namespace object{
