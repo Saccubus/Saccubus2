@@ -12,6 +12,7 @@
 #include <map>
 #include <tr1/memory>
 #include "../classdefs.h"
+#include "Object.h"
 
 namespace nekomata{
 namespace object{

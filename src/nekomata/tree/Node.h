@@ -8,12 +8,12 @@
 #ifndef NODE_H_
 #define NODE_H_
 
-#include "../classdefs.h"
-#include "../logging/Logging.h"
-#include "NodeWalker.h"
 #include <map>
 #include <vector>
 #include <tr1/memory>
+#include "../classdefs.h"
+#include "../logging/Logging.h"
+#include "NodeWalker.h"
 
 namespace nekomata{
 namespace tree{

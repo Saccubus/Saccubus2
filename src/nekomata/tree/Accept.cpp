@@ -6,7 +6,7 @@
  */
 
 #include "Node.h"
-#include "../tree/NodeWalker.h"
+#include "NodeWalker.h"
 
 namespace nekomata{
 namespace tree{

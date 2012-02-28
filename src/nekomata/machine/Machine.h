@@ -10,7 +10,6 @@
 #include <vector>
 #include <map>
 #include "../classdefs.h"
-#include "../object/Object.h"
 #include "../object/Heap.h"
 #include "../tree/NodeWalker.h"
 #include "Stack.h"
