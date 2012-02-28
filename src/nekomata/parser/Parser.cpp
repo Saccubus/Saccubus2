@@ -11,6 +11,8 @@
 #include "niwangoLexer.h"
 #include "niwangoParser.h"
 #include "Parser.h"
+#include "../timeline/TimeLine.h"
+#include "../tree/Node.h"
 #include "../logging/Exception.h"
 
 namespace nekomata {
@@ -99,11 +101,11 @@ public:
 public:
 	std::tr1::shared_ptr<nekomata::timeline::TimeLine> parseTimeline()
 	{
-		return parser->time_line(parser);
+		return std::tr1::shared_ptr<nekomata::timeline::TimeLine>(parser->time_line(parser));
 	}
-	std::tr1::shared_ptr<const ExprNode> parseProgram()
+	std::tr1::shared_ptr<const nekomata::tree::ExprNode> parseProgram()
 	{
-		return parser->program(parser);
+		return std::tr1::shared_ptr<const nekomata::tree::ExprNode>(parser->program(parser));
 	}
 };
 

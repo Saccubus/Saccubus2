@@ -5,9 +5,9 @@
  *      Author: psi
  */
 
-#include "TimeLine.h"
 #include <algorithm>
 #include <tr1/memory>
+#include "TimeLine.h"
 #include "../tree/Node.h"
 
 namespace nekomata{
@@ -25,7 +25,7 @@ TimeLine::~TimeLine()
 	// TODO Auto-generated destructor stub
 }
 
-void TimeLine::insertLast(const float time, const std::tr1::shared_ptr<const tree::ExprNode> node)
+void TimeLine::insertLast(const float time, std::tr1::shared_ptr<const tree::ExprNode> node)
 {
 	TimePoint tp(time, node);
 	std::vector<TimePoint>::iterator it = std::upper_bound(timePointList.begin(), timePointList.end(), tp);
@@ -47,10 +47,15 @@ TimeLine::Iterator TimeLine::end()
 {
 	return this->timePointList.end();
 }
-size_t TimeLine::size()
+size_t TimeLine::size() const
 {
 	return this->timePointList.size();
 }
+float TimeLine::getLastTime() const
+{
+	return this->timePointList.back().getTime();
+}
+
 
 void TimeLine::dump(logging::Dumper& dumper) const
 {

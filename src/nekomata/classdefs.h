@@ -32,9 +32,9 @@ class NativeMethodObject;
 class MethodNodeObject;
 
 class LambdaObject;
-class SambdaScopeObject;
+class LambdaScopeObject;
 
-class TopLevelObject;
+class SystemObject;
 
 class LiteralObject;
 class StringObject;

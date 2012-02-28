@@ -7,6 +7,7 @@
 
 #include <string>
 #include <antlr3.h>
+#include "../tree/Node.h"
 #include "../logging/Logging.h"
 #include "ParseUtil.h"
 

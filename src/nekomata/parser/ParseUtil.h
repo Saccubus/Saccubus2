@@ -10,9 +10,9 @@
 
 #include <string>
 #include <antlr3.h>
-#include "../logging/Logging.h"
-#include "../tree/Node.h"
 #include <tr1/memory>
+#include "../logging/Logging.h"
+
 namespace nekomata{
 namespace parser{
 namespace util{

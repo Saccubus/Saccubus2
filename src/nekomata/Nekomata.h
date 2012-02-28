@@ -11,8 +11,7 @@
 #include <vector>
 
 #include "machine/Machine.h"
-#include "system/System.h"
-#include "logging/Logging.h"
+#include "timeline/TimeLine.h"
 
 namespace nekomata {
 
@@ -21,13 +20,14 @@ private:
 	system::System& system;
 	logging::Logger& log;
 	machine::Machine machine;
+	timeline::TimeLine timeline;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);
 	virtual ~Nekomata();
 public:
-	void parseTimelineStr(std::string& str);
-	void parseTimelineFile(std::string& filename);
-	void parseProgram(float time, std::string& str);
+	void parseTimelineStr(const std::string& str);
+	void parseTimelineFile(const std::string& filename);
+	void parseProgram(float time, const std::string& str);
 public:
 	float getLastTime();
 	void seek(float time);

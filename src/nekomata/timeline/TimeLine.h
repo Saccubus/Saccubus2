@@ -46,11 +46,12 @@ public:
 	typedef std::vector<TimePoint>::const_iterator Iterator;
 	TimeLine();
 	virtual ~TimeLine();
-	void insertLast(const float time, const std::tr1::shared_ptr<const tree::ExprNode> node);
+	void insertLast(const float time, std::tr1::shared_ptr<const tree::ExprNode> node);
 	void merge(std::tr1::shared_ptr<TimeLine> other);
 	Iterator begin();
 	Iterator end();
-	size_t size();
+	size_t size() const;
+	float getLastTime() const;
 	virtual void dump(logging::Dumper& dumper) const;
 };
 

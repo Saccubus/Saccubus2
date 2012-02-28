@@ -12,8 +12,6 @@ namespace nekomata {
 namespace parser {
 #include <tr1/memory>
 #include <iostream>
-#include "../timeline/TimeLine.h"
-#include "../tree/Node.h"
 
 class ParserImpl;
 class Parser
