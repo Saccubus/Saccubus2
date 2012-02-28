@@ -211,16 +211,21 @@ public:
 	explicit System();
 	virtual ~System();
 
-	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size,const std::string& pos,unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover) = 0;
-	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover) = 0;
-	virtual std::tr1::shared_ptr<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, std::string& unit,bool buttononly, std::vector<std::string>& words) = 0;
-	virtual std::tr1::shared_ptr<SumResult> showResult(double x, double y, unsigned int color, bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<Sum*>& sum) = 0;
-	virtual std::tr1::shared_ptr<Replace> replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, double size, const std::string& pos) = 0;
-	virtual void seek(double vpos, const std::string& msg) = 0;
+	virtual std::tr1::shared_ptr<Shape> drawShape(std::tr1::shared_ptr<Shape> _shape) = 0;
+	virtual std::tr1::shared_ptr<Chat> drawText(std::tr1::shared_ptr<Chat> _chat) = 0;
+	virtual void commentTrigger(float const timer, const tree::Node* then) = 0;
+	virtual void timer(float const timer, const tree::Node* then) = 0;
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow) = 0;
+	virtual void jumpCancel() = 0;
+	virtual void seek(double vpos, const std::string& msg) = 0;
+	virtual void addMarker(const std::string& name, double vpos) = 0;
+	virtual void getMarker(const std::string& name) = 0;
+	virtual std::tr1::shared_ptr<Sum> sum(std::tr1::shared_ptr<Sum> _sum) = 0;
+	virtual std::tr1::shared_ptr<SumResult> showResult(std::tr1::shared_ptr<SumResult> _sumResult) = 0;
+	virtual std::tr1::shared_ptr<Replace> replace(std::tr1::shared_ptr<Replace> _replace) = 0;
 	virtual double screenWidth() = 0;
 	virtual double screenHeight() = 0;
-	virtual Button* addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden) = 0;
+	virtual std::tr1::shared_ptr<Button> addButton(std::tr1::shared_ptr<Button> _button) = 0;
 	virtual double playStartTime() = 0;
 	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume) = 0;
 	virtual void playBGM(int id) = 0;
