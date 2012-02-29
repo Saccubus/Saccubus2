@@ -10,6 +10,7 @@
 #include <libgen.h>
 #include <iomanip>
 #include <cstdlib>
+#include <exception>
 #include "CLISystem.h"
 #include "../nekomata/Nekomata.h"
 using namespace std;
@@ -112,5 +113,16 @@ int main(int argc, char* argv[]){
 }
 
 int main(int argc, char* argv[]){
-	return cli::main(argc, argv);
+	try{
+		return cli::main(argc, argv);
+	} catch (nekomata::logging::Exception& e){
+		std::cout << "Nekomata Exception catch: " << e.what() << std::endl;
+		return -1;
+	} catch (std::exception& ex){
+		std::cout << "Default Exception catch: " << ex.what() << std::endl;
+		return -2;
+	} catch(...){
+		std::cout << "[FIXME] Unkown exception caught..." << std::endl;
+		return -3;
+	}
 }

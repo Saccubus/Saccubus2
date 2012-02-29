@@ -10,6 +10,8 @@
 #include <iostream>
 #include <vector>
 
+#include "logging/Logging.h"
+#include "logging/Exception.h"
 #include "machine/Machine.h"
 #include "timeline/TimeLine.h"
 
