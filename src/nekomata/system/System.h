@@ -9,6 +9,7 @@
 #define SYSTEM_H_
 
 #include <tr1/memory>
+#include <string>
 
 namespace nekomata{
 namespace system {
@@ -22,28 +23,31 @@ public:\
 	virtual type name(){return name##_;}; \
 	virtual void name(const type& name##__){name##_=name##__;};
 
-#define DEF_DEFAULT(name, value) name##_(value)
+#define SET_PARAM(name) this->name(name)
 
 class Shape
 {
 public:
-	explicit Shape():
-	DEF_DEFAULT(x, 0),
-	DEF_DEFAULT(y, 0),
-	DEF_DEFAULT(z, 0),
-	DEF_DEFAULT(shape, "circle"),
-	DEF_DEFAULT(width, 30),
-	DEF_DEFAULT(height, 30),
-	DEF_DEFAULT(color, 16777215),
-	DEF_DEFAULT(visible, true),
-	DEF_DEFAULT(pos, "naka"),
-	DEF_DEFAULT(mask, false),
-	DEF_DEFAULT(commentmask, false),
-	DEF_DEFAULT(alpha, 0),
-	DEF_DEFAULT(rotation, 0),
-	DEF_DEFAULT(mover, "")
-	{};
+	explicit Shape(){};
 	virtual ~Shape(){};
+public:
+	virtual void load(double x, double y, double z, std::string shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+	{
+		SET_PARAM(x);
+		SET_PARAM(y);
+		SET_PARAM(z);
+		SET_PARAM(shape);
+		SET_PARAM(width);
+		SET_PARAM(height);
+		SET_PARAM(color);
+		SET_PARAM(visible);
+		SET_PARAM(pos);
+		SET_PARAM(mask);
+		SET_PARAM(commentmask);
+		SET_PARAM(alpha);
+		SET_PARAM(rotation);
+		SET_PARAM(mover);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
 	DEC_ADAPTER_ACCESSOR(y, double);
@@ -64,21 +68,23 @@ public:
 class Sum
 {
 public:
-	explicit Sum():
-	DEF_DEFAULT(x, 0),
-	DEF_DEFAULT(y, 0),
-	DEF_DEFAULT(size, 30),
-	DEF_DEFAULT(color,16777215),
-	DEF_DEFAULT(visible, true),
-	DEF_DEFAULT(enabled, true),
-	DEF_DEFAULT(pos, "naka"),
-	DEF_DEFAULT(asc, false),
-	DEF_DEFAULT(unit, "人"),
-	DEF_DEFAULT(buttononly, false),
-	DEF_DEFAULT(words, std::vector<std::string>()),
-	DEF_DEFAULT(partial, false)
-	{};
+	explicit Sum(){};
 	virtual ~Sum(){};
+	virtual void load(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+	{
+		SET_PARAM(x);
+		SET_PARAM(y);
+		SET_PARAM(size);
+		SET_PARAM(color);
+		SET_PARAM(visible);
+		SET_PARAM(enabled);
+		SET_PARAM(pos);
+		SET_PARAM(asc);
+		SET_PARAM(unit);
+		SET_PARAM(buttononly);
+		SET_PARAM(words);
+		SET_PARAM(partial);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
 	DEC_ADAPTER_ACCESSOR(y, double);
@@ -96,17 +102,19 @@ public:
 class SumResult
 {
 public:
-	explicit SumResult():
-	DEF_DEFAULT(x, 0),
-	DEF_DEFAULT(y, 0),
-	DEF_DEFAULT(color,16777215),
-	DEF_DEFAULT(visible, true),
-	DEF_DEFAULT(pos, "naka"),
-	DEF_DEFAULT(unit, "人"),
-	DEF_DEFAULT(asc, false),
-	DEF_DEFAULT(sum, std::vector<std::tr1::shared_ptr<Sum> >())
-	{};
+	explicit SumResult(){};
 	virtual ~SumResult(){};
+	virtual void load(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<std::tr1::shared_ptr<Sum> > sum)
+	{
+		SET_PARAM(x);
+		SET_PARAM(y);
+		SET_PARAM(color);
+		SET_PARAM(visible);
+		SET_PARAM(pos);
+		SET_PARAM(unit);
+		SET_PARAM(asc);
+		SET_PARAM(sum);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(x, double);
 	DEC_ADAPTER_ACCESSOR(y, double);
@@ -120,21 +128,24 @@ public:
 class Chat
 {
 public:
-	explicit Chat():
-	DEF_DEFAULT(text, std::string),
-	DEF_DEFAULT(x, 0),
-	DEF_DEFAULT(y, 0),
-	DEF_DEFAULT(z, 0),
-	DEF_DEFAULT(size, 14),
-	DEF_DEFAULT(pos, "naka"),
-	DEF_DEFAULT(color, 0),
-	DEF_DEFAULT(bold, false),
-	DEF_DEFAULT(visible, true),
-	DEF_DEFAULT(filter, ""),
-	DEF_DEFAULT(alpha, 0),
-	DEF_DEFAULT(mover, "")
-	{};
+	explicit Chat(){};
 	virtual ~Chat(){};
+public:
+	virtual void load(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+	{
+		SET_PARAM(text);
+		SET_PARAM(x);
+		SET_PARAM(y);
+		SET_PARAM(z);
+		SET_PARAM(size);
+		SET_PARAM(pos);
+		SET_PARAM(color);
+		SET_PARAM(bold);
+		SET_PARAM(visible);
+		SET_PARAM(filter);
+		SET_PARAM(alpha);
+		SET_PARAM(mover);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(text, std::string);
 	DEC_ADAPTER_ACCESSOR(x, double);
@@ -153,17 +164,19 @@ public:
 class Button
 {
 public:
-	explicit Button():
-	DEF_DEFAULT(message, ""),
-	DEF_DEFAULT(mail, ""),
-	DEF_DEFAULT(vpos, 0), //FIXME: Wikiに書いてない
-	DEF_DEFAULT(commes, ""), //FIXME: Wikiに書いてない
-	DEF_DEFAULT(commail, ""),
-	DEF_DEFAULT(comvisible, true),
-	DEF_DEFAULT(limit, 1),
-	DEF_DEFAULT(hidden, false)
-	{};
+	explicit Button(){};
 	virtual ~Button(){};
+	virtual void load(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+	{
+		SET_PARAM(message);
+		SET_PARAM(mail);
+		SET_PARAM(vpos);
+		SET_PARAM(commes);
+		SET_PARAM(commail);
+		SET_PARAM(comvisible);
+		SET_PARAM(limit);
+		SET_PARAM(hidden);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(message, std::string);
 	DEC_ADAPTER_ACCESSOR(mail, std::string);
@@ -177,22 +190,24 @@ public:
 
 class Replace
 {
+public:
 	enum{
 		SAME_COLOR=0xffffffff
 	};
-public:
-	explicit Replace():
-	DEF_DEFAULT(src, ""),
-	DEF_DEFAULT(dst, ""), //TODO: SRCと同じ文字
-	DEF_DEFAULT(enabled, true),
-	DEF_DEFAULT(target, ""),
-	DEF_DEFAULT(fill, false),
-	DEF_DEFAULT(partial, true),
-	DEF_DEFAULT(color, SAME_COLOR), //変更しない
-	DEF_DEFAULT(size, ""),
-	DEF_DEFAULT(pos, "")
-	{};
+	explicit Replace(){};
 	virtual ~Replace(){};
+	virtual void load(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+	{
+		SET_PARAM(src);
+		SET_PARAM(dst);
+		SET_PARAM(enabled);
+		SET_PARAM(target);
+		SET_PARAM(fill);
+		SET_PARAM(partial);
+		SET_PARAM(color);
+		SET_PARAM(size);
+		SET_PARAM(pos);
+	}
 public:
 	DEC_ADAPTER_ACCESSOR(src, std::string);
 	DEC_ADAPTER_ACCESSOR(dst, std::string);
@@ -211,29 +226,29 @@ public:
 	explicit System();
 	virtual ~System();
 
-	virtual std::tr1::shared_ptr<Shape> drawShape(std::tr1::shared_ptr<Shape> _shape) = 0;
-	virtual std::tr1::shared_ptr<Chat> drawText(std::tr1::shared_ptr<Chat> _chat) = 0;
-	virtual void commentTrigger(float const timer, const tree::Node* then) = 0;
-	virtual void timer(float const timer, const tree::Node* then) = 0;
-	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow) = 0;
-	virtual void jumpCancel() = 0;
-	virtual void seek(double vpos, const std::string& msg) = 0;
-	virtual void addMarker(const std::string& name, double vpos) = 0;
-	virtual void getMarker(const std::string& name) = 0;
-	virtual std::tr1::shared_ptr<Sum> sum(std::tr1::shared_ptr<Sum> _sum) = 0;
-	virtual std::tr1::shared_ptr<SumResult> showResult(std::tr1::shared_ptr<SumResult> _sumResult) = 0;
-	virtual std::tr1::shared_ptr<Replace> replace(std::tr1::shared_ptr<Replace> _replace) = 0;
-	virtual double screenWidth() = 0;
-	virtual double screenHeight() = 0;
-	virtual std::tr1::shared_ptr<Button> addButton(std::tr1::shared_ptr<Button> _button) = 0;
-	virtual double playStartTime() = 0;
-	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume) = 0;
-	virtual void playBGM(int id) = 0;
-	virtual void stopBGM(int id) = 0;
-	virtual void addAtPausePoint(double vpos, double wait) = 0;
-	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button) = 0;
-	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume) = 0;
-	virtual void playCM(int id) = 0;
+	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, std::string shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
+	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual void commentTrigger(float const timer, const tree::Node* then);
+	virtual void timer(float const timer, const tree::Node* then);
+	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
+	virtual void jumpCancel();
+	virtual void seek(double vpos, const std::string& msg);
+	virtual void addMarker(const std::string& name, double vpos);
+	virtual double getMarker(const std::string& name);
+	virtual std::tr1::shared_ptr<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
+	virtual std::tr1::shared_ptr<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<std::tr1::shared_ptr<Sum> > sum);
+	virtual std::tr1::shared_ptr<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
+	virtual double screenWidth();
+	virtual double screenHeight();
+	virtual std::tr1::shared_ptr<Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
+	virtual double playStartTime();
+	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
+	virtual void playBGM(int id);
+	virtual void stopBGM(int id);
+	virtual void addAtPausePoint(double vpos, double wait);
+	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
+	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
+	virtual void playCM(int id);
 //
 	DEC_ADAPTER_ACCESSOR(commentColor, unsigned int);
 	DEC_ADAPTER_ACCESSOR(commentPlace, std::string);
@@ -249,7 +264,7 @@ public:
 };
 
 #undef DEC_ADAPTER_ACCESSOR
-#undef DEF_DEFAULT
+#undef SET_PARAM
 
 }
 }
