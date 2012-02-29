@@ -101,8 +101,7 @@ int main(int argc, char* argv[]){
 	}
 
 	if(dump){
-		nekomata::logging::Dumper dumper(cout);
-		//FIXME
+		nekomata.dump(std::cout);
 		return 0;
 	}
 	nekomata.seek(nekomata.getLastTime());

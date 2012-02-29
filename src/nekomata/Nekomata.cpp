@@ -49,6 +49,12 @@ void Nekomata::parseProgram(float time, const std::string& str)
 	timeline.insertLast(time, parser::Parser::fromString(str)->parseProgram());
 }
 
+void Nekomata::dump(std::ostream& stream)
+{
+	nekomata::logging::Dumper dumper(stream);
+	this->timeline.dump(dumper);
+}
+
 float Nekomata::getLastTime()
 {
 	return timeline.getLastTime();
