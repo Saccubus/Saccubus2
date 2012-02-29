@@ -206,7 +206,8 @@ size_t Object::slotSize()
 StringObject* Object::toStringObject()
 {
 	std::stringstream ss;
-	ss << "<< Object: " << getHash() << ">> {";
+	ss << "<< Object: " << getHash() << ">>";
+	/*" {";
 	for(SlotMapIterator it = objectMap.begin();it != objectMap.end();++it){
 		ss << std::endl << it->first << " : " << "<<Object"<< it->second->getHash() <<">>";
 	}
@@ -216,6 +217,7 @@ StringObject* Object::toStringObject()
 		++cnt;
 	}
 	ss << "}";
+	*/
 	return getHeap().newStringObject(ss.str());
 }
 NumericObject* Object::toNumericObject()
