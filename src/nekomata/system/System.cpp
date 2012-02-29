@@ -14,7 +14,7 @@
 namespace nekomata{
 namespace system {
 
-#define SET(name, _default) this->name(_default);
+using namespace std::tr1;
 
 System::System()
 {
@@ -26,13 +26,17 @@ System::~System() {
 	// TODO Auto-generated destructor stub
 }
 
-std::tr1::shared_ptr<Shape> System::drawShape(double x, double y, double z, std::string shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+shared_ptr<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 {
-
+	shared_ptr<Shape> _shape(new Shape());
+	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
+	return _shape;
 }
-std::tr1::shared_ptr<Chat> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+shared_ptr<Chat> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
-
+	shared_ptr<Chat> _chat(new Chat());
+	_chat->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
+	return _chat;
 }
 void System::commentTrigger(float const timer, const tree::Node* then)
 {
@@ -62,17 +66,23 @@ double System::getMarker(const std::string& name)
 {
 
 }
-std::tr1::shared_ptr<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+shared_ptr<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
 {
-
+	shared_ptr<Sum> _sum(new Sum());
+	_sum->load(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
+	return _sum;
 }
-std::tr1::shared_ptr<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<std::tr1::shared_ptr<Sum> > sum)
+shared_ptr<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<shared_ptr<Sum> > sum)
 {
-
+	shared_ptr<SumResult> _sumResult(new SumResult());
+	_sumResult->load(x, y, color, visible, pos, unit, asc, sum);
+	return _sumResult;
 }
-std::tr1::shared_ptr<Replace> System::replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+shared_ptr<Replace> System::replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
 {
-
+	shared_ptr<Replace> _replace(new Replace());
+	_replace->load(src, dst, enabled, target, fill, partial, color, size, pos);
+	return _replace;
 }
 double System::screenWidth()
 {
@@ -82,9 +92,11 @@ double System::screenHeight()
 {
 
 }
-std::tr1::shared_ptr<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+shared_ptr<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
 {
-
+	shared_ptr<Button> _button(new Button());
+	_button->load(message, mail, vpos, commes, commail, comvisible, limit, hidden);
+	return _button;
 }
 double System::playStartTime()
 {

@@ -31,7 +31,7 @@ public:
 	explicit Shape(){};
 	virtual ~Shape(){};
 public:
-	virtual void load(double x, double y, double z, std::string shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+	virtual void load(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
@@ -226,7 +226,7 @@ public:
 	explicit System();
 	virtual ~System();
 
-	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, std::string shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
+	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
 	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
 	virtual void commentTrigger(float const timer, const tree::Node* then);
 	virtual void timer(float const timer, const tree::Node* then);
