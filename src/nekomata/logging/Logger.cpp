@@ -92,7 +92,7 @@ void Logger::msg(enum Level level, const std::string& tag, const Location* loc, 
 		ss << "[" << std::setw(3) <<  loc->getLineNo() << "," << std::setw(3) << loc->getColNo() << "]";
 	}
 
-	ss << nekomata::utl::format(str.c_str(), list);
+	ss << utl::format(str.c_str(), list);
 	stream.flush();
 }
 

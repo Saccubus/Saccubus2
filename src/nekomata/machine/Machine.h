@@ -28,7 +28,7 @@ private:
 public:
 	explicit Machine(logging::Logger& log, system::System& system);
 	virtual ~Machine();
-	object::Object* eval(const nekomata::tree::Node* node, object::Object* const arg=0);
+	object::Object* eval(const tree::Node* node, object::Object* const arg=0);
 	object::Object* send(object::Object* const self, const std::string& message, object::Object* const arg=0);
 	logging::Logger& log;
 public:

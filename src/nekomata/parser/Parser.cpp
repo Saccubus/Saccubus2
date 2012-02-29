@@ -31,15 +31,15 @@ private:
 	{
 		this->lexer = niwangoLexerNew(this->stream);
 		if(!this->lexer){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to read stream for %s", filename.c_str());
+			throw logging::Exception(__FILE__, __LINE__, "Failed to read stream for %s", filename.c_str());
 		}
 		this->tokenStream = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lexer));
 		if(!this->tokenStream){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create token stream for %s", filename.c_str());
+			throw logging::Exception(__FILE__, __LINE__, "Failed to create token stream for %s", filename.c_str());
 		}
 		this->parser = niwangoParserNew(tokenStream);
 		if(!this->parser){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create parser for %s", filename.c_str());
+			throw logging::Exception(__FILE__, __LINE__, "Failed to create parser for %s", filename.c_str());
 		}
 	}
 public:
@@ -69,7 +69,7 @@ public:
 		this->filename = filename;
 		stream = antlr3FileStreamNew((ANTLR3_UINT8*)filename.c_str(), ANTLR3_ENC_UTF8);
 		if(!stream){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 File Stream for %s", filename.c_str());
+			throw logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 File Stream for %s", filename.c_str());
 		}
 		setup();
 		return *this;
@@ -80,7 +80,7 @@ public:
 		this->filename = filename;
 		stream = antlr3StringStreamNew((pANTLR3_UINT8)this->src.c_str(), ANTLR3_ENC_UTF8, this->filename.size(), (pANTLR3_UINT8)this->filename.c_str());
 		if(!stream){
-			throw nekomata::logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 String Stream for %s", filename.c_str());
+			throw logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 String Stream for %s", filename.c_str());
 		}
 		setup();
 		return *this;
@@ -99,13 +99,13 @@ public:
 		return fromString(src, filename);
 	}
 public:
-	std::tr1::shared_ptr<nekomata::timeline::TimeLine> parseTimeline()
+	std::tr1::shared_ptr<timeline::TimeLine> parseTimeline()
 	{
-		return std::tr1::shared_ptr<nekomata::timeline::TimeLine>(parser->time_line(parser));
+		return std::tr1::shared_ptr<timeline::TimeLine>(parser->time_line(parser));
 	}
-	std::tr1::shared_ptr<const nekomata::tree::ExprNode> parseProgram()
+	std::tr1::shared_ptr<const tree::ExprNode> parseProgram()
 	{
-		return std::tr1::shared_ptr<const nekomata::tree::ExprNode>(parser->program(parser));
+		return std::tr1::shared_ptr<const tree::ExprNode>(parser->program(parser));
 	}
 };
 
@@ -113,7 +113,7 @@ Parser::Parser(std::tr1::shared_ptr<ParserImpl> impl)
 :impl(impl)
 {
 	if(!impl){
-		throw nekomata::logging::Exception(__FILE__, __LINE__, "[BUG] Invalid parser impl pointer.");
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Invalid parser impl pointer.");
 	}
 }
 Parser::~Parser()
@@ -140,11 +140,11 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<nekomata::timeline::TimeLine> Parser::parseTimeline()
+std::tr1::shared_ptr<timeline::TimeLine> Parser::parseTimeline()
 {
 	return impl->parseTimeline();
 }
-std::tr1::shared_ptr<const nekomata::tree::ExprNode> Parser::parseProgram()
+std::tr1::shared_ptr<const tree::ExprNode> Parser::parseProgram()
 {
 	return impl->parseProgram();
 }

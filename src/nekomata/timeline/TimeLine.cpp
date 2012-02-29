@@ -44,7 +44,7 @@ TimeLine::Iterator TimeLine::begin(float start)
 	if(start != start){ //NaN判定
 		return this->timePointList.begin();
 	}else{
-		std::tr1::shared_ptr<const nekomata::tree::ExprNode> _null;
+		std::tr1::shared_ptr<const tree::ExprNode> _null;
 		TimePoint tp(start, _null);
 		std::vector<TimePoint>::iterator it = std::lower_bound(timePointList.begin(), timePointList.end(), tp);
 		return it;
@@ -55,7 +55,7 @@ TimeLine::Iterator TimeLine::end(const float end)
 	if(end != end){ //NaN判定
 		return this->timePointList.end();
 	}else{
-		std::tr1::shared_ptr<const nekomata::tree::ExprNode> _null;
+		std::tr1::shared_ptr<const tree::ExprNode> _null;
 		TimePoint tp(end, _null);
 		std::vector<TimePoint>::iterator it = std::upper_bound(timePointList.begin(), timePointList.end(), tp);
 		return it;

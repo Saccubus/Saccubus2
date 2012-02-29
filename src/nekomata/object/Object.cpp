@@ -383,7 +383,9 @@ DEF_BUILTIN(Object, getSlot)
 	machine.pushResult(obj);
 }
 DEF_BUILTIN(Object, clone){
+	//FIXME
 	Object* const self = machine.getSelf();
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 DEF_BUILTIN(Object, if)

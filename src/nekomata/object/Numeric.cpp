@@ -116,7 +116,9 @@ DEF_BUILTIN(NumericObject, modulo){
 }
 DEF_BUILTIN(NumericObject, clone)
 {
+	//FIXME: コピーできない？
 	NumericObject* const self = machine.getSelf()->toNumericObject();
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 DEF_BUILTIN(NumericObject, equals)

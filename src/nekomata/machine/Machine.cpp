@@ -14,8 +14,10 @@
 #include <tr1/memory>
 using namespace nekomata::tree;
 using std::tr1::shared_ptr;
+
 namespace nekomata{
 namespace machine{
+
 static const std::string TAG("Machine");
 
 Machine::Machine(logging::Logger& log, system::System& system)

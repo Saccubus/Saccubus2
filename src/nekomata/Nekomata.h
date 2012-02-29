@@ -15,6 +15,9 @@
 
 namespace nekomata {
 
+static const std::string PROGRAM_NAME;
+static const std::string PROGRAM_VERSION;
+
 class Nekomata {
 private:
 	system::System& system;

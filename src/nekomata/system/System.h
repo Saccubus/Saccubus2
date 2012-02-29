@@ -10,11 +10,11 @@
 
 #include <tr1/memory>
 #include <string>
+#include <vector>
+#include "../classdefs.h"
 
 namespace nekomata{
 namespace system {
-
-#include "../classdefs.h"
 
 #define DEF_ADAPTER_ACCESSOR(name, type)\
 private:\
@@ -29,12 +29,14 @@ public:\
 
 class System
 {
+protected:
+	logging::Logger& log;
 public:
-	explicit System();
+	explicit System(logging::Logger& log);
 	virtual ~System();
 
-	virtual std::tr1::shared_ptr<nekomata::system::Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
-	virtual std::tr1::shared_ptr<nekomata::system::Chat> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
+	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
 	virtual void commentTrigger(float const timer, const tree::Node* then);
 	virtual void timer(float const timer, const tree::Node* then);
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
@@ -42,12 +44,12 @@ public:
 	virtual void seek(double vpos, const std::string& msg);
 	virtual void addMarker(const std::string& name, double vpos);
 	virtual double getMarker(const std::string& name);
-	virtual std::tr1::shared_ptr<nekomata::system::Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
-	virtual std::tr1::shared_ptr<nekomata::system::SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<std::tr1::shared_ptr<nekomata::system::Sum> > sum);
-	virtual std::tr1::shared_ptr<nekomata::system::Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
+	virtual std::tr1::shared_ptr<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
+	virtual std::tr1::shared_ptr<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<std::tr1::shared_ptr<Sum> > sum);
+	virtual std::tr1::shared_ptr<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
 	virtual double screenWidth();
 	virtual double screenHeight();
-	virtual std::tr1::shared_ptr<nekomata::system::Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
+	virtual std::tr1::shared_ptr<Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
 	virtual double playStartTime();
 	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
 	virtual void playBGM(int id);
@@ -77,9 +79,9 @@ public:
 class SystemItem
 {
 protected:
-	nekomata::system::System& system;
+	System& system;
 public:
-	explicit SystemItem(nekomata::system::System& system):system(system){};
+	explicit SystemItem(System& system):system(system){};
 	virtual ~SystemItem(){};
 };
 
@@ -119,7 +121,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(rotation, double);
 	DEF_ADAPTER_ACCESSOR(mover, std::string);
 public:
-	explicit Shape(nekomata::system::System& system)
+	explicit Shape(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Shape(){};
 };
@@ -156,7 +158,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(words, std::vector<std::string>);
 	DEF_ADAPTER_ACCESSOR(partial, bool);
 public:
-	explicit Sum(nekomata::system::System& system)
+	explicit Sum(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Sum(){};
 };
@@ -184,7 +186,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(asc, bool);
 	DEF_ADAPTER_ACCESSOR(sum, std::vector<std::tr1::shared_ptr<Sum> >);
 public:
-	explicit SumResult(nekomata::system::System& system)
+	explicit SumResult(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~SumResult(){};
 };
@@ -220,7 +222,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(alpha, double);
 	DEF_ADAPTER_ACCESSOR(mover, std::string);
 public:
-	explicit Chat(nekomata::system::System& system):
+	explicit Chat(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Chat(){};
 };
@@ -249,7 +251,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(limit, int);
 	DEF_ADAPTER_ACCESSOR(hidden, bool);
 public:
-	explicit Button(nekomata::system::System& system)
+	explicit Button(System& system)
 	:SystemItem(system), SET_DEFAULT(hidden, true){};
 	virtual ~Button(){};
 };
@@ -283,7 +285,7 @@ public:
 	enum{
 		SAME_COLOR=0xffffffff
 	};
-	explicit Replace(nekomata::system::System& system)
+	explicit Replace(System& system)
 	:SystemItem(system), SET_DEFAULT(enabled, false){};
 	virtual ~Replace(){};
 };

@@ -31,7 +31,7 @@ DEF_BUILTIN(LambdaObject, index)
 {
 	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
 	if(!self){
-		throw nekomata:: logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
+		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
 	}
 	Object* const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
 	machine.enterLocal(local, self->Object::getSlot("$$scope"));
@@ -58,7 +58,7 @@ DEF_BUILTIN(LambdaScopeObject, atmark)
 {
 	LazyEvalObject* const mergeArg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
 	if(!mergeArg){
-		throw nekomata:: logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!! Argument is not LazyEvalObject");
+		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!! Argument is not LazyEvalObject");
 	}
 	Object* const local = machine.getLocal();
 	Object* const arg = machine.getSelf()->getSlot("$$arg");

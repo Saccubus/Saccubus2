@@ -23,10 +23,6 @@ namespace nekomata{
 namespace logging
 {
 
-class Dumper;
-class Dumpable;
-class Location;
-
 class Dumpable{
 protected:
 	Dumpable(){};

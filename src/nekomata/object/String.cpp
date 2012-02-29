@@ -186,6 +186,7 @@ DEF_BUILTIN(StringObject, eval)
 {
 	StringObject* const self = machine.getSelf()->toStringObject();
 	//FIXME:
+	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 DEF_BUILTIN(StringObject, add)

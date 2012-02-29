@@ -18,6 +18,7 @@
 namespace nekomata{
 namespace tree{
 
+
 class Node : public logging::Dumpable
 {
 private:

@@ -18,7 +18,7 @@ Exception::Exception(const std::string& fname, size_t line, const std::string& m
 		ss << "(" << fname << ":" << line;
 		va_list arg;
 		va_start(arg, msg);
-		ss << nekomata::utl::format(msg, arg);
+		ss << utl::format(msg, arg);
 		this->msg = ss.str();
 		va_end(arg);
 	} catch (...) {
