@@ -133,7 +133,7 @@ std::tr1::shared_ptr<Parser> Parser::fromString(const std::string& src, const st
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std::string filename)
+std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std::string& filename)
 {
 	std::tr1::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromStream(stream_, filename);

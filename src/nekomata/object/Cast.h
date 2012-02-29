@@ -90,6 +90,14 @@ T opt(Object* const obj, size_t index, const T& def)
 		return def;
 	}
 }
+std::string opt(Object* const obj, size_t index, const std::string& def)
+{
+	if(obj->has(index)){
+		return cast<std::string>(obj->index(index));
+	}else{
+		return def;
+	}
+}
 
 
 }}

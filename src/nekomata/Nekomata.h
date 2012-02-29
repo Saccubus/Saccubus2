@@ -31,6 +31,7 @@ public:
 public:
 	void parseTimelineStr(const std::string& str);
 	void parseTimelineFile(const std::string& filename);
+	void parseTimelineStream(std::istream& stream, const std::string& name="<stream>");
 	void parseProgram(float time, const std::string& str);
 public:
 	float getLastTime();

@@ -80,7 +80,7 @@ DEF_BUILTIN(SystemObject, drawShape)
 		opt(arg, "shape", "circle"),
 		opt(arg, "width", 0.0),
 		opt(arg, "height", 0.0),
-		opt(arg, "color", 16777215),
+		opt<unsigned int>(arg, "color", 16777215),
 		opt(arg, "visible", true),
 		opt(arg, "pos", "naka"),
 		opt(arg, "mask", false),
@@ -97,13 +97,13 @@ DEF_BUILTIN(SystemObject, drawText)
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	Object* const arg = machine.getArgument();
 	shared_ptr<system::Chat> chat = self->system.drawText(
-			opt(arg, "text", ""),
+			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, 0, ""),
 			opt(arg, "x", 0.0),
 			opt(arg, "y", 0.0),
 			opt(arg, "z", 0.0),
-			opt(arg, "size", 14),
+			opt(arg, "size", 14.0),
 			opt(arg, "pos", "naka"),
-			opt(arg, "color", 0),
+			opt<unsigned int>(arg, "color", 0),
 			opt(arg, "bold", false),
 			opt(arg, "visible", true),
 			opt(arg, "filter", ""),
@@ -198,10 +198,10 @@ DEF_BUILTIN(SystemObject, sum)
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	Object* const arg = machine.getArgument();
 	shared_ptr<system::Sum> sum = self->system.sum(
-		opt(arg, "x", 0),
-		opt(arg, "y", 0),
+		opt(arg, "x", 0.0),
+		opt(arg, "y", 0.0),
 		opt(arg, "size", 30),
-		opt(arg, "color", 16777215),
+		opt<unsigned int>(arg, "color", 16777215),
 		opt(arg, "visible", true),
 		opt(arg, "enabled", true),
 		opt(arg, "pos", "naka"),
@@ -218,9 +218,9 @@ DEF_BUILTIN(SystemObject, showResult)
 	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
 	Object* const arg = machine.getArgument();
 	shared_ptr<system::SumResult> sumResult = self->system.showResult(
-		opt(arg, "x", 0),
-		opt(arg, "y", 0),
-		opt(arg, "color", 16777215),
+		opt(arg, "x", 0.0),
+		opt(arg, "y", 0.0),
+		opt<unsigned int>(arg, "color", 16777215),
 		opt(arg, "visible", true),
 		opt(arg, "pos", "naka"),
 		opt(arg, "unit", "人"),
@@ -241,7 +241,7 @@ DEF_BUILTIN(SystemObject, replace)
 		opt(arg, "target", ""),
 		opt(arg, "fill", false),
 		opt(arg, "partial", true),
-		opt(arg, "color", system::Replace::SAME_COLOR), //変更しない
+		opt<unsigned int>(arg, "color", system::Replace::SAME_COLOR), //変更しない
 		opt(arg, "size", ""),
 		opt(arg, "pos", "")
 	);
@@ -266,7 +266,7 @@ DEF_BUILTIN(SystemObject, addButton)
 	shared_ptr<system::Button> button = self->system.addButton(
 		opt(arg, "message", ""),
 		opt(arg, "mail", ""),
-		opt(arg, "vpos", 0),
+		opt(arg, "vpos", 0.0),
 		opt(arg, "commes", ""),
 		opt(arg, "commail", ""),
 		opt(arg, "comvisible", true),

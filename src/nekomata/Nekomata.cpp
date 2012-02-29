@@ -39,10 +39,16 @@ void Nekomata::parseTimelineFile(const std::string& filename)
 {
 	timeline.merge(parser::Parser::fromFile(filename)->parseTimeline());
 }
+void Nekomata::parseTimelineStream(std::istream& stream, const std::string& name)
+{
+	timeline.merge(parser::Parser::fromStream(stream, name)->parseTimeline());
+}
+
 void Nekomata::parseProgram(float time, const std::string& str)
 {
 	timeline.insertLast(time, parser::Parser::fromString(str)->parseProgram());
 }
+
 float Nekomata::getLastTime()
 {
 	return timeline.getLastTime();

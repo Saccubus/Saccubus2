@@ -29,7 +29,7 @@ System::~System() {
 
 shared_ptr<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 {
-	log.t(TAG, 0,
+	log.v(TAG, 0,
 			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
 			x, y, z, shape.c_str(), width, height, color, visible, pos.c_str(), mask, commentmask, alpha, rotation, mover.c_str()
 			);
@@ -39,7 +39,7 @@ shared_ptr<Shape> System::drawShape(double x, double y, double z, const std::str
 }
 shared_ptr<Chat> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
-	log.t(TAG, 0,
+	log.v(TAG, 0,
 			"drawText(%s)",
 			text.c_str()
 			);

@@ -93,6 +93,7 @@ void Logger::msg(enum Level level, const std::string& tag, const Location* loc, 
 	}
 
 	ss << utl::format(str.c_str(), list);
+	stream << ss.str() << std::endl;
 	stream.flush();
 }
 

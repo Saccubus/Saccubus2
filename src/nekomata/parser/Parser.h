@@ -24,7 +24,7 @@ public:
 	~Parser();
 	static std::tr1::shared_ptr<Parser> fromFile(const std::string& filename);
 	static std::tr1::shared_ptr<Parser> fromString(const std::string& src, const std::string& filename="<ON MEMORY>");
-	static std::tr1::shared_ptr<Parser> fromStream(std::istream& stream_, const std::string filename);
+	static std::tr1::shared_ptr<Parser> fromStream(std::istream& stream_, const std::string& filename);
 	std::tr1::shared_ptr<timeline::TimeLine> parseTimeline();
 	std::tr1::shared_ptr<const tree::ExprNode> parseProgram();
 };

@@ -93,6 +93,13 @@ int main(int argc, char* argv[]){
 	nekomata::logging::Logger log(std::cout, level);
 	CLISystem _system(log);
 	nekomata::Nekomata nekomata(_system, log);
+
+	if(optind == argc){
+		nekomata.parseTimelineStream(std::cin, "<cin>");
+	}else{
+		nekomata.parseTimelineFile(argv[optind]);
+	}
+
 	if(dump){
 		nekomata::logging::Dumper dumper(cout);
 		//FIXME

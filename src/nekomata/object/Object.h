@@ -53,7 +53,7 @@ private: /* Heap management */
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
-	unsigned int getHash(){return hash;};
+	int getHash(){return hash;};
 	void mark(int color);
 	int getColor();
 public: /* INDEXアクセス */
