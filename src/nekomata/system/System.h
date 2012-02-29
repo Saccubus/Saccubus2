@@ -11,6 +11,7 @@
 #include <tr1/memory>
 #include <string>
 #include <vector>
+#include <map>
 #include "../classdefs.h"
 
 namespace nekomata{
@@ -29,6 +30,8 @@ public:\
 
 class System
 {
+private:
+	std::map<std::string, double> markerMap;
 protected:
 	logging::Logger& log;
 public:

@@ -6,6 +6,7 @@
  */
 
 #include <tr1/memory>
+#include <cmath>
 #include "System.h"
 #include "../logging/Logging.h"
 #include "../tree/Node.h"
@@ -87,6 +88,7 @@ void System::addMarker(const std::string& name, double vpos)
 			"addMarker(name: %s, vpos: %f)",
 			name.c_str(), vpos
 			);
+	markerMap.insert(std::pair<std::string, double>(name, vpos));
 }
 double System::getMarker(const std::string& name)
 {
@@ -94,6 +96,12 @@ double System::getMarker(const std::string& name)
 			"getMarker(name: %s)",
 			name.c_str()
 			);
+	std::map<std::string, double>::iterator it = markerMap.find(name);
+	if(it != markerMap.end()){
+		return it->second;
+	}else{
+		return NAN;
+	}
 }
 shared_ptr<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
 {
@@ -128,12 +136,12 @@ shared_ptr<Replace> System::replace(const std::string& src, const std::string& d
 double System::screenWidth()
 {
 	log.v(TAG, 0,"screenWidth()");
-
+	return 512; //DEFAULT(4:3)
 }
 double System::screenHeight()
 {
 	log.v(TAG, 0,"screenHeight()");
-
+	return 384; //DEFAULT(4:3)
 }
 shared_ptr<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
 {
@@ -148,7 +156,7 @@ shared_ptr<Button> System::addButton(const std::string& message, const std::stri
 double System::playStartTime()
 {
 	log.v(TAG, 0,"playStartTime()");
-
+	return 0;
 }
 void System::BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume)
 {
