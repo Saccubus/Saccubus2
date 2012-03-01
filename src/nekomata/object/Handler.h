@@ -8,19 +8,25 @@
 #ifndef HANDLER_H_
 #define HANDLER_H_
 
-#include "Object.h"
-
 namespace nekomata {
 namespace object {
 
+template<typename T>
 class Handler
 {
 private:
-	Object* const obj;
+	T* const obj;
 public:
-	Handler(Object* const _obj);
-	Object* operator->();
-	~Handler();
+	Handler(T* const _obj):obj(_obj){
+		obj->incNativeRef();
+	}
+	T* operator->()
+	{
+		return obj;
+	}
+	~Handler(){
+		obj->decNativeRef();
+	}
 };
 
 }

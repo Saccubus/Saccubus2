@@ -21,7 +21,6 @@ class Exception;
 }
 
 namespace object {
-
 class ObjectHeap;
 
 class Object;
