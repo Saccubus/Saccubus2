@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <sstream>
 #include "Object.h"
+#include "Cast.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
 
@@ -28,25 +29,21 @@ BooleanObject::BooleanObject(Object& parent, bool literal)
 BooleanObject::~BooleanObject()
 {
 }
-StringObject* BooleanObject::toStringObject()
+std::string BooleanObject::toString()
 {
 	if(value){
-		return getHeap().newStringObject("true");
+		return "true";
 	}else{
-		return getHeap().newStringObject("false");
+		return "false";
 	}
 }
-NumericObject* BooleanObject::toNumericObject()
+double BooleanObject::toNumeric()
 {
 	if(value){
-		return getHeap().newNumericObject(1);
+		return 1;
 	}else{
-		return getHeap().newNumericObject(0);
+		return 0;
 	}
-}
-BooleanObject* BooleanObject::toBooleanObject()
-{
-	return this;
 }
 
 bool BooleanObject::toBool()
@@ -56,24 +53,24 @@ bool BooleanObject::toBool()
 
 DEF_BUILTIN(BooleanObject, and)
 {
-	BooleanObject* const self = machine.getSelf()->toBooleanObject();
-	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
-	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other->toBool()));
+	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	const bool other = cast<bool>(machine.getArgument()->index(0));
+	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other));
 }
 DEF_BUILTIN(BooleanObject, or)
 {
-	BooleanObject* const self = machine.getSelf()->toBooleanObject();
-	BooleanObject* const other = machine.getArgument()->index(0)->toBooleanObject();
-	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other->toBool()));
+	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	const bool other = cast<bool>(machine.getArgument()->index(0));
+	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other));
 }
 DEF_BUILTIN(BooleanObject, not)
 {
-	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
 	machine.pushResult(self->getHeap().newBooleanObject(!self->toBool()));
 }
 DEF_BUILTIN(BooleanObject, alternate)
 {
-	BooleanObject* const self = machine.getSelf()->toBooleanObject();
+	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
 	if(self->toBool()){
 		machine.pushResult(machine.getArgument()->index(0));
 	}else{

@@ -74,9 +74,9 @@ public: /* KEYアクセス */
 public: /* 基本操作 */
 	virtual bool isUndefined();
 	virtual void eval(machine::Machine& machine);
-	virtual StringObject* toStringObject();
-	virtual NumericObject* toNumericObject();
-	virtual BooleanObject* toBooleanObject();
+	virtual std::string toString();
+	virtual double toNumeric();
+	virtual bool toBool();
 private:
 	static bool _sort_func(machine::Machine& machine, Object* const self, Object* const other);
 public:
@@ -134,7 +134,7 @@ public:
 	}\
 	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
 	{\
-		dynamic_cast<clazz&>(self).adapter->name(obj->toStringObject()->toString());\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toString());\
 	}
 
 #define DEF_HOOK_ACCESSOR_DOUBLE(clazz, name, adapter) \
@@ -144,7 +144,7 @@ public:
 	}\
 	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
 	{\
-		dynamic_cast<clazz&>(self).adapter->name(obj->toNumericObject()->toNumeric());\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toNumeric());\
 	}
 
 #define DEF_HOOK_ACCESSOR_INT(clazz, name, adapter, type) \
@@ -154,7 +154,7 @@ public:
 	}\
 	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
 	{\
-		dynamic_cast<clazz&>(self).adapter->name(static_cast<type>(obj->toNumericObject()->toNumeric()));\
+		dynamic_cast<clazz&>(self).adapter->name(static_cast<type>(obj->toNumeric()));\
 	}
 #define DEF_HOOK_ACCESSOR_BOOL(clazz, name, adapter) \
 	Object* clazz::_getter_##name(HookableObject& self, ObjectHeap& heap)\
@@ -163,7 +163,7 @@ public:
 	}\
 	void clazz::_setter_##name(HookableObject& self, ObjectHeap& heap, Object* const obj)\
 	{\
-		dynamic_cast<clazz&>(self).adapter->name(obj->toBooleanObject()->toBool());\
+		dynamic_cast<clazz&>(self).adapter->name(obj->toBool());\
 	}
 
 private:
@@ -464,14 +464,15 @@ class StringObject : public LiteralObject
 {
 private:
 	const std::string value;
+private:
+	const std::string& getValue();
 public:
 	explicit StringObject(Object& parent);
 	explicit StringObject(StringObject& parent, int hash, const std::string& literal);
 	virtual ~StringObject();
-	StringObject* toStringObject();
-	NumericObject* toNumericObject();
-	BooleanObject* toBooleanObject();
-	const std::string& toString();
+	virtual std::string toString();
+	virtual double toNumeric();
+	virtual bool toBool();
 public:
 	DEC_BUILTIN(equals);
 	DEC_BUILTIN(notEquals);
@@ -497,10 +498,9 @@ private:
 public:
 	explicit BooleanObject(Object& parent, bool literal);
 	virtual ~BooleanObject();
-	StringObject* toStringObject();
-	NumericObject* toNumericObject();
-	BooleanObject* toBooleanObject();
-	bool toBool();
+	virtual std::string toString();
+	virtual double toNumeric();
+	virtual bool toBool();
 public:
 	DEC_BUILTIN(and);
 	DEC_BUILTIN(or);
@@ -516,10 +516,9 @@ public:
 	explicit NumericObject(Object& parent);
 	explicit NumericObject(NumericObject& parent, int hash, const double literal);
 	virtual ~NumericObject();
-	StringObject* toStringObject();
-	NumericObject* toNumericObject();
-	BooleanObject* toBooleanObject();
-	double toNumeric();
+	virtual std::string toString();
+	virtual double toNumeric();
+	virtual bool toBool();
 public:
 	DEC_BUILTIN(plus);
 	DEC_BUILTIN(minus);
@@ -552,9 +551,9 @@ public:
 	explicit UndefinedObject(ObjectHeap& heap);
 	virtual ~UndefinedObject();
 public:
-	StringObject* toStringObject();
-	NumericObject* toNumericObject();
-	BooleanObject* toBooleanObject();
+	virtual std::string toString();
+	virtual double toNumeric();
+	virtual bool toBool();
 	bool isUndefined();
 };
 

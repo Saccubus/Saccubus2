@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <tr1/functional>
 #include "Object.h"
+#include "Cast.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 
@@ -203,7 +204,7 @@ size_t Object::slotSize()
 }
 
 
-StringObject* Object::toStringObject()
+std::string Object::toString()
 {
 	std::stringstream ss;
 	ss << "<< Object: " << getHash() << ">>";
@@ -218,15 +219,15 @@ StringObject* Object::toStringObject()
 	}
 	ss << "}";
 	*/
-	return getHeap().newStringObject(ss.str());
+	return ss.str();
 }
-NumericObject* Object::toNumericObject()
+double Object::toNumeric()
 {
-	return getHeap().newNumericObject(NAN);
+	return NAN;
 }
-BooleanObject* Object::toBooleanObject()
+bool Object::toBool()
 {
-	return getHeap().newBooleanObject(true);
+	return true;
 }
 
 
@@ -284,7 +285,7 @@ DEF_BUILTIN(Object, def_kari)
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
-	std::string methodName = arg->index(0)->toStringObject()->toString();
+	std::string methodName = cast<std::string>(arg->index(0));
 	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def_kari);
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
@@ -293,13 +294,13 @@ DEF_BUILTIN(Object, def_kari)
 DEF_BUILTIN(Object, index)
 {
 	Object* const self = machine.getSelf();
-	machine.pushResult(self->index(static_cast<size_t>(machine.getArgument()->index(0)->toNumericObject()->toNumeric())));
+	machine.pushResult(self->index(cast<size_t>(machine.getArgument()->index(0))));
 }
 DEF_BUILTIN(Object, indexSet)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();
-	size_t const idx = static_cast<size_t>(arg->index(0)->toNumericObject()->toNumeric());
+	size_t const idx = cast<size_t>(arg->index(0));
 	machine.pushResult(self->indexSet(idx, arg->index(1)));
 }
 DEF_BUILTIN(Object, size)
@@ -331,7 +332,7 @@ DEF_BUILTIN(Object, pop)
 bool Object::_sort_func(machine::Machine& machine, Object* const self, Object* const other)
 {
 	Object* result = machine.send(self, "lessThan", self->getHeap().newArray(other, 0));
-	return result->toBooleanObject()->toBool();
+	return cast<bool>(result);
 }
 
 DEF_BUILTIN(Object, sort)
@@ -346,7 +347,7 @@ DEF_BUILTIN(Object, sum)
 	double result = 0.0;
 	const size_t max = self->size();
 	for(size_t i=0;i<max;++i){
-		result += self->index(i)->toNumericObject()->toNumeric();
+		result += cast<double>(self->index(i));
 	}
 	machine.pushResult(self->getHeap().newNumericObject(result));
 }
@@ -356,7 +357,7 @@ DEF_BUILTIN(Object, product)
 	double result = 1.0;
 	const size_t max = self->size();
 	for(size_t i=0;i<max;++i){
-		result *= self->index(i)->toNumericObject()->toNumeric();
+		result *= cast<double>(self->index(i));
 	}
 	machine.pushResult(self->getHeap().newNumericObject(result));
 }
@@ -370,10 +371,10 @@ DEF_BUILTIN(Object, join)
 		machine.pushResult(self->getHeap().newStringObject(""));
 		return;
 	}
-	std::string sep = arg->index(0)->toStringObject()->toString();
-	ss << self->index(0)->toStringObject()->toString();
+	std::string sep = cast<std::string>(arg->index(0));
+	ss << cast<std::string>(self->index(0));
 	for(size_t i=1;i<max;++i){
-		ss << sep << self->index(i)->toStringObject()->toString();
+		ss << sep << cast<std::string>(arg->index(i));
 	}
 	machine.pushResult(self->getHeap().newStringObject(ss.str()));
 }
@@ -383,14 +384,14 @@ DEF_BUILTIN(Object, setSlot)
 {
 	Object* const arg = machine.getArgument();
 	Object* const self = machine.getSelf();
-	std::string name = arg->index(0)->toStringObject()->toString();
+	std::string name = cast<std::string>(arg->index(0));
 	Object* const obj = arg->index(1);
 	machine.pushResult(self->setSlot(name, obj));
 }
 DEF_BUILTIN(Object, getSlot)
 {
 	Object* const self = machine.getSelf();
-	std::string name = machine.getArgument()->index(0)->toStringObject()->toString();
+	std::string name = cast<std::string>(machine.getArgument()->index(0));
 	Object* const obj = self->getSlot(name);
 	machine.pushResult(obj);
 }
@@ -405,9 +406,9 @@ DEF_BUILTIN(Object, if)
 	Object* const arg = machine.getArgument();
 	bool result;
 	if(arg->has("when")){
-		result = arg->getSlot("when")->toBooleanObject()->toBool();
+		result = cast<bool>(arg->getSlot("when"));
 	}else{
-		result = arg->index(0)->toBooleanObject()->toBool();
+		result = cast<bool>(arg->index(0));
 	}
 	if(result){
 		machine.pushResult(arg->getSlot("then"));
@@ -426,7 +427,7 @@ DEF_BUILTIN(Object, while_kari)
 			return;
 		}
 		Object* obj = arg->getHeap().newUndefinedObject();
-		while(machine.eval(node->index(0))->toBooleanObject()->toBool()){
+		while(cast<bool>(machine.eval(node->index(0)))){
 			obj = machine.eval(node->index(1));
 		}
 		machine.pushResult(obj);
@@ -450,10 +451,10 @@ DEF_BUILTIN(Object, distance)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();
-	double const x1 = arg->index(0)->toNumericObject()->toNumeric();
-	double const y1 = arg->index(1)->toNumericObject()->toNumeric();
-	double const x2 = arg->index(2)->toNumericObject()->toNumeric();
-	double const y2 = arg->index(3)->toNumericObject()->toNumeric();
+	double const x1 = cast<double>(arg->index(0));
+	double const y1 = cast<double>(arg->index(1));
+	double const x2 = cast<double>(arg->index(2));
+	double const y2 = cast<double>(arg->index(3));
 	double const dx = x1-x2;
 	double const dy = y1-y2;
 	machine.pushResult(self->getHeap().newNumericObject( sqrt(dx*dx+dy*dy) ));
@@ -462,7 +463,7 @@ DEF_BUILTIN(Object, rand)
 {
 	Object* const self = machine.getSelf();
 	Object* const arg = machine.getArgument();
-	std::string txt = arg->index(0)->toStringObject()->toString();
+	std::string txt = cast<std::string>(arg->index(0));
 	unsigned int seed = 0;
 	const char* str = txt.c_str();
 	const size_t max = txt.size();

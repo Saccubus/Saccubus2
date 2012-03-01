@@ -9,6 +9,7 @@
 
 #include "../tree/NodeWalker.h"
 #include "../object/Object.h"
+#include "../object/Cast.h"
 #include "../object/Heap.h"
 #include "../tree/Node.h"
 #include <tr1/memory>
@@ -82,7 +83,7 @@ object::Object* Machine::resolveScope(const std::string& name)
 		for(object::Object* obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
 			object::Object* const slot = obj->getSlot(name);
 			if(!slot->isUndefined()){
-				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), obj->toStringObject()->toString().c_str());
+				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), object::cast<std::string>(obj).c_str());
 				return obj;
 			}
 		}

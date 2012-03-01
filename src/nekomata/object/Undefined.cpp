@@ -21,17 +21,17 @@ UndefinedObject::~UndefinedObject()
 {
 
 }
-StringObject* UndefinedObject::toStringObject()
+std::string UndefinedObject::toString()
 {
-	return getHeap().newStringObject("undefined");
+	return "undefined";
 }
-NumericObject* UndefinedObject::toNumericObject()
+double UndefinedObject::toNumeric()
 {
-	return getHeap().newNumericObject(NAN);
+	return NAN;
 }
-BooleanObject* UndefinedObject::toBooleanObject()
+bool UndefinedObject::toBool()
 {
-	return getHeap().newBooleanObject(false);
+	return false;
 }
 bool UndefinedObject::isUndefined(){
 	return true;

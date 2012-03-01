@@ -6,6 +6,7 @@
  */
 
 #include "Object.h"
+#include "Cast.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include "../system/System.h"
@@ -53,7 +54,7 @@ DEF_HOOK_SETTER(SumObject, words)
 {
 	std::vector<std::string> vec;
 	for(size_t i = 0;i<obj->size();++i){
-		vec.push_back(obj->index(i)->toStringObject()->toString());
+		vec.push_back(cast<std::string>(obj->index(i)));
 	}
 	dynamic_cast<SumObject&>(self).sum->words(vec);
 }
