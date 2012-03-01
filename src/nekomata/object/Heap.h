@@ -20,6 +20,8 @@ namespace object{
 class ObjectHeap
 {
 public:
+	logging::Logger& log;
+public:
 	class GarbageCollectionCallback{
 	public:
 		GarbageCollectionCallback(){};
@@ -28,7 +30,6 @@ public:
 	};
 private:
 	GarbageCollectionCallback& callback;
-	logging::Logger& log;
 	std::vector<Object*> area1;
 	std::vector<Object*> area2;
 	std::vector<Object*> *from;

@@ -18,53 +18,53 @@ template <typename T> class Stack
 private:
 	std::vector<T> stack;
 public:
-	T push(const T elm)
+	inline T push(const T elm)
 	{
 		stack.push_back(elm);
 		return elm;
 	}
 
-	T pop()
+	inline T pop()
 	{
 		T val = stack.back();
 		stack.pop_back();
 		return val;
 	}
 
-	T top()
+	inline T top()
 	{
 		return stack.back();
 	}
 
-	T bottom()
+	inline T bottom()
 	{
 		return stack.front();
 	}
-	T replace(T elm)
+	inline T replace(T elm)
 	{
 		T val = stack.back();
 		stack.assign(stack.size()-1, elm);
 		return val;
 	}
-	size_t size()
+	inline size_t size()
 	{
 		return stack.size();
 	}
 	typedef typename std::vector<T>::const_iterator Iterator;
 	typedef typename std::vector<T>::reverse_iterator ReverseIterator;
-	Iterator begin(){
+	inline Iterator begin(){
 		return stack.begin();
 	}
-	Iterator end(){
+	inline Iterator end(){
 		return stack.end();
 	}
-	ReverseIterator rbegin(){
+	inline ReverseIterator rbegin(){
 		return stack.rbegin();
 	}
-	ReverseIterator rend(){
+	inline ReverseIterator rend(){
 		return stack.rend();
 	}
-	void merge(std::vector<T>& vec){
+	inline void merge(std::vector<T>& vec){
 		vec.insert(vec.end(),stack.begin(), stack.end());
 	}
 

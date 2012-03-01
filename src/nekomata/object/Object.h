@@ -47,15 +47,21 @@ private: /* Heap management */
 	ObjectHeap& heap;
 	const int hash;
 	int color;
+	int nativeRef;
 	BuiltinMethods* builtins;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
+	logging::Logger& log();
+public:
 	int getHash(){return hash;};
 	void mark(int color);
 	int getColor();
+	int getNativeRef();
+	int incNativeRef();
+	int decNativeRef();
 public: /* INDEXアクセス */
 	virtual Object* unshift(Object* const item);
 	virtual Object* push(Object* const item);

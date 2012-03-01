@@ -21,11 +21,11 @@ namespace object
 static std::string TAG(__FILE__);
 
 Object::Object(ObjectHeap& heap)
-:heap(heap), hash(-1), color(0), builtins(0)
+:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0)
 {
 }
 Object::Object(ObjectHeap& heap, bool isRaw)
-:heap(heap), hash(-1), color(0), builtins(0)
+:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0)
 {
 	ADD_BUILTIN(setSlot);
 	ADD_BUILTIN(getSlot);
@@ -104,8 +104,30 @@ void Object::mark(int color)
 	}
 }
 
+logging::Logger& Object::log()
+{
+	return heap.log;
+}
+
 int Object::getColor(){
 	return this->color;
+}
+int Object::getNativeRef(){
+	return this->nativeRef;
+}
+
+int Object::incNativeRef()
+{
+	++nativeRef;
+	return nativeRef;
+}
+int Object::decNativeRef()
+{
+	--nativeRef;
+	if(nativeRef < 0){
+		log().e(TAG, 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, cast<std::string>(this).c_str());
+	}
+	return nativeRef;
 }
 
 
