@@ -13,19 +13,20 @@
 #include <set>
 #include <algorithm>
 #include <tr1/functional>
+#include <memory>
 
 namespace nekomata{
 namespace object{
 
 const static std::string TAG("HEAP");
 
-ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, GarbageCollectionCallback& callback)
+ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder& rootHolder)
 :log(log)
-,callback(callback)
+,rootHolder(rootHolder)
 ,from(&area1)
 ,to(&area2)
 ,count(0)
-,lastObjectSize(50)
+,gcThreshold(50)
 ,gcCount(0)
 ,rawObject(*this, true)
 ,baseObject(*this, false)
@@ -116,6 +117,10 @@ LambdaScopeObject* ObjectHeap::newLambdaScopeObject(Object* const arg)
 }
 
 void ObjectHeap::registObject(Object* obj){
+	if(gcThreshold < this->from->size()){
+		this->gc();
+		gcThreshold *= 2;
+	}
 	this->from->push_back(obj);
 }
 
@@ -202,27 +207,23 @@ bool deleteFunc(int color, std::set<Object*, std::tr1::function<bool(Object*, Ob
 	}
 }
 
-void ObjectHeap::checkGC()
-{
-	if(from->size() > lastObjectSize){
-		this->callback.needGC(*this);
-		lastObjectSize = from->size()*2;
-	}
-}
-
-void ObjectHeap::gc(std::vector<Object*>& root)
+void ObjectHeap::gc()
 {
 	gcCount++;
 	size_t before = this->from->size();
 
-	for(std::vector<Object*>::const_iterator it=root.begin();it!=root.end();++it)
 	{
-		(*it)->mark(this->gcCount);
+		std::auto_ptr<RootHolder::Iterator> it(rootHolder.newIterator());
+		while(it->hasNext())
+		{
+			Object* const obj = it->next();
+			obj->mark(this->gcCount);
+		}
 	}
 	std::set<Object*> unused;
 	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
 	{
-		if((*it)->getColor() != gcCount){
+		if((*it)->getColor() != gcCount && (*it)->getNativeRef() <= 0){
 			unused.insert(*it);
 		}else{
 			to->push_back(*it);

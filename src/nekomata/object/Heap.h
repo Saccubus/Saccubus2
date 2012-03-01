@@ -17,25 +17,34 @@
 namespace nekomata{
 namespace object{
 
+class RootHolder{
+public:
+	class Iterator
+	{
+	public:
+		Iterator(){};
+		virtual ~Iterator(){};
+		virtual bool hasNext() = 0;
+		virtual Object* next() = 0;
+	};
+public:
+	RootHolder(){};
+	virtual ~RootHolder(){};
+	virtual Iterator* newIterator() = 0;
+};
+
 class ObjectHeap
 {
 public:
 	logging::Logger& log;
-public:
-	class GarbageCollectionCallback{
-	public:
-		GarbageCollectionCallback(){};
-		virtual ~GarbageCollectionCallback(){};
-		virtual void needGC(ObjectHeap& self) = 0;
-	};
 private:
-	GarbageCollectionCallback& callback;
+	RootHolder& rootHolder;
 	std::vector<Object*> area1;
 	std::vector<Object*> area2;
 	std::vector<Object*> *from;
 	std::vector<Object*> *to;
 	int count;
-	size_t lastObjectSize;
+	size_t gcThreshold;
 	int gcCount;
 private:
 	/* これらの関数はGCで管理しない */
@@ -61,7 +70,7 @@ private:
 	int createHash();
 	void registObject(Object* obj);
 public:
-	explicit ObjectHeap(logging::Logger& log, system::System& system, GarbageCollectionCallback& callback);
+	explicit ObjectHeap(logging::Logger& log, system::System& system, RootHolder& rootHolder);
 	~ObjectHeap();
 public:
 	SystemObject* getSystemObject();
@@ -88,8 +97,7 @@ public:
 	NumericObject* newNumericObject(const double num);
 	UndefinedObject* newUndefinedObject();
 public:
-	void checkGC();
-	void gc(std::vector<Object*>& root);
+	void gc();
 };
 }
 }

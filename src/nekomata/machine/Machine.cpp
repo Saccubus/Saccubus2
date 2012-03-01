@@ -22,11 +22,16 @@ namespace machine{
 static const std::string TAG("Machine");
 
 Machine::Machine(logging::Logger& log, system::System& system)
-:heap(log, system, *this)
+:RootHolder()
+,heap(log, system, *this)
 ,log(log)
 {
 	selfStack.push(heap.getSystemObject());
 	this->enterLocal(heap.getSystemObject(), heap.newUndefinedObject());
+	rootStacks.push_back(&argStack);
+	rootStacks.push_back(&selfStack);
+	rootStacks.push_back(&resultStack);
+	rootStacks.push_back(&scopeStack);
 }
 
 Machine::~Machine()
@@ -118,17 +123,6 @@ object::Object* Machine::send(object::Object* const self, const std::string& mes
 	}
 	argStack.pop();
 	return resultStack.pop();
-}
-
-void Machine::needGC(object::ObjectHeap& self)
-{
-	std::vector<object::Object*> objList;
-	argStack.merge(objList);
-	selfStack.merge(objList);
-	scopeStack.merge(objList);
-	resultStack.merge(objList);
-	log.d(TAG, 0, "Stack size: arg %d, self %d, scope %d, result: %d", argStack.size(), selfStack.size(), scopeStack.size(), resultStack.size());
-	self.gc(objList);
 }
 
 void Machine::walkImpl(const BoolLiteralNode & node)
@@ -340,5 +334,43 @@ void Machine::walkImpl(const ContNode & node)
 	pushResult(eval(node.getNextNode()));
 }
 
+Machine::RootIterator::RootIterator(std::vector<Stack<object::Object*>*>::const_iterator start, std::vector<Stack<object::Object*>*>::const_iterator end)
+:pCurrent(start), pEnd(end), current(0), end(0)
+{
+	nextStack();
 }
+Machine::RootIterator::~RootIterator()
+{
+
 }
+
+void Machine::RootIterator::nextStack()
+{
+	while(this->current == this->end)
+	{
+		if(pCurrent == pEnd || ++pCurrent == pEnd)
+		{
+			break;
+		}
+		this->current = (*pCurrent)->begin();
+		this->end = (*pCurrent)->end();
+	}
+}
+bool Machine::RootIterator::hasNext()
+{
+	return pCurrent != pEnd;
+}
+object::Object* Machine::RootIterator::next()
+{
+	object::Object* obj = *current;
+	++current;
+	nextStack();
+	return obj;
+}
+
+object::RootHolder::Iterator* Machine::newIterator()
+{
+	return new RootIterator(rootStacks.begin(), rootStacks.end());
+}
+
+}}
