@@ -122,37 +122,37 @@ DEF_BUILTIN(NumericObject, equals)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) < EPSILON ) );
+	machine.pushResult( self->getHeap().newBooleanObject( self->toNumeric() == other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, notEquals)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject( fabs(self->toNumeric()-other->toNumeric()) >= EPSILON ) );
+	machine.pushResult( self->getHeap().newBooleanObject( self->toNumeric() != other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, notLessThan)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric()-other->toNumeric() >= EPSILON) );
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() >= other->toNumeric()) );
 }
 DEF_BUILTIN(NumericObject, notGreaterThan)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() <= -EPSILON) );
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() <= other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, greaterThan)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() > EPSILON) );
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() > other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, lessThan)
 {
 	NumericObject* const self = dynamic_cast<NumericObject*>(machine.getSelf());
 	Object* const other = machine.getArgument()->index(0);
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() - other->toNumeric() < EPSILON) );
+	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() < other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, floor)
 {

@@ -46,6 +46,10 @@ public:
 		stack.assign(stack.size()-1, elm);
 		return val;
 	}
+	size_t size()
+	{
+		return stack.size();
+	}
 	typedef typename std::vector<T>::const_iterator Iterator;
 	typedef typename std::vector<T>::reverse_iterator ReverseIterator;
 	Iterator begin(){

@@ -58,6 +58,7 @@ object::Object* Machine::getLocal()
 }
 void Machine::enterLocal(object::Object* local, object::Object* parent)
 {
+	this->log.t(TAG, 0, "enter new local (now depth: %d)", scopeStack.size());
 	if(parent){
 		local->setSlot("$$parent", parent);
 	}
@@ -126,6 +127,7 @@ void Machine::needGC(object::ObjectHeap& self)
 	selfStack.merge(objList);
 	scopeStack.merge(objList);
 	resultStack.merge(objList);
+	log.d(TAG, 0, "Stack size: arg %d, self %d, scope %d, result: %d", argStack.size(), selfStack.size(), scopeStack.size(), resultStack.size());
 	self.gc(objList);
 }
 
