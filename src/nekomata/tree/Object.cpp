@@ -45,11 +45,8 @@ std::vector<std::string> ObjectNode::getSlotNames() const
 
 {
 	std::vector<std::string> names;
-	for(std::vector<shared_ptr<const ExprNode> >::const_iterator it = exprList.begin(); it != exprList.end();++it){
-		const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>((*it).get());
-		if(invokeNode && invokeNode->getExprNode() == 0){
-			names.push_back(invokeNode->getMessageName());
-		}
+	for(std::map<std::string, shared_ptr<const ExprNode> >::const_iterator it = exprMap.begin(); it != exprMap.end();++it){
+		names.push_back(it->first);
 	}
 	return names;
 

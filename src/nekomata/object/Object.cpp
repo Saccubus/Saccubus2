@@ -252,11 +252,21 @@ DEF_BUILTIN(Object, def)
 	}else if(bindNode){
 		const tree::InvokeNode* const nameNode = dynamic_cast<const tree::InvokeNode*>(bindNode->getExprNode());
 		if(!nameNode){
-			machine.log.w(TAG, 0, "Invalid method define. Method was defined without name.");
+			machine.log.w(TAG, &bindNode->location(), "Invalid method define. Method was defined without name.");
 			machine.pushResult(self->getHeap().newUndefinedObject());
 			return;
 		}
-		std::vector<std::string> argList=bindNode->getObjectNode()->getSlotNames();
+		const tree::ObjectNode* const argNode =  bindNode->getObjectNode();
+		std::vector<std::string> argList;
+		const size_t argc =argNode->size();
+		for(size_t i=0;i<argc;++i){
+			const tree::InvokeNode* const argNameNode = dynamic_cast<const tree::InvokeNode*>(argNode->index(i));
+			if(!argNameNode){
+				machine.log.w(TAG, &argNode->location(), "Invalid argument. Argument was defined without name.");
+				continue;
+			}
+			argList.push_back(argNameNode->getMessageName());
+		}
 		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def, argList);
 		self->setSlot(nameNode->getMessageName(), _method);
 		machine.pushResult(_method);

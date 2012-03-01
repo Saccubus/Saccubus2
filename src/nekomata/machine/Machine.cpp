@@ -36,7 +36,7 @@ void Machine::walkIn(){
 }
 
 void Machine::walkOut(){
-	heap.checkGC();
+	//heap.checkGC();
 }
 
 void Machine::pushResult(object::Object* obj){

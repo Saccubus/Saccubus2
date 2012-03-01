@@ -19,15 +19,16 @@ using namespace std::tr1;
 namespace cli{
 
 void usage(int argc, char* argv[]){
+	static const std::string USAGE_TAB="    ";
 	cout << "Usage: " << basename(argv[0]) << " [switches] [--] [programfile]" << endl;
-	cout << "    " << std::left << std::setw(15) << "--trace" << "set log level." << endl;
-	cout << "    " << std::left << std::setw(15) << "--verbose" << "set log level." << endl;
-	cout << "    " << std::left << std::setw(15) << "--debug"<<"set log level." << endl;
-	cout << "    " << std::left << std::setw(15) << "--warning"<<"set log level." << endl;
-	cout << "    " << std::left << std::setw(15) << "--error"<<"set log level." << endl;
-	cout << "    " << std::left << std::setw(15) << "--dump"<<"output dump of AST, then exit." << endl;
-	cout << "    " << std::left << std::setw(15) << "--version"<<"output the version, then exit." << endl;
-	cout << "    " << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--trace" << "set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--dump"<<"output dump of AST, then exit." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << endl;
 	exit(0);
 }
 

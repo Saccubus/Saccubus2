@@ -245,12 +245,12 @@ postfix returns [shared_ptr<const ExprNode> result]
 	{
 		$result=shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), $result, $name.result));
 	}
-	| tok='[' array_idx=object_def ']'
+	| tok='[' array_idx=object_def[$tok] ']'
 	{
 		shared_ptr<const ObjectNode> objNode = $array_idx.result;
 		$result=shared_ptr<const IndexAcessNode>(new IndexAcessNode(createLocationFromToken($tok), $result, objNode));
 	}
-	| tok='(' binded=object_def ')'
+	| tok='(' binded=object_def[$tok] ')'
 	{
 		shared_ptr<const ObjectNode> objNode = $binded.result;
 		$result=shared_ptr<const BindNode>(new BindNode(createLocationFromToken($tok), $result, objNode));
@@ -276,16 +276,15 @@ primary returns [shared_ptr<const ExprNode> result]
 	}
 	;
 
-object_def returns [shared_ptr<const ObjectNode> result]
+object_def [Token tok] returns [shared_ptr<const ObjectNode> result]
 @init{
-	shared_ptr<ObjectNode> obj;
+	shared_ptr<ObjectNode> obj(shared_ptr<ObjectNode>(new ObjectNode(createLocationFromToken($tok))));
 }
 @after{
 	$result=obj;
 }
 	:((fst=object_element)
 	{
-		obj=shared_ptr<ObjectNode>(new ObjectNode(createLocationFromNode($fst.exprNode)));
 		obj->append($fst.name, $fst.exprNode);
 	}
 	(',' nxt=object_element
@@ -338,7 +337,7 @@ array returns [shared_ptr<const ObjectNode> result]
 	$result=resultNode;
 }
 	: tok='['
-	object_def
+	object_def[$tok]
 	{
 		resultNode=$object_def.result;
 	}
