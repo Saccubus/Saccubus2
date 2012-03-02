@@ -32,7 +32,7 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,rawObject(*this, true)
 ,baseObject(*this, false)
 ,systemObject(baseObject, system)
-,baseChatObject(baseObject)
+,baseLabelObject(baseObject)
 ,baseReplaceObject(baseObject)
 ,baseSumObject(baseObject)
 ,baseSumResultObject(baseObject)
@@ -65,9 +65,9 @@ Handler<SystemObject> ObjectHeap::getSystemObject()
 	return Handler<SystemObject>(&systemObject);
 }
 
-Handler<ChatObject> ObjectHeap::newChatObject(std::tr1::shared_ptr<system::Chat> chat)
+Handler<LabelObject> ObjectHeap::newLabelObject(std::tr1::shared_ptr<system::Label> label)
 {
-	const Handler<ChatObject> obj(new ChatObject(baseChatObject, createHash(), chat));
+	const Handler<LabelObject> obj(new LabelObject(baseLabelObject, createHash(), label));
 	registObject(obj.get());
 	return obj;
 }

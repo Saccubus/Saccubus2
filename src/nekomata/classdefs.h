@@ -50,7 +50,7 @@ class Machine;
 
 namespace system{
 class System;
-class Chat;
+class Label;
 class Replace;
 class Sum;
 class SumResult;

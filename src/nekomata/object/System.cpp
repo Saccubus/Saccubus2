@@ -96,7 +96,7 @@ DEF_BUILTIN(SystemObject, drawText)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::Chat> chat = self->system.drawText(
+	shared_ptr<system::Label> label = self->system.drawText(
 			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, (size_t)0, ""),
 			opt(arg, "x", 0.0),
 			opt(arg, "y", 0.0),
@@ -110,7 +110,7 @@ DEF_BUILTIN(SystemObject, drawText)
 			opt(arg, "alpha", 0.0),
 			opt(arg, "mover", "")
 	);
-	machine.pushResult(self->getHeap().newChatObject(chat));
+	machine.pushResult(self->getHeap().newLabelObject(label));
 }
 DEF_BUILTIN(SystemObject, commentTrigger)
 {

@@ -52,7 +52,7 @@ private:
 	Object baseObject;
 //
 	SystemObject systemObject;
-	ChatObject baseChatObject;
+	LabelObject baseLabelObject;
 	ReplaceObject baseReplaceObject;
 	SumObject baseSumObject;
 	SumResultObject baseSumResultObject;
@@ -74,7 +74,7 @@ public:
 	~ObjectHeap();
 public:
 	Handler<SystemObject> getSystemObject();
-	Handler<ChatObject> newChatObject(std::tr1::shared_ptr<system::Chat> chat);
+	Handler<LabelObject> newLabelObject(std::tr1::shared_ptr<system::Label> label);
 	Handler<ReplaceObject> newReplaceObject(std::tr1::shared_ptr<system::Replace> replace);
 	Handler<SumObject> newSumObject(std::tr1::shared_ptr<system::Sum> sum);
 	Handler<SumResultObject> newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult);

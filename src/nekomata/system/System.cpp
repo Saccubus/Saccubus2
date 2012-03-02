@@ -39,15 +39,15 @@ shared_ptr<Shape> System::drawShape(double x, double y, double z, const std::str
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
-shared_ptr<Chat> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+shared_ptr<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
 	log.v(TAG, 0,
 			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
 			text.c_str(), x, y, z, size, pos.c_str(), color, bold, visible, filter.c_str(), alpha, mover.c_str()
 			);
-	shared_ptr<Chat> _chat(new Chat(*this));
-	_chat->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
-	return _chat;
+	shared_ptr<Label> _label(new Label(*this));
+	_label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
+	return _label;
 }
 void System::commentTrigger(float const timer, const tree::Node* then)
 {

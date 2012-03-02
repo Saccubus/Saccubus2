@@ -39,7 +39,7 @@ public:
 	virtual ~System();
 
 	virtual std::tr1::shared_ptr<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
-	virtual std::tr1::shared_ptr<Chat> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual std::tr1::shared_ptr<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
 	virtual void commentTrigger(float const timer, const tree::Node* then);
 	virtual void timer(float const timer, const tree::Node* then);
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
@@ -193,7 +193,7 @@ public:
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~SumResult(){};
 };
-class Chat : public SystemItem
+class Label : public SystemItem
 {
 public:
 	virtual void load(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
@@ -225,9 +225,9 @@ public:
 	DEF_ADAPTER_ACCESSOR(alpha, double);
 	DEF_ADAPTER_ACCESSOR(mover, std::string);
 public:
-	explicit Chat(System& system):
+	explicit Label(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
-	virtual ~Chat(){};
+	virtual ~Label(){};
 };
 
 class Button : public SystemItem

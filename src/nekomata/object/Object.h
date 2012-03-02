@@ -300,15 +300,15 @@ public:
 	DEC_HOOK_ACCESSOR(asc);
 	DEC_HOOK_ACCESSOR(sum);
 };
-class ChatObject : public HookableObject
+class LabelObject : public HookableObject
 {
 private:
-	std::tr1::shared_ptr<system::Chat> chat;
+	std::tr1::shared_ptr<system::Label> label;
 public:
-	explicit ChatObject(Object& parent);
-	explicit ChatObject(ChatObject& parent, int hash, std::tr1::shared_ptr<system::Chat> chat);
-	virtual ~ChatObject();
-	std::tr1::shared_ptr<system::Chat> getChat(){return chat;};
+	explicit LabelObject(Object& parent);
+	explicit LabelObject(LabelObject& parent, int hash, std::tr1::shared_ptr<system::Label> Label);
+	virtual ~LabelObject();
+	std::tr1::shared_ptr<system::Label> getLabel(){return label;};
 public:
 	DEC_HOOK_ACCESSOR(text);
 	DEC_HOOK_ACCESSOR(x);
