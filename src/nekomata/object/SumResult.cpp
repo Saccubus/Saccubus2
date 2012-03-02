@@ -34,8 +34,8 @@ DEF_HOOK_ACCESSOR_BOOL(SumResultObject, asc, sumResult);
 DEF_HOOK_ACCESSOR_STR(SumResultObject, unit, sumResult);
 DEF_HOOK_GETTER(SumResultObject, sum)
 {
-	const std::vector<std::tr1::shared_ptr<system::Sum> >& vec = dynamic_cast<SumResultObject&>(self).sumResult->sum();
-	Object* const obj = heap.newObject();
+	const std::vector<std::tr1::shared_ptr<system::Sum> >& vec = Handler<SumResultObject>(self)->sumResult->sum();
+	Handler<Object> const obj(heap.newObject());
 	for(std::vector<std::tr1::shared_ptr<system::Sum> >::const_iterator it = vec.begin();it != vec.end();++it)
 	{
 		obj->push(heap.newSumObject(*it));
@@ -46,12 +46,12 @@ DEF_HOOK_SETTER(SumResultObject, sum)
 {
 	std::vector<std::tr1::shared_ptr<system::Sum> > vec;
 	for(size_t i = 0;i<obj->size();++i){
-		SumObject* const sumObj = dynamic_cast<SumObject*>(obj->index(i));
+		Handler<SumObject> const sumObj(obj->index(i));
 		if(sumObj){
 			vec.push_back(sumObj->getSum());
 		}
 	}
-	dynamic_cast<SumResultObject&>(self).sumResult->sum(vec);
+	Handler<SumResultObject>(self)->sumResult->sum(vec);
 }
 
 SumResultObject::SumResultObject(SumResultObject& parent, int hash, std::tr1::shared_ptr<system::SumResult> sumResult)

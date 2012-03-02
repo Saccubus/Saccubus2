@@ -37,19 +37,19 @@ void HookableObject::addSetter(const std::string& name, Setter setter)
 }
 
 
-Object* HookableObject::setSlot(const std::string& key, Object* const value)
+Handler<Object> HookableObject::setSlot(const std::string& key, Handler<Object> const value)
 {
 	if(setterList.count(key) > 0){
-		setterList.at(key)(*this, getHeap(), value);
+		setterList.at(key)(Handler<HookableObject>(this), getHeap(), value);
 		return value;
 	}else{
 		return Object::setSlot(key, value);
 	}
 }
-Object* HookableObject::getSlot(const std::string& key)
+Handler<Object> HookableObject::getSlot(const std::string& key)
 {
 	if(getterList.count(key) > 0){
-		return getterList.at(key)(*this, getHeap());
+		return getterList.at(key)(Handler<HookableObject>(this), getHeap());
 	}else{
 		return Object::getSlot(key);
 	}

@@ -73,29 +73,28 @@ public:
 	explicit ObjectHeap(logging::Logger& log, system::System& system, RootHolder& rootHolder);
 	~ObjectHeap();
 public:
-	SystemObject* getSystemObject();
-	ChatObject* newChatObject(std::tr1::shared_ptr<system::Chat> chat);
-	ReplaceObject* newReplaceObject(std::tr1::shared_ptr<system::Replace> replace);
-	SumObject* newSumObject(std::tr1::shared_ptr<system::Sum> sum);
-	SumResultObject* newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult);
-	ButtonObject* newButtonObject(std::tr1::shared_ptr<system::Button> button);
-	ShapeObject* newShapeObject(std::tr1::shared_ptr<system::Shape> shape);
+	Handler<SystemObject> getSystemObject();
+	Handler<ChatObject> newChatObject(std::tr1::shared_ptr<system::Chat> chat);
+	Handler<ReplaceObject> newReplaceObject(std::tr1::shared_ptr<system::Replace> replace);
+	Handler<SumObject> newSumObject(std::tr1::shared_ptr<system::Sum> sum);
+	Handler<SumResultObject> newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult);
+	Handler<ButtonObject> newButtonObject(std::tr1::shared_ptr<system::Button> button);
+	Handler<ShapeObject> newShapeObject(std::tr1::shared_ptr<system::Shape> shape);
 public:
-	Object* newRawObject();
-	LambdaScopeObject* newLambdaScopeObject(Object* const arg);
-	Object* newObject();
+	Handler<Object> newRawObject();
+	Handler<LambdaScopeObject> newLambdaScopeObject(Handler<Object> const arg);
+	Handler<Object> newObject();
+	Handler<Object> newArrayObject(const size_t argc, ...);
 public:
-	LazyEvalObject* newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode* objNode);
-	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
-	MethodNodeObject* newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
-	LambdaObject* newLambdaObject(Object* const scope, const tree::Node* node);
+	Handler<LazyEvalObject> newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode* objNode);
+	Handler<MethodNodeObject> newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
+	Handler<MethodNodeObject> newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
+	Handler<LambdaObject> newLambdaObject(Handler<Object> const scope, const tree::Node* node);
 public:
-	Object* newArray(Object* obj, ...);
-public:
-	StringObject* newStringObject(const std::string& str);
-	BooleanObject* newBooleanObject(const bool val);
-	NumericObject* newNumericObject(const double num);
-	UndefinedObject* newUndefinedObject();
+	Handler<StringObject> newStringObject(const std::string& str);
+	Handler<BooleanObject> newBooleanObject(const bool val);
+	Handler<NumericObject> newNumericObject(const double num);
+	Handler<UndefinedObject> newUndefinedObject();
 public:
 	void gc();
 };

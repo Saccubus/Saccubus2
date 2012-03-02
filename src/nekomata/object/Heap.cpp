@@ -26,7 +26,7 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,from(&area1)
 ,to(&area2)
 ,count(0)
-,gcThreshold(50)
+,gcThreshold(10000)
 ,gcCount(0)
 ,rawObject(*this, true)
 ,baseObject(*this, false)
@@ -54,146 +54,147 @@ ObjectHeap::~ObjectHeap()
 	}
 }
 
-SystemObject* ObjectHeap::getSystemObject()
+Handler<SystemObject> ObjectHeap::getSystemObject()
 {
-	return &systemObject;
+	return Handler<SystemObject>(&systemObject);
 }
 
-ChatObject* ObjectHeap::newChatObject(std::tr1::shared_ptr<system::Chat> chat)
+Handler<ChatObject> ObjectHeap::newChatObject(std::tr1::shared_ptr<system::Chat> chat)
 {
-	ChatObject* const obj = new ChatObject(baseChatObject, createHash(), chat);
-	registObject(obj);
+	Handler<ChatObject> const obj(new ChatObject(baseChatObject, createHash(), chat));
+	registObject(obj.get());
 	return obj;
 }
-ReplaceObject* ObjectHeap::newReplaceObject(std::tr1::shared_ptr<system::Replace> replace)
+Handler<ReplaceObject> ObjectHeap::newReplaceObject(std::tr1::shared_ptr<system::Replace> replace)
 {
-	ReplaceObject* const obj = new ReplaceObject(baseReplaceObject, createHash(), replace);
-	registObject(obj);
+	Handler<ReplaceObject> const obj(new ReplaceObject(baseReplaceObject, createHash(), replace));
+	registObject(obj.get());
 	return obj;
 }
-SumObject* ObjectHeap::newSumObject(std::tr1::shared_ptr<system::Sum> sum)
+Handler<SumObject> ObjectHeap::newSumObject(std::tr1::shared_ptr<system::Sum> sum)
 {
-	SumObject* const obj = new SumObject(baseSumObject, createHash(), sum);
-	registObject(obj);
+	Handler<SumObject> const obj(new SumObject(baseSumObject, createHash(), sum));
+	registObject(obj.get());
 	return obj;
 }
-SumResultObject* ObjectHeap::newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult)
+Handler<SumResultObject> ObjectHeap::newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult)
 {
-	SumResultObject* const obj = new SumResultObject(baseSumResultObject, createHash(), sumResult);
-	registObject(obj);
+	Handler<SumResultObject> const obj(new SumResultObject(baseSumResultObject, createHash(), sumResult));
+	registObject(obj.get());
 	return obj;
 }
-ButtonObject* ObjectHeap::newButtonObject(std::tr1::shared_ptr<system::Button> button)
+Handler<ButtonObject> ObjectHeap::newButtonObject(std::tr1::shared_ptr<system::Button> button)
 {
-	ButtonObject* const obj = new ButtonObject(baseButtonObject, createHash(), button);
-	registObject(obj);
+	Handler<ButtonObject> const obj(new ButtonObject(baseButtonObject, createHash(), button));
+	registObject(obj.get());
 	return obj;
 }
-ShapeObject* ObjectHeap::newShapeObject(std::tr1::shared_ptr<system::Shape> shape)
+Handler<ShapeObject> ObjectHeap::newShapeObject(std::tr1::shared_ptr<system::Shape> shape)
 {
-	ShapeObject* const obj = new ShapeObject(baseShapePbject, createHash(), shape);
-	registObject(obj);
-	return obj;
-}
-
-Object* ObjectHeap::newObject()
-{
-	Object* obj = new Object(baseObject, createHash());
-	registObject(obj);
+	Handler<ShapeObject> const obj(new ShapeObject(baseShapePbject, createHash(), shape));
+	registObject(obj.get());
 	return obj;
 }
 
-Object* ObjectHeap::newRawObject()
+Handler<Object> ObjectHeap::newObject()
 {
-	Object* obj = new Object(rawObject, createHash());
-	registObject(obj);
+	Handler<Object> obj(new Object(baseObject, createHash()));
+	registObject(obj.get());
 	return obj;
 }
-LambdaScopeObject* ObjectHeap::newLambdaScopeObject(Object* const arg)
+
+Handler<Object> ObjectHeap::newRawObject()
 {
-	LambdaScopeObject* obj = new LambdaScopeObject(baseLambdaScopeObject, createHash(), arg);
-	registObject(obj);
+	Handler<Object> obj(new Object(rawObject, createHash()));
+	registObject(obj.get());
+	return obj;
+}
+
+Handler<Object> ObjectHeap::newArrayObject(const size_t argc, ...)
+{
+	Handler<Object> obj(new Object(rawObject, createHash()));
+
+	va_list list;
+	va_start(list, argc);
+	for(size_t i=0;i<argc;++i){
+		obj->push(Handler<Object>(va_arg(list, Object*)));
+	}
+	va_end(list);
+
+	registObject(obj.get());
+	return obj;
+}
+
+Handler<LambdaScopeObject> ObjectHeap::newLambdaScopeObject(Handler<Object> const arg)
+{
+	Handler<LambdaScopeObject> obj(new LambdaScopeObject(baseLambdaScopeObject, createHash(), arg));
+	registObject(obj.get());
 	return obj;
 }
 
 void ObjectHeap::registObject(Object* obj){
 	if(gcThreshold < this->from->size()){
 		this->gc();
-		gcThreshold *= 2;
 	}
 	this->from->push_back(obj);
 }
 
-Object* ObjectHeap::newArray(Object* obj, ...)
+Handler<StringObject> ObjectHeap::newStringObject(const std::string & str)
 {
-	va_list list;
-	va_start(list, obj);
-	Object* const result = newObject();
-	Object* item = obj;
-	while(item !=0){
-		result->push(item);
-		item = va_arg(list, Object*);
-	}
-	va_end(list);
-	return result;
-}
-
-StringObject* ObjectHeap::newStringObject(const std::string & str)
-{
-	StringObject* obj = new StringObject(baseStringObject, createHash(), str);
-	registObject(obj);
+	Handler<StringObject> obj(new StringObject(baseStringObject, createHash(), str));
+	registObject(obj.get());
 	return obj;
 }
 
 
 
-BooleanObject* ObjectHeap::newBooleanObject(const bool val)
+Handler<BooleanObject> ObjectHeap::newBooleanObject(const bool val)
 {
 	if(val){
-		return &trueObject;
+		return Handler<BooleanObject>(&trueObject);
 	}else{
-		return &falseObject;
+		return Handler<BooleanObject>(&falseObject);
 	}
 }
 
 
 
-NumericObject* ObjectHeap::newNumericObject(const double num)
+Handler<NumericObject> ObjectHeap::newNumericObject(const double num)
 {
-	NumericObject* obj = new NumericObject(baseNumericObject, createHash(), num);
-	registObject(obj);
+	Handler<NumericObject> obj(new NumericObject(baseNumericObject, createHash(), num));
+	registObject(obj.get());
 	return obj;
 }
 
-UndefinedObject* ObjectHeap::newUndefinedObject()
+Handler<UndefinedObject> ObjectHeap::newUndefinedObject()
 {
-	return &undefinedObject;
+	return Handler<UndefinedObject>(&undefinedObject);
 }
 
-LazyEvalObject* ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)
+Handler<LazyEvalObject> ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)
 {
-	LazyEvalObject* obj = new LazyEvalObject(baseObject, createHash(), machine, objNode);
-	registObject(obj);
+	Handler<LazyEvalObject> obj(new LazyEvalObject(baseObject, createHash(), machine, objNode));
+	registObject(obj.get());
 	return obj;
 }
 
-MethodNodeObject* ObjectHeap::newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList)
+Handler<MethodNodeObject> ObjectHeap::newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList)
 {
-	MethodNodeObject* obj = new MethodNodeObject(rawObject, createHash(), scope, node, rule, argList);
-	registObject(obj);
+	Handler<MethodNodeObject> obj(new MethodNodeObject(rawObject, createHash(), scope, node, rule, argList));
+	registObject(obj.get());
 	return obj;
 }
-MethodNodeObject* ObjectHeap::newMethodNodeObject(Object* const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule)
+Handler<MethodNodeObject> ObjectHeap::newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule)
 {
-	MethodNodeObject* obj = new MethodNodeObject(rawObject, createHash(), scope, node, rule);
-	registObject(obj);
+	Handler<MethodNodeObject> obj(new MethodNodeObject(rawObject, createHash(), scope, node, rule));
+	registObject(obj.get());
 	return obj;
 }
 
-LambdaObject* ObjectHeap::newLambdaObject(Object* const scope, const tree::Node* node)
+Handler<LambdaObject> ObjectHeap::newLambdaObject(Handler<Object> const scope, const tree::Node* node)
 {
-	LambdaObject* const obj = new LambdaObject(baseLambdaObject, createHash(), scope, node);
-	registObject(obj);
+	Handler<LambdaObject> const obj(new LambdaObject(baseLambdaObject, createHash(), scope, node));
+	registObject(obj.get());
 	return obj;
 }
 

@@ -29,17 +29,17 @@ private:
 public:
 	explicit Machine(logging::Logger& log, system::System& system);
 	virtual ~Machine();
-	object::Object* eval(const tree::Node* node, object::Object* const arg=0);
-	object::Object* send(object::Object* const self, const std::string& message, object::Object* const arg=0);
+	object::Handler<object::Object> eval(const tree::Node* node, const object::Handler<object::Object>& arg=object::Handler<object::Object>(0));
+	object::Handler<object::Object> send(const object::Handler<object::Object>& self, const std::string& message, const object::Handler<object::Object>& arg=object::Handler<object::Object>(0));
 	logging::Logger& log;
 public: //for Object
-	void pushResult(object::Object* obj);
-	object::Object* getArgument();
-	object::Object* getLocal();
-	object::Object* getSelf();
-	object::Object* getTopLevel();
-	void enterLocal(object::Object* local, object::Object* parent = 0);
-	void endLocal(object::Object* local);
+	void pushResult(object::Handler<object::Object> obj);
+	object::Handler<object::Object> getArgument();
+	object::Handler<object::Object> getLocal();
+	object::Handler<object::Object> getSelf();
+	object::Handler<object::Object> getTopLevel();
+	void enterLocal(object::Handler<object::Object> local, object::Handler<object::Object> parent=object::Handler<object::Object>(0));
+	void endLocal(object::Handler<object::Object> local);
 protected: //for tree
 	void walkIn();
 	void walkOut();
@@ -57,7 +57,7 @@ protected: //for tree
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	object::Object* resolveScope(const std::string& name);
+	object::Handler<object::Object> resolveScope(const std::string& name);
 private:
 	class RootIterator : public object::RootHolder::Iterator
 	{

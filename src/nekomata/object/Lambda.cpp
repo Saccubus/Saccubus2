@@ -19,7 +19,7 @@ LambdaObject::LambdaObject(ObjectHeap& heap)
 	ADD_BUILTIN(index);
 	includeBuitin();
 }
-LambdaObject::LambdaObject(LambdaObject& parent, const unsigned int hash, Object* const scope, const tree::Node* const node)
+LambdaObject::LambdaObject(LambdaObject& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node)
 :MethodObject(parent, hash), node(node)
 {
 	Object::setSlot("$$scope", scope);
@@ -29,11 +29,11 @@ LambdaObject::~LambdaObject(){
 }
 DEF_BUILTIN(LambdaObject, index)
 {
-	LambdaObject* const self = dynamic_cast<LambdaObject*>(machine.getSelf());
+	Handler<LambdaObject> const self(machine.getSelf());
 	if(!self){
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
 	}
-	Object* const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
+	Handler<Object> const local = self->getHeap().newLambdaScopeObject(machine.getArgument());
 	machine.enterLocal(local, self->Object::getSlot("$$scope"));
 	machine.pushResult(machine.eval(self->node));
 	machine.endLocal(local);
@@ -46,7 +46,7 @@ LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
 	includeBuitin();
 }
 
-LambdaScopeObject::LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Object* const arg)
+LambdaScopeObject::LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Handler<Object> const arg)
 :Object(parent, hash)
 {
 	Object::setSlot("$$arg", arg);
@@ -56,12 +56,12 @@ LambdaScopeObject::~LambdaScopeObject()
 }
 DEF_BUILTIN(LambdaScopeObject, atmark)
 {
-	LazyEvalObject* const mergeArg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	Handler<LazyEvalObject> const mergeArg(machine.getArgument());
 	if(!mergeArg){
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!! Argument is not LazyEvalObject");
 	}
-	Object* const local = machine.getLocal();
-	Object* const arg = machine.getSelf()->getSlot("$$arg");
+	Handler<Object> const local = machine.getLocal();
+	Handler<Object> const arg = machine.getSelf()->getSlot("$$arg");
 	size_t const max = mergeArg->getRawNode()->size();
 	for(size_t i=0;i<max;++i){
 		const tree::InvokeNode* argNode = dynamic_cast<const tree::InvokeNode*>(mergeArg->getRawNode()->index(i));

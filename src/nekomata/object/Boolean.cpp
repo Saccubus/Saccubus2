@@ -53,24 +53,24 @@ bool BooleanObject::toBool()
 
 DEF_BUILTIN(BooleanObject, and)
 {
-	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf());
 	const bool other = cast<bool>(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other));
 }
 DEF_BUILTIN(BooleanObject, or)
 {
-	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf());
 	const bool other = cast<bool>(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other));
 }
 DEF_BUILTIN(BooleanObject, not)
 {
-	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf());
 	machine.pushResult(self->getHeap().newBooleanObject(!self->toBool()));
 }
 DEF_BUILTIN(BooleanObject, alternate)
 {
-	BooleanObject* const self = dynamic_cast<BooleanObject*>(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf());
 	if(self->toBool()){
 		machine.pushResult(machine.getArgument()->index(0));
 	}else{

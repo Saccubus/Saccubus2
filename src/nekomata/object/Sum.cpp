@@ -42,8 +42,8 @@ DEF_HOOK_ACCESSOR_STR(SumObject, unit, sum);
 DEF_HOOK_ACCESSOR_BOOL(SumObject, buttononly, sum);
 DEF_HOOK_GETTER(SumObject, words)
 {
-	const std::vector<std::string>& vec = dynamic_cast<SumObject&>(self).sum->words();
-	Object* const obj = heap.newObject();
+	const std::vector<std::string>& vec = Handler<SumObject>(self)->sum->words();
+	Handler<Object> const obj(heap.newObject());
 	for(std::vector<std::string>::const_iterator it = vec.begin();it != vec.end();++it)
 	{
 		obj->push(heap.newStringObject(*it));
@@ -56,7 +56,7 @@ DEF_HOOK_SETTER(SumObject, words)
 	for(size_t i = 0;i<obj->size();++i){
 		vec.push_back(cast<std::string>(obj->index(i)));
 	}
-	dynamic_cast<SumObject&>(self).sum->words(vec);
+	Handler<SumObject>(self)->sum->words(vec);
 }
 DEF_HOOK_ACCESSOR_BOOL(SumObject, partial, sum);
 

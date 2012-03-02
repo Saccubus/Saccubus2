@@ -71,8 +71,8 @@ SystemObject::~SystemObject()
 
 DEF_BUILTIN(SystemObject, drawShape)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::Shape> shape = self->system.drawShape(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
@@ -94,8 +94,8 @@ DEF_BUILTIN(SystemObject, drawShape)
 }
 DEF_BUILTIN(SystemObject, drawText)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::Chat> chat = self->system.drawText(
 			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, 0, ""),
 			opt(arg, "x", 0.0),
@@ -114,9 +114,9 @@ DEF_BUILTIN(SystemObject, drawText)
 }
 DEF_BUILTIN(SystemObject, commentTrigger)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
-	LazyEvalObject* const lazy = dynamic_cast<LazyEvalObject*>(arg);
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
+	const Handler<LazyEvalObject> lazy(arg);
 	if(lazy && arg->has("timer") && (arg->has(0) || arg->has("then"))){
 		self->system.commentTrigger(
 			opt(arg, "timer", 0.0),
@@ -127,9 +127,9 @@ DEF_BUILTIN(SystemObject, commentTrigger)
 }
 DEF_BUILTIN(SystemObject, timer)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
-	LazyEvalObject* const lazy = dynamic_cast<LazyEvalObject*>(arg);
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
+	const Handler<LazyEvalObject> lazy(arg);
 	if(lazy && arg->has("timer") && (arg->has(0) || arg->has("then"))){
 		self->system.timer(
 			opt(arg, "timer", 0.0),
@@ -140,8 +140,8 @@ DEF_BUILTIN(SystemObject, timer)
 }
 DEF_BUILTIN(SystemObject, jump)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	self->system.jump(
 		(arg->has("id") ? cast<std::string>(arg->getSlot("id")) : opt(arg, 0, "")),
 		opt(arg, "msg", ""),
@@ -155,14 +155,14 @@ DEF_BUILTIN(SystemObject, jump)
 }
 DEF_BUILTIN(SystemObject, jumpCancel)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	self->system.jumpCancel();
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 DEF_BUILTIN(SystemObject, seek)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	if(arg->has("vpos")){
 		self->system.seek(
 			cast<double>(self->getSlot("vpos")),
@@ -173,8 +173,8 @@ DEF_BUILTIN(SystemObject, seek)
 }
 DEF_BUILTIN(SystemObject, addMarker)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	if(arg->has("name") && arg->has("vpos")){
 		self->system.addMarker(
 			cast<std::string>(self->getSlot("name")),
@@ -185,8 +185,8 @@ DEF_BUILTIN(SystemObject, addMarker)
 }
 DEF_BUILTIN(SystemObject, getMarker)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	if(arg->has("name")){
 		machine.pushResult(self->getHeap().newNumericObject(self->system.getMarker(cast<std::string>(arg->getSlot("name")))));
 	}else{
@@ -195,8 +195,8 @@ DEF_BUILTIN(SystemObject, getMarker)
 }
 DEF_BUILTIN(SystemObject, sum)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::Sum> sum = self->system.sum(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
@@ -215,8 +215,8 @@ DEF_BUILTIN(SystemObject, sum)
 }
 DEF_BUILTIN(SystemObject, showResult)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::SumResult> sumResult = self->system.showResult(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
@@ -231,8 +231,8 @@ DEF_BUILTIN(SystemObject, showResult)
 }
 DEF_BUILTIN(SystemObject, replace)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	std::string src = opt(arg, "src", "");
 	shared_ptr<system::Replace> replace = self->system.replace(
 		src,
@@ -249,20 +249,20 @@ DEF_BUILTIN(SystemObject, replace)
 }
 DEF_BUILTIN(SystemObject, screenWidth)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	system::System& system = self->system;
 	machine.pushResult(self->getHeap().newNumericObject(system.screenWidth()));
 }
 DEF_BUILTIN(SystemObject, screenHeight)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	system::System& system = self->system;
 	machine.pushResult(self->getHeap().newNumericObject(system.screenHeight()));
 }
 DEF_BUILTIN(SystemObject, addButton)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::Button> button = self->system.addButton(
 		opt(arg, "message", ""),
 		opt(arg, "mail", ""),
@@ -277,14 +277,14 @@ DEF_BUILTIN(SystemObject, addButton)
 }
 DEF_BUILTIN(SystemObject, playStartTime)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	system::System& system = self->system;
 	machine.pushResult(self->getHeap().newNumericObject(system.playStartTime()));
 }
 DEF_BUILTIN(SystemObject, BGM)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	self->system.BGM(
 		opt(arg, "id", "sm9"),
 		opt(arg, "x", 0.0),
@@ -298,20 +298,20 @@ DEF_BUILTIN(SystemObject, BGM)
 }
 DEF_BUILTIN(SystemObject, playBGM)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	self->system.playBGM(cast<int>(machine.getArgument()->index(0)));
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 DEF_BUILTIN(SystemObject, stopBGM)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	self->system.stopBGM(cast<int>(machine.getArgument()->index(0)));
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 DEF_BUILTIN(SystemObject, addAtPausePoint)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	self->system.addAtPausePoint(
 		opt(arg, "vpos", 0.0), //FIXME: 詳細不明
 		opt(arg, "wait", 0.0) //FIXME: 詳細不明
@@ -320,8 +320,8 @@ DEF_BUILTIN(SystemObject, addAtPausePoint)
 }
 DEF_BUILTIN(SystemObject, addPostRoute)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	self->system.addPostRoute(
 		opt(arg, "match", ""),
 		opt(arg, "id", "default"), //FIXME: 詳細不明
@@ -331,8 +331,8 @@ DEF_BUILTIN(SystemObject, addPostRoute)
 }
 DEF_BUILTIN(SystemObject, CM)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
-	Object* const arg = machine.getArgument();
+	const Handler<SystemObject> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	self->system.CM(
 			opt(arg, "id", ""),
 			opt(arg, "time", NAN),
@@ -344,7 +344,7 @@ DEF_BUILTIN(SystemObject, CM)
 }
 DEF_BUILTIN(SystemObject, playCM)
 {
-	SystemObject* const self = dynamic_cast<SystemObject*>(machine.getSelf());
+	const Handler<SystemObject> self(machine.getSelf());
 	self->system.playCM(cast<int>(machine.getArgument()->index(0)));
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
@@ -353,91 +353,91 @@ DEF_BUILTIN(SystemObject, playCM)
 
 DEF_HOOK_GETTER(SystemObject, commentColor)
 {
-	return heap.newNumericObject(dynamic_cast<SystemObject&>(self).system.commentColor());
+	return heap.newNumericObject(Handler<SystemObject>(self)->system.commentColor());
 }
 DEF_HOOK_SETTER(SystemObject, commentColor)
 {
-	dynamic_cast<SystemObject&>(self).system.commentColor(cast<unsigned int>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentColor(cast<unsigned int>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, commentPlace)
 {
-	return heap.newStringObject(dynamic_cast<SystemObject&>(self).system.commentPlace());
+	return heap.newStringObject(Handler<SystemObject>(self)->system.commentPlace());
 }
 DEF_HOOK_SETTER(SystemObject, commentPlace)
 {
-	dynamic_cast<SystemObject&>(self).system.commentPlace(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentPlace(cast<std::string>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, commentSize)
 {
-	return heap.newStringObject(dynamic_cast<SystemObject&>(self).system.commentSize());
+	return heap.newStringObject(Handler<SystemObject>(self)->system.commentSize());
 }
 DEF_HOOK_SETTER(SystemObject, commentSize)
 {
-	dynamic_cast<SystemObject&>(self).system.commentSize(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentSize(cast<std::string>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, commentInvisible)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.commentInvisible());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.commentInvisible());
 }
 DEF_HOOK_SETTER(SystemObject, commentInvisible)
 {
-	dynamic_cast<SystemObject&>(self).system.commentInvisible(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentInvisible(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, commentReverse)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.commentReverse());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.commentReverse());
 }
 DEF_HOOK_SETTER(SystemObject, commentReverse)
 {
-	dynamic_cast<SystemObject&>(self).system.commentReverse(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentReverse(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, defaultSage)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.defaultSage());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.defaultSage());
 }
 DEF_HOOK_SETTER(SystemObject, defaultSage)
 {
-	dynamic_cast<SystemObject&>(self).system.defaultSage(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.defaultSage(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, postDisabled)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.postDisabled());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.postDisabled());
 }
 DEF_HOOK_SETTER(SystemObject, postDisabled)
 {
-	dynamic_cast<SystemObject&>(self).system.postDisabled(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.postDisabled(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, seekDisabled)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.seekDisabled());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.seekDisabled());
 }
 DEF_HOOK_SETTER(SystemObject, seekDisabled)
 {
-	dynamic_cast<SystemObject&>(self).system.seekDisabled(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.seekDisabled(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, isLoaded)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.isLoaded());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.isLoaded());
 }
 DEF_HOOK_SETTER(SystemObject, isLoaded)
 {
-	dynamic_cast<SystemObject&>(self).system.isLoaded(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.isLoaded(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, isWide)
 {
-	return heap.newBooleanObject(dynamic_cast<SystemObject&>(self).system.isWide());
+	return heap.newBooleanObject(Handler<SystemObject>(self)->system.isWide());
 }
 DEF_HOOK_SETTER(SystemObject, isWide)
 {
-	dynamic_cast<SystemObject&>(self).system.isWide(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.isWide(cast<bool>(obj->index(0)));
 }
 DEF_HOOK_GETTER(SystemObject, lastVideo)
 {
-	return heap.newStringObject(dynamic_cast<SystemObject&>(self).system.lastVideo());
+	return heap.newStringObject(Handler<SystemObject>(self)->system.lastVideo());
 }
 DEF_HOOK_SETTER(SystemObject, lastVideo)
 {
-	dynamic_cast<SystemObject&>(self).system.lastVideo(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.lastVideo(cast<std::string>(obj->index(0)));
 }
 
 }

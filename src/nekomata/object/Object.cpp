@@ -56,7 +56,7 @@ Object::Object(ObjectHeap& heap, bool isRaw)
 	includeBuitin();
 }
 Object::Object(Object& parent, const unsigned int hash)
-:heap(parent.getHeap()), hash(hash), color(0), builtins(0)
+:heap(parent.getHeap()), hash(hash), color(0), nativeRef(0), builtins(0)
 {
 	objectList.insert(objectList.end(), parent.objectList.begin(), parent.objectList.end());
 	objectMap.insert(parent.objectMap.begin(), parent.objectMap.end());
@@ -82,12 +82,12 @@ void Object::includeBuitin()
 		return;
 	}
 	for(BuiltinMethods::iterator it = builtins->begin(); it!=builtins->end();++it){
-		Object::setSlot(it->first, &it->second);
+		Object::setSlot(it->first, Handler<Object>(&it->second));
 	}
 }
 
 void Object::eval(machine::Machine& machine){
-	machine.pushResult(this);
+	machine.pushResult(Handler<Object>(this));
 }
 
 void Object::mark(int color)
@@ -125,57 +125,57 @@ int Object::decNativeRef()
 {
 	--nativeRef;
 	if(nativeRef < 0){
-		log().e(TAG, 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, cast<std::string>(this).c_str());
+		log().e(TAG, 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, cast<std::string>(Handler<Object>(this)).c_str());
 	}
 	return nativeRef;
 }
 
 
-Object* Object::unshift(Object* const item)
+Handler<Object> Object::unshift(Handler<Object> const item)
 {
-	objectList.insert(objectList.begin(), item);
-	return this;
+	objectList.insert(objectList.begin(), item.get());
+	return Handler<Object>(this);
 }
-Object* Object::push(Object* const item)
+Handler<Object> Object::push(Handler<Object> const item)
 {
-	objectList.push_back(item);
-	return this;
+	objectList.push_back(item.get());
+	return Handler<Object>(this);
 }
-Object* Object::shift()
+Handler<Object> Object::shift()
 {
 	if(Object::size() > 0){
-		Object* const obj = objectList.front();
+		const Handler<Object> obj(objectList.front());
 		objectList.erase(objectList.begin());
 		return obj;
 	}else{
 		return heap.newUndefinedObject();
 	}
 }
-Object* Object::pop()
+Handler<Object> Object::pop()
 {
 	if(Object::size() > 0){
-		Object* const obj = objectList.back();
+		const Handler<Object> obj(objectList.back());
 		objectList.pop_back();
 		return obj;
 	}else{
 		return heap.newUndefinedObject();
 	}
 }
-Object* Object::index(size_t idx)
+Handler<Object> Object::index(size_t idx)
 {
 	if(Object::has(idx)){
-		return objectList.at(idx);
+		return Handler<Object>(objectList.at(idx));
 	}else{
 		return heap.newUndefinedObject();
 	}
 }
-Object* Object::indexSet(size_t idx, Object* item)
+Handler<Object> Object::indexSet(size_t idx, Handler<Object> item)
 {
 	if(idx < objectList.size()){
-		objectList[idx] = item;
+		objectList[idx] = item.get();
 	}else{
-		objectList.insert(objectList.end(), idx-objectList.size(), getHeap().newUndefinedObject());
-		objectList.push_back(item);
+		objectList.insert(objectList.end(), idx-objectList.size(), getHeap().newUndefinedObject().get());
+		objectList.push_back(item.get());
 	}
 	return item;
 }
@@ -205,18 +205,18 @@ std::vector<std::string> Object::getSlotNames()
 bool Object::isUndefined(){
 	return false;
 }
-Object* Object::setSlot(const std::string& name, Object* const item)
+Handler<Object> Object::setSlot(const std::string& name, Handler<Object> const item)
 {
 	objectMap.erase(name);
-	objectMap.insert(SlotMapPair(name, item));
-	return this;
+	objectMap.insert(SlotMapPair(name, item.get()));
+	return Handler<Object>(this);
 }
-Object* Object::getSlot(const std::string& name){
+Handler<Object> Object::getSlot(const std::string& name){
 	SlotMapIterator it = objectMap.find(name);
 	if(it == objectMap.end()){
 		return getHeap().newUndefinedObject();
 	}else{
-		return it->second;
+		return Handler<Object>(it->second);
 	}
 }
 
@@ -259,8 +259,8 @@ bool Object::toBool()
 
 DEF_BUILTIN(Object, def)
 {
-	Object* const self = machine.getSelf();
-	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	const Handler<Object> self(machine.getSelf());
+	const Handler<LazyEvalObject> arg(machine.getArgument());
 	if(!arg || arg->size() < 2){
 		machine.log.w(TAG, 0, "Invalid method define call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
@@ -269,7 +269,7 @@ DEF_BUILTIN(Object, def)
 	const tree::InvokeNode* const invokeNode = dynamic_cast<const tree::InvokeNode*>(arg->getRawNode()->index(0));
 	const tree::BindNode* const bindNode = dynamic_cast<const tree::BindNode*>(arg->getRawNode()->index(0));
 	if(invokeNode){
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def);
+		const Handler<MethodNodeObject> _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def);
 		self->setSlot(invokeNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else if(bindNode){
@@ -290,7 +290,7 @@ DEF_BUILTIN(Object, def)
 			}
 			argList.push_back(argNameNode->getMessageName());
 		}
-		MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def, argList);
+		const Handler<MethodNodeObject> _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def, argList);
 		self->setSlot(nameNode->getMessageName(), _method);
 		machine.pushResult(_method);
 	}else{
@@ -300,72 +300,71 @@ DEF_BUILTIN(Object, def)
 }
 DEF_BUILTIN(Object, def_kari)
 {
-	Object* const self = machine.getSelf();
-	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	const Handler<Object> self(machine.getSelf());
+	const Handler<LazyEvalObject> arg(machine.getArgument());
 	if(!arg || arg->size() < 2){
 		machine.log.w(TAG, 0, "Invalid def_kari call. There is neither name nor method body.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
 		return;
 	}
 	std::string methodName = cast<std::string>(arg->index(0));
-	MethodNodeObject* const _method = self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def_kari);
+	const Handler<MethodNodeObject>_method(self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def_kari));
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
 }
 
 DEF_BUILTIN(Object, index)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->index(cast<size_t>(machine.getArgument()->index(0))));
 }
 DEF_BUILTIN(Object, indexSet)
 {
-	Object* const self = machine.getSelf();
-	Object* const arg = machine.getArgument();
+	const Handler<Object> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	size_t const idx = cast<size_t>(arg->index(0));
 	machine.pushResult(self->indexSet(idx, arg->index(1)));
 }
 DEF_BUILTIN(Object, size)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->getHeap().newNumericObject(self->size()));
 }
 DEF_BUILTIN(Object, unshift)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->unshift(machine.getArgument()->index(0)));
 }
 DEF_BUILTIN(Object, push)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->push(machine.getArgument()->index(0)));
 }
 DEF_BUILTIN(Object, shift)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->shift());
 }
 DEF_BUILTIN(Object, pop)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->pop());
 }
 
 bool Object::_sort_func(machine::Machine& machine, Object* const self, Object* const other)
 {
-	Object* result = machine.send(self, "lessThan", self->getHeap().newArray(other, 0));
-	return cast<bool>(result);
+	return cast<bool>(machine.send(Handler<Object>(self), "lessThan", self->getHeap().newArrayObject(1, other)));
 }
 
 DEF_BUILTIN(Object, sort)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
 	machine.pushResult(self);
 }
 DEF_BUILTIN(Object, sum)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	double result = 0.0;
 	const size_t max = self->size();
 	for(size_t i=0;i<max;++i){
@@ -375,7 +374,7 @@ DEF_BUILTIN(Object, sum)
 }
 DEF_BUILTIN(Object, product)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	double result = 1.0;
 	const size_t max = self->size();
 	for(size_t i=0;i<max;++i){
@@ -385,9 +384,9 @@ DEF_BUILTIN(Object, product)
 }
 DEF_BUILTIN(Object, join)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	std::stringstream ss;
-	Object* const arg = machine.getArgument();
+	const Handler<Object> arg(machine.getArgument());
 	const size_t max = self->size();
 	if(max <= 0){
 		machine.pushResult(self->getHeap().newStringObject(""));
@@ -404,28 +403,28 @@ DEF_BUILTIN(Object, join)
 
 DEF_BUILTIN(Object, setSlot)
 {
-	Object* const arg = machine.getArgument();
-	Object* const self = machine.getSelf();
+	const Handler<Object> arg(machine.getArgument());
+	const Handler<Object> self(machine.getSelf());
 	std::string name = cast<std::string>(arg->index(0));
-	Object* const obj = arg->index(1);
+	const Handler<Object> obj(arg->index(1));
 	machine.pushResult(self->setSlot(name, obj));
 }
 DEF_BUILTIN(Object, getSlot)
 {
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	std::string name = cast<std::string>(machine.getArgument()->index(0));
-	Object* const obj = self->getSlot(name);
+	const Handler<Object> obj(self->getSlot(name));
 	machine.pushResult(obj);
 }
 DEF_BUILTIN(Object, clone){
 	//FIXME
-	Object* const self = machine.getSelf();
+	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 DEF_BUILTIN(Object, if)
 {
-	Object* const arg = machine.getArgument();
+	const Handler<Object> arg(machine.getArgument());
 	bool result;
 	if(arg->has("when")){
 		result = cast<bool>(arg->getSlot("when"));
@@ -440,7 +439,7 @@ DEF_BUILTIN(Object, if)
 }
 DEF_BUILTIN(Object, while_kari)
 {
-	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	const Handler<LazyEvalObject> arg(machine.getArgument());
 	if(arg){
 		const tree::ObjectNode* const node = arg->getRawNode();
 		if(node->size() < 2){
@@ -448,7 +447,7 @@ DEF_BUILTIN(Object, while_kari)
 			machine.pushResult(arg->getHeap().newUndefinedObject());
 			return;
 		}
-		Object* obj = arg->getHeap().newUndefinedObject();
+		Handler<Object> obj(arg->getHeap().newUndefinedObject());
 		while(cast<bool>(machine.eval(node->index(0)))){
 			obj = machine.eval(node->index(1));
 		}
@@ -460,8 +459,8 @@ DEF_BUILTIN(Object, while_kari)
 }
 DEF_BUILTIN(Object, lambda)
 {
-	Object* const self = machine.getSelf();
-	LazyEvalObject* const arg = dynamic_cast<LazyEvalObject*>(machine.getArgument());
+	const Handler<Object> self(machine.getSelf());
+	const Handler<LazyEvalObject> arg(machine.getArgument());
 	if(!arg || arg->size() < 1){
 		machine.log.w(TAG, 0, "Invalid lambda call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
@@ -471,8 +470,8 @@ DEF_BUILTIN(Object, lambda)
 }
 DEF_BUILTIN(Object, distance)
 {
-	Object* const self = machine.getSelf();
-	Object* const arg = machine.getArgument();
+	const Handler<Object> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	double const x1 = cast<double>(arg->index(0));
 	double const y1 = cast<double>(arg->index(1));
 	double const x2 = cast<double>(arg->index(2));
@@ -483,8 +482,8 @@ DEF_BUILTIN(Object, distance)
 }
 DEF_BUILTIN(Object, rand)
 {
-	Object* const self = machine.getSelf();
-	Object* const arg = machine.getArgument();
+	const Handler<Object> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument());
 	std::string txt = cast<std::string>(arg->index(0));
 	unsigned int seed = 0;
 	const char* str = txt.c_str();
