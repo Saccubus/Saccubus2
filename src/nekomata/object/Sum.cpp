@@ -43,7 +43,7 @@ DEF_HOOK_ACCESSOR_BOOL(SumObject, buttononly, sum);
 DEF_HOOK_GETTER(SumObject, words)
 {
 	const std::vector<std::string>& vec = Handler<SumObject>(self)->sum->words();
-	Handler<Object> const obj(heap.newObject());
+	const Handler<Object> obj(heap.newObject());
 	for(std::vector<std::string>::const_iterator it = vec.begin();it != vec.end();++it)
 	{
 		obj->push(heap.newStringObject(*it));

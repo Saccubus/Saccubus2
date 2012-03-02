@@ -69,43 +69,43 @@ const std::string& StringObject::getValue() /* toStringだと、std::stringオ�
 
 DEF_BUILTIN(StringObject, equals)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() == other ) );
 }
 DEF_BUILTIN(StringObject, notEquals)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() != other ) );
 }
 DEF_BUILTIN(StringObject, notLessThan)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() >= other ) );
 }
 DEF_BUILTIN(StringObject, notGreaterThan)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() <= other ) );
 }
 DEF_BUILTIN(StringObject, greaterThan)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() > other ) );
 }
 DEF_BUILTIN(StringObject, lessThan)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() < other ) );
 }
 DEF_BUILTIN(StringObject, index)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	UnicodeString uni(self->getValue().c_str(), "utf-8");
 	size_t idx = cast<size_t>(arg->index(0));
@@ -115,13 +115,13 @@ DEF_BUILTIN(StringObject, index)
 }
 DEF_BUILTIN(StringObject, size)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	UnicodeString uni(self->getValue().c_str(), "utf-8");
 	machine.pushResult( self->getHeap().newNumericObject(uni.length()) );
 }
 DEF_BUILTIN(StringObject, indexOf)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	std::string key = cast<std::string>(arg->index(0));
 	size_t from = 0;
@@ -161,7 +161,7 @@ DEF_BUILTIN(StringObject, slice)
 }
 DEF_BUILTIN(StringObject, toInteger)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	char* ptr;
 	const size_t len = self->getValue().size();
 	const char* str = self->getValue().c_str();
@@ -174,7 +174,7 @@ DEF_BUILTIN(StringObject, toInteger)
 }
 DEF_BUILTIN(StringObject, toFloat)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	char* ptr;
 	const size_t len = self->getValue().size();
 	const char* str = self->getValue().c_str();
@@ -187,14 +187,14 @@ DEF_BUILTIN(StringObject, toFloat)
 }
 DEF_BUILTIN(StringObject, eval)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	//FIXME:
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
 DEF_BUILTIN(StringObject, add)
 {
-	Handler<StringObject> const self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf());
 	std::string const other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newStringObject(self->getValue()+other) );
 

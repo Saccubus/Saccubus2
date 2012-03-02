@@ -188,7 +188,7 @@ void Machine::walkImpl(const OpAssignNode & node)
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		object::Handler<object::StringObject> const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		const object::Handler<object::StringObject> nameObj = heap.newStringObject(invokeNode->getMessageName());
 
 		const object::Handler<object::Object> operandObj = send(destObj, "getSlot", heap.newArrayObject(1, nameObj.get()));
 		const object::Handler<object::Object> result = send(operandObj, node.getOp(), heap.newArrayObject(1, rhsObj.get()));
@@ -234,20 +234,20 @@ void Machine::walkImpl(const PostOpNode & node)
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		object::Handler<object::StringObject> const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		const object::Handler<object::StringObject> nameObj = heap.newStringObject(invokeNode->getMessageName());
 
 		object::Handler<object::Object> operandObj = send(destObj, "getSlot", heap.newArrayObject(1, nameObj.get()));
-		const object::Handler<object::Object> result( send(operandObj, node.getOp()) );
+		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), result.get()));
 		pushResult(operandObj);
 	}else if(idxNode){
 		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node: %s", node.getOp().c_str());
-		const object::Handler<object::Object> destObj(eval(idxNode->getExprNode()));
-		const object::Handler<object::Object> idxObj(eval(idxNode->getObjectNode()));
+		const object::Handler<object::Object> destObj = eval(idxNode->getExprNode());
+		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 
-		const object::Handler<object::Object> operandObj(send(destObj, "index", idxObj));
-		const object::Handler<object::Object> result( send(operandObj, node.getOp()) );
+		const object::Handler<object::Object> operandObj = send(destObj, "index", idxObj);
+		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
 
@@ -269,10 +269,10 @@ void Machine::walkImpl(const PreOpNode & node)
 		}else{
 			destObj = resolveScope(invokeNode->getMessageName());
 		}
-		object::Handler<object::StringObject> const nameObj = heap.newStringObject(invokeNode->getMessageName());
+		const object::Handler<object::StringObject> nameObj = heap.newStringObject(invokeNode->getMessageName());
 
 		object::Handler<object::Object> operandObj = send(destObj, "getSlot", heap.newArrayObject(1, nameObj.get()));
-		const object::Handler<object::Object> result( send(operandObj, node.getOp()) );
+		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), result.get()));
 
 		pushResult(result);
@@ -282,7 +282,7 @@ void Machine::walkImpl(const PreOpNode & node)
 		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 
 		const object::Handler<object::Object> operandObj = send(destObj, "index", idxObj);
-		const object::Handler<object::Object> result( send(object::Handler<object::Object>(operandObj), node.getOp()) );
+		const object::Handler<object::Object> result = send(object::Handler<object::Object>(operandObj), node.getOp()) ;
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
 

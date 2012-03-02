@@ -35,7 +35,7 @@ DEF_HOOK_ACCESSOR_STR(SumResultObject, unit, sumResult);
 DEF_HOOK_GETTER(SumResultObject, sum)
 {
 	const std::vector<std::tr1::shared_ptr<system::Sum> >& vec = Handler<SumResultObject>(self)->sumResult->sum();
-	Handler<Object> const obj(heap.newObject());
+	const Handler<Object> obj(heap.newObject());
 	for(std::vector<std::tr1::shared_ptr<system::Sum> >::const_iterator it = vec.begin();it != vec.end();++it)
 	{
 		obj->push(heap.newSumObject(*it));
@@ -46,7 +46,7 @@ DEF_HOOK_SETTER(SumResultObject, sum)
 {
 	std::vector<std::tr1::shared_ptr<system::Sum> > vec;
 	for(size_t i = 0;i<obj->size();++i){
-		Handler<SumObject> const sumObj(obj->index(i));
+		const Handler<SumObject> sumObj(obj->index(i));
 		if(sumObj){
 			vec.push_back(sumObj->getSum());
 		}

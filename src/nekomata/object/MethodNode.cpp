@@ -14,12 +14,12 @@
 
 namespace nekomata{
 namespace object{
-MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
+MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList)
 :MethodObject(parent, hash), node(node),argList(argList), rule(rule)
 {
 	Object::setSlot("$$scope", scope);
 }
-MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node, LocalScopeRule rule)
+MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule)
 :MethodObject(parent, hash), node(node),rule(rule)
 {
 	Object::setSlot("$$scope", scope);
@@ -28,7 +28,7 @@ MethodNodeObject::~MethodNodeObject()
 {
 
 }
-void MethodNodeObject::mergeArg(machine::Machine& machine, Handler<Object> const local, Handler<Object> const arg)
+void MethodNodeObject::mergeArg(machine::Machine& machine, const Handler<Object> local, const Handler<Object> arg)
 {
 	switch(rule)
 	{
@@ -36,7 +36,7 @@ void MethodNodeObject::mergeArg(machine::Machine& machine, Handler<Object> const
 	{
 		size_t idx = 0;
 		for(std::vector<std::string>::const_iterator it = argList.begin();it!=argList.end();++it){
-			Handler<Object> const obj = arg->index(idx);
+			const Handler<Object> obj = arg->index(idx);
 			local->setSlot((*it), obj);
 			++idx;
 		}

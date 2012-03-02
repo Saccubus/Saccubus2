@@ -82,14 +82,14 @@ public:
 	Handler<ShapeObject> newShapeObject(std::tr1::shared_ptr<system::Shape> shape);
 public:
 	Handler<Object> newRawObject();
-	Handler<LambdaScopeObject> newLambdaScopeObject(Handler<Object> const arg);
+	Handler<LambdaScopeObject> newLambdaScopeObject(const Handler<Object> arg);
 	Handler<Object> newObject();
 	Handler<Object> newArrayObject(const size_t argc, ...);
 public:
 	Handler<LazyEvalObject> newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode* objNode);
-	Handler<MethodNodeObject> newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
-	Handler<MethodNodeObject> newMethodNodeObject(Handler<Object> const scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
-	Handler<LambdaObject> newLambdaObject(Handler<Object> const scope, const tree::Node* node);
+	Handler<MethodNodeObject> newMethodNodeObject(const Handler<Object> scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList);
+	Handler<MethodNodeObject> newMethodNodeObject(const Handler<Object> scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
+	Handler<LambdaObject> newLambdaObject(const Handler<Object> scope, const tree::Node* node);
 public:
 	Handler<StringObject> newStringObject(const std::string& str);
 	Handler<BooleanObject> newBooleanObject(const bool val);

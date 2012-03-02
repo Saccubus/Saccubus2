@@ -23,12 +23,12 @@ LazyEvalObject::~LazyEvalObject(){
 /*******************************************************************
  *  INDEXアクセス
  *******************************************************************/
-Handler<Object> LazyEvalObject::unshift(Handler<Object> const item)
+Handler<Object> LazyEvalObject::unshift(const Handler<Object> item)
 {
 	/* セットはできない。アクセスだけ。 */
 	return Handler<Object>(this);
 }
-Handler<Object> LazyEvalObject::push(Handler<Object> const item)
+Handler<Object> LazyEvalObject::push(const Handler<Object> item)
 {
 	/* セットはできない。アクセスだけ。 */
 	return Handler<Object>(this);
@@ -49,7 +49,7 @@ Handler<Object> LazyEvalObject::index(size_t idx)
 		return Object::index(idx);
 	}else if(node->has(idx)){
 		const ExprNode* const expr = node->index(idx);
-		Handler<Object> const result(machine.eval(expr));
+		const Handler<Object> result(machine.eval(expr));
 		indexEvalState.insert(std::pair<size_t, bool>(idx, true));
 		Object::indexSet(idx, result);
 		return result;
@@ -74,7 +74,7 @@ bool LazyEvalObject::has(size_t idx)
 /*******************************************************************
  *  KEYアクセス
  *******************************************************************/
-Handler<Object> LazyEvalObject::setSlot(const std::string& key, Handler<Object> const value)
+Handler<Object> LazyEvalObject::setSlot(const std::string& key, const Handler<Object> value)
 {
 	/* セットはできない。アクセスだけ。 */
 	return Handler<Object>(this);
@@ -85,7 +85,7 @@ Handler<Object> LazyEvalObject::getSlot(const std::string& key)
 		return Object::getSlot(key);
 	}else if(node->has(key)){ //未評価
 		const ExprNode* const expr = node->getSlot(key);
-		Handler<Object> const result(machine.eval(expr));
+		const Handler<Object> result(machine.eval(expr));
 		slotEvalState.insert(std::pair<std::string, bool>(key, true));
 		Object::setSlot(key, result);
 		return result;

@@ -64,8 +64,8 @@ public:
 	int incNativeRef();
 	int decNativeRef();
 public: /* INDEXアクセス */
-	virtual Handler<Object> unshift(Handler<Object> const item);
-	virtual Handler<Object> push(Handler<Object> const item);
+	virtual Handler<Object> unshift(const Handler<Object> item);
+	virtual Handler<Object> push(const Handler<Object> item);
 	virtual Handler<Object> shift();
 	virtual Handler<Object> pop();
 	virtual Handler<Object> index(size_t idx);
@@ -73,7 +73,7 @@ public: /* INDEXアクセス */
 	virtual size_t size();
 	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Handler<Object> setSlot(const std::string& key, Handler<Object> const value);
+	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
 	virtual Handler<Object> getSlot(const std::string& key);
 	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
@@ -119,7 +119,7 @@ class HookableObject : public Object
 {
 public:
 	typedef Handler<Object> (*Getter)(Handler<HookableObject> self, ObjectHeap& heap);
-	typedef void (*Setter)(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj);
+	typedef void (*Setter)(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj);
 	explicit HookableObject(Object& parent);
 	explicit HookableObject(HookableObject& parent, int hash);
 	virtual ~HookableObject();
@@ -128,18 +128,18 @@ public:
 		addSetter(#name, _setter_##name);
 #define DEC_HOOK_ACCESSOR(name) \
 	static Handler<Object> _getter_##name(Handler<HookableObject> self, ObjectHeap& heap); \
-	static void _setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj);
+	static void _setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj);
 #define DEF_HOOK_GETTER(clazz, name) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)
 #define DEF_HOOK_SETTER(clazz, name) \
-	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj)
+	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)
 
 #define DEF_HOOK_ACCESSOR_STR(clazz, name, adapter) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)\
 	{\
 		return heap.newStringObject(Handler<clazz>(self)->adapter->name());\
 	}\
-	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj)\
+	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
 		Handler<clazz>(self)->adapter->name(obj->toString());\
 	}
@@ -149,7 +149,7 @@ public:
 	{\
 		return heap.newNumericObject(Handler<clazz>(self)->adapter->name());\
 	}\
-	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj)\
+	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
 		Handler<clazz>(self)->adapter->name(obj->toNumeric());\
 	}
@@ -159,7 +159,7 @@ public:
 	{\
 		return heap.newNumericObject(Handler<clazz>(self)->adapter->name());\
 	}\
-	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj)\
+	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
 		Handler<clazz>(self)->adapter->name(static_cast<type>(obj->toNumeric()));\
 	}
@@ -168,7 +168,7 @@ public:
 	{\
 		return heap.newBooleanObject(Handler<clazz>(self)->adapter->name());\
 	}\
-	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, Handler<Object> const obj)\
+	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
 		Handler<clazz>(self)->adapter->name(obj->toBool());\
 	}
@@ -180,7 +180,7 @@ protected:
 	void addGetter(const std::string& name, Getter getter);
 	void addSetter(const std::string& name, Setter setter);
 public:
-	virtual Handler<Object> setSlot(const std::string& key, Handler<Object> const value);
+	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
 	virtual Handler<Object> getSlot(const std::string& key);
 	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
@@ -379,8 +379,8 @@ public:
 	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
 public: /* INDEXアクセス */
-	virtual Handler<Object> unshift(Handler<Object> const item);
-	virtual Handler<Object> push(Handler<Object> const item);
+	virtual Handler<Object> unshift(const Handler<Object> item);
+	virtual Handler<Object> push(const Handler<Object> item);
 	virtual Handler<Object> shift();
 	virtual Handler<Object> pop();
 	virtual Handler<Object> index(size_t idx);
@@ -388,7 +388,7 @@ public: /* INDEXアクセス */
 	virtual size_t size();
 	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Handler<Object> setSlot(const std::string& key, Handler<Object> const value);
+	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
 	virtual Handler<Object> getSlot(const std::string& key);
 	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
@@ -428,10 +428,10 @@ private:
 	const tree::Node* const node;
 	const std::vector<std::string> argList;
 	const LocalScopeRule rule;
-	void mergeArg(machine::Machine& machine, Handler<Object> const local, Handler<Object> const arg);
+	void mergeArg(machine::Machine& machine, const Handler<Object> local, const Handler<Object> arg);
 public:
-	explicit MethodNodeObject(Object& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
-	explicit MethodNodeObject(Object& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node, LocalScopeRule rule);
+	explicit MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
+	explicit MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule);
 	virtual ~MethodNodeObject();
 	virtual void eval(machine::Machine& machine);
 };
@@ -442,7 +442,7 @@ private:
 	const tree::Node* const node;
 public:
 	explicit LambdaObject(ObjectHeap& heap);
-	explicit LambdaObject(LambdaObject& parent, const unsigned int hash, Handler<Object> const scope, const tree::Node* const node);
+	explicit LambdaObject(LambdaObject& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node);
 	virtual ~LambdaObject();
 public:
 	DEC_BUILTIN(index);
@@ -452,7 +452,7 @@ class LambdaScopeObject : public Object
 {
 public:
 	explicit LambdaScopeObject(ObjectHeap& heap);
-	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, Handler<Object> const arg);
+	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, const Handler<Object> arg);
 	virtual ~LambdaScopeObject();
 public:
 	DEC_BUILTIN(atmark);

@@ -17,20 +17,20 @@ namespace object
 {
 
 template <typename T>
-T cast(Handler<Object> const obj)
+T cast(const Handler<Object> obj)
 {
 	return static_cast<T>(obj->toNumeric());
 }
-template<> double cast<double>(Handler<Object> const obj);
-template<> std::string cast<std::string>(Handler<Object> const obj);
-template<> bool cast<bool>(Handler<Object> const obj);
-template<> std::vector<std::tr1::shared_ptr<system::Sum> > cast<std::vector<std::tr1::shared_ptr<system::Sum> > >(Handler<Object> const obj);
-template<> std::vector<std::string> cast<std::vector<std::string> >(Handler<Object> const obj);
+template<> double cast<double>(const Handler<Object> obj);
+template<> std::string cast<std::string>(const Handler<Object> obj);
+template<> bool cast<bool>(const Handler<Object> obj);
+template<> std::vector<std::tr1::shared_ptr<system::Sum> > cast<std::vector<std::tr1::shared_ptr<system::Sum> > >(const Handler<Object> obj);
+template<> std::vector<std::string> cast<std::vector<std::string> >(const Handler<Object> obj);
 
 //---------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-T opt(Handler<Object> const obj, const std::string& key, const T& def)
+T opt(const Handler<Object> obj, const std::string& key, const T& def)
 {
 	if(obj->has(key)){
 		return cast<T>(obj->getSlot(key));
@@ -39,7 +39,7 @@ T opt(Handler<Object> const obj, const std::string& key, const T& def)
 	}
 }
 
-std::string opt(Handler<Object> const obj, const std::string& key, const std::string& def);
+std::string opt(const Handler<Object> obj, const std::string& key, const std::string& def);
 template <typename T>
 T opt(Object* const obj, size_t index, const T& def)
 {
@@ -49,7 +49,7 @@ T opt(Object* const obj, size_t index, const T& def)
 		return def;
 	}
 }
-std::string opt(Handler<Object> const obj, size_t index, const std::string& def);
+std::string opt(const Handler<Object> obj, size_t index, const std::string& def);
 
 
 }}

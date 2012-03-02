@@ -131,12 +131,12 @@ int Object::decNativeRef()
 }
 
 
-Handler<Object> Object::unshift(Handler<Object> const item)
+Handler<Object> Object::unshift(const Handler<Object> item)
 {
 	objectList.insert(objectList.begin(), item.get());
 	return Handler<Object>(this);
 }
-Handler<Object> Object::push(Handler<Object> const item)
+Handler<Object> Object::push(const Handler<Object> item)
 {
 	objectList.push_back(item.get());
 	return Handler<Object>(this);
@@ -205,7 +205,7 @@ std::vector<std::string> Object::getSlotNames()
 bool Object::isUndefined(){
 	return false;
 }
-Handler<Object> Object::setSlot(const std::string& name, Handler<Object> const item)
+Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
 {
 	objectMap.erase(name);
 	objectMap.insert(SlotMapPair(name, item.get()));
