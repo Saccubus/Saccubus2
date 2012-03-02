@@ -97,7 +97,7 @@ DEF_BUILTIN(SystemObject, drawText)
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	shared_ptr<system::Chat> chat = self->system.drawText(
-			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, 0, ""),
+			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, (size_t)0, ""),
 			opt(arg, "x", 0.0),
 			opt(arg, "y", 0.0),
 			opt(arg, "z", 0.0),
@@ -143,7 +143,7 @@ DEF_BUILTIN(SystemObject, jump)
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	self->system.jump(
-		(arg->has("id") ? cast<std::string>(arg->getSlot("id")) : opt(arg, 0, "")),
+		(arg->has("id") ? cast<std::string>(arg->getSlot("id")) : opt(arg, (size_t)0, "")),
 		opt(arg, "msg", ""),
 		opt(arg, "from", 0.0),
 		opt(arg, "length", 0.0),
