@@ -21,7 +21,18 @@ namespace system {
 private:\
 	type name##_;\
 public:\
-	virtual type name(){return name##_;} \
+	virtual type name() const{return name##_;} \
+	virtual void name(const type& name##__){\
+		if(this->name##_ != name##_){\
+			name##_=name##__;\
+		}\
+	}
+#define DEF_ADAPTER_ACCESSOR_CONST(name, type)\
+private:\
+	type name##_;\
+public:\
+	virtual type name() const{return name##_;} \
+private:\
 	virtual void name(const type& name##__){\
 		if(this->name##_ != name##_){\
 			name##_=name##__;\
@@ -32,7 +43,13 @@ class System
 {
 private:
 	std::map<std::string, double> markerMap;
-protected:
+	std::vector<Shape*> shapeList;
+	std::vector<Label*> labelList;
+	std::vector<Sum*> sumList;
+	std::vector<SumResult*> sumResultList;
+	std::vector<Replace*> replaceList;
+	std::vector<Button*> buttonList;
+	std::vector<Comment*> commentList;
 	logging::Logger& log;
 public:
 	explicit System(logging::Logger& log);
@@ -228,6 +245,37 @@ public:
 	explicit Label(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Label(){};
+};
+
+class Comment : public SystemItem
+{
+public:
+	virtual void load(	const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+	{
+		SET_PARAM(message);
+		SET_PARAM(vpos);
+		SET_PARAM(isYourPost);
+		SET_PARAM(mail);
+		SET_PARAM(fromButton);
+		SET_PARAM(isPremium);
+		SET_PARAM(color);
+		SET_PARAM(size);
+		SET_PARAM(no);
+	}
+public:
+	DEF_ADAPTER_ACCESSOR_CONST(message, std::string);
+	DEF_ADAPTER_ACCESSOR_CONST(vpos, double);
+	DEF_ADAPTER_ACCESSOR_CONST(isYourPost, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(mail, std::string);
+	DEF_ADAPTER_ACCESSOR_CONST(fromButton, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(isPremium, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(color, unsigned int);
+	DEF_ADAPTER_ACCESSOR_CONST(size, double);
+	DEF_ADAPTER_ACCESSOR_CONST(no, unsigned int);
+public:
+	explicit Comment(System& system):
+	SystemItem(system){};
+	virtual ~Comment(){};
 };
 
 class Button : public SystemItem

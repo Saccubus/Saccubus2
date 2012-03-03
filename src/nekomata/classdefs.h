@@ -51,6 +51,7 @@ class Machine;
 namespace system{
 class System;
 class Label;
+class Comment;
 class Replace;
 class Sum;
 class SumResult;
