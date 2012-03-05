@@ -54,6 +54,9 @@ Handler<Object> LazyEvalObject::index(size_t idx)
 {
 	if(indexEvalState.count(idx) > 0){
 		return Object::index(idx);
+	} else if(frozen()) {
+		log().w(TAG, &this->node->location(), "Frozen LazyEvalObj does not support lazy evaluation.");
+		return getHeap().newUndefinedObject();
 	}else if(node->has(idx)){
 		const ExprNode* const expr = node->index(idx);
 		const Handler<Object> result(machine.eval(expr));
@@ -92,6 +95,9 @@ Handler<Object> LazyEvalObject::getSlot(const std::string& key)
 {
 	if(slotEvalState.count(key) > 0){ //すでに評価済み
 		return Object::getSlot(key);
+	} else if(frozen()) {
+		log().w(TAG, &this->node->location(), "Frozen LazyEvalObj does not support lazy evaluation.");
+		return getHeap().newUndefinedObject();
 	}else if(node->has(key)){ //未評価
 		const ExprNode* const expr = node->getSlot(key);
 		const Handler<Object> result(machine.eval(expr));

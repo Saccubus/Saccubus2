@@ -21,11 +21,11 @@ namespace object
 static std::string TAG(__FILE__);
 
 Object::Object(ObjectHeap& heap)
-:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0)
+:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0), _frozen(false)
 {
 }
 Object::Object(ObjectHeap& heap, bool isRaw)
-:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0)
+:heap(heap), hash(-1), color(0), nativeRef(0), builtins(0), _frozen(false)
 {
 	ADD_BUILTIN(setSlot);
 	ADD_BUILTIN(getSlot);
@@ -104,6 +104,8 @@ void Object::mark(int color)
 	}
 }
 
+
+
 logging::Logger& Object::log()
 {
 	return heap.log;
@@ -130,52 +132,88 @@ int Object::decNativeRef()
 	return nativeRef;
 }
 
+bool Object::frozen()
+{
+	return _frozen;
+}
+void Object::freeze()
+{
+	_frozen |= true;
+}
+
 
 Handler<Object> Object::unshift(const Handler<Object> item)
 {
-	objectList.insert(objectList.begin(), item.get());
+	if(frozen()){
+		log().w(TAG, 0, "\"unshift\" called, but obj %s is frozen.", toString().c_str());
+	}else{
+		objectList.insert(objectList.begin(), item.get());
+	}
 	return Handler<Object>(this);
 }
 Handler<Object> Object::push(const Handler<Object> item)
 {
-	objectList.push_back(item.get());
+	if(frozen()){
+		log().w(TAG, 0, "\"push\" called, but obj %s is frozen.", toString().c_str());
+	}else{
+		objectList.push_back(item.get());
+	}
 	return Handler<Object>(this);
 }
 Handler<Object> Object::shift()
 {
-	if(Object::size() > 0){
-		const Handler<Object> obj(objectList.front());
-		objectList.erase(objectList.begin());
-		return obj;
-	}else{
+	if(frozen()){
+		log().w(TAG, 0, "\"shift\" called, but obj %s is frozen.", toString().c_str());
 		return heap.newUndefinedObject();
+	}else{
+		if(Object::size() > 0){
+			const Handler<Object> obj(objectList.front());
+			objectList.erase(objectList.begin());
+			return obj;
+		}else{
+			return heap.newUndefinedObject();
+		}
 	}
 }
 Handler<Object> Object::pop()
 {
-	if(Object::size() > 0){
-		const Handler<Object> obj(objectList.back());
-		objectList.pop_back();
-		return obj;
-	}else{
+	if(frozen()){
+		log().w(TAG, 0, "\"pop\" called, but obj %s is frozen.", toString().c_str());
 		return heap.newUndefinedObject();
+	} else {
+		if(Object::size() > 0){
+			const Handler<Object> obj(objectList.back());
+			objectList.pop_back();
+			return obj;
+		}else{
+			return heap.newUndefinedObject();
+		}
 	}
 }
 Handler<Object> Object::index(size_t idx)
 {
-	if(Object::has(idx)){
-		return Handler<Object>(objectList.at(idx));
-	}else{
+	if(frozen()){
+		log().w(TAG, 0, "\"index\" called, but obj %s is frozen.", toString().c_str());
 		return heap.newUndefinedObject();
+	} else {
+		if(Object::has(idx)){
+			return Handler<Object>(objectList.at(idx));
+		}else{
+			return heap.newUndefinedObject();
+		}
 	}
 }
 Handler<Object> Object::indexSet(size_t idx, Handler<Object> item)
 {
-	if(idx < objectList.size()){
-		objectList[idx] = item.get();
-	}else{
-		objectList.insert(objectList.end(), idx-objectList.size(), getHeap().newUndefinedObject().get());
-		objectList.push_back(item.get());
+	if(frozen()){
+		log().w(TAG, 0, "\"indexSet\" called, but obj %s is frozen.", toString().c_str());
+	} else {
+		if(idx < objectList.size()){
+			objectList[idx] = item.get();
+		}else{
+			objectList.insert(objectList.end(), idx-objectList.size(), getHeap().newUndefinedObject().get());
+			objectList.push_back(item.get());
+		}
 	}
 	return item;
 }
@@ -207,8 +245,12 @@ bool Object::isUndefined(){
 }
 Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
 {
-	objectMap.erase(name);
-	objectMap.insert(SlotMapPair(name, item.get()));
+	if(frozen()){
+		log().w(TAG, 0, "\"setSlot\" called, but obj %s is frozen.", toString().c_str());
+	} else {
+		objectMap.erase(name);
+		objectMap.insert(SlotMapPair(name, item.get()));
+	}
 	return Handler<Object>(this);
 }
 Handler<Object> Object::getSlot(const std::string& name){
@@ -230,17 +272,6 @@ std::string Object::toString()
 {
 	std::stringstream ss;
 	ss << "<< Object: " << getHash() << ">>";
-	/*" {";
-	for(SlotMapIterator it = objectMap.begin();it != objectMap.end();++it){
-		ss << std::endl << it->first << " : " << "<<Object"<< it->second->getHash() <<">>";
-	}
-	int cnt=0;
-	for(SlotListIterator it = objectList.begin();it != objectList.end();++it){
-		ss << std::endl << "$" << cnt << " : " << (*it)->getHash();
-		++cnt;
-	}
-	ss << "}";
-	*/
 	return ss.str();
 }
 double Object::toNumeric()

@@ -52,6 +52,7 @@ private: /* Heap management */
 	BuiltinMethods* builtins;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
+	bool _frozen;
 protected:
 	ObjectHeap& getHeap(){return heap;};
 public:
@@ -84,6 +85,8 @@ public: /* 基本操作 */
 	virtual std::string toString();
 	virtual double toNumeric();
 	virtual bool toBool();
+	bool frozen();
+	void freeze();
 private:
 	static bool _sort_func(machine::Machine& machine, Object* const self, Object* const other);
 public:
