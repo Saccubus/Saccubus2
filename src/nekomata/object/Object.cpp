@@ -56,7 +56,7 @@ Object::Object(ObjectHeap& heap, bool isRaw)
 	includeBuitin();
 }
 Object::Object(Object& parent, const unsigned int hash)
-:heap(parent.getHeap()), hash(hash), color(0), nativeRef(0), builtins(0)
+:heap(parent.getHeap()), hash(hash), color(0), nativeRef(0), builtins(0), _frozen(false)
 {
 	objectList.insert(objectList.end(), parent.objectList.begin(), parent.objectList.end());
 	objectMap.insert(parent.objectMap.begin(), parent.objectMap.end());
