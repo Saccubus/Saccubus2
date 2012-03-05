@@ -14,6 +14,9 @@ using namespace nekomata::tree;
 
 namespace nekomata{
 namespace object{
+
+const std::string TAG("LazyEvalObj");
+
 LazyEvalObject::LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node)
 :Object(parent, hash), machine(machine), node(node){
 }
@@ -26,21 +29,25 @@ LazyEvalObject::~LazyEvalObject(){
 Handler<Object> LazyEvalObject::unshift(const Handler<Object> item)
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support unshift");
 	return Handler<Object>(this);
 }
 Handler<Object> LazyEvalObject::push(const Handler<Object> item)
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support push");
 	return Handler<Object>(this);
 }
 Handler<Object> LazyEvalObject::shift()
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support shift");
 	return index(0);
 }
 Handler<Object> LazyEvalObject::pop()
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support pop");
 	return index(size()-1);
 }
 Handler<Object> LazyEvalObject::index(size_t idx)
@@ -60,6 +67,7 @@ Handler<Object> LazyEvalObject::index(size_t idx)
 Handler<Object> LazyEvalObject::indexSet(size_t idx, Handler<Object> item)
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support indexSet");
 	return item;
 }
 size_t LazyEvalObject::size()
@@ -77,6 +85,7 @@ bool LazyEvalObject::has(size_t idx)
 Handler<Object> LazyEvalObject::setSlot(const std::string& key, const Handler<Object> value)
 {
 	/* セットはできない。アクセスだけ。 */
+	log().w(TAG, &this->node->location(), "LazyEvalObj does not support setSlot");
 	return Handler<Object>(this);
 }
 Handler<Object> LazyEvalObject::getSlot(const std::string& key)
@@ -106,5 +115,4 @@ size_t LazyEvalObject::slotSize()
 	return node->slotSize();
 }
 
-}
-}
+}}
