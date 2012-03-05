@@ -127,7 +127,7 @@ public:
 		addGetter(#name, _getter_##name);\
 		addSetter(#name, _setter_##name);
 #define DEC_HOOK_ACCESSOR(name) \
-	static Handler<Object> _getter_##name(Handler<HookableObject> self, ObjectHeap& heap); \
+	static Handler<Object> _getter_##name(Handler<HookableObject> self, ObjectHeap& heap);\
 	static void _setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj);
 #define DEF_HOOK_GETTER(clazz, name) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)

@@ -51,6 +51,8 @@ private:
 	std::vector<Button*> buttonList;
 	std::vector<Comment*> commentList;
 	logging::Logger& log;
+protected:
+	void dispatchCommentTrigger(machine::Machine& machine, const double from, const double to);
 public:
 	explicit System(logging::Logger& log);
 	virtual ~System();
