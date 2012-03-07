@@ -28,10 +28,15 @@ time_line [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekom
 	;
 
 time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekomata::TimeLine<const nekomata::system::Comment>& commentLine]
-	: numeric ':' (~(':'))*  ':' '/' program
+	: time=numeric ':' mail=COMMENT_MAIL  ':'
+	( '/' program
 	{
-		$scriptLine.insertLast($numeric.result->getLiteral(), $program.result);
+		$scriptLine.insertLast($time.result->getLiteral(), $program.result);
 	}
+	/* %で始まるコメントは、isYourPost=trueにする、という独自仕様 */
+	| '%' own_msg=COMMENT_MESSAGE
+	| msg=COMMENT_MESSAGE
+	)
 	;
 
 program returns [shared_ptr<const ExprNode> result]
@@ -440,5 +445,14 @@ ESC_SEQ
 		| '\'' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"'")); }
 		)?
 	;
+
+/* コメント用 */
+COMMENT_MAIL
+	: (~(':' | '\r' | '\n'))*;
+
+/* コメント用 */
+COMMENT_MESSAGE
+	: (~('\r' | '\n'))*;
+
 
 WS: (' ' |'\n' |'\r' )+ {$channel=HIDDEN;} ; // ignore whitespace

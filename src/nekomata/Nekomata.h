@@ -13,7 +13,6 @@
 #include "classdefs.h"
 #include "TimeLine.h"
 #include "logging/Logging.h"
-#include "logging/Exception.h"
 #include "machine/Machine.h"
 
 namespace nekomata {
