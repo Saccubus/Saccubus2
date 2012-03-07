@@ -6,6 +6,7 @@
  */
 
 #include "Object.h"
+#include "SystemObject.h"
 #include "Cast.h"
 #include "Heap.h"
 #include "../logging/Logging.h"
@@ -65,37 +66,37 @@ Handler<SystemObject> ObjectHeap::getSystemObject()
 	return Handler<SystemObject>(&systemObject);
 }
 
-Handler<LabelObject> ObjectHeap::newLabelObject(std::tr1::shared_ptr<system::Label> label)
+Handler<LabelObject> ObjectHeap::newLabelObject(Handler<system::Label> label)
 {
 	const Handler<LabelObject> obj(new LabelObject(baseLabelObject, createHash(), label));
 	registObject(obj.get());
 	return obj;
 }
-Handler<ReplaceObject> ObjectHeap::newReplaceObject(std::tr1::shared_ptr<system::Replace> replace)
+Handler<ReplaceObject> ObjectHeap::newReplaceObject(Handler<system::Replace> replace)
 {
 	const Handler<ReplaceObject> obj(new ReplaceObject(baseReplaceObject, createHash(), replace));
 	registObject(obj.get());
 	return obj;
 }
-Handler<SumObject> ObjectHeap::newSumObject(std::tr1::shared_ptr<system::Sum> sum)
+Handler<SumObject> ObjectHeap::newSumObject(Handler<system::Sum> sum)
 {
 	const Handler<SumObject> obj(new SumObject(baseSumObject, createHash(), sum));
 	registObject(obj.get());
 	return obj;
 }
-Handler<SumResultObject> ObjectHeap::newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult)
+Handler<SumResultObject> ObjectHeap::newSumResultObject(Handler<system::SumResult> sumResult)
 {
 	const Handler<SumResultObject> obj(new SumResultObject(baseSumResultObject, createHash(), sumResult));
 	registObject(obj.get());
 	return obj;
 }
-Handler<ButtonObject> ObjectHeap::newButtonObject(std::tr1::shared_ptr<system::Button> button)
+Handler<ButtonObject> ObjectHeap::newButtonObject(Handler<system::Button> button)
 {
 	const Handler<ButtonObject> obj(new ButtonObject(baseButtonObject, createHash(), button));
 	registObject(obj.get());
 	return obj;
 }
-Handler<ShapeObject> ObjectHeap::newShapeObject(std::tr1::shared_ptr<system::Shape> shape)
+Handler<ShapeObject> ObjectHeap::newShapeObject(Handler<system::Shape> shape)
 {
 	const Handler<ShapeObject> obj(new ShapeObject(baseShapePbject, createHash(), shape));
 	registObject(obj.get());

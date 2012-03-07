@@ -24,7 +24,7 @@ T cast(const Handler<Object> obj)
 template<> double cast<double>(const Handler<Object> obj);
 template<> std::string cast<std::string>(const Handler<Object> obj);
 template<> bool cast<bool>(const Handler<Object> obj);
-template<> std::vector<std::tr1::shared_ptr<system::Sum> > cast<std::vector<std::tr1::shared_ptr<system::Sum> > >(const Handler<Object> obj);
+template<> std::vector<Handler<system::Sum> > cast<std::vector<Handler<system::Sum> > >(const Handler<Object> obj);
 template<> std::vector<std::string> cast<std::vector<std::string> >(const Handler<Object> obj);
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -13,6 +13,7 @@
 #include <tr1/memory>
 #include "../classdefs.h"
 #include "Object.h"
+#include "SystemObject.h"
 
 namespace nekomata{
 namespace object{
@@ -74,12 +75,12 @@ public:
 	~ObjectHeap();
 public:
 	Handler<SystemObject> getSystemObject();
-	Handler<LabelObject> newLabelObject(std::tr1::shared_ptr<system::Label> label);
-	Handler<ReplaceObject> newReplaceObject(std::tr1::shared_ptr<system::Replace> replace);
-	Handler<SumObject> newSumObject(std::tr1::shared_ptr<system::Sum> sum);
-	Handler<SumResultObject> newSumResultObject(std::tr1::shared_ptr<system::SumResult> sumResult);
-	Handler<ButtonObject> newButtonObject(std::tr1::shared_ptr<system::Button> button);
-	Handler<ShapeObject> newShapeObject(std::tr1::shared_ptr<system::Shape> shape);
+	Handler<LabelObject> newLabelObject(Handler<system::Label> label);
+	Handler<ReplaceObject> newReplaceObject(Handler<system::Replace> replace);
+	Handler<SumObject> newSumObject(Handler<system::Sum> sum);
+	Handler<SumResultObject> newSumResultObject(Handler<system::SumResult> sumResult);
+	Handler<ButtonObject> newButtonObject(Handler<system::Button> button);
+	Handler<ShapeObject> newShapeObject(Handler<system::Shape> shape);
 public:
 	Handler<Object> newRawObject();
 	Handler<LambdaScopeObject> newLambdaScopeObject(const Handler<Object> arg);

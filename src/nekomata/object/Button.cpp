@@ -34,7 +34,7 @@ DEF_HOOK_ACCESSOR_BOOL(ButtonObject, comvisible, button);
 DEF_HOOK_ACCESSOR_INT(ButtonObject, limit, button, int);
 DEF_HOOK_ACCESSOR_BOOL(ButtonObject, hidden, button);
 
-ButtonObject::ButtonObject(ButtonObject& parent, int hash, std::tr1::shared_ptr<system::Button> button)
+ButtonObject::ButtonObject(ButtonObject& parent, int hash, Handler<system::Button> button)
 :HookableObject(parent, hash), button(button)
 {
 
@@ -44,5 +44,9 @@ ButtonObject::~ButtonObject()
 
 }
 
+Handler<system::Button> ButtonObject::getButton()
+{
+	return button;
+}
 
 }}

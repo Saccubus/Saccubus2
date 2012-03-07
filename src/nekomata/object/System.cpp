@@ -73,7 +73,7 @@ DEF_BUILTIN(SystemObject, drawShape)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::Shape> shape = self->system.drawShape(
+	util::Handler<system::Shape> shape = self->system.drawShape(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
 		opt(arg, "z", 0.0),
@@ -96,7 +96,7 @@ DEF_BUILTIN(SystemObject, drawText)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::Label> label = self->system.drawText(
+	util::Handler<system::Label> label = self->system.drawText(
 			arg->has("text") ? cast<std::string>(arg->getSlot("text")) : opt(arg, (size_t)0, ""),
 			opt(arg, "x", 0.0),
 			opt(arg, "y", 0.0),
@@ -197,7 +197,7 @@ DEF_BUILTIN(SystemObject, sum)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::Sum> sum = self->system.sum(
+	util::Handler<system::Sum> sum = self->system.sum(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
 		opt(arg, "size", 30),
@@ -217,7 +217,7 @@ DEF_BUILTIN(SystemObject, showResult)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::SumResult> sumResult = self->system.showResult(
+	util::Handler<system::SumResult> sumResult = self->system.showResult(
 		opt(arg, "x", 0.0),
 		opt(arg, "y", 0.0),
 		opt<unsigned int>(arg, "color", 16777215),
@@ -225,7 +225,7 @@ DEF_BUILTIN(SystemObject, showResult)
 		opt(arg, "pos", "naka"),
 		opt(arg, "unit", "人"),
 		opt(arg, "asc", false),
-		opt(arg, "sum", std::vector<std::tr1::shared_ptr<system::Sum> >())
+		opt(arg, "sum", std::vector<Handler<system::Sum> >())
 	);
 	machine.pushResult(self->getHeap().newSumResultObject(sumResult));
 }
@@ -234,7 +234,7 @@ DEF_BUILTIN(SystemObject, replace)
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	std::string src = opt(arg, "src", "");
-	shared_ptr<system::Replace> replace = self->system.replace(
+	util::Handler<system::Replace> replace = self->system.replace(
 		src,
 		opt(arg, "dst", src),
 		opt(arg, "enabled", true),
@@ -263,7 +263,7 @@ DEF_BUILTIN(SystemObject, addButton)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	shared_ptr<system::Button> button = self->system.addButton(
+	util::Handler<system::Button> button = self->system.addButton(
 		opt(arg, "message", ""),
 		opt(arg, "mail", ""),
 		opt(arg, "vpos", 0.0),

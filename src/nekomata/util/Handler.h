@@ -8,6 +8,7 @@
 #ifndef UTIL_HANDLER_H_
 #define UTIL_HANDLER_H_
 
+#include <typeinfo>
 #include "../logging/Exception.h"
 
 namespace nekomata {

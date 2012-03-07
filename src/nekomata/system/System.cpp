@@ -29,23 +29,23 @@ System::~System() {
 	// TODO Auto-generated destructor stub
 }
 
-shared_ptr<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+util::Handler<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 {
 	log.v(TAG, 0,
 			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
 			x, y, z, shape.c_str(), width, height, color, visible, pos.c_str(), mask, commentmask, alpha, rotation, mover.c_str()
 			);
-	shared_ptr<Shape> _shape(new Shape(*this));
+	util::Handler<Shape> _shape(new Shape(*this));
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
-shared_ptr<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+util::Handler<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
 	log.v(TAG, 0,
 			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
 			text.c_str(), x, y, z, size, pos.c_str(), color, bold, visible, filter.c_str(), alpha, mover.c_str()
 			);
-	shared_ptr<Label> _label(new Label(*this));
+	util::Handler<Label> _label(new Label(*this));
 	_label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return _label;
 }
@@ -103,19 +103,19 @@ double System::getMarker(const std::string& name)
 		return NAN;
 	}
 }
-shared_ptr<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+util::Handler<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
 {
 	log.v(TAG, 0,
 			"sum(x: %f, y: %f, size: %f, color: %x, visible: %d, enabled: %d, pos: %s, asc: %d, unit: %s, buttononly: %d, words: %d word(s), partial: %d)",
 			x, y, size, color, visible, enabled, pos.c_str(), asc, unit.c_str(), buttononly, words.size(), partial
 			);
-	shared_ptr<Sum> _sum(new Sum(*this));
+	util::Handler<Sum> _sum(new Sum(*this));
 	_sum->load(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 	return _sum;
 }
-shared_ptr<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<shared_ptr<Sum> > sum)
+util::Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<util::Handler<Sum> > sum)
 {
-	shared_ptr<SumResult> _sumResult(new SumResult(*this));
+	util::Handler<SumResult> _sumResult(new SumResult(*this));
 	log.v(TAG, 0,
 			"showResult(x: %f, y: %f, color: %x, visible: %d, pos: %s, asc: %d, unit: %s, sum: %ditem(s))",
 			x, y, color, visible, pos.c_str(), asc, unit.c_str(), sum.size()
@@ -123,9 +123,9 @@ shared_ptr<SumResult> System::showResult(double x, double y, unsigned int color,
 	_sumResult->load(x, y, color, visible, pos, unit, asc, sum);
 	return _sumResult;
 }
-shared_ptr<Replace> System::replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+util::Handler<Replace> System::replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
 {
-	shared_ptr<Replace> _replace(new Replace(*this));
+	util::Handler<Replace> _replace(new Replace(*this));
 	log.v(TAG, 0,
 			"replace(src: %s, dst: %s, enabled: %d, target: %s, fill: %d, partial: %d, color: %x, size: %s, pos: %s)",
 			src.c_str(), dst.c_str(), enabled, target.c_str(), fill, partial, color, size.c_str(), pos.c_str()
@@ -143,13 +143,13 @@ double System::screenHeight()
 	log.v(TAG, 0,"screenHeight()");
 	return 384; //DEFAULT(4:3)
 }
-shared_ptr<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+util::Handler<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
 {
 	log.v(TAG, 0,
 			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
 			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
 			);
-	shared_ptr<Button> _button(new Button(*this));
+	util::Handler<Button> _button(new Button(*this));
 	_button->load(message, mail, vpos, commes, commail, comvisible, limit, hidden);
 	return _button;
 }

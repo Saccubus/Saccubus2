@@ -6,6 +6,7 @@
  */
 
 #include "Object.h"
+#include "SystemObject.h"
 #include "Cast.h"
 
 namespace nekomata{
@@ -28,9 +29,9 @@ bool cast<bool>(const Handler<Object> obj)
 	return obj->toBool();
 }
 template<>
-std::vector<std::tr1::shared_ptr<system::Sum> > cast<std::vector<std::tr1::shared_ptr<system::Sum> > >(const Handler<Object> obj)
+std::vector<Handler<system::Sum> > cast<std::vector<Handler<system::Sum> > >(const Handler<Object> obj)
 {
-	std::vector<std::tr1::shared_ptr<system::Sum> > vec;
+	std::vector<Handler<system::Sum> > vec;
 	const size_t max = obj->size();
 	for(size_t i=0;i<max;++i){
 		const Handler<SumObject> sumObj(obj->index(i));
