@@ -5,13 +5,13 @@
  *      Author: psi
  */
 
-#ifndef HANDLER_H_
-#define HANDLER_H_
+#ifndef UTIL_HANDLER_H_
+#define UTIL_HANDLER_H_
 
 #include "../logging/Exception.h"
 
 namespace nekomata {
-namespace object {
+namespace util {
 
 template<typename T>
 class Handler
@@ -20,13 +20,13 @@ private:
 	T* obj;
 public:
 	Handler(const Handler<T>& _h):obj(_h.obj){
-		if(obj != ((T*)0)){
-			obj->incNativeRef();
+		if(this->obj != ((T*)0)){
+			this->obj->incNativeRef();
 		}
 	}
 	explicit Handler(T* const _obj):obj(_obj){
-		if(obj != ((T*)0)){
-			obj->incNativeRef();
+		if(this->obj != ((T*)0)){
+			this->obj->incNativeRef();
 		}
 	}
 	Handler<T>& operator=(const Handler<T>& other)
@@ -38,7 +38,7 @@ public:
 			if(other.obj != ((T*)0)){
 				other.obj->incNativeRef();
 			}
-			obj = other.obj;
+			this->obj = other.obj;
 		}
 		return *this;
 	}
@@ -70,6 +70,5 @@ public:
 	}
 };
 
-}
-}
-#endif /* HANDLER_H_ */
+}}
+#endif /* UTIL_HANDLER_H_ */

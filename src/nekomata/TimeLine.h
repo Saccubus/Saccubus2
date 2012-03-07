@@ -86,7 +86,11 @@ public:
 	}
 	float getLastTime() const
 	{
-		return this->timePointList.back().getTime();
+		if(size() <= 0){
+			return 0.0f;
+		}else{
+			return this->timePointList.back().getTime();
+		}
 	}
 };
 

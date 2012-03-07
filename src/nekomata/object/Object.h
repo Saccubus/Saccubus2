@@ -13,10 +13,12 @@
 #include <map>
 #include <tr1/memory>
 #include "../classdefs.h"
-#include "Handler.h"
+#include "../util/Handler.h"
 
 namespace nekomata{
 namespace object{
+
+using util::Handler;
 
 class Object
 {
@@ -62,8 +64,8 @@ public:
 	void mark(int color);
 	int getColor();
 	int getNativeRef();
-	int incNativeRef();
-	int decNativeRef();
+	void incNativeRef();
+	void decNativeRef();
 public: /* INDEXアクセス */
 	virtual Handler<Object> unshift(const Handler<Object> item);
 	virtual Handler<Object> push(const Handler<Object> item);

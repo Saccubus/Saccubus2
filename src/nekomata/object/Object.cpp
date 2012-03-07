@@ -118,18 +118,16 @@ int Object::getNativeRef(){
 	return this->nativeRef;
 }
 
-int Object::incNativeRef()
+void Object::incNativeRef()
 {
 	++nativeRef;
-	return nativeRef;
 }
-int Object::decNativeRef()
+void Object::decNativeRef()
 {
 	--nativeRef;
 	if(nativeRef < 0){
 		log().e(TAG, 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, cast<std::string>(Handler<Object>(this)).c_str());
 	}
-	return nativeRef;
 }
 
 bool Object::frozen()

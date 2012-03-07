@@ -49,7 +49,6 @@ private:
 	std::vector<SumResult*> sumResultList;
 	std::vector<Replace*> replaceList;
 	std::vector<Button*> buttonList;
-	std::vector<Comment*> commentList;
 	logging::Logger& log;
 protected:
 	void dispatchCommentTrigger(machine::Machine& machine, const double from, const double to);
@@ -100,11 +99,17 @@ public:
 
 class SystemItem
 {
+private:
+	int nativeRef;
 protected:
 	System& system;
 public:
 	explicit SystemItem(System& system):system(system){};
 	virtual ~SystemItem(){};
+public:
+	int getNativeRef(){return nativeRef;}
+	virtual void incNativeRef(){};
+	virtual void decNativeRef(){};
 };
 
 class Shape : public SystemItem
