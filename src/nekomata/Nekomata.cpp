@@ -23,7 +23,7 @@ const std::string PROGRAM_VERSION("ver 1.00");
 static const std::string TAG("TOP");
 
 Nekomata::Nekomata(system::System& system, logging::Logger& log)
-:system(system), log(log), machine(log, system), scriptLine(), commentLine(), currentTime(0)
+:system(system), log(log), machine(log, system), scriptLine(), currentTime(0)
 {
 }
 
@@ -33,15 +33,15 @@ Nekomata::~Nekomata() {
 
 void Nekomata::parseTimelineStr(const std::string& str)
 {
-	parser::Parser::fromString(str)->parseTimeline(scriptLine, commentLine);
+	parser::Parser::fromString(str)->parseTimeline(&scriptLine, system.getCommentTimeLine());
 }
 void Nekomata::parseTimelineFile(const std::string& filename)
 {
-	parser::Parser::fromFile(filename)->parseTimeline(scriptLine, commentLine);
+	parser::Parser::fromFile(filename)->parseTimeline(&scriptLine, system.getCommentTimeLine());
 }
 void Nekomata::parseTimelineStream(std::istream& stream, const std::string& name)
 {
-	parser::Parser::fromStream(stream, name)->parseTimeline(scriptLine, commentLine);
+	parser::Parser::fromStream(stream, name)->parseTimeline(&scriptLine, system.getCommentTimeLine());
 }
 
 void Nekomata::parseProgram(float time, const std::string& str)
@@ -64,7 +64,7 @@ void Nekomata::dump(std::ostream& stream)
 
 float Nekomata::getLastTime()
 {
-	return std::max(scriptLine.getLastTime(), commentLine.getLastTime());
+	return scriptLine.getLastTime();
 }
 void Nekomata::seek(float time)
 {

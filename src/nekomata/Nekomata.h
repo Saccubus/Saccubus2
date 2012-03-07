@@ -26,7 +26,6 @@ private:
 	logging::Logger& log;
 	machine::Machine machine;
 	TimeLine<const tree::ExprNode> scriptLine;
-	TimeLine<const system::Comment> commentLine;
 	float currentTime;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);

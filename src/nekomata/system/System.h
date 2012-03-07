@@ -50,8 +50,6 @@ private:
 	std::vector<Replace*> replaceList;
 	std::vector<Button*> buttonList;
 	logging::Logger& log;
-protected:
-	void dispatchCommentTrigger(machine::Machine& machine, const double from, const double to);
 public:
 	explicit System(logging::Logger& log);
 	virtual ~System();
@@ -79,7 +77,10 @@ public:
 	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
-//
+public:
+	void dispatchCommentTrigger(machine::Machine& machine, const double from, const double to);
+	virtual nekomata::TimeLine<const system::Comment>* getCommentTimeLine(){return 0;};
+public:
 	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
 	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);
 	DEF_ADAPTER_ACCESSOR(commentSize, std::string);
@@ -254,37 +255,6 @@ public:
 	virtual ~Label(){};
 };
 
-class Comment : public SystemItem
-{
-public:
-	virtual void load(	const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
-	{
-		SET_PARAM(message);
-		SET_PARAM(vpos);
-		SET_PARAM(isYourPost);
-		SET_PARAM(mail);
-		SET_PARAM(fromButton);
-		SET_PARAM(isPremium);
-		SET_PARAM(color);
-		SET_PARAM(size);
-		SET_PARAM(no);
-	}
-public:
-	DEF_ADAPTER_ACCESSOR_CONST(message, std::string);
-	DEF_ADAPTER_ACCESSOR_CONST(vpos, double);
-	DEF_ADAPTER_ACCESSOR_CONST(isYourPost, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(mail, std::string);
-	DEF_ADAPTER_ACCESSOR_CONST(fromButton, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(isPremium, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(color, unsigned int);
-	DEF_ADAPTER_ACCESSOR_CONST(size, double);
-	DEF_ADAPTER_ACCESSOR_CONST(no, unsigned int);
-public:
-	explicit Comment(System& system):
-	SystemItem(system){};
-	virtual ~Comment(){};
-};
-
 class Button : public SystemItem
 {
 public:
@@ -347,6 +317,39 @@ public:
 	:SystemItem(system), SET_DEFAULT(enabled, false){};
 	virtual ~Replace(){};
 };
+
+//---------------------------------------------------------------------------------------------------------------------
+
+class Comment
+{
+public:
+	virtual void load(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+	{
+		SET_PARAM(message);
+		SET_PARAM(vpos);
+		SET_PARAM(isYourPost);
+		SET_PARAM(mail);
+		SET_PARAM(fromButton);
+		SET_PARAM(isPremium);
+		SET_PARAM(color);
+		SET_PARAM(size);
+		SET_PARAM(no);
+	}
+public:
+	DEF_ADAPTER_ACCESSOR_CONST(message, std::string);
+	DEF_ADAPTER_ACCESSOR_CONST(vpos, double);
+	DEF_ADAPTER_ACCESSOR_CONST(isYourPost, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(mail, std::string);
+	DEF_ADAPTER_ACCESSOR_CONST(fromButton, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(isPremium, bool);
+	DEF_ADAPTER_ACCESSOR_CONST(color, unsigned int);
+	DEF_ADAPTER_ACCESSOR_CONST(size, double);
+	DEF_ADAPTER_ACCESSOR_CONST(no, unsigned int);
+public:
+	explicit Comment(){};
+	virtual ~Comment(){};
+};
+
 
 #undef DEF_ADAPTER_ACCESSOR
 #undef SET_PARAM
