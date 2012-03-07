@@ -20,6 +20,8 @@ public:
 	explicit SystemObject(Object& parent, system::System& system);
 	virtual ~SystemObject();
 public:
+	void setChat(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
+public:
 	DEC_HOOK_ACCESSOR(commentColor);
 	DEC_HOOK_ACCESSOR(commentPlace);
 	DEC_HOOK_ACCESSOR(commentSize);

@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include "../classdefs.h"
+#include "../TimeLine.h"
 #include "../util/Handler.h"
 
 namespace nekomata{
@@ -23,24 +24,35 @@ private:\
 public:\
 	virtual type name() const{return name##_;} \
 	virtual void name(const type& name##__){\
-		if(this->name##_ != name##_){\
-			name##_=name##__;\
-		}\
-	}
-#define DEF_ADAPTER_ACCESSOR_CONST(name, type)\
-private:\
-	type name##_;\
-public:\
-	virtual type name() const{return name##_;} \
-private:\
-	virtual void name(const type& name##__){\
-		if(this->name##_ != name##_){\
-			name##_=name##__;\
-		}\
+		name##_=name##__;\
 	}
 
 class System
 {
+private:
+	class EventEntry{
+	public:
+		EventEntry(float const from, float const to, const tree::Node* then): _color(0), _from(from), _to(to), _then(then){};
+		virtual ~EventEntry(){};
+	private:
+		int _color;
+		const float _from;
+		const float _to;
+		const tree::Node* _then;
+	public:
+		int color(){return _color;};
+		void color(int color){_color = color;};
+		float from(){return _from;}
+		float to(){return _to;}
+		const tree::Node* then(){return _then;}
+	};
+	float _currentTime;
+	int color;
+protected:
+	float currentTime(){return _currentTime;}
+	void currentTime(float time){_currentTime=time;}
+protected:
+	int nextColor(){return ++color;}
 private:
 	std::map<std::string, double> markerMap;
 	std::vector<Shape*> shapeList;
@@ -49,6 +61,8 @@ private:
 	std::vector<SumResult*> sumResultList;
 	std::vector<Replace*> replaceList;
 	std::vector<Button*> buttonList;
+	nekomata::TimeLine<EventEntry> timerLine;
+	nekomata::TimeLine<EventEntry> ctrigLine;
 	logging::Logger& log;
 public:
 	explicit System(logging::Logger& log);
@@ -77,8 +91,12 @@ public:
 	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
+protected:
+	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
+	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
 public:
-	void dispatchCommentTrigger(machine::Machine& machine, const double from, const double to);
+	void seek(machine::Machine& machine, const double from, const double to);
+	virtual float triggerComment(machine::Machine& machine, const double from, const double to){return NAN;};
 	virtual nekomata::TimeLine<const system::Comment>* getCommentTimeLine(){return 0;};
 public:
 	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
@@ -95,7 +113,7 @@ public:
 };
 //---------------------------------------------------------------------------------------------------------------------
 
-#define SET_PARAM(name) this->name(name)
+#define SET_PARAM(name) this->name(_##name)
 #define SET_DEFAULT(name, val) name##_(val)
 
 class SystemItem
@@ -116,7 +134,7 @@ public:
 class Shape : public SystemItem
 {
 public:
-	virtual void load(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+	virtual void load(double _x, double _y, double _z, const std::string& _shape, double _width, double _height, unsigned int _color, bool _visible, const std::string& _pos, bool _mask, bool _commentmask, double _alpha, double _rotation, const std::string& _mover)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
@@ -157,7 +175,7 @@ public:
 class Sum : public SystemItem
 {
 public:
-	virtual void load(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+	virtual void load(double _x, double _y, double _size, unsigned int _color,bool _visible, bool _enabled, const std::string& _pos, bool _asc, const std::string& _unit, bool _buttononly, const std::vector<std::string>& _words, bool _partial)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
@@ -193,7 +211,7 @@ public:
 class SumResult : public SystemItem
 {
 public:
-	virtual void load(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<util::Handler<Sum> > sum)
+	virtual void load(double _x, double _y, unsigned int _color,bool _visible, const std::string& _pos, const std::string& _unit, bool _asc, std::vector<util::Handler<Sum> > _sum)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
@@ -221,7 +239,7 @@ public:
 class Label : public SystemItem
 {
 public:
-	virtual void load(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+	virtual void load(const std::string& _text, double _x, double _y, double _z, double _size, const std::string& _pos, unsigned int _color, bool _bold, bool _visible, const std::string& _filter, double _alpha, const std::string& _mover)
 	{
 		SET_PARAM(text);
 		SET_PARAM(x);
@@ -258,7 +276,7 @@ public:
 class Button : public SystemItem
 {
 public:
-	virtual void load(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+	virtual void load(const std::string& _message, const std::string& _mail, double _vpos, const std::string& _commes, const std::string& _commail, bool _comvisible, int _limit, bool _hidden)
 	{
 		SET_PARAM(message);
 		SET_PARAM(mail);
@@ -287,7 +305,7 @@ public:
 class Replace : public SystemItem
 {
 public:
-	virtual void load(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+	virtual void load(const std::string& _src, const std::string& _dst, bool _enabled, const std::string& _target, bool _fill, bool _partial, unsigned int _color, const std::string& _size, const std::string& _pos)
 	{
 		SET_PARAM(src);
 		SET_PARAM(dst);
@@ -323,7 +341,7 @@ public:
 class Comment
 {
 public:
-	virtual void load(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+	virtual void load(const std::string& _message, double _vpos, bool _isYourPost, const std::string& _mail, bool _fromButton, bool _isPremium, unsigned int _color, double _size, unsigned int _no)
 	{
 		SET_PARAM(message);
 		SET_PARAM(vpos);
@@ -336,15 +354,15 @@ public:
 		SET_PARAM(no);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR_CONST(message, std::string);
-	DEF_ADAPTER_ACCESSOR_CONST(vpos, double);
-	DEF_ADAPTER_ACCESSOR_CONST(isYourPost, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(mail, std::string);
-	DEF_ADAPTER_ACCESSOR_CONST(fromButton, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(isPremium, bool);
-	DEF_ADAPTER_ACCESSOR_CONST(color, unsigned int);
-	DEF_ADAPTER_ACCESSOR_CONST(size, double);
-	DEF_ADAPTER_ACCESSOR_CONST(no, unsigned int);
+	DEF_ADAPTER_ACCESSOR(message, std::string);
+	DEF_ADAPTER_ACCESSOR(vpos, double);
+	DEF_ADAPTER_ACCESSOR(isYourPost, bool);
+	DEF_ADAPTER_ACCESSOR(mail, std::string);
+	DEF_ADAPTER_ACCESSOR(fromButton, bool);
+	DEF_ADAPTER_ACCESSOR(isPremium, bool);
+	DEF_ADAPTER_ACCESSOR(color, unsigned int);
+	DEF_ADAPTER_ACCESSOR(size, double);
+	DEF_ADAPTER_ACCESSOR(no, unsigned int);
 public:
 	explicit Comment(){};
 	virtual ~Comment(){};

@@ -66,6 +66,23 @@ SystemObject::~SystemObject()
 
 }
 
+void SystemObject::setChat(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+{
+	ObjectHeap& heap = this->getHeap();
+	const Handler<Object> chat(heap.newRawObject());
+	chat->setSlot("message", heap.newStringObject(message));
+	chat->setSlot("vpos", heap.newNumericObject(vpos));
+	chat->setSlot("isYourPost", heap.newBooleanObject(isYourPost));
+	chat->setSlot("mail", heap.newStringObject(mail));
+	chat->setSlot("fromButton", heap.newBooleanObject(fromButton));
+	chat->setSlot("isPremium", heap.newBooleanObject(isPremium));
+	chat->setSlot("color", heap.newNumericObject(color));
+	chat->setSlot("size", heap.newNumericObject(size));
+	chat->setSlot("no", heap.newNumericObject(no));
+	chat->freeze();
+	this->setSlot("chat", chat);
+}
+
 
 //---------------------------------------------------------------------------------------------------------------------
 

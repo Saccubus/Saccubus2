@@ -74,12 +74,18 @@ void Nekomata::seek(float time)
 		TimeLine<const tree::ExprNode>::Iterator it = scriptLine.begin(currentTime);
 		TimeLine<const tree::ExprNode>::Iterator const end = scriptLine.end(time);
 		for(; it!=end;++it){
-			//TODO: 実際にseekする
 			const float playTime = it->getTime();
-			shared_ptr<const tree::ExprNode> node = it->getData();
-			log.t(TAG, &node->location(), "Now evaluating node at %f", playTime);
-			machine.eval(node.get());
+			{
+				system.seek(machine, currentTime, playTime);
+			}
+			{
+				shared_ptr<const tree::ExprNode> node = it->getData();
+				log.t(TAG, &node->location(), "Now evaluating node at %f", playTime);
+				machine.eval(node.get());
+			}
+			currentTime = playTime;
 		}
+		system.seek(machine, currentTime, time);
 		currentTime = time;
 	}
 }

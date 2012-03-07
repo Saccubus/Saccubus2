@@ -10,7 +10,9 @@
 #include "System.h"
 #include "../logging/Logging.h"
 #include "../tree/Node.h"
+#include "../machine/Machine.h"
 #include "../object/Object.h"
+#include "../object/SystemObject.h"
 #include "../object/Heap.h"
 
 namespace nekomata{
@@ -21,7 +23,7 @@ using namespace std::tr1;
 static const std::string TAG("System");
 
 System::System(logging::Logger& log)
-:log(log)
+:_currentTime(0), color(0), log(log)
 {
 }
 
@@ -55,6 +57,8 @@ void System::commentTrigger(float const timer, const tree::Node* then)
 			"commentTrigger(timer: %f, node: (%d, %d in %s))",
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
+	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, then));
+	this->ctrigLine.insertLast(currentTime()+timer, evt);
 }
 void System::timer(float const timer, const tree::Node* then)
 {
@@ -62,6 +66,8 @@ void System::timer(float const timer, const tree::Node* then)
 			"timer(timer: %f, node: (%d, %d in %s))",
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
+	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, then));
+	this->timerLine.insertLast(timer+currentTime(), evt);
 }
 void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
 {
@@ -204,5 +210,82 @@ void System::playCM(int id)
 
 }
 
+
+void System::seek(machine::Machine& machine, const double from, const double to)
+{
+	if(currentTime() != from){
+		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly.");
+	}
+	nekomata::TimeLine<EventEntry>::Iterator it = timerLine.begin(from);
+	nekomata::TimeLine<EventEntry>::Iterator end = timerLine.end(to);
+	const int color = nextColor();
+
+	do{
+		if(it == end){
+			float ctime = triggerComment(machine, currentTime(), to);
+			if(ctime != ctime){
+				currentTime(to);
+			}else{
+				currentTime(ctime);
+				it = timerLine.begin(currentTime());
+				end = timerLine.end(to);
+			}
+		}else if(currentTime() < it->getData()->from()){
+			std::tr1::shared_ptr<EventEntry> evt = it->getData();
+			float ctime = triggerComment(machine, currentTime(), evt->from());
+			if(ctime != ctime){
+				currentTime(evt->from());
+			}else{
+				currentTime(ctime);
+				it = timerLine.begin(currentTime());
+				end = timerLine.end(to);
+			}
+		}else{
+			std::tr1::shared_ptr<EventEntry> evt = it->getData();
+			if(color != evt->color()){
+				evt->color(color);
+				machine.eval(evt->then());
+				currentTime(evt->from());
+				it = timerLine.begin(currentTime());
+				end = timerLine.end(to);
+			}else{
+				++it;
+			}
+		}
+	}while(it != end);
+}
+
+void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* comment)
+{
+	this->dispatchCommentTrigger(machine,
+			comment->message(),
+			comment->vpos(),
+			comment->isYourPost(),
+			comment->mail(),
+			comment->fromButton(),
+			comment->isPremium(),
+			comment->color(),
+			comment->size(),
+			comment->no());
+}
+void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+{
+	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
+	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin();
+	nekomata::TimeLine<EventEntry>::Iterator end = ctrigLine.end();
+	const int _color = nextColor();
+	log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
+	for(;it != end;){
+		std::tr1::shared_ptr<EventEntry> evt = it->getData();
+		if(evt->from() <= vpos && evt->to() >= vpos && evt->color() != _color){
+			evt->color(_color);
+			machine.eval(evt->then());
+			it = ctrigLine.begin();
+			end = ctrigLine.end();
+		}else{
+			++it;
+		}
+	}
+}
 
 }}

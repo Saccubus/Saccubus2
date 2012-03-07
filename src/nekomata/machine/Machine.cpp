@@ -53,8 +53,8 @@ object::Handler<object::Object> Machine::getArgument(){
 object::Handler<object::Object> Machine::getSelf(){
 	return object::Handler<object::Object>(selfStack.top());
 }
-object::Handler<object::Object> Machine::getTopLevel(){
-	return object::Handler<object::Object>(selfStack.bottom());
+object::Handler<object::SystemObject> Machine::getTopLevel(){
+	return object::Handler<object::Object>(heap.getSystemObject());
 }
 object::Handler<object::Object> Machine::getLocal()
 {

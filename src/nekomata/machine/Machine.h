@@ -37,7 +37,7 @@ public: //for Object
 	object::Handler<object::Object> getArgument();
 	object::Handler<object::Object> getLocal();
 	object::Handler<object::Object> getSelf();
-	object::Handler<object::Object> getTopLevel();
+	object::Handler<object::SystemObject> getTopLevel();
 	void enterLocal(object::Handler<object::Object> local, object::Handler<object::Object> parent=object::Handler<object::Object>(0));
 	void endLocal(object::Handler<object::Object> local);
 protected: //for tree

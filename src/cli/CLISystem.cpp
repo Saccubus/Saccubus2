@@ -20,4 +20,17 @@ CLISystem::~CLISystem() {
 	// TODO Auto-generated destructor stub
 }
 
+float CLISystem::triggerComment(nekomata::machine::Machine& machine, const double from, const double to)
+{
+	nekomata::TimeLine<const nekomata::system::Comment>::Iterator it = this->commentLine.begin(from);
+	nekomata::TimeLine<const nekomata::system::Comment>::Iterator end = this->commentLine.end(to);
+	float time = NAN;
+	for(;it != end;++it){
+		dispatchCommentTrigger(machine, it->getData().get());
+		time = it->getData()->vpos();
+	}
+	return time;
+}
+
+
 } /* namespace cli */
