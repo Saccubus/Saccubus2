@@ -27,41 +27,41 @@ void StringLiteralNode::dump(Dumper& dumper) const{
 void AssignNode::dump(Dumper& dumper) const{
 	dumper.printName("AssignNode", location());
 	dumper.print("isLocal?", local);
-	dumper.printNode("leftNode", this->leftNode);
-	dumper.printNode("rightNode", this->rightNode);
+	dumper.printDumpable("leftNode", this->leftNode);
+	dumper.printDumpable("rightNode", this->rightNode);
 }
 void OpAssignNode::dump(Dumper& dumper) const{
 	dumper.printName("OpAssignNode:", location());
-	dumper.printNode("leftNode", this->leftNode);
+	dumper.printDumpable("leftNode", this->leftNode);
 	dumper.print("op", this->op);
-	dumper.printNode("rightNode", this->rightNode);
+	dumper.printDumpable("rightNode", this->rightNode);
 }
 
 void IndexAcessNode::dump(Dumper& dumper) const{
 	dumper.printName("IndexAcessNode", location());
-	dumper.printNode("exprNode", this->exprNode);
-	dumper.printNode("with obj", this->objectNode);
+	dumper.printDumpable("exprNode", this->exprNode);
+	dumper.printDumpable("with obj", this->objectNode);
 }
 void BindNode::dump(Dumper& dumper) const{
 	dumper.printName("BindNode", location());
-	dumper.printNode("exprNode", this->exprNode);
-	dumper.printNode("with obj", this->objectNode);
+	dumper.printDumpable("exprNode", this->exprNode);
+	dumper.printDumpable("with obj", this->objectNode);
 }
 void PostOpNode::dump(Dumper& dumper) const{
 	dumper.printName("PostOpNode", location());
 	dumper.print("op", this->op);
-	dumper.printNode("exprNode", this->exprNode);
+	dumper.printDumpable("exprNode", this->exprNode);
 }
 void PreOpNode::dump(Dumper& dumper) const{
 	dumper.printName("PreOpNode", location());
 	dumper.print("op", this->op);
-	dumper.printNode("exprNode", this->exprNode);
+	dumper.printDumpable("exprNode", this->exprNode);
 }
 void BinOpNode::dump(Dumper& dumper) const{
 	dumper.printName("BinOpNode", location());
-	dumper.printNode("leftNode", this->leftNode);
+	dumper.printDumpable("leftNode", this->leftNode);
 	dumper.print("op", this->op);
-	dumper.printNode("rightNode", this->rightNode);
+	dumper.printDumpable("rightNode", this->rightNode);
 }
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
@@ -71,12 +71,12 @@ void ObjectNode::dump(Dumper& dumper) const{
 void InvokeNode::dump(Dumper& dumper) const{
 	dumper.printName("InvokeNode", location());
 	dumper.print("messageName", this->messageName);
-	dumper.printNode("exprNode", this->exprNode);
+	dumper.printDumpable("exprNode", this->exprNode);
 }
 void ContNode::dump(Dumper& dumper) const{
 	dumper.printName("ContNode", location());
-	dumper.printNode("firstNode", this->firstNode);
-	dumper.printNode("nextNode", this->nextNode);
+	dumper.printDumpable("firstNode", this->firstNode);
+	dumper.printDumpable("nextNode", this->nextNode);
 }
 
 }

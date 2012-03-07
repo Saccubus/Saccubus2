@@ -88,7 +88,7 @@ public:
 	virtual ~Dumper();
 	void printName(const std::string& name);
 	void printName(const std::string& name, const Location& loc);
-	void printNode(const std::string& name, const std::tr1::shared_ptr<const Dumpable> member);
+	void printDumpable(const std::string& name, const std::tr1::shared_ptr<const Dumpable> member);
 	void printDumpableList(const std::string& name, const std::vector<std::tr1::shared_ptr<const Dumpable> >& memberList);
 	void printDumpableList(const std::string& name, const std::map<std::string, std::tr1::shared_ptr<const Dumpable> >& memberList);
 	void print(const std::string& name, const std::string& member);

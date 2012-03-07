@@ -23,7 +23,7 @@ const std::string PROGRAM_VERSION("ver 1.00");
 static const std::string TAG("TOP");
 
 Nekomata::Nekomata(system::System& system, logging::Logger& log)
-:system(system), log(log), machine(log, system), timeline(), currentTime(0)
+:system(system), log(log), machine(log, system), scriptLine(), commentLine(), currentTime(0)
 {
 }
 
@@ -33,43 +33,50 @@ Nekomata::~Nekomata() {
 
 void Nekomata::parseTimelineStr(const std::string& str)
 {
-	timeline.merge(parser::Parser::fromString(str)->parseTimeline());
+	parser::Parser::fromString(str)->parseTimeline(scriptLine, commentLine);
 }
 void Nekomata::parseTimelineFile(const std::string& filename)
 {
-	timeline.merge(parser::Parser::fromFile(filename)->parseTimeline());
+	parser::Parser::fromFile(filename)->parseTimeline(scriptLine, commentLine);
 }
 void Nekomata::parseTimelineStream(std::istream& stream, const std::string& name)
 {
-	timeline.merge(parser::Parser::fromStream(stream, name)->parseTimeline());
+	parser::Parser::fromStream(stream, name)->parseTimeline(scriptLine, commentLine);
 }
 
 void Nekomata::parseProgram(float time, const std::string& str)
 {
-	timeline.insertLast(time, parser::Parser::fromString(str)->parseProgram());
+	scriptLine.insertLast(time, parser::Parser::fromString(str)->parseProgram());
 }
 
 void Nekomata::dump(std::ostream& stream)
 {
 	nekomata::logging::Dumper dumper(stream);
-	this->timeline.dump(dumper);
+
+	TimeLine<const tree::ExprNode>::Iterator it = scriptLine.begin();
+	TimeLine<const tree::ExprNode>::Iterator const end = scriptLine.end();
+	for(; it != end; ++it){
+		dumper.printName("Script");
+		dumper.print("Time: ", it->getTime());
+		dumper.printDumpable("Node: ", it->getData());
+	}
 }
 
 float Nekomata::getLastTime()
 {
-	return timeline.getLastTime();
+	return std::max(scriptLine.getLastTime(), commentLine.getLastTime());
 }
 void Nekomata::seek(float time)
 {
 	if(time < currentTime){
 		log.e(TAG, 0, "Sorry, rewind operation is not supported yet!");
 	}else{
-		timeline::TimeLine::Iterator it = timeline.begin(currentTime);
-		timeline::TimeLine::Iterator const end = timeline.end(time);
+		TimeLine<const tree::ExprNode>::Iterator it = scriptLine.begin(currentTime);
+		TimeLine<const tree::ExprNode>::Iterator const end = scriptLine.end(time);
 		for(; it!=end;++it){
 			//TODO: 実際にseekする
 			const float playTime = it->getTime();
-			shared_ptr<const tree::ExprNode> node = it->getNode();
+			shared_ptr<const tree::ExprNode> node = it->getData();
 			log.t(TAG, &node->location(), "Now evaluating node at %f", playTime);
 			machine.eval(node.get());
 		}

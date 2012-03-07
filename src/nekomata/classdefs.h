@@ -11,6 +11,8 @@
 namespace nekomata {
 
 class Nekomata;
+template <typename T> class TimeLine;
+template <typename T> class TimePoint;
 
 namespace logging {
 class Dumpable;

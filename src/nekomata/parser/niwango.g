@@ -15,33 +15,22 @@ options {
 #include <cstdlib>
 #include "ParseUtil.h"
 #include "../tree/Node.h"
-#include "../timeline/TimeLine.h"
+#include "../system/System.h"
+#include "../TimeLine.h"
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
-using namespace nekomata::timeline;
 using std::tr1::shared_ptr;
 typedef pANTLR3_COMMON_TOKEN Token;
 }
 
-time_line returns [shared_ptr<TimeLine> result]
-@init{
-	shared_ptr<TimeLine> timeLine = shared_ptr<TimeLine>(new TimeLine());
-}
-@after{
-	$result=timeLine;
-}
-	: (time_point
-	{
-		timeLine->insertLast($time_point.time, $time_point.node);
-	}
-	)*
+time_line [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekomata::TimeLine<const nekomata::system::Comment>& commentLine]
+	: (time_point[$scriptLine, $commentLine])*
 	;
 
-time_point returns [float time, shared_ptr<const ExprNode> node]
+time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekomata::TimeLine<const nekomata::system::Comment>& commentLine]
 	: numeric ':' (~(':'))*  ':' '/' program
 	{
-		$time=$numeric.result->getLiteral();
-		$node=$program.result;
+		$scriptLine.insertLast($numeric.result->getLiteral(), $program.result);
 	}
 	;
 

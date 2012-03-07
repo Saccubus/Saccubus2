@@ -11,7 +11,7 @@
 #include "niwangoLexer.h"
 #include "niwangoParser.h"
 #include "Parser.h"
-#include "../timeline/TimeLine.h"
+#include "../TimeLine.h"
 #include "../tree/Node.h"
 #include "../logging/Exception.h"
 
@@ -99,9 +99,9 @@ public:
 		return fromString(src, filename);
 	}
 public:
-	std::tr1::shared_ptr<timeline::TimeLine> parseTimeline()
+	void parseTimeline(TimeLine<const ExprNode>& scriptLine, TimeLine<const system::Comment>& commentLine)
 	{
-		return std::tr1::shared_ptr<timeline::TimeLine>(parser->time_line(parser));
+		parser->time_line(parser, scriptLine, commentLine);
 	}
 	std::tr1::shared_ptr<const tree::ExprNode> parseProgram()
 	{
@@ -140,9 +140,9 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<timeline::TimeLine> Parser::parseTimeline()
+void Parser::parseTimeline(TimeLine<const ExprNode>& scriptLine, TimeLine<const system::Comment>& commentLine)
 {
-	return impl->parseTimeline();
+	return impl->parseTimeline(scriptLine,commentLine);
 }
 std::tr1::shared_ptr<const tree::ExprNode> Parser::parseProgram()
 {

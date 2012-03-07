@@ -51,7 +51,7 @@ void Dumper::print(const std::string& name, const double member)
 	this->startLine();
 	stream << name << ":" << member << std::endl;
 }
-void Dumper::printNode(const std::string& name, const shared_ptr<const Dumpable> member)
+void Dumper::printDumpable(const std::string& name, const shared_ptr<const Dumpable> member)
 {
 	this->startLine();
 	if(member.get() == 0){
@@ -74,7 +74,7 @@ void Dumper::printDumpableList(const std::string& name, const std::vector<shared
 		shared_ptr<const Dumpable> item = *member;
 		ss.str("");
 		ss << "[" << i << "]";
-		printNode(ss.str(), item);
+		printDumpable(ss.str(), item);
 	}
 	out();
 }
@@ -85,7 +85,7 @@ void Dumper::printDumpableList(const std::string& name, const std::map<std::stri
 	in();
 	for(std::map<std::string, shared_ptr<const Dumpable> >::const_iterator member=memberList.begin();member != memberList.end();++member){
 		shared_ptr<const Dumpable> item = member->second;
-		printNode(member->first, item);
+		printDumpable(member->first, item);
 	}
 	out();
 }

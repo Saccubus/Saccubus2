@@ -10,10 +10,11 @@
 #include <iostream>
 #include <vector>
 
+#include "classdefs.h"
+#include "TimeLine.h"
 #include "logging/Logging.h"
 #include "logging/Exception.h"
 #include "machine/Machine.h"
-#include "timeline/TimeLine.h"
 
 namespace nekomata {
 
@@ -25,7 +26,8 @@ private:
 	system::System& system;
 	logging::Logger& log;
 	machine::Machine machine;
-	timeline::TimeLine timeline;
+	TimeLine<const tree::ExprNode> scriptLine;
+	TimeLine<const system::Comment> commentLine;
 	float currentTime;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);
