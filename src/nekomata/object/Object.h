@@ -572,6 +572,5 @@ public:
 #undef DEC_BUILTIN
 #undef DEC_HOOK_ACCESSOR
 
-}
-}
+}}
 #endif /* MACHINE_OBJECT_H_ */

@@ -252,5 +252,4 @@ int ObjectHeap::createHash()
 	return ++count;
 }
 
-}
-}
+}}

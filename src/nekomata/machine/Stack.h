@@ -73,6 +73,5 @@ public:
 	virtual ~Stack(){}
 };
 
-}
-}
+}}
 #endif /* STACK_H_ */

@@ -524,5 +524,4 @@ DEF_BUILTIN(Object, rand)
 	machine.pushResult(self->getHeap().newNumericObject( rand() >> 5 ));
 }
 
-}
-}
+}}

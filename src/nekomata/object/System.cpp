@@ -440,6 +440,4 @@ DEF_HOOK_SETTER(SystemObject, lastVideo)
 	Handler<SystemObject>(self)->system.lastVideo(cast<std::string>(obj->index(0)));
 }
 
-}
-}
-
+}}

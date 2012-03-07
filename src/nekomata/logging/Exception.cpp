@@ -29,5 +29,4 @@ Exception::Exception(const std::string& fname, size_t line, const std::string& m
 Exception::~Exception() throw(){
 }
 
-}
-}
+}}

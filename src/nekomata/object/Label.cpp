@@ -53,5 +53,4 @@ LabelObject::~LabelObject()
 }
 
 
-}
-}
+}}

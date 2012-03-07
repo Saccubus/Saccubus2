@@ -47,5 +47,4 @@ ReplaceObject::~ReplaceObject()
 }
 
 
-}
-}
+}}

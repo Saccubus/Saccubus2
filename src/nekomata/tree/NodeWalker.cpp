@@ -91,5 +91,4 @@ void NodeWalker::walk(const ContNode & node)
 }
 
 
-}
-}
+}}

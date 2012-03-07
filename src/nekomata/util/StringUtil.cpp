@@ -31,5 +31,4 @@ std::string format(const std::string& msg, va_list arg)
 	}
 }
 
-}
-}
+}}

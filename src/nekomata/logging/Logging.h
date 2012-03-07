@@ -102,7 +102,6 @@ private:
 	void out();
 };
 
-}
-}
+}}
 
 #endif /* LOGGING_H_ */

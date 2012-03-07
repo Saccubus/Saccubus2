@@ -79,6 +79,5 @@ void ContNode::dump(Dumper& dumper) const{
 	dumper.printDumpable("nextNode", this->nextNode);
 }
 
-}
-}
+}}
 

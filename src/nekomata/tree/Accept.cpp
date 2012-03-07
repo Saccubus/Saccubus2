@@ -52,7 +52,5 @@ void ContNode::accept(NodeWalker& walker) const{
 }
 
 
-}
-}
-
+}}
 

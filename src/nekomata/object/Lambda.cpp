@@ -72,5 +72,4 @@ DEF_BUILTIN(LambdaScopeObject, atmark)
 	machine.pushResult(local);
 }
 
-}
-}
+}}

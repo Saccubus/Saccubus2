@@ -48,6 +48,5 @@ protected:
 	virtual void walkImpl(const ContNode& node) = 0;
 };
 
-}
-}
+}}
 #endif /* NODEWALKER_H_ */

@@ -45,5 +45,4 @@ ButtonObject::~ButtonObject()
 }
 
 
-}
-}
+}}

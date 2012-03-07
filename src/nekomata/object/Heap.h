@@ -98,7 +98,7 @@ public:
 public:
 	void gc();
 };
-}
-}
+
+}}
 
 #endif /* MACHINE_HEAP_H_ */

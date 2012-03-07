@@ -65,7 +65,4 @@ SumResultObject::~SumResultObject()
 }
 
 
-}
-}
-
-
+}}

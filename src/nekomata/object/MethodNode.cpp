@@ -80,5 +80,4 @@ void MethodNodeObject::eval(machine::Machine& machine)
 	machine.endLocal(local);
 }
 
-}
-}
+}}

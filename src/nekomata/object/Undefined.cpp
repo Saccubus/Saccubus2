@@ -37,6 +37,4 @@ bool UndefinedObject::isUndefined(){
 	return true;
 }
 
-}
-}
-
+}}

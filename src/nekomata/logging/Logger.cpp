@@ -97,5 +97,4 @@ void Logger::msg(enum Level level, const std::string& tag, const Location* loc, 
 	stream.flush();
 }
 
-}
-}
+}}

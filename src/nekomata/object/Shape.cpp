@@ -57,7 +57,4 @@ ShapeObject::~ShapeObject()
 }
 
 
-}
-}
-
-
+}}

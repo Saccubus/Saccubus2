@@ -79,5 +79,4 @@ DEF_BUILTIN(BooleanObject, alternate)
 }
 
 
-}
-}
+}}

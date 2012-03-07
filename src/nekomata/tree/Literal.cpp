@@ -41,5 +41,4 @@ const double NumericLiteralNode::getLiteral() const
 	return literal;
 }
 
-}
-}
+}}

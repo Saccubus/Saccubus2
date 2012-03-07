@@ -71,7 +71,4 @@ SumObject::~SumObject()
 }
 
 
-}
-}
-
-
+}}

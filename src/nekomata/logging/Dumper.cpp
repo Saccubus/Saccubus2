@@ -106,5 +106,4 @@ void Dumper::out()
 }
 
 
-}
-}
+}}

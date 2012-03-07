@@ -177,5 +177,4 @@ DEF_BUILTIN(NumericObject, pow)
 }
 
 
-}
-}
+}}

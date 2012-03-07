@@ -77,6 +77,5 @@ public:
 	virtual object::RootHolder::Iterator* newIterator();
 };
 
-}
-}
+}}
 #endif /* MACHINE_H_ */

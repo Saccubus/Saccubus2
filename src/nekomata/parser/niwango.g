@@ -40,7 +40,14 @@ time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, neko
 	{
 		$scriptLine.insertLast($time.result->getLiteral(), $program.result);
 	}
-	| mstart=~('/'|EOL) .*
+	| mstart='%' .*
+	{
+		/* FIXME: こちらも同様。 */
+		std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index+1, INDEX()));
+		shared_ptr<const nekomata::system::Comment> com;
+		$scriptLine.insertLast($time.result->getLiteral(), $program.result);
+	}
+	| mstart=~('/'|'%'|EOL) .*
 	{
 		/* FIXME: こちらも同様。 */
 		std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index, INDEX()));

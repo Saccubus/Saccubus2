@@ -267,6 +267,5 @@ public:
 	void accept(NodeWalker& walker) const;
 };
 
-}
-}
+}}
 #endif /* NODE_H_ */

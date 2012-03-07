@@ -26,6 +26,5 @@ public:
 	virtual const std::string& what() throw(){return msg;};
 };
 
-}
-}
+}}
 #endif /* EXCEPTION_H_ */
