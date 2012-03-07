@@ -64,7 +64,7 @@ void Nekomata::dump(std::ostream& stream)
 
 float Nekomata::getLastTime()
 {
-	return scriptLine.getLastTime();
+	return std::max(scriptLine.getLastTime(), system.getLastCommentTime());
 }
 void Nekomata::seek(float time)
 {

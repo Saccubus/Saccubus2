@@ -210,6 +210,16 @@ void System::playCM(int id)
 
 }
 
+std::string System::inspect()
+{
+	return "";
+}
+
+void System::onChanged()
+{
+	log.v(TAG, 0, "System property changed: %s", inspect().c_str());
+}
+
 const TimePoint<System::EventEntry>* System::findFirstTimer(const int color, const double from, const double to)
 {
 	nekomata::TimeLine<EventEntry>::Iterator it = timerLine.begin(from);
@@ -235,6 +245,7 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 		if(!nextTimer && !nextComment.isValid()){
 			break;
 		}else if(!nextTimer || nextTimer->getTime() > nextComment.vpos()){
+			currentTime(nextComment.vpos());
 			dispatchCommentTrigger(machine, &nextComment);
 		}else{
 			currentTime(nextTimer->getTime());
@@ -242,6 +253,7 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 			nextTimer->getData()->color(color);
 		}
 	}
+	currentTime(to);
 }
 
 void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* comment)
@@ -257,19 +269,20 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* co
 			comment->size(),
 			comment->no());
 }
+
 void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
-	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin(vpos);
+	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin();
 	nekomata::TimeLine<EventEntry>::Iterator end = ctrigLine.end();
 	const int _color = nextColor();
 	for(;it != end;){
 		log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
 		std::tr1::shared_ptr<EventEntry> evt = it->getData();
-		if(evt->to() >= vpos && evt->color() != _color){
+		if(evt->from() <= vpos && vpos <= evt->to() && evt->color() != _color){
 			evt->color(_color);
 			machine.eval(evt->then());
-			it = ctrigLine.begin(vpos);
+			it = ctrigLine.begin();
 			end = ctrigLine.end();
 		}else{
 			++it;

@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
 	}
 
 	nekomata::logging::Logger log(std::cout, level);
-	CLISystem _system(log);
+	CLISystem _system(log, std::cout);
 	nekomata::Nekomata nekomata(_system, log);
 
 	if(optind == argc){

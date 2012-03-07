@@ -9,8 +9,14 @@
 
 namespace cli {
 
-CLISystem::CLISystem(nekomata::logging::Logger& log)
+void CLILabel::onChanged()
+{
+	this->system.stream() << "DrawText: " << text() << std::endl;
+}
+
+CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream)
 :System(log)
+,_stream(_stream)
 {
 	// TODO Auto-generated constructor stub
 
@@ -18,6 +24,14 @@ CLISystem::CLISystem(nekomata::logging::Logger& log)
 
 CLISystem::~CLISystem() {
 	// TODO Auto-generated destructor stub
+}
+
+nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+{
+	stream() << "DrawText: " << text << std::endl;
+	nekomata::util::Handler<nekomata::system::Label> label(new CLILabel(*this));
+	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
+	return label;
 }
 
 nekomata::system::Comment CLISystem::findFirstComment(const int objColor, const double from, const double to)

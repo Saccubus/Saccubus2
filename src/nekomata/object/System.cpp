@@ -7,6 +7,7 @@
 
 #include <tr1/memory>
 #include <cmath>
+#include <cfloat>
 #include "Object.h"
 #include "Cast.h"
 #include "Heap.h"
@@ -134,9 +135,9 @@ DEF_BUILTIN(SystemObject, commentTrigger)
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
 	const Handler<LazyEvalObject> lazy(arg);
-	if(lazy && arg->has("timer") && (arg->has(0) || arg->has("then"))){
+	if(lazy && (arg->has(0) || arg->has("then"))){
 		self->system.commentTrigger(
-			opt(arg, "timer", 0.0),
+			opt(arg, "timer", DBL_MAX),
 			arg->has("then") ? lazy->getRawNode()->getSlot("then") : lazy->getRawNode()->index(0)
 		);
 	}

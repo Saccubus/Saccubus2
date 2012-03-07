@@ -21,12 +21,18 @@ namespace system {
 #define DEF_ADAPTER_ACCESSOR(name, type)\
 private:\
 	type name##_;\
+	virtual void ___##name(const type& name##__){\
+		this->name##_=name##__;\
+	}\
 public:\
 	virtual type name() const{return name##_;} \
 	virtual void name(const type& name##__){\
-		name##_=name##__;\
+		if(this->name##_ != name##__){\
+			this->___##name(name##_);\
+			this->onChanged();\
+		}\
 	}
-#define SET_PARAM(name) this->name(_##name)
+#define SET_PARAM(name) this->___##name(_##name)
 #define SET_DEFAULT(name, val) name##_(val)
 
 class SystemItem
@@ -38,6 +44,9 @@ protected:
 public:
 	explicit SystemItem(System& system):system(system){};
 	virtual ~SystemItem(){};
+protected:
+	virtual void onChanged();
+	virtual std::string inspect() = 0;
 public:
 	int getNativeRef(){return nativeRef;}
 	virtual void incNativeRef(){};
@@ -83,6 +92,8 @@ public:
 	explicit Shape(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Shape(){};
+protected:
+	virtual std::string inspect();
 };
 
 class Sum : public SystemItem
@@ -120,6 +131,8 @@ public:
 	explicit Sum(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Sum(){};
+protected:
+	virtual std::string inspect();
 };
 class SumResult : public SystemItem
 {
@@ -148,6 +161,8 @@ public:
 	explicit SumResult(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~SumResult(){};
+protected:
+	virtual std::string inspect();
 };
 class Label : public SystemItem
 {
@@ -184,6 +199,8 @@ public:
 	explicit Label(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Label(){};
+protected:
+	virtual std::string inspect();
 };
 
 class Button : public SystemItem
@@ -213,6 +230,8 @@ public:
 	explicit Button(System& system)
 	:SystemItem(system), SET_DEFAULT(hidden, true){};
 	virtual ~Button(){};
+protected:
+	virtual std::string inspect();
 };
 
 class Replace : public SystemItem
@@ -247,6 +266,8 @@ public:
 	explicit Replace(System& system)
 	:SystemItem(system), SET_DEFAULT(enabled, false){};
 	virtual ~Replace(){};
+protected:
+	virtual std::string inspect();
 };
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -257,41 +278,58 @@ private:
 	const bool _isValid;
 	int _color;
 public:
-	DEF_ADAPTER_ACCESSOR(message, std::string);
-	DEF_ADAPTER_ACCESSOR(vpos, double);
-	DEF_ADAPTER_ACCESSOR(isYourPost, bool);
-	DEF_ADAPTER_ACCESSOR(mail, std::string);
-	DEF_ADAPTER_ACCESSOR(fromButton, bool);
-	DEF_ADAPTER_ACCESSOR(isPremium, bool);
-	DEF_ADAPTER_ACCESSOR(color, unsigned int);
-	DEF_ADAPTER_ACCESSOR(size, double);
-	DEF_ADAPTER_ACCESSOR(no, unsigned int);
+	const std::string message_;
+	std::string message() const{return message_;};
+
+	const double vpos_;
+	double vpos() const{return vpos_;};
+
+	const bool isYourPost_;
+	bool isYourPost() const{return isYourPost_;};
+
+	const std::string mail_;
+	std::string mail() const{return mail_;};
+
+	const bool fromButton_;
+	bool fromButton() const{return fromButton_;};
+
+	const bool isPremium_;
+	bool isPremium() const{return isPremium_;};
+
+	const unsigned int color_;
+	unsigned int color() const{return color_;};
+
+	const double size_;
+	double size() const{return size_;};
+
+	const unsigned int no_;
+	unsigned int no() const{return no_;};
 public:
 	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 	:_isValid(true),
 	_color(0),
-	SET_DEFAULT(message, message),
-	SET_DEFAULT(vpos, vpos),
-	SET_DEFAULT(isYourPost, isYourPost),
-	SET_DEFAULT(mail, mail),
-	SET_DEFAULT(fromButton, fromButton),
-	SET_DEFAULT(isPremium, isPremium),
-	SET_DEFAULT(color, color),
-	SET_DEFAULT(size, size),
-	SET_DEFAULT(no, no)
+	message_(message),
+	vpos_(vpos),
+	isYourPost_(isYourPost),
+	mail_(mail),
+	fromButton_(fromButton),
+	isPremium_(isPremium),
+	color_(color),
+	size_(size),
+	no_(no)
 	{};
 	explicit Comment()
 	:_isValid(false),
 	_color(0),
-	SET_DEFAULT(message, ""),
-	SET_DEFAULT(vpos, NAN),
-	SET_DEFAULT(isYourPost, false),
-	SET_DEFAULT(mail, ""),
-	SET_DEFAULT(fromButton, false),
-	SET_DEFAULT(isPremium, false),
-	SET_DEFAULT(color, false),
-	SET_DEFAULT(size, false),
-	SET_DEFAULT(no, false)
+	message_(""),
+	vpos_(NAN),
+	isYourPost_(false),
+	mail_(""),
+	fromButton_(false),
+	isPremium_(false),
+	color_(false),
+	size_(false),
+	no_(false)
 	{};
 	virtual ~Comment(){};
 public:
@@ -339,8 +377,8 @@ private:
 	std::vector<Button*> buttonList;
 	nekomata::TimeLine<EventEntry> timerLine;
 	nekomata::TimeLine<EventEntry> ctrigLine;
-	logging::Logger& log;
 public:
+	logging::Logger& log;
 	explicit System(logging::Logger& log);
 	virtual ~System();
 
@@ -376,6 +414,10 @@ public:
 public:
 	virtual Comment findFirstComment(const int objColor, const double from, const double to){return Comment();};
 	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){return 0;};
+	virtual float getLastCommentTime() {return -1;};
+protected:
+	virtual std::string inspect();
+	void onChanged();
 public:
 	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
 	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);

@@ -10,13 +10,13 @@
 #include <cstdarg>
 
 namespace nekomata {
-namespace utl {
+namespace util {
 
 std::string format(const std::string& msg, ...)
 {
 	va_list list;
 	va_start(list, msg);
-	std::string str(utl::format(msg, list));
+	std::string str(util::format(msg, list));
 	va_end(list);
 	return str;
 }

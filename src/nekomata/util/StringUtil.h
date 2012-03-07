@@ -12,7 +12,7 @@
 #include <cstdarg>
 
 namespace nekomata {
-namespace utl {
+namespace util {
 
 std::string format(const std::string& msg, ...);
 std::string format(const std::string& msg, va_list arg);
