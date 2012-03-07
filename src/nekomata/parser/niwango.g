@@ -24,20 +24,31 @@ typedef pANTLR3_COMMON_TOKEN Token;
 }
 
 time_line [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekomata::TimeLine<const nekomata::system::Comment>& commentLine]
-	: (time_point[$scriptLine, $commentLine])*
+	: time_point[$scriptLine, $commentLine] (EOL+ time_point[$scriptLine, $commentLine])* EOL*
+	|
 	;
 
 time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>& scriptLine, nekomata::TimeLine<const nekomata::system::Comment>& commentLine]
-	: time=numeric ':' mail=COMMENT_MAIL  ':'
+	: time=numeric
+	cstart=':' (~':')* cend=':'
+	{
+		//FIXME: 無理にLexerで処理するよりこっちのほうがいいみたい。
+		//{}?=>を使って無理にやると、Lexerのコードが急激に肥大化する
+		std::string chat=createStringFromString(INPUT->toStringSS(INPUT, $cstart->index+1, $cend->index-1));
+	}
 	( '/' program
 	{
 		$scriptLine.insertLast($time.result->getLiteral(), $program.result);
 	}
-	/* %で始まるコメントは、isYourPost=trueにする、という独自仕様 */
-	| '%' own_msg=COMMENT_MESSAGE
-	| msg=COMMENT_MESSAGE
-	)
-	;
+	| mstart=~('/'|EOL) .*
+	{
+		/* FIXME: こちらも同様。 */
+		std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index, INDEX()));
+		shared_ptr<const nekomata::system::Comment> com;
+		$commentLine.insertLast($time.result->getLiteral(), com);
+	}
+	| /* コメント一切ない＝無視 */
+	);
 
 program returns [shared_ptr<const ExprNode> result]
 @init{
@@ -420,15 +431,12 @@ fragment
 DIGIT :
   '0'..'9';
 
-STRING_SINGLE
-	: '\'' t=STRING_SINGLE_ELEMENT* '\'';
+STRING_SINGLE: '\'' t=STRING_SINGLE_ELEMENT* '\'';
 
 fragment
 STRING_SINGLE_ELEMENT: ESC_SEQ | ~('\\'|'\''|'\r'|'\n');
 
-STRING_DOUBLE
-	: '"' t=STRING_DOUBLE_ELEMENT*
-'"';
+STRING_DOUBLE: '"' t=STRING_DOUBLE_ELEMENT* '"';
 
 fragment
 STRING_DOUBLE_ELEMENT: ESC_SEQ | ~('\\'|'"'|'\r'|'\n');
@@ -446,13 +454,5 @@ ESC_SEQ
 		)?
 	;
 
-/* コメント用 */
-COMMENT_MAIL
-	: (~(':' | '\r' | '\n'))*;
-
-/* コメント用 */
-COMMENT_MESSAGE
-	: (~('\r' | '\n'))*;
-
-
-WS: (' ' |'\n' |'\r' )+ {$channel=HIDDEN;} ; // ignore whitespace
+EOL: '\r'|'\n';
+WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace
