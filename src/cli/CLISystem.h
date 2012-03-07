@@ -16,13 +16,13 @@ namespace cli {
 
 class CLISystem: public nekomata::system::System {
 private:
-	nekomata::TimeLine<const nekomata::system::Comment> commentLine;
+	nekomata::TimeLine<nekomata::system::Comment> commentLine;
 public:
 	CLISystem(nekomata::logging::Logger& log);
 	virtual ~CLISystem();
 public:
-	virtual float triggerComment(nekomata::machine::Machine& machine, const double from, const double to);
-	virtual nekomata::TimeLine<const nekomata::system::Comment>* getCommentTimeLine(){ return &commentLine; };
+	virtual nekomata::system::Comment findFirstComment(const int objColor, const double from, const double to);
+	virtual nekomata::TimeLine<nekomata::system::Comment>* getCommentTimeLine(){ return &commentLine; };
 };
 
 }

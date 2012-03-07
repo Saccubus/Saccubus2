@@ -99,7 +99,7 @@ public:
 		return fromString(src, filename);
 	}
 public:
-	void parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<const system::Comment>* commentLine)
+	void parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<system::Comment>* commentLine)
 	{
 		parser->time_line(parser, scriptLine, commentLine);
 	}
@@ -140,7 +140,7 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-void Parser::parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<const system::Comment>* commentLine)
+void Parser::parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<system::Comment>* commentLine)
 {
 	return impl->parseTimeline(scriptLine,commentLine);
 }

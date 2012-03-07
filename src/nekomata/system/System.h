@@ -26,93 +26,6 @@ public:\
 	virtual void name(const type& name##__){\
 		name##_=name##__;\
 	}
-
-class System
-{
-private:
-	class EventEntry{
-	public:
-		EventEntry(float const from, float const to, const tree::Node* then): _color(0), _from(from), _to(to), _then(then){};
-		virtual ~EventEntry(){};
-	private:
-		int _color;
-		const float _from;
-		const float _to;
-		const tree::Node* _then;
-	public:
-		int color(){return _color;};
-		void color(int color){_color = color;};
-		float from(){return _from;}
-		float to(){return _to;}
-		const tree::Node* then(){return _then;}
-	};
-	float _currentTime;
-	int color;
-protected:
-	float currentTime(){return _currentTime;}
-	void currentTime(float time){_currentTime=time;}
-protected:
-	int nextColor(){return ++color;}
-private:
-	std::map<std::string, double> markerMap;
-	std::vector<Shape*> shapeList;
-	std::vector<Label*> labelList;
-	std::vector<Sum*> sumList;
-	std::vector<SumResult*> sumResultList;
-	std::vector<Replace*> replaceList;
-	std::vector<Button*> buttonList;
-	nekomata::TimeLine<EventEntry> timerLine;
-	nekomata::TimeLine<EventEntry> ctrigLine;
-	logging::Logger& log;
-public:
-	explicit System(logging::Logger& log);
-	virtual ~System();
-
-	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
-	virtual util::Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
-	virtual void commentTrigger(float const timer, const tree::Node* then);
-	virtual void timer(float const timer, const tree::Node* then);
-	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
-	virtual void jumpCancel();
-	virtual void seek(double vpos, const std::string& msg);
-	virtual void addMarker(const std::string& name, double vpos);
-	virtual double getMarker(const std::string& name);
-	virtual util::Handler<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
-	virtual util::Handler<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<util::Handler<Sum> > sum);
-	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
-	virtual double screenWidth();
-	virtual double screenHeight();
-	virtual util::Handler<Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
-	virtual double playStartTime();
-	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
-	virtual void playBGM(int id);
-	virtual void stopBGM(int id);
-	virtual void addAtPausePoint(double vpos, double wait);
-	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
-	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
-	virtual void playCM(int id);
-protected:
-	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
-	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
-public:
-	void seek(machine::Machine& machine, const double from, const double to);
-	virtual float triggerComment(machine::Machine& machine, const double from, const double to){return NAN;};
-	virtual nekomata::TimeLine<const system::Comment>* getCommentTimeLine(){return 0;};
-public:
-	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
-	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);
-	DEF_ADAPTER_ACCESSOR(commentSize, std::string);
-	DEF_ADAPTER_ACCESSOR(commentInvisible, bool);
-	DEF_ADAPTER_ACCESSOR(commentReverse, bool);
-	DEF_ADAPTER_ACCESSOR(defaultSage, bool);
-	DEF_ADAPTER_ACCESSOR(postDisabled, bool);
-	DEF_ADAPTER_ACCESSOR(seekDisabled, bool);
-	DEF_ADAPTER_ACCESSOR(isLoaded, bool);
-	DEF_ADAPTER_ACCESSOR(isWide, bool);
-	DEF_ADAPTER_ACCESSOR(lastVideo, std::string);
-};
-//---------------------------------------------------------------------------------------------------------------------
-
 #define SET_PARAM(name) this->name(_##name)
 #define SET_DEFAULT(name, val) name##_(val)
 
@@ -340,19 +253,9 @@ public:
 
 class Comment
 {
-public:
-	virtual void load(const std::string& _message, double _vpos, bool _isYourPost, const std::string& _mail, bool _fromButton, bool _isPremium, unsigned int _color, double _size, unsigned int _no)
-	{
-		SET_PARAM(message);
-		SET_PARAM(vpos);
-		SET_PARAM(isYourPost);
-		SET_PARAM(mail);
-		SET_PARAM(fromButton);
-		SET_PARAM(isPremium);
-		SET_PARAM(color);
-		SET_PARAM(size);
-		SET_PARAM(no);
-	}
+private:
+	const bool _isValid;
+	int _color;
 public:
 	DEF_ADAPTER_ACCESSOR(message, std::string);
 	DEF_ADAPTER_ACCESSOR(vpos, double);
@@ -364,8 +267,127 @@ public:
 	DEF_ADAPTER_ACCESSOR(size, double);
 	DEF_ADAPTER_ACCESSOR(no, unsigned int);
 public:
-	explicit Comment(){};
+	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+	:_isValid(true),
+	_color(0),
+	SET_DEFAULT(message, message),
+	SET_DEFAULT(vpos, vpos),
+	SET_DEFAULT(isYourPost, isYourPost),
+	SET_DEFAULT(mail, mail),
+	SET_DEFAULT(fromButton, fromButton),
+	SET_DEFAULT(isPremium, isPremium),
+	SET_DEFAULT(color, color),
+	SET_DEFAULT(size, size),
+	SET_DEFAULT(no, no)
+	{};
+	explicit Comment()
+	:_isValid(false),
+	_color(0),
+	SET_DEFAULT(message, ""),
+	SET_DEFAULT(vpos, NAN),
+	SET_DEFAULT(isYourPost, false),
+	SET_DEFAULT(mail, ""),
+	SET_DEFAULT(fromButton, false),
+	SET_DEFAULT(isPremium, false),
+	SET_DEFAULT(color, false),
+	SET_DEFAULT(size, false),
+	SET_DEFAULT(no, false)
+	{};
 	virtual ~Comment(){};
+public:
+	bool isValid(){return _isValid;};
+public:
+	int objColor() const{return _color;};
+	void objColor(int color) {_color = color;};
+};
+
+//----------------------------------------------------------------------------------------------------------------------
+
+class System
+{
+private:
+	class EventEntry{
+	public:
+		EventEntry(float const from, float const to, const tree::Node* then): _color(0), _from(from), _to(to), _then(then){};
+		virtual ~EventEntry(){};
+	private:
+		int _color;
+		const float _from;
+		const float _to;
+		const tree::Node* _then;
+	public:
+		int color(){return _color;};
+		void color(int color){_color = color;};
+		float from(){return _from;}
+		float to(){return _to;}
+		const tree::Node* then(){return _then;}
+	};
+	float _currentTime;
+	int color;
+protected:
+	float currentTime(){return _currentTime;}
+	void currentTime(float time){_currentTime=time;}
+protected:
+	int nextColor(){return ++color;}
+private:
+	std::map<std::string, double> markerMap;
+	std::vector<Shape*> shapeList;
+	std::vector<Label*> labelList;
+	std::vector<Sum*> sumList;
+	std::vector<SumResult*> sumResultList;
+	std::vector<Replace*> replaceList;
+	std::vector<Button*> buttonList;
+	nekomata::TimeLine<EventEntry> timerLine;
+	nekomata::TimeLine<EventEntry> ctrigLine;
+	logging::Logger& log;
+public:
+	explicit System(logging::Logger& log);
+	virtual ~System();
+
+	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
+	virtual util::Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual void commentTrigger(float const timer, const tree::Node* then);
+	virtual void timer(float const timer, const tree::Node* then);
+	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
+	virtual void jumpCancel();
+	virtual void seek(double vpos, const std::string& msg);
+	virtual void addMarker(const std::string& name, double vpos);
+	virtual double getMarker(const std::string& name);
+	virtual util::Handler<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
+	virtual util::Handler<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<util::Handler<Sum> > sum);
+	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
+	virtual double screenWidth();
+	virtual double screenHeight();
+	virtual util::Handler<Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
+	virtual double playStartTime();
+	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
+	virtual void playBGM(int id);
+	virtual void stopBGM(int id);
+	virtual void addAtPausePoint(double vpos, double wait);
+	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
+	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
+	virtual void playCM(int id);
+private:
+	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
+	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
+	const TimePoint<System::EventEntry>* findFirstTimer(const int color, const double from, const double to);
+public:
+	void seek(machine::Machine& machine, const double from, const double to);
+public:
+	virtual Comment findFirstComment(const int objColor, const double from, const double to){return Comment();};
+	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){return 0;};
+public:
+	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
+	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);
+	DEF_ADAPTER_ACCESSOR(commentSize, std::string);
+	DEF_ADAPTER_ACCESSOR(commentInvisible, bool);
+	DEF_ADAPTER_ACCESSOR(commentReverse, bool);
+	DEF_ADAPTER_ACCESSOR(defaultSage, bool);
+	DEF_ADAPTER_ACCESSOR(postDisabled, bool);
+	DEF_ADAPTER_ACCESSOR(seekDisabled, bool);
+	DEF_ADAPTER_ACCESSOR(isLoaded, bool);
+	DEF_ADAPTER_ACCESSOR(isWide, bool);
+	DEF_ADAPTER_ACCESSOR(lastVideo, std::string);
 };
 
 

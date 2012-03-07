@@ -58,7 +58,7 @@ void System::commentTrigger(float const timer, const tree::Node* then)
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, then));
-	this->ctrigLine.insertLast(currentTime()+timer, evt);
+	this->ctrigLine.insertLast(currentTime(), evt);
 }
 void System::timer(float const timer, const tree::Node* then)
 {
@@ -67,7 +67,7 @@ void System::timer(float const timer, const tree::Node* then)
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, then));
-	this->timerLine.insertLast(timer+currentTime(), evt);
+	this->timerLine.insertLast(currentTime()+timer, evt);
 }
 void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
 {
@@ -210,49 +210,38 @@ void System::playCM(int id)
 
 }
 
+const TimePoint<System::EventEntry>* System::findFirstTimer(const int color, const double from, const double to)
+{
+	nekomata::TimeLine<EventEntry>::Iterator it = timerLine.begin(from);
+	nekomata::TimeLine<EventEntry>::Iterator end = timerLine.end(to);
+	for(; it != end; ++it){
+		if(it->getData()->color() != color){
+			return &(*it);
+		}
+	}
+	return 0;
+}
 
 void System::seek(machine::Machine& machine, const double from, const double to)
 {
 	if(currentTime() != from){
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly.");
 	}
-	nekomata::TimeLine<EventEntry>::Iterator it = timerLine.begin(from);
-	nekomata::TimeLine<EventEntry>::Iterator end = timerLine.end(to);
 	const int color = nextColor();
 
-	do{
-		if(it == end){
-			float ctime = triggerComment(machine, currentTime(), to);
-			if(ctime != ctime){
-				currentTime(to);
-			}else{
-				currentTime(ctime);
-				it = timerLine.begin(currentTime());
-				end = timerLine.end(to);
-			}
-		}else if(currentTime() < it->getData()->from()){
-			std::tr1::shared_ptr<EventEntry> evt = it->getData();
-			float ctime = triggerComment(machine, currentTime(), evt->from());
-			if(ctime != ctime){
-				currentTime(evt->from());
-			}else{
-				currentTime(ctime);
-				it = timerLine.begin(currentTime());
-				end = timerLine.end(to);
-			}
+	while(true){
+		const TimePoint<EventEntry>* nextTimer = findFirstTimer(color, currentTime(), to);
+		Comment nextComment = findFirstComment(color, currentTime(), to);
+		if(!nextTimer && !nextComment.isValid()){
+			break;
+		}else if(!nextTimer || nextTimer->getTime() > nextComment.vpos()){
+			dispatchCommentTrigger(machine, &nextComment);
 		}else{
-			std::tr1::shared_ptr<EventEntry> evt = it->getData();
-			if(color != evt->color()){
-				evt->color(color);
-				machine.eval(evt->then());
-				currentTime(evt->from());
-				it = timerLine.begin(currentTime());
-				end = timerLine.end(to);
-			}else{
-				++it;
-			}
+			currentTime(nextTimer->getTime());
+			machine.eval(nextTimer->getData()->then());
+			nextTimer->getData()->color(color);
 		}
-	}while(it != end);
+	}
 }
 
 void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* comment)
@@ -271,16 +260,16 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* co
 void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
-	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin();
+	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin(vpos);
 	nekomata::TimeLine<EventEntry>::Iterator end = ctrigLine.end();
 	const int _color = nextColor();
-	log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
 	for(;it != end;){
+		log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
 		std::tr1::shared_ptr<EventEntry> evt = it->getData();
-		if(evt->from() <= vpos && evt->to() >= vpos && evt->color() != _color){
+		if(evt->to() >= vpos && evt->color() != _color){
 			evt->color(_color);
 			machine.eval(evt->then());
-			it = ctrigLine.begin();
+			it = ctrigLine.begin(vpos);
 			end = ctrigLine.end();
 		}else{
 			++it;

@@ -20,16 +20,17 @@ CLISystem::~CLISystem() {
 	// TODO Auto-generated destructor stub
 }
 
-float CLISystem::triggerComment(nekomata::machine::Machine& machine, const double from, const double to)
+nekomata::system::Comment CLISystem::findFirstComment(const int objColor, const double from, const double to)
 {
-	nekomata::TimeLine<const nekomata::system::Comment>::Iterator it = this->commentLine.begin(from);
-	nekomata::TimeLine<const nekomata::system::Comment>::Iterator end = this->commentLine.end(to);
-	float time = NAN;
-	for(;it != end;++it){
-		dispatchCommentTrigger(machine, it->getData().get());
-		time = it->getData()->vpos();
+	nekomata::TimeLine<nekomata::system::Comment>::Iterator it = this->commentLine.begin(from);
+	nekomata::TimeLine<nekomata::system::Comment>::Iterator end = this->commentLine.end(to);
+	for(; it != end; ++it){
+		if(it->getData()->objColor() != objColor){
+			it->getData()->objColor(objColor);
+			return *(it->getData().get());
+		}
 	}
-	return time;
+	return nekomata::system::Comment();
 }
 
 
