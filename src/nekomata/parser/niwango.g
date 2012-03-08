@@ -468,5 +468,5 @@ ESC_SEQ
 		)?
 	;
 
-EOL: '\r'|'\n';
+EOL: ('\r'|'\n');
 WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace

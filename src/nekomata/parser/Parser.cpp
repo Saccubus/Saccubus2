@@ -78,7 +78,7 @@ public:
 	{
 		this->src = src;
 		this->filename = filename;
-		stream = antlr3StringStreamNew((pANTLR3_UINT8)this->src.c_str(), ANTLR3_ENC_UTF8, this->filename.size(), (pANTLR3_UINT8)this->filename.c_str());
+		stream = antlr3StringStreamNew((pANTLR3_UINT8)this->src.c_str(), ANTLR3_ENC_UTF8, src.size(), (pANTLR3_UINT8)this->filename.c_str());
 		if(!stream){
 			throw logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 String Stream for %s", filename.c_str());
 		}
@@ -142,7 +142,7 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 }
 void Parser::parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<system::Comment>* commentLine)
 {
-	return impl->parseTimeline(scriptLine,commentLine);
+	impl->parseTimeline(scriptLine,commentLine);
 }
 std::tr1::shared_ptr<const tree::ExprNode> Parser::parseProgram()
 {
