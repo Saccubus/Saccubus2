@@ -88,12 +88,12 @@ public:
 	ParserImpl& fromStream(std::istream& stream_, const std::string filename){
 		std::stringstream ss;
 		char buff[8192];
-		while(1){
-			stream_ >> buff;
-			if(stream_.eof()){
+		while(!stream_.eof()){
+			stream_.read(buff, sizeof(buff));
+			if ( stream_.fail() && !stream_.eof() ) {
 				break;
 			}
-			ss << buff;
+			ss.write(buff, stream_.gcount());
 		}
 		std::string src = ss.str();
 		return fromString(src, filename);
