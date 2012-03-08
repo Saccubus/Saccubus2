@@ -45,20 +45,17 @@ time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>* scriptLine, neko
 			$scriptLine->insertLast($time.result->getLiteral(), $program.result);
 		}
 	}
-	| mstart='%' .*
+	| mstart=~('/'|EOL) (~EOL)*
 	{
 		/* FIXME: こちらも同様。 */
 		if($commentLine){
-			std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index+1, INDEX()));
-			$commentLine->insertLast($time.result->getLiteral(), shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(msg, $time.result->getLiteral(), true, mail, false, false, 0xffffff, 30, 0)));
-		}
-	}
-	| mstart=~('/'|'%'|EOL) .*
-	{
-		/* FIXME: こちらも同様。 */
-		if($commentLine){
-			std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index, INDEX()));
-			$commentLine->insertLast($time.result->getLiteral(), shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(msg, $time.result->getLiteral(), false, mail, false, false, 0xffffff, 30, 0)));
+			std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index, INDEX()-1));
+			bool isYourPost=false;
+			if(msg.at(0)=='\%'){
+				isYourPost=true;
+				msg=msg.substr(1);
+			}
+			$commentLine->insertLast($time.result->getLiteral(), shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(msg, $time.result->getLiteral(), isYourPost, mail, false, false, 0xffffff, 30, 0)));
 		}
 	}
 	| /* コメント一切ない＝無視 */
@@ -468,5 +465,7 @@ ESC_SEQ
 		)?
 	;
 
-EOL: ('\r'|'\n');
+EOL: '\r'|'\n';
 WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace
+
+LEFT: (~('/'|':'|EOL));
