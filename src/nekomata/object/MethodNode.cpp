@@ -11,6 +11,7 @@
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
+#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object{
@@ -79,5 +80,11 @@ void MethodNodeObject::eval(machine::Machine& machine)
 	machine.pushResult(machine.eval(this->node));
 	machine.endLocal(local);
 }
+
+std::string MethodNodeObject::toString()
+{
+	return util::format("<< MethodNodeObject %d >>", getHash());
+}
+
 
 }}

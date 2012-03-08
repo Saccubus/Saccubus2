@@ -9,6 +9,7 @@
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
+#include "../util/StringUtil.h"
 
 using namespace nekomata::tree;
 
@@ -119,6 +120,11 @@ std::vector<std::string> LazyEvalObject::getSlotNames()
 size_t LazyEvalObject::slotSize()
 {
 	return node->slotSize();
+}
+
+std::string LazyEvalObject::toString()
+{
+	return util::format("<< LazyEvalObject %d >>", getHash());
 }
 
 }}

@@ -6,6 +6,7 @@
  */
 
 #include "Object.h"
+#include "../util/StringUtil.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../logging/Exception.h"
@@ -39,6 +40,11 @@ DEF_BUILTIN(LambdaObject, index)
 	machine.endLocal(local);
 }
 
+std::string LambdaObject::toString()
+{
+	return util::format("<< LambdaObject %d >>", getHash());
+}
+
 LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
 :Object(heap)
 {
@@ -70,6 +76,11 @@ DEF_BUILTIN(LambdaScopeObject, atmark)
 		}
 	}
 	machine.pushResult(local);
+}
+
+std::string LambdaScopeObject::toString()
+{
+	return util::format("<< LambdaScopeObject %d >>", getHash());
 }
 
 }}

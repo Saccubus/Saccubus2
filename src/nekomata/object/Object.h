@@ -110,6 +110,9 @@ public:
 	DEC_BUILTIN(setSlot);
 	DEC_BUILTIN(getSlot);
 	DEC_BUILTIN(clone);
+
+	DEC_BUILTIN(equals);
+	DEC_BUILTIN(notEquals);
 public:
 	DEC_BUILTIN(if);
 	DEC_BUILTIN(while_kari);
@@ -190,6 +193,7 @@ public:
 	virtual bool has(const std::string& key);
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
+	virtual std::string toString();
 };
 
 
@@ -221,6 +225,8 @@ public: /* KEYアクセス */
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 public:
+	virtual std::string toString();
+public:
 	const tree::ObjectNode* const getRawNode() const{return node;};
 };
 
@@ -231,6 +237,8 @@ protected:
 	MethodObject(ObjectHeap& heap):Object(heap){};
 	MethodObject(Object& parent, const unsigned int hash):Object(parent, hash){};
 	virtual ~MethodObject(){}
+public:
+	virtual std::string toString() = 0;
 };
 
 class NativeMethodObject : public MethodObject
@@ -243,6 +251,8 @@ public:
 	explicit NativeMethodObject(ObjectHeap& heap, Method method);
 	virtual ~NativeMethodObject();
 	virtual void eval(machine::Machine& machine);
+public:
+	virtual std::string toString();
 };
 class MethodNodeObject : public MethodObject
 {
@@ -261,6 +271,8 @@ public:
 	explicit MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule);
 	virtual ~MethodNodeObject();
 	virtual void eval(machine::Machine& machine);
+public:
+	virtual std::string toString();
 };
 
 class LambdaObject : public MethodObject
@@ -273,6 +285,8 @@ public:
 	virtual ~LambdaObject();
 public:
 	DEC_BUILTIN(index);
+public:
+	virtual std::string toString();
 };
 
 class LambdaScopeObject : public Object
@@ -283,6 +297,8 @@ public:
 	virtual ~LambdaScopeObject();
 public:
 	DEC_BUILTIN(atmark);
+public:
+	virtual std::string toString();
 };
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -293,6 +309,8 @@ protected:
 	explicit LiteralObject(Object& parent):Object(parent, 0){};
 	explicit LiteralObject(LiteralObject& parent, int hash):Object(parent, hash){};
 	virtual ~LiteralObject(){};
+public:
+	virtual std::string toString() = 0;
 };
 class StringObject : public LiteralObject
 {

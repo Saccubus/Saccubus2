@@ -86,8 +86,7 @@ object::Handler<object::Object> Machine::resolveScope(const std::string& name)
 		return getLocal();
 	}else{
 		for(object::Handler<object::Object> obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
-			const object::Handler<object::Object> slot = obj->getSlot(name);
-			if(!slot->isUndefined()){
+			if(obj->has(name)){
 				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), object::cast<std::string>(obj).c_str());
 				return obj;
 			}
@@ -136,7 +135,7 @@ void Machine::walkImpl(const NumericLiteralNode & node)
 }
 void Machine::walkImpl(const StringLiteralNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating Numeric node: %s", node.getLiteral().c_str());
+	this->log.t(TAG, &node.location(), "Evaluating String node: %s", node.getLiteral().c_str());
 	pushResult(heap.newStringObject(node.getLiteral()));
 }
 void Machine::walkImpl(const AssignNode & node)
@@ -160,6 +159,7 @@ void Machine::walkImpl(const AssignNode & node)
 		const object::Handler<object::StringObject> nameObj(heap.newStringObject(invokeNode->getMessageName()));
 
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), rhsObj.get()));
+		log.t(TAG, &invokeNode->location(), "set %s on %s to %s", object::cast<std::string>(nameObj).c_str(), object::cast<std::string>(destObj).c_str(), object::cast<std::string>(rhsObj).c_str());
 		pushResult(rhsObj);
 	}else if(idxNode){
 		this->log.t(TAG, &idxNode->location(), "Evaluating assign node with index access node.");
@@ -168,6 +168,7 @@ void Machine::walkImpl(const AssignNode & node)
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), rhsObj.get()));
+		log.t(TAG, &invokeNode->location(), "set %s on %s to %s", object::cast<std::string>(idxObj).c_str(), object::cast<std::string>(destObj).c_str(), object::cast<std::string>(rhsObj).c_str());
 		pushResult(rhsObj);
 	}else{
 		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid assign node.");

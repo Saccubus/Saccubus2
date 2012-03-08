@@ -5,13 +5,14 @@
  *      Author: psi
  */
 
-#include "Object.h"
-#include "../machine/Machine.h"
-#include "../tree/Node.h"
 #include <cmath>
 #include <sstream>
 #include <algorithm>
 #include <tr1/functional>
+#include "Object.h"
+#include "../machine/Machine.h"
+#include "../tree/Node.h"
+#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object
@@ -27,6 +28,11 @@ NativeMethodObject::~NativeMethodObject()
 void NativeMethodObject::eval(machine::Machine& machine)
 {
 	method(this, machine);
+}
+
+std::string NativeMethodObject::toString()
+{
+	return util::format("<< NathiveMethodObject %d >>", getHash());
 }
 
 

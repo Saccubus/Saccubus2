@@ -6,6 +6,7 @@
  */
 
 #include "Object.h"
+#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object{
@@ -70,5 +71,11 @@ size_t HookableObject::slotSize()
 {
 	return Object::slotSize()+getterList.size();
 }
+
+std::string HookableObject::toString()
+{
+	return util::format("<< HookableObject %d >>", getHash());
+}
+
 
 }}

@@ -13,6 +13,7 @@
 #include "Cast.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
+#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object
@@ -33,6 +34,9 @@ Object::Object(ObjectHeap& heap, bool isRaw)
 	if(!isRaw){
 		ADD_BUILTIN(def);
 		ADD_BUILTIN(def_kari);
+
+		ADD_BUILTIN(equals);
+		ADD_BUILTIN(notEquals);
 
 		ADD_BUILTIN(index);
 		ADD_BUILTIN(indexSet);
@@ -268,9 +272,7 @@ size_t Object::slotSize()
 
 std::string Object::toString()
 {
-	std::stringstream ss;
-	ss << "<< Object: " << getHash() << ">>";
-	return ss.str();
+	return util::format("<< Object %d >>", getHash());
 }
 double Object::toNumeric()
 {
@@ -340,6 +342,19 @@ DEF_BUILTIN(Object, def_kari)
 	const Handler<MethodNodeObject>_method(self->getHeap().newMethodNodeObject(machine.getLocal(), arg->getRawNode()->index(1), MethodNodeObject::def_kari));
 	self->setSlot(methodName, _method);
 	machine.pushResult(_method);
+}
+
+DEF_BUILTIN(Object, equals)
+{
+	const Handler<Object> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument()->index(0));
+	machine.pushResult(self->getHeap().newBooleanObject(self.get() == arg.get()));
+}
+DEF_BUILTIN(Object, notEquals)
+{
+	const Handler<Object> self(machine.getSelf());
+	const Handler<Object> arg(machine.getArgument()->index(0));
+	machine.pushResult(self->getHeap().newBooleanObject(self.get() != arg.get()));
 }
 
 DEF_BUILTIN(Object, index)
