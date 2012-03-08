@@ -64,7 +64,7 @@ std::string NumericObject::toString()
 }
 bool NumericObject::toBool()
 {
-	return value == 0;
+	return !(value != value);
 }
 double NumericObject::toNumeric(){
 	return value;

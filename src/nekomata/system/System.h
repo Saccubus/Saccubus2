@@ -28,7 +28,7 @@ public:\
 	virtual type name() const{return name##_;} \
 	virtual void name(const type& name##__){\
 		if(this->name##_ != name##__){\
-			this->___##name(name##_);\
+			this->___##name(name##__);\
 			this->onChanged();\
 		}\
 	}
@@ -360,28 +360,24 @@ private:
 		float to(){return _to;}
 		const tree::Node* then(){return _then;}
 	};
-	float _currentTime;
-	int color;
-protected:
-	float currentTime(){return _currentTime;}
-	void currentTime(float time){_currentTime=time;}
-protected:
-	int nextColor(){return ++color;}
-private:
-	std::map<std::string, double> markerMap;
-	std::vector<Shape*> shapeList;
-	std::vector<Label*> labelList;
-	std::vector<Sum*> sumList;
-	std::vector<SumResult*> sumResultList;
-	std::vector<Replace*> replaceList;
-	std::vector<Button*> buttonList;
-	nekomata::TimeLine<EventEntry> timerLine;
-	nekomata::TimeLine<EventEntry> ctrigLine;
 public:
 	logging::Logger& log;
 	explicit System(logging::Logger& log);
 	virtual ~System();
-
+private:
+	float _currentTime;
+	int color;
+public:
+	float currentTime(){return _currentTime;}
+protected:
+	void currentTime(float time){_currentTime=time;}
+	int nextColor(){return ++color;}
+private:
+	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
+	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
+	const TimePoint<System::EventEntry>* findFirstTimer(const int color, const double from, const double to);
+//---------------------------------------------------------------------------------------------------------------------
+public: /* スクリプトから参照される */
 	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
 	virtual util::Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
 	virtual void commentTrigger(float const timer, const tree::Node* then);
@@ -405,19 +401,6 @@ public:
 	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
-private:
-	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
-	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
-	const TimePoint<System::EventEntry>* findFirstTimer(const int color, const double from, const double to);
-public:
-	void seek(machine::Machine& machine, const double from, const double to);
-public:
-	virtual Comment findFirstComment(const int objColor, const double from, const double to){return Comment();};
-	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){return 0;};
-	virtual float getLastCommentTime() {return -1;};
-protected:
-	virtual std::string inspect();
-	void onChanged();
 public:
 	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
 	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);
@@ -430,6 +413,25 @@ public:
 	DEF_ADAPTER_ACCESSOR(isLoaded, bool);
 	DEF_ADAPTER_ACCESSOR(isWide, bool);
 	DEF_ADAPTER_ACCESSOR(lastVideo, std::string);
+private:
+	std::map<std::string, double> markerMap;
+	std::vector<Shape*> shapeList;
+	std::vector<Label*> labelList;
+	std::vector<Sum*> sumList;
+	std::vector<SumResult*> sumResultList;
+	std::vector<Replace*> replaceList;
+	std::vector<Button*> buttonList;
+	nekomata::TimeLine<EventEntry> timerLine;
+	nekomata::TimeLine<EventEntry> ctrigLine;
+public: /* Nekomataから操作される */
+	void seek(machine::Machine& machine, const double from, const double to);
+public: /* INFO: 各サブシステムで再実装すること。 */
+	virtual Comment findFirstComment(const int objColor, const double from, const double to) = 0;
+	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){return 0;};
+	virtual float getLastCommentTime() = 0;
+protected: /* INFO: 各サブシステムで再実装すること。 */
+	virtual std::string inspect();
+	void onChanged();
 };
 
 

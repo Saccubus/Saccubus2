@@ -31,12 +31,14 @@ Object::Object(ObjectHeap& heap, bool isRaw)
 	ADD_BUILTIN(setSlot);
 	ADD_BUILTIN(getSlot);
 	ADD_BUILTIN(clone);
+	ADD_BUILTIN(equals);
+	ADD_BUILTIN(notEquals);
+	ADD_BUILTIN(alternate);
+	ADD_BUILTIN_ALT(alternate, "alt");
+
 	if(!isRaw){
 		ADD_BUILTIN(def);
 		ADD_BUILTIN(def_kari);
-
-		ADD_BUILTIN(equals);
-		ADD_BUILTIN(notEquals);
 
 		ADD_BUILTIN(index);
 		ADD_BUILTIN(indexSet);
@@ -355,6 +357,16 @@ DEF_BUILTIN(Object, notEquals)
 	const Handler<Object> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newBooleanObject(self.get() != arg.get()));
+}
+
+DEF_BUILTIN(Object, alternate)
+{
+	Handler<Object> self(machine.getSelf());
+	if(self->toBool()){
+		machine.pushResult(machine.getArgument()->index(0));
+	}else{
+		machine.pushResult(machine.getArgument()->index(1));
+	}
 }
 
 DEF_BUILTIN(Object, index)

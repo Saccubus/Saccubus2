@@ -23,7 +23,7 @@ using namespace std::tr1;
 static const std::string TAG("System");
 
 System::System(logging::Logger& log)
-:_currentTime(0), color(0), log(log)
+:log(log), _currentTime(0), color(0)
 {
 }
 

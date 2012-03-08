@@ -113,6 +113,7 @@ public:
 
 	DEC_BUILTIN(equals);
 	DEC_BUILTIN(notEquals);
+	DEC_BUILTIN(alternate);
 public:
 	DEC_BUILTIN(if);
 	DEC_BUILTIN(while_kari);
