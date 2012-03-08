@@ -12,7 +12,7 @@ namespace cli {
 
 void CLILabel::onChanged()
 {
-	system.stream() << nekomata::util::format("[label][%8 .2f] %s", this->system.currentTime(), text().c_str()) << std::endl;
+	system.stream() << nekomata::util::format("[Label][%8 .2f] %s", this->system.currentTime(), text().c_str()) << std::endl;
 }
 
 CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream)
@@ -29,7 +29,7 @@ CLISystem::~CLISystem() {
 
 nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
-	stream() << nekomata::util::format("[label][%8 .2f] %s", this->currentTime(), text.c_str()) << std::endl;
+	stream() << nekomata::util::format("[Label][%8 .2f] %s", this->currentTime(), text.c_str()) << std::endl;
 	nekomata::util::Handler<nekomata::system::Label> label(new CLILabel(*this));
 	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return label;
