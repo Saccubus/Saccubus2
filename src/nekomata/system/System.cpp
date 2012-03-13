@@ -27,9 +27,24 @@ System::System(logging::Logger& log)
 {
 }
 
-System::~System() {
-	// TODO Auto-generated destructor stub
+template <typename T>
+void deleteSystemItems(std::set<T*>& map)
+{
+	typename std::set<T*>::iterator end = map.end();
+	for(typename std::set<T*>::iterator it=map.begin();it != end; ++it){
+		delete *it;
+	}
 }
+
+System::~System() {
+	deleteSystemItems<Shape>(shapeList);
+	deleteSystemItems<Label>(labelList);
+	deleteSystemItems<Sum>(sumList);
+	deleteSystemItems<SumResult>(sumResultList);
+	deleteSystemItems<Replace>(replaceList);
+	deleteSystemItems<Button>(buttonList);
+}
+
 
 util::Handler<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 {
