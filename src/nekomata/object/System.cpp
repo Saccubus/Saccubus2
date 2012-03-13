@@ -14,6 +14,8 @@
 #include "../machine/Machine.h"
 #include "../system/System.h"
 #include "../tree/Node.h"
+#include "../util/StringUtil.h"
+
 
 using namespace std::tr1;
 
@@ -365,6 +367,11 @@ DEF_BUILTIN(SystemObject, playCM)
 	const Handler<SystemObject> self(machine.getSelf());
 	self->system.playCM(cast<int>(machine.getArgument()->index(0)));
 	machine.pushResult(self->getHeap().newUndefinedObject());
+}
+
+std::string SystemObject::toString()
+{
+	return util::format("<< SystemObject >>");
 }
 
 //---------------------------------------------------------------------------------------------------------------------

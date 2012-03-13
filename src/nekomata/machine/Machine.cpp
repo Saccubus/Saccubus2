@@ -62,7 +62,7 @@ object::Handler<object::Object> Machine::getLocal()
 }
 void Machine::enterLocal(object::Handler<object::Object> local, object::Handler<object::Object> parent)
 {
-	this->log.t(TAG, 0, "enter new local (now depth: %d)", scopeStack.size());
+	this->log.t(TAG, 0, "enter local (depth: %d->%d)", scopeStack.size(), scopeStack.size()+1);
 	if(parent){
 		local->setSlot("$$parent", parent);
 	}
@@ -72,22 +72,25 @@ void Machine::endLocal(object::Handler<object::Object> local)
 {
 	if(scopeStack.top() != local.get()){
 		this->log.e(TAG, 0, "[BUG] calling \"end local\" was forgotten!");
+	}else if(scopeStack.size() <= 1){
+		this->log.e(TAG, 0, "[BUG] leaving from top level scope!!");
 	}
+	this->log.t(TAG, 0, "leaving local (depth: %d->%d)", scopeStack.size(), scopeStack.size()-1);
 	scopeStack.pop();
 }
 
 object::Handler<object::Object> Machine::resolveScope(const std::string& name)
 {
 	if(name.compare("self") == 0){
-		this->log.t(TAG, 0, "Scope Resolved: self");
+		this->log.t(TAG, 0, "Scope resolved: self");
 		return getSelf();
 	}else if(name.compare("local") == 0){
-		this->log.t(TAG, 0, "Scope Resolved: \"local\"");
+		this->log.t(TAG, 0, "Scope resolved: \"local\"");
 		return getLocal();
 	}else{
 		for(object::Handler<object::Object> obj = getLocal();!obj->isUndefined();obj=obj->getSlot("$$parent")){
 			if(obj->has(name)){
-				this->log.t(TAG, 0, "Scope Resolved: %s in %s", name.c_str(), object::cast<std::string>(obj).c_str());
+				this->log.t(TAG, 0, "Scope resolved: %s in %s", name.c_str(), object::cast<std::string>(obj).c_str());
 				return obj;
 			}
 		}
@@ -107,6 +110,10 @@ object::Handler<object::Object> Machine::eval(const Node * node, const object::H
 	return object::Handler<object::Object>(resultStack.pop());
 }
 object::Handler<object::Object> Machine::send(const object::Handler<object::Object>& self, const std::string& message, const object::Handler<object::Object>& arg){
+	this->log.t(TAG, 0, "Sending %s on %s.",
+			message.c_str(),
+			object::cast<std::string>(self).c_str()
+			);
 	if(arg){
 		argStack.push(arg.get());
 	}else{
@@ -125,26 +132,25 @@ object::Handler<object::Object> Machine::send(const object::Handler<object::Obje
 
 void Machine::walkImpl(const BoolLiteralNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating Boolean node: %s", node.getLiteral() ? "true" : "false");
+	this->log.t(TAG, &node.location(), "Walked Boolean node: %s", node.getLiteral() ? "true" : "false");
 	pushResult(heap.newBooleanObject(node.getLiteral()));
 }
 void Machine::walkImpl(const NumericLiteralNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating Numeric node: %f", node.getLiteral());
+	this->log.t(TAG, &node.location(), "Walked Numeric node: %f", node.getLiteral());
 	pushResult(heap.newNumericObject(node.getLiteral()));
 }
 void Machine::walkImpl(const StringLiteralNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating String node: %s", node.getLiteral().c_str());
+	this->log.t(TAG, &node.location(), "Walked String node: %s", node.getLiteral().c_str());
 	pushResult(heap.newStringObject(node.getLiteral()));
 }
 void Machine::walkImpl(const AssignNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating assign node");
+	this->log.t(TAG, &node.location(), "Walking assign node.");
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 	if(invokeNode){
-		this->log.t(TAG, &invokeNode->location(), "Evaluating assign node with invoke node.");
 		object::Handler<object::Object> destObj(0);
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
 		if(invokeNode->getExprNode()){
@@ -159,16 +165,23 @@ void Machine::walkImpl(const AssignNode & node)
 		const object::Handler<object::StringObject> nameObj(heap.newStringObject(invokeNode->getMessageName()));
 
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), rhsObj.get()));
-		log.t(TAG, &invokeNode->location(), "set %s on %s to %s", object::cast<std::string>(nameObj).c_str(), object::cast<std::string>(destObj).c_str(), object::cast<std::string>(rhsObj).c_str());
+		this->log.t(TAG, &invokeNode->location(), "Walked assign node: %s.%s (=>%s)",
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(nameObj).c_str(),
+				object::cast<std::string>(rhsObj).c_str()
+				);
 		pushResult(rhsObj);
 	}else if(idxNode){
-		this->log.t(TAG, &idxNode->location(), "Evaluating assign node with index access node.");
 		const object::Handler<object::Object> destObj = eval(idxNode->getExprNode());
 		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), rhsObj.get()));
-		log.t(TAG, &invokeNode->location(), "set %s on %s to %s", object::cast<std::string>(idxObj).c_str(), object::cast<std::string>(destObj).c_str(), object::cast<std::string>(rhsObj).c_str());
+		this->log.t(TAG, &invokeNode->location(), "Walked assign node: %s[%s] (=>%s)",
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(idxObj).c_str(),
+				object::cast<std::string>(rhsObj).c_str()
+				);
 		pushResult(rhsObj);
 	}else{
 		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid assign node.");
@@ -177,11 +190,10 @@ void Machine::walkImpl(const AssignNode & node)
 }
 void Machine::walkImpl(const OpAssignNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating op assign node: %s", node.getOp().c_str());
+	this->log.t(TAG, &node.location(), "Walked op assign node: %s", node.getOp().c_str());
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getLeftNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getLeftNode());
 	if(invokeNode){
-		this->log.t(TAG, &invokeNode->location(), "Evaluating op assign node with invoke node.");
 		object::Handler<object::Object> destObj(0);
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
 		if(invokeNode->getExprNode()){
@@ -195,9 +207,16 @@ void Machine::walkImpl(const OpAssignNode & node)
 		const object::Handler<object::Object> result = send(operandObj, node.getOp(), heap.newArrayObject(1, rhsObj.get()));
 
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), result.get()));
+		this->log.t(TAG, &invokeNode->location(), "Walked op(%s %s) assign node %s.%s (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(rhsObj).c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(nameObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
 		pushResult(result);
 	}else if(idxNode){
-		this->log.t(TAG, &idxNode->location(), "Evaluating op assign node with index access node.");
 		const object::Handler<object::Object> destObj = eval(idxNode->getExprNode());
 		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
@@ -206,6 +225,14 @@ void Machine::walkImpl(const OpAssignNode & node)
 		const object::Handler<object::Object> result = send(operandObj, node.getOp(), heap.newArrayObject(1, rhsObj.get()));
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
+		this->log.t(TAG, &invokeNode->location(), "Walked op(%s %s) assign node %s[%s] (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(rhsObj).c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(idxObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
 		pushResult(result);
 	}else{
 		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid op assign node.");
@@ -214,21 +241,24 @@ void Machine::walkImpl(const OpAssignNode & node)
 }
 void Machine::walkImpl(const IndexAcessNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating index access node.");
+	this->log.t(TAG, &node.location(), "Walking index access node");
 	const object::Handler<object::Object> destObj = eval(node.getExprNode());
+	this->log.t(TAG, &node.location(), "Walked index access node on %s. (Lazy eval)",
+			object::cast<std::string>(destObj).c_str()
+			);
 	pushResult(send(destObj, "index", heap.newLazyEvalObject(*this, node.getObjectNode())));
 }
 void Machine::walkImpl(const BindNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating bind node.");
+	this->log.t(TAG, &node.location(), "Walked binding node.(Lazy eval)");
 	pushResult(eval(node.getExprNode(), heap.newLazyEvalObject(*this, node.getObjectNode())));
 }
 void Machine::walkImpl(const PostOpNode & node)
 {
+	this->log.t(TAG, &node.location(), "Walking post op node.", node.getOp().c_str());
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
-		this->log.t(TAG, &node.location(), "Evaluating post op node with invoke node: %s", node.getOp().c_str());
 		object::Handler<object::Object> destObj(0);
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -241,9 +271,15 @@ void Machine::walkImpl(const PostOpNode & node)
 		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), result.get()));
+		this->log.t(TAG, &invokeNode->location(), "Walked post op(%s) node %s.%s (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(nameObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
 		pushResult(operandObj);
 	}else if(idxNode){
-		this->log.t(TAG, &node.location(), "Evaluating post op node with index access node: %s", node.getOp().c_str());
 		const object::Handler<object::Object> destObj = eval(idxNode->getExprNode());
 		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 
@@ -251,7 +287,13 @@ void Machine::walkImpl(const PostOpNode & node)
 		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
-
+		this->log.t(TAG, &invokeNode->location(), "Walked post op(%s) assign node %s[%s] (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(idxObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
 		pushResult(operandObj);
 	}else{
 		this->log.w(TAG, &node.location(), "Invalid post op node.");
@@ -260,10 +302,10 @@ void Machine::walkImpl(const PostOpNode & node)
 }
 void Machine::walkImpl(const PreOpNode & node)
 {
+	this->log.t(TAG, &node.location(), "Walking pre op node.", node.getOp().c_str());
 	const InvokeNode* const invokeNode = dynamic_cast<const InvokeNode*>(node.getExprNode());
 	const IndexAcessNode* const idxNode = dynamic_cast<const IndexAcessNode*>(node.getExprNode());
 	if(invokeNode){
-		this->log.t(TAG, &node.location(), "Evaluating pre op node with invoke node: %s", node.getOp().c_str());
 		object::Handler<object::Object> destObj(0);
 		if(invokeNode->getExprNode()){
 			destObj = eval(invokeNode->getExprNode());
@@ -275,10 +317,15 @@ void Machine::walkImpl(const PreOpNode & node)
 		object::Handler<object::Object> operandObj = send(destObj, "getSlot", heap.newArrayObject(1, nameObj.get()));
 		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 		send(destObj, "setSlot", heap.newArrayObject(2, nameObj.get(), result.get()));
-
+		this->log.t(TAG, &invokeNode->location(), "Walked pre op(%s) node %s.%s (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(nameObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
 		pushResult(result);
 	}else if(idxNode){
-		this->log.t(TAG, &node.location(), "Evaluating pre op node with index access node: %s", node.getOp().c_str());
 		const object::Handler<object::Object> destObj = eval(idxNode->getExprNode());
 		const object::Handler<object::Object> idxObj = eval(idxNode->getObjectNode());
 
@@ -286,8 +333,14 @@ void Machine::walkImpl(const PreOpNode & node)
 		const object::Handler<object::Object> result = send(object::Handler<object::Object>(operandObj), node.getOp()) ;
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
-
-		pushResult(operandObj);
+		this->log.t(TAG, &invokeNode->location(), "Walked pre op(%s) assign node %s[%s] (%s -> %s)",
+				node.getOp().c_str(),
+				object::cast<std::string>(destObj).c_str(),
+				object::cast<std::string>(idxObj).c_str(),
+				object::cast<std::string>(operandObj).c_str(),
+				object::cast<std::string>(result).c_str()
+				);
+		pushResult(result);
 	}else{
 		this->log.w(TAG, &node.location(), "Invalid pre op node.");
 		pushResult(eval(node.getExprNode()));
@@ -295,14 +348,21 @@ void Machine::walkImpl(const PreOpNode & node)
 }
 void Machine::walkImpl(const BinOpNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating bin op node: %s", node.getOp().c_str());
+	this->log.t(TAG, &node.location(), "Walking bin op node: %s", node.getOp().c_str());
 	const object::Handler<object::Object> leftObj = eval(node.getLeftNode());
 	const object::Handler<object::Object> rightObj = eval(node.getRightNode());
-	pushResult( send(leftObj, node.getOp(), heap.newArrayObject(1, rightObj.get())) );
+	const object::Handler<object::Object> result = send(leftObj, node.getOp(), heap.newArrayObject(1, rightObj.get()));
+	this->log.t(TAG, &node.location(), "Walked bin op node: %s %s %s => %s, index node.",
+			object::cast<std::string>(leftObj).c_str(),
+			node.getOp().c_str(),
+			object::cast<std::string>(rightObj).c_str(),
+			object::cast<std::string>(result).c_str()
+			);
+	pushResult( result );
 }
 void Machine::walkImpl(const ObjectNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating object node.");
+	this->log.t(TAG, &node.location(), "Walking object node.");
 	const object::Handler<object::Object> obj = heap.newObject();
 
 	const size_t argc = node.size();
@@ -314,22 +374,38 @@ void Machine::walkImpl(const ObjectNode & node)
 	for(std::vector<std::string>::const_iterator it = args.begin();it!=args.end();++it){
 		obj->setSlot(*it, eval(node.getSlot(*it)));
 	}
+	this->log.t(TAG, &node.location(), "Walked object node: %s",
+			object::cast<std::string>(obj).c_str()
+		);
 	pushResult(obj);
 }
 void Machine::walkImpl(const InvokeNode & node)
 {
-	this->log.t(TAG, &node.location(), "Evaluating invoke node.");
+	this->log.t(TAG, &node.location(), "Walking invoke node: %s", node.getMessageName().c_str());
 	if(node.getExprNode()){
 		const object::Handler<object::Object> destObj = eval(node.getExprNode());
-		pushResult(send(destObj, node.getMessageName(), getArgument()));
+		const object::Handler<object::Object> result = send(destObj, node.getMessageName(), getArgument());
+		this->log.t(TAG, &node.location(), "Walked invoke node: %s.%s (=> %s)",
+				object::cast<std::string>(destObj).c_str(),
+				node.getMessageName().c_str(),
+				object::cast<std::string>(result).c_str()
+			);
+		pushResult(result);
 	}else{
-		pushResult(send(resolveScope(node.getMessageName()), node.getMessageName(), getArgument()));
+		const object::Handler<object::Object> destObj = resolveScope(node.getMessageName());
+		const object::Handler<object::Object> result = send(destObj, node.getMessageName(), getArgument());
+		this->log.t(TAG, &node.location(), "Walked invoke node: %s.%s (=> %s)",
+				object::cast<std::string>(destObj).c_str(),
+				node.getMessageName().c_str(),
+				object::cast<std::string>(result).c_str()
+			);
+		pushResult(result);
 	}
 }
 void Machine::walkImpl(const ContNode & node)
 {
 	eval(node.getFirstNode());
-	this->log.t(TAG, &node.location(), "Evaluating continuing node.");
+	this->log.t(TAG, &node.location(), "Walking continuing node.");
 	pushResult(eval(node.getNextNode()));
 }
 

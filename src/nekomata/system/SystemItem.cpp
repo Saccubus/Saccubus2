@@ -87,7 +87,7 @@ void clazz::decNativeRef()\
 void clazz::incNativeRef()\
 {\
 	if(getNativeRef() <= 0){\
-		system.log.v(TAG, 0, "%s created and registed.", inspect().c_str());\
+		system.log.v(TAG, 0, "%s created and registed.", #clazz);\
 		system.regist(this);\
 	}\
 	SystemItem::incNativeRef();\

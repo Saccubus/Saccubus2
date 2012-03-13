@@ -57,6 +57,8 @@ public:
 	DEC_BUILTIN(addPostRoute);
 	DEC_BUILTIN(CM);
 	DEC_BUILTIN(playCM);
+public:
+	virtual std::string toString();
 };
 
 class ShapeObject : public HookableObject
@@ -83,7 +85,8 @@ public:
 	DEC_HOOK_ACCESSOR(alpha);
 	DEC_HOOK_ACCESSOR(rotation);
 	DEC_HOOK_ACCESSOR(mover);
-
+public:
+	virtual std::string toString();
 };
 
 class SumObject : public HookableObject
@@ -108,6 +111,8 @@ public:
 	DEC_HOOK_ACCESSOR(buttononly);
 	DEC_HOOK_ACCESSOR(words);
 	DEC_HOOK_ACCESSOR(partial);
+public:
+	virtual std::string toString();
 };
 class SumResultObject : public HookableObject
 {
@@ -127,6 +132,8 @@ public:
 	DEC_HOOK_ACCESSOR(unit);
 	DEC_HOOK_ACCESSOR(asc);
 	DEC_HOOK_ACCESSOR(sum);
+public:
+	virtual std::string toString();
 };
 class LabelObject : public HookableObject
 {
@@ -150,6 +157,8 @@ public:
 	DEC_HOOK_ACCESSOR(filter);
 	DEC_HOOK_ACCESSOR(alpha);
 	DEC_HOOK_ACCESSOR(mover);
+public:
+	virtual std::string toString();
 };
 
 class ButtonObject : public HookableObject
@@ -170,6 +179,8 @@ public:
 	DEC_HOOK_ACCESSOR(comvisible);
 	DEC_HOOK_ACCESSOR(limit);
 	DEC_HOOK_ACCESSOR(hidden);
+public:
+	virtual std::string toString();
 };
 
 class ReplaceObject : public HookableObject
@@ -191,6 +202,8 @@ public:
 	DEC_HOOK_ACCESSOR(color);
 	DEC_HOOK_ACCESSOR(size);
 	DEC_HOOK_ACCESSOR(pos);
+public:
+	virtual std::string toString();
 };
 
 }}
