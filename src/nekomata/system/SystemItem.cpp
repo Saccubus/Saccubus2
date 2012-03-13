@@ -14,6 +14,16 @@ namespace system {
 
 const std::string TAG("SystemItem");
 
+void SystemItem::incNativeRef(){
+	++nativeRef;
+};
+void SystemItem::decNativeRef(){
+	--nativeRef;
+	if(nativeRef < 0){
+		system.log.e("SystemItem", 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, inspect().c_str());
+	}
+};
+
 void SystemItem::onChanged()
 {
 	system.log.v(TAG, 0, "prop changed: %s", inspect().c_str());
@@ -26,6 +36,8 @@ std::string Shape::inspect()
 			x(), y(), z(), shape().c_str(), width(), height(), color(), visible(), pos().c_str(), mask(), commentmask(), alpha(), rotation(), mover().c_str()
 			);
 }
+
+
 std::string Label::inspect()
 {
 	return nekomata::util::format(
@@ -55,7 +67,6 @@ std::string Replace::inspect()
 		src().c_str(), dst().c_str(), enabled(), target().c_str(), fill(), partial(), color(), size().c_str(), pos().c_str()
 	);
 }
-
 std::string Button::inspect()
 {
 	return nekomata::util::format(
@@ -64,5 +75,46 @@ std::string Button::inspect()
 	);
 }
 
+#define REF_TEMPLATE(clazz, valid_expr)\
+void clazz::decNativeRef()\
+{\
+	SystemItem::decNativeRef();\
+	if(getNativeRef() == 0 && !(valid_expr)){\
+		system.log.v(TAG, 0, "%s was not referenced any more, so deleted.", inspect().c_str());\
+		system.unregist(this);\
+	}\
+}\
+void clazz::incNativeRef()\
+{\
+	if(getNativeRef() <= 0){\
+		system.log.v(TAG, 0, "%s created and registed.", inspect().c_str());\
+		system.regist(this);\
+	}\
+	SystemItem::incNativeRef();\
+}
+
+REF_TEMPLATE(Shape, visible())
+REF_TEMPLATE(Label, visible())
+REF_TEMPLATE(Sum, visible())
+REF_TEMPLATE(SumResult, visible())
+REF_TEMPLATE(Replace, enabled())
+
+void Button::decNativeRef()
+{
+	SystemItem::decNativeRef();
+	if(getNativeRef() == 0){
+		system.log.v(TAG, 0, "%s was not referenced any more, but cannot delete?", inspect().c_str());
+		//system.unregist(this);
+	}
+}
+void Button::incNativeRef()
+{
+	if(getNativeRef() <= 0){
+		system.regist(this);
+	}
+	SystemItem::incNativeRef();
+}
+
+#undef REF_TEMPLATE
 
 }}

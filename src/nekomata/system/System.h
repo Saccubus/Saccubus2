@@ -9,7 +9,7 @@
 #define SYSTEM_H_
 
 #include <string>
-#include <vector>
+#include <set>
 #include <map>
 #include "../classdefs.h"
 #include "../TimeLine.h"
@@ -37,20 +37,20 @@ public:\
 
 class SystemItem
 {
-private:
-	int nativeRef;
 protected:
 	System& system;
+private:
+	int nativeRef;
 public:
-	explicit SystemItem(System& system):system(system){};
+	explicit SystemItem(System& system):system(system), nativeRef(0){};
 	virtual ~SystemItem(){};
 protected:
 	virtual void onChanged();
 	virtual std::string inspect() = 0;
 public:
 	int getNativeRef(){return nativeRef;}
-	virtual void incNativeRef(){};
-	virtual void decNativeRef(){};
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 };
 
 class Shape : public SystemItem
@@ -92,7 +92,8 @@ public:
 	explicit Shape(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Shape(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 
@@ -131,7 +132,8 @@ public:
 	explicit Sum(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Sum(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 class SumResult : public SystemItem
@@ -161,7 +163,8 @@ public:
 	explicit SumResult(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~SumResult(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 class Label : public SystemItem
@@ -199,7 +202,8 @@ public:
 	explicit Label(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
 	virtual ~Label(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 
@@ -230,7 +234,8 @@ public:
 	explicit Button(System& system)
 	:SystemItem(system), SET_DEFAULT(hidden, true){};
 	virtual ~Button(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 
@@ -266,7 +271,8 @@ public:
 	explicit Replace(System& system)
 	:SystemItem(system), SET_DEFAULT(enabled, false){};
 	virtual ~Replace(){};
-protected:
+	virtual void incNativeRef();
+	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 
@@ -415,14 +421,32 @@ public:
 	DEF_ADAPTER_ACCESSOR(lastVideo, std::string);
 private:
 	std::map<std::string, double> markerMap;
-	std::vector<Shape*> shapeList;
-	std::vector<Label*> labelList;
-	std::vector<Sum*> sumList;
-	std::vector<SumResult*> sumResultList;
-	std::vector<Replace*> replaceList;
-	std::vector<Button*> buttonList;
+	std::set<Shape*> shapeList;
+	std::set<Label*> labelList;
+	std::set<Sum*> sumList;
+	std::set<SumResult*> sumResultList;
+	std::set<Replace*> replaceList;
+	std::set<Button*> buttonList;
 	nekomata::TimeLine<EventEntry> timerLine;
 	nekomata::TimeLine<EventEntry> ctrigLine;
+public: /* SystemItemからのコールバック関数 */
+	void regist(Shape* const shape);
+	void unregist(Shape* const shape);
+
+	void regist(Label* const label);
+	void unregist(Label* const label);
+
+	void regist(Sum* const sum);
+	void unregist(Sum* const sum);
+
+	void regist(SumResult* const sumResult);
+	void unregist(SumResult* const sumResult);
+
+	void regist(Replace* const replace);
+	void unregist(Replace* const replace);
+
+	void regist(Button* const button);
+	void unregist(Button* const button);
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 public: /* INFO: 各サブシステムで再実装すること。 */

@@ -12,6 +12,7 @@ namespace cli {
 
 void CLILabel::onChanged()
 {
+	Label::onChanged();
 	system.stream() << nekomata::util::format("[Label][% 8.2f] %s", this->system.currentTime(), text().c_str()) << std::endl;
 }
 

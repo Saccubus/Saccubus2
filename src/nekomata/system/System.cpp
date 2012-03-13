@@ -290,4 +290,30 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const std::string
 	}
 }
 
+#define REGIST_TEMPLATE(clazz, name) \
+void System::regist(clazz* const name)\
+{\
+	const bool inserted = this->name##List.insert(name).second;\
+	if(!inserted){\
+		log.e(TAG, 0, "[BUG] registed duplicated %s!: %s", #clazz, name->inspect().c_str());\
+	}\
+}\
+void System::unregist(clazz* const name)\
+{\
+	const size_t deleted = this->name##List.erase(name);\
+	if(deleted <= 0){\
+		log.e(TAG, 0, "[BUG] unregisted duplicated %s!: %s", #clazz, name->inspect().c_str());\
+	}\
+	delete name;\
+}
+
+REGIST_TEMPLATE(Shape, shape)
+REGIST_TEMPLATE(Label, label)
+REGIST_TEMPLATE(Sum, sum)
+REGIST_TEMPLATE(SumResult, sumResult)
+REGIST_TEMPLATE(Button, button)
+REGIST_TEMPLATE(Replace, replace)
+
+#undef REGIST_TEMPLATE
+
 }}
