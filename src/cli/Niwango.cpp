@@ -13,8 +13,11 @@
 #include <exception>
 #include "CLISystem.h"
 #include "../nekomata/Nekomata.h"
+
 using namespace std;
 using namespace std::tr1;
+
+const std::string TAG("CLI");
 
 namespace cli{
 
@@ -93,19 +96,24 @@ int main(int argc, char* argv[]){
 	}
 
 	nekomata::logging::Logger log(std::cout, level);
+	log.t(TAG, 0, "Logger created. Level: %d", level);
 	CLISystem _system(log, std::cout);
 	nekomata::Nekomata nekomata(_system, log);
 
 	if(optind == argc){
+		log.t(TAG, 0, "Parsing timeline from input stream.");
 		nekomata.parseTimelineStream(std::cin, "<cin>");
 	}else{
+		log.t(TAG, 0, "Parsing timeline from file: %s", argv[optind]);
 		nekomata.parseTimelineFile(argv[optind]);
 	}
 
 	if(dump){
+		log.t(TAG, 0, "Dumping timeline.");
 		nekomata.dump(std::cout);
 		return 0;
 	}
+	log.t(TAG, 0, "Executing...");
 	nekomata.seek(nekomata.getLastTime());
 
 	return 0;
@@ -115,7 +123,8 @@ int main(int argc, char* argv[]){
 
 int main(int argc, char* argv[]){
 	try{
-		return cli::main(argc, argv);
+		const int resultCode = cli::main(argc, argv);
+		return resultCode;
 	} catch (nekomata::logging::Exception& e){
 		std::cout << "Nekomata Exception catch: " << e.what() << std::endl;
 		return -1;
