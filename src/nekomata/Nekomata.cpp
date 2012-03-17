@@ -16,10 +16,6 @@ using namespace std::tr1;
 
 namespace nekomata {
 
-/*
-const std::string PROGRAM_NAME("Nekomata");
-const std::string PROGRAM_VERSION("ver 1.00");
-*/
 static const std::string TAG("TOP");
 
 Nekomata::Nekomata(system::System& system, logging::Logger& log)
