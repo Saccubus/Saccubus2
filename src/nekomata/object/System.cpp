@@ -25,44 +25,51 @@ namespace object{
 SystemObject::SystemObject(Object& parent, system::System& system)
 :HookableObject(parent), system(system)
 {
-	ADD_HOOK_ACCESSOR(commentColor);
-	ADD_HOOK_ACCESSOR(commentPlace);
-	ADD_HOOK_ACCESSOR(commentSize);
-	ADD_HOOK_ACCESSOR(commentInvisible);
-	ADD_HOOK_ACCESSOR(commentReverse);
-	ADD_HOOK_ACCESSOR(defaultSage);
-	ADD_HOOK_ACCESSOR(postDisabled);
-	ADD_HOOK_ACCESSOR(seekDisabled);
-	ADD_HOOK_ACCESSOR(isLoaded);
-	ADD_HOOK_ACCESSOR(isWide);
-	ADD_HOOK_ACCESSOR(lastVideo);
+	{
+		ADD_HOOK_ACCESSOR(commentColor);
+		ADD_HOOK_ACCESSOR(commentPlace);
+		ADD_HOOK_ACCESSOR(commentSize);
+		ADD_HOOK_ACCESSOR(commentInvisible);
+		ADD_HOOK_ACCESSOR(commentReverse);
+		ADD_HOOK_ACCESSOR(defaultSage);
+		ADD_HOOK_ACCESSOR(postDisabled);
+		ADD_HOOK_ACCESSOR(seekDisabled);
+		ADD_HOOK_ACCESSOR(isLoaded);
+		ADD_HOOK_ACCESSOR(isWide);
+		ADD_HOOK_ACCESSOR(lastVideo);
+	}
+	{
+		ADD_BUILTIN(drawShape);
+		ADD_BUILTIN(drawText);
+		ADD_BUILTIN_ALT(drawText, "dt");
+		ADD_BUILTIN(commentTrigger);
+		ADD_BUILTIN_ALT(commentTrigger, "ctrig");
+		ADD_BUILTIN(timer);
+		ADD_BUILTIN(jump);
+		ADD_BUILTIN(jumpCancel);
+		ADD_BUILTIN(seek);
+		ADD_BUILTIN(addMarker);
+		ADD_BUILTIN(getMarker);
+		ADD_BUILTIN(sum);
+		ADD_BUILTIN(showResult);
+		ADD_BUILTIN(replace);
+		ADD_BUILTIN(screenWidth);
+		ADD_BUILTIN(screenHeight);
+		ADD_BUILTIN(addButton);
+		ADD_BUILTIN(playStartTime);
+		ADD_BUILTIN(BGM);
+		ADD_BUILTIN(playBGM);
+		ADD_BUILTIN(stopBGM);
+		ADD_BUILTIN(addAtPausePoint);
+		ADD_BUILTIN(addPostRoute);
+		ADD_BUILTIN(CM);
+		ADD_BUILTIN(playCM);
+		includeBuitin();
+	}
+	{
+		this->setSlot("Object", getHeap().newObject());
+	}
 
-	ADD_BUILTIN(drawShape);
-	ADD_BUILTIN(drawText);
-	ADD_BUILTIN_ALT(drawText, "dt");
-	ADD_BUILTIN(commentTrigger);
-	ADD_BUILTIN_ALT(commentTrigger, "ctrig");
-	ADD_BUILTIN(timer);
-	ADD_BUILTIN(jump);
-	ADD_BUILTIN(jumpCancel);
-	ADD_BUILTIN(seek);
-	ADD_BUILTIN(addMarker);
-	ADD_BUILTIN(getMarker);
-	ADD_BUILTIN(sum);
-	ADD_BUILTIN(showResult);
-	ADD_BUILTIN(replace);
-	ADD_BUILTIN(screenWidth);
-	ADD_BUILTIN(screenHeight);
-	ADD_BUILTIN(addButton);
-	ADD_BUILTIN(playStartTime);
-	ADD_BUILTIN(BGM);
-	ADD_BUILTIN(playBGM);
-	ADD_BUILTIN(stopBGM);
-	ADD_BUILTIN(addAtPausePoint);
-	ADD_BUILTIN(addPostRoute);
-	ADD_BUILTIN(CM);
-	ADD_BUILTIN(playCM);
-	includeBuitin();
 }
 SystemObject::~SystemObject()
 {

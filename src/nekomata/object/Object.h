@@ -82,11 +82,11 @@ public: /* KEYアクセス */
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 public: /* 基本操作 */
-	virtual bool isUndefined();
 	virtual void eval(machine::Machine& machine);
 	virtual std::string toString();
 	virtual double toNumeric();
 	virtual bool toBool();
+	virtual bool isUndefined();
 	bool frozen();
 	void freeze();
 private:

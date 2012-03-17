@@ -178,7 +178,7 @@ void Machine::walkImpl(const AssignNode & node)
 		const object::Handler<object::Object> rhsObj = eval(node.getRightNode());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), rhsObj.get()));
-		this->log.t(TAG, &invokeNode->location(), "Walked assign node: %s[%s] (=>%s)",
+		this->log.t(TAG, &idxNode->location(), "Walked assign node: %s[%s] (=>%s)",
 				object::cast<std::string>(destObj).c_str(),
 				object::cast<std::string>(idxObj).c_str(),
 				object::cast<std::string>(rhsObj).c_str()

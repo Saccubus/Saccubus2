@@ -245,9 +245,6 @@ std::vector<std::string> Object::getSlotNames()
 	return slotList;
 }
 
-bool Object::isUndefined(){
-	return false;
-}
 Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
 {
 	if(frozen()){
@@ -272,6 +269,9 @@ size_t Object::slotSize()
 	return objectMap.size();
 }
 
+bool Object::isUndefined(){
+	return false;
+}
 
 std::string Object::toString()
 {
@@ -285,7 +285,6 @@ bool Object::toBool()
 {
 	return true;
 }
-
 
 //---------------------------------------------------------------------------------------------------------------------
 // メソッド
@@ -474,7 +473,6 @@ DEF_BUILTIN(Object, getSlot)
 	machine.pushResult(obj);
 }
 DEF_BUILTIN(Object, clone){
-	//FIXME
 	const Handler<Object> self(machine.getSelf());
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
