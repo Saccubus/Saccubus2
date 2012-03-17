@@ -13,7 +13,7 @@ using namespace std::tr1;
 namespace nekomata{
 namespace tree
 {
-ObjectNode::ObjectNode(const logging::Location& loc):ExprNode(loc){
+ObjectNode::ObjectNode(const Location& loc):ExprNode(loc){
 
 }
 void ObjectNode::append(std::string name, shared_ptr<const ExprNode> exprNode){

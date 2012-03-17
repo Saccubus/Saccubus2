@@ -18,7 +18,6 @@ namespace logging {
 class Dumpable;
 class Dumper;
 class Logger;
-class Location;
 class Exception;
 }
 
@@ -62,6 +61,8 @@ class Shape;
 }
 
 namespace tree {
+class Location;
+
 class NodeWalker;
 
 class Node;

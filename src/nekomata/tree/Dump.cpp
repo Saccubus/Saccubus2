@@ -5,6 +5,7 @@
  *      Author: psi
  */
 #include "Node.h"
+#include "../logging/Logging.h"
 
 using nekomata::logging::Dumper;
 using namespace std::tr1;

@@ -8,7 +8,6 @@
 #include <string>
 #include <antlr3.h>
 #include "../tree/Node.h"
-#include "../logging/Logging.h"
 #include "ParseUtil.h"
 
 using std::tr1::shared_ptr;
@@ -27,11 +26,11 @@ const std::string createStringFromString(pANTLR3_STRING string){
 const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok){
 	return createStringFromString(tok->getText(tok));
 }
-const logging::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok){
-	return logging::Location(createStringFromString(tok->input->fileName), tok->getLine(tok), tok->getCharPositionInLine(tok), createStringFromToken(tok));
+const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok){
+	return tree::Location(createStringFromString(tok->input->fileName), tok->getLine(tok), tok->getCharPositionInLine(tok), createStringFromToken(tok));
 }
-const logging::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node){
-	return logging::Location(node->location());
+const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node){
+	return tree::Location(node->location());
 }
 
 }}}

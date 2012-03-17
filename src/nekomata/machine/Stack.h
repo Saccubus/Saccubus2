@@ -8,10 +8,10 @@
 #ifndef STACK_H_
 #define STACK_H_
 
-namespace nekomata{
-namespace machine
-{
 #include <vector>
+
+namespace nekomata{
+namespace machine{
 
 template <typename T> class Stack
 {

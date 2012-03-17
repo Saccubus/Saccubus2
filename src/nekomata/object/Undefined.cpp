@@ -6,9 +6,7 @@
  */
 
 #include <cmath>
-#include "../classdefs.h"
 #include "Object.h"
-#include "Heap.h"
 
 namespace nekomata{
 namespace object{

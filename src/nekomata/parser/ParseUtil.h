@@ -9,9 +9,12 @@
 #define PARSEUTIL_H_
 
 #include <string>
-#include <antlr3.h>
 #include <tr1/memory>
-#include "../logging/Logging.h"
+
+#include <antlr3.h>
+
+#include "../classdefs.h"
+#include "../tree/Location.h"
 
 namespace nekomata{
 namespace parser{
@@ -19,8 +22,8 @@ namespace util{
 
 const std::string createStringFromString(pANTLR3_STRING string);
 const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok);
-const logging::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node);
-const logging::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
+const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node);
+const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
 
 }
 }

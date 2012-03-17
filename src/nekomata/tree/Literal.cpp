@@ -10,7 +10,7 @@
 namespace nekomata{
 namespace tree{
 
-BoolLiteralNode::BoolLiteralNode(const logging::Location& loc, const bool literal)
+BoolLiteralNode::BoolLiteralNode(const Location& loc, const bool literal)
 	:LiteralNode(loc), literal(literal)
 {
 }
@@ -19,7 +19,7 @@ const bool BoolLiteralNode::getLiteral() const{
 	return literal;
 }
 
-StringLiteralNode::StringLiteralNode(const logging::Location & loc, const std::string & literal)
+StringLiteralNode::StringLiteralNode(const Location & loc, const std::string & literal)
 :LiteralNode(loc), literal(literal)
 {
 }
@@ -31,7 +31,7 @@ const std::string& StringLiteralNode::getLiteral() const
 
 
 
-NumericLiteralNode::NumericLiteralNode(const logging::Location & loc, const double literal)
+NumericLiteralNode::NumericLiteralNode(const Location & loc, const double literal)
 :LiteralNode(loc), literal(literal)
 {
 }

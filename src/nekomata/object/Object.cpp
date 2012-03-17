@@ -11,6 +11,7 @@
 #include <tr1/functional>
 #include "Object.h"
 #include "Cast.h"
+#include "../logging/Logging.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"

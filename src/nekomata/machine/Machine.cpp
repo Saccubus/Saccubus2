@@ -5,14 +5,15 @@
  *      Author: psi
  */
 
-#include "Machine.h"
+#include <tr1/memory>
 
-#include "../tree/NodeWalker.h"
+#include "Machine.h"
 #include "../object/Object.h"
 #include "../object/Cast.h"
 #include "../object/Heap.h"
 #include "../tree/Node.h"
-#include <tr1/memory>
+#include "../logging/Logging.h"
+
 using namespace nekomata::tree;
 using std::tr1::shared_ptr;
 

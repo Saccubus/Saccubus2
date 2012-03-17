@@ -5,9 +5,12 @@
  *      Author: psi
  */
 
-#include "Logging.h"
 #include <sstream>
 #include <tr1/memory>
+
+#include "Dumpable.h"
+#include "Logging.h"
+#include "../tree/Location.h"
 
 namespace nekomata{
 namespace logging
@@ -31,7 +34,7 @@ void Dumper::printName(const std::string& name)
 	this->startLine();
 	stream << "<<" << name << ">>" << std::endl;
 }
-void Dumper::printName(const std::string& name, const Location& loc)
+void Dumper::printName(const std::string& name, const tree::Location& loc)
 {
 	this->startLine();
 	stream << "<<" << name << ">>" << " (pos: " << loc.getLineNo() << "," << loc.getColNo() << ")" << std::endl;

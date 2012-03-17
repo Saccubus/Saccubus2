@@ -8,9 +8,13 @@
 #include <sstream>
 #include <iomanip>
 #include <cstdio>
+
+#include "Dumpable.h"
 #include "Logging.h"
-#include "../util/StringUtil.h"
 #include "Exception.h"
+#include "../util/StringUtil.h"
+#include "../tree/Location.h"
+
 namespace nekomata{
 namespace logging{
 Logger::Logger(std::ostream& stream, enum Level level)
@@ -23,7 +27,7 @@ Logger::~Logger()
 
 }
 
-void Logger::e(const std::string& tag, const Location* loc, const std::string& str, ...)
+void Logger::e(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
@@ -35,28 +39,28 @@ void Logger::e(Exception& exception)
 {
 	msg(ERROR, "Exception", 0, exception.what(), 0);
 }
-void Logger::w(const std::string& tag, const Location* loc, const std::string& str, ...)
+void Logger::w(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(WARNING, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::d(const std::string& tag, const Location* loc, const std::string& str, ...)
+void Logger::d(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(DEBUG, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::v(const std::string& tag, const Location* loc, const std::string& str, ...)
+void Logger::v(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(VERBOSE, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::t(const std::string& tag, const Location* loc, const std::string& str, ...)
+void Logger::t(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
@@ -64,7 +68,7 @@ void Logger::t(const std::string& tag, const Location* loc, const std::string& s
 	va_end(list);
 }
 
-void Logger::msg(enum Level level, const std::string& tag, const Location* loc, const std::string& str, va_list list)
+void Logger::msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list)
 {
 	if(level < this->level){
 		return;

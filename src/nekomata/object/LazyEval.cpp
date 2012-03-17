@@ -7,6 +7,7 @@
 
 #include "Object.h"
 #include "Heap.h"
+#include "../logging/Logging.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"
