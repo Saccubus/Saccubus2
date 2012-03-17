@@ -5,14 +5,19 @@
  *      Author: psi
  */
 
+#include <sstream>
+#include <cmath>
+#include <cstdlib>
+#include <tr1/memory>
+#include <unicode/unistr.h>
+
 #include "Object.h"
 #include "Cast.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
-#include <sstream>
-#include <cmath>
-#include <cstdlib>
-#include <unicode/unistr.h>
+
+#include "../tree/Node.h"
+#include "../parser/Parser.h"
 
 namespace nekomata{
 namespace object{
@@ -185,11 +190,14 @@ DEF_BUILTIN(StringObject, toFloat)
 		machine.pushResult( self->getHeap().newNumericObject(num) );
 	}
 }
+
+
 DEF_BUILTIN(StringObject, eval)
 {
 	const Handler<StringObject> self(machine.getSelf());
-	//FIXME:
-	machine.pushResult(self->getHeap().newUndefinedObject());
+	std::tr1::shared_ptr<const tree::ExprNode> node = parser::Parser::fromString(self->toString())->parseProgram();
+	const Handler<Object> result(machine.eval(node.get()));
+	machine.pushResult(result);
 }
 
 DEF_BUILTIN(StringObject, add)
