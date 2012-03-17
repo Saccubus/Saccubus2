@@ -12,6 +12,8 @@
 #include "Logging.h"
 #include "../tree/Location.h"
 
+#include <assert.h>
+
 namespace nekomata{
 namespace logging
 {
@@ -20,13 +22,10 @@ using std::tr1::shared_ptr;
 Dumper::Dumper(std::ostream& stream)
 : indent(0), stream(stream)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Dumper::~Dumper()
 {
-	// TODO Auto-generated destructor stub
 }
 
 void Dumper::printName(const std::string& name)

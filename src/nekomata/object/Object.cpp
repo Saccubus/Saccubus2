@@ -474,6 +474,7 @@ DEF_BUILTIN(Object, getSlot)
 }
 DEF_BUILTIN(Object, clone){
 	const Handler<Object> self(machine.getSelf());
+	//FIXME: どうすれば、綺麗に実装できるかな？
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 

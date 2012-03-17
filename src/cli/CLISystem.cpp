@@ -20,12 +20,9 @@ CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream)
 :System(log)
 ,_stream(_stream)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 CLISystem::~CLISystem() {
-	// TODO Auto-generated destructor stub
 }
 
 nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)

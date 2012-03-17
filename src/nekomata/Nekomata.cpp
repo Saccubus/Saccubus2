@@ -28,7 +28,6 @@ Nekomata::Nekomata(system::System& system, logging::Logger& log)
 }
 
 Nekomata::~Nekomata() {
-	// TODO Auto-generated destructor stub
 }
 
 void Nekomata::parseTimelineStr(const std::string& str)
