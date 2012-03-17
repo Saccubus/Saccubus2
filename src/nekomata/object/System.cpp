@@ -378,7 +378,7 @@ DEF_BUILTIN(SystemObject, playCM)
 
 std::string SystemObject::toString()
 {
-	return util::format("<< SystemObject >>");
+	return util::format("<<SystemObject>>");
 }
 
 //---------------------------------------------------------------------------------------------------------------------

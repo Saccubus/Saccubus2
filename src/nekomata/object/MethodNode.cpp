@@ -83,7 +83,7 @@ void MethodNodeObject::eval(machine::Machine& machine)
 
 std::string MethodNodeObject::toString()
 {
-	return util::format("<< MethodNodeObject %d >>", getHash());
+	return util::format("<<MethodNodeObject:%d>>", getHash());
 }
 
 

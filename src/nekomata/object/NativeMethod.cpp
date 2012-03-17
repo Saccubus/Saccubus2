@@ -32,7 +32,7 @@ void NativeMethodObject::eval(machine::Machine& machine)
 
 std::string NativeMethodObject::toString()
 {
-	return util::format("<< NathiveMethodObject %d >>", getHash());
+	return util::format("<<NathiveMethodObject:%d>>", getHash());
 }
 
 

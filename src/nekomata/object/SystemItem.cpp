@@ -59,7 +59,7 @@ Handler<system::Label> LabelObject::getLabel(){
 
 std::string LabelObject::toString()
 {
-	return util::format("<< LabelObject %d >>", getHash());
+	return util::format("<<LabelObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ Handler<system::Replace> ReplaceObject::getReplace(){
 }
 std::string ReplaceObject::toString()
 {
-	return util::format("<< ReplaceObject %d >>", getHash());
+	return util::format("<<ReplaceObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ Handler<system::Shape> ShapeObject::getShape(){
 
 std::string ShapeObject::toString()
 {
-	return util::format("<< ShapeObject %d >>", getHash());
+	return util::format("<<ShapeObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -221,7 +221,7 @@ Handler<system::Sum> SumObject::getSum(){
 
 std::string SumObject::toString()
 {
-	return util::format("<< SumObject %d >>", getHash());
+	return util::format("<<SumObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ Handler<system::SumResult> SumResultObject::getSumResult(){
 
 std::string SumResultObject::toString()
 {
-	return util::format("<< SumResultObject %d >>", getHash());
+	return util::format("<<SumResultObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ Handler<system::Button> ButtonObject::getButton()
 
 std::string ButtonObject::toString()
 {
-	return util::format("<< ButtonObject %d >>", getHash());
+	return util::format("<<ButtonObject:%d>>", getHash());
 }
 
 }}

@@ -275,7 +275,7 @@ bool Object::isUndefined(){
 
 std::string Object::toString()
 {
-	return util::format("<< Object %d >>", getHash());
+	return util::format("<<Object:%d>>", getHash());
 }
 double Object::toNumeric()
 {

@@ -125,7 +125,7 @@ size_t LazyEvalObject::slotSize()
 
 std::string LazyEvalObject::toString()
 {
-	return util::format("<< LazyEvalObject %d >>", getHash());
+	return util::format("<<LazyEvalObject:%d>>", getHash());
 }
 
 }}

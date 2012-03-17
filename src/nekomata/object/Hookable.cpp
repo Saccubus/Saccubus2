@@ -74,7 +74,7 @@ size_t HookableObject::slotSize()
 
 std::string HookableObject::toString()
 {
-	return util::format("<< HookableObject %d >>", getHash());
+	return util::format("<<HookableObject:%d>>", getHash());
 }
 
 

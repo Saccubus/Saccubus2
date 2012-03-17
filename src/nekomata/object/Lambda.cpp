@@ -42,7 +42,7 @@ DEF_BUILTIN(LambdaObject, index)
 
 std::string LambdaObject::toString()
 {
-	return util::format("<< LambdaObject %d >>", getHash());
+	return util::format("<<LambdaObject:%d>>", getHash());
 }
 
 LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
@@ -80,7 +80,7 @@ DEF_BUILTIN(LambdaScopeObject, atmark)
 
 std::string LambdaScopeObject::toString()
 {
-	return util::format("<< LambdaScopeObject %d >>", getHash());
+	return util::format("<<LambdaScopeObject:%d>>", getHash());
 }
 
 }}
