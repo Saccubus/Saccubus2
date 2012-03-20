@@ -11,7 +11,7 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 #include "Object.h"
 #include "SystemObject.h"
 

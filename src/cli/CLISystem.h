@@ -9,9 +9,8 @@
 #define CLISYSTEM_H_
 
 #include <iostream>
-#include "../nekomata/TimeLine.h"
-#include "../nekomata/system/System.h"
-#include "../nekomata/logging/Logging.h"
+#include <nekomata/logging/Logging.h>
+#include <nekomata/system/System.h>
 
 namespace cli {
 

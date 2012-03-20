@@ -7,8 +7,8 @@
 
 #include <tr1/memory>
 #include <cmath>
-#include "System.h"
-#include "../logging/Logging.h"
+#include <nekomata/logging/Logging.h>
+#include <nekomata/system/System.h>
 #include "../tree/Node.h"
 #include "../machine/Machine.h"
 #include "../object/Object.h"
@@ -23,7 +23,9 @@ using namespace std::tr1;
 static const std::string TAG("System");
 
 System::System(logging::Logger& log)
-:log(log), _currentTime(0), color(0)
+:log(log)
+,_currentTime(0)
+, color(0)
 {
 }
 

@@ -13,10 +13,10 @@ options {
 #include <iostream>
 #include <tr1/memory>
 #include <cstdlib>
+#include <nekomata/system/System.h>
+#include <nekomata/TimeLine.h>
 #include "ParseUtil.h"
 #include "../tree/Node.h"
-#include "../system/System.h"
-#include "../TimeLine.h"
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
 using std::tr1::shared_ptr;

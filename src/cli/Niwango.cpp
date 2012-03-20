@@ -11,8 +11,9 @@
 #include <iomanip>
 #include <cstdlib>
 #include <exception>
+#include <nekomata/Nekomata.h>
+
 #include "CLISystem.h"
-#include "../nekomata/Nekomata.h"
 
 using namespace std;
 using namespace std::tr1;

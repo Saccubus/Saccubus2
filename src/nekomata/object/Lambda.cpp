@@ -5,11 +5,12 @@
  *      Author: psi
  */
 
+#include <nekomata/logging/Exception.h>
+
 #include "Object.h"
 #include "../util/StringUtil.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include "../logging/Exception.h"
 
 namespace nekomata{
 namespace object{

@@ -7,7 +7,7 @@
 
 #ifndef NODEWALKER_H_
 #define NODEWALKER_H_
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 
 namespace nekomata{
 namespace tree

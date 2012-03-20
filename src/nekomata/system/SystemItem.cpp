@@ -4,9 +4,8 @@
  *  Created on: 2012/03/08
  *      Author: psi
  */
-
-#include "System.h"
-#include "../logging/Logging.h"
+#include <nekomata/logging/Logging.h>
+#include <nekomata/system/System.h>
 #include "../util/StringUtil.h"
 
 namespace nekomata{

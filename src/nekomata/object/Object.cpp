@@ -9,9 +9,9 @@
 #include <sstream>
 #include <algorithm>
 #include <tr1/functional>
+#include <nekomata/logging/Logging.h>
 #include "Object.h"
 #include "Cast.h"
-#include "../logging/Logging.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"

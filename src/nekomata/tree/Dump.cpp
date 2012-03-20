@@ -4,8 +4,8 @@
  *  Created on: 2012/02/09
  *      Author: psi
  */
+#include <nekomata/logging/Logging.h>
 #include "Node.h"
-#include "../logging/Logging.h"
 
 using nekomata::logging::Dumper;
 using namespace std::tr1;

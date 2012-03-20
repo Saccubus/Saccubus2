@@ -8,11 +8,11 @@
 #include <tr1/memory>
 #include <cmath>
 #include <cfloat>
+#include <nekomata/logging/Exception.h>
 #include "Object.h"
 #include "Cast.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
-#include "../system/System.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"
 

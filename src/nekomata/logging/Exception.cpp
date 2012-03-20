@@ -5,7 +5,7 @@
  *      Author: psi
  */
 
-#include "Exception.h"
+#include <nekomata/logging/Exception.h>
 #include "../util/StringUtil.h"
 #include <sstream>
 
@@ -16,7 +16,7 @@ Exception::Exception(const std::string& fname, size_t line, const std::string& m
 	try {
 		std::stringstream ss;
 		ss << "(" << fname << ":" << line;
-		va_list arg;
+		std::va_list arg;
 		va_start(arg, msg);
 		ss << util::format(msg, arg);
 		this->msg = ss.str();

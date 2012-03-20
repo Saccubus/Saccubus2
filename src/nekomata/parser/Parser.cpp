@@ -8,12 +8,12 @@
 #include <iostream>
 #include <sstream>
 #include <tr1/memory>
+#include <nekomata/TimeLine.h>
+#include <nekomata/logging/Exception.h>
 #include "niwangoLexer.h"
 #include "niwangoParser.h"
 #include "Parser.h"
-#include "../TimeLine.h"
 #include "../tree/Node.h"
-#include "../logging/Exception.h"
 
 namespace nekomata {
 namespace parser {

@@ -8,7 +8,7 @@
 #ifndef SYSTEMOBJECT_H_
 #define SYSTEMOBJECT_H_
 
-#include "../system/System.h"
+#include <nekomata/system/System.h>
 #include "Object.h"
 
 namespace nekomata{

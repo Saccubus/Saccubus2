@@ -15,7 +15,7 @@
 #include <tr1/memory>
 #include <cstdarg>
 
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 
 namespace nekomata{
 namespace logging{
@@ -41,7 +41,7 @@ public:
 	void v(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void t(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 private:
-	void msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list);
+	void msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, std::va_list list);
 	enum Level level;
 	std::ostream& stream;
 };

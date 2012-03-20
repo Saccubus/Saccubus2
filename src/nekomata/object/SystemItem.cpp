@@ -5,7 +5,7 @@
  *      Author: psi
  */
 
-#include "../system/System.h"
+#include <nekomata/system/System.h>
 #include "SystemObject.h"
 #include "Heap.h"
 #include "Cast.h"

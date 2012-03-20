@@ -7,7 +7,7 @@
 
 #ifndef PARSER_H_
 #define PARSER_H_
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 #include <tr1/memory>
 #include <iostream>
 

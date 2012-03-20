@@ -12,8 +12,8 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
-#include "../classdefs.h"
-#include "../util/Handler.h"
+#include <nekomata/classdefs.h>
+#include <nekomata/util/Handler.h>
 
 namespace nekomata{
 namespace object{

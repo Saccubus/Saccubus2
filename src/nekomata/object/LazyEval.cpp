@@ -5,9 +5,9 @@
  *      Author: psi
  */
 
+#include <nekomata/logging/Logging.h>
 #include "Object.h"
 #include "Heap.h"
-#include "../logging/Logging.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"

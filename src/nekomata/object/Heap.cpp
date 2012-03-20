@@ -4,18 +4,18 @@
  *  Created on: 2012/02/11
  *      Author: psi
  */
-
-#include "Object.h"
-#include "SystemObject.h"
-#include "Cast.h"
-#include "Heap.h"
-#include "../logging/Logging.h"
 #include <cstdarg>
 #include <cmath>
 #include <set>
 #include <algorithm>
 #include <tr1/functional>
 #include <memory>
+#include <nekomata/logging/Logging.h>
+
+#include "Object.h"
+#include "SystemObject.h"
+#include "Cast.h"
+#include "Heap.h"
 
 namespace nekomata{
 namespace object{

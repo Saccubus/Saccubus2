@@ -7,12 +7,11 @@
 
 #include <sstream>
 #include <tr1/memory>
+#include <assert.h>
+#include <nekomata/logging/Logging.h>
 
 #include "Dumpable.h"
-#include "Logging.h"
 #include "../tree/Location.h"
-
-#include <assert.h>
 
 namespace nekomata{
 namespace logging

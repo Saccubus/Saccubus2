@@ -9,7 +9,7 @@
 #define MACHINE_H_
 #include <vector>
 #include <map>
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 #include "../object/Heap.h"
 #include "../tree/NodeWalker.h"
 #include "Stack.h"

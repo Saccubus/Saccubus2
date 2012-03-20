@@ -6,13 +6,13 @@
  */
 
 #include <tr1/memory>
+#include <nekomata/logging/Logging.h>
 
 #include "Machine.h"
 #include "../object/Object.h"
 #include "../object/Cast.h"
 #include "../object/Heap.h"
 #include "../tree/Node.h"
-#include "../logging/Logging.h"
 
 using namespace nekomata::tree;
 using std::tr1::shared_ptr;

@@ -8,7 +8,7 @@
 #ifndef DUMPABLE_H_
 #define DUMPABLE_H_
 
-#include "../classdefs.h"
+#include <nekomata/classdefs.h>
 
 namespace nekomata{
 namespace logging{

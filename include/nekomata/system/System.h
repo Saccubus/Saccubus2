@@ -8,12 +8,13 @@
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
 
+#include <cmath>
 #include <string>
 #include <set>
 #include <map>
 #include "../classdefs.h"
-#include "../TimeLine.h"
 #include "../util/Handler.h"
+#include "../TimeLine.h"
 
 namespace nekomata{
 namespace system {

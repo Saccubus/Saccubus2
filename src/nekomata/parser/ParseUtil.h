@@ -10,10 +10,9 @@
 
 #include <string>
 #include <tr1/memory>
-
 #include <antlr3.h>
+#include <nekomata/classdefs.h>
 
-#include "../classdefs.h"
 #include "../tree/Location.h"
 
 namespace nekomata{
