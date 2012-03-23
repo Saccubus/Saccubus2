@@ -1,0 +1,35 @@
+/*
+ * Exception.cpp
+ *
+ *  Created on: 2012/03/20
+ *      Author: psi
+ */
+
+#include "../util/StringUtil.h"
+#include "Exception.h"
+
+namespace saccubus {
+namespace logging {
+
+Exception::Exception(const std::string& fmt, ...) throw()
+:msg("[BUG] Failed to format string!!")
+{
+	try{
+		std::va_list lst;
+		va_start(lst, fmt);
+		this->msg = util::format(fmt, lst);
+		va_end(lst);
+	}catch(...){
+		//TODO: 握りつぶすしかなさそう。
+	}
+}
+
+Exception::~Exception() throw(){
+}
+
+std::string Exception::what()
+{
+	return msg;
+}
+
+}}
