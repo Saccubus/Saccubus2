@@ -21,7 +21,7 @@ class Thread {
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, thread)
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, ticket)
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, server_time)
-	std::vector<Chat> chatList;
+	std::vector<const Chat*> chatList;
 public:
 	Thread(logging::Logger& log, xmlNode* node);
 	Thread(logging::Logger& log, xmlDoc* doc);
@@ -29,6 +29,9 @@ public:
 	virtual ~Thread();
 private:
 	void read(logging::Logger& log, xmlNode* node);
+public:
+	std::vector<const Chat*>::const_iterator begin();
+	std::vector<const Chat*>::const_iterator end();
 };
 
 }}

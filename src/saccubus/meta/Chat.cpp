@@ -23,7 +23,6 @@ Chat::Chat(logging::Logger& log, xmlNode* node) {
 	this->deleted(readNodeProp(node, "deleted", (unsigned long long)0));
 	this->score(readNodeProp(node, "score", (unsigned long long)0));
 	this->user_id(readNodeProp(node, "user_id", ""));
-//	std::vector<std::string> mail;
 	this->anonymity(readNodeProp(node, "anonymity", true));
 	this->leaf(readNodeProp(node, "leaf", false));
 	this->premium(readNodeProp(node, "premium", false));
@@ -52,6 +51,7 @@ Chat::Chat(logging::Logger& log, xmlNode* node) {
 				this->user_id().c_str(),
 				this->anonymity(),
 				this->leaf(),
+				this->premium(),
 				this->fork(),
 				this->body().c_str()
 				);

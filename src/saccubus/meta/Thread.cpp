@@ -33,7 +33,9 @@ Thread::Thread(logging::Logger& log, const std::string& filename)
 }
 
 Thread::~Thread() {
-	// TODO Auto-generated destructor stub
+	for(std::vector<const Chat*>::iterator it = chatList.begin();it != chatList.end();++it){
+		delete *it;
+	}
 }
 
 void Thread::read(logging::Logger& log, xmlNode* node)
@@ -57,13 +59,22 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 				log.t(TAG, "Server Time: %llu", this->server_time());
 			}
 		}else if(xmlStrcmp(child->name, reinterpret_cast<const unsigned char*>("chat")) == 0){
-			chatList.push_back(Chat(log, child));
+			chatList.push_back(new Chat(log, child));
 		}else{
 			if(log.t()){
 				log.t(TAG, "Unknwon element: %s(ignored)", child->name);
 			}
 		}
 	}
+}
+
+std::vector<const Chat*>::const_iterator Thread::begin()
+{
+	return chatList.begin();
+}
+std::vector<const Chat*>::const_iterator Thread::end()
+{
+	return chatList.end();
 }
 
 }}
