@@ -1,0 +1,6 @@
+WinTest/
+Test/
+Release/
+Debug/
+*.dll
+
