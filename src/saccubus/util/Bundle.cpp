@@ -37,18 +37,18 @@ Bundle Bundle::fromFormEncoded(const std::string& data)
 	return b;
 }
 
-size_t Bundle::size()
+size_t Bundle::size() const
 {
 	return map.size();
 }
 
-bool Bundle::has(const std::string& key)
+bool Bundle::has(const std::string& key) const
 {
 	return map.find(key) != map.end();
 }
-std::string Bundle::getString(const std::string& key)
+std::string Bundle::getString(const std::string& key) const
 {
-	std::map<std::string, std::string>::iterator val = map.find(key);
+	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
 		return std::string();
 	}else{
@@ -56,18 +56,18 @@ std::string Bundle::getString(const std::string& key)
 	}
 }
 
-long long Bundle::getLong(const std::string& key)
+long long Bundle::getLong(const std::string& key) const
 {
-	std::map<std::string, std::string>::iterator val = map.find(key);
+	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
 		return -1;
 	}else{
 		return std::strtoll(val->second.c_str(), 0, 10);
 	}
 }
-bool Bundle::getBool(const std::string& key)
+bool Bundle::getBool(const std::string& key) const
 {
-	std::map<std::string, std::string>::iterator val = map.find(key);
+	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
 		return false;
 	}else{
@@ -83,12 +83,12 @@ bool Bundle::getBool(const std::string& key)
 	}
 }
 
-Bundle::Iterator Bundle::begin()
+Bundle::Iterator Bundle::begin() const
 {
 	return map.begin();
 }
 
-Bundle::Iterator Bundle::end()
+Bundle::Iterator Bundle::end() const
 {
 	return map.end();
 }

@@ -21,6 +21,8 @@ private:
 public:
 	ReplaceTable(const std::string& entry);
 	virtual ~ReplaceTable();
+public:
+	std::string replace(const std::string& target) const;
 };
 
 }}

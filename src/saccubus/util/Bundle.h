@@ -10,6 +10,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace saccubus {
 namespace util {
@@ -24,13 +25,13 @@ public:
 	virtual ~Bundle();
 public:
 	typedef std::map<std::string, std::string>::const_iterator Iterator;
-	size_t size();
-	bool has(const std::string& key);
-	std::string getString(const std::string& key);
-	long long getLong(const std::string& key);
-	bool getBool(const std::string& key);
-	Iterator begin();
-	Iterator end();
+	size_t size() const;
+	bool has(const std::string& key) const;
+	std::string getString(const std::string& key) const;
+	long long getLong(const std::string& key) const;
+	bool getBool(const std::string& key) const;
+	Iterator begin() const;
+	Iterator end() const;
 };
 
 }}
