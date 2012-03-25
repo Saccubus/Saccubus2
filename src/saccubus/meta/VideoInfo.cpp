@@ -15,6 +15,9 @@ VideoInfo::VideoInfo(const std::string& info)
 :bundle(util::Bundle::fromFormEncoded(info))
 ,replaceTable_(bundle.getString("ng_up"))
 {
+	user_id(bundle.getLong("user_id"));
+	thread(bundle.getLong("thread_id"));
+	is_premium(bundle.getBool("is_premium"));
 }
 
 VideoInfo::~VideoInfo() {

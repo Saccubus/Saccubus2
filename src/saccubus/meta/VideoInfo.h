@@ -9,6 +9,7 @@
 #define VIDEOINFO_H_
 
 #include "../util/Bundle.h"
+#include "../util/ClassAccessor.h"
 #include "ReplaceTable.h"
 
 namespace saccubus {
@@ -18,6 +19,9 @@ class VideoInfo {
 private:
 	const util::Bundle bundle;
 	const ReplaceTable replaceTable_;
+	DEF_ATTR_ACCESSOR(public, private, long long, user_id);
+	DEF_ATTR_ACCESSOR(public, private, bool, is_premium);
+	DEF_ATTR_ACCESSOR(public, private, long long, thread);
 public:
 	VideoInfo(const std::string& info);
 	virtual ~VideoInfo();
