@@ -52,13 +52,13 @@ std::string VideoInfo::getString(const std::string& key)
 	}
 }
 
-int VideoInfo::getInt(const std::string& key)
+long long VideoInfo::getLong(const std::string& key)
 {
 	std::map<std::string, std::string>::iterator val = map.find(key);
 	if(val == map.end()){
 		return -1;
 	}else{
-		return static_cast<int>(std::strtol(val->second.c_str(), 0, 10));
+		return std::strtoll(val->second.c_str(), 0, 10);
 	}
 }
 bool VideoInfo::getBool(const std::string& key)
@@ -68,8 +68,14 @@ bool VideoInfo::getBool(const std::string& key)
 		return false;
 	}else{
 		std::string v(val->second);
-		std::transform(v.begin(), v.end(), v.begin(), ::tolower);
-		return v == "true";
+		char* end;
+		unsigned long num = strtol(v.c_str(), &end, 0);
+		if(*end == '\0'){
+			return num != 0;
+		}else{
+			std::transform(v.begin(), v.end(), v.begin(), ::tolower);
+			return v == "true";
+		}
 	}
 }
 

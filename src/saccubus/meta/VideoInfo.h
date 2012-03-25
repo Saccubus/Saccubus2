@@ -24,7 +24,7 @@ public:
 	size_t size();
 	bool has(const std::string& key);
 	std::string getString(const std::string& key);
-	int getInt(const std::string& key);
+	long long getLong(const std::string& key);
 	bool getBool(const std::string& key);
 };
 

@@ -36,7 +36,8 @@ std::string decodePercent(const std::string& str)
 	char* to(new char[str.length()+1]);
 	std::memcpy(from, str.c_str(), str.length());
 	from[str.length()] = '\0';
-	for(size_t i=0,j=0;i<str.length();++i, ++j){
+	size_t i=0,j=0;
+	for(;i<str.length();++i, ++j){
 		if(from[i] == '%'){
 			char code[3];
 			code[0] = from[i+1];
@@ -54,6 +55,7 @@ std::string decodePercent(const std::string& str)
 			to[j] = from[i];
 		}
 	}
+	to[j]='\0';
 
 	return std::string(to);
 }
