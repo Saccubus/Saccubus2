@@ -36,13 +36,13 @@ TEST(ReplaceTableTest, ComplicatedTest)
 
 TEST(ReplaceTableTest, MoreComplicatedTest)
 {
-	ReplaceTable table("a=b&b=c");
+	ReplaceTable table("b=c&a=b");
 	ASSERT_EQ("cccc", table.replace("abab"));
 	ASSERT_EQ("cccc", table.replace("acac"));
 	ASSERT_EQ("cccc", table.replace("cbcb"));
 	ASSERT_EQ("cccd", table.replace("abcd"));
 
-	ReplaceTable tableWhole("a=b&%2Ab=c");
+	ReplaceTable tableWhole("%2Ab=c&a=b");
 	ASSERT_EQ("c", tableWhole.replace("abab"));
 	ASSERT_EQ("c", tableWhole.replace("acac"));
 	ASSERT_EQ("c", tableWhole.replace("cbcb"));
