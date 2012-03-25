@@ -17,16 +17,19 @@ namespace util {
 
 std::string format(const std::string& fmt, ...)
 {
-	std::va_list lst;
+	va_list lst;
 	va_start(lst, fmt);
-	std::string res(format(fmt, lst));
+	std::string res(formatv(fmt, lst));
 	va_end(lst);
 	return res;
 }
-std::string format(const std::string& fmt, std::va_list args)
+std::string formatv(const std::string& fmt, va_list args)
 {
 	char buff[8192];
-	vsnprintf(buff, 8192, fmt.c_str(), args);
+	size_t len = vsnprintf(buff, 8192, fmt.c_str(), args);
+	if(len <= 0){
+		throw logging::Exception("Format string too long!!");
+	}
 	return buff;
 }
 

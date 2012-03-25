@@ -14,9 +14,9 @@ namespace logging {
 Exception::Exception(const std::string& fmt, ...) throw()
 {
 	try{
-		std::va_list lst;
+		va_list lst;
 		va_start(lst, fmt);
-		this->msg = util::format(fmt, lst);
+		this->msg = util::formatv(fmt, lst);
 		va_end(lst);
 	}catch(...){
 		msg = "[BUG] Failed to format string!!";

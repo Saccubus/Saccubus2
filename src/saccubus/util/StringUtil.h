@@ -15,7 +15,7 @@ namespace saccubus {
 namespace util {
 
 std::string format(const std::string& fmt, ...);
-std::string format(const std::string& fmt, std::va_list args);
+std::string formatv(const std::string& fmt, va_list args);
 std::string decodePercent(const std::string& str);
 
 }}
