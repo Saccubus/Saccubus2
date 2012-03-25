@@ -8,7 +8,7 @@
 #ifndef PYBRIDGEIMPL_H_
 #define PYBRIDGEIMPL_H_
 
-#include <python3.2mu/Python.h>
+#include <Python.h>
 
 namespace saccubus {
 namespace python {
