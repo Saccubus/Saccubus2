@@ -35,6 +35,10 @@ private:
 public:
 	Chat(logging::Logger& log, xmlNode* node);
 	virtual ~Chat();
+public:
+	size_t mailSize() const;
+	std::vector<std::string>::const_iterator mailBegin() const;
+	std::vector<std::string>::const_iterator mailEnd() const;
 };
 
 }}

@@ -48,7 +48,7 @@ unsigned long long readNodeProp(xmlNode* node, const std::string& name, const un
 {
 	xmlChar* chr = xmlGetProp(node, reinterpret_cast<const xmlChar*>(name.c_str()));
 	if(chr){
-		unsigned long long res = strtoll(reinterpret_cast<const char*>(chr), 0, 10);
+		unsigned long long res = strtoll(reinterpret_cast<const char*>(chr), 0, 0);
 		xmlFree(chr);
 		return res;
 	}else{
@@ -64,8 +64,9 @@ bool readNodeProp(xmlNode* node, const std::string& name, const bool& def)
 		char* end;
 		std::string str(reinterpret_cast<const char*>(chr));
 		unsigned long long num = strtoll(reinterpret_cast<const char*>(chr), &end, 10);
+		bool convSucceeded = *end == '\0';
 		xmlFree(chr);
-		if(*end == '\0'){
+		if(convSucceeded){
 			return num != 0;
 		}
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);

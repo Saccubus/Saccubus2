@@ -32,6 +32,7 @@ private:
 public:
 	std::vector<const Chat*>::const_iterator begin();
 	std::vector<const Chat*>::const_iterator end();
+	size_t size();
 };
 
 }}

@@ -50,9 +50,9 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 				continue;
 			}
 			infoGrabbed |= true;
-			this->thread(readNodeProp(node, "thread", (unsigned long long)0));
-			this->ticket(readNodeProp(node, "ticket", (unsigned long long)0));
-			this->server_time(readNodeProp(node, "server_time", (unsigned long long)0));
+			this->thread(readNodeProp(child, "thread", (unsigned long long)0));
+			this->ticket(readNodeProp(child, "ticket", (unsigned long long)0));
+			this->server_time(readNodeProp(child, "server_time", (unsigned long long)0));
 			if(log.t()){
 				log.t(TAG, "Thread ID: %llu", this->thread());
 				log.t(TAG, "Ticket: %llu", this->ticket());
@@ -75,6 +75,11 @@ std::vector<const Chat*>::const_iterator Thread::begin()
 std::vector<const Chat*>::const_iterator Thread::end()
 {
 	return chatList.end();
+}
+
+size_t Thread::size()
+{
+	return chatList.size();
 }
 
 }}

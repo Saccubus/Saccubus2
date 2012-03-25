@@ -61,4 +61,18 @@ Chat::Chat(logging::Logger& log, xmlNode* node) {
 Chat::~Chat() {
 }
 
+size_t Chat::mailSize() const
+{
+	return mail.size();
+}
+std::vector<std::string>::const_iterator Chat::mailBegin() const
+{
+	return mail.begin();
+}
+std::vector<std::string>::const_iterator Chat::mailEnd() const
+{
+	return mail.end();
+}
+
+
 }}
