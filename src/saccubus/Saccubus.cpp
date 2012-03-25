@@ -18,4 +18,4 @@ Saccubus::~Saccubus() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace saccubus */
+}

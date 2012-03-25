@@ -19,5 +19,4 @@ PyBridge::~PyBridge() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace python */
-} /* namespace saccubus */
+}}

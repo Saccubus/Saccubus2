@@ -19,6 +19,5 @@ public:
 	virtual ~PyBridgeImpl();
 };
 
-} /* namespace python */
-} /* namespace saccubus */
+}}
 #endif /* PYBRIDGEIMPL_H_ */

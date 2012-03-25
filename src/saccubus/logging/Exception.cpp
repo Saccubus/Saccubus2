@@ -12,7 +12,6 @@ namespace saccubus {
 namespace logging {
 
 Exception::Exception(const std::string& fmt, ...) throw()
-:msg("[BUG] Failed to format string!!")
 {
 	try{
 		std::va_list lst;
@@ -20,7 +19,7 @@ Exception::Exception(const std::string& fmt, ...) throw()
 		this->msg = util::format(fmt, lst);
 		va_end(lst);
 	}catch(...){
-		//TODO: 握りつぶすしかなさそう。
+		msg = "[BUG] Failed to format string!!";
 	}
 }
 
