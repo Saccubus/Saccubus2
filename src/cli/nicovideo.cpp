@@ -18,7 +18,6 @@ namespace cli{
 	}
 }
 
-#ifdef SACCUBUS_BUILD_CLI
 int main(int argc, char** argv) {
 	try {
 		return cli::main(argc, argv);
@@ -33,4 +32,3 @@ int main(int argc, char** argv) {
 		return -3;
 	}
 }
-#endif
