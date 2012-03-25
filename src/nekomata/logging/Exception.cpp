@@ -16,9 +16,9 @@ Exception::Exception(const std::string& fname, size_t line, const std::string& m
 	try {
 		std::stringstream ss;
 		ss << "(" << fname << ":" << line;
-		std::va_list arg;
+		va_list arg;
 		va_start(arg, msg);
-		ss << util::format(msg, arg);
+		ss << util::formatv(msg, arg);
 		this->msg = ss.str();
 		va_end(arg);
 	} catch (...) {

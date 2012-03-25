@@ -16,11 +16,11 @@ std::string format(const std::string& msg, ...)
 {
 	va_list list;
 	va_start(list, msg);
-	std::string str(util::format(msg, list));
+	std::string str(util::formatv(msg, list));
 	va_end(list);
 	return str;
 }
-std::string format(const std::string& msg, va_list arg)
+std::string formatv(const std::string& msg, va_list arg)
 {
 	char buff[1024];
 	const size_t len = vsnprintf(buff, 1024, msg.c_str(), arg);

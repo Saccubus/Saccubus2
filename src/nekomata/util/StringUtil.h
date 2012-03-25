@@ -15,7 +15,7 @@ namespace nekomata {
 namespace util {
 
 std::string format(const std::string& msg, ...);
-std::string format(const std::string& msg, va_list arg);
+std::string formatv(const std::string& msg, va_list arg);
 
 }}
 #endif /* STRINGUTIL_H_ */
