@@ -26,10 +26,10 @@ TEST(VideoInfoTest, ParseTest)
 	ASSERT_EQ("http://www.smilevideo.jp/view/14097905/185957", info.getString("link"));
 	ASSERT_EQ("http://msg.nicovideo.jp/36/api/", info.getString("ms"));
 	ASSERT_EQ(185957, info.getLong("user_id"));
-	ASSERT_EQ(true, info.getBool("is_premium"));
+	ASSERT_TRUE(info.getBool("is_premium"));
 	ASSERT_EQ("ψ（プサイ）", info.getString("nickname"));
 	ASSERT_EQ(1332645296599, info.getLong("time"));
-	ASSERT_EQ(true, info.getBool("done"));
+	ASSERT_TRUE(info.getBool("done"));
 	ASSERT_EQ(1302222649, info.getLong("nicos_id"));
 	ASSERT_EQ(70, info.getLong("ng_rv"));
 	ASSERT_EQ("hiroba09.nicovideo.jp", info.getString("hms"));

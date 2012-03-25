@@ -59,7 +59,7 @@ Logger::~Logger() {
 
 bool Logger::t()
 {
-	return this->level >= TRACE_;
+	return this->level <= TRACE_;
 }
 void Logger::t(const std::string& tag, const std::string& fmt, ...)
 {
@@ -71,7 +71,7 @@ void Logger::t(const std::string& tag, const std::string& fmt, ...)
 }
 bool Logger::v()
 {
-	return this->level >= VERBOSE_;
+	return this->level <= VERBOSE_;
 }
 
 void Logger::v(const std::string& tag, const std::string& fmt, ...)
@@ -83,7 +83,7 @@ void Logger::v(const std::string& tag, const std::string& fmt, ...)
 }
 bool Logger::d()
 {
-	return this->level >= DEBUG_;
+	return this->level <= DEBUG_;
 }
 void Logger::d(const std::string& tag, const std::string& fmt, ...)
 {
@@ -94,7 +94,7 @@ void Logger::d(const std::string& tag, const std::string& fmt, ...)
 }
 bool Logger::i()
 {
-	return this->level >= INFO_;
+	return this->level <= INFO_;
 }
 void Logger::i(const std::string& tag, const std::string& fmt, ...)
 {

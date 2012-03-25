@@ -65,7 +65,7 @@ TEST(ThreadTest, OwnerThreadTest_ChatInfo)
 	ASSERT_EQ(1, chat->no());
 	ASSERT_FLOAT_EQ(0, chat->vpos());
 	ASSERT_EQ(1310831408, chat->date());
-	ASSERT_EQ(true, chat->premium());
+	ASSERT_TRUE(chat->premium());
 	ASSERT_EQ(0, chat->mailSize());
 
 	//end
@@ -74,7 +74,7 @@ TEST(ThreadTest, OwnerThreadTest_ChatInfo)
 	ASSERT_EQ(900, chat->no());
 	ASSERT_FLOAT_EQ(0, chat->vpos());
 	ASSERT_EQ(1310831408, chat->date());
-	ASSERT_EQ(true, chat->premium());
+	ASSERT_TRUE(chat->premium());
 	ASSERT_EQ(0, chat->mailSize());
 	delete th;
 }
