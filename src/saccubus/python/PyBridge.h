@@ -11,7 +11,10 @@
 namespace saccubus {
 namespace python {
 
+class PyBridgeImpl;
 class PyBridge {
+private:
+	PyBridgeImpl* const impl;
 public:
 	PyBridge();
 	virtual ~PyBridge();

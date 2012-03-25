@@ -17,7 +17,7 @@
 namespace saccubus {
 namespace meta {
 
-class Chat {
+class Comment {
 private:
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, thread)
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, no)
@@ -27,14 +27,14 @@ private:
 	DEF_ATTR_ACCESSOR(public, public, unsigned long long, score)
 	DEF_ATTR_ACCESSOR(public, public, std::string, user_id)
 	std::vector<std::string> mail;
-	DEF_ATTR_ACCESSOR(public, public, std::string, body)
+	DEF_ATTR_ACCESSOR(public, public, std::string, message)
 	DEF_ATTR_ACCESSOR(public, public, bool, anonymity)
 	DEF_ATTR_ACCESSOR(public, public, bool, leaf)
 	DEF_ATTR_ACCESSOR(public, public, bool, premium)
 	DEF_ATTR_ACCESSOR(public, public, bool, fork)
 public:
-	Chat(logging::Logger& log, xmlNode* node);
-	virtual ~Chat();
+	Comment(logging::Logger& log, xmlNode* node);
+	virtual ~Comment();
 public:
 	size_t mailSize() const;
 	std::vector<std::string>::const_iterator mailBegin() const;

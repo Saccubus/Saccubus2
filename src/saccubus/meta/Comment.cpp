@@ -1,5 +1,5 @@
 /*
- * Chat.cpp
+ * Comment.cpp
  *
  *  Created on: 2012/03/24
  *      Author: psi
@@ -7,15 +7,15 @@
 
 #include <sstream>
 #include "../logging/Exception.h"
-#include "Chat.h"
+#include "Comment.h"
 #include "Util.h"
 
 namespace saccubus {
 namespace meta {
 
-static std::string TAG("Chat");
+static std::string TAG("Comment");
 
-Chat::Chat(logging::Logger& log, xmlNode* node) {
+Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->thread(readNodeProp(node, "thread", (unsigned long long)0));
 	this->no(readNodeProp(node, "no", (unsigned long long)0));
 	this->vpos(readNodeProp(node, "vpos", (float)0)/100);
@@ -33,12 +33,12 @@ Chat::Chat(logging::Logger& log, xmlNode* node) {
 		this->mail.push_back(mailopt);
 	}
 
-	xmlChar* content = xmlNodeGetContent(node);
-	if(!content){
+	xmlChar* body = xmlNodeGetContent(node);
+	if(!body){
 		throw logging::Exception("Invalid XML. Content for chat not found.");
 	}
-	this->body(reinterpret_cast<char*>(content));
-	xmlFree(content);
+	this->message(reinterpret_cast<char*>(body));
+	xmlFree(body);
 
 	if(log.t()){
 		log.t(TAG, "Thread: %llu No:%llu vpos:%f Date:%llu Deleted:%llu Score:%llu UserId:%s Anon:%d Leaf:%d Premium:%d Fork:%d -> %s",
@@ -53,23 +53,23 @@ Chat::Chat(logging::Logger& log, xmlNode* node) {
 				this->leaf(),
 				this->premium(),
 				this->fork(),
-				this->body().c_str()
+				this->message().c_str()
 				);
 	}
 }
 
-Chat::~Chat() {
+Comment::~Comment() {
 }
 
-size_t Chat::mailSize() const
+size_t Comment::mailSize() const
 {
 	return mail.size();
 }
-std::vector<std::string>::const_iterator Chat::mailBegin() const
+std::vector<std::string>::const_iterator Comment::mailBegin() const
 {
 	return mail.begin();
 }
-std::vector<std::string>::const_iterator Chat::mailEnd() const
+std::vector<std::string>::const_iterator Comment::mailEnd() const
 {
 	return mail.end();
 }

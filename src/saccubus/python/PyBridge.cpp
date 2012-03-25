@@ -6,17 +6,20 @@
  */
 
 #include "PyBridge.h"
+#include "PyBridgeImpl.h"
 
 namespace saccubus {
 namespace python {
 
-PyBridge::PyBridge() {
+PyBridge::PyBridge()
+:impl(new PyBridgeImpl())
+{
 	// TODO Auto-generated constructor stub
 
 }
 
 PyBridge::~PyBridge() {
-	// TODO Auto-generated destructor stub
+	delete impl;
 }
 
 }}

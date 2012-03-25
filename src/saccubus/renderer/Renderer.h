@@ -11,16 +11,20 @@
 namespace saccubus {
 namespace renderer {
 
+class Sprite
+{
+
+};
+
 /**
  * 画面上に何かを描くものの基底クラス。
- * RenderCtx: 実装する際に実際に使うコンテキスト。SDLならSDL_Surfaceとかね。
  */
-template <typename RenderCtx>
 class Renderer {
 public:
 	Renderer(){};
 	virtual ~Renderer(){};
-	virtual void render(RenderCtx* ctx) = 0;
+public:
+	virtual Sprite* createTextSprite();
 };
 
 }}
