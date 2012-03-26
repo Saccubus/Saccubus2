@@ -15,9 +15,9 @@ TEST(ExceptionTest, ThrowingTest)
 	try{
 		throw Exception("Hey!");
 	} catch (Exception& e){
+		ASSERT_EQ("Hey!", e.what());
 		catched |= true;
 	} catch (...){
-
 	}
 	ASSERT_TRUE(catched);
 }
