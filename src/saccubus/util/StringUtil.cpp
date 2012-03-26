@@ -62,5 +62,12 @@ std::string decodePercent(const std::string& str)
 
 	return std::string(to);
 }
-
+bool startsWith(const std::string& target, const std::string& prefix)
+{
+	return target.compare(0, prefix.size(), prefix) == 0;
+}
+bool endsWith(const std::string& target, const std::string& suffix)
+{
+	return target.compare(target.size()-suffix.size(), suffix.size(), suffix) == 0;
+}
 }}
