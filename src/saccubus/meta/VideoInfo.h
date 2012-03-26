@@ -15,6 +15,11 @@
 namespace saccubus {
 namespace meta {
 
+/**
+ * getflv内で指定される、
+ * 動画の情報を表現するクラス
+ * ！！　イミュータブル　！！
+ */
 class VideoInfo {
 private:
 	const util::Bundle bundle;

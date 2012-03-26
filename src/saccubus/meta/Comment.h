@@ -17,21 +17,25 @@
 namespace saccubus {
 namespace meta {
 
+/**
+ * XML内のコメントを表現するクラス。
+ * ！！　イミュータブル（変更不可）　！！
+ */
 class Comment {
 private:
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, thread)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, no)
-	DEF_ATTR_ACCESSOR(public, public, float, vpos)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, date)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, deleted)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, score)
-	DEF_ATTR_ACCESSOR(public, public, std::string, user_id)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, thread)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, no)
+	DEF_ATTR_ACCESSOR(public, private, float, vpos)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, date)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, deleted)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, score)
+	DEF_ATTR_ACCESSOR(public, private, std::string, user_id)
 	std::vector<std::string> mail;
-	DEF_ATTR_ACCESSOR(public, public, std::string, message)
-	DEF_ATTR_ACCESSOR(public, public, bool, anonymity)
-	DEF_ATTR_ACCESSOR(public, public, bool, leaf)
-	DEF_ATTR_ACCESSOR(public, public, bool, premium)
-	DEF_ATTR_ACCESSOR(public, public, bool, fork)
+	DEF_ATTR_ACCESSOR(public, private, std::string, message)
+	DEF_ATTR_ACCESSOR(public, private, bool, anonymity)
+	DEF_ATTR_ACCESSOR(public, private, bool, leaf)
+	DEF_ATTR_ACCESSOR(public, private, bool, premium)
+	DEF_ATTR_ACCESSOR(public, private, bool, fork)
 public:
 	Comment(logging::Logger& log, xmlNode* node);
 	virtual ~Comment();

@@ -14,7 +14,18 @@
 
 namespace saccubus {
 namespace logging{
+/**
+ * FIXME: 猫又と被ってる。括りだしたいけど、
+ * 猫又の方はソースコードロケーション機能付き。
+ */
 
+/**
+ * ロガー。
+ *
+ * ログを書き出す先を抽象化して、
+ * ログレベル管理やプリティプリントなどの
+ * ユーティリティを付加したクラス。
+ */
 class Logger {
 public:
 	enum Level{

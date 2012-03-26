@@ -17,10 +17,14 @@
 namespace saccubus {
 namespace meta {
 
+/**
+ * XML内でのスレッドを表現するクラス
+ * ！！　イミュータブル（変更不可）　！！
+ */
 class Thread {
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, thread)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, ticket)
-	DEF_ATTR_ACCESSOR(public, public, unsigned long long, server_time)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, thread)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, ticket)
+	DEF_ATTR_ACCESSOR(public, private, unsigned long long, server_time)
 	std::vector<const Comment*> chatList;
 public:
 	typedef std::vector<const Comment*>::const_iterator Iterator;

@@ -15,6 +15,13 @@
 namespace saccubus {
 namespace logging {
 
+/**
+ * FIXME: 猫又と被ってる。括りだししたほうがいい？
+ */
+
+/**
+ * さきゅばすは基本的にこの例外を投げる
+ */
 class Exception : public std::exception {
 private:
 	std::string msg;

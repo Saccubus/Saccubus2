@@ -13,6 +13,11 @@
 namespace saccubus {
 namespace meta {
 
+/**
+ * getflv内で指定される、
+ * コメントフィルタ機能の置換テーブルの一つを表現
+ * ！！　イミュータブル　！！
+ */
 class ReplaceItem {
 private:
 	const std::string from_;

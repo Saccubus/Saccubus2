@@ -14,7 +14,11 @@
 
 namespace saccubus {
 namespace meta {
-
+/**
+ * getflv内で指定される、
+ * コメントフィルタ機能の置換テーブル全体を表現
+ * ！！　イミュータブル　！！
+ */
 class ReplaceTable {
 private:
 	std::vector<const ReplaceItem*> replaceList;
