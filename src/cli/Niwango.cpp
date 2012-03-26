@@ -56,7 +56,7 @@ const struct option ARG_OPTIONS[] = {
 int main(int argc, char* argv[]){
 
 	int indexptr=0;
-	nekomata::logging::Logger::Level level = nekomata::logging::Logger::WARNING;
+	nekomata::logging::Logger::Level level = nekomata::logging::Logger::WARNING_;
 	bool dump = false;
 	while(1){
 		int opt = getopt_long(argc, argv, "h", ARG_OPTIONS, &indexptr);
@@ -66,19 +66,19 @@ int main(int argc, char* argv[]){
 		switch(opt)
 		{
 		case 1:
-			level = nekomata::logging::Logger::TRACE;
+			level = nekomata::logging::Logger::TRACE_;
 			break;
 		case 2:
-			level = nekomata::logging::Logger::VERBOSE;
+			level = nekomata::logging::Logger::VERBOSE_;
 			break;
 		case 3:
-			level = nekomata::logging::Logger::DEBUG;
+			level = nekomata::logging::Logger::DEBUG_;
 			break;
 		case 4:
-			level = nekomata::logging::Logger::WARNING;
+			level = nekomata::logging::Logger::WARNING_;
 			break;
 		case 5:
-			level = nekomata::logging::Logger::ERROR;
+			level = nekomata::logging::Logger::ERROR_;
 			break;
 		case 6:
 			dump = true;

@@ -20,19 +20,18 @@
 namespace nekomata{
 namespace logging{
 
-#undef ERROR
 class Logger
 {
 public:
 	enum Level{
-		TRACE=0,
-		VERBOSE=1,
-		DEBUG=2,
-		WARNING=3,
-		ERROR=4,
+		TRACE_=0,
+		VERBOSE_=1,
+		DEBUG_=2,
+		WARNING_=3,
+		ERROR_=4,
 	};
 public:
-	Logger(std::ostream& stream, enum Level level = VERBOSE);
+	Logger(std::ostream& stream, enum Level level = VERBOSE_);
 	virtual ~Logger();
 	void e(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void e(Exception& exception);
@@ -41,7 +40,7 @@ public:
 	void v(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void t(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 private:
-	void msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, std::va_list list);
+	void msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list);
 	enum Level level;
 	std::ostream& stream;
 };

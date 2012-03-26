@@ -31,40 +31,40 @@ void Logger::e(const std::string& tag, const tree::Location* loc, const std::str
 {
 	va_list list;
 	va_start(list, str);
-	msg(ERROR, tag, loc, str, list);
+	msg(ERROR_, tag, loc, str, list);
 	va_end(list);
 }
 
 void Logger::e(Exception& exception)
 {
-	msg(ERROR, "Exception", 0, exception.what(), 0);
+	msg(ERROR_, "Exception", 0, exception.what(), 0);
 }
 void Logger::w(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(WARNING, tag, loc, str, list);
+	msg(WARNING_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::d(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(DEBUG, tag, loc, str, list);
+	msg(DEBUG_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::v(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(VERBOSE, tag, loc, str, list);
+	msg(VERBOSE_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::t(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(TRACE, tag, loc, str, list);
+	msg(TRACE_, tag, loc, str, list);
 	va_end(list);
 }
 
@@ -75,19 +75,19 @@ void Logger::msg(enum Level level, const std::string& tag, const tree::Location*
 	}
 	std::stringstream ss;
 	switch(level){
-	case TRACE:
+	case TRACE_:
 		ss << "[T]";
 		break;
-	case VERBOSE:
+	case VERBOSE_:
 		ss << "[V]";
 		break;
-	case DEBUG:
+	case DEBUG_:
 		ss << "[D]";
 		break;
-	case WARNING:
+	case WARNING_:
 		ss << "[W]";
 		break;
-	case ERROR:
+	case ERROR_:
 		ss << "[E]";
 		break;
 	}
