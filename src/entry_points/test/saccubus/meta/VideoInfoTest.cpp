@@ -7,7 +7,7 @@
 
 #include "../../TestCommon.h"
 #include <fstream>
-#include "../../../saccubus/meta/VideoInfo.h"
+#include "../../../../saccubus/meta/VideoInfo.h"
 using namespace saccubus::meta;
 
 TEST(VideoInfoTest, InfoTest)

@@ -6,7 +6,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../saccubus/python/PyBridge.h"
+#include "../../../../saccubus/python/PyBridge.h"
 using namespace saccubus::python;
 
 TEST(PyBridgeTest, InitTest)

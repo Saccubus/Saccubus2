@@ -10,8 +10,16 @@
 
 #include <string>
 #include <map>
+#include "draw/Canvas.h"
 
 namespace saccubus {
+
+class Adapter
+{
+public:
+	void onVideoChanged(const std::string& videoId, const std::string& filepath);
+	void onSeek(const std::string& videoId, float vpos);
+};
 
 class Saccubus {
 private:
@@ -21,7 +29,8 @@ public:
 	Saccubus(const int argc, const char** argv);
 	virtual ~Saccubus();
 
-	void onMeasure(const int w, const int h, int& measuredW, int& measuredH);
+	void onMeasure(const int w, const int h, int& measuredWidth, int& measuredHeight);
+	void onDraw(float vpos, draw::Canvas* canvas);
 };
 
 }

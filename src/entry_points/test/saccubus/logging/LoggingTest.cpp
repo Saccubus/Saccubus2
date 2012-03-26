@@ -6,7 +6,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../saccubus/logging/Logger.h"
+#include "../../../../saccubus/logging/Logger.h"
 #include <sstream>
 
 TEST(LoggerTest, LevelTest)

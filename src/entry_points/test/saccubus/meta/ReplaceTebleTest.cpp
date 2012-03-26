@@ -6,7 +6,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../saccubus/meta/ReplaceTable.h"
+#include "../../../../saccubus/meta/ReplaceTable.h"
 using namespace saccubus::meta;
 
 TEST(ReplaceTableTest, SimpleTest)

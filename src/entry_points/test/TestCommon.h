@@ -10,8 +10,8 @@
 
 #include <gtest/gtest.h>
 #include <iostream>
-#include "../saccubus/logging/Exception.h"
-#include "../saccubus/logging/Logger.h"
+#include "../../saccubus/logging/Exception.h"
+#include "../../saccubus/logging/Logger.h"
 using namespace saccubus::logging;
 
 #define MATERIAL_DIR "_TestMaterials/"

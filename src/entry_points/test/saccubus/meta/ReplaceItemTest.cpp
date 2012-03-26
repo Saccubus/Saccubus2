@@ -6,7 +6,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../saccubus/meta/ReplaceItem.h"
+#include "../../../../saccubus/meta/ReplaceItem.h"
 using namespace saccubus::meta;
 
 TEST(ReplaceItemTest, SetGetTest)

@@ -5,7 +5,7 @@
  *      Author: psi
  */
 #include "../../TestCommon.h"
-#include "../../../saccubus/util/StringUtil.h"
+#include "../../../../saccubus/util/StringUtil.h"
 using namespace saccubus::util;
 
 TEST(StringUtilTest, FormatTest)

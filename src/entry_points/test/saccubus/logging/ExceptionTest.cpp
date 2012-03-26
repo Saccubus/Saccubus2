@@ -6,7 +6,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../saccubus/logging/Exception.h"
+#include "../../../../saccubus/logging/Exception.h"
 using namespace saccubus::logging;
 
 TEST(ExceptionTest, ThrowingTest)

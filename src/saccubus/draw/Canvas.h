@@ -9,7 +9,7 @@
 #define RENDERER_H_
 
 namespace saccubus {
-namespace renderer {
+namespace draw {
 
 class Sprite
 {
@@ -19,10 +19,10 @@ class Sprite
 /**
  * 画面上に何かを描くものの基底クラス。
  */
-class Renderer {
+class Canvas {
 public:
-	Renderer(){};
-	virtual ~Renderer(){};
+	Canvas(){};
+	virtual ~Canvas(){};
 public:
 	virtual Sprite* createTextSprite();
 };
