@@ -20,6 +20,9 @@ TEST(VideobundleTest, ParseTest)
 	std::string str;
 	stream >> str;
 	Bundle bundle = Bundle::fromFormEncoded(str);
+	ASSERT_FALSE(bundle.has(""));
+	ASSERT_FALSE(bundle.has("__not_having_this__"));
+	ASSERT_TRUE(bundle.has("thread_id"));
 	ASSERT_EQ(1302222473, bundle.getLong("thread_id"));
 	ASSERT_EQ(99, bundle.getLong("l"));
 	ASSERT_EQ("http://smile-psu61.nicovideo.jp/smile?m=14097905.36147", bundle.getString("url"));
