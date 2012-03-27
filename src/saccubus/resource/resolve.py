@@ -54,6 +54,7 @@ class Resolve(object):
 		
 		video_prefix=self.VIDEO_PREFIX.format(video_id)
 		thread_prefix=self.VIDEO_PREFIX.format(video_id)
+		
 		for fname in files:
 			if fname.startswith(video_prefix):
 				resolved['video'] = os.path.join(self.resource_path,fname);

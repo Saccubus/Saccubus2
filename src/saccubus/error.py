@@ -17,5 +17,6 @@ class SaccubusError(BaseException):
 		エラーを構築します
 		'''
 		self.msg = fmt.format(*args)
-	def what(self):
+	def __str__(self):
 		return self.msg;
+	

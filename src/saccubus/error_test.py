@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
 		try:
 			raise SaccubusError("Test");
 		except SaccubusError as e:
-			self.assertEqual(e.what(), "Test", "Error messages must be equal.");
+			self.assertEqual(str(e), "Test", "Error messages must be equal.");
 		except:
 			self.fail("Unkown exception caught.")
 		else:
@@ -26,7 +26,7 @@ class Test(unittest.TestCase):
 		try:
 			raise SaccubusError("Test {0}", "FMT");
 		except SaccubusError as e:
-			self.assertEqual(e.what(), "Test FMT", "Error messages must be equal.");
+			self.assertEqual(str(e), "Test FMT", "Error messages must be equal.");
 		except:
 			self.fail("Unkown exception caught.")
 		else:
