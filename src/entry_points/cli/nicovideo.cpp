@@ -12,6 +12,7 @@
 #include "../../saccubus/Saccubus.h"
 #include "../../saccubus/draw/sdl/Canvas.h"
 #include "../../saccubus/logging/Exception.h"
+#include "../../saccubus/logging/Logger.h"
 using namespace std;
 namespace entry_points {
 namespace cli {
@@ -54,7 +55,8 @@ void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& 
 }
 
 int main(int argc, char** argv) {
-	saccubus::Saccubus sacc(argc, argv);
+	saccubus::logging::Logger log(std::cout, saccubus::logging::Logger::TRACE_);
+	saccubus::Saccubus sacc(log, argc, argv);
 	int w, h;
 	sacc.measure(640, 480, w, h);
 

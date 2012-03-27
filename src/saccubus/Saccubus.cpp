@@ -7,27 +7,40 @@
 
 #include <libgen.h>
 #include "util/StringUtil.h"
+#include "logging/Exception.h"
+#include "logging/Logger.h"
 #include "Saccubus.h"
 
 namespace saccubus {
 
 static const std::string RESOLVE_PREFIX("--resolve-");
+static const std::string TAG("Saccubus");
 
-Saccubus::Saccubus(int argc, char** argv)
+Saccubus::Saccubus(logging::Logger& log, int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
 {
-	for(int i=1;i<argc;++i){
+	if(argc < 2){
+		throw logging::Exception("Called with too few arguments: %d", argc);
+	}
+	nowVideoId = argv[1];
+	log.i(TAG, "Video ID: %s", nowVideoId.c_str());
+
+	for(int i=2;i<argc;++i){
 		std::string arg(argv[i]);
 		if(i+1<argc && util::startsWith(arg, RESOLVE_PREFIX)){
 			++i;
 			this->resolveOpts.insert(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[i]));
 		}
 	}
-
 }
 
 Saccubus::~Saccubus() {
 	// TODO Auto-generated destructor stub
+}
+
+void Saccubus::init(Adapter* const adapter)
+{
+	this->adapter = adapter;
 }
 
 void Saccubus::measure(const int w, const int h, int& measuredWidth, int& measuredHeight)
