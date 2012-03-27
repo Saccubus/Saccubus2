@@ -1,31 +1,26 @@
 /*
- * Renderer.h
+ * Canvas.h
  *
- *  Created on: 2012/03/24
+ *  Created on: 2012/03/27
  *      Author: psi
  */
 
-#ifndef RENDERER_H_
-#define RENDERER_H_
+#ifndef CANVAS_H_
+#define CANVAS_H_
+
+#include "../classdefs.h"
 
 namespace saccubus {
 namespace draw {
 
-class Sprite
-{
-
-};
-
-/**
- * 画面上に何かを描くものの基底クラス。
- */
 class Canvas {
 public:
-	Canvas(){};
-	virtual ~Canvas(){};
+	Canvas();
+	virtual ~Canvas();
 public:
-	virtual Sprite* createTextSprite();
+	virtual Sprite* querySprite(int w, int h) = 0;
+public:
 };
 
 }}
-#endif /* RENDERER_H_ */
+#endif /* CANVAS_H_ */

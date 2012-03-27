@@ -19,18 +19,23 @@ class Adapter
 public:
 	void onVideoChanged(const std::string& videoId, const std::string& filepath);
 	void onSeek(const std::string& videoId, float vpos);
+	void onFinished();
+
 };
 
 class Saccubus {
 private:
 	const std::string progPath;
 	std::map<std::string, std::string> resolveOpts;
+private:
+	//python::PyBridge bridge;
 public:
-	Saccubus(const int argc, const char** argv);
+	Saccubus(int argc, char** argv);
 	virtual ~Saccubus();
 
-	void onMeasure(const int w, const int h, int& measuredWidth, int& measuredHeight);
-	void onDraw(float vpos, draw::Canvas* canvas);
+	void init(Adapter& adapter);
+	void measure(const int w, const int h, int& measuredWidth, int& measuredHeight);
+	void draw(float vpos, draw::Canvas* canvas);
 };
 
 }

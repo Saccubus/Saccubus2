@@ -247,6 +247,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.407396358" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -261,6 +262,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1334247816" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.568811975" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -276,6 +278,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 								</option>
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.555044538" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.261857247" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -284,11 +287,22 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1775308658" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.1486088541" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
 								<option id="gnu.cpp.link.option.libs.1983897929" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="mingw32"/>
+									<listOptionValue builtIn="false" value="SDL2main"/>
+									<listOptionValue builtIn="false" value="SDL2"/>
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="z"/>
 									<listOptionValue builtIn="false" value="m"/>
 									<listOptionValue builtIn="false" value="python32"/>
 									<listOptionValue builtIn="false" value="gtest"/>
+									<listOptionValue builtIn="false" value="user32"/>
+									<listOptionValue builtIn="false" value="gdi32"/>
+									<listOptionValue builtIn="false" value="winmm"/>
+									<listOptionValue builtIn="false" value="imm32"/>
+									<listOptionValue builtIn="false" value="ole32"/>
+									<listOptionValue builtIn="false" value="oleaut32"/>
+									<listOptionValue builtIn="false" value="version"/>
+									<listOptionValue builtIn="false" value="uuid"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2015716924" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\lib&quot;"/>
@@ -300,6 +314,112 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1765996805" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="entry_points/test/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247" moduleId="org.eclipse.cdt.core.settings" name="WinDbg">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247" name="WinDbg" parent="cdt.managedbuild.config.gnu.exe.debug">
+					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1939301814" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.321821480" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
+							<builder buildPath="${workspace_loc:/Saccubus/WinDebug}" id="cdt.managedbuild.tool.gnu.builder.mingw.base.301171786" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1298386675" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
+								<option id="gnu.both.asm.option.include.paths.1150117472" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.51775005" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1993836051" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.919555815" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
+								<option id="gnu.cpp.compiler.option.include.paths.860869962" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.optimization.level.814694638" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.1252759093" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.381463954" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.607921291" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
+								<option id="gnu.c.compiler.option.include.paths.549419191" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
+								</option>
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1553424859" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.310601609" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1013908515" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1478369288" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.1141223369" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
+								<option id="gnu.cpp.link.option.libs.445678564" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="xml2"/>
+									<listOptionValue builtIn="false" value="z"/>
+									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="python32"/>
+									<listOptionValue builtIn="false" value="gtest"/>
+									<listOptionValue builtIn="false" value="mingw32"/>
+									<listOptionValue builtIn="false" value="SDL2main"/>
+									<listOptionValue builtIn="false" value="SDL2"/>
+									<listOptionValue builtIn="false" value="user32"/>
+									<listOptionValue builtIn="false" value="gdi32"/>
+									<listOptionValue builtIn="false" value="winmm"/>
+									<listOptionValue builtIn="false" value="imm32"/>
+									<listOptionValue builtIn="false" value="ole32"/>
+									<listOptionValue builtIn="false" value="oleaut32"/>
+									<listOptionValue builtIn="false" value="version"/>
+									<listOptionValue builtIn="false" value="uuid"/>
+								</option>
+								<option id="gnu.cpp.link.option.paths.309961744" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\libs&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.315525783" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
@@ -343,6 +463,9 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.1299022662;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.658201565;cdt.managedbuild.tool.gnu.cpp.compiler.input.462333485">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247;cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.607921291;cdt.managedbuild.tool.gnu.c.compiler.input.1013908515">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685;cdt.managedbuild.config.gnu.exe.debug.1608868685.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1482319822;cdt.managedbuild.tool.gnu.cpp.compiler.input.516313103">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
@@ -350,6 +473,9 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102;cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1823744266;cdt.managedbuild.tool.gnu.cpp.compiler.input.1537770262">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247;cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.919555815;cdt.managedbuild.tool.gnu.cpp.compiler.input.381463954">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510;cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1207946822;cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624">
@@ -367,11 +493,11 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510;cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510.852145666;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1933849759;cdt.managedbuild.tool.gnu.c.compiler.input.336484517">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1362329835;cdt.managedbuild.tool.gnu.c.compiler.input.995970615">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1362329835;cdt.managedbuild.tool.gnu.c.compiler.input.995970615">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685;cdt.managedbuild.config.gnu.exe.debug.1608868685.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.172800927;cdt.managedbuild.tool.gnu.c.compiler.input.1460258005">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>

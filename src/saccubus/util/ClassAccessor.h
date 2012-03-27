@@ -10,22 +10,22 @@
 
 #define DEF_ATTR_READER(scope, type, name)\
 private:\
-	type name##_;\
+	type _##name;\
 scope:\
-	type name() const{return name##_;}
+	type name() const{return _##name;}
 
 #define DEF_ATTR_WRITER(scope, type, name)\
 private:\
-	type name##_;\
+	type _##name;\
 scope:\
-	void name(const type& val){name##_ = val;}
+	void name(type const& val){_##name = val;}
 
 #define DEF_ATTR_ACCESSOR(rscope, wscope, type, name)\
 private:\
-	type name##_;\
+	type _##name;\
 rscope:\
-	type name() const{return name##_;}\
+	type name() const{return _##name;}\
 wscope:\
-	void name(const type& val){name##_ = val;}
+	void name(type const& val){_##name = val;}
 
 #endif /* CLASSACCESSOR_H_ */

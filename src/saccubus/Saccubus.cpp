@@ -13,7 +13,7 @@ namespace saccubus {
 
 static const std::string RESOLVE_PREFIX("--resolve-");
 
-Saccubus::Saccubus(const int argc, const char** argv)
+Saccubus::Saccubus(int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
 {
 	for(int i=1;i<argc;++i){
@@ -28,6 +28,17 @@ Saccubus::Saccubus(const int argc, const char** argv)
 
 Saccubus::~Saccubus() {
 	// TODO Auto-generated destructor stub
+}
+
+void Saccubus::measure(const int w, const int h, int& measuredWidth, int& measuredHeight)
+{
+	measuredWidth = w;
+	measuredHeight = h;
+}
+
+void Saccubus::draw(float vpos, draw::Canvas* canvas)
+{
+
 }
 
 }
