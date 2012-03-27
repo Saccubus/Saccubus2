@@ -34,7 +34,7 @@ void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& 
 			}
 		}
 
-		sacc.draw((float) (now) / 3000, &canvas);
+		sacc.draw((float)now/(1000*FACTOR), &canvas, 0);
 		SDL_UpdateWindowSurface(window);
 
 		++fps;

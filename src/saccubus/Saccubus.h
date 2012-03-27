@@ -10,7 +10,7 @@
 
 #include <string>
 #include <map>
-#include "draw/Canvas.h"
+#include "classdefs.h"
 
 namespace saccubus {
 
@@ -35,7 +35,7 @@ public:
 
 	void init(Adapter& adapter);
 	void measure(const int w, const int h, int& measuredWidth, int& measuredHeight);
-	void draw(float vpos, draw::Canvas* canvas);
+	void draw(float vpos, draw::Canvas* canvas, draw::Sprite* videoSprite);
 };
 
 }

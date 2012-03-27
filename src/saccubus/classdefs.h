@@ -11,11 +11,36 @@
 namespace saccubus{
 class Saccubus;
 class Adapter;
+
 namespace draw{
 class Sprite;
 class Canvas;
 }
+
+namespace logging{
+class Logger;
+class Exception;
 }
 
+namespace Layer{
+class Layer;
+}
 
+namespace meta{
+class Comment;
+class ReplaceItem;
+class ReplaceTable;
+class Thread;
+class VideoInfo;
+}
+
+namespace python{
+class PyBridge;
+}
+
+namespace util{
+class Bundle;
+}
+
+}
 #endif /* SACCUBUS_CLASSDEFS_H_ */
