@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/saccubus/__init__.py=utf-8
+encoding//src/saccubus/error.py=utf-8
+encoding//src/saccubus/error_test.py=utf-8
+encoding//src/saccubus/net/__init__.py=utf-8
+encoding//src/saccubus/resource/__init__.py=utf-8
+encoding//src/saccubus/resource/resolve.py=utf-8
+encoding//src/saccubus/resource/resolve_test.py=utf-8
+encoding//src/saccubus/test_common.py=utf-8
