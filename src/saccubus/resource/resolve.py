@@ -24,7 +24,7 @@ class Resolve(object):
 	（それは実際に処理する側の責任です）
 	'''
 	VIDEO_PREFIX="{0}_video_"
-	THREAD_PREFIX="{0}_video_"
+	THREAD_PREFIX="{0}_thread_"
 
 	def __init__(self, opts):
 		'''
@@ -50,10 +50,10 @@ class Resolve(object):
 		もし存在しなければ、ニコニコ動画からDLします。
 		'''
 		files = filter(lambda f: f.startswith(video_id), os.listdir(self.resource_path))
-		resolved = {'thread':{}};
+		resolved = {'thread':[]};
 		
 		video_prefix=self.VIDEO_PREFIX.format(video_id)
-		thread_prefix=self.VIDEO_PREFIX.format(video_id)
+		thread_prefix=self.THREAD_PREFIX.format(video_id)
 		
 		for fname in files:
 			if fname.startswith(video_prefix):

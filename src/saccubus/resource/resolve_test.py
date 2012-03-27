@@ -47,8 +47,10 @@ class Test(unittest.TestCase):
 		resolv = Resolve({"resource_path":self.resource_path})
 		dic = resolv.resolve("sm0");
 		
-		self.assertEqual(dic['video'], os.path.join(self.resource_path,"sm0_video_test.mp4"))
+		self.assertEqual(dic['video'], os.path.join(self.resource_path,"sm0_video_test.mp4"), "動画の取得に失敗しています")
 		self.assertEqual("test", dic['title'], "タイトルの取得に失敗しています");
+		self.assertEqual(1, len(dic['thread']), "スレッドの数がおかしいです。{0}個ありますが、一個のはずです".format(len(dic['thread'])));
+		self.assertEqual(dic['thread'][0], os.path.join(self.resource_path, "sm0_thread_123456.xml"), "スレッドの取得に失敗")
 
 
 if __name__ == "__main__":
