@@ -18,10 +18,10 @@ class Resolver(object):
 	を集め、所定のフォルダに格納します。
 	
 	名前規則
+	・getflv： dir/[video_id]_info.txt
 	・動画： dir/[video_id]_video_title.<ext>
-	・コメント:dir/[video_id]_thread_<スレッドID>.xml
-	スレッドIDで区別して、XMLの中身で投稿者コメントかどうかを判断します
-	（それは実際に処理する側の責任です）
+	・コメント:dir/[video_id]_thread_<スレッドID>(_forked)*.<ext>
+	_forkedが付いているものが投稿者コメントですが、ファイルの中身を見ても判別できます。
 	'''
 	VIDEO_PREFIX="{0}_video_"
 	THREAD_PREFIX="{0}_thread_"
