@@ -10,13 +10,27 @@ import sqlite3;
 from .error import LoginError;
 from . import constant;
 import http.cookiejar;
+import os;
 
 def login(userid, password):
-	pass
+	
+	return searchProfile(
+		os.path.join(os.getenv('APP_DATA'), 'Mozilla','Firefox','Profiles')
+	);
+
+def searchProfile(*prof_dirs):
+	for d in prof_dirs:
+		if os.path.isdir(d) and os.path.exists(d):
+			for pdir in os.listdir(d):
+				try:
+					return readDatabase(os.path.join(pdir, 'cookies.sqlite'))
+				except LoginError:
+					pass
+	raise LoginError("Firefoxのクッキーが見つかりませんでした");
 
 '''
 データベースファイルを読んで、データが存在すればクッキジャーに変換して返す。
-読み取れなければエラー。
+読み取れなければエラーを送出。
 @param fname: sqliteデータベースへのパス
 '''
 def readDatabase(fname):
