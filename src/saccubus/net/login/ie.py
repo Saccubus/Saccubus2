@@ -17,6 +17,7 @@ IEのクッキーでログインし、CookieJarを返す
 '''
 def login(userid, password):
 	return readCookieFile(
+			# in windows vista
 			os.path.join(os.getenv("APPDATA"), "Microsoft","Windows","Cookies")
 		);
 	pass

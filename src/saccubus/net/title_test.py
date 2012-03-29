@@ -9,15 +9,10 @@ import unittest
 from . import title, error;
 
 class Test(unittest.TestCase):
-
-
 	def setUp(self):
 		pass
-
-
 	def tearDown(self):
 		pass
-
 	def testSucceed(self):
 		t = title.getTitle("sm60")
 		self.assertEqual(t, "なに勘違いしているんだ")

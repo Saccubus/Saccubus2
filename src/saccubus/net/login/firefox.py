@@ -15,7 +15,10 @@ import os;
 def login(userid, password):
 	
 	return searchProfile(
-		os.path.join(os.getenv('APP_DATA'), 'Mozilla','Firefox','Profiles')
+		# in windows vista
+		os.path.join(os.getenv('APP_DATA'), 'Mozilla','Firefox','Profiles'),
+		# in fedora 16
+		os.path.join(os.getenv('HOME'), '.mozilla','firefox')
 	);
 
 def searchProfile(*prof_dirs):
