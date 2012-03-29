@@ -1,7 +1,7 @@
 #! python3
 # -*- coding: utf-8 -*-
 
-from . import firefox, own, ie;
+from . import chrome, firefox, own, ie;
 from .util import isLoggedIn;
 
 '''
@@ -31,8 +31,7 @@ def login(userid, password, method=None):
 LOGIN_METHOD={
 	"ie": ie.login,
 	"firefox": firefox.login,
-	"chrome": None,
-	"safari": None,
+	"chrome": chrome.login,
 	"own": own.login
 };
 
