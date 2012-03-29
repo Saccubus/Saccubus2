@@ -9,7 +9,7 @@ Created on 2012/03/27
 from saccubus.error import SaccubusError;
 import os;
 
-class Resolve(object):
+class Resolver(object):
 	'''
 	ニコニコ動画の
 	・動画
@@ -46,8 +46,7 @@ class Resolve(object):
 		
 	def resolve(self, video_id):
 		'''
-		動画IDから、動画とコメントを解決して絶対パスを辞書で返します。
-		もし存在しなければ、ニコニコ動画からDLします。
+		動画IDから、動画とコメントのファイルを解決して絶対パスを辞書で返します。
 		'''
 		files = filter(lambda f: f.startswith(video_id), os.listdir(self.resource_path))
 		resolved = {'thread':[]};
@@ -63,6 +62,11 @@ class Resolve(object):
 			elif fname.startswith(thread_prefix):
 				resolved['thread'].append(os.path.join(self.resource_path,fname));
 			pass
-		
 		return resolved
+	
+	def download(self, video_id, resolved):
+		pass
+	
+	def resolveAndDownload(self, video_id):
+		return self.download(self.resolve(video_id));
 	

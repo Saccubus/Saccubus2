@@ -6,7 +6,7 @@ Created on 2012/03/27
 @author: psi
 '''
 import unittest
-from saccubus.error import SaccubusError;
+from .error import SaccubusError;
 
 class Test(unittest.TestCase):
 	def setUp(self):

@@ -6,7 +6,7 @@ Created on 2012/03/27
 @author: psi
 '''
 import unittest
-from saccubus.resource.resolve import Resolve;
+from .resolve import Resolver;
 from saccubus import test_common;
 from saccubus.error import SaccubusError;
 import os.path;
@@ -23,19 +23,19 @@ class Test(unittest.TestCase):
 
 	def testInvalidArg(self):
 		try:
-			Resolve({});
+			Resolver({});
 		except SaccubusError:
 			pass
 		else:
 			self.fail("解決パスを示していないのに例外が発生しない")
 		try:
-			Resolve({"resource_path":"/tmp/__not_exist__"});
+			Resolver({"resource_path":"/tmp/__not_exist__"});
 		except SaccubusError:
 			pass
 		else:
 			self.fail("存在しないパスを指定しているのに例外が発生しない")
 		try:
-			Resolve({"resource_path":self.resource_path})
+			Resolver({"resource_path":self.resource_path})
 		except SaccubusError as e:
 			self.fail("例外が発生: {0}".format(e.what()))
 		except :
@@ -43,8 +43,8 @@ class Test(unittest.TestCase):
 		else:
 			pass
 
-	def testBaseResolve(self):
-		resolv = Resolve({"resource_path":self.resource_path})
+	def testBaseResolver(self):
+		resolv = Resolver({"resource_path":self.resource_path})
 		dic = resolv.resolve("sm0");
 		
 		self.assertEqual(dic['video'], os.path.join(self.resource_path,"sm0_video_test.mp4"), "動画の取得に失敗しています")

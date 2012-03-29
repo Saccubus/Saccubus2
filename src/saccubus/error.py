@@ -10,8 +10,6 @@ class SaccubusError(BaseException):
 	'''
 	さきゅばす内で使うエラー
 	'''
-
-
 	def __init__(self, fmt, *args):
 		'''
 		エラーを構築します
