@@ -51,6 +51,7 @@ class Test(unittest.TestCase):
 		self.assertEqual("test", dic['title'], "タイトルの取得に失敗しています");
 		self.assertEqual(1, len(dic['thread']), "スレッドの数がおかしいです。{0}個ありますが、一個のはずです".format(len(dic['thread'])));
 		self.assertEqual(dic['thread'][0], os.path.join(self.resource_path, "sm0_thread_123456.xml"), "スレッドの取得に失敗")
+		self.assertEqual(dic['info'], os.path.join(self.resource_path,"sm0_info.txt"));
 
 
 if __name__ == "__main__":
