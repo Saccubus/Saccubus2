@@ -29,7 +29,7 @@ def login(userid, password, method=None):
 注意：　メソッド内でグローバル変数は使わない。
 '''
 LOGIN_METHOD={
-	"ie": None,
+	"ie": ie.login,
 	"firefox": firefox.login,
 	"chrome": None,
 	"safari": None,

@@ -8,7 +8,7 @@ Created on 2012/03/27
 import unittest
 import os.path;
 from saccubus import test_common;
-from . import firefox, constant;
+from . import firefox, constant, util;
 
 class Test(unittest.TestCase):
 	def setUp(self):
@@ -20,6 +20,7 @@ class Test(unittest.TestCase):
 		for cookie in jar:
 			if cookie.name=="user_session" and cookie.domain==constant.COOKIE_DOMAIN:
 				self.assertEqual("user_session_26735140_14681406081901241868", cookie.value);
+				#self.assertTrue(util.isLoggedIn(jar));
 				return
 		self.fail("Failed to read fiurefox cookie!");
 
