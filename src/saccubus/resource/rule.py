@@ -17,8 +17,7 @@ __all__=[
 ・play_info(getflv)： dir/[video_id]_play_info.txt
 ・meta_info(getthumbinfo)： dir/[video_id]_meta_info.xml
 ・動画： dir/[video_id]_video_title.<ext>
-・コメント:dir/[video_id]_thread_<スレッドID>(_forked)*.<ext>
-_forkedが付いているものが投稿者コメントですが、ファイルの中身を見ても判別できます。
+・コメント:dir/[video_id]_thread_<スレッドID>.<ext>
 '''
 PLAY_INFO_PREFIX="{0}_play_info"
 META_INFO_PREFIX="{0}_meta_info"
