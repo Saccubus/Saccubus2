@@ -18,7 +18,7 @@ def downloadThreads(jar, play_info, resDir):
 	pass
 
 def downloadThread(jar, play_info, thread_id_key, backCnt, fname):
-	payload = constructCommand(play_info, thread_id_key, backCnt)
+	payload = constructCommand(jar, play_info, thread_id_key, backCnt)
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(play_info['ms'], payload)
 	if os.path.exists(fname):
 		os.remove(fname)
@@ -26,7 +26,13 @@ def downloadThread(jar, play_info, thread_id_key, backCnt, fname):
 		shutil.copyfileobj(resp, f)
 	return fname;
 
-def constructCommand(play_info, thread_id_key, backCnt):
+THREAD_KEY_API_URL='http://flapi.nicovideo.jp/api/getthreadkey?thread={0}'
+def getThreadKey(jar, thread_id):
+	url=THREAD_KEY_API_URL.format(thread_id)
+	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(url)
+	return dict(urllib.parse.parse_qsl(resp.read().decode('utf-8')))
+
+def constructCommand(jar, play_info, thread_id_key, backCnt):
 	lst = minidom.NodeList();
 	#デフォルトコメント
 	th = minidom.Element('thread')
@@ -53,6 +59,13 @@ def constructCommand(play_info, thread_id_key, backCnt):
 	fth.setAttribute('scores', '1')
 	fth.setAttribute('click_revision', '-1')
 	lst.append(fth)
+	# スレッドキーが必要な場合は取得
+	if 'needs_key' in play_info:
+		key_dict = getThreadKey(jar, play_info[thread_id_key])
+		for k,v in key_dict.items():
+			th.setAttribute(k, v)
+			fth.setAttribute(k, v)
+			leave.setAttribute(k, v)
 	return constructPacketPayload(lst)
 
 '''
