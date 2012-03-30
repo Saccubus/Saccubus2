@@ -9,14 +9,6 @@ import unittest
 from . import meta_info;
 from . import error;
 class Test(unittest.TestCase):
-
-
-	def setUp(self):
-		pass
-
-
-	def tearDown(self):
-		pass
 	def testSucceed(self):
 		t = meta_info.getMetaInfo('sm60');
 		self.assertEqual(t['title'], "なに勘違いしているんだ")

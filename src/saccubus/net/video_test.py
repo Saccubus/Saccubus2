@@ -22,12 +22,8 @@ class Test(unittest.TestCase):
 		self.meta_info = meta_info.getMetaInfo('sm60');
 		self.play_info = play_info.getPlayInfo(self.jar, 'sm60')
 		pass
-
-
 	def tearDown(self):
 		pass
-
-
 	def testName(self):
 		video.downloadVideo(self.jar, self.play_info, self.meta_info, self.resDir)
 		pass

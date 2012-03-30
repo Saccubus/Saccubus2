@@ -18,9 +18,10 @@ def getPlayInfo(jar, videoid):
 	url = INFO_API_URL.format(videoid);
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(url);
 	content = resp.read().decode('ascii')
-	urllib.parse._implicit_encoding='utf-8'
-	urllib.parse._implicit_errors='strict'
-	_info = urllib.parse.parse_qsl(content, encoding='utf-8', errors='replace');
 	resp.close();
-	return dict(_info);
-	
+	return parsePlayInfo(content);
+
+
+def parsePlayInfo(content):
+	_info = dict( urllib.parse.parse_qsl(content, encoding='utf-8', errors='replace') )
+	return _info

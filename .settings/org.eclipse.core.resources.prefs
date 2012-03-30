@@ -28,6 +28,7 @@ encoding//src/saccubus/net/video_test.py=utf-8
 encoding//src/saccubus/resource/__init__.py=utf-8
 encoding//src/saccubus/resource/resolve.py=utf-8
 encoding//src/saccubus/resource/resolve_test.py=utf-8
+encoding//src/saccubus/resource/rule.py=utf-8
 encoding//src/saccubus/test_common.py=utf-8
 encoding//src/saccubus/util/filename.py=utf-8
 encoding//src/saccubus/util/filename_test.py=utf-8

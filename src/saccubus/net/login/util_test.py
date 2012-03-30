@@ -19,7 +19,8 @@ class Test(unittest.TestCase):
 		pass
 
 
-	def testName(self):
+	def testReadSession(self):
+		# TODO: お使いの環境のクッキーがありそうな場所を指定してください。
 		jar = util.searchNicoSessionFrom(
 			"/home/psi/.mozilla/firefox",
 			"C:/Users/psi/AppData/Roaming/Mozilla/Firefox/Profiles/bdlmkjhm.default",
