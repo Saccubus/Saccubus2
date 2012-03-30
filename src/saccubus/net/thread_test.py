@@ -28,8 +28,15 @@ class Test(unittest.TestCase):
 			Test.offInfo = play_info.getPlayInfo(Test.jar, OFFICIAL_VIDEO)
 	def tearDown(self):
 		pass
+	def testDownloadThread(self):
+		files = thread.downloadThreads(Test.jar, OFFICIAL_VIDEO, Test.offInfo, 1000, test_common.RESOURCE_DL_PATH)
+		for f in files:
+			self.assertTrue(os.path.exists(f))
+			self.assertTrue(os.path.isfile(f))
+			os.remove(f)
+		
 	def testOfficialThread(self):
-		fname = thread.downloadThread(Test.jar, Test.offInfo, 'thread_id', 1000, os.path.join(test_common.PATH, "resources", "{0}_thread.xml".format(OFFICIAL_VIDEO)));
+		fname = thread.downloadThread(Test.jar, OFFICIAL_VIDEO, Test.offInfo, 'thread_id', 1000, test_common.RESOURCE_DL_PATH);
 		self.assertTrue(os.path.exists(fname))
 		self.assertTrue(os.path.isfile(fname))
 		os.remove(fname)
@@ -38,7 +45,7 @@ class Test(unittest.TestCase):
 		self.assertIsNotNone(key_dict['threadkey'])
 		self.assertNotEquals(key_dict['threadkey'], '')
 	def testGetNormalThread(self):
-		fname = thread.downloadThread(Test.jar, Test.defInfo, 'thread_id', 1000, os.path.join(test_common.PATH, "resources", "${VIDEO_ID}_thread.xml"));
+		fname = thread.downloadThread(Test.jar, VIDEO_ID, Test.defInfo, 'thread_id', 1000, test_common.RESOURCE_DL_PATH);
 		self.assertTrue(os.path.exists(fname))
 		self.assertTrue(os.path.isfile(fname))
 		os.remove(fname)

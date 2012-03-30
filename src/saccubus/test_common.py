@@ -8,5 +8,7 @@ Created on 2012/03/27
 
 import os.path;
 PATH= os.path.abspath("./_TestMaterials")
+RESOURCE_PATH=os.path.join(PATH, "resources")
+RESOURCE_DL_PATH=os.path.join(PATH, "resources", "download")
 TEST_USER='saccubus@gmail.com'
 TEST_PASS='test1234'

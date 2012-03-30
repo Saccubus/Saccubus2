@@ -9,8 +9,7 @@ Created on 2012/03/30
 import os;
 import urllib;
 import shutil;
-from ..util.filename import escapeFilename;
-from ..resource.rule import formatVideoPrefix
+from ..resource.rule import formatVideoFilename
 
 WATCH_PAGE_URL='http://www.nicovideo.jp/watch/{0}'
 
@@ -20,16 +19,16 @@ infoとjarを用いて、指定したディレクトリに動画を保存する�
 取得したファイルの保存先をstrで返します。
 '''
 def downloadVideo(jar, play_info, meta_info, resDir):
-	fname = formatVideoPrefix(meta_info['video_id'])+escapeFilename(meta_info['title']);
-	fname = os.path.join(resDir, fname)
 	touchWatchPage(jar, meta_info['video_id'])
-	if os.path.exists(fname):
-		os.remove(fname)
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(play_info['url'])
 	#FIXME: 見苦しい。
 	orig_fname = resp.info()['Content-Disposition'].split('filename=')[1].replace('"', '').replace("'", "");
 	_, ext = os.path.splitext(orig_fname)
-	with open(''.join((fname, ext)),'wb') as file, resp:
+	fname = formatVideoFilename(meta_info['video_id'], meta_info['title'], ext);
+	fname = os.path.join(resDir, fname)
+	if os.path.exists(fname):
+		os.remove(fname)
+	with open(fname,'wb') as file, resp:
 		shutil.copyfileobj(resp, file);
 	return fname
 

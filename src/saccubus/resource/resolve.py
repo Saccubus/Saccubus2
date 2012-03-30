@@ -44,8 +44,8 @@ class Resolver(object):
 		files = filter(lambda f: f.startswith(video_id), os.listdir(self.resource_path))
 		resolved = {'thread':[]};
 		
-		play_info_prefix=rule.formatPlayInfoPrefix(video_id)
-		meta_info_prefix=rule.formatMetaInfoPrefix(video_id)
+		play_info_prefix=rule.formatPlayInfoFilename(video_id)
+		meta_info_prefix=rule.formatMetaInfoFilename(video_id)
 		video_prefix=rule.formatVideoPrefix(video_id)
 		thread_prefix=rule.formatThreadPrefix(video_id)
 		
@@ -56,9 +56,9 @@ class Resolver(object):
 				resolved['title'] = base[len(video_prefix):];
 			elif fname.startswith(thread_prefix):
 				resolved['thread'].append(os.path.join(self.resource_path,fname));
-			elif fname.startswith(play_info_prefix):
+			elif fname == play_info_prefix:
 				resolved['play_info'] = os.path.join(self.resource_path,fname);
-			elif fname.startswith(meta_info_prefix):
+			elif fname == meta_info_prefix:
 				resolved['meta_info'] = os.path.join(self.resource_path,fname);
 			pass
 		return resolved

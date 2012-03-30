@@ -10,16 +10,23 @@ from xml.dom import minidom;
 import os;
 import shutil;
 import urllib
+from ..resource import rule;
 
 '''
 コメントをDLします。
 '''
-def downloadThreads(jar, play_info, resDir):
-	pass
+def downloadThreads(jar, video_id, play_info, backCnt, resDir):
+	files = [];
+	if 'thread_id' in play_info:
+		files.append(downloadThread(jar, video_id, play_info, 'thread_id', backCnt, resDir))
+	if 'optional_thread_id' in play_info:
+		files.append(downloadThread(jar, video_id, play_info, 'optional_thread_id', backCnt, resDir))
+	return files;
 
-def downloadThread(jar, play_info, thread_id_key, backCnt, fname):
+def downloadThread(jar, video_id, play_info, thread_id_key, backCnt, resDir):
 	payload = constructCommand(jar, play_info, thread_id_key, backCnt)
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(play_info['ms'], payload)
+	fname = os.path.join(resDir, rule.formatThreadFilename(video_id, play_info[thread_id_key]))
 	if os.path.exists(fname):
 		os.remove(fname)
 	with open(fname, 'wb') as f, resp:
