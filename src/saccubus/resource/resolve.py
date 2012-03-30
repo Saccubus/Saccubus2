@@ -18,12 +18,14 @@ class Resolver(object):
 	を集め、所定のフォルダに格納します。
 	
 	名前規則
-	・getflv： dir/[video_id]_info.txt
+	・play_info(getflv)： dir/[video_id]_play_info.txt
+	・meta_info(getthumbinfo)： dir/[video_id]_meta_info.xml
 	・動画： dir/[video_id]_video_title.<ext>
 	・コメント:dir/[video_id]_thread_<スレッドID>(_forked)*.<ext>
 	_forkedが付いているものが投稿者コメントですが、ファイルの中身を見ても判別できます。
 	'''
-	INFO_PREFIX="{0}_info"
+	PLAY_INFO_PREFIX="{0}_play_info"
+	META_INFO_PREFIX="{0}_meta_info"
 	VIDEO_PREFIX="{0}_video_"
 	THREAD_PREFIX="{0}_thread_"
 
@@ -52,7 +54,8 @@ class Resolver(object):
 		files = filter(lambda f: f.startswith(video_id), os.listdir(self.resource_path))
 		resolved = {'thread':[]};
 		
-		info_prefix=self.INFO_PREFIX.format(video_id)
+		play_info_prefix=self.PLAY_INFO_PREFIX.format(video_id)
+		meta_info_prefix=self.META_INFO_PREFIX.format(video_id)
 		video_prefix=self.VIDEO_PREFIX.format(video_id)
 		thread_prefix=self.THREAD_PREFIX.format(video_id)
 		
@@ -63,8 +66,10 @@ class Resolver(object):
 				resolved['title'] = base[len(video_prefix):];
 			elif fname.startswith(thread_prefix):
 				resolved['thread'].append(os.path.join(self.resource_path,fname));
-			elif fname.startswith(info_prefix):
-				resolved['info'] = os.path.join(self.resource_path,fname);
+			elif fname.startswith(play_info_prefix):
+				resolved['play_info'] = os.path.join(self.resource_path,fname);
+			elif fname.startswith(meta_info_prefix):
+				resolved['meta_info'] = os.path.join(self.resource_path,fname);
 			pass
 		return resolved
 	

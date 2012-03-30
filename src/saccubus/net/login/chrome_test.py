@@ -8,7 +8,7 @@ Created on 2012/03/29
 import unittest
 import os;
 from ... import test_common;
-from . import chrome, constant, util;
+from . import chrome, constant;
 
 class Test(unittest.TestCase):
 
@@ -22,7 +22,7 @@ class Test(unittest.TestCase):
 
 
 	def testDatabase(self):
-		jar = chrome.readDatabase(os.path.join(test_common.path, "net", "login", "Cookies.chrome"))
+		jar = chrome.readDatabase(os.path.join(test_common.PATH, "net", "login", "Cookies.chrome"))
 		for cookie in jar:
 			if cookie.name=="user_session" and cookie.domain==constant.COOKIE_DOMAIN:
 				self.assertEqual("user_session_26735140_19721752331154494149", cookie.value);

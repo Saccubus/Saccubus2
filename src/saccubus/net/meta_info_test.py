@@ -1,31 +1,35 @@
 #! python3
 # -*- coding: utf-8 -*-
 '''
-Created on 2012/03/29
+Created on 2012/03/30
 
 @author: psi
 '''
 import unittest
-from . import title, error;
-
+from . import meta_info;
+from . import error;
 class Test(unittest.TestCase):
+
+
 	def setUp(self):
 		pass
+
+
 	def tearDown(self):
 		pass
 	def testSucceed(self):
-		t = title.getTitle("sm60")
-		self.assertEqual(t, "なに勘違いしているんだ")
+		t = meta_info.getMetaInfo('sm60');
+		self.assertEqual(t['title'], "なに勘違いしているんだ")
 	
 	def testFailure(self):
 		try:
-			t = title.getTitle('sm0')
+			t = meta_info.getMetaInfo('sm0');
 		except error.LoadError:
 			pass
 		except:
 			self.fail("未知のエラーが発生")
 		else:
-			self.fail("sm0は存在しないのに、タイトルが取得できてしまった => {0}", t)
+			self.fail("sm0は存在しないのに、タイトルが取得できてしまった => {0}".format(t))
 
 
 if __name__ == "__main__":

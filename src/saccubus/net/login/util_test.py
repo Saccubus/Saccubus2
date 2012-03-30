@@ -20,9 +20,10 @@ class Test(unittest.TestCase):
 
 
 	def testName(self):
-		#path="C:/Users/psi/AppData/Roaming/Mozilla/Firefox/Profiles/bdlmkjhm.default"
-		path="/home/psi/.mozilla/firefox"
-		jar = util.searchNicoSessionFrom(path);
+		jar = util.searchNicoSessionFrom(
+			"/home/psi/.mozilla/firefox",
+			"C:/Users/psi/AppData/Roaming/Mozilla/Firefox/Profiles/bdlmkjhm.default",
+			);
 		self.assertIsNotNone(jar);
 		self.assertTrue(util.isLoggedIn(jar))
 

@@ -7,4 +7,6 @@ Created on 2012/03/27
 '''
 
 import os.path;
-path= os.path.abspath("./_TestMaterials")
+PATH= os.path.abspath("./_TestMaterials")
+TEST_USER='saccubus@gmail.com'
+TEST_PASS='test1234'

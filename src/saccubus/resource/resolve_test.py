@@ -13,7 +13,7 @@ import os.path;
 
 class Test(unittest.TestCase):
 	def setUp(self):
-		self.resource_path=os.path.join(test_common.path, "resources");
+		self.resource_path=os.path.join(test_common.PATH, "resources");
 		pass
 
 
@@ -51,7 +51,8 @@ class Test(unittest.TestCase):
 		self.assertEqual("test", dic['title'], "タイトルの取得に失敗しています");
 		self.assertEqual(1, len(dic['thread']), "スレッドの数がおかしいです。{0}個ありますが、一個のはずです".format(len(dic['thread'])));
 		self.assertEqual(dic['thread'][0], os.path.join(self.resource_path, "sm0_thread_123456.xml"), "スレッドの取得に失敗")
-		self.assertEqual(dic['info'], os.path.join(self.resource_path,"sm0_info.txt"));
+		self.assertEqual(dic['play_info'], os.path.join(self.resource_path,"sm0_play_info.txt"));
+		self.assertEqual(dic['meta_info'], os.path.join(self.resource_path,"sm0_meta_info.xml"));
 
 
 if __name__ == "__main__":

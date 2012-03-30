@@ -7,7 +7,7 @@ Created on 2012/03/29
 '''
 import unittest
 from .login import own, util;
-from . import info;
+from . import play_info;
 
 class Test(unittest.TestCase):
 
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
 
 
 	def testBasic(self):
-		dic = info.getInfo(self.jar, 'sm60')
+		dic = play_info.getPlayInfo(self.jar, 'sm60')
 		self.assertEquals(dic['thread_id'], '1173124005')
 		self.assertEquals(dic['l'], '50')
 		pass

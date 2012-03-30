@@ -8,6 +8,7 @@ Created on 2012/03/27
 import unittest
 from . import own;
 from .error import LoginError;
+from ... import test_common;
 
 class Test(unittest.TestCase):
 
@@ -32,13 +33,13 @@ class Test(unittest.TestCase):
 
 	def testLogin(self):
 		self.assertIsNotNone(
-			own.login("saccubus@gmail.com","test1234"),
+			own.login(test_common.TEST_USER,test_common.TEST_PASS),
 			"正しいパスワードでもログインできません"
 			)
 
 	def testLoginFailure(self):
 		try:
-			own.login("saccubus@gmail.com","__invalid_password__")
+			own.login(test_common.TEST_USER,"__invalid_password__")
 		except LoginError:
 			pass
 		except:
