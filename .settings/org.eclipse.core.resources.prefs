@@ -24,6 +24,7 @@ encoding//src/saccubus/net/meta_info_test.py=utf-8
 encoding//src/saccubus/net/play_info.py=utf-8
 encoding//src/saccubus/net/play_info_test.py=utf-8
 encoding//src/saccubus/net/thread.py=utf-8
+encoding//src/saccubus/net/thread_test.py=utf-8
 encoding//src/saccubus/net/video.py=utf-8
 encoding//src/saccubus/net/video_test.py=utf-8
 encoding//src/saccubus/resource/__init__.py=utf-8
