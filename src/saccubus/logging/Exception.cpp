@@ -11,15 +11,29 @@
 namespace saccubus {
 namespace logging {
 
+Exception::Exception() throw()
+{
+}
+
 Exception::Exception(const std::string& fmt, ...) throw()
 {
+	va_list lst;
+	va_start(lst, fmt);
+	init(fmt, lst);
+	va_end(lst);
+}
+
+Exception::Exception(const std::string& fmt, va_list lst) throw()
+{
+	init(fmt, lst);
+}
+
+void Exception::init(const std::string& fmt, va_list lst) throw()
+{
 	try{
-		va_list lst;
-		va_start(lst, fmt);
 		this->msg = util::formatv(fmt, lst);
-		va_end(lst);
 	}catch(...){
-		msg = "[BUG] Failed to format string!!";
+		this->msg = "[BUG] Failed to format string!!";
 	}
 }
 

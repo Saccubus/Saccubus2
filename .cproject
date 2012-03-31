@@ -28,6 +28,7 @@
 								<option id="gnu.cpp.compiler.option.other.other.322852780" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.173081263" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1104521883" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.516313103" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -38,6 +39,7 @@
 								<option id="gnu.c.compiler.option.misc.other.256274486" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.13103670" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.2020333936" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1460258005" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -59,6 +61,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1093635632" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.654019709" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2136145602" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -96,6 +99,7 @@
 								<option id="gnu.cpp.compiler.option.other.other.964600147" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.147339621" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.125380033" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.517080070" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -106,6 +110,7 @@
 								<option id="gnu.c.compiler.option.misc.other.258762114" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.1414239272" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.334273356" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -127,6 +132,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.699124687" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
 								<option id="gnu.both.asm.option.include.paths.732472538" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1799807157" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -164,8 +170,10 @@
 								<option id="gnu.cpp.compiler.option.other.other.1278844605" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1180095354" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1127115469" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
+								<option id="gnu.cpp.compiler.option.debugging.prof.1803727249" superClass="gnu.cpp.compiler.option.debugging.prof" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1118989766" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -174,6 +182,7 @@
 								<option id="gnu.c.compiler.option.misc.other.1635186006" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.333985847" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1029319254" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.707592903" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -197,6 +206,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1849888546" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1033140507" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1156728690" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -238,6 +248,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.407396358" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -344,6 +355,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.51775005" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

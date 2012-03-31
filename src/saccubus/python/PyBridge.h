@@ -8,15 +8,18 @@
 #ifndef PYBRIDGE_H_
 #define PYBRIDGE_H_
 
+#include "../classdefs.h"
+
 namespace saccubus {
 namespace python {
 
 class PyBridgeImpl;
 class PyBridge {
 private:
+	logging::Logger& log;
 	PyBridgeImpl* const impl;
 public:
-	PyBridge();
+	PyBridge(logging::Logger& log);
 	virtual ~PyBridge();
 };
 

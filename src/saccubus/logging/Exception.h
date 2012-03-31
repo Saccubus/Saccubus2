@@ -25,8 +25,12 @@ namespace logging {
 class Exception : public std::exception {
 private:
 	std::string msg;
+protected:
+	void init(const std::string& fmt, va_list lst) throw();
 public:
+	Exception() throw();
 	Exception(const std::string& fmt, ...) throw();
+	Exception(const std::string& fmt, va_list lst) throw();
 	virtual ~Exception() throw();
 	std::string what();
 };

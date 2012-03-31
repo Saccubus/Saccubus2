@@ -11,8 +11,9 @@
 namespace saccubus {
 namespace python {
 
-PyBridge::PyBridge()
-:impl(new PyBridgeImpl())
+PyBridge::PyBridge(logging::Logger& log)
+:log(log)
+,impl(new PyBridgeImpl(log))
 {
 	// TODO Auto-generated constructor stub
 
