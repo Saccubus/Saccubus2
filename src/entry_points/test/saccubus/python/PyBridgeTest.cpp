@@ -11,7 +11,7 @@ using namespace saccubus::python;
 
 TEST(PyBridgeTest, InitTest)
 {
-	//PyBridge bridge;
+	PyBridge bridge;
 }
 
 
