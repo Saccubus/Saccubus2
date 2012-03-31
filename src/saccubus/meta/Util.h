@@ -29,6 +29,9 @@ template<>
 unsigned long long readNodeProp(xmlNode* node, const std::string& name, const unsigned long long& def);
 
 template<>
+long long readNodeProp(xmlNode* node, const std::string& name, const long long& def);
+
+template<>
 bool readNodeProp(xmlNode* node, const std::string& name, const bool& def);
 
 

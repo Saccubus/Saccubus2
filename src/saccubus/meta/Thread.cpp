@@ -6,6 +6,7 @@
  */
 
 #include <libxml2/libxml/parser.h>
+#include <algorithm>
 #include "../logging/Exception.h"
 #include "Util.h"
 #include "Thread.h"
@@ -38,6 +39,7 @@ Thread::~Thread() {
 	}
 }
 
+
 void Thread::read(logging::Logger& log, xmlNode* node)
 {
 	bool infoGrabbed = false;
@@ -59,7 +61,9 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 				log.t(TAG, "Server Time: %llu", this->server_time());
 			}
 		}else if(xmlStrcmp(child->name, reinterpret_cast<const unsigned char*>("chat")) == 0){
-			chatList.push_back(new Comment(log, child));
+			const Comment* com = new Comment(log, child);
+			std::vector<const Comment*>::iterator it = std::upper_bound(chatList.begin(), chatList.end(), com, Comment::comparareLessByVpos);
+			chatList.insert(it, com);
 		}else{
 			if(log.t()){
 				log.t(TAG, "Unknwon element: %s(ignored)", child->name);

@@ -57,6 +57,19 @@ unsigned long long readNodeProp(xmlNode* node, const std::string& name, const un
 }
 
 template<>
+long long readNodeProp(xmlNode* node, const std::string& name, const long long& def)
+{
+	xmlChar* chr = xmlGetProp(node, reinterpret_cast<const xmlChar*>(name.c_str()));
+	if(chr){
+		long long res = strtoll(reinterpret_cast<const char*>(chr), 0, 0);
+		xmlFree(chr);
+		return res;
+	}else{
+		return def;
+	}
+}
+
+template<>
 bool readNodeProp(xmlNode* node, const std::string& name, const bool& def)
 {
 	xmlChar* chr = xmlGetProp(node, reinterpret_cast<const xmlChar*>(name.c_str()));

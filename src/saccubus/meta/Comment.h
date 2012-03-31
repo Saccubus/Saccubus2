@@ -28,7 +28,7 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, float, vpos)
 	DEF_ATTR_ACCESSOR(public, private, unsigned long long, date)
 	DEF_ATTR_ACCESSOR(public, private, unsigned long long, deleted)
-	DEF_ATTR_ACCESSOR(public, private, unsigned long long, score)
+	DEF_ATTR_ACCESSOR(public, private, long long, score)
 	DEF_ATTR_ACCESSOR(public, private, std::string, user_id)
 	std::vector<std::string> mail;
 	DEF_ATTR_ACCESSOR(public, private, std::string, message)
@@ -43,6 +43,8 @@ public:
 	size_t mailSize() const;
 	std::vector<std::string>::const_iterator mailBegin() const;
 	std::vector<std::string>::const_iterator mailEnd() const;
+public:
+	static bool comparareLessByVpos(const Comment* a, const Comment* b);
 };
 
 }}

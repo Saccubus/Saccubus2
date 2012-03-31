@@ -21,7 +21,7 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->vpos(readNodeProp(node, "vpos", (float)0)/100);
 	this->date(readNodeProp(node, "date", (unsigned long long)0));
 	this->deleted(readNodeProp(node, "deleted", (unsigned long long)0));
-	this->score(readNodeProp(node, "score", (unsigned long long)0));
+	this->score(readNodeProp(node, "score", (long long)0));
 	this->user_id(readNodeProp(node, "user_id", ""));
 	this->anonymity(readNodeProp(node, "anonymity", true));
 	this->leaf(readNodeProp(node, "leaf", false));
@@ -74,5 +74,8 @@ std::vector<std::string>::const_iterator Comment::mailEnd() const
 	return mail.end();
 }
 
+bool Comment::comparareLessByVpos(const Comment* a, const Comment* b){
+	return a->vpos() < b->vpos();
+}
 
 }}
