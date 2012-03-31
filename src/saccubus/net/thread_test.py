@@ -13,7 +13,7 @@ from xml.dom import minidom;
 import os;
 
 OFFICIAL_VIDEO='1318394714' #よーあけーまえのーくらやみがー
-VIDEO_ID="sm60"
+VIDEO_ID="sm14097905"
 
 class Test(unittest.TestCase):
 	jar = None;
@@ -52,8 +52,8 @@ class Test(unittest.TestCase):
 	def testConstructCommand(self):
 		payload = thread.constructCommand(Test.jar, Test.defInfo, 'thread_id', 1000)
 		self.assertEqual(
-			b'<?xml version="1.0" encoding="utf-8"?><packet><thread scores="1" thread="1173124005" user_id="26735140" version="20090904"/><thread_leaves scores="1" thread="1173124005" user_id="26735140">0-50:100,1000</thread_leaves><thread click_revision="-1" fork="1" res_from="-1000" scores="1" thread="1173124005" user_id="26735140" version="20061206"/></packet>',
-			payload
+			payload,
+			b'<?xml version="1.0" encoding="utf-8"?><packet><thread scores="1" thread="1302222473" user_id="26735140" version="20090904"/><thread_leaves scores="1" thread="1302222473" user_id="26735140">0-99:100,1000</thread_leaves><thread click_revision="-1" fork="1" res_from="-1000" scores="1" thread="1302222473" user_id="26735140" version="20061206"/></packet>'
 			)
 	def testConstructPacketPayload(self):
 		th = minidom.Element("thread");
