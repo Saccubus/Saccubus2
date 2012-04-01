@@ -19,7 +19,8 @@ TEST(VideobundleTest, ParseTest)
 	std::ifstream stream(MATERIAL_DIR"getflv.txt");
 	std::string str;
 	stream >> str;
-	Bundle bundle = Bundle::fromFormEncoded(str);
+	Bundle bundle;
+	bundle.readURLEncoded(str);
 	ASSERT_FALSE(bundle.has(""));
 	ASSERT_FALSE(bundle.has("__not_having_this__"));
 	ASSERT_TRUE(bundle.has("thread_id"));

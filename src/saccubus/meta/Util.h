@@ -34,6 +34,9 @@ long long readNodeProp(xmlNode* node, const std::string& name, const long long& 
 template<>
 bool readNodeProp(xmlNode* node, const std::string& name, const bool& def);
 
+bool compareNodeName(xmlNode* node, const std::string& name);
+
+std::string readNodeContent(xmlNode* node);
 
 }}
 #endif /* UTIL_H_ */

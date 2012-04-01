@@ -18,12 +18,11 @@ namespace util {
 class Bundle {
 private:
 	std::map<std::string, std::string> map;
-private:
-	Bundle();
 public:
-	static Bundle fromFormEncoded(const std::string& data);
+	Bundle();
 	virtual ~Bundle();
 public:
+	void readURLEncoded(const std::string& data);
 	typedef std::map<std::string, std::string>::const_iterator Iterator;
 	size_t size() const;
 	bool has(const std::string& key) const;

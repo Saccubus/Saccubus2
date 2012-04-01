@@ -43,11 +43,11 @@ Thread::~Thread() {
 void Thread::read(logging::Logger& log, xmlNode* node)
 {
 	bool infoGrabbed = false;
-	if(xmlStrcmp(node->name, reinterpret_cast<const unsigned char*>("packet")) != 0){
+	if(!compareNodeName(node, "packet")){
 		throw logging::Exception("Invalid Element Name: %s", node->name);
 	}
 	for(xmlNode* child = node->children;child;child = child->next){
-		if(xmlStrcmp(child->name, reinterpret_cast<const unsigned char*>("thread")) == 0){
+		if(compareNodeName(child, "thread")){
 			if(infoGrabbed){
 				continue;
 			}
@@ -60,7 +60,7 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 				log.t(TAG, "Ticket: %llu", this->ticket());
 				log.t(TAG, "Server Time: %llu", this->server_time());
 			}
-		}else if(xmlStrcmp(child->name, reinterpret_cast<const unsigned char*>("chat")) == 0){
+		}else if(compareNodeName(child, "chat")){
 			const Comment* com = new Comment(log, child);
 			std::vector<const Comment*>::iterator it = std::upper_bound(chatList.begin(), chatList.end(), com, Comment::comparareLessByVpos);
 			chatList.insert(it, com);

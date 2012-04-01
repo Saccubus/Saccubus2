@@ -6,7 +6,6 @@
  */
 
 #include <sstream>
-#include "../logging/Exception.h"
 #include "Comment.h"
 #include "Util.h"
 
@@ -33,12 +32,7 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 		this->mail.push_back(mailopt);
 	}
 
-	xmlChar* body = xmlNodeGetContent(node);
-	if(!body){
-		throw logging::Exception("Invalid XML. Content for chat not found.");
-	}
-	this->message(reinterpret_cast<char*>(body));
-	xmlFree(body);
+	this->message(readNodeContent(node));
 
 	if(log.t()){
 		log.t(TAG, "Thread: %llu No:%llu vpos:%f Date:%llu Deleted:%llu Score:%llu UserId:%s Anon:%d Leaf:%d Premium:%d Fork:%d -> %s",

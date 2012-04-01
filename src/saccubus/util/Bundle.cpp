@@ -20,9 +20,8 @@ Bundle::Bundle() {
 Bundle::~Bundle() {
 }
 
-Bundle Bundle::fromFormEncoded(const std::string& data)
+void Bundle::readURLEncoded(const std::string& data)
 {
-	Bundle b;
 	/* ☆車☆輪☆の☆再☆発☆明☆ */
 	std::istringstream ss(data);
 	std::string element;
@@ -32,9 +31,8 @@ Bundle Bundle::fromFormEncoded(const std::string& data)
 		std::string val=element.substr(split+1);
 		key = util::decodePercent(key);
 		val = util::decodePercent(val);
-		b.map.insert(std::pair<std::string, std::string>(key, val));
+		this->map.insert(std::pair<std::string, std::string>(key, val));
 	}
-	return b;
 }
 
 size_t Bundle::size() const

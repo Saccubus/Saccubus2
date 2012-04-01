@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cstring>
 #include "Util.h"
+#include "../logging/Exception.h"
 
 namespace saccubus {
 namespace meta {
@@ -28,7 +29,6 @@ std::string readNodeProp(xmlNode* node, const std::string& name, const std::stri
 std::string readNodeProp(xmlNode* node, const std::string& name, const char* def){
 	return readNodeProp(node,name, std::string(def));
 }
-
 
 template<>
 float readNodeProp(xmlNode* node, const std::string& name, const float& def)
@@ -89,5 +89,19 @@ bool readNodeProp(xmlNode* node, const std::string& name, const bool& def)
 	}
 }
 
+bool compareNodeName(xmlNode* node, const std::string& name)
+{
+	return xmlStrcmp(node->name, reinterpret_cast<const unsigned char*>(name.c_str())) == 0;
+}
 
+std::string readNodeContent(xmlNode* node)
+{
+	xmlChar* body = xmlNodeGetContent(node);
+	if(!body){
+		throw logging::Exception("Invalid XML. Content for node(%s) not found.", node->name);
+	}
+	std::string msg (reinterpret_cast<char*>(body));
+	xmlFree(body);
+	return msg;
+}
 }}
