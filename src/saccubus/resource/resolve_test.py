@@ -61,8 +61,8 @@ class Test(unittest.TestCase):
 		dic = fromNative(*opt)
 		self.assertEqual(dic['video'], os.path.join(self.resource_path,"sm0_video_test.mp4"), "動画の取得に失敗しています")
 		self.assertEqual("test", dic['title'], "タイトルの取得に失敗しています");
-		self.assertEqual(1, len(dic['thread']), "スレッドの数がおかしいです。{0}個ありますが、一個のはずです".format(len(dic['thread'])));
-		self.assertEqual(dic['thread'][0], os.path.join(self.resource_path, "sm0_thread_123456.xml"), "スレッドの取得に失敗")
+		self.assertEqual(1, len(dic['thread'].split('\n')), "スレッドの数がおかしいです。{0}個ありますが、一個のはずです".format(len(dic['thread'])));
+		self.assertEqual(dic['thread'].split('\n')[0], os.path.join(self.resource_path, "sm0_thread_123456.xml"), "スレッドの取得に失敗")
 		self.assertEqual(dic['play_info'], os.path.join(self.resource_path,"sm0_play_info.txt"));
 		self.assertEqual(dic['meta_info'], os.path.join(self.resource_path,"sm0_meta_info.xml"));
 	
@@ -75,7 +75,7 @@ class Test(unittest.TestCase):
 		opt.append(('override-thread', 'sm0:soba'))
 		dic = fromNative(*opt)
 		self.assertEqual(dic['video'], 'noodle', "動画のオーバーライドに失敗しています")
-		self.assertListEqual(dic['thread'], ['udon', 'soba'], "スレッドのオーバーライドに失敗しています")
+		self.assertListEqual(dic['thread'].split('\n'), ['udon', 'soba'], "スレッドのオーバーライドに失敗しています")
 
 if __name__ == "__main__":
 	#import sys;sys.argv = ['', 'Test.testName']

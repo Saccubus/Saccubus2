@@ -37,7 +37,10 @@ def fromNative(*opts):
 		else:
 			pass
 	resolver = Resolver(optDict['resource-path'], override_table);
-	return resolver.resolve(optDict['video-id']);
+	resolved = resolver.resolve(optDict['video-id']);
+	#TODO: Nativeへは、str->strの辞書しか返さない約束なので、ここで変換してしまう。ここでいいの？
+	resolved['thread'] = '\n'.join(resolved['thread']);
+	return resolved;
 
 def splitOverride(val):
 	vid=val[:val.index(':')]
