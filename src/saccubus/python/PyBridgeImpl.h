@@ -12,6 +12,7 @@
 #include <string>
 #include <auto_ptr.h>
 #include <map>
+#include <vector>
 #include "../classdefs.h"
 
 namespace saccubus {
@@ -42,10 +43,11 @@ private:
 	 */
 	PyObject* findMethod(const std::string& module, const std::string& name);
 	PyObject* findMethod(const std::string& name);
-	PyObject* executeCallable(PyObject* obj, PyObject* argDict);
+	PyObject* executeCallable(PyObject* obj, PyObject* argList,PyObject* argDict);
 	std::map<std::string, std::string> parseDict(PyObject* dictObj);
 	bool parseBool(PyObject* boolObj);
 	PyObject* createDict(const std::map<std::string, std::string>& args);
+	PyObject* createArgTuple(const std::vector<std::pair<std::string, std::string> >& args);
 	/**
 	 * これらの関数は、引数の参照カウントを削りません。
 	 */
@@ -56,10 +58,10 @@ public:
 	virtual ~Session();
 public:
 	void loadFile(const std::string& file);
-	std::map<std::string, std::string> executeMethodDict(const std::string& module, const std::string& name, const std::map<std::string, std::string>& args);
-	std::map<std::string, std::string> executeMethodDict(const std::string& name, const std::map<std::string, std::string>& args);
-	bool executeMethodBool(const std::string& module, const std::string& name, const std::map<std::string, std::string>& args);
-	bool executeMethodBool(const std::string& name, const std::map<std::string, std::string>& args);
+	std::map<std::string, std::string> executeMethodDict(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args);
+	std::map<std::string, std::string> executeMethodDict(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args);
+	bool executeMethodBool(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args);
+	bool executeMethodBool(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args);
 };
 
 }}

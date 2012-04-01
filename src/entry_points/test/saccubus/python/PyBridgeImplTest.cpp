@@ -33,26 +33,26 @@ TEST_F(PyBridgeImplTest, InvalidFileTest)
 TEST_F(PyBridgeImplTest, DictTest)
 {
 	session->loadFile(MATERIAL_DIR"test.py");
-	std::map<std::string, std::string> map;
-	map["first"] = "1";
-	map["second"] = "2";
-	std::map<std::string, std::string> result = session->executeMethodDict("test_succeed_dict", map);
+	std::vector<std::pair<std::string, std::string> > args;
+	args.push_back(std::pair<std::string, std::string>("first", "1"));
+	args.push_back(std::pair<std::string, std::string>("second", "2"));
+	std::map<std::string, std::string> result = session->executeMethodDict("test_succeed_dict", args);
 	ASSERT_EQ(std::string("3"), result["result"]);
 }
 
 TEST_F(PyBridgeImplTest, BoolTest)
 {
 	session->loadFile(MATERIAL_DIR"test.py");
-	std::map<std::string, std::string> map;
-	map["two_plus_two"] = "4";
-	map["five"] = "5";
-	ASSERT_FALSE(session->executeMethodBool("test_not_equal", map));
+	std::vector<std::pair<std::string, std::string> > args;
+	args.push_back(std::pair<std::string, std::string>("two_plus_two", "4"));
+	args.push_back(std::pair<std::string, std::string>("five", "5"));
+	ASSERT_FALSE(session->executeMethodBool("test_not_equal", args));
 }
 
 TEST_F(PyBridgeImplTest, FailTest)
 {
 	session->loadFile(MATERIAL_DIR"test.py");
-	ASSERT_THROW(session->executeMethodDict("test_run_fail", std::map<std::string, std::string>()), ScriptException);
+	ASSERT_THROW(session->executeMethodDict("test_run_fail", std::vector<std::pair<std::string, std::string> >()), ScriptException);
 }
 
 

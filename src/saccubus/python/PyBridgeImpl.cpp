@@ -25,7 +25,6 @@ PyBridgeImpl::PyBridgeImpl(logging::Logger& log)
 	if(!Py_IsInitialized()){
 		throw logging::Exception("Failed to init Python!!");
 	}
-	Session session(log);
 }
 std::auto_ptr<Session> PyBridgeImpl::createSession()
 {
@@ -68,26 +67,31 @@ void Session::loadFile(const std::string& file)
  *
  */
 void Session::outException(std::stringstream& msg, PyObject* v){
+	if(!v){
+		return;
+	}
 	Py_INCREF(v);
+	if(!PyExceptionInstance_Check(v)){
+		log.e(TAG, "TypeError: outException: Exception expected for value, %s found.", Py_TYPE(v)->tp_name);
+	}
 	PyObject* cause = PyException_GetCause(v);
 	if(cause){
 		outException(msg, cause);
 	}
 	PyObject* type = (PyObject*)Py_TYPE(v);
-	Py_INCREF(type);
+
 	//FIXME: うまく出力できないことがある
 	msg << "File \"" << toString(PyObject_GetAttrString(v, "filename")) << "\", line " << toString(PyObject_GetAttrString(v, "lineno")) << ", in " << toString(PyObject_GetAttrString(type, "__module__")) << std::endl;
 	msg << PyExceptionClass_Name(type) << ": " << toString(v) << std::endl;
 	msg << "here: " << toString(PyObject_GetAttrString(v, "text")) << std::endl;
-	Py_XDECREF(v);
-	Py_DECREF(type);
+	Py_DECREF(v);
 }
 void Session::printExceptionLog()
 {
+	std::stringstream msg;
 	PyObject *exception, *v, *tb;
 	PyErr_Fetch(&exception, &v, &tb);
 	PyErr_NormalizeException(&exception, &v, &tb);
-	std::stringstream msg;
 	msg << "Python says: \n";
 	outException(msg, v);
 	log.e(TAG, msg.str());
@@ -190,20 +194,22 @@ bool Session::parseBool(PyObject* boolObj)
 }
 
 /**
- * std::mapからPyObjectに変換する。新しい参照を返します。
+ * std::vector<std::pair<std::string, std::string> >から、引数用のタプルのタプルを作成します。
  */
-PyObject* Session::createDict(const std::map<std::string, std::string>& args)
+PyObject* Session::createArgTuple(const std::vector<std::pair<std::string, std::string> >& args)
 {
-	PyObject* const dictObj = PyDict_New();
-	for(std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end();++it)
+	PyObject* const argObj = PyTuple_New(args.size());
+	int i=0;
+	for(std::vector<std::pair<std::string, std::string> >::const_iterator it = args.begin(); it != args.end();++it)
 	{
+		PyObject* tuple = PyTuple_New(2);
 		PyObject* key = PyUnicode_DecodeUTF8(it->first.c_str(), it->first.size(), "ignore");
 		PyObject* val = PyUnicode_DecodeUTF8(it->second.c_str(), it->second.size(), "ignore");
-		PyDict_SetItem(dictObj, key, val);
-		Py_XDECREF(key);
-		Py_XDECREF(val);
+		PyTuple_SetItem(tuple, 0, key);
+		PyTuple_SetItem(tuple, 1, val);
+		PyTuple_SetItem(argObj, i++, tuple);
 	}
-	return dictObj;
+	return argObj;
 }
 /**
  * str(obj)の結果を返す。
@@ -234,15 +240,20 @@ std::string Session::toRepr(PyObject* obj)
 /**
  * obj(*dict)を実行して結果を返します
  */
-PyObject* Session::executeCallable(PyObject* obj, PyObject* argDict)
+PyObject* Session::executeCallable(PyObject* obj, PyObject* argTuple,PyObject* argDict)
 {
 	PyObject* res = 0;
 	{
-		PyObject* const argsObj = PyTuple_New(0);
-		res = PyObject_Call(obj, argsObj, argDict);
-		Py_XDECREF(argsObj);
-		Py_XDECREF(argDict);
-		Py_XDECREF(obj);
+		if(!argTuple){
+			argTuple = PyTuple_New(0);
+		}
+		if(!argDict){
+			argDict = PyDict_New();
+		}
+		res = PyObject_Call(obj, argTuple, argDict);
+		Py_DECREF(argTuple);
+		Py_DECREF(argDict);
+		Py_DECREF(obj);
 	}
 	if(!res){
 		this->printExceptionLog();
@@ -252,22 +263,22 @@ PyObject* Session::executeCallable(PyObject* obj, PyObject* argDict)
 	return res;
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& module, const std::string& name, const std::map<std::string, std::string>& args)
+std::map<std::string, std::string> Session::executeMethodDict(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
 {
-	return parseDict(executeCallable(findMethod(module, name), createDict(args)));
+	return parseDict(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& name, const std::map<std::string, std::string>& args)
+std::map<std::string, std::string> Session::executeMethodDict(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
 {
-	return parseDict(executeCallable(findMethod(name), createDict(args)));
+	return parseDict(executeCallable(findMethod(name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& module, const std::string& name, const std::map<std::string, std::string>& args)
+bool Session::executeMethodBool(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
 {
-	return parseBool(executeCallable(findMethod(module, name), createDict(args)));
+	return parseBool(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& name, const std::map<std::string, std::string>& args)
+bool Session::executeMethodBool(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
 {
-	return parseBool(executeCallable(findMethod(name), createDict(args)));
+	return parseBool(executeCallable(findMethod(name), createArgTuple(args), 0));
 }
 
 Session::~Session(){
