@@ -10,9 +10,9 @@
 #include "../../../../saccubus/meta/ReplaceTable.h"
 using namespace saccubus::meta;
 
-TEST(PlayInfoTest, InfoTest)
+TEST(PlayInfoTest, BasicReadingTest)
 {
-	PlayInfo info(MATERIAL_DIR"getflv.txt");
+	PlayInfo info(log_err, MATERIAL_DIR"getflv.txt");
 	ASSERT_TRUE(info.is_premium());
 	ASSERT_EQ(1302222473, info.thread());
 	ASSERT_EQ(185957, info.user_id());
@@ -20,7 +20,7 @@ TEST(PlayInfoTest, InfoTest)
 
 TEST(PlayInfoTest, ReplaceTest)
 {
-	PlayInfo info(MATERIAL_DIR"getflv.txt");
+	PlayInfo info(log_err, MATERIAL_DIR"getflv.txt");
 	const ReplaceTable* table = info.replaceTable();
 	ASSERT_EQ("tt", table->replace("test"));
 	ASSERT_EQ("att", table->replace("atest"));

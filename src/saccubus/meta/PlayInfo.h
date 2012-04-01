@@ -28,7 +28,7 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, bool, is_premium);
 	DEF_ATTR_ACCESSOR(public, private, long long, thread);
 public:
-	PlayInfo(const std::string& filename);
+	PlayInfo(logging::Logger& log, const std::string& filename);
 	virtual ~PlayInfo();
 public:
 	const ReplaceTable* replaceTable() const;

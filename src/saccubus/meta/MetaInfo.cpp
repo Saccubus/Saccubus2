@@ -39,16 +39,21 @@ MetaInfo::~MetaInfo() {
 void MetaInfo::read(logging::Logger& log, xmlNode* node)
 {
 	std::string stat = readNodeProp(node, "status", "");
-	if(compareNodeName(node, "nicovideo_thumb_response") || stat != "ok"){
+	if(!compareNodeName(node, "nicovideo_thumb_response") || stat != "ok"){
 		log.w(TAG, "Invalid meta info: status: %s", stat.c_str());
 		return;
 	}
-	xmlNode* thumbNode = node->children;
-	if(compareNodeName(thumbNode, "thumb")){
-		log.w(TAG, "Invalid meta info XML: child: %s", thumbNode->name);
+	xmlNode* thumbNode = 0;
+	for(thumbNode = node->children; thumbNode; thumbNode=thumbNode->next){
+		if(compareNodeName(thumbNode, "thumb")){
+			break;
+		}
+	}
+	if(!thumbNode){
+		log.w(TAG, "Meta info does not contain 'thumb' element.");
 		return;
 	}
-	for(xmlNode* child = thumbNode->children; child != thumbNode->last; ++child){
+	for(xmlNode* child = thumbNode->children; child; child=child->next){
 		if(compareNodeName(child, "title")){
 			this->title(readNodeContent(child));
 		}

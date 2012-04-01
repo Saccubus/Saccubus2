@@ -14,7 +14,7 @@
 namespace saccubus {
 namespace meta {
 
-PlayInfo::PlayInfo(const std::string& filename)
+PlayInfo::PlayInfo(logging::Logger& log, const std::string& filename)
 :bundle(0)
 ,_replaceTable(0)
 {
