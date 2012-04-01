@@ -6,7 +6,6 @@
  */
 
 #include "../../TestCommon.h"
-#include <fstream>
 #include "../../../../saccubus/meta/MetaInfo.h"
 using namespace saccubus::meta;
 
