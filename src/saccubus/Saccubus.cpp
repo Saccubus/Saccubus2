@@ -29,7 +29,7 @@ Saccubus::Saccubus(logging::Logger& log, int argc, char** argv)
 		std::string arg(argv[i]);
 		if(i+1<argc && util::startsWith(arg, RESOLVE_PREFIX)){
 			++i;
-			this->resolveOpts.insert(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[i]));
+			this->resolveOpts.push_back(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[i]));
 		}
 	}
 }

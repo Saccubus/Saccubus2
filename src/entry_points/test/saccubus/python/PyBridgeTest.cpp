@@ -22,7 +22,7 @@ TEST(PyBridgeTest, InitTest)
 
 TEST(PyBridgeTest, BasicResolveTest)
 {
-	PyBridge bridge(log_trace);
+	PyBridge bridge(log_err);
 	std::vector<std::pair<std::string, std::string> > args;
 	args.push_back(std::pair<std::string, std::string>("resource-path", MATERIAL_DIR));
 	std::auto_ptr<const VideoContext> result(bridge.resolveResource("sm14097905", args));

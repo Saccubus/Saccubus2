@@ -10,6 +10,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "classdefs.h"
 
 namespace saccubus {
@@ -27,7 +28,7 @@ private:
 	Adapter* adapter;
 private:
 	const std::string progPath;
-	std::map<std::string, std::string> resolveOpts;
+	std::vector<std::pair<std::string, std::string> > resolveOpts;
 	std::string nowVideoId;
 private:
 	//python::PyBridge bridge;
