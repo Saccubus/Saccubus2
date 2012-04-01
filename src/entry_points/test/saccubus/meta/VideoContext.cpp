@@ -15,7 +15,10 @@ TEST(VideoContextTest, ReadingTest)
 	VideoContext ctx(log_err);
 	std::vector<std::string> threads;
 	threads.push_back(MATERIAL_DIR"sm14097905_thread_1302222473.xml");
-	ctx.init(MATERIAL_DIR"sm14097905_video_test.mp4",MATERIAL_DIR"sm14097905_meta_info.xml", MATERIAL_DIR"getflv.txt", threads);
+	ctx.initVideoFile(MATERIAL_DIR"sm14097905_video_test.mp4");
+	ctx.initMetaInfo(MATERIAL_DIR"sm14097905_meta_info.xml");
+	ctx.initPlayInfo(MATERIAL_DIR"getflv.txt");
+	ctx.initThread(threads);
 
 	ASSERT_TRUE(ctx.metaInfo());
 	ASSERT_TRUE(ctx.playInfo());

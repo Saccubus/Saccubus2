@@ -36,12 +36,22 @@ VideoContext::~VideoContext() {
 	threadList.clear();
 }
 
-void VideoContext::init(const std::string& videofile, const std::string& metafile, const std::string& playfile, const std::vector<std::string>& threadfiles)
+void VideoContext::initVideoFile(const std::string& videofile)
 {
 	this->videofile(videofile);
-	this->metaInfo(new MetaInfo(this->log, metafile));
+}
+
+void VideoContext::initPlayInfo(const std::string& playfile)
+{
 	this->playInfo(new PlayInfo(this->log, playfile));
-	for(std::vector<std::string>::const_iterator it=threadfiles.begin(); it != threadfiles.end(); ++it){
+}
+void VideoContext::initMetaInfo(const std::string& metafile)
+{
+	this->metaInfo(new MetaInfo(this->log, metafile));
+}
+void VideoContext::initThread(std::vector<std::string>& threads)
+{
+	for(std::vector<std::string>::const_iterator it=threads.begin(); it != threads.end(); ++it){
 		Thread* th = new Thread(this->log, *it);
 		this->threadList.insert(std::pair<unsigned long long, const Thread*>(th->thread(), th));
 	}

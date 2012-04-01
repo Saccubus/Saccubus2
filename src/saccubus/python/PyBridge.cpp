@@ -6,8 +6,11 @@
  */
 
 #include <map>
+#include <sstream>
+#include "../meta/VideoContext.h"
 #include "PyBridge.h"
 #include "PyBridgeImpl.h"
+#include "ScriptException.h"
 
 namespace saccubus {
 namespace python {
@@ -18,12 +21,34 @@ PyBridge::PyBridge(logging::Logger& log)
 {
 }
 
-std::map<std::string, std::string> PyBridge::resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args)
+const meta::VideoContext* PyBridge::resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args)
 {
 	std::auto_ptr<Session> session = impl->createSession();
 	std::vector<std::pair<std::string, std::string> > callArgs(args.begin(), args.end());
 	callArgs.push_back(std::pair<std::string, std::string>("video-id", video_id));
-	return session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
+	std::map<std::string, std::string> res = session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
+	std::map<std::string, std::string>::const_iterator end = res.end();
+	meta::VideoContext* ctx = new meta::VideoContext(this->log);
+	if(res.find("video") == end){
+		throw ScriptException("Resolve failed. There is no videofile.");
+	}
+	ctx->initVideoFile(res.find("video")->second);
+	std::vector<std::string> threads;
+	if(res.find("thread") != end){
+		std::istringstream ss(res.find("thread")->second);
+		std::string str;
+		while(std::getline(ss, str, '\n')){
+			threads.push_back(str);
+		}
+	}
+	ctx->initThread(threads);
+	if(res.find("meta_info") != end){
+		ctx->initMetaInfo(res.find("meta_info")->second);
+	}
+	if(res.find("play_info") != end){
+		ctx->initPlayInfo(res.find("play_info")->second);
+	}
+	return ctx;
 }
 
 PyBridge::~PyBridge() {

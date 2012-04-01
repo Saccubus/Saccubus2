@@ -25,7 +25,7 @@ public:
 	PyBridge(logging::Logger& log);
 	virtual ~PyBridge();
 public:
-	std::map<std::string, std::string> resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args);
+	const meta::VideoContext* resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args);
 };
 
 }}

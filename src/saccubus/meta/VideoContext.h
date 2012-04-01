@@ -28,7 +28,10 @@ public:
 	VideoContext(logging::Logger& log);
 	virtual ~VideoContext();
 public:
-	void init(const std::string& videofile, const std::string& metafile, const std::string& playfile, const std::vector<std::string>& threadfiles);
+	void initVideoFile(const std::string& videofile);
+	void initPlayInfo(const std::string& metafile);
+	void initMetaInfo(const std::string& metafile);
+	void initThread(std::vector<std::string>& threads);
 public:
 	size_t threadSize() const;
 	bool hasThread(unsigned long long thread_id) const;
