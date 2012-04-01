@@ -4,7 +4,7 @@
  *  Created on: 2012/03/31
  *      Author: psi
  */
-
+#include <cstdio>
 #include "../../TestCommon.h"
 #include "../../../../saccubus/python/PyBridgeImpl.h"
 #include "../../../../saccubus/python/ScriptException.h"
@@ -23,6 +23,20 @@ public:
 		delete bridge;
 	}
 };
+
+/**
+ * とりあえず実行できるかどうかのシンプルなテスト
+ */
+TEST_F(PyBridgeImplTest, SimpleTest)
+{
+	ASSERT_EQ(0, PyRun_SimpleString("print('hello world')"));
+	FILE* fp = fopen(MATERIAL_DIR"test.py", "r");
+	ASSERT_EQ(0, PyRun_SimpleFile(fp, MATERIAL_DIR"test.py"));
+	fclose(fp);
+	fp = fopen(MATERIAL_DIR"test_failure.py", "r");
+	ASSERT_EQ(-1, PyRun_SimpleFile(fp, MATERIAL_DIR"test_failure.py"));
+	fclose(fp);
+}
 
 TEST_F(PyBridgeImplTest, InvalidFileTest)
 {

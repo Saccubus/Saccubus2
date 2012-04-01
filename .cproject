@@ -173,7 +173,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1127115469" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
-								<option id="gnu.cpp.compiler.option.debugging.prof.1803727249" superClass="gnu.cpp.compiler.option.debugging.prof" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.debugging.prof.1803727249" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1118989766" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -248,7 +248,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
-									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.407396358" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -355,7 +354,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
-									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.51775005" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
