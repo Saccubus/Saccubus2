@@ -11,15 +11,7 @@ using namespace saccubus::logging;
 
 TEST(ExceptionTest, ThrowingTest)
 {
-	bool catched = false;
-	try{
-		throw Exception("Hey!");
-	} catch (Exception& e){
-		ASSERT_EQ("Hey!", e.what());
-		catched |= true;
-	} catch (...){
-	}
-	ASSERT_TRUE(catched);
+	ASSERT_THROW(throw Exception("Hey!"), Exception);
 }
 
 TEST(ExceptionTest, MessageTest)
