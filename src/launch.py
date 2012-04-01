@@ -23,6 +23,7 @@ def appendPath():
 		sys.path.insert(0, os.path.join(saccubus_path, path))
 
 if __name__ == '__main__':
+	print("launched")
 	if os.getenv(SACCUBUS_PATH) == None:
 		os.putenv(SACCUBUS_PATH, os.path.abspath(__file__));
 	appendPath();

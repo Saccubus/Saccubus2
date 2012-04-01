@@ -10,6 +10,40 @@ from saccubus.error import SaccubusError;
 from . import rule;
 import os;
 
+'''
+	オプションはタプルのシーケンスで渡してください。
+	-video-id:<string>　解決する動画IDを渡してください
+	-resource-path:<string> リソースの置いてある場所を指定
+	-override-video: <string>([video_id]:[filename])　命名規則を無視したい場合に。（最後の引数優先）
+	-override-thread: <string>([video_id]:[filename])　命名規則を無視したい場合に。（複数OK）
+'''
+def fromNative(*opts):
+	optDict = dict(opts);
+	override_table = {'video':{}, 'thread':{}};
+	if 'resource-path' not in optDict:
+		raise SaccubusError("Invalid arguments! 'resource-path' is required.");
+	if 'video-id' not in optDict:
+		raise SaccubusError("Invalid arguments! 'video-id' is required.")
+	for k,v in opts:
+		if k=='override-video':
+			vid, file = splitOverride(v);
+			override_table['video'][vid]=file
+		elif k=='override-thread':
+			vid, file = splitOverride(v);
+			if vid in override_table['thread']:
+				override_table['thread'][vid].append(file)
+			else:
+				override_table['thread'][vid] = [file];
+		else:
+			pass
+	resolver = Resolver(optDict['resource-path'], override_table);
+	return resolver.resolve(optDict['video-id']);
+
+def splitOverride(val):
+	vid=val[:val.index(':')]
+	file = val[val.index(':')+1:]
+	return vid, file
+
 class Resolver(object):
 	'''
 	ニコニコ動画の
@@ -17,21 +51,15 @@ class Resolver(object):
 	・ユーザーコメント・投稿者コメント・オプショナルコメント
 	・getfｌｖで手に入る動画情報
 	を集め、所定のフォルダに格納します。
+	さきゅばす本体から呼ばれる他、GUIからも呼んでも可
 	'''
-
-	def __init__(self, opts):
+	def __init__(self, resource_path, override_table={'video':{}, 'thread':{}}):
 		'''
 		コンストラクタ。
-		さきゅばす本体から呼ばれる他、GUIからも呼んでも可
-		オプションは辞書で渡してください。
-		-resource_path:<string> リソースの置いてある場所を指定
-		-override_video: <string>([video_id]:[filename])　命名規則を無視したい場合に。
-		-override_thread: <string>([thread_id]:[filename])　命名規則を無視したい場合に。
 		'''
-		if 'resource_path' not in opts:
-			raise SaccubusError("Invalid arguments!");
+		self.resource_path = resource_path;
+		self.override_table = override_table;
 		
-		self.resource_path = os.path.abspath( opts['resource_path'] )
 		if not os.path.exists(self.resource_path):
 			raise SaccubusError("Resource Path: {0} not exists!", self.resource_path);
 		if not os.path.isdir(self.resource_path):
@@ -61,6 +89,10 @@ class Resolver(object):
 			elif fname == meta_info_prefix:
 				resolved['meta_info'] = os.path.join(self.resource_path,fname);
 			pass
+		if video_id in self.override_table['thread']:
+			resolved['thread'] = self.override_table['thread'][video_id];
+		if video_id in self.override_table['video']:
+			resolved['video'] = self.override_table['video'][video_id];
 		return resolved
 	
 	def download(self, video_id, resolved):
@@ -68,4 +100,3 @@ class Resolver(object):
 	
 	def resolveAndDownload(self, video_id):
 		return self.download(self.resolve(video_id));
-	
