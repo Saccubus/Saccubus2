@@ -30,12 +30,16 @@ public:
 TEST_F(PyBridgeImplTest, SimpleTest)
 {
 	ASSERT_EQ(0, PyRun_SimpleString("print('hello world')"));
+	// WindowsだとPyRun_SimpleFileは動かない。というかFILE構造体を使う関数は使えない。
+	// http://docs.python.org/faq/windows.html#pyrun-simplefile-crashes-on-windows-but-not-on-unix-why
+	/*
 	FILE* fp = fopen(MATERIAL_DIR"test.py", "r");
 	ASSERT_EQ(0, PyRun_SimpleFile(fp, MATERIAL_DIR"test.py"));
 	fclose(fp);
 	fp = fopen(MATERIAL_DIR"test_failure.py", "r");
 	ASSERT_EQ(-1, PyRun_SimpleFile(fp, MATERIAL_DIR"test_failure.py"));
 	fclose(fp);
+	*/
 }
 
 TEST_F(PyBridgeImplTest, InvalidFileTest)

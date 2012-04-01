@@ -6,6 +6,7 @@
  */
 
 #include <libgen.h>
+#include "python/PyBridge.h"
 #include "util/StringUtil.h"
 #include "logging/Exception.h"
 #include "logging/Logger.h"
@@ -18,6 +19,7 @@ static const std::string TAG("Saccubus");
 
 Saccubus::Saccubus(logging::Logger& log, int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
+,bridge(new python::PyBridge(log))
 {
 	if(argc < 2){
 		throw logging::Exception("Called with too few arguments: %d", argc);
@@ -35,7 +37,7 @@ Saccubus::Saccubus(logging::Logger& log, int argc, char** argv)
 }
 
 Saccubus::~Saccubus() {
-	// TODO Auto-generated destructor stub
+	delete bridge;
 }
 
 void Saccubus::init(Adapter* const adapter)

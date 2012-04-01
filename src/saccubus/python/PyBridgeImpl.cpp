@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <fstream>
 #include <sstream>
 
 #include "../logging/Exception.h"
@@ -50,12 +51,46 @@ Session::Session(logging::Logger& log)
  */
 void Session::loadFile(const std::string& file)
 {
-	FILE* f = fopen(file.c_str(), "rb");
-	if(!f){
-		log.e(TAG, "Failed to open: %s", file.c_str());
-		throw ScriptException("Failed to open: %s", file.c_str());
+	std::ifstream stream(file.c_str());
+	//ファイルのオープン
+	if(!stream){
+		log.e(TAG, "File \"%s\" not found.", file.c_str());
+		throw ScriptException("File \"%s\" not found.", file.c_str());
 	}
-	PyObject* res = PyRun_FileExFlags(f, file.c_str(), Py_file_input, this->global, this->local, 1, 0);
+	//ファイルの読み込み
+	stream.seekg(0);
+	const std::istream::pos_type first = stream.tellg();
+	stream.seekg(0, std::istream::end);
+	const std::istream::pos_type end = stream.tellg();
+	stream.seekg(0);
+	const std::streamsize len = end-first;
+	std::streamsize pos = 0;
+	std::auto_ptr<char> buffer(new char[len+1]);
+	if(!buffer.get()){
+		log.e(TAG, "Failed to allocate memory for \"%s\"", file.c_str());
+		throw ScriptException("Failed to allocate memory for \"%s\"", file.c_str());
+	}
+
+	while(stream && pos < len){
+		stream.read(buffer.get()+pos, len);
+		pos += stream.gcount();
+	}
+	if(len != pos){
+		log.e(TAG, "Failed to read \"%s\".", file.c_str());
+		throw ScriptException("Failed to read \"%s\".", file.c_str());
+	}
+	buffer.get()[len]='\0';
+
+	//コードのコンパイル
+	PyObject* code = Py_CompileString(buffer.get(), file.c_str(), Py_file_input);
+	if(!code){
+		log.e(TAG, "Failed to compile: %s", file.c_str());
+		this->printExceptionLog();
+		throw ScriptException("Failed to run: %s", file.c_str());
+	}
+	//実行
+	PyObject* res = PyEval_EvalCode(code, this->global, this->local);
+	Py_DECREF(code);
 	if(!res){
 		log.e(TAG, "Failed to run: %s", file.c_str());
 		this->printExceptionLog();

@@ -31,7 +31,7 @@ private:
 	std::vector<std::pair<std::string, std::string> > resolveOpts;
 	std::string nowVideoId;
 private:
-	//python::PyBridge bridge;
+	python::PyBridge* const bridge;
 public:
 	Saccubus(logging::Logger& log, int argc, char** argv);
 	virtual ~Saccubus();
@@ -39,6 +39,7 @@ public:
 	void init(Adapter* const adapter);
 	void measure(const int w, const int h, int& measuredWidth, int& measuredHeight);
 	void draw(float vpos, draw::Canvas* canvas, draw::Sprite* videoSprite);
+	void onVideoChanged(const std::string& videoId);
 };
 
 }
