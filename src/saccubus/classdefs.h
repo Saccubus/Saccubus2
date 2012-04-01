@@ -31,7 +31,8 @@ class Comment;
 class ReplaceItem;
 class ReplaceTable;
 class Thread;
-class VideoInfo;
+class MetaInfo;
+class PlayInfo;
 }
 
 namespace python{
