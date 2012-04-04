@@ -46,6 +46,13 @@ void Logger::w(const std::string& tag, const tree::Location* loc, const std::str
 	msg(WARNING_, tag, loc, str, list);
 	va_end(list);
 }
+void Logger::i(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+{
+	va_list list;
+	va_start(list, str);
+	msg(INFO_, tag, loc, str, list);
+	va_end(list);
+}
 void Logger::d(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
@@ -83,6 +90,9 @@ void Logger::msg(enum Level level, const std::string& tag, const tree::Location*
 		break;
 	case DEBUG_:
 		ss << "[D]";
+		break;
+	case INFO_:
+		ss << "[I]";
 		break;
 	case WARNING_:
 		ss << "[W]";

@@ -29,6 +29,7 @@ void usage(int argc, char* argv[]){
 	cout << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << endl;
 	cout << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << endl;
 	cout << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << endl;
+	cout << USAGE_TAB << std::left << std::setw(15) << "--info"<<"set log level." << endl;
 	cout << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << endl;
 	cout << USAGE_TAB << std::left << std::setw(15) << "--dump"<<"output dump of AST, then exit." << endl;
 	cout << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << endl;
@@ -46,10 +47,11 @@ const struct option ARG_OPTIONS[] = {
 		{"verbose", no_argument, 0, 2},
 		{"debug", no_argument, 0, 3},
 		{"warning", no_argument, 0, 4},
-		{"error", no_argument, 0, 5},
-		{"dump", no_argument, 0, 6},
-		{"help", no_argument, 0, 7},
-		{"version", no_argument, 0, 8},
+		{"info", no_argument, 0, 5},
+		{"error", no_argument, 0, 6},
+		{"dump", no_argument, 0, 7},
+		{"help", no_argument, 0, 8},
+		{"version", no_argument, 0, 9},
 		{0,0,0,0}
 };
 
@@ -75,19 +77,22 @@ int main(int argc, char* argv[]){
 			level = nekomata::logging::Logger::DEBUG_;
 			break;
 		case 4:
-			level = nekomata::logging::Logger::WARNING_;
+			level = nekomata::logging::Logger::INFO_;
 			break;
 		case 5:
-			level = nekomata::logging::Logger::ERROR_;
+			level = nekomata::logging::Logger::WARNING_;
 			break;
 		case 6:
-			dump = true;
+			level = nekomata::logging::Logger::ERROR_;
 			break;
 		case 7:
+			dump = true;
+			break;
+		case 8:
 		case 'h':
 			usage(argc, argv);
 			break;
-		case 8:
+		case 9:
 			version(argc, argv);
 			break;
 		case '?':

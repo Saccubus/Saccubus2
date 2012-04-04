@@ -27,8 +27,9 @@ public:
 		TRACE_=0,
 		VERBOSE_=1,
 		DEBUG_=2,
-		WARNING_=3,
-		ERROR_=4,
+		INFO_=3,
+		WARNING_=4,
+		ERROR_=5,
 	};
 public:
 	Logger(std::ostream& stream, enum Level level = VERBOSE_);
@@ -37,6 +38,7 @@ public:
 	void e(Exception& exception);
 	void w(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void d(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
+	void i(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void v(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void t(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 private:
