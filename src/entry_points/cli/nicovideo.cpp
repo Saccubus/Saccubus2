@@ -19,6 +19,35 @@ namespace cli {
 const unsigned int FACTOR = 3;
 const unsigned int FACTORED_INTERVAL = 3*1000/30;
 
+class CLIAdapter : public saccubus::Adapter
+{
+public:
+	CLIAdapter()
+	{
+
+	}
+	virtual ~CLIAdapter()
+	{
+
+	}
+public:
+	/**
+	 * 最初や、ニワン語でjumpが起こった時に呼ばれる。
+	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
+	 */
+	virtual void onVideoChanged(const std::string& videoId, const std::string& filepath)
+	{
+	}
+	/**
+	 * ニワン語でseekが起こった時に呼ばれる。
+	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
+	 */
+	virtual void onSeek(const std::string& videoId, float vpos)
+	{
+
+	}
+};
+
 void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& canvas) {
 	unsigned long long now = SDL_GetTicks();
 	unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
@@ -55,8 +84,7 @@ void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& 
 }
 
 int main(int argc, char** argv) {
-	saccubus::logging::Logger log(std::cout, saccubus::logging::Logger::TRACE_);
-	saccubus::Saccubus sacc(log, argc, argv);
+	saccubus::Saccubus sacc(std::cout, argc, argv);
 	int w, h;
 	sacc.measure(640, 480, w, h);
 

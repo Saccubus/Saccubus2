@@ -19,16 +19,19 @@ namespace saccubus {
 class Adapter
 {
 public:
+	Adapter(){}
+	virtual ~Adapter(){}
+public:
 	/**
 	 * 最初や、ニワン語でjumpが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	void onVideoChanged(const std::string& videoId, const std::string& filepath);
+	virtual void onVideoChanged(const std::string& videoId, const std::string& filepath) = 0;
 	/**
 	 * ニワン語でseekが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	void onSeek(const std::string& videoId, float vpos);
+	virtual void onSeek(const std::string& videoId, float vpos) = 0;
 };
 
 class Saccubus {
@@ -38,7 +41,7 @@ private:
 	const std::string progPath;
 	std::vector<std::pair<std::string, std::string> > resolveOpts;
 	std::string firstVideoId;
-	meta::VideoContext* currentContext;
+	const meta::VideoContext* currentContext;
 private:
 	python::PyBridge* bridge;
 	logging::Logger* log;

@@ -11,18 +11,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include "../Canvas.h"
+#include "../../util/ClassAccessor.h"
 
 namespace saccubus {
 namespace draw {
 namespace sdl {
 
 class Canvas: public draw::Canvas {
-private:
-	SDL_Renderer* const renderer;
+	DEF_ATTR_ACCESSOR(public, private, SDL_Renderer*, renderer);
 public:
 	Canvas(SDL_Renderer* renderer);
 	virtual ~Canvas();
-	virtual Sprite* querySprite(int w, int h);
+public:
+	virtual Sprite* querySprite(int w, int h) ;
 };
 
 }}}

@@ -12,6 +12,8 @@
 #include "util/StringUtil.h"
 #include "logging/Exception.h"
 #include "logging/Logger.h"
+#include "meta/MetaInfo.h"
+#include "meta/VideoContext.h"
 #include "Saccubus.h"
 
 namespace saccubus {
@@ -156,7 +158,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 {
 	std::vector<std::pair<std::string, std::string> > arg(this->resolveOpts.begin(), this->resolveOpts.end());
 	arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
-	meta::VideoContext* ctx = bridge->resolveResource(videoId, arg);
+	const meta::VideoContext* ctx = bridge->resolveResource(videoId, arg);
 	if(this->currentContext){
 		this->log->i("Context deleted: %s", this->currentContext->metaInfo()->title());
 		delete this->currentContext;

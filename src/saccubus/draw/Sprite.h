@@ -15,13 +15,12 @@ namespace saccubus {
 namespace draw {
 
 class Sprite {
-	DEF_ATTR_ACCESSOR(protected, private, Canvas*, canvas);
 	DEF_ATTR_ACCESSOR(public, private, int, width);
 	DEF_ATTR_ACCESSOR(public, private, int, height);
 public:
-	Sprite(Canvas* canvas, int w, int h);
+	Sprite(int w, int h);
 	virtual ~Sprite();
-	virtual void draw(int x, int y) = 0;
+	virtual void draw(Canvas* canvas, int x, int y) = 0;
 };
 
 }}

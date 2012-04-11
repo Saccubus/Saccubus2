@@ -6,21 +6,43 @@
  */
 
 #include "Sprite.h"
+#include "../../logging/Exception.h"
+#include <SDL2/SDL_rect.h>
 
 namespace saccubus {
 namespace draw {
 namespace sdl {
 
-Sprite::Sprite(sdl::Canvas* canvas, int w, int h, SDL_Texture* texture)
-:draw::Sprite(canvas, w, h)
-,texture(texture)
+Sprite::Sprite(int w, int h, SDL_Texture* texture)
+:draw::Sprite(w, h)
 {
-	// TODO Auto-generated constructor stub
+	this->texture(texture);
 
 }
 
 Sprite::~Sprite() {
 	// TODO Auto-generated destructor stub
 }
+
+void Sprite::draw(draw::Canvas* _canvas, int x, int y)
+{
+	sdl::Canvas* canvas = dynamic_cast<sdl::Canvas*>(_canvas);
+	SDL_Rect dst;
+	dst.x = x;
+	dst.y = y;
+	dst.w = this->width();
+	dst.h = this->height();
+	SDL_Rect src;
+	src.x = 0;
+	src.y = 0;
+	src.w = this->width();
+	src.h = this->height();
+
+	if( SDL_RenderCopy(canvas->renderer(), this->texture(), &src, &dst) != 0)
+	{
+		throw logging::Exception("Failed to render SDL Sprite!!");
+	}
+}
+
 
 }}}

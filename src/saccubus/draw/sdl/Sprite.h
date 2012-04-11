@@ -18,11 +18,11 @@ namespace draw {
 namespace sdl {
 
 class Sprite : public draw::Sprite {
-private:
-	SDL_Texture* texture;
+	DEF_ATTR_ACCESSOR(public, private, SDL_Texture*, texture);
 public:
-	Sprite(sdl::Canvas* canvas, int w, int h, SDL_Texture* texture);
+	Sprite(int w, int h, SDL_Texture* texture);
 	virtual ~Sprite();
+	virtual void draw(draw::Canvas* canvas, int x, int y);
 };
 
 }}}

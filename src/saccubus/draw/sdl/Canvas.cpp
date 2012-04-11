@@ -12,19 +12,20 @@ namespace draw {
 namespace sdl {
 
 Canvas::Canvas(SDL_Renderer* renderer)
-:renderer(renderer)
 {
+	this->renderer(renderer);
 	// TODO Auto-generated constructor stub
 
 }
 
 Canvas::~Canvas() {
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyRenderer(this->renderer());
+	this->renderer(0);
 }
 
 Sprite* Canvas::querySprite(int w, int h)
 {
-	return 0;
+	return 0; //FIXME
 }
 
 

@@ -10,8 +10,7 @@
 namespace saccubus {
 namespace draw {
 
-Sprite::Sprite(Canvas* canvas, int w, int h) {
-	this->canvas(canvas);
+Sprite::Sprite(int w, int h) {
 	this->width(w);
 	this->height(h);
 	// TODO Auto-generated constructor stub
@@ -20,10 +19,6 @@ Sprite::Sprite(Canvas* canvas, int w, int h) {
 
 Sprite::~Sprite() {
 	// TODO Auto-generated destructor stub
-}
-
-void Sprite::draw(int x,int y)
-{
 }
 
 }}
