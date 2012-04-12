@@ -41,7 +41,7 @@ private:
 	const std::string progPath;
 	std::vector<std::pair<std::string, std::string> > resolveOpts;
 	std::string firstVideoId;
-	const meta::VideoContext* currentContext;
+	const meta::Video* currentVideo;
 private:
 	python::PyBridge* bridge;
 	logging::Logger* log;

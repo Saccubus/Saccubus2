@@ -13,7 +13,7 @@
 #include "logging/Exception.h"
 #include "logging/Logger.h"
 #include "meta/MetaInfo.h"
-#include "meta/VideoContext.h"
+#include "meta/Video.h"
 #include "Saccubus.h"
 
 namespace saccubus {
@@ -128,8 +128,8 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 }
 
 Saccubus::~Saccubus() {
-	if(currentContext){
-		delete currentContext;
+	if(currentVideo){
+		delete currentVideo;
 	}
 	delete bridge;
 	delete log;
@@ -158,16 +158,16 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 {
 	std::vector<std::pair<std::string, std::string> > arg(this->resolveOpts.begin(), this->resolveOpts.end());
 	arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
-	const meta::VideoContext* ctx = bridge->resolveResource(videoId, arg);
-	if(this->currentContext){
-		this->log->i("Context deleted: %s", this->currentContext->metaInfo()->title());
-		delete this->currentContext;
+	const meta::Video* video = bridge->resolveResource(videoId, arg);
+	if(this->currentVideo){
+		this->log->i("Context deleted: %s", this->currentVideo->metaInfo()->title());
+		delete this->currentVideo;
 	}
-	this->currentContext = ctx;
-	this->log->i("Context entered: %s", this->currentContext->metaInfo()->title());
+	this->currentVideo = video;
+	this->log->i("Context entered: %s", this->currentVideo->metaInfo()->title());
 	if(adapter)
 	{
-		adapter->onVideoChanged(videoId, ctx->videofile());
+		adapter->onVideoChanged(videoId, video->videofile());
 	}
 }
 

@@ -26,7 +26,7 @@ Sprite::~Sprite() {
 
 void Sprite::draw(draw::Canvas* _canvas, int x, int y)
 {
-	sdl::Canvas* canvas = dynamic_cast<sdl::Canvas*>(_canvas);
+	sdl::Canvas& canvas = dynamic_cast<sdl::Canvas&>(*_canvas);
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;
@@ -38,7 +38,7 @@ void Sprite::draw(draw::Canvas* _canvas, int x, int y)
 	src.w = this->width();
 	src.h = this->height();
 
-	if( SDL_RenderCopy(canvas->renderer(), this->texture(), &src, &dst) != 0)
+	if( SDL_RenderCopy(canvas.renderer(), this->texture(), &src, &dst) != 0)
 	{
 		throw logging::Exception("Failed to render SDL Sprite!!");
 	}

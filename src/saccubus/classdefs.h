@@ -33,7 +33,7 @@ class ReplaceTable;
 class Thread;
 class MetaInfo;
 class PlayInfo;
-class VideoContext;
+class Video;
 }
 
 namespace python{

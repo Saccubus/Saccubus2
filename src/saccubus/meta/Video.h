@@ -17,7 +17,7 @@
 namespace saccubus {
 namespace meta {
 
-class VideoContext {
+class Video {
 	DEF_ATTR_ACCESSOR(public, private, std::string, videofile);
 	DEF_ATTR_ACCESSOR(public, private, const MetaInfo*, metaInfo);
 	DEF_ATTR_ACCESSOR(public, private, const PlayInfo*, playInfo);
@@ -25,8 +25,8 @@ class VideoContext {
 private:
 	logging::Logger& log;
 public:
-	VideoContext(logging::Logger& log);
-	virtual ~VideoContext();
+	Video(logging::Logger& log);
+	virtual ~Video();
 public:
 	void initVideoFile(const std::string& videofile);
 	void initPlayInfo(const std::string& metafile);
