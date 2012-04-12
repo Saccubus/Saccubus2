@@ -174,6 +174,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1180095354" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1127115469" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<option id="gnu.cpp.compiler.option.debugging.prof.1803727249" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof" value="false" valueType="boolean"/>
@@ -186,6 +187,7 @@
 								<option id="gnu.c.compiler.option.include.paths.333985847" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1029319254" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.707592903" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -210,6 +212,7 @@
 								<option id="gnu.both.asm.option.include.paths.1033140507" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1156728690" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

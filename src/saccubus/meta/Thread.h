@@ -35,9 +35,9 @@ public:
 private:
 	void read(logging::Logger& log, xmlNode* node);
 public:
-	Iterator begin();
-	Iterator end();
-	size_t size();
+	Iterator begin() const;
+	Iterator end() const;
+	size_t size() const;
 };
 
 }}

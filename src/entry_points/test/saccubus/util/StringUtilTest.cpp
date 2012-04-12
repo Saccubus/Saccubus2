@@ -22,6 +22,15 @@ TEST(StringUtilTest, FormatTest)
 	ASSERT_EQ("test  test", format("test %s test", ""));
 }
 
+TEST(StringUtilTest, NumericTest)
+{
+	ASSERT_EQ("123", format("%d", 123));
+	ASSERT_EQ("123", format("%llu", 123L));
+	ASSERT_EQ("123", format("%lld", 123L));
+	ASSERT_EQ("-123", format("%lld", -123L));
+	ASSERT_EQ("12.3", format("%.1f", 12.3));
+}
+
 TEST(StringUtilTest, PercentDecodeTest)
 {
 	ASSERT_EQ("NOT_ENCODED", decodePercent("NOT_ENCODED"));

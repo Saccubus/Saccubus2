@@ -26,6 +26,7 @@ public:
 	virtual ~PyBridge();
 public:
 	const meta::Video* resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args);
+	bool askCommentShouldBeIgnored(const char* filename, const meta::Comment& com);
 };
 
 }}

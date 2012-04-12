@@ -32,3 +32,11 @@ TEST(PyBridgeTest, BasicResolveTest)
 	ASSERT_EQ(1302222473L, result->threadBegin()->first);
 }
 
+TEST(PyBridgeTest, BasicFilterTest)
+{
+	PyBridge bridge(log_trace);
+	Thread* th = new Thread(log_err, MATERIAL_DIR"sm14097905_thread_1302222473.xml");
+	const Comment* com = *th->begin();
+	ASSERT_EQ(true, bridge.askCommentShouldBeIgnored(MATERIAL_DIR"test_filter.py", *com));
+}
+

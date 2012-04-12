@@ -30,7 +30,8 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, unsigned long long, deleted)
 	DEF_ATTR_ACCESSOR(public, private, long long, score)
 	DEF_ATTR_ACCESSOR(public, private, std::string, user_id)
-	std::vector<std::string> mail;
+	std::vector<std::string> mailList;
+	DEF_ATTR_ACCESSOR(public, private, std::string, mail)
 	DEF_ATTR_ACCESSOR(public, private, std::string, message)
 	DEF_ATTR_ACCESSOR(public, private, bool, anonymity)
 	DEF_ATTR_ACCESSOR(public, private, bool, leaf)

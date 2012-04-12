@@ -26,10 +26,11 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->leaf(readNodeProp(node, "leaf", false));
 	this->premium(readNodeProp(node, "premium", false));
 	this->fork(readNodeProp(node, "fork", false));
-	std::istringstream ss(readNodeProp(node, "mail", ""));
+	this->mail(readNodeProp(node, "mail", ""));
+	std::istringstream ss(this->mail());
 	std::string mailopt;
 	while(std::getline(ss, mailopt, ' ')){
-		this->mail.push_back(mailopt);
+		this->mailList.push_back(mailopt);
 	}
 
 	this->message(readNodeContent(node));
@@ -57,15 +58,15 @@ Comment::~Comment() {
 
 size_t Comment::mailSize() const
 {
-	return mail.size();
+	return mailList.size();
 }
 std::vector<std::string>::const_iterator Comment::mailBegin() const
 {
-	return mail.begin();
+	return mailList.begin();
 }
 std::vector<std::string>::const_iterator Comment::mailEnd() const
 {
-	return mail.end();
+	return mailList.end();
 }
 
 bool Comment::comparareLessByVpos(const Comment* a, const Comment* b){

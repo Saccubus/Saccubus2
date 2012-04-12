@@ -11,6 +11,8 @@
 #include "PyBridge.h"
 #include "PyBridgeImpl.h"
 #include "ScriptException.h"
+#include "../meta/Comment.h"
+#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace python {
@@ -50,6 +52,31 @@ const meta::Video* PyBridge::resolveResource(const std::string& video_id, const 
 	}
 	return ctx;
 }
+
+bool PyBridge::askCommentShouldBeIgnored(const char* filename, const meta::Comment& com)
+{
+	if(!filename){
+		return false;
+	}
+	std::auto_ptr<Session> session = impl->createSession();
+	session->loadFile(filename);
+	std::vector<std::pair<std::string, std::string> > callArgs;
+	callArgs.push_back(std::pair<std::string, std::string>("thread", util::format("%llu", com.thread()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("no", util::format("%llu", com.no()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("vpos", util::format("%f", com.vpos()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("date", util::format("%llu", com.date()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("deleted", util::format("%llu", com.deleted()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("score", util::format("%lld", com.score()).c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("user_id", com.user_id().c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("mail", com.mail().c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("message", com.message().c_str()));
+	callArgs.push_back(std::pair<std::string, std::string>("anonymity", com.anonymity() ? "true" : "false"));
+	callArgs.push_back(std::pair<std::string, std::string>("leaf", com.leaf() ? "true" : "false"));
+	callArgs.push_back(std::pair<std::string, std::string>("premium", com.premium() ? "true" : "false"));
+	callArgs.push_back(std::pair<std::string, std::string>("fork", com.fork() ? "true" : "false"));
+	return session->executeMethodBool("shouldCommentBeIgnored", callArgs);
+}
+
 
 PyBridge::~PyBridge() {
 	delete impl;

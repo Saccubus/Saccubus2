@@ -72,16 +72,16 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 	}
 }
 
-Thread::Iterator Thread::begin()
+Thread::Iterator Thread::begin() const
 {
 	return chatList.begin();
 }
-Thread::Iterator Thread::end()
+Thread::Iterator Thread::end() const
 {
 	return chatList.end();
 }
 
-size_t Thread::size()
+size_t Thread::size() const
 {
 	return chatList.size();
 }

@@ -58,11 +58,11 @@ void Session::loadFile(const std::string& file)
 		throw ScriptException("File \"%s\" not found.", file.c_str());
 	}
 	//ファイルの読み込み
-	stream.seekg(0);
+	stream.seekg(0, std::istream::beg);
 	const std::istream::pos_type first = stream.tellg();
 	stream.seekg(0, std::istream::end);
 	const std::istream::pos_type end = stream.tellg();
-	stream.seekg(0);
+	stream.seekg(0, std::istream::beg);
 	const std::streamsize len = end-first;
 	std::streamsize pos = 0;
 	std::auto_ptr<char> buffer(new char[len+1]);
@@ -219,7 +219,7 @@ std::map<std::string, std::string> Session::parseDict(PyObject* dictObj)
 
 bool Session::parseBool(PyObject* boolObj)
 {
-	if(PyBool_Check(boolObj)){
+	if(!PyBool_Check(boolObj)){
 		log.w(TAG, "The object is not a bool object. It's '%s'", toRepr(boolObj).c_str());
 		return false;
 	}
