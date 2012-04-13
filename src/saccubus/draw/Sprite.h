@@ -14,9 +14,20 @@
 namespace saccubus {
 namespace draw {
 
+class Point{
+	DEF_ATTR_ACCESSOR(public, public, int, x);
+	DEF_ATTR_ACCESSOR(public, public, int, y);
+public:
+	Point(int x, int y);
+	Point(const Point& other){x(other.x());y(other.y());};
+	~Point(){};
+};
+
 class Sprite {
-	DEF_ATTR_ACCESSOR(public, private, int, width);
-	DEF_ATTR_ACCESSOR(public, private, int, height);
+	DEF_ATTR_ACCESSOR(public, protected, int, width);
+	DEF_ATTR_ACCESSOR(public, protected, int, height);
+protected:
+	Sprite();
 public:
 	Sprite(int w, int h);
 	virtual ~Sprite();

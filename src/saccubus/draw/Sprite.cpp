@@ -10,6 +10,12 @@
 namespace saccubus {
 namespace draw {
 
+Sprite::Sprite()
+{
+	this->width(-1);
+	this->height(-1);
+}
+
 Sprite::Sprite(int w, int h) {
 	this->width(w);
 	this->height(h);
