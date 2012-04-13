@@ -7,11 +7,11 @@
 
 #include <string>
 #include <nekomata/Nekomata.h>
+#include <nekomata/parser/Parser.h>
 #include <nekomata/system/System.h>
 #include <nekomata/logging/Logging.h>
 #include "machine/Machine.h"
 #include "tree/Node.h"
-#include "parser/Parser.h"
 
 using namespace std::tr1;
 

@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <tr1/memory>
 #include <unicode/unistr.h>
+#include <nekomata/parser/Parser.h>
 
 #include "Object.h"
 #include "Cast.h"
@@ -17,7 +18,6 @@
 #include "../machine/Machine.h"
 
 #include "../tree/Node.h"
-#include "../parser/Parser.h"
 
 namespace nekomata{
 namespace object{

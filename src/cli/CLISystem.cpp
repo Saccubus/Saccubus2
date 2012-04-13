@@ -5,9 +5,9 @@
  *      Author: psi
  */
 
+#include <nekomata/parser/Parser.h>
 #include "CLISystem.h"
 #include "../nekomata/util/StringUtil.h"
-#include "../nekomata/parser/TimeLineParser.h"
 
 namespace cli {
 

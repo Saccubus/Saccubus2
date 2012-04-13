@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <exception>
 #include <nekomata/Nekomata.h>
-#include "../nekomata/parser/TimeLineParser.h"
+#include "TimeLineParser.h"
 #include "../nekomata/tree/Node.h"
 
 #include "CLISystem.h"
@@ -109,11 +109,11 @@ int main(int argc, char* argv[]){
 
 	if(optind == argc){
 		log.t(TAG, 0, "Parsing timeline from input stream.");
-		commentLine = nekomata::parser::TimeLineParser(std::cin, "<CIN>").parse();
+		commentLine = TimeLineParser(std::cin, "<CIN>").parse();
 	}else{
 		log.t(TAG, 0, "Parsing timeline from file: %s", argv[optind]);
 		std::ifstream fst(argv[optind]);
-		commentLine = nekomata::parser::TimeLineParser(fst, argv[optind]).parse();
+		commentLine = TimeLineParser(fst, argv[optind]).parse();
 	}
 
 	CLISystem _system(log, std::cout, commentLine);

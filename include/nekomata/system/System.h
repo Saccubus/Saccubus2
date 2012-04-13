@@ -330,6 +330,7 @@ public:
 	bool isValid() const{return type != INVALID;};
 	bool hasScript() const{return type == SCRIPT;};
 	bool isComment() const{return type == COMMENT;};
+	static Comment from(const float vpos, const std::string& mail, const std::string& message);
 };
 
 //----------------------------------------------------------------------------------------------------------------------

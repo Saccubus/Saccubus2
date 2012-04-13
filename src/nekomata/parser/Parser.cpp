@@ -9,9 +9,9 @@
 #include <sstream>
 #include <tr1/memory>
 #include <nekomata/logging/Exception.h>
+#include <nekomata/parser/Parser.h>
 #include "niwangoLexer.h"
 #include "niwangoParser.h"
-#include "Parser.h"
 #include "../tree/Node.h"
 
 namespace nekomata {
