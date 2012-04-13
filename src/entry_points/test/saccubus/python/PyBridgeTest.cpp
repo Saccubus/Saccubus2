@@ -27,9 +27,9 @@ TEST(PyBridgeTest, BasicResolveTest)
 	args.push_back(std::pair<std::string, std::string>("resource-path", MATERIAL_DIR));
 	std::auto_ptr<const Video> result(bridge.resolveResource("sm14097905", args));
 	ASSERT_EQ(MATERIAL_DIR"sm14097905_video_test.mp4", result->videofile());
-	ASSERT_EQ(1, result->threadSize());
-	ASSERT_EQ(1302222473L, result->threadBegin()->second->thread());
-	ASSERT_EQ(1302222473L, result->threadBegin()->first);
+	ASSERT_EQ(1U, result->threadSize());
+	ASSERT_EQ(1302222473LLU, result->threadBegin()->second->thread());
+	ASSERT_EQ(1302222473LLU, result->threadBegin()->first);
 }
 
 TEST(PyBridgeTest, BasicFilterTest)

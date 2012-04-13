@@ -15,17 +15,19 @@
 namespace saccubus {
 namespace context {
 
-ThreadContext::ThreadContext(const meta::Thread* const origThread, const meta::PlayInfo* playInfo)
-:origThread(origThread), playInfo(playInfo)
+ThreadContext::ThreadContext(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo)
+:bridge(bridge), origThread(origThread), playInfo(playInfo)
 {
 	this->process();
 }
 
 ThreadContext::~ThreadContext() {
-	// TODO Auto-generated destructor stub
+	for(std::vector<const nekomata::system::Comment*>::iterator it=commentList.begin();it != commentList.end(); ++it){
+		delete *it;
+	}
 }
 
-static bool order(const std::tr1::shared_ptr<nekomata::system::Comment> a, const std::tr1::shared_ptr<nekomata::system::Comment> b)
+static bool order(const nekomata::system::Comment* const a, const nekomata::system::Comment* const b)
 {
 	return a->vpos() < b->vpos();
 }
@@ -34,7 +36,7 @@ void ThreadContext::process()
 {
 	for(meta::Thread::Iterator it = origThread->begin(); it != origThread->end(); ++it){
 		const meta::Comment* const origCom = *it;
-		std::tr1::shared_ptr<nekomata::system::Comment> com(new nekomata::system::Comment(
+		nekomata::system::Comment* const com(new nekomata::system::Comment(
 				playInfo->replaceTable()->replace(origCom->message()),
 				origCom->vpos(),
 				origCom->user_id() == util::format("%d", playInfo->user_id()),
@@ -45,9 +47,22 @@ void ThreadContext::process()
 				0.0,
 				origCom->no()
 		));
-		std::vector<std::tr1::shared_ptr<nekomata::system::Comment> >::iterator insertPoint = std::upper_bound(chatList.begin(), chatList.end(), com, order);
-		chatList.insert(insertPoint, com);
+		std::vector<const nekomata::system::Comment*>::iterator insertPoint = std::upper_bound(commentList.begin(), commentList.end(), com, order);
+		commentList.insert(insertPoint, com);
 	}
+}
+
+ThreadContext::CommentIterator ThreadContext::commentBegin()
+{
+	return commentList.begin();
+}
+ThreadContext::CommentIterator ThreadContext::commentEnd()
+{
+	return commentList.end();
+}
+std::size_t ThreadContext::commentSize()
+{
+	return commentList.size();
 }
 
 }}

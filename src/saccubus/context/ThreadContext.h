@@ -9,7 +9,6 @@
 #define THREADCONTEXT_H_
 
 #include <vector>
-#include <tr1/memory>
 #include <nekomata/system/System.h>
 #include "../classdefs.h"
 
@@ -18,15 +17,19 @@ namespace context {
 
 class ThreadContext {
 private:
+	python::PyBridge* const bridge;
 	const meta::Thread* const origThread;
 	const meta::PlayInfo* const playInfo;
-	std::vector<std::tr1::shared_ptr<nekomata::system::Comment> > chatList;
+	std::vector<const nekomata::system::Comment*> commentList;
 	void process();
 public:
-	ThreadContext(const meta::Thread* const origThread, const meta::PlayInfo* playInfo);
+	ThreadContext(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo);
 	virtual ~ThreadContext();
 public:
-
+	typedef std::vector<const nekomata::system::Comment*>::const_iterator CommentIterator;
+	CommentIterator commentBegin();
+	CommentIterator commentEnd();
+	std::size_t commentSize();
 };
 
 }}

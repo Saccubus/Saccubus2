@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef VIDEOCONTEXT_H_
-#define VIDEOCONTEXT_H_
+#ifndef VIDEO_H_
+#define VIDEO_H_
 
 #include <map>
 #include <vector>
@@ -33,12 +33,13 @@ public:
 	void initMetaInfo(const std::string& metafile);
 	void initThread(std::vector<std::string>& threads);
 public:
+	typedef std::map<unsigned long long, const Thread*>::const_iterator ThreadIterator;
 	size_t threadSize() const;
 	bool hasThread(unsigned long long thread_id) const;
-	std::map<unsigned long long, const Thread*>::const_iterator threadBegin() const;
-	std::map<unsigned long long, const Thread*>::const_iterator threadEnd() const;
+	ThreadIterator threadBegin() const;
+	ThreadIterator threadEnd() const;
 	const Thread* thread(unsigned long long thread_id) const;
 };
 
 }}
-#endif /* VIDEOCONTEXT_H_ */
+#endif /* VIDEO_H_ */

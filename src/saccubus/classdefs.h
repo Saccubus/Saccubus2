@@ -12,6 +12,11 @@ namespace saccubus{
 class Saccubus;
 class Adapter;
 
+namespace context{
+class VideoContext;
+class ThreadContext;
+}
+
 namespace draw{
 class Sprite;
 class Canvas;
