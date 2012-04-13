@@ -9,6 +9,7 @@
 #define NEKOMATA_H_
 #include <iostream>
 #include <vector>
+#include <cfloat>
 
 #include "logging/Logging.h"
 #include "classdefs.h"
@@ -23,20 +24,12 @@ private:
 	system::System& system;
 	logging::Logger& log;
 	machine::Machine* const machine;
-	TimeLine<const tree::ExprNode>* const scriptLine;
 	float currentTime;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);
 	virtual ~Nekomata();
 public:
-	void parseTimelineStr(const std::string& str);
-	void parseTimelineFile(const std::string& filename);
-	void parseTimelineStream(std::istream& stream, const std::string& name="<stream>");
-	void parseProgram(float time, const std::string& str);
-	void dump(std::ostream& stream);
-public:
-	float getLastTime();
-	void seek(float time);
+	void seek(float time=FLT_MAX);
 };
 
 }

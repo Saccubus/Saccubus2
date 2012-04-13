@@ -8,7 +8,6 @@
 #include <iostream>
 #include <sstream>
 #include <tr1/memory>
-#include <nekomata/TimeLine.h>
 #include <nekomata/logging/Exception.h>
 #include "niwangoLexer.h"
 #include "niwangoParser.h"
@@ -99,10 +98,6 @@ public:
 		return fromString(src, filename);
 	}
 public:
-	void parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<system::Comment>* commentLine)
-	{
-		parser->time_line(parser, scriptLine, commentLine);
-	}
 	std::tr1::shared_ptr<const tree::ExprNode> parseProgram()
 	{
 		return std::tr1::shared_ptr<const tree::ExprNode>(parser->program(parser));
@@ -139,10 +134,6 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 	impl->fromStream(stream_, filename);
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
-}
-void Parser::parseTimeline(TimeLine<const ExprNode>* scriptLine, TimeLine<system::Comment>* commentLine)
-{
-	impl->parseTimeline(scriptLine,commentLine);
 }
 std::tr1::shared_ptr<const tree::ExprNode> Parser::parseProgram()
 {

@@ -11,10 +11,11 @@
 #include <cmath>
 #include <string>
 #include <set>
+#include <vector>
 #include <map>
+#include <tr1/memory>
 #include "../classdefs.h"
 #include "../util/Handler.h"
-#include "../TimeLine.h"
 
 namespace nekomata{
 namespace system {
@@ -281,9 +282,14 @@ public:
 
 class Comment
 {
+public:
+	enum Type{
+		INVALID=0,
+		COMMENT=1,
+		SCRIPT=2
+	};
 private:
-	const bool _isValid;
-	int _color;
+	const enum Type type;
 public:
 	const std::string message_;
 	std::string message() const{return message_;};
@@ -311,10 +317,12 @@ public:
 
 	const unsigned int no_;
 	unsigned int no() const{return no_;};
+
+	std::tr1::shared_ptr<const tree::Node> node_;
+	std::tr1::shared_ptr<const tree::Node> node() const{return node_;};
 public:
 	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
-	:_isValid(true),
-	_color(0),
+	:type(COMMENT),
 	message_(message),
 	vpos_(vpos),
 	isYourPost_(isYourPost),
@@ -323,11 +331,24 @@ public:
 	isPremium_(isPremium),
 	color_(color),
 	size_(size),
-	no_(no)
+	no_(no),
+	node_()
+	{};
+	explicit Comment(const float vpos, std::tr1::shared_ptr<const tree::Node> node)
+	:type(SCRIPT),
+	message_(""),
+	vpos_(vpos),
+	isYourPost_(false),
+	mail_(""),
+	fromButton_(false),
+	isPremium_(false),
+	color_(false),
+	size_(false),
+	no_(false),
+	node_(node)
 	{};
 	explicit Comment()
-	:_isValid(false),
-	_color(0),
+	:type(INVALID),
 	message_(""),
 	vpos_(NAN),
 	isYourPost_(false),
@@ -336,14 +357,14 @@ public:
 	isPremium_(false),
 	color_(false),
 	size_(false),
-	no_(false)
+	no_(false),
+	node_()
 	{};
 	virtual ~Comment(){};
 public:
-	bool isValid(){return _isValid;};
-public:
-	int objColor() const{return _color;};
-	void objColor(int color) {_color = color;};
+	bool isValid() const{return type != INVALID;};
+	bool hasScript() const{return type == SCRIPT;};
+	bool isComment() const{return type == COMMENT;};
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -353,16 +374,13 @@ class System
 private:
 	class EventEntry{
 	public:
-		EventEntry(float const from, float const to, const tree::Node* then): _color(0), _from(from), _to(to), _then(then){};
+		EventEntry(float const from, float const to, const tree::Node* then): _from(from), _to(to), _then(then){};
 		virtual ~EventEntry(){};
 	private:
-		int _color;
 		const float _from;
 		const float _to;
 		const tree::Node* _then;
 	public:
-		int color(){return _color;};
-		void color(int color){_color = color;};
 		float from(){return _from;}
 		float to(){return _to;}
 		const tree::Node* then(){return _then;}
@@ -373,16 +391,15 @@ public:
 	virtual ~System();
 private:
 	float _currentTime;
-	int color;
+	std::tr1::shared_ptr<const Comment> currentComment;
 public:
 	float currentTime(){return _currentTime;}
 protected:
 	void currentTime(float time){_currentTime=time;}
-	int nextColor(){return ++color;}
 private:
-	void dispatchCommentTrigger(machine::Machine& machine, const Comment* comment);
+	void dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_ptr<const Comment> comment);
 	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
-	const TimePoint<System::EventEntry>* findFirstTimer(const int color, const double from, const double to);
+	void dispatchTimer(machine::Machine& machine, const double from, const double to);
 //---------------------------------------------------------------------------------------------------------------------
 public: /* スクリプトから参照される */
 	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
@@ -428,8 +445,8 @@ private:
 	std::set<SumResult*> sumResultList;
 	std::set<Replace*> replaceList;
 	std::set<Button*> buttonList;
-	nekomata::TimeLine<EventEntry> timerLine;
-	nekomata::TimeLine<EventEntry> ctrigLine;
+	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
+	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
 public: /* SystemItemからのコールバック関数 */
 	void regist(Shape* const shape);
 	void unregist(Shape* const shape);
@@ -451,15 +468,7 @@ public: /* SystemItemからのコールバック関数 */
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 public: /* INFO: 各サブシステムで再実装すること。 */
-	virtual Comment findFirstComment(const int objColor, const double from, const double to) = 0;
-	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){
-		/*
-		 * デフォルトの実装では、システムはコメントを持たない。
-		 * FIXME: なんか気持ち悪い。設計ミスっぽい。
-		 */
-		return 0;
-	};
-	virtual float getLastCommentTime() = 0;
+	virtual std::tr1::shared_ptr<const Comment> nextComment() = 0;
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

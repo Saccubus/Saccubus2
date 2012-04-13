@@ -7,6 +7,7 @@
 
 #include "CLISystem.h"
 #include "../nekomata/util/StringUtil.h"
+#include "../nekomata/parser/TimeLineParser.h"
 
 namespace cli {
 
@@ -16,10 +17,12 @@ void CLILabel::onChanged()
 	system.stream() << nekomata::util::format("[Label][% 8.2f] %s", this->system.currentTime(), text().c_str()) << std::endl;
 }
 
-CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream)
+CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream, const std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment> >& commentLine)
 :System(log)
 ,_stream(_stream)
+, commentLine(commentLine.begin(), commentLine.end())
 {
+	_currentComment = this->commentLine.begin();
 }
 
 CLISystem::~CLISystem() {
@@ -33,17 +36,13 @@ nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::
 	return label;
 }
 
-nekomata::system::Comment CLISystem::findFirstComment(const int objColor, const double from, const double to)
+std::tr1::shared_ptr<const nekomata::system::Comment> CLISystem::nextComment()
 {
-	nekomata::TimeLine<nekomata::system::Comment>::Iterator it = this->commentLine.begin(from);
-	nekomata::TimeLine<nekomata::system::Comment>::Iterator end = this->commentLine.end(to);
-	for(; it != end; ++it){
-		if(it->getData()->objColor() != objColor){
-			it->getData()->objColor(objColor);
-			return *(it->getData().get());
-		}
+	if(_currentComment != commentLine.end()){
+		return (_currentComment++)->second;
+	}else{
+		return std::tr1::shared_ptr<const nekomata::system::Comment>();
 	}
-	return nekomata::system::Comment();
 }
 
 

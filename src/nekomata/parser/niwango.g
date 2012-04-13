@@ -13,8 +13,6 @@ options {
 #include <iostream>
 #include <tr1/memory>
 #include <cstdlib>
-#include <nekomata/system/System.h>
-#include <nekomata/TimeLine.h>
 #include "ParseUtil.h"
 #include "../tree/Node.h"
 using namespace nekomata::parser::util;
@@ -22,44 +20,6 @@ using namespace nekomata::tree;
 using std::tr1::shared_ptr;
 typedef pANTLR3_COMMON_TOKEN Token;
 }
-
-time_line [nekomata::TimeLine<const nekomata::tree::ExprNode>* scriptLine, nekomata::TimeLine<nekomata::system::Comment>* commentLine]
-	: time_point[$scriptLine, $commentLine] (EOL+ time_point[$scriptLine, $commentLine])* EOL*
-	|
-	;
-
-time_point [nekomata::TimeLine<const nekomata::tree::ExprNode>* scriptLine, nekomata::TimeLine<nekomata::system::Comment>* commentLine]
-@init{
-	std::string mail;
-}
-	: time=numeric
-	cstart=':' (~':')* cend=':'
-	{
-		//FIXME: 無理にLexerで処理するよりこっちのほうがいいみたい。
-		//{}?=>を使って無理にやると、Lexerのコードが急激に肥大化する
-		mail=createStringFromString(INPUT->toStringSS(INPUT, $cstart->index+1, $cend->index-1));
-	}
-	( '/' program
-	{
-		if($scriptLine){
-			$scriptLine->insertLast($time.result->getLiteral(), $program.result);
-		}
-	}
-	| mstart=~('/'|EOL) (~EOL)*
-	{
-		/* FIXME: こちらも同様。 */
-		if($commentLine){
-			std::string msg=createStringFromString(INPUT->toStringSS(INPUT, $mstart->index, INDEX()-1));
-			bool isYourPost=false;
-			if(msg.at(0)=='\%'){
-				isYourPost=true;
-				msg=msg.substr(1);
-			}
-			$commentLine->insertLast($time.result->getLiteral(), shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(msg, $time.result->getLiteral(), isYourPost, mail, false, false, 0xffffff, 30, 0)));
-		}
-	}
-	| /* コメント一切ない＝無視 */
-	);
 
 program returns [shared_ptr<const ExprNode> result]
 @init{
@@ -467,5 +427,3 @@ ESC_SEQ
 
 EOL: '\r'|'\n';
 WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace
-
-LEFT: (~('/'|':'|EOL));

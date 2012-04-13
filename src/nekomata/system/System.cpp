@@ -25,7 +25,7 @@ static const std::string TAG("System");
 System::System(logging::Logger& log)
 :log(log)
 ,_currentTime(0)
-, color(0)
+,currentComment()
 {
 }
 
@@ -75,7 +75,7 @@ void System::commentTrigger(float const timer, const tree::Node* then)
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, then));
-	this->ctrigLine.insertLast(currentTime(), evt);
+	this->ctrigLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime(), evt));
 }
 void System::timer(float const timer, const tree::Node* then)
 {
@@ -84,7 +84,7 @@ void System::timer(float const timer, const tree::Node* then)
 			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, then));
-	this->timerLine.insertLast(currentTime()+timer, evt);
+	this->timerLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime(), evt));
 }
 void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
 {
@@ -229,7 +229,7 @@ void System::playCM(int id)
 
 std::string System::inspect()
 {
-	return "";
+	return "<<<System>>>";
 }
 
 void System::onChanged()
@@ -237,43 +237,47 @@ void System::onChanged()
 	log.v(TAG, 0, "System property changed: %s", inspect().c_str());
 }
 
-const TimePoint<System::EventEntry>* System::findFirstTimer(const int color, const double from, const double to)
-{
-	nekomata::TimeLine<EventEntry>::Iterator it = timerLine.begin(from);
-	nekomata::TimeLine<EventEntry>::Iterator end = timerLine.end(to);
-	for(; it != end; ++it){
-		if(it->getData()->color() != color){
-			return &(*it);
-		}
-	}
-	return 0;
-}
-
 void System::seek(machine::Machine& machine, const double from, const double to)
 {
 	if(currentTime() != from){
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly.");
 	}
-	const int color = nextColor();
-
-	while(true){
-		const TimePoint<EventEntry>* nextTimer = findFirstTimer(color, currentTime(), to);
-		Comment nextComment = findFirstComment(color, currentTime(), to);
-		if(!nextTimer && !nextComment.isValid()){
-			break;
-		}else if(!nextTimer || nextTimer->getTime() > nextComment.vpos()){
-			currentTime(nextComment.vpos());
-			dispatchCommentTrigger(machine, &nextComment);
+	if(!currentComment.get()){
+		currentComment = nextComment();
+	}
+	while(currentComment.get() && currentComment->isValid() && currentComment->vpos() < to){
+		currentTime(currentComment->vpos());
+		if(currentComment->hasScript()){
+			machine.eval(currentComment->node().get());
 		}else{
-			currentTime(nextTimer->getTime());
-			machine.eval(nextTimer->getData()->then());
-			nextTimer->getData()->color(color);
+			dispatchCommentTrigger(machine, currentComment);
 		}
+		std::tr1::shared_ptr<const Comment> next = nextComment();
+		if(next.get() && next->isValid() && next->vpos() < to){ //次がある
+			dispatchTimer(machine, currentTime(), next->vpos());
+		}else{ //最後まで実行
+			dispatchTimer(machine, currentTime(), to);
+		}
+		currentComment = next;
 	}
 	currentTime(to);
 }
 
-void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* comment)
+void System::dispatchTimer(machine::Machine& machine, const double from, const double to)
+{
+	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = timerLine.begin(); it != timerLine.end(); ++it){
+		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
+		if(nextTimer->from() <= currentComment->vpos() && currentComment->vpos() < nextTimer->to()){
+			machine.eval(nextTimer->then());
+			it=timerLine.begin();
+			while(it != timerLine.end() && it->second != nextTimer){
+				++it;
+			}
+		}
+	}
+}
+
+void System::dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_ptr<const Comment> comment)
 {
 	this->dispatchCommentTrigger(machine,
 			comment->message(),
@@ -290,19 +294,15 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const Comment* co
 void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
-	nekomata::TimeLine<EventEntry>::Iterator it = ctrigLine.begin();
-	nekomata::TimeLine<EventEntry>::Iterator end = ctrigLine.end();
-	const int _color = nextColor();
-	for(;it != end;){
+	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){
 		log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
-		std::tr1::shared_ptr<EventEntry> evt = it->getData();
-		if(evt->from() <= vpos && vpos <= evt->to() && evt->color() != _color){
-			evt->color(_color);
-			machine.eval(evt->then());
-			it = ctrigLine.begin();
-			end = ctrigLine.end();
-		}else{
-			++it;
+		const std::tr1::shared_ptr<EventEntry> trigger = it->second;
+		if(trigger->from() <= vpos && vpos < trigger->to()){
+			machine.eval(trigger->then());
+			it=ctrigLine.begin();
+			while(it!=ctrigLine.end() && it->second != trigger){
+				++it;
+			}
 		}
 	}
 }

@@ -18,16 +18,15 @@ namespace cli {
 class CLISystem: public nekomata::system::System {
 private:
 	std::ostream& _stream;
-	nekomata::TimeLine<nekomata::system::Comment> commentLine;
+	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> > commentLine;
+	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> >::const_iterator _currentComment;
 public:
-	CLISystem(nekomata::logging::Logger& log, std::ostream& _stream);
+	CLISystem(nekomata::logging::Logger& log, std::ostream& _stream, const std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment> >& commentLine);
 	virtual ~CLISystem();
 public:
 	std::ostream& stream(){return _stream;};
 	virtual nekomata::util::Handler<nekomata::system::Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
-	virtual nekomata::system::Comment findFirstComment(const int objColor, const double from, const double to);
-	virtual nekomata::TimeLine<nekomata::system::Comment>* getCommentTimeLine(){ return &commentLine; };
-	virtual float getLastCommentTime() {return commentLine.size() > 0 ? commentLine.getLastTime() : -1;};
+	virtual std::tr1::shared_ptr<const nekomata::system::Comment> nextComment();
 };
 
 class CLILabel : public nekomata::system::Label
