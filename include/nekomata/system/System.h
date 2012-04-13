@@ -452,7 +452,13 @@ public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 public: /* INFO: 各サブシステムで再実装すること。 */
 	virtual Comment findFirstComment(const int objColor, const double from, const double to) = 0;
-	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){return 0;};
+	virtual nekomata::TimeLine<system::Comment>* getCommentTimeLine(){
+		/*
+		 * デフォルトの実装では、システムはコメントを持たない。
+		 * FIXME: なんか気持ち悪い。設計ミスっぽい。
+		 */
+		return 0;
+	};
 	virtual float getLastCommentTime() = 0;
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
