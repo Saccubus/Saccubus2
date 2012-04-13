@@ -55,8 +55,8 @@ TEST(LoggerTest, LogTest)
 	std::ostringstream ss;
 	Logger log(ss, Logger::DEBUG_);
 	log.t("TestTag", "Test: %d", 12);
-	ASSERT_EQ(0, ss.str().size());
+	ASSERT_EQ(0U, ss.str().size());
 	log.d("TestTag", "Test: %d", 12);
-	ASSERT_GT(ss.str().size(), 0);
+	ASSERT_GT(ss.str().size(), 0U);
 }
 
