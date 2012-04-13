@@ -39,7 +39,7 @@ void ThreadContext::process()
 		nekomata::system::Comment* const com(new nekomata::system::Comment(
 				playInfo->replaceTable()->replace(origCom->message()),
 				origCom->vpos(),
-				origCom->user_id() == util::format("%d", playInfo->user_id()),
+				origCom->user_id() == util::format("%lld", playInfo->user_id()),
 				origCom->mail(),
 				false,
 				origCom->premium(),
