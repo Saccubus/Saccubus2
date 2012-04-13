@@ -16,6 +16,7 @@ TEST(ThreadTest, ThreadTest_ThradInfo)
 	ASSERT_EQ(1302222473LLU, th->thread());
 	ASSERT_EQ(1333155993LLU, th->server_time());
 	ASSERT_EQ(0x49eb1600LLU, th->ticket());
+	ASSERT_EQ(1020U, th->size());
 	delete th;
 }
 

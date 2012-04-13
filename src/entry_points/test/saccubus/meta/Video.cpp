@@ -1,5 +1,5 @@
 /*
- * VideoContext.cpp
+ * Video.cpp
  *
  *  Created on: 2012/04/01
  *      Author: psi
@@ -10,7 +10,7 @@
 #include "../../../../saccubus/meta/Video.h"
 using namespace saccubus::meta;
 
-TEST(VideoContextTest, ReadingTest)
+TEST(VideoTest, ReadingTest)
 {
 	Video video(log_err);
 	std::vector<std::string> threads;
@@ -22,7 +22,7 @@ TEST(VideoContextTest, ReadingTest)
 
 	ASSERT_TRUE(video.metaInfo());
 	ASSERT_TRUE(video.playInfo());
-	ASSERT_EQ(1, video.threadSize());
+	ASSERT_EQ(1U, video.threadSize());
 	ASSERT_FALSE(video.threadBegin() == video.threadEnd());
 	ASSERT_TRUE(video.hasThread(1302222473L));
 }
