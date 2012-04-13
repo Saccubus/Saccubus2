@@ -66,8 +66,10 @@ void BinOpNode::dump(Dumper& dumper) const{
 }
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
-	dumper.printDumpableList("exprList", (const std::vector<shared_ptr<const Dumpable> >&)this->exprList);
-	dumper.printDumpableList("exprMap", (const std::map<std::string, shared_ptr<const Dumpable> >&)this->exprMap);
+	std::vector<std::tr1::shared_ptr<const nekomata::logging::Dumpable> > list(this->exprList.begin(), this->exprList.end());
+	dumper.printDumpableList("exprList", list);
+	const std::map<std::string, std::tr1::shared_ptr<const nekomata::logging::Dumpable> > map(exprMap.begin(), exprMap.end());
+	dumper.printDumpableList("exprMap", map);
 }
 void InvokeNode::dump(Dumper& dumper) const{
 	dumper.printName("InvokeNode", location());

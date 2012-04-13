@@ -321,45 +321,10 @@ public:
 	std::tr1::shared_ptr<const tree::Node> node_;
 	std::tr1::shared_ptr<const tree::Node> node() const{return node_;};
 public:
-	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
-	:type(COMMENT),
-	message_(message),
-	vpos_(vpos),
-	isYourPost_(isYourPost),
-	mail_(mail),
-	fromButton_(fromButton),
-	isPremium_(isPremium),
-	color_(color),
-	size_(size),
-	no_(no),
-	node_()
-	{};
-	explicit Comment(const float vpos, std::tr1::shared_ptr<const tree::Node> node)
-	:type(SCRIPT),
-	message_(""),
-	vpos_(vpos),
-	isYourPost_(false),
-	mail_(""),
-	fromButton_(false),
-	isPremium_(false),
-	color_(false),
-	size_(false),
-	no_(false),
-	node_(node)
-	{};
-	explicit Comment()
-	:type(INVALID),
-	message_(""),
-	vpos_(NAN),
-	isYourPost_(false),
-	mail_(""),
-	fromButton_(false),
-	isPremium_(false),
-	color_(false),
-	size_(false),
-	no_(false),
-	node_()
-	{};
+	Comment(const Comment& other);
+	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
+	explicit Comment(const float vpos, std::tr1::shared_ptr<const tree::Node> node);
+	explicit Comment();
 	virtual ~Comment(){};
 public:
 	bool isValid() const{return type != INVALID;};

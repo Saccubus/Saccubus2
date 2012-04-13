@@ -9,6 +9,14 @@ environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1700730746/C_INCLUDE_PATH/value=.\:/D/software/dev/msys/mingw/include\:/D/software/dev/applib/ff/include\:/D/software/dev/applib/ffmpeg/include\:/D/software/dev/applib/opencv/include\:/D/software/dev/lib/antlr/include\:/D/software/dev/lib/cairo/include\:/D/software/dev/lib/glib/include\:/D/software/dev/lib/icu/include\:/D/software/dev/lib/intl/include\:/D/software/dev/lib/perftools/include\:/D/software/dev/lib/xml/include
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1700730746/append=true
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1700730746/appendContributed=true
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/CPATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/CPATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/CPLUS_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/CPLUS_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/C_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/append=true
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037/appendContributed=true
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/CPATH/delimiter=\:
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/CPATH/operation=remove
 environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.607381577/CPLUS_INCLUDE_PATH/delimiter=\:
