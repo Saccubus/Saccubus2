@@ -24,6 +24,7 @@ class Layer {
 public:
 	Layer();
 	virtual ~Layer();
+public:
 	virtual void draw(float vpos, draw::Canvas* canvas) = 0;
 };
 
