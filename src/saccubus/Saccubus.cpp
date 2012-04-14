@@ -7,6 +7,7 @@
 
 #include <getopt.h>
 #include <cstdlib>
+#include <iomanip>
 #include <libgen.h>
 #include "python/PyBridge.h"
 #include "util/StringUtil.h"
@@ -35,24 +36,19 @@ const struct option ARG_OPTIONS[] = {
 
 void usage(std::ostream& logStream, int argc, char* argv[]){
 	static const std::string USAGE_TAB="    ";
-/*
-	cout << "Usage: " << basename(argv[0]) << " [switches] [--] [programfile]" << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--trace" << "set log level." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--dump"<<"output dump of AST, then exit." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << endl;
-	cout << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << endl;
-*/
+	std::cout << "Usage: " << basename(argv[0]) << " [switches] [--] [programfile]" << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--trace" << "set log level." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << std::endl;
+	std::cout << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << std::endl;
 	exit(0);
 }
 
 void version(std::ostream& logStream, int argc, char* argv[]){
-/*
-		cout << nekomata::PROGRAM_NAME << ": "<< nekomata::PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << endl;
-*/
+	std::cout << PROGRAM_NAME << ": "<< PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << std::endl;
 	exit(0);
 }
 

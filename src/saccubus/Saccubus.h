@@ -16,6 +16,9 @@
 
 namespace saccubus {
 
+static const std::string PROGRAM_NAME("Saccubus");
+static const std::string PROGRAM_VERSION("1.00");
+
 class Adapter
 {
 public:
