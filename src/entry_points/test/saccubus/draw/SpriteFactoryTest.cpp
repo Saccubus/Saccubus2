@@ -21,14 +21,14 @@ TEST(SpriteFactoryTest, BasicQueryTest)
 		spr = *handler;
 	}
 	//スプライトが返却されていることを確認
-	ASSERT_EQ(1, factory.availableSprites());
+	ASSERT_EQ(1U, factory.availableSprites());
 	{
 		Sprite::Handler handler = factory.querySprite(9, 10);
 		ASSERT_EQ(9, handler->width());
 		ASSERT_EQ(10, handler->height());
 		ASSERT_EQ(spr, *handler);
 	}
-	ASSERT_EQ(1, factory.availableSprites());
+	ASSERT_EQ(1U, factory.availableSprites());
 }
 
 TEST(SpriteFactoryTest, AllocationTest)

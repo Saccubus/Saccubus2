@@ -13,12 +13,15 @@ namespace saccubus {
 namespace draw {
 
 Sprite::Sprite()
+:refcount(0)
 {
 	this->width(-1);
 	this->height(-1);
 }
 
-Sprite::Sprite(int w, int h) {
+Sprite::Sprite(int w, int h)
+:refcount(0)
+{
 	this->width(w);
 	this->height(h);
 
@@ -42,7 +45,7 @@ void Sprite::Handler::decref()
 {
 	sprite->refcount--;
 	if(sprite->refcount < 0){
-		throw logging::Exception(__FILE__, __LINE__, "[BUG] Sprite::Handler cnt = %d < 0", sprite->refcount);
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Sprite::Handler refcount = %d < 0", sprite->refcount);
 	}else if(sprite->refcount == 0){
 		SpriteFactory* factory = *this->factory.get();
 		if(factory){
@@ -56,6 +59,9 @@ void Sprite::Handler::decref()
 Sprite::Handler::Handler(Sprite* const sprite, std::tr1::shared_ptr<SpriteFactory*> factory)
 :sprite(sprite), factory(factory)
 {
+	if(sprite->refcount != 0){
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Sprite::Handler created, but refcount = %d, not zero.", sprite->refcount);
+	}
 	incref();
 }
 Sprite::Handler::Handler(const Sprite::Handler& other)

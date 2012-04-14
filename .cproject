@@ -300,6 +300,7 @@
 							<builder buildPath="${workspace_loc:/Saccubus/WinDebug}" id="cdt.managedbuild.tool.gnu.builder.mingw.base.1598690019" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.255738148" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<option id="gnu.both.asm.option.include.paths.1138445477" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -310,12 +311,14 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.407396358" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.894284141" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.1390205093" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
 								<option id="gnu.cpp.compiler.option.include.paths.802938584" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -326,6 +329,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1334247816" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.568811975" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -333,6 +337,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1643405043" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
 								<option id="gnu.c.compiler.option.include.paths.1485231540" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -343,6 +348,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.555044538" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.261857247" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -351,6 +357,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1775308658" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.1486088541" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
 								<option id="gnu.cpp.link.option.libs.1983897929" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="Nekomata"/>
 									<listOptionValue builtIn="false" value="mingw32"/>
 									<listOptionValue builtIn="false" value="SDL2main"/>
 									<listOptionValue builtIn="false" value="SDL2"/>
@@ -369,6 +376,7 @@
 									<listOptionValue builtIn="false" value="uuid"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2015716924" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\lib&quot;"/>
@@ -376,6 +384,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\libs&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/lib:/D/software/dev/applib/cairo/lib:/D/software/dev/applib/ff/lib:/D/software/dev/applib/ffmpeg/lib:/D/software/dev/applib/opencv/lib:/D/software/dev/applib/xml/lib:/D/software/dev/lib/antlr/lib:/D/software/dev/lib/glib/lib:/D/software/dev/lib/gtest/lib:/D/software/dev/lib/icu/lib:/D/software/dev/lib/intl/lib:/D/software/dev/lib/perftools/lib:/D/software/dev/lib/sdl/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1765996805" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -389,7 +398,15 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.release.764677260.2004042430" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/WinLibrary"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247" moduleId="org.eclipse.cdt.core.settings" name="WinDebug">
@@ -410,6 +427,7 @@
 							<builder buildPath="${workspace_loc:/Saccubus/WinDebug}" id="cdt.managedbuild.tool.gnu.builder.mingw.base.301171786" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1298386675" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<option id="gnu.both.asm.option.include.paths.1150117472" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -420,12 +438,14 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.51775005" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1993836051" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.919555815" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
 								<option id="gnu.cpp.compiler.option.include.paths.860869962" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -436,6 +456,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.814694638" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1252759093" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -443,6 +464,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.607921291" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
 								<option id="gnu.c.compiler.option.include.paths.549419191" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\include\libxml2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\include&quot;"/>
@@ -453,6 +475,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 								</option>
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1553424859" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.310601609" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -461,6 +484,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1478369288" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.1141223369" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
 								<option id="gnu.cpp.link.option.libs.445678564" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="Nekomata"/>
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="z"/>
 									<listOptionValue builtIn="false" value="m"/>
@@ -479,6 +503,7 @@
 									<listOptionValue builtIn="false" value="uuid"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.309961744" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\lib&quot;"/>
@@ -486,6 +511,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\libs&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
+									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/lib:/D/software/dev/applib/cairo/lib:/D/software/dev/applib/ff/lib:/D/software/dev/applib/ffmpeg/lib:/D/software/dev/applib/opencv/lib:/D/software/dev/applib/xml/lib:/D/software/dev/lib/antlr/lib:/D/software/dev/lib/glib/lib:/D/software/dev/lib/gtest/lib:/D/software/dev/lib/icu/lib:/D/software/dev/lib/intl/lib:/D/software/dev/lib/perftools/lib:/D/software/dev/lib/sdl/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.315525783" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -499,7 +525,15 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.release.764677260.2004042430" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/WinLibrary"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
