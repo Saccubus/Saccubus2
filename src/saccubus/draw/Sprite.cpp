@@ -21,15 +21,19 @@ Sprite::Sprite()
 Sprite::Sprite(int w, int h) {
 	this->width(w);
 	this->height(h);
-	// TODO Auto-generated constructor stub
 
 }
 
 Sprite::~Sprite() {
-	// TODO Auto-generated destructor stub
 }
 
+void Sprite::shrink(int w, int h)
+{
+	this->width(w);
+	this->height(h);
+}
 
+//---------------------------------------------------------------------------------------------------------------------
 void Sprite::Handler::incref()
 {
 	sprite->refcount++;

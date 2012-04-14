@@ -55,6 +55,7 @@ public:
 	Sprite(int w, int h);
 	virtual ~Sprite();
 	virtual void draw(Canvas* canvas, int x, int y) = 0;
+	virtual void shrink(int w, int h);
 };
 
 }}

@@ -23,9 +23,9 @@ TEST(SpriteFactoryTest, BasicQueryTest)
 	//スプライトが返却されていることを確認
 	ASSERT_EQ(1, factory.availableSprites());
 	{
-		Sprite::Handler handler = factory.querySprite(10, 10);
-		ASSERT_EQ(10, handler->width());
-		ASSERT_EQ(11, handler->height());
+		Sprite::Handler handler = factory.querySprite(9, 10);
+		ASSERT_EQ(9, handler->width());
+		ASSERT_EQ(10, handler->height());
 		ASSERT_EQ(spr, *handler);
 	}
 	ASSERT_EQ(1, factory.availableSprites());

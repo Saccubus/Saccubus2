@@ -5,6 +5,7 @@
  *      Author: psi
  */
 
+#include <algorithm>
 #include "SpriteFactory.h"
 
 namespace saccubus {
@@ -22,20 +23,22 @@ SpriteFactory::~SpriteFactory() {
 
 Sprite::Handler SpriteFactory::querySprite(int w, int h)
 {
-	SpriteIterator it = unusedSprites.lower_bound(std::pair<int, int>(w,h));
+	SpriteIterator it = std::lower_bound(unusedSprites.begin(), unusedSprites.end(), std::pair<int, int>(w,h), order());
 	if(it == unusedSprites.end()){
 		Sprite::Handler handler(createSprite(w, h), this->handler);
 		return handler;
 	}else{
-		Sprite::Handler handler(it->second, this->handler);
+		Sprite::Handler handler(*it, this->handler);
 		unusedSprites.erase(it);
+		handler->shrink(w, h);
 		return handler;
 	}
 }
 
 void SpriteFactory::backSprite(Sprite* spr)
 {
-	unusedSprites.insert(std::pair<std::pair<int, int>, Sprite*>(std::pair<int,int>(spr->width(), spr->height()), spr));
+	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
+	unusedSprites.insert(it, spr);
 }
 
 std::size_t SpriteFactory::availableSprites()
@@ -43,9 +46,17 @@ std::size_t SpriteFactory::availableSprites()
 	return unusedSprites.size();
 }
 
-bool SpriteFactory::order::operator ()(const std::pair<int, int>& a, const std::pair<int, int>& b)
+bool SpriteFactory::order::operator ()(const Sprite* a, const Sprite* b)
 {
-	return a.first < b.first && a.second < b.second;
+	return a->width() < b->width() && a->height() < b->height();
+}
+bool SpriteFactory::order::operator() (const Sprite* a, const std::pair<int,int>& b)
+{
+	return a->width() < b.first && a->height() < b.second;
+}
+bool SpriteFactory::order::operator() (const std::pair<int,int>& a, const Sprite* b)
+{
+	return a.first < b->width() && a.second < b->height();
 }
 
 
