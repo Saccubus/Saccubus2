@@ -19,8 +19,8 @@ class Point{
 	DEF_ATTR_ACCESSOR(public, public, int, x);
 	DEF_ATTR_ACCESSOR(public, public, int, y);
 public:
-	Point(int x, int y);
-	Point(const Point& other){x(other.x());y(other.y());};
+	Point(int x, int y){this->x(x);this->y(y);};
+	Point(const Point& other){this->x(other.x());this->y(other.y());};
 	~Point(){};
 };
 

@@ -46,4 +46,12 @@ void LayerdSprite::draw(Canvas* canvas, int x, int y)
 	}
 }
 
+std::size_t LayerdSprite::size()
+{
+	return sprites.size();
+}
+void LayerdSprite::addSprite(int x, int y, Sprite* spr)
+{
+	this->sprites.push_back(std::pair<Point, Sprite*>(Point(x,y), spr));
+}
 }}
