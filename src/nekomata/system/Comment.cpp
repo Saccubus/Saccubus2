@@ -73,4 +73,18 @@ Comment::Comment(const float vpos, std::tr1::shared_ptr<const tree::Node> node)
 
 }
 
+bool Comment::isValid() const
+{
+	return type != INVALID;
+}
+bool Comment::hasScript() const
+{
+	return type == SCRIPT;
+}
+bool Comment::isComment() const
+{
+	return type == COMMENT;
+}
+
+
 }}

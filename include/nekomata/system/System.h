@@ -20,22 +20,21 @@
 namespace nekomata{
 namespace system {
 
-#define DEF_ADAPTER_ACCESSOR(name, type)\
+#define DEF_ADAPTER_ACCESSOR(rscope, wscope, type, name)\
 private:\
-	type name##_;\
-	virtual void ___##name(const type& name##__){\
-		this->name##_=name##__;\
-	}\
-public:\
-	virtual type name() const{return name##_;} \
-	virtual void name(const type& name##__){\
-		if(this->name##_ != name##__){\
-			this->___##name(name##__);\
+	type _##name;\
+rscope:\
+	inline type name() const{return _##name;}\
+wscope:\
+	inline void name(type const& val){\
+		if(this->_##name != val){\
+			this->_##name=val;\
 			this->onChanged();\
 		}\
 	}
-#define SET_PARAM(name) this->___##name(_##name)
-#define SET_DEFAULT(name, val) name##_(val)
+
+#define SET_PARAM(name) this->_##name = _##name;
+#define SET_DEFAULT(name, val) _##name(val)
 
 class SystemItem
 {
@@ -76,20 +75,20 @@ public:
 		SET_PARAM(mover);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(x, double);
-	DEF_ADAPTER_ACCESSOR(y, double);
-	DEF_ADAPTER_ACCESSOR(z, double);
-	DEF_ADAPTER_ACCESSOR(shape, std::string);
-	DEF_ADAPTER_ACCESSOR(width, double);
-	DEF_ADAPTER_ACCESSOR(height, double);
-	DEF_ADAPTER_ACCESSOR(color,unsigned int);
-	DEF_ADAPTER_ACCESSOR(visible, bool);
-	DEF_ADAPTER_ACCESSOR(pos, std::string);
-	DEF_ADAPTER_ACCESSOR(mask, bool);
-	DEF_ADAPTER_ACCESSOR(commentmask, bool);
-	DEF_ADAPTER_ACCESSOR(alpha, double);
-	DEF_ADAPTER_ACCESSOR(rotation, double);
-	DEF_ADAPTER_ACCESSOR(mover, std::string);
+	DEF_ADAPTER_ACCESSOR(public, public, double, x);
+	DEF_ADAPTER_ACCESSOR(public, public, double, y);
+	DEF_ADAPTER_ACCESSOR(public, public, double, z);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, shape);
+	DEF_ADAPTER_ACCESSOR(public, public, double, width);
+	DEF_ADAPTER_ACCESSOR(public, public, double, height);
+	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, mask);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, commentmask);
+	DEF_ADAPTER_ACCESSOR(public, public, double, alpha);
+	DEF_ADAPTER_ACCESSOR(public, public, double, rotation);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Shape(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
@@ -118,18 +117,18 @@ public:
 		SET_PARAM(partial);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(x, double);
-	DEF_ADAPTER_ACCESSOR(y, double);
-	DEF_ADAPTER_ACCESSOR(size, double);
-	DEF_ADAPTER_ACCESSOR(color,unsigned int);
-	DEF_ADAPTER_ACCESSOR(visible, bool);
-	DEF_ADAPTER_ACCESSOR(enabled, bool);
-	DEF_ADAPTER_ACCESSOR(pos, std::string);
-	DEF_ADAPTER_ACCESSOR(asc, bool);
-	DEF_ADAPTER_ACCESSOR(unit, std::string);
-	DEF_ADAPTER_ACCESSOR(buttononly, bool);
-	DEF_ADAPTER_ACCESSOR(words, std::vector<std::string>);
-	DEF_ADAPTER_ACCESSOR(partial, bool);
+	DEF_ADAPTER_ACCESSOR(public, public, double, x);
+	DEF_ADAPTER_ACCESSOR(public, public, double, y);
+	DEF_ADAPTER_ACCESSOR(public, public, double, size);
+	DEF_ADAPTER_ACCESSOR(public, public,unsigned int, color);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, enabled);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, asc);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, unit);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, buttononly);
+	DEF_ADAPTER_ACCESSOR(public, public, std::vector<std::string>, words);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, partial);
 public:
 	explicit Sum(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
@@ -153,14 +152,14 @@ public:
 		SET_PARAM(sum);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(x, double);
-	DEF_ADAPTER_ACCESSOR(y, double);
-	DEF_ADAPTER_ACCESSOR(color,unsigned int);
-	DEF_ADAPTER_ACCESSOR(visible, bool);
-	DEF_ADAPTER_ACCESSOR(pos, std::string);
-	DEF_ADAPTER_ACCESSOR(unit, std::string);
-	DEF_ADAPTER_ACCESSOR(asc, bool);
-	DEF_ADAPTER_ACCESSOR(sum, std::vector<util::Handler<Sum> >);
+	DEF_ADAPTER_ACCESSOR(public, public, double, x);
+	DEF_ADAPTER_ACCESSOR(public, public, double, y);
+	DEF_ADAPTER_ACCESSOR(public, public,unsigned int, color);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, unit);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, asc);
+	DEF_ADAPTER_ACCESSOR(public, public, std::vector<util::Handler<Sum> >, sum);
 public:
 	explicit SumResult(System& system)
 	:SystemItem(system), SET_DEFAULT(visible, false){};
@@ -188,18 +187,18 @@ public:
 		SET_PARAM(mover);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(text, std::string);
-	DEF_ADAPTER_ACCESSOR(x, double);
-	DEF_ADAPTER_ACCESSOR(y, double);
-	DEF_ADAPTER_ACCESSOR(z, double);
-	DEF_ADAPTER_ACCESSOR(size, double);
-	DEF_ADAPTER_ACCESSOR(pos, std::string);
-	DEF_ADAPTER_ACCESSOR(color, unsigned int);
-	DEF_ADAPTER_ACCESSOR(bold, bool);
-	DEF_ADAPTER_ACCESSOR(visible, bool);
-	DEF_ADAPTER_ACCESSOR(filter, std::string);
-	DEF_ADAPTER_ACCESSOR(alpha, double);
-	DEF_ADAPTER_ACCESSOR(mover, std::string);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, text);
+	DEF_ADAPTER_ACCESSOR(public, public, double, x);
+	DEF_ADAPTER_ACCESSOR(public, public, double, y);
+	DEF_ADAPTER_ACCESSOR(public, public, double, z);
+	DEF_ADAPTER_ACCESSOR(public, public, double, size);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
+	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, bold);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, filter);
+	DEF_ADAPTER_ACCESSOR(public, public, double, alpha);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Label(System& system):
 	SystemItem(system), SET_DEFAULT(visible, false){};
@@ -224,14 +223,14 @@ public:
 		SET_PARAM(hidden);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(message, std::string);
-	DEF_ADAPTER_ACCESSOR(mail, std::string);
-	DEF_ADAPTER_ACCESSOR(vpos, double);
-	DEF_ADAPTER_ACCESSOR(commes, std::string);
-	DEF_ADAPTER_ACCESSOR(commail, std::string);
-	DEF_ADAPTER_ACCESSOR(comvisible, bool);
-	DEF_ADAPTER_ACCESSOR(limit, int);
-	DEF_ADAPTER_ACCESSOR(hidden, bool);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, message);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, mail);
+	DEF_ADAPTER_ACCESSOR(public, public, double, vpos);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, commes);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, commail);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, comvisible);
+	DEF_ADAPTER_ACCESSOR(public, public, int, limit);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, hidden);
 public:
 	explicit Button(System& system)
 	:SystemItem(system), SET_DEFAULT(hidden, true){};
@@ -257,15 +256,15 @@ public:
 		SET_PARAM(pos);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(src, std::string);
-	DEF_ADAPTER_ACCESSOR(dst, std::string);
-	DEF_ADAPTER_ACCESSOR(enabled, bool);
-	DEF_ADAPTER_ACCESSOR(target, std::string);
-	DEF_ADAPTER_ACCESSOR(fill, bool);
-	DEF_ADAPTER_ACCESSOR(partial, bool);
-	DEF_ADAPTER_ACCESSOR(color, unsigned int);
-	DEF_ADAPTER_ACCESSOR(size, std::string);
-	DEF_ADAPTER_ACCESSOR(pos, std::string);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, src);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, dst);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, enabled);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, target);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, fill);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, partial);
+	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, size);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 public:
 	enum{
 		SAME_COLOR=0xffffffff
@@ -327,10 +326,9 @@ public:
 	explicit Comment();
 	virtual ~Comment(){};
 public:
-	bool isValid() const{return type != INVALID;};
-	bool hasScript() const{return type == SCRIPT;};
-	bool isComment() const{return type == COMMENT;};
-	static Comment from(const float vpos, const std::string& mail, const std::string& message);
+	bool isValid() const;
+	bool hasScript() const;
+	bool isComment() const;
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -392,17 +390,17 @@ public: /* スクリプトから参照される */
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
 public:
-	DEF_ADAPTER_ACCESSOR(commentColor, unsigned int);
-	DEF_ADAPTER_ACCESSOR(commentPlace, std::string);
-	DEF_ADAPTER_ACCESSOR(commentSize, std::string);
-	DEF_ADAPTER_ACCESSOR(commentInvisible, bool);
-	DEF_ADAPTER_ACCESSOR(commentReverse, bool);
-	DEF_ADAPTER_ACCESSOR(defaultSage, bool);
-	DEF_ADAPTER_ACCESSOR(postDisabled, bool);
-	DEF_ADAPTER_ACCESSOR(seekDisabled, bool);
-	DEF_ADAPTER_ACCESSOR(isLoaded, bool);
-	DEF_ADAPTER_ACCESSOR(isWide, bool);
-	DEF_ADAPTER_ACCESSOR(lastVideo, std::string);
+	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, commentColor);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, commentPlace);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, commentSize);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, commentInvisible);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, commentReverse);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, defaultSage);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, postDisabled);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, seekDisabled);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, isLoaded);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, isWide);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, lastVideo);
 private:
 	std::map<std::string, double> markerMap;
 	std::set<Shape*> shapeList;
