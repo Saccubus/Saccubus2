@@ -10,6 +10,10 @@
 #include "../../../../saccubus/meta/Comment.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
+
 TEST(ThreadTest, ThreadTest_ThradInfo)
 {
 	Thread* th = new Thread(log_err, MATERIAL_DIR"sm14097905_thread_1302222473.xml");
@@ -45,3 +49,4 @@ TEST(ThreadTest, ThreadTest_CommentInfo)
 	delete th;
 }
 
+}}}

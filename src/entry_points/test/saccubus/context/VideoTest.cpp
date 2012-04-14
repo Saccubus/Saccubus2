@@ -8,13 +8,17 @@
 #include "../../TestCommon.h"
 #include "../../../../saccubus/logging/Logger.h"
 #include "../../../../saccubus/meta/Video.h"
-#include "../../../../saccubus/context/ThreadContext.h"
-#include "../../../../saccubus/context/VideoContext.h"
+#include "../../../../saccubus/context/Thread.h"
+#include "../../../../saccubus/context/Video.h"
 #include "../../../../saccubus/python/PyBridge.h"
 #include <sstream>
 using namespace saccubus;
 
-class VideoContextTest : public ::testing::Test{
+namespace saccubus{
+namespace test {
+namespace context{
+
+class Context_VideoTest : public ::testing::Test{
 protected:
 	python::PyBridge* bridge;
 	meta::Video* video;
@@ -36,9 +40,11 @@ public:
 	}
 };
 
-TEST_F(VideoContextTest, BasicTest)
+TEST_F(Context_VideoTest, BasicTest)
 {
-	context::VideoContext* ctx = new context::VideoContext(bridge, video);
+	saccubus::context::Video* ctx = new saccubus::context::Video(bridge, video);
 	ASSERT_EQ(1U, ctx->threadSize());
 	delete ctx;
 }
+
+}}}

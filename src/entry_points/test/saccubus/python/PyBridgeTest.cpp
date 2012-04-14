@@ -15,6 +15,10 @@
 using namespace saccubus::python;
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace python {
+
 TEST(PyBridgeTest, InitTest)
 {
 	PyBridge bridge(log_err);
@@ -40,3 +44,4 @@ TEST(PyBridgeTest, BasicFilterTest)
 	ASSERT_EQ(true, bridge.askCommentShouldBeIgnored(MATERIAL_DIR"test_filter.py", *com));
 }
 
+}}}

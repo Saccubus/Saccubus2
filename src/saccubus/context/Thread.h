@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef THREADCONTEXT_H_
-#define THREADCONTEXT_H_
+#ifndef CONTEXT_THREAD_H_
+#define CONTEXT_THREAD_H_
 
 #include <vector>
 #include <nekomata/system/System.h>
@@ -15,7 +15,7 @@
 namespace saccubus {
 namespace context {
 
-class ThreadContext {
+class Thread {
 private:
 	python::PyBridge* const bridge;
 	const meta::Thread* const origThread;
@@ -23,8 +23,8 @@ private:
 	std::vector<const nekomata::system::Comment*> commentList;
 	void process();
 public:
-	ThreadContext(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo);
-	virtual ~ThreadContext();
+	Thread(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo);
+	virtual ~Thread();
 public:
 	typedef std::vector<const nekomata::system::Comment*>::const_iterator CommentIterator;
 	CommentIterator commentBegin();
@@ -33,4 +33,4 @@ public:
 };
 
 }}
-#endif /* THREADCONTEXT_H_ */
+#endif /* CONTEXT_THREAD_H_ */

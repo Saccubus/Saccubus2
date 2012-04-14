@@ -10,6 +10,10 @@
 #include "mock/SpriteFactory.h"
 using namespace saccubus::test::draw;
 
+namespace saccubus{
+namespace test {
+namespace context{
+
 TEST(SpriteFactoryTest, BasicQueryTest)
 {
 	SpriteFactory factory;
@@ -45,4 +49,5 @@ TEST(SpriteFactoryTest, AllocationTest)
 	ASSERT_EQ(11, handler->height());
 }
 
+}}}
 

@@ -10,6 +10,10 @@
 #include "../../../../saccubus/python/ScriptException.h"
 using namespace saccubus::python;
 
+namespace saccubus{
+namespace test {
+namespace python {
+
 class PyBridgeImplTest : public ::testing::Test{
 protected:
 	PyBridgeImpl* bridge;
@@ -73,6 +77,4 @@ TEST_F(PyBridgeImplTest, FailTest)
 	ASSERT_THROW(session->executeMethodDict("test_run_fail", std::vector<std::pair<std::string, std::string> >()), ScriptException);
 }
 
-
-
-
+}}}

@@ -8,6 +8,10 @@
 #include "../../../../saccubus/util/StringUtil.h"
 using namespace saccubus::util;
 
+namespace saccubus{
+namespace test {
+namespace util {
+
 TEST(StringUtilTest, FormatTest)
 {
 	ASSERT_EQ("NOT_FORMATTED", format("NOT_FORMATTED"));
@@ -53,3 +57,4 @@ TEST(StringUtilTest, EndsWithTest)
 	ASSERT_TRUE(endsWith("abcdef","abcdef"));
 }
 
+}}}

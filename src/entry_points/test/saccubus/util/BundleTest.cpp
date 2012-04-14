@@ -12,9 +12,13 @@
 #include "../../../../saccubus/util/Bundle.h"
 using namespace saccubus::util;
 
+namespace saccubus{
+namespace test {
+namespace util {
+
 static const std::string RPU_JSON="{\"count\":1595356,\"users\":[\"\\u3061\\u3073\\u7f8e\\u3002\",\"\\u308c\\u3093\\u3075\\u3041\",\"harutti92\",\"247 \\/ \\u4ec1\\u79d1\",\"nikola\",\"\\u4e9c\\u9f8d\",\"rc42\",\"\\u307e\\u3042\",\"\\u3081\\u3081\",\"shojikatyou\",\"\\u5929\\u6d25\\u7518\\u6817\",\"\\u30a2\\u30e9\\u30b8\\u30f3\\u30ca\\u30a4\\u30c8\",\"\\u3082\\u3081\\u3093\",\"sleep714\",\"\\u30e9\\u30de\",\"\\u3082\\u3063\\u3061\\u3083\\u3093\",\"\\u30ca\\u30eb\\u30b9\",\"Ryousuke\",\"ikaros\",\"\\u306f\\u308b\\u3054\\u3093\\u592a\\u90ce\"],\"extra\":18}";
 
-TEST(VideobundleTest, ParseTest)
+TEST(BundleTest, ParseTest)
 {
 	std::ifstream stream(MATERIAL_DIR"getflv.txt");
 	std::string str;
@@ -43,3 +47,4 @@ TEST(VideobundleTest, ParseTest)
 	ASSERT_EQ(RPU_JSON, bundle.getString("rpu"));
 }
 
+}}}

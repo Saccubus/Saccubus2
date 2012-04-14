@@ -9,6 +9,9 @@
 #include "../../../../saccubus/meta/MetaInfo.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
 
 TEST(MetaInfoTest, BasicReadingTest)
 {
@@ -16,3 +19,4 @@ TEST(MetaInfoTest, BasicReadingTest)
 	ASSERT_EQ("【NIVA】 みくみくにしてあげる♪ 【サンプル1】", info.title());
 }
 
+}}}

@@ -9,6 +9,10 @@
 #include "../../../../saccubus/logging/Exception.h"
 using namespace saccubus::logging;
 
+namespace saccubus{
+namespace test {
+namespace logging{
+
 TEST(ExceptionTest, ThrowingTest)
 {
 	ASSERT_THROW(throw Exception("Hey!"), Exception);
@@ -23,4 +27,5 @@ TEST(ExceptionTest, MessageTest)
 	ASSERT_EQ("12", e2.what());
 }
 
+}}}
 

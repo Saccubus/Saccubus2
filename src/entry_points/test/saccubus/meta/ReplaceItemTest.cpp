@@ -9,6 +9,10 @@
 #include "../../../../saccubus/meta/ReplaceItem.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
+
 TEST(ReplaceItemTest, SetGetTest)
 {
 	const ReplaceItem item("a", "b", true);
@@ -29,4 +33,4 @@ TEST(ReplaceItemTest, ReplaceTest)
 	ASSERT_EQ("bbbc", itemWhole.replace("bbbc"));
 }
 
-
+}}}

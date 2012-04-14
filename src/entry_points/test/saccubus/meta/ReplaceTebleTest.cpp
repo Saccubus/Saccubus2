@@ -9,6 +9,10 @@
 #include "../../../../saccubus/meta/ReplaceTable.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
+
 TEST(ReplaceTableTest, SimpleTest)
 {
 	ReplaceTable table("a=b");
@@ -49,3 +53,5 @@ TEST(ReplaceTableTest, MoreComplicatedTest)
 	ASSERT_EQ("c", tableWhole.replace("abcd"));
 	ASSERT_EQ("cdcd", tableWhole.replace("cdcd"));
 }
+
+}}}

@@ -5,40 +5,40 @@
  *      Author: psi
  */
 
-#include "VideoContext.h"
+#include "Video.h"
+#include "Thread.h"
 #include "../meta/Video.h"
 #include "../meta/Thread.h"
-#include "ThreadContext.h"
 
 namespace saccubus {
 namespace context {
 
-VideoContext::VideoContext(python::PyBridge* const bridge, const meta::Video* const video)
+Video::Video(python::PyBridge* const bridge, const meta::Video* const video)
 :bridge(bridge), video(video){
 	for(meta::Video::ThreadIterator it = video->threadBegin(); it != video->threadEnd(); ++it){
 		const meta::Thread* const thread = it->second;
 
-		ThreadContext* const threadContext = new ThreadContext(bridge, thread, video->playInfo());
+		Thread* const threadContext = new Thread(bridge, thread, video->playInfo());
 		this->threads.push_back(threadContext);
 	}
 
 }
 
-VideoContext::~VideoContext() {
-	for(std::vector<ThreadContext*>::iterator it = threads.begin(); it != threads.end(); ++it){
+Video::~Video() {
+	for(std::vector<Thread*>::iterator it = threads.begin(); it != threads.end(); ++it){
 		delete *it;
 	}
 }
 
-VideoContext::ThreadIterator VideoContext::threadBegin() const
+Video::ThreadIterator Video::threadBegin() const
 {
 	return this->threads.begin();
 }
-VideoContext::ThreadIterator VideoContext::threadEnd() const
+Video::ThreadIterator Video::threadEnd() const
 {
 	return this->threads.end();
 }
-std::size_t VideoContext::threadSize() const
+std::size_t Video::threadSize() const
 {
 	return this->threads.size();
 }

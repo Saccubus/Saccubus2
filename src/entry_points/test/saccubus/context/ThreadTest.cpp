@@ -9,12 +9,16 @@
 #include "../../../../saccubus/logging/Logger.h"
 #include "../../../../saccubus/meta/Thread.h"
 #include "../../../../saccubus/meta/PlayInfo.h"
-#include "../../../../saccubus/context/ThreadContext.h"
+#include "../../../../saccubus/context/Thread.h"
 #include "../../../../saccubus/python/PyBridge.h"
 #include <sstream>
 using namespace saccubus;
 
-class ThreadContextTest : public ::testing::Test{
+namespace saccubus{
+namespace test {
+namespace context{
+
+class Context_ThreadTest : public ::testing::Test{
 protected:
 	python::PyBridge* bridge;
 	meta::Thread* th;
@@ -31,13 +35,13 @@ public:
 		delete th;
 	}
 };
-TEST_F(ThreadContextTest, LevelTest)
+TEST_F(Context_ThreadTest, LevelTest)
 {
-	context::ThreadContext* ctx = new context::ThreadContext(bridge, th, playInfo);
+	saccubus::context::Thread* ctx = new saccubus::context::Thread(bridge, th, playInfo);
 
 	ASSERT_EQ(1020U, ctx->commentSize());
 
 	delete ctx;
 }
 
-
+}}}

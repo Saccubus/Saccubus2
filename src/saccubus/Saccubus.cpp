@@ -15,11 +15,14 @@
 #include "logging/Logger.h"
 #include "meta/MetaInfo.h"
 #include "meta/Video.h"
+#include "PluginOrganizer.h"
 #include "Saccubus.h"
 
 namespace saccubus {
 
 static const std::string RESOLVE_PREFIX("--resolve-");
+static const std::string PLUGIN_PREFIX("--plugin-");
+
 static const std::string TAG("Saccubus");
 
 const struct option ARG_OPTIONS[] = {
@@ -57,6 +60,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 ,bridge(0)
 {
 	logging::Logger::Level level = logging::Logger::WARN_;
+	std::map<std::string, std::string> organizerArg;
 	int index = 0;
 	while ( 1 )
 	{
@@ -103,8 +107,16 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		{
 			std::string arg(argv[index]);
 			if(index+1<argc && util::startsWith(arg, RESOLVE_PREFIX)){
-				++index;
-				this->resolveOpts.push_back(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[index]));
+				this->resolveOpts.push_back(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[++index]));
+			}else if(index+1<argc && util::startsWith(arg, PLUGIN_PREFIX)){
+				const std::string key(arg.substr(RESOLVE_PREFIX.size()));
+				const std::string val(argv[index]);
+				std::map<std::string, std::string>::iterator it = organizerArg.find(key);
+				if(it != organizerArg.end()){
+					log->w(TAG, "Plugin argument duplicated: %s", arg.c_str());
+					organizerArg.erase(it);
+				}
+				organizerArg.insert(std::pair<std::string, std::string>(key, val));
 			}
 			break;
 		}
@@ -113,6 +125,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 
 	this->log = new logging::Logger(logStream, level);
 	this->bridge = new python::PyBridge(*this->log);
+	this->pluginOrganizer = new PluginOrganizer(organizerArg);
 
 	if(optind >= argc){
 		throw logging::Exception("You need to set video id!");
@@ -127,6 +140,7 @@ Saccubus::~Saccubus() {
 	if(currentVideo){
 		delete currentVideo;
 	}
+	delete pluginOrganizer;
 	delete bridge;
 	delete log;
 }

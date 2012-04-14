@@ -10,6 +10,10 @@
 #include "../../../../saccubus/meta/ReplaceTable.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
+
 TEST(PlayInfoTest, BasicReadingTest)
 {
 	PlayInfo info(log_err, MATERIAL_DIR"getflv.txt");
@@ -28,3 +32,4 @@ TEST(PlayInfoTest, ReplaceTest)
 	ASSERT_EQ("tt", table->replace("test2test2"));
 }
 
+}}}

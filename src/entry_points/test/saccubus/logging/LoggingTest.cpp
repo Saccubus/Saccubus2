@@ -9,6 +9,10 @@
 #include "../../../../saccubus/logging/Logger.h"
 #include <sstream>
 
+namespace saccubus{
+namespace test {
+namespace logging {
+
 TEST(LoggerTest, LevelTest)
 {
 	std::ostringstream ss;
@@ -60,3 +64,4 @@ TEST(LoggerTest, LogTest)
 	ASSERT_GT(ss.str().size(), 0U);
 }
 
+}}}

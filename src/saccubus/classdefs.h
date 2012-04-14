@@ -8,13 +8,20 @@
 #ifndef SACCUBUS_CLASSDEFS_H_
 #define SACCUBUS_CLASSDEFS_H_
 
+/**
+ * *ちゅうい！*
+ * このクラス一覧には、抽象的なクラス＊のみ＊記述する。
+ * 実際の描画ライブラリや、配置ロジックに依存したクラスは、PluginOrganizerなどを用いて
+ * 依存性注入すること。
+ */
 namespace saccubus{
 class Saccubus;
 class Adapter;
+class PluginOrganizer;
 
 namespace context{
-class VideoContext;
-class ThreadContext;
+class Video;
+class Thread;
 }
 
 namespace draw{
@@ -29,8 +36,10 @@ class Logger;
 class Exception;
 }
 
-namespace Layer{
+namespace layer{
 class Layer;
+class CommentLayer;
+class ThreadLayer;
 }
 
 namespace meta{

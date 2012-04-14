@@ -1,12 +1,12 @@
 /*
- * VideoContext.h
+ * Video.h
  *
  *  Created on: 2012/04/12
  *      Author: psi
  */
 
-#ifndef VIDEOCONTEXT_H_
-#define VIDEOCONTEXT_H_
+#ifndef CONTEXT_VIDEO_H_
+#define CONTEXT_VIDEO_H_
 
 #include <vector>
 #include "../classdefs.h"
@@ -14,21 +14,21 @@
 namespace saccubus {
 namespace context {
 
-class VideoContext {
+class Video {
 private:
 	python::PyBridge* const bridge;
 	const meta::Video* const video;
 	//最初にあるレイヤから描画する。つまり、一番最初のスレッドは一番下に描画される。
-	std::vector<ThreadContext*> threads;
+	std::vector<Thread*> threads;
 public:
-	VideoContext(python::PyBridge* const bridge, const meta::Video* const video);
-	virtual ~VideoContext();
+	Video(python::PyBridge* const bridge, const meta::Video* const video);
+	virtual ~Video();
 public:
-	typedef std::vector<ThreadContext*>::const_iterator ThreadIterator;
+	typedef std::vector<Thread*>::const_iterator ThreadIterator;
 	ThreadIterator threadBegin() const;
 	ThreadIterator threadEnd() const;
 	std::size_t threadSize() const;
 };
 
 }}
-#endif /* VIDEOCONTEXT_H_ */
+#endif /* CONTEXT_VIDEO_H_ */

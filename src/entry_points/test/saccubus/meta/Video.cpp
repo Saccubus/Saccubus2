@@ -10,6 +10,11 @@
 #include "../../../../saccubus/meta/Video.h"
 using namespace saccubus::meta;
 
+namespace saccubus{
+namespace test {
+namespace meta {
+
+
 TEST(VideoTest, ReadingTest)
 {
 	Video video(log_err);
@@ -27,4 +32,4 @@ TEST(VideoTest, ReadingTest)
 	ASSERT_TRUE(video.hasThread(1302222473L));
 }
 
-
+}}}

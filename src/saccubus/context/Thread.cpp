@@ -6,7 +6,7 @@
  */
 
 #include <algorithm>
-#include "ThreadContext.h"
+#include "Thread.h"
 #include "../meta/Thread.h"
 #include "../meta/PlayInfo.h"
 #include "../meta/ReplaceTable.h"
@@ -15,13 +15,13 @@
 namespace saccubus {
 namespace context {
 
-ThreadContext::ThreadContext(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo)
+Thread::Thread(python::PyBridge* const bridge, const meta::Thread* const origThread, const meta::PlayInfo* playInfo)
 :bridge(bridge), origThread(origThread), playInfo(playInfo)
 {
 	this->process();
 }
 
-ThreadContext::~ThreadContext() {
+Thread::~Thread() {
 	for(std::vector<const nekomata::system::Comment*>::iterator it=commentList.begin();it != commentList.end(); ++it){
 		delete *it;
 	}
@@ -32,7 +32,7 @@ static bool order(const nekomata::system::Comment* const a, const nekomata::syst
 	return a->vpos() < b->vpos();
 }
 
-void ThreadContext::process()
+void Thread::process()
 {
 	for(meta::Thread::Iterator it = origThread->begin(); it != origThread->end(); ++it){
 		const meta::Comment* const origCom = *it;
@@ -52,15 +52,15 @@ void ThreadContext::process()
 	}
 }
 
-ThreadContext::CommentIterator ThreadContext::commentBegin()
+Thread::CommentIterator Thread::commentBegin()
 {
 	return commentList.begin();
 }
-ThreadContext::CommentIterator ThreadContext::commentEnd()
+Thread::CommentIterator Thread::commentEnd()
 {
 	return commentList.end();
 }
-std::size_t ThreadContext::commentSize()
+std::size_t Thread::commentSize()
 {
 	return commentList.size();
 }
