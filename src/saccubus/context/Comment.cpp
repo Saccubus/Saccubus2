@@ -10,9 +10,9 @@
 namespace saccubus {
 namespace context {
 
-Comment::Comment() {
-	// TODO Auto-generated constructor stub
-
+Comment::Comment(const meta::Comment* comment)
+{
+	this->comment(comment);
 }
 
 Comment::~Comment() {

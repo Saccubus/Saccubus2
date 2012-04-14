@@ -30,6 +30,8 @@ private:
 public:
 	ThreadLayer(PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
+public:
+	virtual void draw(float vpos, draw::Canvas* canvas);
 };
 
 }}

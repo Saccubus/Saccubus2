@@ -20,8 +20,7 @@ class Adapter;
 class PluginOrganizer;
 
 namespace context{
-class Video;
-class Thread;
+class Comment;
 }
 
 namespace draw{
@@ -40,6 +39,7 @@ namespace layer{
 class Layer;
 class CommentLayer;
 class ThreadLayer;
+class VideoLayer;
 }
 
 namespace meta{

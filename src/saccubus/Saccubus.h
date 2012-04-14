@@ -45,6 +45,7 @@ private:
 	std::vector<std::pair<std::string, std::string> > resolveOpts;
 	std::string firstVideoId;
 	const meta::Video* currentVideo;
+private:
 	PluginOrganizer* pluginOrganizer;
 private:
 	python::PyBridge* bridge;

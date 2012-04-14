@@ -17,6 +17,9 @@ class NekomataLayer: public saccubus::layer::Layer {
 public:
 	NekomataLayer();
 	virtual ~NekomataLayer();
+public:
+	virtual void draw(float vpos, draw::Canvas* canvas);
 };
+
 }}
 #endif /* NEKOMATALAYER_H_ */

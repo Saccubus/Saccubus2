@@ -26,7 +26,6 @@ public:
 	virtual ~PluginOrganizer();
 public:
 	draw::Canvas* newCanvas();
-	draw::SpriteFactory* newSpriteFactory();
 	draw::CommentFactory* newCommentFactory();
 	layer::CommentLayer* newCommentLayer();
 };

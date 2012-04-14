@@ -13,8 +13,9 @@ PluginOrganizer::PluginOrganizer(const std::map<std::string, std::string>& confi
 :config(config.begin(), config.end()){
 	//デフォルトの値を設定
 	// insertは、すでに値がある場合は上書きされない。
-	this->config.insert(std::pair<std::string, std::string>("comment", "simple"));
+	this->config.insert(std::pair<std::string, std::string>("graphic", "sdl"));
 	this->config.insert(std::pair<std::string, std::string>("text", "simple"));
+	this->config.insert(std::pair<std::string, std::string>("comment", "simple"));
 
 }
 
