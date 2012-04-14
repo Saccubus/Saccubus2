@@ -8,6 +8,7 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
+#include <tr1/memory>
 #include "../classdefs.h"
 #include "../util/ClassAccessor.h"
 
@@ -26,6 +27,28 @@ public:
 class Sprite {
 	DEF_ATTR_ACCESSOR(public, protected, int, width);
 	DEF_ATTR_ACCESSOR(public, protected, int, height);
+private:
+	int refcount;
+public:
+	class Handler
+	{
+	private:
+		void incref();
+		void decref();
+	private:
+		Sprite* sprite;
+		std::tr1::shared_ptr<SpriteFactory*> factory;
+	public:
+		explicit Handler(Sprite* const sprite, std::tr1::shared_ptr<SpriteFactory*> factory);
+	public:
+		Handler();
+		Handler(const Handler& other);
+		Handler& operator=(const Handler& other);
+		virtual ~Handler();
+		Sprite* operator->() const;
+		Sprite* operator*() const;
+		operator bool() const;
+	};
 protected:
 	Sprite();
 public:

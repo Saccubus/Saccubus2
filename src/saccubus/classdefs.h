@@ -20,6 +20,8 @@ class ThreadContext;
 namespace draw{
 class Sprite;
 class Canvas;
+class SpriteFactory;
+class CommentFactory;
 }
 
 namespace logging{

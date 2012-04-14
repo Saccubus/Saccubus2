@@ -17,9 +17,6 @@ class Canvas {
 public:
 	Canvas();
 	virtual ~Canvas();
-public:
-	virtual Sprite* querySprite(int w, int h) = 0;
-public:
 };
 
 }}
