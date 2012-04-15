@@ -64,7 +64,7 @@ void loop() {
 			}
 		}
 
-		sacc.draw((float)now/(1000*FACTOR), 0);
+		//sacc.draw((float)now/(1000*FACTOR), 0);
 
 		++fps;
 		now = SDL_GetTicks();

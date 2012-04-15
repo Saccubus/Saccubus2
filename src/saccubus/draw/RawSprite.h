@@ -32,6 +32,22 @@ public:
 		RawSprite* operator*() const;
 		operator bool() const;
 	};
+	class Session{
+	private:
+		RawSprite* const sprite;
+		void* _data;
+		int _w;
+		int _h;
+		int _stride;
+	public:
+		Session(RawSprite* spr);
+		virtual ~Session();
+	public:
+		void* data() const;
+		int width() const;
+		int height() const;
+		int stride() const;
+	};
 private:
 	int refcount;
 	std::tr1::shared_ptr<Renderer*> _renderer;
@@ -43,6 +59,9 @@ protected:
 	Renderer* renderer(){ return *(_renderer.get()); };
 public:
 	virtual ~RawSprite();
+protected:
+	virtual void lock(void** data, int* w, int* h, int* stride) = 0;
+	virtual void unlock() = 0;
 public:
 	virtual void draw(Renderer* renderer, int x, int y) = 0;
 	virtual void shrink(int w, int h);

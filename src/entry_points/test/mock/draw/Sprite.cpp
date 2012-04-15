@@ -31,5 +31,17 @@ void Sprite::draw(saccubus::draw::Renderer* __renderer, int x, int y)
 	renderer.draw(x, y, this);
 }
 
+void Sprite::lock(void** data, int* w, int* h, int* stride)
+{
+	//FIXME
+	*data = 0;
+	*w = -1;
+	*h = -1;
+	*stride = -1;
+}
+void Sprite::unlock()
+{
+
+}
 
 }}}

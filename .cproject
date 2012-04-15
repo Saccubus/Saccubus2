@@ -18,43 +18,44 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.1608868685" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.1608868685" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.1608868685." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.330395456" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
+						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.exe.debug.330395456" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.exe.debug.564018548" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/nicovideo/Debug}" id="cdt.managedbuild.target.gnu.builder.exe.debug.1384083192" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
+							<builder buildPath="${workspace_loc:/nicovideo/Debug}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.target.gnu.builder.exe.debug.1384083192" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.55470445" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1482319822" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1482319822" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1877735043" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1299964599" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.322852780" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.322852780" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.173081263" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1104521883" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.undef.148794462" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" valueType="undefDefinedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.516313103" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.172800927" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
+							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.172800927" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.1273198839" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1432091653" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.misc.other.256274486" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+								<option id="gnu.c.compiler.option.misc.other.256274486" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.13103670" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.2020333936" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1460258005" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1744160532" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.661990164" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
-								<option id="gnu.cpp.link.option.flags.336554972" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `xml2-config --libs` `python3-config --ldflags` `sdl2-config --static-libs`" valueType="string"/>
+							<tool errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.661990164" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
+								<option id="gnu.cpp.link.option.flags.336554972" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.1957020860" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/Library}&quot;"/>
 								</option>
@@ -63,19 +64,22 @@
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="z"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="gtest"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="freetype"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1205333723" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1093635632" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
+							<tool errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1093635632" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.654019709" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2136145602" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -86,15 +90,7 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Library"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
-					</externalSetting>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.release.102821655">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.102821655" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -111,43 +107,45 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.release.102821655" name="Release" parent="cdt.managedbuild.config.gnu.exe.release">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.exe.release.102821655" name="Release" parent="cdt.managedbuild.config.gnu.exe.release" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.release.102821655." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.610519017" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
+						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.exe.release.610519017" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.exe.release.2114134715" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
-							<builder buildPath="${workspace_loc:/nicovideo/Release}" id="cdt.managedbuild.target.gnu.builder.exe.release.1496783511" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
+							<builder buildPath="${workspace_loc:/nicovideo/Release}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.target.gnu.builder.exe.release.1496783511" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1986519876" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.947354540" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
-								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.1651372375" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1139565121" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.964600147" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.947354540" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
+								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.1651372375" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1139565121" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.other.other.964600147" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.147339621" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.125380033" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.undef.1379280072" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" valueType="undefDefinedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.517080070" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1688585171" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
-								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.502522645" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" valueType="enumerated"/>
-								<option id="gnu.c.compiler.exe.release.option.debugging.level.842645767" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.misc.other.258762114" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1688585171" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.502522645" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" value="gnu.c.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.exe.release.option.debugging.level.842645767" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.misc.other.258762114" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.1414239272" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
+								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1846555747" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol" valueType="undefDefinedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.334273356" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1080192027" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.990651857" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
-								<option id="gnu.cpp.link.option.flags.773894191" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `xml2-config --libs`  `python3-config --ldflags` `sdl2-config --static-libs`" valueType="string"/>
+							<tool errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.990651857" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
+								<option id="gnu.cpp.link.option.flags.773894191" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.921886902" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/Library}&quot;"/>
 								</option>
@@ -156,19 +154,22 @@
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="z"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="gtest"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="freetype"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1123606248" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.699124687" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
+							<tool errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.assembler.exe.release.699124687" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
 								<option id="gnu.both.asm.option.include.paths.732472538" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1799807157" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -179,15 +180,7 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Library"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
-					</externalSetting>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510" moduleId="org.eclipse.cdt.core.settings" name="Test">
@@ -204,42 +197,45 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510" name="Test" parent="cdt.managedbuild.config.gnu.exe.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510" name="Test" parent="cdt.managedbuild.config.gnu.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.1458937642" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
+						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.exe.debug.1458937642" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.exe.debug.617796493" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/nicovideo/Debug}" id="cdt.managedbuild.target.gnu.builder.exe.debug.2143827585" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
+							<builder buildPath="${workspace_loc:/nicovideo/Debug}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.target.gnu.builder.exe.debug.2143827585" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1596105865" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1207946822" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1207946822" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.821149577" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.226618512" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1278844605" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.1278844605" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1180095354" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1127115469" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<option id="gnu.cpp.compiler.option.debugging.prof.1803727249" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.undef.1162038393" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" valueType="undefDefinedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1118989766" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
+							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1118989766" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.272244135" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.273095195" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.misc.other.1635186006" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags`" valueType="string"/>
+								<option id="gnu.c.compiler.option.misc.other.1635186006" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.333985847" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1029319254" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.707592903" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.2030498919" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.66734910" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
-								<option id="gnu.cpp.link.option.flags.2122253935" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `xml2-config --libs`  `python3-config --ldflags` `sdl2-config --static-libs`" valueType="string"/>
+							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.66734910" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
+								<option id="gnu.cpp.link.option.flags.2122253935" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.1666349967" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/Library}&quot;"/>
 								</option>
@@ -250,18 +246,20 @@
 									<listOptionValue builtIn="false" value="m"/>
 									<listOptionValue builtIn="false" value="gtest"/>
 									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="freetype"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1317784405" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1849888546" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
+							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1849888546" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1033140507" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1156728690" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -272,15 +270,7 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Library"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
-					</externalSetting>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102" moduleId="org.eclipse.cdt.core.settings" name="WinTest">
@@ -337,6 +327,7 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1334247816" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.568811975" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.other.other.526776215" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags` `freetype-config --cflags` `pkg-config cairo --cflags`" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1489056681" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1643405043" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
@@ -378,6 +369,7 @@
 									<listOptionValue builtIn="false" value="oleaut32"/>
 									<listOptionValue builtIn="false" value="version"/>
 									<listOptionValue builtIn="false" value="uuid"/>
+									<listOptionValue builtIn="false" value="freetype"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2015716924" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>
@@ -465,6 +457,7 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.814694638" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1252759093" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.other.other.1078075577" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags` `freetype-config --cflags` `pkg-config cairo --cflags`" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.381463954" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.607921291" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
@@ -506,6 +499,7 @@
 									<listOptionValue builtIn="false" value="oleaut32"/>
 									<listOptionValue builtIn="false" value="version"/>
 									<listOptionValue builtIn="false" value="uuid"/>
+									<listOptionValue builtIn="false" value="freetype"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.309961744" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>

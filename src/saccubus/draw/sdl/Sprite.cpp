@@ -48,6 +48,21 @@ void Sprite::draw(draw::Renderer* __renderer, int x, int y)
 		throw logging::Exception("Failed to render SDL Sprite!!");
 	}
 }
+void Sprite::lock(void** data, int* w, int* h, int* stride)
+{
+	SDL_Rect rect;
+	rect.x=0;
+	rect.y=0;
+	*w = this->width();
+	*h = this->height();
+	rect.w=*w;
+	rect.h=*h;
+	SDL_LockTexture(this->texture(), &rect, data, stride);
+}
+void Sprite::unlock()
+{
+	SDL_UnlockTexture(this->texture());
+}
 
 
 }}}

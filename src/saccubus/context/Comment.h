@@ -56,9 +56,9 @@ public:
 		softbank
 	};
 	enum Size{
-		Big,
-		Small,
-		Medium
+		Big=39,
+		Small=15,
+		Medium=24
 	};
 	enum PlaceX{
 		Right,
@@ -70,6 +70,7 @@ public:
 		Middle,
 		Bottom,
 	};
+	DEF_ATTR_ACCESSOR(public, public, std::string, message);
 	DEF_ATTR_ACCESSOR(public, public, const meta::Comment*, orig);
 	DEF_ATTR_ACCESSOR(public, public, float, from);
 	DEF_ATTR_ACCESSOR(public, public, float, to);

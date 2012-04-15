@@ -16,15 +16,18 @@ namespace sdl {
 
 Renderer::Renderer(const int w, const int h)
 :saccubus::draw::Renderer(w, h)
+,sdlInitializedByMe(!SDL_WasInit(SDL_INIT_VIDEO))
 {
-	if (SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+	if (sdlInitializedByMe && SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
 		throw saccubus::logging::Exception("Failed to initialize SDL: %s",
 				SDL_GetError());
 	}
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	if (SDL_CreateWindowAndRenderer(w, h, 0, &window, &renderer) < 0) {
-		SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	if (SDL_CreateWindowAndRenderer(w, h, SDL_WINDOW_HIDDEN, &window, &renderer) < 0) {
+		if(sdlInitializedByMe){
+			SDL_QuitSubSystem(SDL_INIT_VIDEO);
+		}
 		throw saccubus::logging::Exception(
 				"Failed to create window and renderer: %s", SDL_GetError());
 	}
@@ -36,7 +39,9 @@ Renderer::~Renderer() {
 	SDL_DestroyRenderer(this->renderer());
 	SDL_DestroyWindow(this->window());
 	this->renderer(0);
-	SDL_QuitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	if(sdlInitializedByMe){
+		SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	}
 }
 
 draw::RawSprite* Renderer::createSprite(int w, int h)

@@ -53,6 +53,35 @@ void RawSprite::decref()
 	}
 }
 
+
+//---------------------------------------------------------------------------------------------------------------------
+RawSprite::Session::Session(RawSprite* spr)
+:sprite(spr)
+{
+	this->sprite->lock(&_data, &_w, &_h, &_stride);
+}
+RawSprite::Session::~Session()
+{
+	this->sprite->unlock();
+}
+void* RawSprite::Session::data() const
+{
+	return this->_data;
+}
+int RawSprite::Session::width() const
+{
+	return this->_w;
+}
+int RawSprite::Session::height() const
+{
+	return this->_h;
+}
+int RawSprite::Session::stride() const
+{
+	return this->_stride;
+}
+
+
 //---------------------------------------------------------------------------------------------------------------------
 RawSprite::Handler::Handler(RawSprite* const sprite)
 :sprite(sprite)

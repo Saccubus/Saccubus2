@@ -21,6 +21,8 @@ namespace draw {
 namespace sdl {
 
 class Renderer : public saccubus::draw::Renderer {
+private:
+	const bool sdlInitializedByMe;
 	DEF_ATTR_ACCESSOR(public, private, SDL_Window*, window);
 	DEF_ATTR_ACCESSOR(public, private, SDL_Renderer*, renderer);
 public:
