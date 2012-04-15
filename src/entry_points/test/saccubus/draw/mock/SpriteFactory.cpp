@@ -18,9 +18,9 @@ SpriteFactory::SpriteFactory() {
 SpriteFactory::~SpriteFactory() {
 }
 
-saccubus::draw::Sprite* SpriteFactory::createSprite(int w, int h)
+saccubus::draw::RawSprite* SpriteFactory::createSprite(int w, int h)
 {
-	return new Sprite(w, h);
+	return new Sprite(handler(), w, h);
 }
 
 }}}

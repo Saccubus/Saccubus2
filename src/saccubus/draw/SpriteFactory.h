@@ -8,7 +8,7 @@
 #ifndef SPRITEFACTORY_H_
 #define SPRITEFACTORY_H_
 
-#include "Sprite.h"
+#include "RawSprite.h"
 #include "../classdefs.h"
 #include <vector>
 #include <tr1/memory>
@@ -20,10 +20,11 @@ class SpriteFactory {
 public:
 	SpriteFactory();
 	virtual ~SpriteFactory();
-protected:
-	virtual Sprite* createSprite(int w, int h) = 0;
 private:
-	const std::tr1::shared_ptr<SpriteFactory*> handler;
+	const std::tr1::shared_ptr<SpriteFactory*> _handler;
+protected:
+	const std::tr1::shared_ptr<SpriteFactory*> handler() { return _handler; };
+private:
 	struct order
 	{
 		bool operator() (const Sprite* a, const Sprite* b);
@@ -31,13 +32,15 @@ private:
 		bool operator() (const std::pair<int,int>& a, const Sprite* b);
 	};
 	// スプライトの大きさは変わる可能性があるが、unused状態であり変更されることはない。
-	std::vector<Sprite*> unusedSprites;
-	typedef std::vector<Sprite*>::iterator SpriteIterator;
+	std::vector<RawSprite*> unusedSprites;
+	typedef std::vector<RawSprite*>::iterator SpriteIterator;
 public:
-	Sprite::Handler querySprite(int w, int h);
+	RawSprite::Handler querySprite(int w, int h);
 	std::size_t availableSprites();
-public:
-	void backSprite(Sprite* spr);
+public: /* Spriteからのコールバック関数 */
+	void backSprite(RawSprite* spr);
+protected: /* 各実装がこれを実際に実装する */
+	virtual RawSprite* createSprite(int w, int h) = 0;
 };
 
 }}

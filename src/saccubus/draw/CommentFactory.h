@@ -8,7 +8,7 @@
 #ifndef COMMENTFACTORY_H_
 #define COMMENTFACTORY_H_
 
-#include "Sprite.h"
+#include "RawSprite.h"
 #include "../util/ClassAccessor.h"
 namespace saccubus {
 namespace draw {
@@ -20,7 +20,7 @@ public:
 	CommentFactory(SpriteFactory* sprFactory);
 	virtual ~CommentFactory();
 public:
-	virtual Sprite::Handler renderComment(const context::Comment* comment) = 0;
+	virtual RawSprite::Handler renderComment(const context::Comment* comment) = 0;
 };
 
 }}

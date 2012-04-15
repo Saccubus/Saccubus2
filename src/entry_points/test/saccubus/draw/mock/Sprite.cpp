@@ -16,8 +16,8 @@ Sprite::~Sprite() {
 	// TODO Auto-generated destructor stub
 }
 
-Sprite::Sprite(int w, int h)
-:saccubus::draw::Sprite(w, h)
+Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::SpriteFactory*> _factory, int w, int h)
+:saccubus::draw::RawSprite(_factory, w, h)
 {
 
 }

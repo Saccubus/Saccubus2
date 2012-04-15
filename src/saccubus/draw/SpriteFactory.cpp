@@ -12,30 +12,30 @@ namespace saccubus {
 namespace draw {
 
 SpriteFactory::SpriteFactory()
-:handler(new SpriteFactory*(this))
+:_handler(new SpriteFactory*(this))
 {
 
 }
 
 SpriteFactory::~SpriteFactory() {
-	*handler.get() = 0;
+	*(handler().get()) = 0;
 }
 
-Sprite::Handler SpriteFactory::querySprite(int w, int h)
+RawSprite::Handler SpriteFactory::querySprite(int w, int h)
 {
 	SpriteIterator it = std::lower_bound(unusedSprites.begin(), unusedSprites.end(), std::pair<int, int>(w,h), order());
 	if(it == unusedSprites.end()){
-		Sprite::Handler handler(createSprite(w, h), this->handler);
+		RawSprite::Handler handler(createSprite(w, h));
 		return handler;
 	}else{
-		Sprite::Handler handler(*it, this->handler);
+		RawSprite::Handler handler(*it);
 		unusedSprites.erase(it);
 		handler->shrink(w, h);
 		return handler;
 	}
 }
 
-void SpriteFactory::backSprite(Sprite* spr)
+void SpriteFactory::backSprite(RawSprite* spr)
 {
 	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
 	unusedSprites.insert(it, spr);

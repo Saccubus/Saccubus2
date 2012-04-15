@@ -19,7 +19,7 @@ public:
 	SpriteFactory();
 	virtual ~SpriteFactory();
 protected:
-	virtual saccubus::draw::Sprite* createSprite(int w, int h);
+	virtual saccubus::draw::RawSprite* createSprite(int w, int h);
 };
 
 }}}

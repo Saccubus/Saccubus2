@@ -19,4 +19,10 @@ ThreadLayer::~ThreadLayer() {
 	// TODO Auto-generated destructor stub
 }
 
+void ThreadLayer::draw(float vpos, draw::Canvas* canvas)
+{
+
+}
+
+
 }}

@@ -8,15 +8,15 @@
 #ifndef TEST_SPRITE_H_
 #define TEST_SPRITE_H_
 
-#include "../../../../../saccubus/draw/Sprite.h"
+#include "../../../../../saccubus/draw/RawSprite.h"
 
 namespace saccubus {
 namespace test {
 namespace draw {
 
-class Sprite: public saccubus::draw::Sprite {
+class Sprite: public saccubus::draw::RawSprite {
 public:
-	Sprite(int w, int h);
+	Sprite(std::tr1::shared_ptr<saccubus::draw::SpriteFactory*> _factory, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(saccubus::draw::Canvas* __canvas, int x, int y);
 };
