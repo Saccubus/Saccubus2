@@ -12,12 +12,9 @@ namespace mock {
 namespace meta {
 
 Comment::Comment() {
-	// TODO Auto-generated constructor stub
-
 }
 
 Comment::~Comment() {
-	// TODO Auto-generated destructor stub
 }
 
 

@@ -26,7 +26,6 @@ Comment::Comment(logging::Logger& log, const meta::Comment* comment)
 }
 
 Comment::~Comment() {
-	// TODO Auto-generated destructor stub
 }
 
 void Comment::setDefault()

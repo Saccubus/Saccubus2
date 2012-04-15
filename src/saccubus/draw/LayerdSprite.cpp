@@ -13,12 +13,9 @@ namespace draw {
 LayerdSprite::LayerdSprite()
 :Sprite()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 LayerdSprite::~LayerdSprite() {
-	// TODO Auto-generated destructor stub
 }
 
 void LayerdSprite::updateSize()

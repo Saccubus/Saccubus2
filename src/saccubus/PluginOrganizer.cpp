@@ -24,7 +24,6 @@ PluginOrganizer::PluginOrganizer(const std::map<std::string, std::string>& confi
 }
 
 PluginOrganizer::~PluginOrganizer() {
-	// TODO Auto-generated destructor stub
 }
 
 saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Renderer* const renderer)

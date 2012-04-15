@@ -13,15 +13,15 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Sprite::~Sprite() {
-	// TODO Auto-generated destructor stub
-}
-
 Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
 :saccubus::draw::RawSprite(_renderer, w, h)
 {
 
 }
+
+Sprite::~Sprite() {
+}
+
 void Sprite::draw(saccubus::draw::Renderer* __renderer, int x, int y)
 {
 	if(__renderer != this->renderer()){

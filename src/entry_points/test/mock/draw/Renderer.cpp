@@ -14,12 +14,9 @@ namespace draw {
 
 Renderer::Renderer()
 :saccubus::draw::Renderer(640, 480){
-	// TODO Auto-generated constructor stub
-
 }
 
 Renderer::~Renderer() {
-	// TODO Auto-generated destructor stub
 }
 
 saccubus::draw::RawSprite* Renderer::createSprite(int w, int h)

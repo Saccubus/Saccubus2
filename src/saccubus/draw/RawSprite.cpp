@@ -27,7 +27,6 @@ RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
 }
 
 RawSprite::~RawSprite() {
-	// TODO Auto-generated destructor stub
 }
 
 void RawSprite::shrink(int w, int h)

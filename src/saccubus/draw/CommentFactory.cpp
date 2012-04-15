@@ -16,7 +16,6 @@ CommentFactory::CommentFactory(Renderer* renderer)
 }
 
 CommentFactory::~CommentFactory() {
-	// TODO Auto-generated destructor stub
 }
 
 }}
