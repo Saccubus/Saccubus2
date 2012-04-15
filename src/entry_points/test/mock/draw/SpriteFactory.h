@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef TEST_SPRITEFACTORY_H_
-#define TEST_SPRITEFACTORY_H_
+#ifndef MOCK_DRAW_SPRITEFACTORY_H_
+#define MOCK_DRAW_SPRITEFACTORY_H_
 
 #include "../../../../saccubus/draw/SpriteFactory.h"
 
@@ -23,4 +23,4 @@ protected:
 };
 
 }}}
-#endif /* TEST_SPRITEFACTORY_H_ */
+#endif /* MOCK_DRAW_SPRITEFACTORY_H_ */

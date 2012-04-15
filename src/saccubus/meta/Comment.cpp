@@ -27,12 +27,6 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->premium(readNodeProp(node, "premium", false));
 	this->fork(readNodeProp(node, "fork", false));
 	this->mail(readNodeProp(node, "mail", ""));
-	std::istringstream ss(this->mail());
-	std::string mailopt;
-	while(std::getline(ss, mailopt, ' ')){
-		this->mailList.push_back(mailopt);
-	}
-
 	this->message(readNodeContent(node));
 
 	if(log.t()){
@@ -53,7 +47,44 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	}
 }
 
+Comment::Comment()
+{
+	this->thread(0LLU);
+	this->no(0LLU);
+	this->vpos(-1);
+	this->date(0LLU);
+	this->deleted(0LLU);
+	this->score(0);
+	this->user_id("<NONE>");
+	this->mail("<NONE>");
+	this->message("<NONE>");
+	this->anonymity(false);
+	this->leaf(false);
+	this->premium(false);
+	this->fork(false);
+}
+
+void Comment::splitMail()
+{
+	this->mailList.clear();
+	std::istringstream ss(this->mail());
+	std::string mailopt;
+	while(std::getline(ss, mailopt, ' ')){
+		this->mailList.push_back(mailopt);
+	}
+}
+
 Comment::~Comment() {
+}
+
+std::string Comment::mail() const
+{
+	return _mail;
+}
+void Comment::mail(std::string const& mail)
+{
+	this->_mail = mail;
+	this->splitMail();
 }
 
 size_t Comment::mailSize() const

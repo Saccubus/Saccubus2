@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef TEST_CANVAS_H_
-#define TEST_CANVAS_H_
+#ifndef MOCK_DRAW_CANVAS_H_
+#define MOCK_DRAW_CANVAS_H_
 
 #include <vector>
 #include "../../../../saccubus/draw/Canvas.h"
@@ -31,4 +31,4 @@ public:
 };
 
 }}}
-#endif /* TEST_CANVAS_H_ */
+#endif /* MOCK_DRAW_CANVAS_H_ */

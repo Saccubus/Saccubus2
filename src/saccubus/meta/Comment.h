@@ -22,21 +22,28 @@ namespace meta {
  * ！！　イミュータブル（変更不可）　！！
  */
 class Comment {
+	DEF_ATTR_ACCESSOR(public, protected, unsigned long long, thread)
+	DEF_ATTR_ACCESSOR(public, protected, unsigned long long, no)
+	DEF_ATTR_ACCESSOR(public, protected, float, vpos)
+	DEF_ATTR_ACCESSOR(public, protected, unsigned long long, date)
+	DEF_ATTR_ACCESSOR(public, protected, unsigned long long, deleted)
+	DEF_ATTR_ACCESSOR(public, protected, long long, score)
+	DEF_ATTR_ACCESSOR(public, protected, std::string, user_id)
+	DEF_ATTR_ACCESSOR(public, protected, std::string, message)
+	DEF_ATTR_ACCESSOR(public, protected, bool, anonymity)
+	DEF_ATTR_ACCESSOR(public, protected, bool, leaf)
+	DEF_ATTR_ACCESSOR(public, protected, bool, premium)
+	DEF_ATTR_ACCESSOR(public, protected, bool, fork)
+public: /* mailだけは少しだけ扱いが違う */
+	std::string mail() const;
+protected:
+	void mail(std::string const& mail);
 private:
-	DEF_ATTR_ACCESSOR(public, private, unsigned long long, thread)
-	DEF_ATTR_ACCESSOR(public, private, unsigned long long, no)
-	DEF_ATTR_ACCESSOR(public, private, float, vpos)
-	DEF_ATTR_ACCESSOR(public, private, unsigned long long, date)
-	DEF_ATTR_ACCESSOR(public, private, unsigned long long, deleted)
-	DEF_ATTR_ACCESSOR(public, private, long long, score)
-	DEF_ATTR_ACCESSOR(public, private, std::string, user_id)
 	std::vector<std::string> mailList;
-	DEF_ATTR_ACCESSOR(public, private, std::string, mail)
-	DEF_ATTR_ACCESSOR(public, private, std::string, message)
-	DEF_ATTR_ACCESSOR(public, private, bool, anonymity)
-	DEF_ATTR_ACCESSOR(public, private, bool, leaf)
-	DEF_ATTR_ACCESSOR(public, private, bool, premium)
-	DEF_ATTR_ACCESSOR(public, private, bool, fork)
+	std::string _mail;
+protected:
+	Comment();
+	void splitMail();
 public:
 	Comment(logging::Logger& log, xmlNode* node);
 	virtual ~Comment();

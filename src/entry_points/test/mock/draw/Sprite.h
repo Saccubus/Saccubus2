@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef TEST_SPRITE_H_
-#define TEST_SPRITE_H_
+#ifndef MOCK_DRAW_SPRITE_H_
+#define MOCK_DRAW_SPRITE_H_
 
 #include "../../../../saccubus/draw/RawSprite.h"
 
@@ -22,4 +22,4 @@ public:
 };
 
 }}}
-#endif /* TEST_SPRITE_H_ */
+#endif /* MOCK_DRAW_SPRITE_H_ */

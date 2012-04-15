@@ -50,6 +50,7 @@ public:
 	static bool interpret(const std::string& command, Comment* comment);
 public:
 	enum Device {
+		Unspecified,
 		iPhone,
 		docomo,
 		softbank
@@ -61,12 +62,13 @@ public:
 	};
 	enum PlaceX{
 		Right,
+		Center,
 		Left
 	};
 	enum PlaceY{
 		Top,
+		Middle,
 		Bottom,
-		Middle
 	};
 	DEF_ATTR_ACCESSOR(public, public, const meta::Comment*, orig);
 	DEF_ATTR_ACCESSOR(public, public, float, from);
