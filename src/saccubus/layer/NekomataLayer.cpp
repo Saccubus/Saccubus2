@@ -10,7 +10,8 @@
 namespace saccubus {
 namespace layer {
 
-NekomataLayer::NekomataLayer() {
+NekomataLayer::NekomataLayer(draw::Renderer* renderer)
+:Layer(renderer){
 	// TODO Auto-generated constructor stub
 
 }

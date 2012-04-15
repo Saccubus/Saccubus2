@@ -37,10 +37,10 @@ private:
 	std::tr1::shared_ptr<Renderer*> _renderer;
 	void incref();
 	void decref();
-	Renderer* renderer(){ return *(_renderer.get()); };
 protected:
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
+	Renderer* renderer(){ return *(_renderer.get()); };
 public:
 	virtual ~RawSprite();
 public:

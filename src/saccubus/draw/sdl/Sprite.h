@@ -17,10 +17,10 @@ namespace saccubus {
 namespace draw {
 namespace sdl {
 
-class Sprite : public draw::Sprite {
+class Sprite : public draw::RawSprite {
 	DEF_ATTR_ACCESSOR(public, private, SDL_Texture*, texture);
 public:
-	Sprite(int w, int h, SDL_Texture* texture);
+	Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(draw::Renderer* renderer, int x, int y);
 };

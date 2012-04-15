@@ -16,8 +16,10 @@ namespace saccubus {
 namespace draw {
 
 class Renderer {
+	DEF_ATTR_ACCESSOR(public, protected, int, width)
+	DEF_ATTR_ACCESSOR(public, protected, int, height)
 public:
-	Renderer();
+	Renderer(const int w, const int h);
 	virtual ~Renderer();
 /**************************************************************************************************
  * スプライト管理機構

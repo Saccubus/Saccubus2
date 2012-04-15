@@ -48,6 +48,8 @@ private:
 private:
 	PluginOrganizer* pluginOrganizer;
 private:
+	draw::Renderer* renderer;
+private:
 	python::PyBridge* bridge;
 	logging::Logger* log;
 public: //
@@ -56,7 +58,7 @@ public: //
 public: //公開メソッド
 	void init(Adapter* const adapter);
 	void measure(const int w, const int h, int& measuredWidth, int& measuredHeight);
-	void draw(float vpos, draw::Renderer* renderer, draw::Sprite* videoSprite);
+	void draw(float vpos, draw::Sprite* videoSprite);
 public: // 内部から呼ばれます
 	void onVideoChanged(const std::string& videoId);
 };

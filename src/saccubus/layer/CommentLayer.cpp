@@ -10,7 +10,8 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer() {
+CommentLayer::CommentLayer(draw::Renderer* renderer)
+:Layer(renderer){
 	// TODO Auto-generated constructor stub
 
 }
@@ -19,7 +20,7 @@ CommentLayer::~CommentLayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void CommentLayer::draw(float vpos, draw::Renderer* renderer)
+void CommentLayer::draw(float vpos)
 {
 
 }

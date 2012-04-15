@@ -11,10 +11,11 @@
 namespace saccubus {
 namespace draw {
 
-Renderer::Renderer()
+Renderer::Renderer(const int w, const int h)
 :_handler(new Renderer*(this))
 {
-
+	this->width(w);
+	this->height(h);
 }
 
 Renderer::~Renderer() {

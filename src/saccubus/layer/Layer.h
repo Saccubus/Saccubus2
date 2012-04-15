@@ -21,11 +21,12 @@ namespace layer {
  * ！！　それらはdraw名前空間以下のクラスに投げましょう　！！
  */
 class Layer {
+	DEF_ATTR_ACCESSOR(protected, private, draw::Renderer*, renderer)
 public:
-	Layer();
+	Layer(draw::Renderer* renderer);
 	virtual ~Layer();
 public:
-	virtual void draw(float vpos, draw::Renderer* renderer) = 0;
+	virtual void draw(float vpos) = 0;
 };
 
 }}

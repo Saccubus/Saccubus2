@@ -10,7 +10,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include "../../saccubus/Saccubus.h"
-#include "../../saccubus/draw/sdl/Canvas.h"
+#include "../../saccubus/draw/sdl/Renderer.h"
 #include "../../saccubus/logging/Exception.h"
 #include "../../saccubus/logging/Logger.h"
 using namespace std;
@@ -48,7 +48,7 @@ public:
 	}
 };
 
-void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& canvas) {
+void loop() {
 	unsigned long long now = SDL_GetTicks();
 	unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
 	unsigned long long fpsTime = now;
@@ -64,8 +64,7 @@ void loop(SDL_Window* window, saccubus::Saccubus& sacc, saccubus::draw::Canvas& 
 			}
 		}
 
-		sacc.draw((float)now/(1000*FACTOR), &canvas, 0);
-		SDL_UpdateWindowSurface(window);
+		sacc.draw((float)now/(1000*FACTOR), 0);
 
 		++fps;
 		now = SDL_GetTicks();
@@ -88,27 +87,12 @@ int main(int argc, char** argv) {
 	int w, h;
 	sacc.measure(640, 480, w, h);
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-		throw saccubus::logging::Exception("Failed to initialize SDL: %s",
-				SDL_GetError());
-	}
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	if (SDL_CreateWindowAndRenderer(w, h, 0, &window, &renderer) < 0) {
-		SDL_Quit();
-		throw saccubus::logging::Exception(
-				"Failed to create window and renderer: %s", SDL_GetError());
-	}
+	loop();
 
-	saccubus::draw::sdl::Canvas canvas(renderer);
-	loop(window, sacc, canvas);
-
-	SDL_DestroyWindow(window);
-	SDL_Quit();
 	return 0;
 }
-}
-}
+
+}}
 
 int main(int argc, char** argv) {
 	try {

@@ -47,10 +47,10 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 			config["text"].c_str()
 			);
 }
-saccubus::draw::Renderer* PluginOrganizer::newRenderer()
+saccubus::draw::Renderer* PluginOrganizer::newRenderer(const int w, const int h)
 {
 	if(PLUGIN_SDL == config["graphic"]){
-		return new saccubus::draw::sdl::Renderer();
+		return new saccubus::draw::sdl::Renderer(w, h);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no renderer plugin corresponding to [graphic: %s]",

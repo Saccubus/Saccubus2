@@ -10,8 +10,8 @@
 namespace saccubus {
 namespace layer {
 
-Layer::Layer() {
-	// do nothing
+Layer::Layer(draw::Renderer* renderer){
+	this->renderer(renderer);
 
 }
 

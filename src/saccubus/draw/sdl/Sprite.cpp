@@ -13,20 +13,25 @@ namespace saccubus {
 namespace draw {
 namespace sdl {
 
-Sprite::Sprite(int w, int h, SDL_Texture* texture)
-:draw::Sprite(w, h)
+Sprite::Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
+:draw::RawSprite(renderer, w, h)
 {
-	this->texture(texture);
+	sdl::Renderer& _renderer = dynamic_cast<sdl::Renderer&>(*(this->renderer()));
+	this->texture(SDL_CreateTexture(_renderer.renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h));
 
 }
 
 Sprite::~Sprite() {
-	// TODO Auto-generated destructor stub
+	SDL_DestroyTexture(this->texture());
+	this->texture(0);
 }
 
-void Sprite::draw(draw::Renderer* _renderer, int x, int y)
+void Sprite::draw(draw::Renderer* __renderer, int x, int y)
 {
-	sdl::Renderer& canvas = dynamic_cast<sdl::Renderer&>(*_renderer);
+	if(__renderer != this->renderer()){
+		logging::Exception(__FILE__, __LINE__, "Sprite renderer and target renderer has been changed!!");
+	}
+	sdl::Renderer& _renderer = dynamic_cast<sdl::Renderer&>(*__renderer);
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;
@@ -38,7 +43,7 @@ void Sprite::draw(draw::Renderer* _renderer, int x, int y)
 	src.w = this->width();
 	src.h = this->height();
 
-	if( SDL_RenderCopy(canvas.renderer(), this->texture(), &src, &dst) != 0)
+	if( SDL_RenderCopy(_renderer.renderer(), this->texture(), &src, &dst) != 0)
 	{
 		throw logging::Exception("Failed to render SDL Sprite!!");
 	}

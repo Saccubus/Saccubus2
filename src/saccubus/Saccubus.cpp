@@ -57,6 +57,8 @@ void version(std::ostream& logStream, int argc, char* argv[]){
 
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
+,currentVideo(0)
+,renderer(0)
 ,bridge(0)
 {
 	logging::Logger::Level level = logging::Logger::WARN_;
@@ -159,7 +161,7 @@ void Saccubus::measure(const int w, const int h, int& measuredWidth, int& measur
 	measuredHeight = h;
 }
 
-void Saccubus::draw(float vpos, draw::Renderer* renderer, draw::Sprite* videoSprite)
+void Saccubus::draw(float vpos, draw::Sprite* videoSprite)
 {
 
 }

@@ -20,18 +20,17 @@ namespace layer {
  * スレッド1つ分のレイヤ
  * 複数のコメントレイヤと、猫又レイヤを持つ。
  */
-class ThreadLayer {
+class ThreadLayer : public Layer {
 private:
-	draw::Renderer* renderer;
 	draw::CommentFactory* commentFactory;
 private:
 	NekomataLayer* nekomataLayer;
 	std::vector<CommentLayer*> commentLayers;
 public:
-	ThreadLayer(PluginOrganizer* organizer);
+	ThreadLayer(draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
-	virtual void draw(float vpos, draw::Renderer* renderer);
+	virtual void draw(float vpos);
 };
 
 }}

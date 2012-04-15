@@ -13,18 +13,18 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(PluginOrganizer* organizer) {
-	this->renderer = organizer->newRenderer();
-	this->commentFactory = organizer->newCommentFactory(this->renderer);
+ThreadLayer::ThreadLayer(draw::Renderer* renderer, PluginOrganizer* organizer)
+:Layer(renderer)
+{
+	this->commentFactory = organizer->newCommentFactory(this->renderer());
 
 }
 
 ThreadLayer::~ThreadLayer() {
 	delete this->commentFactory;
-	delete this->renderer;
 }
 
-void ThreadLayer::draw(float vpos, draw::Renderer* canvas)
+void ThreadLayer::draw(float vpos)
 {
 
 }

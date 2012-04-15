@@ -15,7 +15,7 @@ namespace layer {
 
 class NekomataLayer: public saccubus::layer::Layer {
 public:
-	NekomataLayer();
+	NekomataLayer(draw::Renderer* renderer);
 	virtual ~NekomataLayer();
 public:
 	virtual void draw(float vpos, draw::Renderer* renderer);

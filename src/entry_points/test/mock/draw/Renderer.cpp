@@ -12,7 +12,8 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Renderer::Renderer() {
+Renderer::Renderer()
+:saccubus::draw::Renderer(640, 480){
 	// TODO Auto-generated constructor stub
 
 }
