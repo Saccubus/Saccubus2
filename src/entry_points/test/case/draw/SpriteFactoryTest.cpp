@@ -1,5 +1,5 @@
 /*
- * SpriteFactoryTest.cpp
+ * ImageFactoryTest.cpp
  *
  *  Created on: 2012/04/14
  *      Author: psi
@@ -7,16 +7,16 @@
 
 #include "../../TestCommon.h"
 #include "../../mock/draw/Sprite.h"
-#include "../../mock/draw/SpriteFactory.h"
+#include "../../mock/draw/ImageFactory.h"
 using namespace saccubus::mock::draw;
 
 namespace saccubus{
 namespace test {
 namespace draw{
 
-TEST(SpriteFactoryTest, BasicQueryTest)
+TEST(ImageFactoryTest, BasicQueryTest)
 {
-	SpriteFactory factory;
+	ImageFactory factory;
 	saccubus::draw::Sprite* spr;
 	{
 		Sprite::Handler handler = factory.querySprite(10, 11);
@@ -35,11 +35,11 @@ TEST(SpriteFactoryTest, BasicQueryTest)
 	ASSERT_EQ(1U, factory.availableSprites());
 }
 
-TEST(SpriteFactoryTest, AllocationTest)
+TEST(ImageFactoryTest, AllocationTest)
 {
 	Sprite::Handler handler;
 	{
-		SpriteFactory factory;
+		ImageFactory factory;
 		handler = factory.querySprite(10, 11);
 		ASSERT_EQ(10, handler->width());
 		ASSERT_EQ(11, handler->height());

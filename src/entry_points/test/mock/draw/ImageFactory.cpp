@@ -1,24 +1,24 @@
 /*
- * SpriteFactory.cpp
+ * ImageFactory.cpp
  *
  *  Created on: 2012/04/14
  *      Author: psi
  */
 
-#include "SpriteFactory.h"
+#include "ImageFactory.h"
 #include "Sprite.h"
 
 namespace saccubus {
 namespace mock {
 namespace draw {
 
-SpriteFactory::SpriteFactory() {
+ImageFactory::ImageFactory() {
 }
 
-SpriteFactory::~SpriteFactory() {
+ImageFactory::~ImageFactory() {
 }
 
-saccubus::draw::RawSprite* SpriteFactory::createSprite(int w, int h)
+saccubus::draw::RawSprite* ImageFactory::createSprite(int w, int h)
 {
 	return new Sprite(handler(), w, h);
 }

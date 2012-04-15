@@ -8,20 +8,20 @@
 #include "ThreadLayer.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
-#include "../draw/SpriteFactory.h"
+#include "../draw/ImageFactory.h"
 
 namespace saccubus {
 namespace layer {
 
 ThreadLayer::ThreadLayer(PluginOrganizer* organizer) {
-	this->spriteFactory = organizer->newSpriteFactory();
-	this->commentFactory = organizer->newCommentFactory(this->spriteFactory);
+	this->imageFactory = organizer->newImageFactory();
+	this->commentFactory = organizer->newCommentFactory(this->imageFactory);
 
 }
 
 ThreadLayer::~ThreadLayer() {
 	delete this->commentFactory;
-	delete this->spriteFactory;
+	delete this->imageFactory;
 }
 
 void ThreadLayer::draw(float vpos, draw::Canvas* canvas)

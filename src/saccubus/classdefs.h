@@ -27,7 +27,7 @@ namespace draw{
 class Sprite;
 class RawSprite;
 class Canvas;
-class SpriteFactory;
+class ImageFactory;
 class CommentFactory;
 }
 

@@ -6,19 +6,19 @@
  */
 
 #include "RawSprite.h"
-#include "SpriteFactory.h"
+#include "ImageFactory.h"
 #include "../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(std::tr1::shared_ptr<SpriteFactory*> _factory)
+RawSprite::RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory)
 :Sprite()
 ,refcount(0)
 ,_factory(_factory)
 {
 }
-RawSprite::RawSprite(std::tr1::shared_ptr<SpriteFactory*> _factory, int w, int h)
+RawSprite::RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory, int w, int h)
 :Sprite(w, h)
 ,refcount(0)
 ,_factory(_factory)

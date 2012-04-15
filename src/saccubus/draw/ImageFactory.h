@@ -1,12 +1,12 @@
 /*
- * SpriteFactory.h
+ * ImageFactory.h
  *
  *  Created on: 2012/04/14
  *      Author: psi
  */
 
-#ifndef SPRITEFACTORY_H_
-#define SPRITEFACTORY_H_
+#ifndef DRAW_IMAGEFACTORY_H_
+#define DRAW_IMAGEFACTORY_H_
 
 #include "RawSprite.h"
 #include "../classdefs.h"
@@ -16,14 +16,14 @@
 namespace saccubus {
 namespace draw {
 
-class SpriteFactory {
+class ImageFactory {
 public:
-	SpriteFactory();
-	virtual ~SpriteFactory();
+	ImageFactory();
+	virtual ~ImageFactory();
 private:
-	const std::tr1::shared_ptr<SpriteFactory*> _handler;
+	const std::tr1::shared_ptr<ImageFactory*> _handler;
 protected:
-	const std::tr1::shared_ptr<SpriteFactory*> handler() { return _handler; };
+	const std::tr1::shared_ptr<ImageFactory*> handler() { return _handler; };
 private:
 	struct order
 	{
@@ -44,4 +44,4 @@ protected: /* 各実装がこれを実際に実装する */
 };
 
 }}
-#endif /* SPRITEFACTORY_H_ */
+#endif /* DRAW_IMAGEFACTORY_H_ */

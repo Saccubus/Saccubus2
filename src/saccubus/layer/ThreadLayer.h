@@ -22,7 +22,7 @@ namespace layer {
  */
 class ThreadLayer {
 private:
-	draw::SpriteFactory* spriteFactory;
+	draw::ImageFactory* imageFactory;
 	draw::CommentFactory* commentFactory;
 private:
 	NekomataLayer* nekomataLayer;

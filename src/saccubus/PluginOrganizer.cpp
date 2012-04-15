@@ -9,7 +9,7 @@
 #include "logging/Exception.h"
 
 #include "draw/sdl/SimpleCommentFactory.h"
-#include "draw/sdl/SpriteFactory.h"
+#include "draw/sdl/ImageFactory.h"
 
 namespace saccubus {
 
@@ -27,22 +27,19 @@ PluginOrganizer::~PluginOrganizer() {
 	// TODO Auto-generated destructor stub
 }
 
-saccubus::draw::Canvas* PluginOrganizer::newCanvas()
-{
-	if(PLUGIN_SDL == config["graphic"]){
-		return 0;//FIXME
-	}else{
-		throw logging::Exception(__FILE__, __LINE__,
-				"There is no canvas factory corresponding to [graphic: %s]",
-				config["graphic"].c_str(),
-				config["text"].c_str()
-				);
-	}
-}
-saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::SpriteFactory* const sprFactory)
+saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::ImageFactory* const imgFactory)
 {
 	if(PLUGIN_SDL == config["graphic"] && PLUGIN_SIMPLE == config["text"]){
-		return new saccubus::draw::sdl::SimpleCommentFactory(sprFactory);
+		draw::sdl::ImageFactory* _imgFactory = dynamic_cast<draw::sdl::ImageFactory*>(imgFactory);
+		if(!_imgFactory){
+			throw logging::Exception(__FILE__, __LINE__,
+					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::ImageFactory*, but got %s",
+					config["graphic"].c_str(),
+					config["text"].c_str(),
+					typeid(imgFactory).name()
+					);
+		}
+		return new saccubus::draw::sdl::SimpleCommentFactory(_imgFactory);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
@@ -50,10 +47,10 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::SpriteF
 			config["text"].c_str()
 			);
 }
-saccubus::draw::SpriteFactory* PluginOrganizer::newSpriteFactory()
+saccubus::draw::ImageFactory* PluginOrganizer::newImageFactory()
 {
 	if(PLUGIN_SDL == config["graphic"]){
-		return new saccubus::draw::sdl::SpriteFactory();
+		return new saccubus::draw::sdl::ImageFactory();
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no sprite factory plugin corresponding to [graphic: %s]",

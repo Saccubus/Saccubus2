@@ -15,9 +15,9 @@ namespace draw {
 
 class CommentFactory {
 private:
-	DEF_ATTR_ACCESSOR(protected, private, SpriteFactory*, sprFactory);
+	DEF_ATTR_ACCESSOR(protected, private, ImageFactory*, imgFactory);
 public:
-	CommentFactory(SpriteFactory* sprFactory);
+	CommentFactory(ImageFactory* imgFactory);
 	virtual ~CommentFactory();
 public:
 	virtual RawSprite::Handler renderComment(const context::Comment* comment) = 0;

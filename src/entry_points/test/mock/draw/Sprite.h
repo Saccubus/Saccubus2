@@ -16,7 +16,7 @@ namespace draw {
 
 class Sprite: public saccubus::draw::RawSprite {
 public:
-	Sprite(std::tr1::shared_ptr<saccubus::draw::SpriteFactory*> _factory, int w, int h);
+	Sprite(std::tr1::shared_ptr<saccubus::draw::ImageFactory*> _factory, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(saccubus::draw::Canvas* __canvas, int x, int y);
 };
