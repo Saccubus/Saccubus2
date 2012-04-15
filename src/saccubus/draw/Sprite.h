@@ -59,19 +59,28 @@ public:
 				this->sprite->incref();
 			}
 		}
+		Handler<S>& operator=(const Handler<S>& other)
+		{
+			if(other.sprite){
+				other.sprite->incref();
+			}
+			if(this->sprite){
+				this->sprite->decref();
+			}
+			this->sprite = other.sprite;
+			return *this;
+		}
 		template<class T>
 		Handler<S>& operator=(const Handler<T>& other)
 		{
 			S* spr = dynamic_cast<S*>(other.sprite);
-			if(this->sprite != spr){
-				if(spr){
-					spr->incref();
-				}
-				if(this->sprite){
-					this->sprite->decref();
-				}
-				this->sprite = spr;
+			if(spr){
+				spr->incref();
 			}
+			if(this->sprite){
+				this->sprite->decref();
+			}
+			this->sprite = spr;
 			return *this;
 		}
 		virtual ~Handler()
