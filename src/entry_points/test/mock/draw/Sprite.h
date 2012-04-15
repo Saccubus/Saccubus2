@@ -8,7 +8,7 @@
 #ifndef TEST_SPRITE_H_
 #define TEST_SPRITE_H_
 
-#include "../../../../../saccubus/draw/RawSprite.h"
+#include "../../../../saccubus/draw/RawSprite.h"
 
 namespace saccubus {
 namespace test {

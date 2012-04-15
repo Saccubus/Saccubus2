@@ -6,13 +6,13 @@
  */
 
 #include "../../TestCommon.h"
-#include "mock/Sprite.h"
-#include "mock/SpriteFactory.h"
+#include "../../mock/draw/Sprite.h"
+#include "../../mock/draw/SpriteFactory.h"
 using namespace saccubus::test::draw;
 
 namespace saccubus{
 namespace test {
-namespace context{
+namespace draw{
 
 TEST(SpriteFactoryTest, BasicQueryTest)
 {

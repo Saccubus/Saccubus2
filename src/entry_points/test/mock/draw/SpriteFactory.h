@@ -8,7 +8,7 @@
 #ifndef TEST_SPRITEFACTORY_H_
 #define TEST_SPRITEFACTORY_H_
 
-#include "../../../../../saccubus/draw/SpriteFactory.h"
+#include "../../../../saccubus/draw/SpriteFactory.h"
 
 namespace saccubus {
 namespace test {

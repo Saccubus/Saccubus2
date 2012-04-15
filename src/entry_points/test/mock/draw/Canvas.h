@@ -9,7 +9,7 @@
 #define TEST_CANVAS_H_
 
 #include <vector>
-#include "../../../../../saccubus/draw/Canvas.h"
+#include "../../../../saccubus/draw/Canvas.h"
 
 namespace saccubus {
 namespace test {
