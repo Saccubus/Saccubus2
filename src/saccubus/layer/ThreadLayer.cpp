@@ -6,17 +6,22 @@
  */
 
 #include "ThreadLayer.h"
+#include "../PluginOrganizer.h"
+#include "../draw/CommentFactory.h"
+#include "../draw/SpriteFactory.h"
 
 namespace saccubus {
 namespace layer {
 
 ThreadLayer::ThreadLayer(PluginOrganizer* organizer) {
-	// TODO Auto-generated constructor stub
+	this->spriteFactory = organizer->newSpriteFactory();
+	this->commentFactory = organizer->newCommentFactory(this->spriteFactory);
 
 }
 
 ThreadLayer::~ThreadLayer() {
-	// TODO Auto-generated destructor stub
+	delete this->commentFactory;
+	delete this->spriteFactory;
 }
 
 void ThreadLayer::draw(float vpos, draw::Canvas* canvas)

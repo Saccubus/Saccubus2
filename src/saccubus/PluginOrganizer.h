@@ -8,11 +8,15 @@
 #ifndef PLUGINORGANIZER_H_
 #define PLUGINORGANIZER_H_
 
+#include <tr1/memory>
 #include <map>
 #include <string>
 #include "classdefs.h"
 
 namespace saccubus {
+
+const std::string PLUGIN_SDL("sdl");
+const std::string PLUGIN_SIMPLE("simple");
 
 /**
  * プラグインの生成（依存性注入）を行う。
@@ -25,9 +29,10 @@ public:
 	PluginOrganizer(const std::map<std::string, std::string>& config);
 	virtual ~PluginOrganizer();
 public:
-	draw::Canvas* newCanvas();
-	draw::CommentFactory* newCommentFactory();
-	layer::CommentLayer* newCommentLayer();
+	saccubus::draw::Canvas* newCanvas();
+	saccubus::draw::CommentFactory* newCommentFactory(draw::SpriteFactory* const sprFactory);
+	saccubus::draw::SpriteFactory* newSpriteFactory();
+	saccubus::layer::CommentLayer* newCommentLayer();
 };
 
 }
