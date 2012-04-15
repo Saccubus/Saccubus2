@@ -55,9 +55,9 @@ Comment::Comment()
 	this->date(0LLU);
 	this->deleted(0LLU);
 	this->score(0);
-	this->user_id("<NONE>");
-	this->mail("<NONE>");
-	this->message("<NONE>");
+	this->user_id("");
+	this->mail("");
+	this->message("");
 	this->anonymity(false);
 	this->leaf(false);
 	this->premium(false);

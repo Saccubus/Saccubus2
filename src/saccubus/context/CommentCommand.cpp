@@ -9,6 +9,7 @@
 #include "Comment.h"
 #include "../meta/Comment.h"
 #include "../util/StringUtil.h"
+#include "../logging/Exception.h"
 
 namespace saccubus {
 namespace context {
@@ -74,17 +75,30 @@ static void is_button_func(const std::string& command, Comment* comment){
 
 bool Comment::Command::execute(const std::string& command, Comment* comment) const
 {
-	if((type & Premium) == Premium){
+	if((permission & Premium) == Premium){
 		if(!comment->orig()->premium()){
 			return false;
 		}
 	}
-	if(argType == Exactly && command == this->command){
-		this->func(command, comment);
-		return true;
-	}else if(argType == StartsWith && util::startsWith(command, this->command)){
-		this->func(command, comment);
-		return true;
+	switch(this->argType){
+	case Comment::Command::Exactly:
+	{
+		if(command == this->name){
+			this->func(command, comment);
+			return true;
+		}
+		break;
+	}
+	case Comment::Command::StartsWith:
+	{
+		if(util::startsWith(command, this->name)){
+			this->func(command, comment);
+			return true;
+		}
+		break;
+	}
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknwon Comment::Command::Type!!");
 	}
 	return false;
 }
@@ -128,7 +142,7 @@ const struct Comment::Command Comment::Commands[] = {
 		Comment::Command(Comment::Command::Exactly,    "blue2",          Comment::Command::Premium, bind(color_func, _1, _2, 0x3399FF, 0x000000)),
 		Comment::Command(Comment::Command::Exactly,    "marineblue",     Comment::Command::Premium, bind(color_func, _1, _2, 0x3399FF, 0x000000)),
 
-		Comment::Command(Comment::Command::Exactly,    "pueple2",        Comment::Command::Premium, bind(color_func, _1, _2, 0x6633CC, 0x000000)),
+		Comment::Command(Comment::Command::Exactly,    "purple2",        Comment::Command::Premium, bind(color_func, _1, _2, 0x6633CC, 0x000000)),
 		Comment::Command(Comment::Command::Exactly,    "nobleviolet",    Comment::Command::Premium, bind(color_func, _1, _2, 0x6633CC, 0x000000)),
 
 		Comment::Command(Comment::Command::Exactly,    "black2",         Comment::Command::Premium, bind(color_func, _1, _2, 0x666666, 0x000000)),

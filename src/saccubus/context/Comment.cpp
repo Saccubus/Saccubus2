@@ -5,17 +5,32 @@
  *      Author: psi
  */
 #include "Comment.h"
+#include <cmath>
 #include "../meta/Comment.h"
 
 namespace saccubus {
 namespace context {
 
+Comment::Comment()
+{
+	this->orig(0);
+	this->setDefault();
+}
 Comment::Comment(const meta::Comment* comment)
 {
 	this->orig(comment);
-	//デフォルト値の設定
-	this->from(orig()->vpos()-1.0f);
-	this->to(orig()->vpos()+2.0f);
+	this->setDefault();
+	this->interpret();
+}
+
+Comment::~Comment() {
+	// TODO Auto-generated destructor stub
+}
+
+void Comment::setDefault()
+{
+	this->from(orig() ? orig()->vpos()-1.0f : NAN);
+	this->to(orig() ? orig()->vpos()+2.0f : NAN);
 	this->isButton(false);
 	this->fromButton(false);
 	this->full(false);
@@ -28,12 +43,6 @@ Comment::Comment(const meta::Comment* comment)
 	this->placeY(Comment::Middle);
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);
-	//
-	this->interpret();
-}
-
-Comment::~Comment() {
-	// TODO Auto-generated destructor stub
 }
 
 void Comment::interpret()

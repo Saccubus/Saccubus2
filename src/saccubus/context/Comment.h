@@ -26,7 +26,7 @@ class Comment {
 private:
 	static const struct Command{
 	public:
-		enum Type{
+		enum Permission{
 			Normal=0,
 			Premium = 1,
 		};
@@ -36,12 +36,12 @@ private:
 		};
 	public:
 		const enum ArgType argType;
-		const std::string command;
-		const enum Type type;
-		typedef std::tr1::function<void(const std::string& command, Comment* comment)> Func;
+		const std::string name;
+		const enum Permission permission;
+		typedef std::tr1::function<void(const std::string& name, Comment* comment)> Func;
 		const Func func;
-		Command(const enum ArgType argType, const std::string& command, const enum Type type, Func func)
-		:argType(argType), command(command), type(type), func(func){};
+		Command(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
+		:argType(argType), name(name), permission(permission), func(func){};
 		virtual ~Command(){};
 		bool execute(const std::string& command, Comment* comment) const;
 	} Commands[];
@@ -86,9 +86,11 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
 public:
+	Comment();
 	Comment(const meta::Comment* comment);
 	virtual ~Comment();
 private:
+	void setDefault();
 	void interpret();
 public:
 public:
