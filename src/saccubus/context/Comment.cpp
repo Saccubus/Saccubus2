@@ -11,16 +11,18 @@
 namespace saccubus {
 namespace context {
 
+static const std::string TAG("context/Comment");
+
 Comment::Comment()
 {
 	this->orig(0);
 	this->setDefault();
 }
-Comment::Comment(const meta::Comment* comment)
+Comment::Comment(logging::Logger& log, const meta::Comment* comment)
 {
 	this->orig(comment);
 	this->setDefault();
-	this->interpret();
+	this->interpret(log);
 }
 
 Comment::~Comment() {
@@ -45,12 +47,12 @@ void Comment::setDefault()
 	this->shadowColor(0x000000);
 }
 
-void Comment::interpret()
+void Comment::interpret(logging::Logger& log)
 {
 	for(meta::Comment::MailIterator it= this->orig()->mailBegin(); it != this->orig()->mailEnd(); ++it){
 		if(!Comment::interpret(*it, this))
 		{
-			//FIXME: 警告表示
+			log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}
 }

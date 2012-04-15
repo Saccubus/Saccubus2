@@ -38,7 +38,7 @@ private:
 		const enum ArgType argType;
 		const std::string name;
 		const enum Permission permission;
-		typedef std::tr1::function<void(const std::string& name, Comment* comment)> Func;
+		typedef std::tr1::function<bool(const std::string& name, Comment* comment)> Func;
 		const Func func;
 		Command(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
 		:argType(argType), name(name), permission(permission), func(func){};
@@ -87,11 +87,11 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
 public:
 	Comment();
-	Comment(const meta::Comment* comment);
+	Comment(logging::Logger& log, const meta::Comment* comment);
 	virtual ~Comment();
 private:
 	void setDefault();
-	void interpret();
+	void interpret(logging::Logger& log);
 public:
 public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();

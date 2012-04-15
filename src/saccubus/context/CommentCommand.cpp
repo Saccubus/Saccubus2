@@ -14,63 +14,75 @@
 namespace saccubus {
 namespace context {
 
-static void color_func(const std::string& command, Comment* comment, unsigned int color, unsigned int shadowColor)
+static bool color_func(const std::string& command, Comment* comment, unsigned int color, unsigned int shadowColor)
 {
 	comment->color(color);
 	comment->shadowColor(shadowColor);
+	return true;
 }
 
-static void colorCode_func(const std::string& command, Comment* comment)
+static bool colorCode_func(const std::string& command, Comment* comment)
 {
 	char* left;
 	unsigned long c = std::strtoul(command.substr(1).c_str(), &left,16);
 	if(*left != '\0'){ //エラー
-		//FIXME: エラーハンドリング
+		return false;
 	}
 	comment->color(c);
 	comment->shadowColor(0x000000);
+	return true;
 }
 
-static void size_func(const std::string& command, Comment* comment, Comment::Size size)
+static bool size_func(const std::string& command, Comment* comment, Comment::Size size)
 {
 	comment->size(size);
+	return true;
 }
 /*
- * FIXME: 使われてない？
-static void placeX_func(const std::string& command, Comment* comment, Comment::PlaceX x)
+ * TODO: 使われてない？
+static bool placeX_func(const std::string& command, Comment* comment, Comment::PlaceX x)
 {
 	comment->placeX(x);
+	return true;
 }
 */
-static void placeY_func(const std::string& command, Comment* comment, Comment::PlaceY y)
+static bool placeY_func(const std::string& command, Comment* comment, Comment::PlaceY y)
 {
 	comment->placeY(y);
+	return true;
 }
 
-static void device_func(const std::string& command, Comment* comment, Comment::Device device)
+static bool device_func(const std::string& command, Comment* comment, Comment::Device device)
 {
 	comment->device(device);
+	return true;
 }
 
-static void full_func(const std::string& command, Comment* comment)
+static bool full_func(const std::string& command, Comment* comment)
 {
 	comment->full(true);
+	return true;
 }
-static void sage_func(const std::string& command, Comment* comment)
+static bool sage_func(const std::string& command, Comment* comment)
 {
 	comment->sage(true);
+	return true;
 }
-static void invisible_func(const std::string& command, Comment* comment){
+static bool invisible_func(const std::string& command, Comment* comment){
 	comment->visibility(false);
+	return true;
 }
-static void patissier_func(const std::string& command, Comment* comment){
+static bool patissier_func(const std::string& command, Comment* comment){
 	comment->patissier(true);
+	return true;
 }
-static void from_button_func(const std::string& command, Comment* comment){
+static bool from_button_func(const std::string& command, Comment* comment){
 	comment->fromButton(true);
+	return true;
 }
-static void is_button_func(const std::string& command, Comment* comment){
+static bool is_button_func(const std::string& command, Comment* comment){
 	comment->isButton(true);
+	return true;
 }
 
 bool Comment::Command::execute(const std::string& command, Comment* comment) const
@@ -84,16 +96,14 @@ bool Comment::Command::execute(const std::string& command, Comment* comment) con
 	case Comment::Command::Exactly:
 	{
 		if(command == this->name){
-			this->func(command, comment);
-			return true;
+			return this->func(command, comment);
 		}
 		break;
 	}
 	case Comment::Command::StartsWith:
 	{
 		if(util::startsWith(command, this->name)){
-			this->func(command, comment);
-			return true;
+			return this->func(command, comment);
 		}
 		break;
 	}

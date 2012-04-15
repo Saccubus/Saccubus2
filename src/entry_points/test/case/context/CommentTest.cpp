@@ -19,7 +19,7 @@ TEST(CommentTest, InterpretTest)
 	saccubus::mock::meta::Comment orig;
 	orig.mail("invisible");
 	{
-		saccubus::context::Comment ctx = saccubus::context::Comment(&orig);
+		saccubus::context::Comment ctx = saccubus::context::Comment(log_err, &orig);
 		ASSERT_FALSE(ctx.visibility());
 	}
 }
@@ -29,7 +29,7 @@ TEST(CommentTest, MultiInterpretTest)
 	saccubus::mock::meta::Comment orig;
 	orig.mail("sage docomo");
 	{
-		saccubus::context::Comment ctx = saccubus::context::Comment(&orig);
+		saccubus::context::Comment ctx = saccubus::context::Comment(log_err, &orig);
 		ASSERT_TRUE(ctx.sage());
 		ASSERT_EQ(saccubus::context::Comment::docomo, ctx.device());
 	}

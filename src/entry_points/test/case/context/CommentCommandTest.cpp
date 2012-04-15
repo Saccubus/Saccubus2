@@ -23,7 +23,7 @@ protected:
 	saccubus::context::Comment* ctx;
 public:
 	void SetUp(){
-		this->ctx = new saccubus::context::Comment(&meta);
+		this->ctx = new saccubus::context::Comment(log_err, &meta);
 	}
 	void TearDown(){
 		delete ctx;
@@ -99,6 +99,11 @@ TEST_F(CommentCommandTest, PremiumColorCodeTest)
 		ASSERT_EQ(0x123456U, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
+	{
+		ASSERT_TRUE(Comment::interpret("#FFFFFF", ctx));
+		ASSERT_EQ(0xFFFFFFU, ctx->color());
+		ASSERT_EQ(0x000000U, ctx->shadowColor());
+	}
 }
 
 TEST_F(CommentCommandTest, PlaceXTest)
@@ -161,6 +166,13 @@ TEST_F(CommentCommandTest, EtcTest)
 		ASSERT_TRUE(Comment::interpret("is_button", ctx));
 		ASSERT_TRUE(ctx->isButton());
 	}
+}
+
+TEST_F(CommentCommandTest, BrokenCommandTest)
+{
+	meta.premium(true);
+	ASSERT_TRUE(Comment::interpret("#123456", ctx));
+	ASSERT_FALSE(Comment::interpret("#12ker3", ctx));
 }
 
 }}}
