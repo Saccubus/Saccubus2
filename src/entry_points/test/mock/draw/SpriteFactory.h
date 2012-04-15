@@ -11,7 +11,7 @@
 #include "../../../../saccubus/draw/SpriteFactory.h"
 
 namespace saccubus {
-namespace test {
+namespace mock {
 namespace draw {
 
 class SpriteFactory: public saccubus::draw::SpriteFactory {

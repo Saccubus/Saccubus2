@@ -11,7 +11,7 @@
 #include "../../../../saccubus/draw/RawSprite.h"
 
 namespace saccubus {
-namespace test {
+namespace mock {
 namespace draw {
 
 class Sprite: public saccubus::draw::RawSprite {

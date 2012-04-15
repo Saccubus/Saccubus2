@@ -9,7 +9,7 @@
 #include "Sprite.h"
 
 namespace saccubus {
-namespace test {
+namespace mock {
 namespace draw {
 
 SpriteFactory::SpriteFactory() {

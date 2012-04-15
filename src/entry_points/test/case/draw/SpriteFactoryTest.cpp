@@ -8,7 +8,7 @@
 #include "../../TestCommon.h"
 #include "../../mock/draw/Sprite.h"
 #include "../../mock/draw/SpriteFactory.h"
-using namespace saccubus::test::draw;
+using namespace saccubus::mock::draw;
 
 namespace saccubus{
 namespace test {

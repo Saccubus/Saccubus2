@@ -12,7 +12,7 @@
 #include "../../../../saccubus/draw/Canvas.h"
 
 namespace saccubus {
-namespace test {
+namespace mock {
 namespace draw {
 
 class Sprite;
