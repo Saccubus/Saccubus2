@@ -22,8 +22,7 @@ Comment::~Comment() {
 void Comment::interpret()
 {
 	for(meta::Comment::MailIterator it= this->orig()->mailBegin(); it != this->orig()->mailEnd(); ++it){
-		const std::string& mail = *it;
-		Comment::interpret(mail, this);
+		Comment::interpret(*it, this);
 	}
 }
 
