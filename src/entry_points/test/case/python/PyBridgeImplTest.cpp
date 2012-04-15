@@ -54,7 +54,7 @@ TEST_F(PyBridgeImplTest, InvalidFileTest)
 
 TEST_F(PyBridgeImplTest, DictTest)
 {
-	session->loadFile(MATERIAL_DIR"test.py");
+	ASSERT_NO_THROW(session->loadFile(MATERIAL_DIR"test.py"));
 	std::vector<std::pair<std::string, std::string> > args;
 	args.push_back(std::pair<std::string, std::string>("first", "1"));
 	args.push_back(std::pair<std::string, std::string>("second", "2"));
@@ -64,7 +64,7 @@ TEST_F(PyBridgeImplTest, DictTest)
 
 TEST_F(PyBridgeImplTest, BoolTest)
 {
-	session->loadFile(MATERIAL_DIR"test.py");
+	ASSERT_NO_THROW(session->loadFile(MATERIAL_DIR"test.py"));
 	std::vector<std::pair<std::string, std::string> > args;
 	args.push_back(std::pair<std::string, std::string>("two_plus_two", "4"));
 	args.push_back(std::pair<std::string, std::string>("five", "5"));
@@ -73,7 +73,7 @@ TEST_F(PyBridgeImplTest, BoolTest)
 
 TEST_F(PyBridgeImplTest, FailTest)
 {
-	session->loadFile(MATERIAL_DIR"test.py");
+	ASSERT_NO_THROW(session->loadFile(MATERIAL_DIR"test.py"));
 	ASSERT_THROW(session->executeMethodDict("test_run_fail", std::vector<std::pair<std::string, std::string> >()), ScriptException);
 }
 
