@@ -60,11 +60,11 @@ size_t Comment::mailSize() const
 {
 	return mailList.size();
 }
-std::vector<std::string>::const_iterator Comment::mailBegin() const
+Comment::MailIterator Comment::mailBegin() const
 {
 	return mailList.begin();
 }
-std::vector<std::string>::const_iterator Comment::mailEnd() const
+Comment::MailIterator Comment::mailEnd() const
 {
 	return mailList.end();
 }

@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef CHAT_H_
-#define CHAT_H_
+#ifndef META_COMMENT_H_
+#define META_COMMENT_H_
 
 #include <string>
 #include <vector>
@@ -41,12 +41,13 @@ public:
 	Comment(logging::Logger& log, xmlNode* node);
 	virtual ~Comment();
 public:
+	typedef std::vector<std::string>::const_iterator MailIterator;
 	size_t mailSize() const;
-	std::vector<std::string>::const_iterator mailBegin() const;
-	std::vector<std::string>::const_iterator mailEnd() const;
+	MailIterator mailBegin() const;
+	MailIterator mailEnd() const;
 public:
 	static bool comparareLessByVpos(const Comment* a, const Comment* b);
 };
 
 }}
-#endif /* CHAT_H_ */
+#endif /* META_COMMENT_H_ */
