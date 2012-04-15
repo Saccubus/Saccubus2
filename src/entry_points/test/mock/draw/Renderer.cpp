@@ -1,43 +1,46 @@
 /*
- * Canvas.cpp
+ * Renderer.cpp
  *
- *  Created on: 2012/04/14
+ *  Created on: 2012/04/15
  *      Author: psi
  */
 
-#include "Canvas.h"
+#include "Renderer.h"
 #include "Sprite.h"
 
 namespace saccubus {
 namespace mock {
 namespace draw {
 
-Canvas::Canvas() {
+Renderer::Renderer() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Canvas::~Canvas() {
+Renderer::~Renderer() {
 	// TODO Auto-generated destructor stub
 }
 
-void Canvas::draw(int x, int y, Sprite* spr)
+saccubus::draw::RawSprite* Renderer::createSprite(int w, int h)
+{
+	return new Sprite(handler(), w, h);
+}
+
+void Renderer::draw(int x, int y, Sprite* spr)
 {
 	this->drawQuery.push_back(std::pair<std::pair<int,int>,Sprite* >(std::pair<int, int>(x, y), spr));
 }
 
-Canvas::QueryIterator Canvas::queryBegin()
+Renderer::QueryIterator Renderer::queryBegin()
 {
 	return this->drawQuery.begin();
 }
-Canvas::QueryIterator Canvas::queryEnd()
+Renderer::QueryIterator Renderer::queryEnd()
 {
 	return this->drawQuery.end();
 }
-std::size_t Canvas::querySize()
+std::size_t Renderer::querySize()
 {
 	return this->drawQuery.size();
 }
-
-
 }}}

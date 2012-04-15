@@ -21,7 +21,7 @@ public:
 	CommentLayer();
 	virtual ~CommentLayer();
 public:
-	virtual void draw(float vpos, draw::Canvas* canvas);
+	virtual void draw(float vpos, draw::Renderer* renderer);
 };
 
 }}

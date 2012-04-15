@@ -26,8 +26,7 @@ class Comment;
 namespace draw{
 class Sprite;
 class RawSprite;
-class Canvas;
-class ImageFactory;
+class Renderer;
 class CommentFactory;
 }
 

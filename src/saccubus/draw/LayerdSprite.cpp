@@ -36,13 +36,13 @@ void LayerdSprite::updateSize()
 	this->height(h);
 }
 
-void LayerdSprite::draw(Canvas* canvas, int x, int y)
+void LayerdSprite::draw(Renderer* renderer, int x, int y)
 {
 	for(std::vector<std::pair<Point, Sprite*> >::const_iterator it = sprites.begin(); it != sprites.end(); ++it)
 	{
 		const Point pt = it->first;
 		Sprite* const spr = it->second;
-		spr->draw(canvas, x+pt.x(), y+pt.y());
+		spr->draw(renderer, x+pt.x(), y+pt.y());
 	}
 }
 

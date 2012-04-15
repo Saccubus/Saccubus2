@@ -10,9 +10,9 @@
 namespace saccubus {
 namespace draw {
 
-CommentFactory::CommentFactory(ImageFactory* imgFactory)
+CommentFactory::CommentFactory(Renderer* renderer)
 {
-	this->imgFactory(imgFactory);
+	this->renderer(renderer);
 }
 
 CommentFactory::~CommentFactory() {

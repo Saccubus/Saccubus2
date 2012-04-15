@@ -6,14 +6,14 @@
  */
 
 #include "SimpleCommentFactory.h"
-#include "ImageFactory.h"
+#include "Renderer.h"
 
 namespace saccubus {
 namespace draw {
 namespace sdl {
 
-SimpleCommentFactory::SimpleCommentFactory(sdl::ImageFactory* imgFactory)
-:CommentFactory(imgFactory)
+SimpleCommentFactory::SimpleCommentFactory(sdl::Renderer* renderer)
+:CommentFactory(renderer)
 {
 	// TODO Auto-generated constructor stub
 

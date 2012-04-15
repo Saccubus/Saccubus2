@@ -18,7 +18,7 @@ public:
 	NekomataLayer();
 	virtual ~NekomataLayer();
 public:
-	virtual void draw(float vpos, draw::Canvas* canvas);
+	virtual void draw(float vpos, draw::Renderer* renderer);
 };
 
 }}

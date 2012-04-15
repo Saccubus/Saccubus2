@@ -11,7 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include "../Sprite.h"
-#include "Canvas.h"
+#include "Renderer.h"
 
 namespace saccubus {
 namespace draw {
@@ -22,7 +22,7 @@ class Sprite : public draw::Sprite {
 public:
 	Sprite(int w, int h, SDL_Texture* texture);
 	virtual ~Sprite();
-	virtual void draw(draw::Canvas* canvas, int x, int y);
+	virtual void draw(draw::Renderer* renderer, int x, int y);
 };
 
 }}}

@@ -24,7 +24,7 @@ public:
 private:
 	void updateSize();
 public:
-	virtual void draw(Canvas* canvas, int x, int y);
+	virtual void draw(Renderer* renderer, int x, int y);
 	std::size_t size();
 	void addSprite(int x, int y, Sprite* spr);
 };

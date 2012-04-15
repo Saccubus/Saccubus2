@@ -6,22 +6,22 @@
  */
 
 #include "RawSprite.h"
-#include "ImageFactory.h"
+#include "Renderer.h"
 #include "../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory)
+RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer)
 :Sprite()
 ,refcount(0)
-,_factory(_factory)
+,_renderer(_renderer)
 {
 }
-RawSprite::RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory, int w, int h)
+RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
 :Sprite(w, h)
 ,refcount(0)
-,_factory(_factory)
+,_renderer(_renderer)
 {
 
 }
@@ -46,8 +46,8 @@ void RawSprite::decref()
 	if(this->refcount < 0){
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] RawSprite::Handler refcount = %d < 0", this->refcount);
 	}else if(this->refcount == 0){
-		if(factory()){
-			factory()->backSprite(this);
+		if(renderer()){
+			renderer()->backSprite(this);
 		}else{ //親のファクトリが死んでしまったので、自分で後始末しなければならない。
 			delete this;
 		}

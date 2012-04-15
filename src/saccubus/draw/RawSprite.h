@@ -34,17 +34,17 @@ public:
 	};
 private:
 	int refcount;
-	std::tr1::shared_ptr<ImageFactory*> _factory;
+	std::tr1::shared_ptr<Renderer*> _renderer;
 	void incref();
 	void decref();
-	ImageFactory* factory(){ return *(_factory.get()); };
+	Renderer* renderer(){ return *(_renderer.get()); };
 protected:
-	RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory);
-	RawSprite(std::tr1::shared_ptr<ImageFactory*> _factory, int w, int h);
+	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
+	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
 public:
 	virtual ~RawSprite();
 public:
-	virtual void draw(Canvas* canvas, int x, int y) = 0;
+	virtual void draw(Renderer* renderer, int x, int y) = 0;
 	virtual void shrink(int w, int h);
 };
 

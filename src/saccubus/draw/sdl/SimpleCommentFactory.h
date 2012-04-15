@@ -15,10 +15,10 @@ namespace saccubus {
 namespace draw {
 namespace sdl {
 
-class ImageFactory;
+class Renderer;
 class SimpleCommentFactory: public saccubus::draw::CommentFactory {
 public:
-	SimpleCommentFactory(sdl::ImageFactory* imgFactory);
+	SimpleCommentFactory(sdl::Renderer* renderer);
 	virtual ~SimpleCommentFactory();
 public:
 	virtual saccubus::draw::RawSprite::Handler renderComment(const saccubus::context::Comment* comment);

@@ -5,7 +5,7 @@
  *      Author: psi
  */
 
-#include "Canvas.h"
+#include "Renderer.h"
 #include "Sprite.h"
 
 namespace saccubus {
@@ -16,15 +16,15 @@ Sprite::~Sprite() {
 	// TODO Auto-generated destructor stub
 }
 
-Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::ImageFactory*> _factory, int w, int h)
-:saccubus::draw::RawSprite(_factory, w, h)
+Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
+:saccubus::draw::RawSprite(_renderer, w, h)
 {
 
 }
-void Sprite::draw(saccubus::draw::Canvas* __canvas, int x, int y)
+void Sprite::draw(saccubus::draw::Renderer* __renderer, int x, int y)
 {
-	Canvas& canvas = dynamic_cast<Canvas&>(*__canvas);
-	canvas.draw(x, y, this);
+	Renderer& renderer = dynamic_cast<Renderer&>(*__renderer);
+	renderer.draw(x, y, this);
 }
 
 

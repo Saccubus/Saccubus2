@@ -33,7 +33,7 @@ protected:
 public:
 	virtual ~Sprite();
 public:
-	virtual void draw(Canvas* canvas, int x, int y) = 0;
+	virtual void draw(Renderer* renderer, int x, int y) = 0;
 	virtual void shrink(int w, int h) = 0;
 };
 

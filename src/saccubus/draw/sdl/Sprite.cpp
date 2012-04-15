@@ -24,9 +24,9 @@ Sprite::~Sprite() {
 	// TODO Auto-generated destructor stub
 }
 
-void Sprite::draw(draw::Canvas* _canvas, int x, int y)
+void Sprite::draw(draw::Renderer* _renderer, int x, int y)
 {
-	sdl::Canvas& canvas = dynamic_cast<sdl::Canvas&>(*_canvas);
+	sdl::Renderer& canvas = dynamic_cast<sdl::Renderer&>(*_renderer);
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;

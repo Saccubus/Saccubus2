@@ -22,7 +22,7 @@ namespace layer {
  */
 class ThreadLayer {
 private:
-	draw::ImageFactory* imageFactory;
+	draw::Renderer* renderer;
 	draw::CommentFactory* commentFactory;
 private:
 	NekomataLayer* nekomataLayer;
@@ -31,7 +31,7 @@ public:
 	ThreadLayer(PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
-	virtual void draw(float vpos, draw::Canvas* canvas);
+	virtual void draw(float vpos, draw::Renderer* renderer);
 };
 
 }}

@@ -1,34 +1,35 @@
 /*
- * Canvas.h
+ * Renderer.h
  *
- *  Created on: 2012/04/14
+ *  Created on: 2012/04/15
  *      Author: psi
  */
 
-#ifndef MOCK_DRAW_CANVAS_H_
-#define MOCK_DRAW_CANVAS_H_
+#ifndef MOCK_RENDERER_H_
+#define MOCK_RENDERER_H_
 
-#include <vector>
-#include "../../../../saccubus/draw/Canvas.h"
+#include "../../../../saccubus/draw/Renderer.h"
 
 namespace saccubus {
 namespace mock {
 namespace draw {
 
 class Sprite;
-class Canvas: public saccubus::draw::Canvas {
+class Renderer: public saccubus::draw::Renderer {
+public:
+	Renderer();
+	virtual ~Renderer();
 private:
 	std::vector<std::pair<std::pair<int, int>, Sprite* > > drawQuery;
 public:
 	typedef std::vector<std::pair<std::pair<int, int>, Sprite* > >::const_iterator QueryIterator;
-	Canvas();
-	virtual ~Canvas();
 public:
 	void draw(int x, int y, Sprite* spr);
 	QueryIterator queryBegin();
 	QueryIterator queryEnd();
 	std::size_t querySize();
-};
+protected:
+	virtual saccubus::draw::RawSprite* createSprite(int w, int h);};
 
 }}}
-#endif /* MOCK_DRAW_CANVAS_H_ */
+#endif /* MOCK_RENDERER_H_ */

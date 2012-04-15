@@ -8,7 +8,7 @@
 #ifndef LAYER_H_
 #define LAYER_H_
 
-#include "../draw/Canvas.h"
+#include "../draw/Renderer.h"
 
 namespace saccubus {
 namespace layer {
@@ -25,7 +25,7 @@ public:
 	Layer();
 	virtual ~Layer();
 public:
-	virtual void draw(float vpos, draw::Canvas* canvas) = 0;
+	virtual void draw(float vpos, draw::Renderer* renderer) = 0;
 };
 
 }}

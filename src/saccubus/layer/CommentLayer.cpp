@@ -19,7 +19,7 @@ CommentLayer::~CommentLayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void CommentLayer::draw(float vpos, draw::Canvas* canvas)
+void CommentLayer::draw(float vpos, draw::Renderer* renderer)
 {
 
 }

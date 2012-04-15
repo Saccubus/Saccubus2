@@ -19,7 +19,7 @@ NekomataLayer::~NekomataLayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void NekomataLayer::draw(float vpos, draw::Canvas* canvas)
+void NekomataLayer::draw(float vpos, draw::Renderer* renderer)
 {
 
 }

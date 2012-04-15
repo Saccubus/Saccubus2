@@ -159,7 +159,7 @@ void Saccubus::measure(const int w, const int h, int& measuredWidth, int& measur
 	measuredHeight = h;
 }
 
-void Saccubus::draw(float vpos, draw::Canvas* canvas, draw::Sprite* videoSprite)
+void Saccubus::draw(float vpos, draw::Renderer* renderer, draw::Sprite* videoSprite)
 {
 
 }

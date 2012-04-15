@@ -9,7 +9,7 @@
 #include "logging/Exception.h"
 
 #include "draw/sdl/SimpleCommentFactory.h"
-#include "draw/sdl/ImageFactory.h"
+#include "draw/sdl/Renderer.h"
 
 namespace saccubus {
 
@@ -27,19 +27,19 @@ PluginOrganizer::~PluginOrganizer() {
 	// TODO Auto-generated destructor stub
 }
 
-saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::ImageFactory* const imgFactory)
+saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Renderer* const renderer)
 {
 	if(PLUGIN_SDL == config["graphic"] && PLUGIN_SIMPLE == config["text"]){
-		draw::sdl::ImageFactory* _imgFactory = dynamic_cast<draw::sdl::ImageFactory*>(imgFactory);
-		if(!_imgFactory){
+		draw::sdl::Renderer* _renderer = dynamic_cast<draw::sdl::Renderer*>(renderer);
+		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
-					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::ImageFactory*, but got %s",
+					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::Renderer*, but got %s",
 					config["graphic"].c_str(),
 					config["text"].c_str(),
-					typeid(imgFactory).name()
+					typeid(renderer).name()
 					);
 		}
-		return new saccubus::draw::sdl::SimpleCommentFactory(_imgFactory);
+		return new saccubus::draw::sdl::SimpleCommentFactory(_renderer);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
@@ -47,13 +47,13 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::ImageFa
 			config["text"].c_str()
 			);
 }
-saccubus::draw::ImageFactory* PluginOrganizer::newImageFactory()
+saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 {
 	if(PLUGIN_SDL == config["graphic"]){
-		return new saccubus::draw::sdl::ImageFactory();
+		return new saccubus::draw::sdl::Renderer();
 	}
 	throw logging::Exception(__FILE__, __LINE__,
-			"There is no sprite factory plugin corresponding to [graphic: %s]",
+			"There is no renderer plugin corresponding to [graphic: %s]",
 			config["graphic"].c_str()
 			);
 }

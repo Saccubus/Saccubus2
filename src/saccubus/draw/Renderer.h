@@ -1,13 +1,12 @@
 /*
- * ImageFactory.h
+ * Renderer.h
  *
- *  Created on: 2012/04/14
+ *  Created on: 2012/04/15
  *      Author: psi
  */
 
-#ifndef DRAW_IMAGEFACTORY_H_
-#define DRAW_IMAGEFACTORY_H_
-
+#ifndef DRAW_RENDERER_H_
+#define DRAW_RENDERER_H_
 #include "RawSprite.h"
 #include "../classdefs.h"
 #include <vector>
@@ -16,14 +15,17 @@
 namespace saccubus {
 namespace draw {
 
-class ImageFactory {
+class Renderer {
 public:
-	ImageFactory();
-	virtual ~ImageFactory();
+	Renderer();
+	virtual ~Renderer();
+/**************************************************************************************************
+ * スプライト管理機構
+ **************************************************************************************************/
 private:
-	const std::tr1::shared_ptr<ImageFactory*> _handler;
+	const std::tr1::shared_ptr<Renderer*> _handler;
 protected:
-	const std::tr1::shared_ptr<ImageFactory*> handler() { return _handler; };
+	const std::tr1::shared_ptr<Renderer*> handler() { return _handler; };
 private:
 	struct order
 	{
@@ -44,4 +46,4 @@ protected: /* 各実装がこれを実際に実装する */
 };
 
 }}
-#endif /* DRAW_IMAGEFACTORY_H_ */
+#endif /* DRAW_RENDERER_H_ */

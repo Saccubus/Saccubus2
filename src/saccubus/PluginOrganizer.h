@@ -29,8 +29,8 @@ public:
 	PluginOrganizer(const std::map<std::string, std::string>& config);
 	virtual ~PluginOrganizer();
 public:
-	saccubus::draw::CommentFactory* newCommentFactory(draw::ImageFactory* const sprFactory);
-	saccubus::draw::ImageFactory* newImageFactory();
+	saccubus::draw::Renderer* newRenderer();
+	saccubus::draw::CommentFactory* newCommentFactory(draw::Renderer* const renderer);
 	saccubus::layer::CommentLayer* newCommentLayer();
 };
 
