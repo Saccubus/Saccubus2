@@ -19,7 +19,7 @@ Renderer::Renderer()
 Renderer::~Renderer() {
 }
 
-saccubus::draw::RawSprite* Renderer::createSprite(int w, int h)
+saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
 	return new Sprite(handler(), w, h);
 }

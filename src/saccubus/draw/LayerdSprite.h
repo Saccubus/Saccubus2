@@ -17,7 +17,7 @@ namespace draw {
 
 class LayerdSprite: public saccubus::draw::Sprite {
 private:
-	std::vector<std::pair<Point, Sprite*> > sprites;
+	std::vector<std::pair<Point, Sprite::Handler<Sprite> > > sprites;
 public:
 	LayerdSprite();
 	virtual ~LayerdSprite();
@@ -26,7 +26,8 @@ private:
 public:
 	virtual void draw(Renderer* renderer, int x, int y);
 	std::size_t size();
-	void addSprite(int x, int y, Sprite* spr);
+	void addSprite(int x, int y, Sprite::Handler<Sprite> spr);
+	virtual void onFree();
 };
 
 }}

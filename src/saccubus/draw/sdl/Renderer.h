@@ -34,7 +34,7 @@ public:
 	std::string windowTitle();
 	void updateWindow();
 protected: /* 各実装がこれを実際に実装する */
-	virtual draw::RawSprite* createSprite(int w, int h);
+	virtual draw::RawSprite* createRawSprite(int w, int h);
 };
 
 }}}

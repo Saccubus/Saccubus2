@@ -33,7 +33,7 @@ private:
 	void setFont(cairo_t* cairo, const saccubus::context::Comment* comment);
 	void setColor(cairo_t* cairo, unsigned int color);
 public:
-	virtual saccubus::draw::RawSprite::Handler renderComment(const saccubus::context::Comment* comment);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(const saccubus::context::Comment* comment);
 };
 
 }}}

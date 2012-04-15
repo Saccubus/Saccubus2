@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include "Renderer.h"
+#include "../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
@@ -22,27 +23,27 @@ Renderer::~Renderer() {
 	*(handler().get()) = 0;
 }
 
-RawSprite::Handler Renderer::querySprite(int w, int h)
+Sprite::Handler<RawSprite> Renderer::queryRawSprite(int w, int h)
 {
 	SpriteIterator it = std::lower_bound(unusedSprites.begin(), unusedSprites.end(), std::pair<int, int>(w,h), order());
 	if(it == unusedSprites.end()){
-		RawSprite::Handler handler(createSprite(w, h));
+		Sprite::Handler<RawSprite> handler(createRawSprite(w, h));
 		return handler;
 	}else{
-		RawSprite::Handler handler(*it);
+		Sprite::Handler<RawSprite> handler(*it);
 		unusedSprites.erase(it);
 		handler->shrink(w, h);
 		return handler;
 	}
 }
 
-void Renderer::backSprite(RawSprite* spr)
+void Renderer::backRawSprite(RawSprite* spr)
 {
 	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
 	unusedSprites.insert(it, spr);
 }
 
-std::size_t Renderer::availableSprites()
+std::size_t Renderer::availableRawSprites()
 {
 	return unusedSprites.size();
 }

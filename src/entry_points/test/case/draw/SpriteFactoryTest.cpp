@@ -19,28 +19,28 @@ TEST(RendererTest, BasicQueryTest)
 	Renderer renderer;
 	saccubus::draw::Sprite* spr;
 	{
-		Sprite::Handler handler = renderer.querySprite(10, 11);
+		Sprite::Handler<Sprite> handler = renderer.queryRawSprite(10, 11);
 		ASSERT_EQ(10, handler->width());
 		ASSERT_EQ(11, handler->height());
-		spr = *handler;
+		spr = handler.get();
 	}
 	//スプライトが返却されていることを確認
-	ASSERT_EQ(1U, renderer.availableSprites());
+	ASSERT_EQ(1U, renderer.availableRawSprites());
 	{
-		Sprite::Handler handler = renderer.querySprite(9, 10);
+		Sprite::Handler<Sprite> handler = renderer.queryRawSprite(9, 10);
 		ASSERT_EQ(9, handler->width());
 		ASSERT_EQ(10, handler->height());
-		ASSERT_EQ(spr, *handler);
+		ASSERT_EQ(spr, handler.get());
 	}
-	ASSERT_EQ(1U, renderer.availableSprites());
+	ASSERT_EQ(1U, renderer.availableRawSprites());
 }
 
 TEST(RendererTest, AllocationTest)
 {
-	Sprite::Handler handler;
+	Sprite::Handler<Sprite> handler;
 	{
 		Renderer renderer;
-		handler = renderer.querySprite(10, 11);
+		handler = renderer.queryRawSprite(10, 11);
 		ASSERT_EQ(10, handler->width());
 		ASSERT_EQ(11, handler->height());
 	}

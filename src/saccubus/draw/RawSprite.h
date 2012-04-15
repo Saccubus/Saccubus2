@@ -17,30 +17,15 @@ namespace draw {
  */
 class RawSprite: public saccubus::draw::Sprite {
 public:
-	class Handler
-	{
-	private:
-		RawSprite* sprite;
-	public:
-		explicit Handler(RawSprite* const sprite);
-	public:
-		Handler();
-		Handler(const Handler& other);
-		Handler& operator=(const Handler& other);
-		virtual ~Handler();
-		RawSprite* operator->() const;
-		RawSprite* operator*() const;
-		operator bool() const;
-	};
 	class Session{
 	private:
-		RawSprite* const sprite;
+		Sprite::Handler<RawSprite> const sprite;
 		void* _data;
 		int _w;
 		int _h;
 		int _stride;
 	public:
-		Session(RawSprite* spr);
+		Session(Sprite::Handler<RawSprite> spr);
 		virtual ~Session();
 	public:
 		void* data() const;
@@ -49,10 +34,7 @@ public:
 		int stride() const;
 	};
 private:
-	int refcount;
 	std::tr1::shared_ptr<Renderer*> _renderer;
-	void incref();
-	void decref();
 protected:
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
@@ -62,6 +44,7 @@ public:
 protected:
 	virtual void lock(void** data, int* w, int* h, int* stride) = 0;
 	virtual void unlock() = 0;
+	virtual void onFree();
 public:
 	virtual void draw(Renderer* renderer, int x, int y) = 0;
 	virtual void shrink(int w, int h);

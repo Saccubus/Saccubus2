@@ -71,7 +71,7 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, red, green, blue, 1);
 }
 
-saccubus::draw::RawSprite::Handler SimpleCommentFactory::renderComment(const saccubus::context::Comment* comment)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::context::Comment* comment)
 {
 	double x;
 	double y;
@@ -87,10 +87,9 @@ saccubus::draw::RawSprite::Handler SimpleCommentFactory::renderComment(const sac
 		w = std::ceil(ext.width+ShadowWidth);
 		h = std::ceil(ext.height+ShadowWidth);
 	}
-	RawSprite::Handler handler = this->renderer()->querySprite(w, h);
+	Sprite::Handler<RawSprite> handler = this->renderer()->queryRawSprite(w, h);
 	{ /* 実際にレンダリング */
-		sdl::Sprite* spr = dynamic_cast<sdl::Sprite*>(*handler);
-		RawSprite::Session session(spr);
+		RawSprite::Session session(handler);
 		cairo_surface_t* surface = cairo_image_surface_create_for_data(
 						reinterpret_cast<unsigned char*>(session.data()),
 						CAIRO_FORMAT_ARGB32,
@@ -121,7 +120,7 @@ saccubus::draw::RawSprite::Handler SimpleCommentFactory::renderComment(const sac
 		cairo_surface_destroy(surface);
 
 	}
-	return handler;
+	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(handler);
 }
 
 }}}

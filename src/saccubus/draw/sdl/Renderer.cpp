@@ -44,7 +44,7 @@ Renderer::~Renderer() {
 	}
 }
 
-draw::RawSprite* Renderer::createSprite(int w, int h)
+draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
 	return new sdl::Sprite(this->handler(), w, h);
 }

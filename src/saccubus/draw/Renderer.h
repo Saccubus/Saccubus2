@@ -39,12 +39,12 @@ private:
 	std::vector<RawSprite*> unusedSprites;
 	typedef std::vector<RawSprite*>::iterator SpriteIterator;
 public:
-	RawSprite::Handler querySprite(int w, int h);
-	std::size_t availableSprites();
+	Sprite::Handler<RawSprite> queryRawSprite(int w, int h);
+	std::size_t availableRawSprites();
 public: /* Spriteからのコールバック関数 */
-	void backSprite(RawSprite* spr);
+	void backRawSprite(RawSprite* spr);
 protected: /* 各実装がこれを実際に実装する */
-	virtual RawSprite* createSprite(int w, int h) = 0;
+	virtual RawSprite* createRawSprite(int w, int h) = 0;
 };
 
 }}

@@ -29,7 +29,7 @@ public:
 	QueryIterator queryEnd();
 	std::size_t querySize();
 protected:
-	virtual saccubus::draw::RawSprite* createSprite(int w, int h);};
+	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);};
 
 }}}
 #endif /* MOCK_RENDERER_H_ */
