@@ -20,7 +20,7 @@ TEST(CommentTest, InterpretTest)
 	orig.mail("invisible");
 	{
 		saccubus::context::Comment ctx = saccubus::context::Comment(&orig);
-		ASSERT_FALSE(ctx.vibisle());
+		ASSERT_FALSE(ctx.visibility());
 	}
 }
 

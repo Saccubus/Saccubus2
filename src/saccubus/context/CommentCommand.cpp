@@ -61,16 +61,16 @@ static void sage_func(const std::string& command, Comment* comment)
 	comment->sage(true);
 }
 static void invisible_func(const std::string& command, Comment* comment){
-	comment->vibisle(false);
+	comment->visibility(false);
 }
 static void patissier_func(const std::string& command, Comment* comment){
-	comment->patissier(false);
+	comment->patissier(true);
 }
 static void from_button_func(const std::string& command, Comment* comment){
-	comment->fromButton(false);
+	comment->fromButton(true);
 }
 static void is_button_func(const std::string& command, Comment* comment){
-	comment->isButton(false);
+	comment->isButton(true);
 }
 
 bool Comment::Command::execute(const std::string& command, Comment* comment) const

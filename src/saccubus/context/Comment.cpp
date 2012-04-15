@@ -37,7 +37,7 @@ void Comment::setDefault()
 	this->sage(true);
 	this->patissier(false);
 	this->device(Comment::Unspecified);
-	this->vibisle(true);
+	this->visibility(true);
 	this->size(Comment::Medium);
 	this->placeX(Comment::Center);
 	this->placeY(Comment::Middle);

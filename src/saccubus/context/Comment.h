@@ -79,7 +79,7 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, bool, sage);
 	DEF_ATTR_ACCESSOR(public, public, bool, patissier);
 	DEF_ATTR_ACCESSOR(public, public, enum Device, device);
-	DEF_ATTR_ACCESSOR(public, public, bool, vibisle);
+	DEF_ATTR_ACCESSOR(public, public, bool, visibility);
 	DEF_ATTR_ACCESSOR(public, public, enum Size, size);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceX, placeX);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
