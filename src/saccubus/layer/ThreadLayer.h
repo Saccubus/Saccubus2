@@ -11,7 +11,7 @@
 #include <vector>
 #include "../classdefs.h"
 #include "CommentLayer.h"
-#include "NekomataLayer.h"
+#include "ShapeLayer.h"
 
 namespace saccubus {
 namespace layer {
@@ -24,8 +24,9 @@ class ThreadLayer : public Layer {
 private:
 	draw::CommentFactory* commentFactory;
 private:
-	NekomataLayer* nekomataLayer;
-	std::vector<CommentLayer*> commentLayers;
+	ShapeLayer* shapeLayer;
+	CommentLayer* mainCommentLayer;
+	CommentLayer* forkedCommentLayer;
 public:
 	ThreadLayer(draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
