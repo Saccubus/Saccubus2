@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef COMMENTFACTORY_H_
-#define COMMENTFACTORY_H_
+#ifndef DRAW_COMMENTFACTORY_H_
+#define DRAW_COMMENTFACTORY_H_
 
 #include "RawSprite.h"
 #include "../util/ClassAccessor.h"
@@ -24,4 +24,4 @@ public:
 };
 
 }}
-#endif /* COMMENTFACTORY_H_ */
+#endif /* DRAW_COMMENTFACTORY_H_ */

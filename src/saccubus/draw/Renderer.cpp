@@ -21,6 +21,9 @@ Renderer::Renderer(const int w, const int h)
 
 Renderer::~Renderer() {
 	*(handler().get()) = 0;
+	for(SpriteIterator it = unusedSprites.begin(); it != unusedSprites.end(); ++it){
+		delete *it;
+	}
 }
 
 Sprite::Handler<RawSprite> Renderer::queryRawSprite(int w, int h)
@@ -41,6 +44,12 @@ void Renderer::backRawSprite(RawSprite* spr)
 {
 	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
 	unusedSprites.insert(it, spr);
+	while(MaxCachedRawSprites < unusedSprites.size()){
+		//TODO: とりあえず大きいスプライトから削除してるけど、これでいい？
+		RawSprite* deleted = unusedSprites.back();
+		unusedSprites.pop_back();
+		delete deleted;
+	}
 }
 
 std::size_t Renderer::availableRawSprites()

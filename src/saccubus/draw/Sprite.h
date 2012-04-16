@@ -5,10 +5,11 @@
  *      Author: psi
  */
 
-#ifndef SPRITE_H_
-#define SPRITE_H_
+#ifndef DRAW_SPRITE_H_
+#define DRAW_SPRITE_H_
 
 #include <tr1/memory>
+#include "../logging/Exception.h"
 #include "../classdefs.h"
 #include "../util/ClassAccessor.h"
 
@@ -29,13 +30,21 @@ public:
 	template<class S>
 	class Handler
 	{
-	public:
+	private:
 		S* sprite;
 	public:
+		static Handler<S> __internal__fromRawPointerWithoutCheck(S* const sprite)
+		{
+			Handler<S> spr;
+			spr.sprite = sprite;
+			if(spr.sprite){
+				spr.sprite->incref();
+			}
+			return spr;
+		}
 		Handler():sprite(0){};
-		template<class T>
-		explicit Handler(T* const sprite)
-		:sprite(dynamic_cast<S*>(sprite))
+		explicit Handler(S* const sprite)
+		:sprite(sprite)
 		{
 			if(this->sprite){
 				if(this->sprite->refcount != 0){
@@ -51,9 +60,9 @@ public:
 				this->sprite->incref();
 			}
 		}
-		template<class T>
+		template <class T>
 		Handler(const Handler<T>& other)
-		:sprite(dynamic_cast<S*>(other.sprite))
+		:sprite(other.get())
 		{
 			if(this->sprite){
 				this->sprite->incref();
@@ -70,18 +79,26 @@ public:
 			this->sprite = other.sprite;
 			return *this;
 		}
-		template<class T>
+		template <class T>
 		Handler<S>& operator=(const Handler<T>& other)
 		{
-			S* spr = dynamic_cast<S*>(other.sprite);
-			if(spr){
-				spr->incref();
+			if(other.get()){
+				other.get()->incref();
 			}
 			if(this->sprite){
 				this->sprite->decref();
 			}
-			this->sprite = spr;
+			this->sprite = other.get();
 			return *this;
+		}
+		template<class T>
+		Handler<T> cast() const
+		{
+			T* spr = dynamic_cast<T*>(this->sprite);
+			if(!spr){
+				throw logging::Exception(__FILE__, __LINE__, "[BUG] Sprite::Handler / failed to cast %s to %s", typeid(this->sprite).name(), typeid(spr).name());
+			}
+			return Handler<T>::__internal__fromRawPointerWithoutCheck(spr);
 		}
 		virtual ~Handler()
 		{
@@ -124,4 +141,4 @@ public:
 }}
 
 
-#endif /* SPRITE_H_ */
+#endif /* DRAW_SPRITE_H_ */

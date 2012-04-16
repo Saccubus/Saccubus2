@@ -28,7 +28,7 @@ public:
 	QueryIterator queryBegin();
 	QueryIterator queryEnd();
 	std::size_t querySize();
-protected:
+	const std::tr1::shared_ptr<saccubus::draw::Renderer*> handler() { return this->saccubus::draw::Renderer::handler(); };
 	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);};
 
 }}}

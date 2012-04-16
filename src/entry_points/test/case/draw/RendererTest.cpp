@@ -17,36 +17,36 @@ namespace draw{
 TEST(RendererTest, BasicQueryTest)
 {
 	Renderer renderer;
-	saccubus::draw::Sprite* spr;
+	saccubus::draw::Sprite* pspr;
 	{
-		Sprite::Handler<Sprite> handler = renderer.queryRawSprite(10, 11);
-		ASSERT_EQ(10, handler->width());
-		ASSERT_EQ(11, handler->height());
-		spr = handler.get();
+		Sprite::Handler<saccubus::draw::Sprite> spr = renderer.queryRawSprite(10, 11);
+		ASSERT_EQ(10, spr->width());
+		ASSERT_EQ(11, spr->height());
+		pspr = spr.get();
 	}
 	//スプライトが返却されていることを確認
 	ASSERT_EQ(1U, renderer.availableRawSprites());
 	{
-		Sprite::Handler<Sprite> handler = renderer.queryRawSprite(9, 10);
-		ASSERT_EQ(9, handler->width());
-		ASSERT_EQ(10, handler->height());
-		ASSERT_EQ(spr, handler.get());
+		Sprite::Handler<saccubus::draw::Sprite> spr = renderer.queryRawSprite(9, 10);
+		ASSERT_EQ(9, spr->width());
+		ASSERT_EQ(10, spr->height());
+		ASSERT_EQ(pspr, spr.get());
 	}
 	ASSERT_EQ(1U, renderer.availableRawSprites());
 }
 
 TEST(RendererTest, AllocationTest)
 {
-	Sprite::Handler<Sprite> handler;
+	Sprite::Handler<saccubus::draw::Sprite> spr;
 	{
 		Renderer renderer;
-		handler = renderer.queryRawSprite(10, 11);
-		ASSERT_EQ(10, handler->width());
-		ASSERT_EQ(11, handler->height());
+		spr = renderer.queryRawSprite(10, 11);
+		ASSERT_EQ(10, spr->width());
+		ASSERT_EQ(11, spr->height());
 	}
 	// rendererは開放されてしまうが、Handlerは生きている
-	ASSERT_EQ(10, handler->width());
-	ASSERT_EQ(11, handler->height());
+	ASSERT_EQ(10, spr->width());
+	ASSERT_EQ(11, spr->height());
 }
 
 }}}

@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef RAWSPRITE_H_
-#define RAWSPRITE_H_
+#ifndef DRAW_RAWSPRITE_H_
+#define DRAW_RAWSPRITE_H_
 
 #include "Sprite.h"
 
@@ -51,4 +51,4 @@ public:
 };
 
 }}
-#endif /* RAWSPRITE_H_ */
+#endif /* DRAW_RAWSPRITE_H_ */

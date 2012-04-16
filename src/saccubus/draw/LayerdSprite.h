@@ -5,8 +5,8 @@
  *      Author: psi
  */
 
-#ifndef LAYERDSPRITE_H_
-#define LAYERDSPRITE_H_
+#ifndef DRAW_LAYERDSPRITE_H_
+#define DRAW_LAYERDSPRITE_H_
 
 #include <vector>
 #include "../classdefs.h"
@@ -18,8 +18,10 @@ namespace draw {
 class LayerdSprite: public saccubus::draw::Sprite {
 private:
 	std::vector<std::pair<Point, Sprite::Handler<Sprite> > > sprites;
-public:
+private:
 	LayerdSprite();
+public:
+	static Sprite::Handler<LayerdSprite> newInstance();
 	virtual ~LayerdSprite();
 private:
 	void updateSize();
@@ -28,7 +30,8 @@ public:
 	std::size_t size();
 	void addSprite(int x, int y, Sprite::Handler<Sprite> spr);
 	virtual void onFree();
+	virtual void shrink(int w, int h);
 };
 
 }}
-#endif /* LAYERDSPRITE_H_ */
+#endif /* DRAW_LAYERDSPRITE_H_ */

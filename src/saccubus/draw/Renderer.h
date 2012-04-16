@@ -15,6 +15,8 @@
 namespace saccubus {
 namespace draw {
 
+const std::size_t MaxCachedRawSprites = 100;
+
 class Renderer {
 	DEF_ATTR_ACCESSOR(public, protected, int, width)
 	DEF_ATTR_ACCESSOR(public, protected, int, height)

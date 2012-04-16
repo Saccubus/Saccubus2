@@ -6,6 +6,7 @@
  */
 
 #include "LayerdSprite.h"
+#include "../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
@@ -13,6 +14,16 @@ namespace draw {
 LayerdSprite::LayerdSprite()
 :Sprite()
 {
+}
+
+Sprite::Handler<LayerdSprite> LayerdSprite::newInstance()
+{
+	return Sprite::Handler<LayerdSprite>(new LayerdSprite());
+}
+
+void LayerdSprite::shrink(int w, int h)
+{
+	throw logging::Exception(__FILE__, __LINE__, "[BUG] shrink operation not supported in LayerdSprite");
 }
 
 LayerdSprite::~LayerdSprite() {

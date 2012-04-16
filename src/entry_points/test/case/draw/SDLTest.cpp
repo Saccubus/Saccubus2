@@ -29,10 +29,9 @@ TEST(SDLTest, QureyTest)
 	sdl::Renderer renderer(640, 480);
 	sdl::SimpleCommentFactory factory(&renderer);
 
-	Sprite::Handler<sdl::Sprite> handler(factory.renderComment(&comment));
-	ASSERT_GT(handler->width(), 0);
-	ASSERT_GT(handler->height(), 0);
-
+	Sprite::Handler<sdl::Sprite> spr = factory.renderComment(&comment).cast<sdl::Sprite>();
+	ASSERT_GT(spr->width(), 0);
+	ASSERT_GT(spr->height(), 0);
 }
 
 
