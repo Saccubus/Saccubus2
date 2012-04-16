@@ -19,6 +19,7 @@ Sprite::Sprite()
 Sprite::~Sprite() {
 }
 
+
 void Sprite::incref()
 {
 	this->refcount++;

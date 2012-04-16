@@ -10,7 +10,9 @@
 namespace saccubus {
 namespace layer {
 
-ShapeLayer::ShapeLayer() {
+ShapeLayer::ShapeLayer(draw::Renderer* renderer)
+:Layer(renderer)
+{
 	// TODO Auto-generated constructor stub
 
 }

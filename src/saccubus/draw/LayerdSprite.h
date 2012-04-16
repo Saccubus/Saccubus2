@@ -28,7 +28,7 @@ public:
 	std::size_t size();
 	void addSprite(int x, int y, Sprite::Handler<Sprite> spr);
 	virtual void onFree();
-	virtual void shrink(int w, int h);
+	virtual void resize(int w, int h);
 	virtual int width() const;
 	virtual int height() const;
 };

@@ -37,10 +37,14 @@ private:
 	std::tr1::shared_ptr<Renderer*> _renderer;
 	int _width;
 	int _height;
+	int _origWidth;
+	int _origHeight;
 public:
 	virtual int width() const;
 	virtual int height() const;
 protected:
+	int origWidth() const;
+	int origHeight() const;
 	void width(int val);
 	void height(int val);
 protected:
@@ -55,7 +59,7 @@ protected:
 	virtual void onFree();
 public:
 	virtual void draw(Renderer* renderer, int x, int y) = 0;
-	virtual void shrink(int w, int h);
+	virtual void resize(int w, int h);
 };
 
 }}

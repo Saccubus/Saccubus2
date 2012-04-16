@@ -134,7 +134,7 @@ protected:
 	virtual void onFree() = 0;
 public:
 	virtual void draw(Renderer* renderer, int x, int y) = 0;
-	virtual void shrink(int w, int h) = 0;
+	virtual void resize(int w, int h) = 0;
 };
 
 

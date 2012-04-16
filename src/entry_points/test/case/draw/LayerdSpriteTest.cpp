@@ -49,7 +49,7 @@ TEST(LayerdSpriteTest, ShrinkTest)
 		layer->addSprite(0, 0, spr1);
 		ASSERT_EQ(10, layer->width());
 		ASSERT_EQ(12, layer->height());
-		spr1->shrink(5, 6);
+		spr1->resize(5, 6);
 		ASSERT_EQ(5, layer->width());
 		ASSERT_EQ(6, layer->height());
 
@@ -58,7 +58,7 @@ TEST(LayerdSpriteTest, ShrinkTest)
 		ASSERT_EQ(8, layer->width());
 		ASSERT_EQ(10, layer->height());
 
-		spr2->shrink(2,3);
+		spr2->resize(2,3);
 		ASSERT_EQ(7, layer->width());
 		ASSERT_EQ(9, layer->height());
 	}

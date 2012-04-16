@@ -35,7 +35,7 @@ Sprite::Handler<RawSprite> Renderer::queryRawSprite(int w, int h)
 	}else{
 		Sprite::Handler<RawSprite> handler(*it);
 		unusedSprites.erase(it);
-		handler->shrink(w, h);
+		handler->resize(w, h);
 		return handler;
 	}
 }
@@ -45,10 +45,18 @@ void Renderer::backRawSprite(RawSprite* spr)
 	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
 	unusedSprites.insert(it, spr);
 	while(MaxCachedRawSprites < unusedSprites.size()){
-		//TODO: とりあえず大きいスプライトから削除してるけど、これでいい？
-		RawSprite* deleted = unusedSprites.back();
-		unusedSprites.pop_back();
-		delete deleted;
+		//TODO: まんなかぐらいの大きさのスプライトを残す
+		RawSprite* deleted = 0;
+		if((unusedSprites.size() & 1U) == 1U){
+			deleted = unusedSprites.back();
+			unusedSprites.pop_back();
+		}else{
+			deleted = unusedSprites.front();
+			unusedSprites.erase(unusedSprites.begin());
+		}
+		if(deleted){
+			delete deleted;
+		}
 	}
 }
 
