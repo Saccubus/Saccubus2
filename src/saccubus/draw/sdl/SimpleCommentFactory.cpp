@@ -20,11 +20,20 @@ const double SimpleCommentFactory::ShadowWidth = 5.0;
 SimpleCommentFactory::SimpleCommentFactory(sdl::Renderer* renderer)
 :CommentFactory(renderer)
 {
+#ifdef WIN32
 	{
+		LOGFONTW logf;
+		memset(&logf, 0, sizeof(LOGFONTW));
+		logf.lfCharSet=DEFAULT_CHARSET;
+		cairo_font_face_t* ft = cairo_win32_font_face_create_for_logfontw(&logf);
+		this->face(ft);
+	}
+#else
+	{ /* パターンの作成 */
 		FcPattern* pattern = FcPatternCreate();
 		this->pattern(pattern);
 	}
-	{
+	{ /* パターンを設定 */
 		FcPatternAddString( this->pattern(), FC_LANG, (const FcChar8*)"ja" );
 		FcPatternAddString( this->pattern(), FC_FAMILY, (FcChar8*)"gothic");
 		cairo_font_options_t* opt = cairo_font_options_create();
@@ -33,10 +42,11 @@ SimpleCommentFactory::SimpleCommentFactory(sdl::Renderer* renderer)
 		cairo_ft_font_options_substitute(opt, this->pattern());
 		cairo_font_options_destroy(opt);
 	}
-	{
+	{ /* フェースの作成 */
 		cairo_font_face_t* ft = cairo_ft_font_face_create_for_pattern(this->pattern());
 		this->face(ft);
 	}
+#endif
 	{
 		this->emptySurface(cairo_image_surface_create(CAIRO_FORMAT_RGB24, 10, 10));
 		this->emptyCairo(cairo_create(this->emptySurface()));
@@ -44,14 +54,18 @@ SimpleCommentFactory::SimpleCommentFactory(sdl::Renderer* renderer)
 }
 
 SimpleCommentFactory::~SimpleCommentFactory() {
-	cairo_font_face_destroy(this->face());
-	this->face(0);
-	FcPatternDestroy(this->pattern());
-	this->pattern(0);
 	cairo_destroy(this->emptyCairo());
 	this->emptyCairo(0);
 	cairo_surface_destroy(this->emptySurface());
 	this->emptySurface(0);
+	cairo_font_face_destroy(this->face());
+	this->face(0);
+#ifdef WIN32
+	// do nothing!
+#else
+	FcPatternDestroy(this->pattern());
+	this->pattern(0);
+#endif
 }
 
 
@@ -116,6 +130,8 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		cairo_fill(cairo);
 
 		cairo_destroy(cairo);
+
+		cairo_surface_write_to_png(surface, "img_win.png");
 
 		cairo_surface_destroy(surface);
 

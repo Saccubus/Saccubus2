@@ -8,7 +8,11 @@
 #ifndef SDL_SIMPLECOMMENTFACTORY_H_
 #define SDL_SIMPLECOMMENTFACTORY_H_
 
+#ifdef WIN32
+#include <cairo/cairo-win32.h>
+#else
 #include <cairo/cairo-ft.h>
+#endif
 #include <fontconfig/fontconfig.h>
 #include "../../classdefs.h"
 #include "../CommentFactory.h"
@@ -22,7 +26,9 @@ class SimpleCommentFactory: public saccubus::draw::CommentFactory {
 private:
 	static const double ShadowWidth;
 private:
+#ifndef WIN32
 	DEF_ATTR_ACCESSOR(private, private, FcPattern*, pattern);
+#endif
 	DEF_ATTR_ACCESSOR(private, private, cairo_font_face_t*, face);
 	DEF_ATTR_ACCESSOR(private, private, cairo_t*, emptyCairo);
 	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, emptySurface);

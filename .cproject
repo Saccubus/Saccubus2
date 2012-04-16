@@ -36,7 +36,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1104521883" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
-								<option id="gnu.cpp.compiler.option.preprocessor.undef.148794462" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" valueType="undefDefinedSymbols"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.undef.148794462" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.516313103" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.172800927" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -125,7 +125,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.125380033" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
-								<option id="gnu.cpp.compiler.option.preprocessor.undef.1379280072" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" valueType="undefDefinedSymbols"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.undef.1379280072" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.517080070" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1688585171" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
@@ -139,8 +139,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
 								</option>
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
-								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1846555747" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol" valueType="undefDefinedSymbols"/>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
+								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1846555747" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.334273356" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1080192027" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
@@ -305,7 +305,8 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.407396358" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -323,11 +324,13 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1334247816" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.568811975" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.526776215" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags` `freetype-config --cflags` `pkg-config cairo --cflags`" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.526776215" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 " valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1489056681" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1643405043" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
@@ -343,7 +346,8 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.555044538" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.261857247" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -370,6 +374,10 @@
 									<listOptionValue builtIn="false" value="version"/>
 									<listOptionValue builtIn="false" value="uuid"/>
 									<listOptionValue builtIn="false" value="freetype"/>
+									<listOptionValue builtIn="false" value="cairo"/>
+									<listOptionValue builtIn="false" value="fontconfig"/>
+									<listOptionValue builtIn="false" value="antlr3c"/>
+									<listOptionValue builtIn="false" value="icuuc"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2015716924" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>
@@ -380,7 +388,8 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\libs&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/lib:/D/software/dev/applib/cairo/lib:/D/software/dev/applib/ff/lib:/D/software/dev/applib/ffmpeg/lib:/D/software/dev/applib/opencv/lib:/D/software/dev/applib/xml/lib:/D/software/dev/lib/antlr/lib:/D/software/dev/lib/glib/lib:/D/software/dev/lib/gtest/lib:/D/software/dev/lib/icu/lib:/D/software/dev/lib/intl/lib:/D/software/dev/lib/perftools/lib:/D/software/dev/lib/sdl/lib"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\lib&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1765996805" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -435,7 +444,9 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.51775005" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -453,11 +464,13 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.814694638" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1252759093" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1078075577" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `xml2-config --cflags` `python3-config --cflags` `sdl2-config --cflags` `freetype-config --cflags` `pkg-config cairo --cflags`" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.1078075577" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.381463954" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.607921291" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
@@ -473,7 +486,9 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1553424859" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.310601609" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -500,6 +515,10 @@
 									<listOptionValue builtIn="false" value="version"/>
 									<listOptionValue builtIn="false" value="uuid"/>
 									<listOptionValue builtIn="false" value="freetype"/>
+									<listOptionValue builtIn="false" value="cairo"/>
+									<listOptionValue builtIn="false" value="fontconfig"/>
+									<listOptionValue builtIn="false" value="antlr3c"/>
+									<listOptionValue builtIn="false" value="icuuc"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.309961744" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/WinLibrary}&quot;"/>
@@ -510,7 +529,8 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\xml\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\App\libs&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\lib&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/lib:/D/software/dev/applib/cairo/lib:/D/software/dev/applib/ff/lib:/D/software/dev/applib/ffmpeg/lib:/D/software/dev/applib/opencv/lib:/D/software/dev/applib/xml/lib:/D/software/dev/lib/antlr/lib:/D/software/dev/lib/glib/lib:/D/software/dev/lib/gtest/lib:/D/software/dev/lib/icu/lib:/D/software/dev/lib/intl/lib:/D/software/dev/lib/perftools/lib:/D/software/dev/lib/sdl/lib"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\lib&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.315525783" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -579,10 +599,10 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247;cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102.719682247.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.919555815;cdt.managedbuild.tool.gnu.cpp.compiler.input.381463954">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.600438767;cdt.managedbuild.tool.gnu.cpp.compiler.input.424423615">
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510;cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1207946822;cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510;cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1207946822;cdt.managedbuild.tool.gnu.cpp.compiler.input.1228252624">
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.600438767;cdt.managedbuild.tool.gnu.cpp.compiler.input.424423615">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.102821655;cdt.managedbuild.config.gnu.exe.release.102821655.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.947354540;cdt.managedbuild.tool.gnu.cpp.compiler.input.517080070">
@@ -594,11 +614,11 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510;cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510.852145666;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1933849759;cdt.managedbuild.tool.gnu.c.compiler.input.336484517">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1362329835;cdt.managedbuild.tool.gnu.c.compiler.input.995970615">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415;cdt.managedbuild.config.gnu.exe.debug.1608868685.1516868415.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1362329835;cdt.managedbuild.tool.gnu.c.compiler.input.995970615">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1608868685;cdt.managedbuild.config.gnu.exe.debug.1608868685.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.172800927;cdt.managedbuild.tool.gnu.c.compiler.input.1460258005">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
