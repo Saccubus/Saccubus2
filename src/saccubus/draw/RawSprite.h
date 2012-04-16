@@ -35,6 +35,14 @@ public:
 	};
 private:
 	std::tr1::shared_ptr<Renderer*> _renderer;
+	int _width;
+	int _height;
+public:
+	virtual int width() const;
+	virtual int height() const;
+protected:
+	void width(int val);
+	void height(int val);
 protected:
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
 	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);

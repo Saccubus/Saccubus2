@@ -119,15 +119,15 @@ public:
 			return this->sprite != 0;
 		}
 	};
-	DEF_ATTR_ACCESSOR(public, protected, int, width);
-	DEF_ATTR_ACCESSOR(public, protected, int, height);
+public:
+	virtual int width() const = 0;
+	virtual int height() const = 0;
 private:
 	int refcount;
 	void incref();
 	void decref();
 protected:
 	Sprite();
-	Sprite(int w, int h);
 public:
 	virtual ~Sprite();
 protected:

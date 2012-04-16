@@ -23,14 +23,14 @@ private:
 public:
 	static Sprite::Handler<LayerdSprite> newInstance();
 	virtual ~LayerdSprite();
-private:
-	void updateSize();
 public:
 	virtual void draw(Renderer* renderer, int x, int y);
 	std::size_t size();
 	void addSprite(int x, int y, Sprite::Handler<Sprite> spr);
 	virtual void onFree();
 	virtual void shrink(int w, int h);
+	virtual int width() const;
+	virtual int height() const;
 };
 
 }}

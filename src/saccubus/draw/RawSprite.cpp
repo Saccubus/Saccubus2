@@ -12,16 +12,29 @@
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer)
+RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
 :Sprite()
 ,_renderer(_renderer)
 {
+	this->width(w);
+	this->height(h);
 }
-RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
-:Sprite(w, h)
-,_renderer(_renderer)
+int RawSprite::width() const
 {
+	return this->_width;
+}
+int RawSprite::height() const
+{
+	return this->_height;
+}
 
+void RawSprite::width(int val)
+{
+	this->_width = val;
+}
+void RawSprite::height(int val)
+{
+	this->_height = val;
 }
 
 RawSprite::~RawSprite() {

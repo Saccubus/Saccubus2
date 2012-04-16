@@ -29,19 +29,27 @@ void LayerdSprite::shrink(int w, int h)
 LayerdSprite::~LayerdSprite() {
 }
 
-void LayerdSprite::updateSize()
+int LayerdSprite::width() const
 {
 	int w = 0;
-	int h = 0;
 	for(std::vector<std::pair<Point, Sprite::Handler<Sprite> > >::const_iterator it = sprites.begin(); it != sprites.end(); ++it)
 	{
 		const Point pt = it->first;
 		const Sprite::Handler<Sprite> spr = it->second;
 		w = std::max(w, spr->width() + pt.x());
+	}
+	return w;
+}
+int LayerdSprite::height() const
+{
+	int h = 0;
+	for(std::vector<std::pair<Point, Sprite::Handler<Sprite> > >::const_iterator it = sprites.begin(); it != sprites.end(); ++it)
+	{
+		const Point pt = it->first;
+		const Sprite::Handler<Sprite> spr = it->second;
 		h = std::max(h, spr->height() + pt.y());
 	}
-	this->width(w);
-	this->height(h);
+	return h;
 }
 
 void LayerdSprite::draw(Renderer* renderer, int x, int y)

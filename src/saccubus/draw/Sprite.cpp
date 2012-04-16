@@ -14,15 +14,6 @@ namespace draw {
 Sprite::Sprite()
 :refcount(0)
 {
-	this->width(-1);
-	this->height(-1);
-}
-
-Sprite::Sprite(int w, int h)
-:refcount(0)
-{
-	this->width(w);
-	this->height(h);
 }
 
 Sprite::~Sprite() {
