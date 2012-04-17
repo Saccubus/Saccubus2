@@ -35,6 +35,11 @@ namespace item {
 
 class Comment {
 public:
+	enum Layer {
+		Normal,
+		Forked,
+		Script
+	};
 	enum Device {
 		Unspecified,
 		iPhone,
@@ -68,6 +73,7 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, enum Device, device);
 	DEF_ATTR_ACCESSOR(public, public, bool, visibility);
 	DEF_ATTR_ACCESSOR(public, public, enum Size, size);
+	DEF_ATTR_ACCESSOR(public, public, enum Layer, layer);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceX, placeX);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);

@@ -42,7 +42,6 @@ public: /* スクリプトから参照される */
 	virtual void seek(double vpos, const std::string& msg);
 	virtual nekomata::util::Handler<nekomata::system::Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
 	virtual nekomata::util::Handler<nekomata::system::SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<nekomata::util::Handler<nekomata::system::Sum> > sum);
-	virtual nekomata::util::Handler<nekomata::system::Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
 	virtual nekomata::util::Handler<nekomata::system::Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
 	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
 	virtual void playBGM(int id);
@@ -56,12 +55,16 @@ protected:
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();
+public:
 	/******************************************************************************************************************
 	 * レイヤ
 	 ******************************************************************************************************************/
-public:
 	virtual void draw(float vpos);
-
+public:
+	/******************************************************************************************************************
+	 * コメント変換
+	 ******************************************************************************************************************/
+	void replace(item::Comment* comment);
 };
 
 }}

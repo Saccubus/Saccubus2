@@ -74,6 +74,7 @@ std::string decodePercent(const std::string& str)
 
 	return std::string(to);
 }
+
 bool startsWith(const std::string& target, const std::string& prefix)
 {
 	return target.compare(0, prefix.size(), prefix) == 0;
@@ -101,7 +102,7 @@ void split(const std::string& str, const std::string& sep, std::vector<std::stri
 	}
 }
 
-size_t findFirstOf(const std::string& str, const std::string* sep, size_t n, size_t from, size_t* offset, size_t* seplen)
+static size_t findFirstOf(const std::string& str, const std::string* sep, size_t n, size_t from, size_t* offset, size_t* seplen)
 {
 	*offset = std::string::npos;
 	for(size_t i = 0;i<n;++i){

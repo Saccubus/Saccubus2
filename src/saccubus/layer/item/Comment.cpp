@@ -57,6 +57,13 @@ void Comment::setDefault()
 	this->placeY(Comment::Middle);
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);
+	this->layer((orig() && orig()->fork()) ? Comment::Forked : Comment::Normal);
 }
+
+std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
+{
+
+}
+
 
 }}}

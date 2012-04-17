@@ -20,9 +20,15 @@
 #include "../logging/Logger.h"
 #include <nekomata/logging/Logging.h>
 #include <iostream>
+#include <sstream>
+#include "../util/StringUtil.h"
+#include "item/Comment.h"
+#include "item/CommentProcessingFlow.h"
 
 namespace saccubus {
 namespace layer {
+
+const static std::string TAG("NekomataLayer");
 
 NekomataLayer::NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog, draw::Renderer* renderer)
 :nekomata::system::System(nlog)
@@ -51,9 +57,11 @@ nekomata::util::Handler<nekomata::system::Label> NekomataLayer::drawText(
 void NekomataLayer::jump(const std::string& id, const std::string& msg,
 		double from, double length, bool _return, const std::string& returnmsg,
 		bool newwindow) {
+	this->Layer::log.e(TAG, "Sorry, 'jump' not supported yet!!");
 }
 
 void NekomataLayer::jumpCancel() {
+	this->Layer::log.e(TAG, "Sorry, 'jumpCancel' not supported yet!!");
 }
 
 void NekomataLayer::seek(double vpos, const std::string& msg) {
@@ -69,12 +77,6 @@ nekomata::util::Handler<nekomata::system::SumResult> NekomataLayer::showResult(
 		double x, double y, unsigned int color, bool visible,
 		const std::string& pos, const std::string& unit, bool asc,
 		std::vector<nekomata::util::Handler<nekomata::system::Sum> > sum) {
-}
-
-nekomata::util::Handler<nekomata::system::Replace> NekomataLayer::replace(
-		const std::string& src, const std::string& dst, bool enabled,
-		const std::string& target, bool fill, bool partial, unsigned int color,
-		const std::string& size, const std::string& pos) {
 }
 
 nekomata::util::Handler<nekomata::system::Button> NekomataLayer::addButton(
@@ -111,6 +113,7 @@ std::tr1::shared_ptr<const nekomata::system::Comment> NekomataLayer::nextComment
 }
 
 std::string NekomataLayer::inspect() {
+	return "Saccubus::NekomataLayer";
 }
 
 void NekomataLayer::onChanged() {
@@ -121,6 +124,72 @@ void NekomataLayer::onChanged() {
  ******************************************************************************************************************/
 void NekomataLayer::draw(float vpos)
 {
+}
+/******************************************************************************************************************
+ * コメント変換
+ ******************************************************************************************************************/
+static void applyNekomataReplace(nekomata::system::Replace* replace, item::Comment* comment)
+{
+	if(replace->src().size() > 0 && comment->message().find(replace->src()) == std::string::npos){
+		return; //マッチしなかった。
+	}
+
+	std::vector<std::string> targets;
+	util::splitSpace(replace->target(), targets);
+	if(targets.size() > 0){
+		for(std::vector<std::string>::const_iterator it = targets.begin(); it != targets.end(); ++it){
+			if(
+				( *it == "owner" && comment->layer() == item::Comment::Forked ) ||
+				( *it == "user" && comment->layer() == item::Comment::Normal )
+			){
+				break;
+			}
+		}
+		return; //ターゲットじゃない。
+	}
+
+
+	//色やポジションが設定される。
+	if(nekomata::system::Replace::SAME_COLOR != replace->color()) comment->color(replace->color());
+	if(replace->size().size() > 0) item::MailOperation::apply(replace->size(), comment);
+	if(replace->pos().size() > 0) item::MailOperation::apply(replace->pos(), comment);
+
+	if(replace->dst().size() <= 0){
+		return; //メッセージの書き換えは行わない。
+	}
+
+	if(replace->partial()){ //完全一致
+		if(replace->src() == comment->message()){
+			comment->message(replace->dst());
+		}
+	}else{
+		if(replace->fill()){
+			if(comment->message().find(replace->src()) != std::string::npos){
+				comment->message(replace->dst());
+			}
+		}else{
+			std::vector<std::string> lst;
+			util::split(comment->message(), replace->src(), lst);
+			std::stringstream ss;
+			for(std::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); ++it){
+				if(ss.tellg() > 0){
+					ss << replace->dst();
+				}
+				ss << *it;
+			}
+			comment->message(ss.str());
+		}
+	}
+
+}
+
+void NekomataLayer::replace(item::Comment* comment)
+{
+	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
+		nekomata::system::Replace* replace = *it;
+		if(!replace->enabled()) continue;
+		applyNekomataReplace(replace, comment);
+	}
 }
 
 }}
