@@ -30,8 +30,6 @@ Sprite::Handler<Sprite> NullSprite::newInstance(logging::Logger& log)
 NullSprite::NullSprite(logging::Logger& log)
 :Sprite(log)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 NullSprite::~NullSprite() {
