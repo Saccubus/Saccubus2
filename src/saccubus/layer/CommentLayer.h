@@ -33,11 +33,14 @@ class CommentPipeLine;
 
 class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(public, private, bool, isForked);
+private:
+	ThreadLayer* const threadLayer;
 public:
-	CommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked);
+	CommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked);
 	virtual ~CommentLayer();
-public:
+public: /* ThreadLayerからのコールバック関数 */
 	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end) = 0;
+public:
 	virtual void draw(float vpos) = 0;
 };
 

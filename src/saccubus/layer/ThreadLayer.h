@@ -49,10 +49,10 @@ private:
 public:
 	ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
+public: /* コメントレイヤから呼ばれる */
+	void getCommentBetween(float from, float to, CommentLayer* self) const;
 public:
 	virtual void draw(float vpos);
-public:
-	void getCommentBetween(float from, float to, CommentLayer* self) const;
 };
 
 }}

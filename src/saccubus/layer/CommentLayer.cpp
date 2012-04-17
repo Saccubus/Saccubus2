@@ -21,8 +21,10 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked)
-:Layer(log, renderer){
+CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked)
+:Layer(log, renderer)
+,threadLayer(threadLayer)
+{
 	this->isForked(isForked);
 }
 

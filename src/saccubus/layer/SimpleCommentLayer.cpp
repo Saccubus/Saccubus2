@@ -21,8 +21,8 @@
 namespace saccubus {
 namespace layer {
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked)
-:CommentLayer(log, renderer, isForked)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked)
+:CommentLayer(log, renderer, threadLayer, isForked)
 {
 	// TODO Auto-generated constructor stub
 
@@ -30,6 +30,11 @@ SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, draw::Renderer* ren
 
 SimpleCommentLayer::~SimpleCommentLayer() {
 	// TODO Auto-generated destructor stub
+}
+
+void SimpleCommentLayer::appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end)
+{
+
 }
 
 }}

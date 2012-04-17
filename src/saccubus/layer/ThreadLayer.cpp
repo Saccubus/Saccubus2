@@ -61,7 +61,18 @@ void ThreadLayer::getCommentBetween(float from, float to, CommentLayer* self) co
 {
 	//FIXME: 複雑、なにかよい方法は？
 	meta::Comment::CompareLessByVpos cmp;
-	self->appendComment(this->commentPipeLine, std::lower_bound(thread.begin(), thread.end(), from, cmp), std::upper_bound(thread.begin(), thread.end(), to, cmp));
+	meta::Thread::Iterator it = std::lower_bound(thread.begin(), thread.end(), from, cmp);
+	meta::Thread::Iterator const end = std::upper_bound(thread.begin(), thread.end(), to, cmp);
+
+	std::vector<const meta::Comment*> list;
+
+	for(; it != end; ++it){
+		if((*it)->fork() == self->isForked()){
+			list.push_back(*it);
+		}
+	}
+
+	self->appendComment(this->commentPipeLine, list.begin(), list.end());
 }
 
 }}
