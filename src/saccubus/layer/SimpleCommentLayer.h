@@ -16,25 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMMENTLAYER_H_
-#define COMMENTLAYER_H_
+#ifndef Saccubus_SIMPLECOMMENTLAYER_H__CPP_
+#define Saccubus_SIMPLECOMMENTLAYER_H__CPP_
 
-#include <deque>
-#include "Layer.h"
+#include "CommentLayer.h"
 
 namespace saccubus {
 namespace layer {
 
-class CommentLayer: public saccubus::layer::Layer {
-private:
-	std::deque<item::Comment*> comments;
+class SimpleCommentLayer: public saccubus::layer::CommentLayer {
 public:
-	CommentLayer(logging::Logger& log, draw::Renderer* renderer);
-	virtual ~CommentLayer();
-public:
-	virtual void draw(float vpos);
+	SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer);
+	virtual ~SimpleCommentLayer();
 };
 
 }}
-
-#endif /* COMMENTLAYER_H_ */
+#endif /* INCLUDE_GUARD */
