@@ -32,6 +32,8 @@ const std::string PLUGIN_TEXT("text");
 const std::string PLUGIN_TEXT_CFG_PREFIX(PLUGIN_TEXT+"-");
 const std::string PLUGIN_COMMENT("comment");
 const std::string PLUGIN_COMMENT_CFG_PREFIX(PLUGIN_COMMENT+"-");
+const std::string PLUGIN_SHAPE("shape");
+const std::string PLUGIN_SHAPE_CFG_PREFIX(PLUGIN_SHAPE+"-");
 
 const std::string PLUGIN_IMPL_SDL("sdl");
 const std::string PLUGIN_IMPL_SIMPLE("simple");
@@ -48,6 +50,7 @@ private:
 private:
 	std::map<std::string, std::string> rendererConfig;
 	std::map<std::string, std::string> commentFactoryConfig;
+	std::map<std::string, std::string> shapeFactoryConfig;
 	std::map<std::string, std::string> commentLayerConfig;
 public:
 	PluginOrganizer(logging::Logger& log, const std::map<std::string, std::string>& config);
@@ -55,6 +58,7 @@ public:
 public:
 	saccubus::draw::Renderer* newRenderer(const int w, const int h);
 	saccubus::draw::CommentFactory* newCommentFactory(draw::Renderer* const renderer);
+	saccubus::draw::ShapeFactory* newShapeFactory(draw::Renderer* const renderer);
 	saccubus::layer::CommentLayer* newCommentLayer();
 };
 

@@ -21,6 +21,7 @@
 #include "logging/Logger.h"
 #include "util/StringUtil.h"
 #include "draw/sdl/SimpleCommentFactory.h"
+#include "draw/sdl/SimpleShapeFactory.h"
 #include "draw/sdl/Renderer.h"
 
 namespace saccubus {
@@ -53,6 +54,12 @@ PluginOrganizer::PluginOrganizer(logging::Logger& log, const std::map<std::strin
 							it->first.substr(PLUGIN_COMMENT_CFG_PREFIX.length()),
 							it->second
 					));
+		}else if(util::startsWith(PLUGIN_SHAPE_CFG_PREFIX, it->first)){
+			this->shapeFactoryConfig.insert(
+					std::pair<std::string, std::string>(
+							it->first.substr(PLUGIN_SHAPE_CFG_PREFIX.length()),
+							it->second
+					));
 		}else{
 			log.w(TAG, "Unknwon config: (%s) = (%s)", it->first.c_str(), it->second.c_str());
 		}
@@ -70,8 +77,8 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
 					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::Renderer*, but got %s",
-					config["graphic"].c_str(),
-					config["text"].c_str(),
+					config[PLUGIN_GRAPHIC].c_str(),
+					config[PLUGIN_COMMENT].c_str(),
 					typeid(renderer).name()
 					);
 		}
@@ -79,8 +86,28 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
-			config["graphic"].c_str(),
-			config["text"].c_str()
+			config[PLUGIN_GRAPHIC].c_str(),
+			config[PLUGIN_COMMENT].c_str()
+			);
+}
+saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* const renderer)
+{
+	if(PLUGIN_IMPL_SDL == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_TEXT]){
+		draw::sdl::Renderer* _renderer = dynamic_cast<draw::sdl::Renderer*>(renderer);
+		if(!_renderer){
+			throw logging::Exception(__FILE__, __LINE__,
+					"[BUG] Shape factory corresponding to [graphic: %s, shape: %s] needs draw::sdl::Renderer*, but got %s",
+					config[PLUGIN_GRAPHIC].c_str(),
+					config[PLUGIN_SHAPE].c_str(),
+					typeid(renderer).name()
+					);
+		}
+		return new saccubus::draw::sdl::SimpleShapeFactory(log, _renderer);
+	}
+	throw logging::Exception(__FILE__, __LINE__,
+			"There is no comment shape plugin corresponding to [graphic: %s, shape: %s]",
+			config[PLUGIN_GRAPHIC].c_str(),
+			config[PLUGIN_SHAPE].c_str()
 			);
 }
 saccubus::draw::Renderer* PluginOrganizer::newRenderer(const int w, const int h)
@@ -90,7 +117,7 @@ saccubus::draw::Renderer* PluginOrganizer::newRenderer(const int w, const int h)
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no renderer plugin corresponding to [graphic: %s]",
-			config["graphic"].c_str()
+			config[PLUGIN_GRAPHIC].c_str()
 			);
 }
 saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer()
@@ -100,9 +127,8 @@ saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer()
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment layer plugin corresponding to [graphic: %s]",
-			config["comment"].c_str()
+			config[PLUGIN_COMMENT].c_str()
 			);
 }
-
 
 }

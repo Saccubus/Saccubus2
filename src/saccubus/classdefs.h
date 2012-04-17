@@ -35,6 +35,7 @@ class Sprite;
 class RawSprite;
 class Renderer;
 class CommentFactory;
+class ShapeFactory;
 }
 
 namespace logging{
