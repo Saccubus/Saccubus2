@@ -20,7 +20,7 @@ public:
 	CommentFactory(Renderer* renderer);
 	virtual ~CommentFactory();
 public:
-	virtual Sprite::Handler<Sprite> renderComment(const context::Comment* comment) = 0;
+	virtual Sprite::Handler<Sprite> renderComment(const context::Comment* comment, float factor) = 0;
 };
 
 }}

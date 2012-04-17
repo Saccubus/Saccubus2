@@ -69,11 +69,15 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 }
 
 
-void SimpleCommentFactory::setFont(cairo_t* cairo, const saccubus::context::Comment* comment)
+void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::context::Comment* comment, float factor)
 {
+	cairo_identity_matrix(cairo);
+	cairo_scale(cairo, factor, factor);
 	cairo_set_font_face(cairo, this->face());
 	cairo_set_font_size(cairo, comment->size());
+	cairo_move_to(cairo, 0, 0);
 }
+
 void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 {
 	unsigned int r = (color & 0xff0000) >> 16;
@@ -85,25 +89,28 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, red, green, blue, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::context::Comment* comment)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::context::Comment* comment, float factor)
 {
 	double x;
 	double y;
-	int w;
-	int h;
+	int width;
+	int height;
 	cairo_text_extents_t ext;
 	{ /* 大きさを測定 */
-		this->setFont(this->emptyCairo(), comment);
-		cairo_move_to(this->emptyCairo(), 0, 0);
+		this->setupCairo(this->emptyCairo(), comment, factor);
 		cairo_text_extents(this->emptyCairo(), comment->message().c_str(), &ext);
 		x = -ext.x_bearing+ShadowWidth/2;
 		y = -ext.y_bearing+ShadowWidth/2;
-		w = std::ceil(ext.width+ShadowWidth);
-		h = std::ceil(ext.height+ShadowWidth);
+		double w = ext.width+ShadowWidth;
+		double h = ext.height+ShadowWidth;
+		//このwとhは論理座標なので、実際の大きさを取得するために変換してもらう。
+		cairo_user_to_device_distance(this->emptyCairo(), &w, &h);
+		width = std::ceil(w);
+		height = std::ceil(h);
 	}
-	Sprite::Handler<RawSprite> handler = this->renderer()->queryRawSprite(w, h);
+	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(width, height);
 	{ /* 実際にレンダリング */
-		RawSprite::Session session(handler);
+		RawSprite::Session session(spr);
 		cairo_surface_t* surface = cairo_image_surface_create_for_data(
 						reinterpret_cast<unsigned char*>(session.data()),
 						CAIRO_FORMAT_ARGB32,
@@ -113,17 +120,13 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 				);
 
 		cairo_t* cairo = cairo_create(surface);
-
-		this->setFont(cairo, comment);
-		cairo_move_to(cairo, x, y);
-		this->setColor(cairo, comment->color());
-		cairo_show_text(cairo, comment->message().c_str());
+		this->setupCairo(cairo, comment, factor);
 
 		cairo_move_to(cairo, x, y);
 		cairo_text_path(cairo, comment->message().c_str());
 
 		this->setColor(cairo, comment->shadowColor());
-		cairo_set_line_width(cairo, 5);
+		cairo_set_line_width(cairo, ShadowWidth);
 		cairo_stroke_preserve(cairo);
 
 		this->setColor(cairo, comment->color());
@@ -136,7 +139,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		cairo_surface_destroy(surface);
 
 	}
-	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(handler);
+	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(spr);
 }
 
 }}}

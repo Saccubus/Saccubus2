@@ -36,10 +36,10 @@ public:
 	SimpleCommentFactory(sdl::Renderer* renderer);
 	virtual ~SimpleCommentFactory();
 private:
-	void setFont(cairo_t* cairo, const saccubus::context::Comment* comment);
 	void setColor(cairo_t* cairo, unsigned int color);
+	void setupCairo(cairo_t* cairo, const saccubus::context::Comment* comment, float factor);
 public:
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(const saccubus::context::Comment* comment);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(const saccubus::context::Comment* comment, float factor);
 };
 
 }}}
