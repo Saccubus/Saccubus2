@@ -1,15 +1,26 @@
-/*
- * StringUtil.h
+/**
+ * Saccubus
+ * Copyright (C) 2012 psi
  *
- *  Created on: 2012/03/20
- *      Author: psi
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <cstdarg>
 #include <string>
 
-#ifndef STRINGUTIL_H_
-#define STRINGUTIL_H_
+#ifndef SACCUBUS_STRINGUTIL_H_
+#define SACCUBUS_STRINGUTIL_H_
 /* FIXME: 明らかに猫又側と被ってる。
  * 共有ライブラリとしてくくりだしたいけど、
  * 猫又の独立性を高めたい、というのもある。 */
@@ -24,4 +35,4 @@ bool startsWith(const std::string& target, const std::string& prefix);
 bool endsWith(const std::string& target, const std::string& suffix);
 
 }}
-#endif /* STRINGUTIL_H_ */
+#endif /* SACCUBUS_STRINGUTIL_H_ */
