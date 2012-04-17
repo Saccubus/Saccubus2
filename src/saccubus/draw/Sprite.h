@@ -26,6 +26,8 @@ public:
 };
 
 class Sprite {
+protected:
+	logging::Logger& log;
 public:
 	template<class S>
 	class Handler
@@ -127,7 +129,7 @@ private:
 	void incref();
 	void decref();
 protected:
-	Sprite();
+	Sprite(logging::Logger& log);
 public:
 	virtual ~Sprite();
 protected:

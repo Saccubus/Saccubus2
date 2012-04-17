@@ -12,8 +12,8 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Renderer::Renderer()
-:saccubus::draw::Renderer(640, 480){
+Renderer::Renderer(logging::Logger& log)
+:saccubus::draw::Renderer(log, 640, 480){
 }
 
 Renderer::~Renderer() {
@@ -21,7 +21,7 @@ Renderer::~Renderer() {
 
 saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
-	return new Sprite(handler(), w, h);
+	return new Sprite(log, handler(), w, h);
 }
 
 void Renderer::draw(int x, int y, Sprite* spr)

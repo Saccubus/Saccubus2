@@ -14,8 +14,8 @@ namespace saccubus {
 namespace draw {
 namespace sdl {
 
-Renderer::Renderer(const int w, const int h)
-:saccubus::draw::Renderer(w, h)
+Renderer::Renderer(logging::Logger& log, const int w, const int h)
+:saccubus::draw::Renderer(log, w, h)
 ,sdlInitializedByMe(!SDL_WasInit(SDL_INIT_VIDEO))
 {
 	if (sdlInitializedByMe && SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
@@ -46,7 +46,7 @@ Renderer::~Renderer() {
 
 draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
-	return new sdl::Sprite(this->handler(), w, h);
+	return new sdl::Sprite(log, this->handler(), w, h);
 }
 
 void Renderer::windowVisibility(bool visibility)

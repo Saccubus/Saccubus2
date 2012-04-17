@@ -26,7 +26,7 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, SDL_Window*, window);
 	DEF_ATTR_ACCESSOR(public, private, SDL_Renderer*, renderer);
 public:
-	Renderer(const int w, const int h);
+	Renderer(logging::Logger& log, const int w, const int h);
 	virtual ~Renderer();
 public:
 	void windowVisibility(bool visibility);

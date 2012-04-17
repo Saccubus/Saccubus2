@@ -20,7 +20,7 @@ namespace sdl {
 class Sprite : public draw::RawSprite {
 	DEF_ATTR_ACCESSOR(public, private, SDL_Texture*, texture);
 public:
-	Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
+	Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(draw::Renderer* renderer, int x, int y);
 	virtual void lock(void** data, int* w, int* h, int* stride);

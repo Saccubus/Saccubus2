@@ -20,8 +20,10 @@ const std::size_t MaxCachedRawSprites = 100;
 class Renderer {
 	DEF_ATTR_ACCESSOR(public, protected, int, width)
 	DEF_ATTR_ACCESSOR(public, protected, int, height)
+protected:
+	logging::Logger& log;
 public:
-	Renderer(const int w, const int h);
+	Renderer(logging::Logger& log, const int w, const int h);
 	virtual ~Renderer();
 /**************************************************************************************************
  * スプライト管理機構

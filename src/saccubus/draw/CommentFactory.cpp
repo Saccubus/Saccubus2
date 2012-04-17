@@ -10,7 +10,8 @@
 namespace saccubus {
 namespace draw {
 
-CommentFactory::CommentFactory(Renderer* renderer)
+CommentFactory::CommentFactory(logging::Logger& log, Renderer* renderer)
+:log(log)
 {
 	this->renderer(renderer);
 }

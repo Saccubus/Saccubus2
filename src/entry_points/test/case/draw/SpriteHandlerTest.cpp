@@ -18,7 +18,7 @@ namespace draw{
 
 TEST(SpriteHandlerTest, BasicTest)
 {
-	Renderer renderer;
+	Renderer renderer(log_err);
 	{
 		Sprite::Handler<saccubus::draw::RawSprite> spr = renderer.queryRawSprite(100, 100);
 		ASSERT_TRUE(spr); //boolに変換できる
@@ -29,7 +29,7 @@ TEST(SpriteHandlerTest, BasicTest)
 
 TEST(SpriteHandlerTest, FreeTest)
 {
-	Renderer renderer;
+	Renderer renderer(log_err);
 	{
 		Sprite::Handler<saccubus::draw::RawSprite> spr = renderer.queryRawSprite(100, 100);
 		ASSERT_EQ(0U, renderer.availableRawSprites());
@@ -39,7 +39,7 @@ TEST(SpriteHandlerTest, FreeTest)
 
 TEST(SpriteHandlerTest, CopyTest)
 {
-	Renderer renderer;
+	Renderer renderer(log_err);
 	Sprite::Handler<saccubus::draw::RawSprite> spr2;
 	{
 		Sprite::Handler<saccubus::draw::RawSprite> spr = renderer.queryRawSprite(100, 100);
@@ -53,8 +53,8 @@ TEST(SpriteHandlerTest, CopyTest)
 
 TEST(SpriteHandlerTest, StaticCastTest)
 {
-	Renderer renderer;
-	mock::draw::Sprite mockSprite(renderer.handler(), 0, 0);
+	Renderer renderer(log_err);
+	mock::draw::Sprite mockSprite(log_err, renderer.handler(), 0, 0);
 	Sprite::Handler<saccubus::mock::draw::Sprite> spr(&mockSprite);
 	ASSERT_TRUE(spr);
 	ASSERT_TRUE(spr.get());
@@ -81,8 +81,8 @@ TEST(SpriteHandlerTest, StaticCastTest)
 
 TEST(SpriteHandlerTest, DynamicCastTest)
 {
-	Renderer renderer;
-	mock::draw::Sprite mockSprite(renderer.handler(), 0, 0);
+	Renderer renderer(log_err);
+	mock::draw::Sprite mockSprite(log_err, renderer.handler(), 0, 0);
 	Sprite::Handler<saccubus::draw::Sprite> spr(&mockSprite);
 
 	Sprite::Handler<saccubus::draw::RawSprite> rawSpr = spr.cast<saccubus::draw::RawSprite>();

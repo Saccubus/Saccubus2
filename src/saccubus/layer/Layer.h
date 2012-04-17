@@ -22,8 +22,10 @@ namespace layer {
  */
 class Layer {
 	DEF_ATTR_ACCESSOR(protected, private, draw::Renderer*, renderer)
+protected:
+	logging::Logger& log;
 public:
-	Layer(draw::Renderer* renderer);
+	Layer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~Layer();
 public:
 	virtual void draw(float vpos) = 0;

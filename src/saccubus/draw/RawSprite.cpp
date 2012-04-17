@@ -12,8 +12,8 @@
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
-:Sprite()
+RawSprite::RawSprite(logging::Logger& log, std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
+:Sprite(log)
 ,_renderer(_renderer)
 {
 	this->width(w);

@@ -13,8 +13,8 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(draw::Renderer* renderer, PluginOrganizer* organizer)
-:Layer(renderer)
+ThreadLayer::ThreadLayer(logging::Logger& log, draw::Renderer* renderer, PluginOrganizer* organizer)
+:Layer(log, renderer)
 {
 	this->commentFactory = organizer->newCommentFactory(this->renderer());
 

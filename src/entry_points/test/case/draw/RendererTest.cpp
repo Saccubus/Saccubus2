@@ -16,7 +16,7 @@ namespace draw{
 
 TEST(RendererTest, BasicQueryTest)
 {
-	Renderer renderer;
+	Renderer renderer(log_err);
 	saccubus::draw::Sprite* pspr;
 	{
 		Sprite::Handler<saccubus::draw::Sprite> spr = renderer.queryRawSprite(10, 11);
@@ -39,7 +39,7 @@ TEST(RendererTest, AllocationTest)
 {
 	Sprite::Handler<saccubus::draw::Sprite> spr;
 	{
-		Renderer renderer;
+		Renderer renderer(log_err);
 		spr = renderer.queryRawSprite(10, 11);
 		ASSERT_EQ(10, spr->width());
 		ASSERT_EQ(11, spr->height());

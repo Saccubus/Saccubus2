@@ -12,8 +12,8 @@
 namespace saccubus {
 namespace draw {
 
-Renderer::Renderer(const int w, const int h)
-:_handler(new Renderer*(this))
+Renderer::Renderer(logging::Logger& log, const int w, const int h)
+:log(log),_handler(new Renderer*(this))
 {
 	this->width(w);
 	this->height(h);

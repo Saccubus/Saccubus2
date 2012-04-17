@@ -11,14 +11,14 @@
 namespace saccubus {
 namespace draw {
 
-LayerdSprite::LayerdSprite()
-:Sprite()
+LayerdSprite::LayerdSprite(logging::Logger& log)
+:Sprite(log)
 {
 }
 
-Sprite::Handler<LayerdSprite> LayerdSprite::newInstance()
+Sprite::Handler<LayerdSprite> LayerdSprite::newInstance(logging::Logger& log)
 {
-	return Sprite::Handler<LayerdSprite>(new LayerdSprite());
+	return Sprite::Handler<LayerdSprite>(new LayerdSprite(log));
 }
 
 void LayerdSprite::resize(int w, int h)

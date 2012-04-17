@@ -48,8 +48,8 @@ protected:
 	void width(int val);
 	void height(int val);
 protected:
-	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
-	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
+	RawSprite(logging::Logger& log, std::tr1::shared_ptr<Renderer*> _renderer);
+	RawSprite(logging::Logger& log, std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
 	Renderer* renderer(){ return *(_renderer.get()); };
 public:
 	virtual ~RawSprite();

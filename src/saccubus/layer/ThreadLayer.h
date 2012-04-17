@@ -28,7 +28,7 @@ private:
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(logging::Logger& log, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
 	virtual void draw(float vpos);

@@ -18,7 +18,7 @@ class CommentLayer: public saccubus::layer::Layer {
 private:
 	std::deque<context::Comment*> comments;
 public:
-	CommentLayer(draw::Renderer* renderer);
+	CommentLayer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~CommentLayer();
 public:
 	virtual void draw(float vpos);

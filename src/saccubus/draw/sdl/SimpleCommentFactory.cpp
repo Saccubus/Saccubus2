@@ -17,8 +17,8 @@ namespace sdl {
 
 const double SimpleCommentFactory::ShadowWidth = 5.0;
 
-SimpleCommentFactory::SimpleCommentFactory(sdl::Renderer* renderer)
-:CommentFactory(renderer)
+SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, sdl::Renderer* renderer)
+:CommentFactory(log, renderer)
 {
 #ifdef WIN32
 	{

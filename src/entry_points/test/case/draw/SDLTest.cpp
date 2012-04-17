@@ -26,8 +26,8 @@ TEST(SDLTest, QureyTest)
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
 	context::Comment comment = context::Comment(log_err, &orig);
-	sdl::Renderer renderer(640, 480);
-	sdl::SimpleCommentFactory factory(&renderer);
+	sdl::Renderer renderer(log_err, 640, 480);
+	sdl::SimpleCommentFactory factory(log_err, &renderer);
 
 	Sprite::Handler<sdl::Sprite> spr, dspr;
 	ASSERT_NO_THROW(spr = factory.renderComment(&comment, 1).cast<sdl::Sprite>());

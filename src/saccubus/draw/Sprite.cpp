@@ -11,8 +11,8 @@
 namespace saccubus {
 namespace draw {
 
-Sprite::Sprite()
-:refcount(0)
+Sprite::Sprite(logging::Logger& log)
+:log(log), refcount(0)
 {
 }
 

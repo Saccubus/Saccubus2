@@ -127,7 +127,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 
 	this->log = new logging::Logger(logStream, level);
 	this->bridge = new python::PyBridge(*this->log);
-	this->pluginOrganizer = new PluginOrganizer(organizerArg);
+	this->pluginOrganizer = new PluginOrganizer(*this->log, organizerArg);
 
 	if(optind >= argc){
 		throw logging::Exception("You need to set video id!");

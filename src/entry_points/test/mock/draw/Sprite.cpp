@@ -13,8 +13,8 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
-:saccubus::draw::RawSprite(_renderer, w, h)
+Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
+:saccubus::draw::RawSprite(log, _renderer, w, h)
 {
 
 }

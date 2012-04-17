@@ -16,7 +16,7 @@ namespace layer {
 
 class ShapeLayer: public saccubus::layer::Layer {
 public:
-	ShapeLayer(draw::Renderer* renderer);
+	ShapeLayer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~ShapeLayer();
 public:
 	virtual void draw(float vpos);

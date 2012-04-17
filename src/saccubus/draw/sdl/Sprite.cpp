@@ -13,8 +13,8 @@ namespace saccubus {
 namespace draw {
 namespace sdl {
 
-Sprite::Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
-:draw::RawSprite(renderer, w, h)
+Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
+:draw::RawSprite(log, renderer, w, h)
 {
 	sdl::Renderer& _renderer = dynamic_cast<sdl::Renderer&>(*(this->renderer()));
 	this->texture(SDL_CreateTexture(_renderer.renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h));

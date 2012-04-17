@@ -16,8 +16,10 @@ namespace draw {
 class CommentFactory {
 private:
 	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
+protected:
+	logging::Logger& log;
 public:
-	CommentFactory(Renderer* renderer);
+	CommentFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~CommentFactory();
 public:
 	virtual Sprite::Handler<Sprite> renderComment(const context::Comment* comment, float factor) = 0;

@@ -17,7 +17,7 @@ namespace draw {
 class Sprite;
 class Renderer: public saccubus::draw::Renderer {
 public:
-	Renderer();
+	Renderer(logging::Logger& log);
 	virtual ~Renderer();
 private:
 	std::vector<std::pair<std::pair<int, int>, Sprite* > > drawQuery;

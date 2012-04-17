@@ -10,8 +10,8 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(draw::Renderer* renderer)
-:Layer(renderer){
+CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer)
+:Layer(log, renderer){
 	// TODO Auto-generated constructor stub
 
 }

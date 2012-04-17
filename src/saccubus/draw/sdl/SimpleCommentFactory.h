@@ -33,7 +33,7 @@ private:
 	DEF_ATTR_ACCESSOR(private, private, cairo_t*, emptyCairo);
 	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, emptySurface);
 public:
-	SimpleCommentFactory(sdl::Renderer* renderer);
+	SimpleCommentFactory(logging::Logger& log, sdl::Renderer* renderer);
 	virtual ~SimpleCommentFactory();
 private:
 	void setColor(cairo_t* cairo, unsigned int color);
