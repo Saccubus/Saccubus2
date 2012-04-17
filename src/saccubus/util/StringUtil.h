@@ -18,6 +18,7 @@
 
 #include <cstdarg>
 #include <string>
+#include <vector>
 
 #ifndef SACCUBUS_STRINGUTIL_H_
 #define SACCUBUS_STRINGUTIL_H_
@@ -31,6 +32,15 @@ namespace util {
 std::string format(const std::string& fmt, ...);
 std::string formatv(const std::string& fmt, va_list args);
 std::string decodePercent(const std::string& str);
+void split(const std::string& str, const std::string& sep, std::vector<std::string>& list);
+void split(const std::string& str, const std::string* sep, size_t n, std::vector<std::string>& list);
+template <size_t N>
+void split(const std::string& str, const std::string (&sep)[N], std::vector<std::string>& list)
+{
+	split(str, sep, N, list);
+}
+void splitSpace(const std::string& str, std::vector<std::string>& list);
+void splitLine(const std::string& str, std::vector<std::string>& list);
 bool startsWith(const std::string& target, const std::string& prefix);
 bool endsWith(const std::string& target, const std::string& suffix);
 

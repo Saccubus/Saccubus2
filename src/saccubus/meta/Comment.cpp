@@ -19,6 +19,7 @@
 #include <sstream>
 #include "Comment.h"
 #include "Util.h"
+#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace meta {
@@ -78,11 +79,7 @@ Comment::Comment()
 void Comment::splitMail()
 {
 	this->mailList.clear();
-	std::istringstream ss(this->mail());
-	std::string mailopt;
-	while(std::getline(ss, mailopt, ' ')){
-		this->mailList.push_back(mailopt);
-	}
+	util::splitSpace(this->mail(), this->mailList);
 }
 
 Comment::~Comment() {

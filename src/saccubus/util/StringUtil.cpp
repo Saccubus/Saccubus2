@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include "../logging/Exception.h"
 #include "StringUtil.h"
+#include <cmath>
 
 namespace saccubus {
 namespace util {
@@ -81,4 +82,70 @@ bool endsWith(const std::string& target, const std::string& suffix)
 {
 	return target.compare(target.size()-suffix.size(), suffix.size(), suffix) == 0;
 }
+
+void split(const std::string& str, const std::string& sep, std::vector<std::string>& list)
+{
+	if(sep.size() <= 0){
+		return;
+	}
+	size_t i = 0;
+	size_t found = 0;
+	while((found = str.find(sep, i)) != std::string::npos){
+		if(found != i){
+			list.push_back(str.substr(i, found-i));
+		}
+		i = found+sep.length();
+	}
+	if(i != str.size()){
+		list.push_back(str.substr(i));
+	}
+}
+
+size_t findFirstOf(const std::string& str, const std::string* sep, size_t n, size_t from, size_t* offset, size_t* seplen)
+{
+	*offset = std::string::npos;
+	for(size_t i = 0;i<n;++i){
+		size_t found = str.find(sep[i], from);
+		if(sep[i].size() > 0 && found != std::string::npos && (found < *offset || *offset == std::string::npos)){
+			*offset = found;
+			*seplen = sep[i].size();
+		}
+	}
+	return *offset;
+}
+
+void split(const std::string& str, const std::string* sep, size_t n, std::vector<std::string>& list)
+{
+	size_t i = 0;
+	size_t found = std::string::npos;
+	size_t seplen = std::string::npos;
+	while((findFirstOf(str, sep, n, i, &found, &seplen)) != std::string::npos){
+		if(found != i){
+			list.push_back(str.substr(i, found-i));
+		}
+		i = found+seplen;
+	}
+	if(i != str.size()){
+		list.push_back(str.substr(i));
+	}
+}
+void splitLine(const std::string& str, std::vector<std::string>& list)
+{
+	static const std::string lineSep[] = {
+			"\n",
+			"\r"
+	};
+	split(str, lineSep, list);
+}
+void splitSpace(const std::string& str, std::vector<std::string>& list)
+{
+	static const std::string spaces[] = {
+			" ",
+			"　"
+	};
+	split(str, spaces, list);
+}
+
+
+
 }}

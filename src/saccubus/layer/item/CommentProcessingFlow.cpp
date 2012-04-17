@@ -18,6 +18,8 @@
 
 #include "CommentProcessingFlow.h"
 #include "../../meta/Comment.h"
+#include "../../meta/ReplaceTable.h"
+#include "../../meta/PlayInfo.h"
 
 namespace saccubus {
 namespace layer {
@@ -27,6 +29,8 @@ static const std::string TAG("CommentProcessingFlow");
 
 CommentProcessingFlow::CommentProcessingFlow(logging::Logger& log)
 :log(log)
+,playInfo(0)
+,nekomataLayer(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -45,6 +49,11 @@ Comment* CommentProcessingFlow::process(const meta::Comment* comment)
 			log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}
+
+	if(playInfo && playInfo->replaceTable()){
+		product->message(playInfo->replaceTable()->replace(product->message()));
+	}
+	//nekomataLayer->replace(product);
 
 	return product;
 }

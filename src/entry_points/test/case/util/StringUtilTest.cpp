@@ -69,4 +69,60 @@ TEST(StringUtilTest, EndsWithTest)
 	ASSERT_TRUE(endsWith("abcdef","abcdef"));
 }
 
+TEST(StringUtilTest, SplitTest)
+{
+	std::vector<std::string> arg;
+	split("you is a big fool man", " ", arg);
+	ASSERT_EQ(6, arg.size());
+	ASSERT_EQ(arg.front(), "you");
+	ASSERT_EQ(arg.back(), "man");
+	arg.clear();
+
+	split("you  is a big fool man", " ", arg);
+	ASSERT_EQ(6, arg.size());
+	ASSERT_EQ(arg.front(), "you");
+	ASSERT_EQ(arg.back(), "man");
+	arg.clear();
+
+	split("you is a big fool man", " is ", arg);
+	ASSERT_EQ(2, arg.size());
+	arg.clear();
+
+	splitSpace("you　is a　big fool man", arg);
+	ASSERT_EQ(6, arg.size());
+	arg.clear();
+
+	splitLine("you\r\nis\ra\nbig \r\n\r\n fo\nol man", arg);
+	ASSERT_EQ(6, arg.size());
+	arg.clear();
+
+	splitLine("", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	splitLine("\r\n", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	splitLine("\r", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	splitSpace(" ", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	splitSpace("", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	split("", "", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+
+	split("", "a", arg);
+	ASSERT_EQ(0, arg.size());
+	arg.clear();
+}
+
 }}}

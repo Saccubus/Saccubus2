@@ -48,11 +48,7 @@ const meta::Video* PyBridge::resolveResource(const std::string& video_id, const 
 	ctx->initVideoFile(res.find("video")->second);
 	std::vector<std::string> threads;
 	if(res.find("thread") != end){
-		std::istringstream ss(res.find("thread")->second);
-		std::string str;
-		while(std::getline(ss, str, '\n')){
-			threads.push_back(str);
-		}
+		util::splitLine(res.find("thread")->second, threads);
 	}
 	ctx->initThread(threads);
 	if(res.find("meta_info") != end){

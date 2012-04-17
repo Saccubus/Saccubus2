@@ -34,12 +34,12 @@ Bundle::~Bundle() {
 void Bundle::readURLEncoded(const std::string& data)
 {
 	/* ☆車☆輪☆の☆再☆発☆明☆ */
-	std::istringstream ss(data);
-	std::string element;
-	while(std::getline(ss, element, '&')){
-		const size_t split = element.find("=");
-		std::string key=element.substr(0, split);
-		std::string val=element.substr(split+1);
+	std::vector<std::string> elements;
+	util::split(data, "&", elements);
+	for(std::vector<std::string>::const_iterator it = elements.begin(); it != elements.end(); ++it){
+		const size_t split = it->find("=");
+		std::string key=it->substr(0, split);
+		std::string val=it->substr(split+1);
 		key = util::decodePercent(key);
 		val = util::decodePercent(val);
 		this->map.insert(std::pair<std::string, std::string>(key, val));
