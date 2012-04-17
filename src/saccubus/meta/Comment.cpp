@@ -108,8 +108,4 @@ Comment::MailIterator Comment::mailEnd() const
 	return mailList.end();
 }
 
-bool Comment::comparareLessByVpos(const Comment* a, const Comment* b){
-	return a->vpos() < b->vpos();
-}
-
 }}

@@ -42,6 +42,7 @@ private:
 	draw::ShapeFactory* shapeFactory;
 private:
 	item::CommentPipeLine* commentPipeLine;
+private:
 	NekomataLayer* nekomataLayer;
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
@@ -51,7 +52,7 @@ public:
 public:
 	virtual void draw(float vpos);
 public:
-	void getCommentBetween(float from, float to, CommentLayer* self);
+	void getCommentBetween(float from, float to, CommentLayer* self) const;
 };
 
 }}

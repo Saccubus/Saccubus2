@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include "ThreadLayer.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
@@ -50,30 +51,17 @@ ThreadLayer::~ThreadLayer() {
 
 void ThreadLayer::draw(float vpos)
 {
-
-	/*
-	meta::Thread::Iterator it = std::lower_bound(thread.begin(), thread.end(), beforeTime);
-	const meta::Thread::Iterator end = std::upper_bound(thread.begin(), thread.end(), vpos-nico::CommentShownTimeInAdvance);
-	for(;it != end; ++it){
-		std::tr1::shared_ptr<item::Comment> item = this->commentProcessFlow->process(*it);
-		switch(item->layer())
-		{
-		case item::Comment::Normal:
-			mainCommentLayer->appendComment(item);
-			break;
-		case item::Comment::Forked:
-			forkedCommentLayer->appendComment(item);
-			break;
-		default:
-			throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknwon layer type: %d", item->layer());
-		}
-	}
-	*/
 	//描画
 	this->nekomataLayer->draw(vpos);
 	this->mainCommentLayer->draw(vpos);
 	this->forkedCommentLayer->draw(vpos);
 }
 
+void ThreadLayer::getCommentBetween(float from, float to, CommentLayer* self) const
+{
+	//FIXME: 複雑、なにかよい方法は？
+	meta::Comment::CompareLessByVpos cmp;
+	self->appendComment(this->commentPipeLine, std::lower_bound(thread.begin(), thread.end(), from, cmp), std::upper_bound(thread.begin(), thread.end(), to, cmp));
+}
 
 }}

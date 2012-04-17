@@ -21,14 +21,12 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer)
+CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked)
 :Layer(log, renderer){
-	// TODO Auto-generated constructor stub
-
+	this->isForked(isForked);
 }
 
 CommentLayer::~CommentLayer() {
-	// TODO Auto-generated destructor stub
 }
 
 void CommentLayer::draw(float vpos)

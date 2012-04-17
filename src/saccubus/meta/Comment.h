@@ -64,7 +64,21 @@ public:
 	MailIterator mailBegin() const;
 	MailIterator mailEnd() const;
 public:
-	static bool comparareLessByVpos(const Comment* a, const Comment* b);
+	struct CompareLessByVpos
+	{
+		bool operator() (const Comment* a, const Comment* b)
+		{
+			return a->vpos() < b->vpos();
+		}
+		bool operator() (const float& a, const Comment* b)
+		{
+			return a < b->vpos();
+		}
+		bool operator() (const Comment* a, const float& b)
+		{
+			return a->vpos() < b;
+		}
+	};
 };
 
 }}

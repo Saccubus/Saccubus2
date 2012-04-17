@@ -22,16 +22,22 @@
 #include <deque>
 #include "Layer.h"
 #include <tr1/memory>
+#include "../util/ClassAccessor.h"
+#include "../meta/Thread.h"
 
 namespace saccubus {
 namespace layer {
+namespace item {
+class CommentPipeLine;
+}
 
 class CommentLayer: public saccubus::layer::Layer {
+	DEF_ATTR_ACCESSOR(public, private, bool, isForked);
 public:
-	CommentLayer(logging::Logger& log, draw::Renderer* renderer);
+	CommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked);
 	virtual ~CommentLayer();
 public:
-	virtual void appendComment(std::tr1::shared_ptr<item::Comment> comment);
+	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end) = 0;
 	virtual void draw(float vpos) = 0;
 };
 

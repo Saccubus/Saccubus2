@@ -26,7 +26,7 @@ namespace layer {
 
 class SimpleCommentLayer: public saccubus::layer::CommentLayer {
 public:
-	SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer);
+	SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer, bool isForked);
 	virtual ~SimpleCommentLayer();
 };
 

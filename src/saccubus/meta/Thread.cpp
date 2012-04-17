@@ -73,7 +73,7 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 			}
 		}else if(compareNodeName(child, "chat")){
 			const Comment* com = new Comment(log, child);
-			std::vector<const Comment*>::iterator it = std::upper_bound(chatList.begin(), chatList.end(), com, Comment::comparareLessByVpos);
+			std::vector<const Comment*>::iterator it = std::upper_bound(chatList.begin(), chatList.end(), com, Comment::CompareLessByVpos());
 			chatList.insert(it, com);
 		}else{
 			if(log.t()){
