@@ -24,18 +24,17 @@ namespace saccubus {
 namespace layer {
 namespace item {
 
-static const std::string TAG("context/Comment");
+static const std::string TAG("item::Comment");
 
 Comment::Comment()
 {
 	this->orig(0);
 	this->setDefault();
 }
-Comment::Comment(logging::Logger& log, const meta::Comment* comment)
+Comment::Comment(const meta::Comment* comment)
 {
 	this->orig(comment);
 	this->setDefault();
-	this->interpret(log);
 }
 
 Comment::~Comment() {
@@ -59,16 +58,5 @@ void Comment::setDefault()
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);
 }
-
-void Comment::interpret(logging::Logger& log)
-{
-	for(meta::Comment::MailIterator it= this->orig()->mailBegin(); it != this->orig()->mailEnd(); ++it){
-		if(!Comment::interpret(*it, this))
-		{
-			log.v(TAG, "Unknwon command: %s", it->c_str());
-		}
-	}
-}
-
 
 }}}

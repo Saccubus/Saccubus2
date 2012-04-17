@@ -20,6 +20,7 @@
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
+#include "../draw/ShapeFactory.h"
 
 namespace saccubus {
 namespace layer {
@@ -28,16 +29,26 @@ ThreadLayer::ThreadLayer(logging::Logger& log, draw::Renderer* renderer, PluginO
 :Layer(log, renderer)
 {
 	this->commentFactory = organizer->newCommentFactory(this->renderer());
+	this->shapeFactory = organizer->newShapeFactory(this->renderer());
 
 }
 
 ThreadLayer::~ThreadLayer() {
+	delete this->nekomataLayer;
+	delete this->mainCommentLayer;
+	delete this->forkedCommentLayer;
+
 	delete this->commentFactory;
+	delete this->shapeFactory;
 }
 
 void ThreadLayer::draw(float vpos)
 {
-
+	//コメントの供給（破棄タイミングは各々のレイヤが決めてね）
+	//描画
+	this->nekomataLayer->draw(vpos);
+	this->mainCommentLayer->draw(vpos);
+	this->forkedCommentLayer->draw(vpos);
 }
 
 

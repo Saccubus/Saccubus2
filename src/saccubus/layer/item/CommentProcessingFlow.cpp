@@ -16,22 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHAPELAYER_H_
-#define SHAPELAYER_H_
-
-#include "Layer.h"
+#include "CommentProcessingFlow.h"
+#include "../../meta/Comment.h"
 
 namespace saccubus {
 namespace layer {
+namespace item {
 
+static const std::string TAG("CommentProcessingFlow");
 
-class ShapeLayer: public saccubus::layer::Layer {
-public:
-	ShapeLayer(logging::Logger& log, draw::Renderer* renderer);
-	virtual ~ShapeLayer();
-public:
-	virtual void draw(float vpos);
-};
+CommentProcessingFlow::CommentProcessingFlow(logging::Logger& log)
+:log(log)
+{
+	// TODO Auto-generated constructor stub
 
-}}
-#endif /* SHAPELAYER_H_ */
+}
+
+CommentProcessingFlow::~CommentProcessingFlow() {
+	// TODO Auto-generated destructor stub
+}
+
+Comment* CommentProcessingFlow::process(const meta::Comment* comment)
+{
+	Comment* const product = new Comment(comment);
+	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+		if(!MailOperation::apply(*it, product))
+		{
+			log.v(TAG, "Unknwon command: %s", it->c_str());
+		}
+	}
+
+	return product;
+}
+
+}}}

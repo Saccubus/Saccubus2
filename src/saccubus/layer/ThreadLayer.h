@@ -22,7 +22,7 @@
 #include <vector>
 #include "../classdefs.h"
 #include "CommentLayer.h"
-#include "ShapeLayer.h"
+#include "NekomataLayer.h"
 
 namespace saccubus {
 namespace layer {
@@ -33,9 +33,12 @@ namespace layer {
  */
 class ThreadLayer : public Layer {
 private:
-	draw::CommentFactory* commentFactory;
+	const meta::Video* video;
 private:
-	ShapeLayer* shapeLayer;
+	draw::CommentFactory* commentFactory;
+	draw::ShapeFactory* shapeFactory;
+private:
+	NekomataLayer* nekomataLayer;
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:

@@ -34,31 +34,6 @@ namespace layer {
 namespace item {
 
 class Comment {
-private:
-	static const struct Command{
-	public:
-		enum Permission{
-			Normal=0,
-			Premium = 1,
-		};
-		enum ArgType{
-			Exactly,
-			StartsWith
-		};
-	public:
-		const enum ArgType argType;
-		const std::string name;
-		const enum Permission permission;
-		typedef std::tr1::function<bool(const std::string& name, Comment* comment)> Func;
-		const Func func;
-		Command(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
-		:argType(argType), name(name), permission(permission), func(func){};
-		virtual ~Command(){};
-		bool execute(const std::string& command, Comment* comment) const;
-	} Commands[];
-	static const size_t CommandsSize;
-public:
-	static bool interpret(const std::string& command, Comment* comment);
 public:
 	enum Device {
 		Unspecified,
@@ -99,11 +74,10 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
 public:
 	Comment();
-	Comment(logging::Logger& log, const meta::Comment* comment);
+	Comment(const meta::Comment* comment);
 	virtual ~Comment();
 private:
 	void setDefault();
-	void interpret(logging::Logger& log);
 public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
 };

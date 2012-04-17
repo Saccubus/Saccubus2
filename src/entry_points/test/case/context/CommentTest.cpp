@@ -18,6 +18,7 @@
 
 #include "../../TestCommon.h"
 #include "../../../../saccubus/layer/item/Comment.h"
+#include "../../../../saccubus/layer/item/CommentProcessingFlow.h"
 #include "../../mock/meta/Comment.h"
 using namespace saccubus::mock;
 
@@ -25,24 +26,39 @@ namespace saccubus{
 namespace test {
 namespace context{
 
-TEST(CommentTest, InterpretTest)
+class CommentTest : public ::testing::Test
+{
+protected:
+	saccubus::layer::item::CommentProcessingFlow* flow;
+public:
+	void SetUp(){
+		flow = new saccubus::layer::item::CommentProcessingFlow(log_err);
+	}
+	void TearDown(){
+		delete flow;
+	}
+};
+
+TEST_F(CommentTest, InterpretTest)
 {
 	saccubus::mock::meta::Comment orig;
 	orig.mail("invisible");
 	{
-		saccubus::layer::item::Comment ctx = saccubus::layer::item::Comment(log_err, &orig);
-		ASSERT_FALSE(ctx.visibility());
+		saccubus::layer::item::Comment* ctx = flow->process(&orig);
+		ASSERT_FALSE(ctx->visibility());
+		delete ctx;
 	}
 }
 
-TEST(CommentTest, MultiInterpretTest)
+TEST_F(CommentTest, MultiInterpretTest)
 {
 	saccubus::mock::meta::Comment orig;
 	orig.mail("sage docomo");
 	{
-		saccubus::layer::item::Comment ctx = saccubus::layer::item::Comment(log_err, &orig);
-		ASSERT_TRUE(ctx.sage());
-		ASSERT_EQ(saccubus::layer::item::Comment::docomo, ctx.device());
+		saccubus::layer::item::Comment* ctx = flow->process(&orig);
+		ASSERT_TRUE(ctx->sage());
+		ASSERT_EQ(saccubus::layer::item::Comment::docomo, ctx->device());
+		delete ctx;
 	}
 }
 }}}

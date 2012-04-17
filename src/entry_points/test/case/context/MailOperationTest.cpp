@@ -19,171 +19,173 @@
 
 #include "../../TestCommon.h"
 #include "../../../../saccubus/layer/item/Comment.h"
+#include "../../../../saccubus/layer/item/CommentProcessingFlow.h"
 #include "../../mock/meta/Comment.h"
 using namespace saccubus::mock;
+using saccubus::layer::item::MailOperation;
 using saccubus::layer::item::Comment;
 
 namespace saccubus{
 namespace test {
 namespace context{
 
-class CommentCommandTest : public ::testing::Test
+class MailOperationTest : public ::testing::Test
 {
 protected:
 	saccubus::mock::meta::Comment meta;
 	saccubus::layer::item::Comment* ctx;
 public:
 	void SetUp(){
-		this->ctx = new saccubus::layer::item::Comment(log_err, &meta);
+		this->ctx = new saccubus::layer::item::Comment(&meta);
 	}
 	void TearDown(){
 		delete ctx;
 	}
 };
 
-TEST_F(CommentCommandTest, ColorTest)
+TEST_F(MailOperationTest, ColorTest)
 {
 	{
-		ASSERT_TRUE(Comment::interpret("red", ctx));
+		ASSERT_TRUE(MailOperation::apply("red", ctx));
 		ASSERT_EQ(0xFF0000U, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 
 	{
-		ASSERT_TRUE(Comment::interpret("black", ctx));
+		ASSERT_TRUE(MailOperation::apply("black", ctx));
 		ASSERT_EQ(0x000000U, ctx->color());
 		ASSERT_EQ(0xFFFFFFU, ctx->shadowColor());
 	}
 }
-TEST_F(CommentCommandTest, PremiumColorTest)
+TEST_F(MailOperationTest, PremiumColorTest)
 {
 	meta.premium(true);
 	{
-		ASSERT_TRUE(Comment::interpret("purple2", ctx));
+		ASSERT_TRUE(MailOperation::apply("purple2", ctx));
 		ASSERT_EQ(0x6633CCU, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 	{
-		ASSERT_TRUE(Comment::interpret("white2", ctx));
+		ASSERT_TRUE(MailOperation::apply("white2", ctx));
 		ASSERT_EQ(0xCCCC99U, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 	{
-		ASSERT_TRUE(Comment::interpret("niconicowhite", ctx));
+		ASSERT_TRUE(MailOperation::apply("niconicowhite", ctx));
 		ASSERT_EQ(0xCCCC99U, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 }
 
-TEST_F(CommentCommandTest, PermissionTest)
+TEST_F(MailOperationTest, PermissionTest)
 {
 	meta.premium(false);
 	ctx->color(0U);
 	ctx->shadowColor(0U);
 	{
-		ASSERT_FALSE(Comment::interpret("purple2", ctx));
+		ASSERT_FALSE(MailOperation::apply("purple2", ctx));
 		ASSERT_EQ(0x0U, ctx->color());
 		ASSERT_EQ(0x0U, ctx->shadowColor());
 	}
 	{
-		ASSERT_FALSE(Comment::interpret("white2", ctx));
+		ASSERT_FALSE(MailOperation::apply("white2", ctx));
 		ASSERT_EQ(0x0U, ctx->color());
 		ASSERT_EQ(0x0U, ctx->shadowColor());
 	}
 	{
-		ASSERT_FALSE(Comment::interpret("niconicowhite", ctx));
+		ASSERT_FALSE(MailOperation::apply("niconicowhite", ctx));
 		ASSERT_EQ(0x0U, ctx->color());
 		ASSERT_EQ(0x0U, ctx->shadowColor());
 	}
 	{
-		ASSERT_FALSE(Comment::interpret("#123456", ctx));
+		ASSERT_FALSE(MailOperation::apply("#123456", ctx));
 		ASSERT_EQ(0x0U, ctx->color());
 		ASSERT_EQ(0x0U, ctx->shadowColor());
 	}
 }
 
-TEST_F(CommentCommandTest, PremiumColorCodeTest)
+TEST_F(MailOperationTest, PremiumColorCodeTest)
 {
 	meta.premium(true);
 	{
-		ASSERT_TRUE(Comment::interpret("#123456", ctx));
+		ASSERT_TRUE(MailOperation::apply("#123456", ctx));
 		ASSERT_EQ(0x123456U, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 	{
-		ASSERT_TRUE(Comment::interpret("#FFFFFF", ctx));
+		ASSERT_TRUE(MailOperation::apply("#FFFFFF", ctx));
 		ASSERT_EQ(0xFFFFFFU, ctx->color());
 		ASSERT_EQ(0x000000U, ctx->shadowColor());
 	}
 }
 
-TEST_F(CommentCommandTest, PlaceXTest)
+TEST_F(MailOperationTest, PlaceXTest)
 {
 	ASSERT_EQ(Comment::Center, ctx->placeX());
 	//コメントからはいじれない。
 }
-TEST_F(CommentCommandTest, PlaceYTest)
+TEST_F(MailOperationTest, PlaceYTest)
 {
 	ASSERT_EQ(Comment::Middle, ctx->placeY());
 	{
-		ASSERT_TRUE(Comment::interpret("shita", ctx));
+		ASSERT_TRUE(MailOperation::apply("shita", ctx));
 		ASSERT_EQ(Comment::Bottom, ctx->placeY());
 	}
 	{
-		ASSERT_TRUE(Comment::interpret("ue", ctx));
+		ASSERT_TRUE(MailOperation::apply("ue", ctx));
 		ASSERT_EQ(Comment::Top, ctx->placeY());
 	}
 	{
-		ASSERT_TRUE(Comment::interpret("naka", ctx));
+		ASSERT_TRUE(MailOperation::apply("naka", ctx));
 		ASSERT_EQ(Comment::Middle, ctx->placeY());
 	}
 }
 
-TEST_F(CommentCommandTest, EtcTest)
+TEST_F(MailOperationTest, EtcTest)
 {
 	{
 		ctx->full(false);
 		ASSERT_FALSE(ctx->full());
-		ASSERT_TRUE(Comment::interpret("full", ctx));
+		ASSERT_TRUE(MailOperation::apply("full", ctx));
 		ASSERT_TRUE(ctx->full());
 	}
 	{
 		ctx->sage(false);
 		ASSERT_FALSE(ctx->sage());
-		ASSERT_TRUE(Comment::interpret("sage", ctx));
+		ASSERT_TRUE(MailOperation::apply("sage", ctx));
 		ASSERT_TRUE(ctx->sage());
 	}
 	{
 		ctx->patissier(false);
 		ASSERT_FALSE(ctx->patissier());
-		ASSERT_TRUE(Comment::interpret("patissier", ctx));
+		ASSERT_TRUE(MailOperation::apply("patissier", ctx));
 		ASSERT_TRUE(ctx->patissier());
 	}
 	{
 		ctx->visibility(true);
 		ASSERT_TRUE(ctx->visibility());
-		ASSERT_TRUE(Comment::interpret("invisible", ctx));
+		ASSERT_TRUE(MailOperation::apply("invisible", ctx));
 		ASSERT_FALSE(ctx->visibility());
 	}
 	{
 		ctx->fromButton(false);
 		ASSERT_FALSE(ctx->fromButton());
-		ASSERT_TRUE(Comment::interpret("from_button", ctx));
+		ASSERT_TRUE(MailOperation::apply("from_button", ctx));
 		ASSERT_TRUE(ctx->fromButton());
 	}
 	{
 		ctx->isButton(false);
 		ASSERT_FALSE(ctx->isButton());
-		ASSERT_TRUE(Comment::interpret("is_button", ctx));
+		ASSERT_TRUE(MailOperation::apply("is_button", ctx));
 		ASSERT_TRUE(ctx->isButton());
 	}
 }
 
-TEST_F(CommentCommandTest, BrokenCommandTest)
+TEST_F(MailOperationTest, BrokenCommandTest)
 {
 	meta.premium(true);
-	ASSERT_TRUE(Comment::interpret("#123456", ctx));
-	ASSERT_FALSE(Comment::interpret("#12ker3", ctx));
+	ASSERT_TRUE(MailOperation::apply("#123456", ctx));
+	ASSERT_FALSE(MailOperation::apply("#12ker3", ctx));
 }
 
 }}}

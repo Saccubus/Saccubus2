@@ -36,7 +36,7 @@ TEST(SDLTest, QureyTest)
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
-	layer::item::Comment comment = layer::item::Comment(log_err, &orig);
+	layer::item::Comment comment = layer::item::Comment(&orig);
 	sdl::Renderer renderer(log_err, 640, 480);
 	sdl::SimpleCommentFactory factory(log_err, &renderer);
 
