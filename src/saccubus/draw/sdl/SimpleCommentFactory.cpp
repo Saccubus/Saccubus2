@@ -134,8 +134,6 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 
 		cairo_destroy(cairo);
 
-		cairo_surface_write_to_png(surface, "img_win.png");
-
 		cairo_surface_destroy(surface);
 
 	}
