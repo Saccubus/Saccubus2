@@ -16,10 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CommentProcessingFlow.h"
+#include "CommentPipeLine.h"
 #include "../../meta/Comment.h"
 #include "../../meta/ReplaceTable.h"
-#include "../../meta/PlayInfo.h"
 
 namespace saccubus {
 namespace layer {
@@ -27,20 +26,18 @@ namespace item {
 
 static const std::string TAG("CommentProcessingFlow");
 
-CommentProcessingFlow::CommentProcessingFlow(logging::Logger& log)
+CommentPipeLine::CommentPipeLine(logging::Logger& log, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
 :log(log)
-,playInfo(0)
-,nekomataLayer(0)
+,replaceTable(replaceTable)
+,nekomataLayer(nekomataLayer)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-CommentProcessingFlow::~CommentProcessingFlow() {
-	// TODO Auto-generated destructor stub
+CommentPipeLine::~CommentPipeLine()
+{
 }
 
-Comment* CommentProcessingFlow::process(const meta::Comment* comment)
+Comment* CommentPipeLine::process(const meta::Comment* comment)
 {
 	Comment* const product = new Comment(comment);
 	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
@@ -50,10 +47,12 @@ Comment* CommentProcessingFlow::process(const meta::Comment* comment)
 		}
 	}
 
-	if(playInfo && playInfo->replaceTable()){
-		product->message(playInfo->replaceTable()->replace(product->message()));
+	if(replaceTable){
+		product->message(replaceTable->replace(product->message()));
 	}
-	//nekomataLayer->replace(product);
+	if(nekomataLayer){
+		nekomataLayer->replace(product);
+	}
 
 	return product;
 }

@@ -53,15 +53,15 @@ public:
 	static bool apply(const std::string& mail, Comment* product);
 };
 
-class CommentProcessingFlow {
+class CommentPipeLine {
 private:
 	logging::Logger& log;
 public:
+	meta::ReplaceTable* replaceTable;
 	NekomataLayer* nekomataLayer;
-	meta::PlayInfo* playInfo;
 public:
-	CommentProcessingFlow(logging::Logger& log);
-	virtual ~CommentProcessingFlow();
+	CommentPipeLine(logging::Logger& log, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer);
+	virtual ~CommentPipeLine();
 public:
 	Comment* process(const meta::Comment* comment);
 };

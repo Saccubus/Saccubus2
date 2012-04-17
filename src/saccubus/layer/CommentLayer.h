@@ -21,18 +21,18 @@
 
 #include <deque>
 #include "Layer.h"
+#include <tr1/memory>
 
 namespace saccubus {
 namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
-private:
-	std::deque<item::Comment*> comments;
 public:
 	CommentLayer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~CommentLayer();
 public:
-	virtual void draw(float vpos);
+	virtual void appendComment(std::tr1::shared_ptr<item::Comment> comment);
+	virtual void draw(float vpos) = 0;
 };
 
 }}

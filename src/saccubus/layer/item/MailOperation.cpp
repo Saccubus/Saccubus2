@@ -18,7 +18,7 @@
 
 #include <cstdlib>
 #include "Comment.h"
-#include "CommentProcessingFlow.h"
+#include "CommentPipeLine.h"
 #include "../../meta/Comment.h"
 #include "../../util/StringUtil.h"
 #include "../../logging/Exception.h"

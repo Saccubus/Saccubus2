@@ -26,6 +26,9 @@
 
 namespace saccubus {
 namespace layer {
+namespace item {
+class CommentPipeLine;
+}
 
 /**
  * スレッド1つ分のレイヤ
@@ -33,19 +36,22 @@ namespace layer {
  */
 class ThreadLayer : public Layer {
 private:
-	const meta::Video* video;
+	const meta::Thread& thread;
 private:
 	draw::CommentFactory* commentFactory;
 	draw::ShapeFactory* shapeFactory;
 private:
+	item::CommentPipeLine* commentPipeLine;
 	NekomataLayer* nekomataLayer;
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(logging::Logger& log, draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
 	virtual void draw(float vpos);
+public:
+	void getCommentBetween(float from, float to, CommentLayer* self);
 };
 
 }}

@@ -21,19 +21,25 @@
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
 #include "../draw/ShapeFactory.h"
+#include "item/CommentPipeLine.h"
 
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, draw::Renderer* renderer, PluginOrganizer* organizer)
+ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer)
 :Layer(log, renderer)
+,thread(thread)
 {
 	this->commentFactory = organizer->newCommentFactory(this->renderer());
 	this->shapeFactory = organizer->newShapeFactory(this->renderer());
 
+
+	this->commentPipeLine = new item::CommentPipeLine(log, table, this->nekomataLayer);
 }
 
 ThreadLayer::~ThreadLayer() {
+	delete this->commentPipeLine;
+
 	delete this->nekomataLayer;
 	delete this->mainCommentLayer;
 	delete this->forkedCommentLayer;
@@ -44,7 +50,25 @@ ThreadLayer::~ThreadLayer() {
 
 void ThreadLayer::draw(float vpos)
 {
-	//コメントの供給（破棄タイミングは各々のレイヤが決めてね）
+
+	/*
+	meta::Thread::Iterator it = std::lower_bound(thread.begin(), thread.end(), beforeTime);
+	const meta::Thread::Iterator end = std::upper_bound(thread.begin(), thread.end(), vpos-nico::CommentShownTimeInAdvance);
+	for(;it != end; ++it){
+		std::tr1::shared_ptr<item::Comment> item = this->commentProcessFlow->process(*it);
+		switch(item->layer())
+		{
+		case item::Comment::Normal:
+			mainCommentLayer->appendComment(item);
+			break;
+		case item::Comment::Forked:
+			forkedCommentLayer->appendComment(item);
+			break;
+		default:
+			throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknwon layer type: %d", item->layer());
+		}
+	}
+	*/
 	//描画
 	this->nekomataLayer->draw(vpos);
 	this->mainCommentLayer->draw(vpos);

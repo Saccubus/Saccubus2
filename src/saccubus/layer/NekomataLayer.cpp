@@ -23,7 +23,7 @@
 #include <sstream>
 #include "../util/StringUtil.h"
 #include "item/Comment.h"
-#include "item/CommentProcessingFlow.h"
+#include "item/CommentPipeLine.h"
 
 namespace saccubus {
 namespace layer {
