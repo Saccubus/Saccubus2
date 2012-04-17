@@ -65,11 +65,11 @@ TEST(SpriteHandlerTest, CopyTest)
 TEST(SpriteHandlerTest, StaticCastTest)
 {
 	Renderer renderer(log_err);
-	mock::draw::Sprite mockSprite(log_err, renderer.handler(), 0, 0);
-	Sprite::Handler<saccubus::mock::draw::Sprite> spr(&mockSprite);
+	saccubus::mock::draw::Sprite* mockSprite = new mock::draw::Sprite(log_err, renderer.handler(), 0, 0);
+	Sprite::Handler<saccubus::mock::draw::Sprite> spr(mockSprite);
 	ASSERT_TRUE(spr);
 	ASSERT_TRUE(spr.get());
-	ASSERT_EQ(&mockSprite, spr.get());
+	ASSERT_EQ(mockSprite, spr.get());
 
 	Sprite::Handler<saccubus::draw::RawSprite> rawSpr = spr;
 	Sprite::Handler<saccubus::draw::RawSprite> rawSpr2;
@@ -93,8 +93,8 @@ TEST(SpriteHandlerTest, StaticCastTest)
 TEST(SpriteHandlerTest, DynamicCastTest)
 {
 	Renderer renderer(log_err);
-	mock::draw::Sprite mockSprite(log_err, renderer.handler(), 0, 0);
-	Sprite::Handler<saccubus::draw::Sprite> spr(&mockSprite);
+	mock::draw::Sprite* mockSprite = new mock::draw::Sprite(log_err, renderer.handler(), 0, 0);
+	Sprite::Handler<saccubus::draw::Sprite> spr(mockSprite);
 
 	Sprite::Handler<saccubus::draw::RawSprite> rawSpr = spr.cast<saccubus::draw::RawSprite>();
 	Sprite::Handler<saccubus::draw::RawSprite> rawSpr2;
