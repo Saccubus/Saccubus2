@@ -130,6 +130,7 @@ void NekomataLayer::draw(float vpos)
  ******************************************************************************************************************/
 static void applyNekomataReplace(nekomata::system::Replace* replace, item::Comment* comment)
 {
+	if(!replace->enabled()) return;
 	if(replace->src().size() > 0 && comment->message().find(replace->src()) == std::string::npos){
 		return; //マッチしなかった。
 	}
@@ -186,9 +187,7 @@ static void applyNekomataReplace(nekomata::system::Replace* replace, item::Comme
 void NekomataLayer::replace(item::Comment* comment)
 {
 	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
-		nekomata::system::Replace* replace = *it;
-		if(!replace->enabled()) continue;
-		applyNekomataReplace(replace, comment);
+		applyNekomataReplace(*it, comment);
 	}
 }
 
