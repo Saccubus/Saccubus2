@@ -350,6 +350,20 @@ public:
 
 //----------------------------------------------------------------------------------------------------------------------
 
+#define DEF_SYSTEM_LIST(clazz, name)\
+private:\
+	std::set<clazz*> name##List;\
+protected:\
+	typedef std::set<clazz*>::const_iterator clazz##Iterator;\
+	inline clazz##Iterator name##Begin() const\
+	{\
+		return name##List.begin();\
+	}\
+	inline clazz##Iterator name##End() const\
+	{\
+		return name##List.end();\
+	}
+
 class System
 {
 private:
@@ -420,26 +434,12 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, lastVideo);
 private:
 	std::map<std::string, double> markerMap;
-private:
-	std::set<Shape*> shapeList;
-	std::set<Label*> labelList;
-	std::set<Sum*> sumList;
-	std::set<SumResult*> sumResultList;
-	std::set<Replace*> replaceList;
-	std::set<Button*, Button::CompareByVpos> buttonList;
-protected:
-	std::set<Shape*>::const_iterator shapeBegin();
-	std::set<Shape*>::const_iterator shapeEnd();
-	std::set<Label*>::const_iterator labelBegin();
-	std::set<Label*>::const_iterator labelEnd();
-	std::set<Sum*>::const_iterator sumBegin();
-	std::set<Sum*>::const_iterator sumEnd();
-	std::set<SumResult*>::const_iterator sumResultBegin();
-	std::set<SumResult*>::const_iterator sumResultEnd();
-	std::set<Replace*>::const_iterator replaceBegin();
-	std::set<Replace*>::const_iterator replaceEnd();
-	std::set<Button*>::const_iterator buttonBegin();
-	std::set<Button*>::const_iterator buttonEnd();
+	DEF_SYSTEM_LIST(Shape, shape);
+	DEF_SYSTEM_LIST(Label, label);
+	DEF_SYSTEM_LIST(Sum, sum);
+	DEF_SYSTEM_LIST(SumResult, sumResult);
+	DEF_SYSTEM_LIST(Button, button);
+	DEF_SYSTEM_LIST(Replace, replace);
 private:
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
@@ -471,6 +471,7 @@ protected: /* INFO: 各サブシステムで再実装すること。 */
 };
 
 
+#undef DEF_SYSTEM_LIST
 #undef DEF_ADAPTER_ACCESSOR
 #undef SET_PARAM
 #undef SET_DEFAULT
