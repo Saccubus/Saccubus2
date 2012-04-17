@@ -403,12 +403,27 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, lastVideo);
 private:
 	std::map<std::string, double> markerMap;
+private:
 	std::set<Shape*> shapeList;
 	std::set<Label*> labelList;
 	std::set<Sum*> sumList;
 	std::set<SumResult*> sumResultList;
 	std::set<Replace*> replaceList;
 	std::set<Button*> buttonList;
+protected:
+	std::set<Shape*>::const_iterator shapeBegin();
+	std::set<Shape*>::const_iterator shapeEnd();
+	std::set<Label*>::const_iterator labelBegin();
+	std::set<Label*>::const_iterator labelEnd();
+	std::set<Sum*>::const_iterator sumBegin();
+	std::set<Sum*>::const_iterator sumEnd();
+	std::set<SumResult*>::const_iterator sumResultBegin();
+	std::set<SumResult*>::const_iterator sumResultEnd();
+	std::set<Replace*>::const_iterator replaceBegin();
+	std::set<Replace*>::const_iterator replaceEnd();
+	std::set<Button*>::const_iterator buttonBegin();
+	std::set<Button*>::const_iterator buttonEnd();
+private:
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
 public: /* SystemItemからのコールバック関数 */

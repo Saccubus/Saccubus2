@@ -322,6 +322,14 @@ void System::unregist(clazz* const name)\
 		log.e(TAG, 0, "[BUG] unregisted duplicated %s!: %s", #clazz, name->inspect().c_str());\
 	}\
 	delete name;\
+}\
+std::set<clazz*>::const_iterator System::name##Begin()\
+{\
+	return name##List.begin();\
+}\
+std::set<clazz*>::const_iterator System::name##End()\
+{\
+	return name##List.end();\
 }
 
 REGIST_TEMPLATE(Shape, shape)
