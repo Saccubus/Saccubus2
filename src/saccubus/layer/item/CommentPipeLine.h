@@ -53,6 +53,12 @@ public:
 	static bool apply(const std::string& mail, Comment* product);
 };
 
+struct NekomataReplaceOperation
+{
+public:
+	static void apply(nekomata::system::Replace* replace, item::Comment* comment);
+};
+
 class CommentPipeLine {
 private:
 	logging::Logger& log;

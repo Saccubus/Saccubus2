@@ -16,15 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../TestCommon.h"
-#include "../../../../saccubus/layer/item/Comment.h"
-#include "../../../../saccubus/layer/item/CommentPipeLine.h"
-#include "../../mock/meta/Comment.h"
+#include "../../../TestCommon.h"
+#include "../../../../../saccubus/layer/item/Comment.h"
+#include "../../../../../saccubus/layer/item/CommentPipeLine.h"
+#include "../../../mock/meta/Comment.h"
 using namespace saccubus::mock;
 
 namespace saccubus{
 namespace test {
-namespace context{
+namespace layer {
+namespace item {
 
 class CommentTest : public ::testing::Test
 {
@@ -61,6 +62,7 @@ TEST_F(CommentTest, MultiInterpretTest)
 		delete ctx;
 	}
 }
-}}}
+
+}}}}
 
 

@@ -17,17 +17,18 @@
  */
 
 
-#include "../../TestCommon.h"
-#include "../../../../saccubus/layer/item/Comment.h"
-#include "../../../../saccubus/layer/item/CommentPipeLine.h"
-#include "../../mock/meta/Comment.h"
+#include "../../../TestCommon.h"
+#include "../../../../../saccubus/layer/item/Comment.h"
+#include "../../../../../saccubus/layer/item/CommentPipeLine.h"
+#include "../../../mock/meta/Comment.h"
 using namespace saccubus::mock;
 using saccubus::layer::item::MailOperation;
 using saccubus::layer::item::Comment;
 
 namespace saccubus{
 namespace test {
-namespace context{
+namespace layer {
+namespace item {
 
 class MailOperationTest : public ::testing::Test
 {
@@ -188,5 +189,4 @@ TEST_F(MailOperationTest, BrokenCommandTest)
 	ASSERT_FALSE(MailOperation::apply("#12ker3", ctx));
 }
 
-}}}
-
+}}}}

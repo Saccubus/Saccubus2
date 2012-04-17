@@ -19,6 +19,8 @@
 #ifndef SACCUBUS_TESTCOMMON_H_
 #define SACCUBUS_TESTCOMMON_H_
 
+#include <tr1/memory>
+using std::tr1::shared_ptr;
 #include <gtest/gtest.h>
 #include <iostream>
 #include "../../saccubus/logging/Exception.h"

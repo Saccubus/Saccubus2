@@ -90,23 +90,29 @@ void NekomataLayer::BGM(const std::string& id, double x, double y,
 }
 
 void NekomataLayer::playBGM(int id) {
+	this->Layer::log.e(TAG, "Sorry, 'playBGM' not supported yet!!");
 }
 
 void NekomataLayer::stopBGM(int id) {
+	this->Layer::log.e(TAG, "Sorry, 'stopCancel' not supported yet!!");
 }
 
 void NekomataLayer::addAtPausePoint(double vpos, double wait) {
+	this->Layer::log.e(TAG, "Sorry, 'addAtPausePoint' not supported yet!!");
 }
 
 void NekomataLayer::addPostRoute(const std::string& match,
 		const std::string& id, const std::string& button) {
+	this->Layer::log.e(TAG, "Sorry, 'addPostRoute' not supported yet!!");
 }
 
 void NekomataLayer::CM(const std::string& id, double time, bool pause,
 		const std::string& link, double volume) {
+	this->Layer::log.e(TAG, "Sorry, 'CM' not supported yet!!");
 }
 
 void NekomataLayer::playCM(int id) {
+	this->Layer::log.e(TAG, "Sorry, 'playCM' not supported yet!!");
 }
 
 std::tr1::shared_ptr<const nekomata::system::Comment> NekomataLayer::nextComment() {
@@ -128,66 +134,11 @@ void NekomataLayer::draw(float vpos)
 /******************************************************************************************************************
  * コメント変換
  ******************************************************************************************************************/
-static void applyNekomataReplace(nekomata::system::Replace* replace, item::Comment* comment)
-{
-	if(!replace->enabled()) return;
-	if(replace->src().size() > 0 && comment->message().find(replace->src()) == std::string::npos){
-		return; //マッチしなかった。
-	}
-
-	std::vector<std::string> targets;
-	util::splitSpace(replace->target(), targets);
-	if(targets.size() > 0){
-		for(std::vector<std::string>::const_iterator it = targets.begin(); it != targets.end(); ++it){
-			if(
-				( *it == "owner" && comment->layer() == item::Comment::Forked ) ||
-				( *it == "user" && comment->layer() == item::Comment::Normal )
-			){
-				break;
-			}
-		}
-		return; //ターゲットじゃない。
-	}
-
-
-	//色やポジションが設定される。
-	if(nekomata::system::Replace::SAME_COLOR != replace->color()) comment->color(replace->color());
-	if(replace->size().size() > 0) item::MailOperation::apply(replace->size(), comment);
-	if(replace->pos().size() > 0) item::MailOperation::apply(replace->pos(), comment);
-
-	if(replace->dst().size() <= 0){
-		return; //メッセージの書き換えは行わない。
-	}
-
-	if(replace->partial()){ //完全一致
-		if(replace->src() == comment->message()){
-			comment->message(replace->dst());
-		}
-	}else{
-		if(replace->fill()){
-			if(comment->message().find(replace->src()) != std::string::npos){
-				comment->message(replace->dst());
-			}
-		}else{
-			std::vector<std::string> lst;
-			util::split(comment->message(), replace->src(), lst);
-			std::stringstream ss;
-			for(std::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); ++it){
-				if(ss.tellg() > 0){
-					ss << replace->dst();
-				}
-				ss << *it;
-			}
-			comment->message(ss.str());
-		}
-	}
-
-}
 
 void NekomataLayer::replace(item::Comment* comment)
 {
 	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
-		applyNekomataReplace(*it, comment);
+		item::NekomataReplaceOperation::apply(*it, comment);
 	}
 }
 
