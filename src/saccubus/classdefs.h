@@ -30,10 +30,6 @@ class Saccubus;
 class Adapter;
 class PluginOrganizer;
 
-namespace context{
-class Comment;
-}
-
 namespace draw{
 class Sprite;
 class RawSprite;
@@ -47,6 +43,9 @@ class Exception;
 }
 
 namespace layer{
+namespace item{
+class Comment;
+}
 class Layer;
 class CommentLayer;
 class ThreadLayer;

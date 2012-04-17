@@ -22,16 +22,16 @@
 #include <string>
 #include <tr1/memory>
 #include <tr1/functional>
-#include "../classdefs.h"
-#include "../util/ClassAccessor.h"
+#include "../../classdefs.h"
+#include "../../util/ClassAccessor.h"
 
 namespace nekomata{
 namespace system{
 class Comment;
 }}
 namespace saccubus {
-namespace context {
-
+namespace layer {
+namespace item {
 
 class Comment {
 private:
@@ -108,5 +108,5 @@ public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
 };
 
-}}
+}}}
 #endif /* CONTEXT_COMMENT_H_ */

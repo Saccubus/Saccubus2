@@ -33,7 +33,7 @@ public:
 	CommentFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~CommentFactory();
 public:
-	virtual Sprite::Handler<Sprite> renderComment(const context::Comment* comment, float factor) = 0;
+	virtual Sprite::Handler<Sprite> renderComment(const layer::item::Comment* comment, float factor) = 0;
 };
 
 }}

@@ -20,11 +20,11 @@
 #include "../../../../saccubus/draw/sdl/Sprite.h"
 #include "../../../../saccubus/draw/sdl/Renderer.h"
 #include "../../../../saccubus/draw/sdl/SimpleCommentFactory.h"
-#include "../../../../saccubus/context/Comment.h"
+#include "../../../../saccubus/layer/item/Comment.h"
 #include "../../mock/meta/Comment.h"
 
 using namespace saccubus::draw;
-using namespace saccubus::context;
+using namespace saccubus::layer::item;
 using namespace saccubus::mock;
 
 namespace saccubus{
@@ -36,7 +36,7 @@ TEST(SDLTest, QureyTest)
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
-	context::Comment comment = context::Comment(log_err, &orig);
+	layer::item::Comment comment = layer::item::Comment(log_err, &orig);
 	sdl::Renderer renderer(log_err, 640, 480);
 	sdl::SimpleCommentFactory factory(log_err, &renderer);
 

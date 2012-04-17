@@ -18,10 +18,11 @@
 
 #include "Comment.h"
 #include <cmath>
-#include "../meta/Comment.h"
+#include "../../meta/Comment.h"
 
 namespace saccubus {
-namespace context {
+namespace layer {
+namespace item {
 
 static const std::string TAG("context/Comment");
 
@@ -70,4 +71,4 @@ void Comment::interpret(logging::Logger& log)
 }
 
 
-}}
+}}}

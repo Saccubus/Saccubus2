@@ -18,12 +18,13 @@
 
 #include <cstdlib>
 #include "Comment.h"
-#include "../meta/Comment.h"
-#include "../util/StringUtil.h"
-#include "../logging/Exception.h"
+#include "../../meta/Comment.h"
+#include "../../util/StringUtil.h"
+#include "../../logging/Exception.h"
 
 namespace saccubus {
-namespace context {
+namespace layer {
+namespace item {
 
 static bool color_func(const std::string& command, Comment* comment, unsigned int color, unsigned int shadowColor)
 {
@@ -126,7 +127,7 @@ bool Comment::Command::execute(const std::string& command, Comment* comment) con
 
 using namespace std::tr1;
 using namespace std::tr1::placeholders;
-using saccubus::context::Comment;
+using saccubus::layer::item::Comment;
 
 const struct Comment::Command Comment::Commands[] = {
 		/* カラーコード */
@@ -208,6 +209,6 @@ bool Comment::interpret(const std::string& command, Comment* comment)
 
 }
 
-}}
+}}}
 
 

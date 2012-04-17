@@ -18,10 +18,10 @@
 
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/context/Comment.h"
+#include "../../../../saccubus/layer/item/Comment.h"
 #include "../../mock/meta/Comment.h"
 using namespace saccubus::mock;
-using saccubus::context::Comment;
+using saccubus::layer::item::Comment;
 
 namespace saccubus{
 namespace test {
@@ -31,10 +31,10 @@ class CommentCommandTest : public ::testing::Test
 {
 protected:
 	saccubus::mock::meta::Comment meta;
-	saccubus::context::Comment* ctx;
+	saccubus::layer::item::Comment* ctx;
 public:
 	void SetUp(){
-		this->ctx = new saccubus::context::Comment(log_err, &meta);
+		this->ctx = new saccubus::layer::item::Comment(log_err, &meta);
 	}
 	void TearDown(){
 		delete ctx;

@@ -20,7 +20,7 @@
 #include "SimpleCommentFactory.h"
 #include "Renderer.h"
 #include "Sprite.h"
-#include "../../context/Comment.h"
+#include "../../layer/item/Comment.h"
 
 namespace saccubus {
 namespace draw {
@@ -80,7 +80,7 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 }
 
 
-void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::context::Comment* comment, float factor)
+void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::layer::item::Comment* comment, float factor)
 {
 	cairo_identity_matrix(cairo);
 	cairo_scale(cairo, factor, factor);
@@ -100,7 +100,7 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, red, green, blue, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::context::Comment* comment, float factor)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::layer::item::Comment* comment, float factor)
 {
 	double x;
 	double y;

@@ -27,7 +27,7 @@ namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
 private:
-	std::deque<context::Comment*> comments;
+	std::deque<layer::item::Comment*> comments;
 public:
 	CommentLayer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~CommentLayer();
