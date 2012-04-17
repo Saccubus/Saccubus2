@@ -18,6 +18,7 @@
 
 #include "Comment.h"
 #include <cmath>
+#include <nekomata/system/System.h>
 #include "../../meta/Comment.h"
 
 namespace saccubus {
@@ -46,6 +47,7 @@ void Comment::setDefault()
 	this->from(orig() ? orig()->vpos()-1.0f : NAN);
 	this->to(orig() ? orig()->vpos()+2.0f : NAN);
 	this->isButton(false);
+	this->isYourPost(false);
 	this->fromButton(false);
 	this->full(false);
 	this->sage(true);
@@ -62,7 +64,17 @@ void Comment::setDefault()
 
 std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
 {
-
+	return std::tr1::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
+			this->message(),
+			this->orig()->vpos(),
+			this->isYourPost(),
+			this->orig()->mail(),
+			this->fromButton(),
+			this->orig()->premium(),
+			this->color(),
+			this->size(),
+			this->orig()->no()
+			));
 }
 
 

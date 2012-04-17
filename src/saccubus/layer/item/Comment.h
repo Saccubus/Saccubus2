@@ -66,6 +66,7 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, float, from);
 	DEF_ATTR_ACCESSOR(public, public, float, to);
 	DEF_ATTR_ACCESSOR(public, public, bool, isButton);
+	DEF_ATTR_ACCESSOR(public, public, bool, isYourPost);
 	DEF_ATTR_ACCESSOR(public, public, bool, fromButton);
 	DEF_ATTR_ACCESSOR(public, public, bool, full);
 	DEF_ATTR_ACCESSOR(public, public, bool, sage);
