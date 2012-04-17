@@ -40,8 +40,8 @@ System::System(logging::Logger& log)
 {
 }
 
-template <typename T>
-void deleteSystemItems(std::set<T*>& map)
+template <typename T, typename C>
+void deleteSystemItems(std::set<T*, C>& map)
 {
 	typename std::set<T*>::iterator end = map.end();
 	for(typename std::set<T*>::iterator it=map.begin();it != end; ++it){

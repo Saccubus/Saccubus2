@@ -249,6 +249,12 @@ public:
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
+	struct CompareByVpos{
+		bool operator () (const Button* a, const Button*b)
+		{
+			return a->vpos() < b->vpos();
+		}
+	};
 };
 
 class Replace : public SystemItem
@@ -420,7 +426,7 @@ private:
 	std::set<Sum*> sumList;
 	std::set<SumResult*> sumResultList;
 	std::set<Replace*> replaceList;
-	std::set<Button*> buttonList;
+	std::set<Button*, Button::CompareByVpos> buttonList;
 protected:
 	std::set<Shape*>::const_iterator shapeBegin();
 	std::set<Shape*>::const_iterator shapeEnd();
