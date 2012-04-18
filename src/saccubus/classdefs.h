@@ -34,6 +34,7 @@ namespace draw{
 class Sprite;
 class RawSprite;
 class Renderer;
+class Context;
 class CommentFactory;
 class ShapeFactory;
 }

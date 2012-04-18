@@ -30,17 +30,11 @@ class Renderer: public saccubus::draw::Renderer {
 public:
 	Renderer(logging::Logger& log);
 	virtual ~Renderer();
-private:
-	std::vector<std::pair<std::pair<int, int>, Sprite* > > drawQuery;
 public:
-	typedef std::vector<std::pair<std::pair<int, int>, Sprite* > >::const_iterator QueryIterator;
-public:
-	void draw(int x, int y, Sprite* spr);
-	QueryIterator queryBegin();
-	QueryIterator queryEnd();
-	std::size_t querySize();
 	const std::tr1::shared_ptr<saccubus::draw::Renderer*> handler() { return this->saccubus::draw::Renderer::handler(); };
-	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);};
-
+public:
+	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);
+	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
+};
 }}}
 #endif /* MOCK_RENDERER_H_ */

@@ -18,14 +18,15 @@
 
 #include "Renderer.h"
 #include "Sprite.h"
+#include "Context.h"
 #include "../../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Renderer::Renderer(logging::Logger& log, const int w, const int h)
-:saccubus::draw::Renderer(log, w, h)
+Renderer::Renderer(logging::Logger& log)
+:saccubus::draw::Renderer(log)
 {
 }
 
@@ -35,6 +36,11 @@ Renderer::~Renderer() {
 draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
 	return new cairo::Sprite(log, this->handler(), w, h);
+}
+
+std::tr1::shared_ptr<draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
+{
+	return std::tr1::shared_ptr<draw::Context>(new Context(log, handler()));
 }
 
 

@@ -31,9 +31,10 @@ namespace cairo {
 class Renderer : public saccubus::draw::Renderer {
 	DEF_ATTR_ACCESSOR(public, private, cairo_t*, cairo);
 public:
-	Renderer(logging::Logger& log, const int w, const int h);
+	Renderer(logging::Logger& log);
 	virtual ~Renderer();
 protected: /* 各実装がこれを実際に実装する */
+	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
 	virtual draw::RawSprite* createRawSprite(int w, int h);
 };
 

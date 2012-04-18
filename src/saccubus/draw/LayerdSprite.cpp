@@ -63,13 +63,13 @@ int LayerdSprite::height() const
 	return h;
 }
 
-void LayerdSprite::draw(Renderer* renderer, int x, int y)
+void LayerdSprite::draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y)
 {
 	for(std::vector<std::pair<Point, Sprite::Handler<Sprite> > >::const_iterator it = sprites.begin(); it != sprites.end(); ++it)
 	{
 		const Point pt = it->first;
 		Sprite::Handler<Sprite> const spr = it->second;
-		spr->draw(renderer, x+pt.x(), y+pt.y());
+		spr->draw(ctx, x+pt.x(), y+pt.y());
 	}
 }
 

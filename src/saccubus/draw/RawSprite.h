@@ -70,7 +70,7 @@ protected:
 	virtual void unlock() = 0;
 	virtual void onFree();
 public:
-	virtual void draw(Renderer* renderer, int x, int y) = 0;
+	virtual void draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y) = 0;
 	virtual void resize(int w, int h);
 };
 

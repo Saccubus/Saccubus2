@@ -26,9 +26,7 @@ namespace cairo {
 Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
 :draw::RawSprite(log, renderer, w, h)
 {
-	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*(this->renderer()));
 	this->surface(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h));
-
 }
 
 Sprite::~Sprite() {
@@ -36,12 +34,8 @@ Sprite::~Sprite() {
 	this->surface(0);
 }
 
-void Sprite::draw(draw::Renderer* __renderer, int x, int y)
+void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
 {
-	if(__renderer != this->renderer()){
-		logging::Exception(__FILE__, __LINE__, "Sprite renderer and target renderer has been changed!!");
-	}
-	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*__renderer);
 }
 void Sprite::lock(void** data, int* w, int* h, int* stride)
 {

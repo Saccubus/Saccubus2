@@ -29,12 +29,15 @@ namespace draw {
 const std::size_t MaxCachedRawSprites = 100;
 
 class Renderer {
-	DEF_ATTR_ACCESSOR(public, protected, int, width)
-	DEF_ATTR_ACCESSOR(public, protected, int, height)
+public:
+	enum Format {
+		RGBA_8888,
+		RGB_888
+	};
 protected:
 	logging::Logger& log;
 public:
-	Renderer(logging::Logger& log, const int w, const int h);
+	Renderer(logging::Logger& log);
 	virtual ~Renderer();
 /**************************************************************************************************
  * スプライト管理機構
@@ -59,6 +62,7 @@ public:
 public: /* Spriteからのコールバック関数 */
 	void backRawSprite(RawSprite* spr);
 protected: /* 各実装がこれを実際に実装する */
+	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride) = 0;
 	virtual RawSprite* createRawSprite(int w, int h) = 0;
 };
 

@@ -36,7 +36,7 @@ protected:
 public:
 	virtual int width() const;
 	virtual int height() const;
-	virtual void draw(Renderer* renderer, int x, int y);
+	virtual void draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y);
 	virtual void resize(int w, int h);
 };
 

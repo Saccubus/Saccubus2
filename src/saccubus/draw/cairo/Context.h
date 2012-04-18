@@ -16,29 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Renderer.h"
-#include "Sprite.h"
-#include "Context.h"
+#ifndef Saccubus_CONTEXT_H__CPP_
+#define Saccubus_CONTEXT_H__CPP_
+
+#include "../Context.h"
 
 namespace saccubus {
-namespace mock {
 namespace draw {
+namespace cairo {
 
-Renderer::Renderer(logging::Logger& log)
-:saccubus::draw::Renderer(log){
-}
-
-Renderer::~Renderer() {
-}
-
-saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
-{
-	return new Sprite(log, handler(), w, h);
-}
-
-std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
-{
-	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
-}
+class Context: public saccubus::draw::Context {
+public:
+	Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer);
+	virtual ~Context();
+public:
+	virtual float width() const;
+	virtual float height() const;
+};
 
 }}}
+#endif /* INCLUDE_GUARD */

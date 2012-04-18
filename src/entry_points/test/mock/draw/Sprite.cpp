@@ -18,6 +18,7 @@
 
 #include "Renderer.h"
 #include "Sprite.h"
+#include "Context.h"
 #include "../../../../saccubus/logging/Exception.h"
 
 namespace saccubus {
@@ -33,13 +34,10 @@ Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Render
 Sprite::~Sprite() {
 }
 
-void Sprite::draw(saccubus::draw::Renderer* __renderer, int x, int y)
+void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
 {
-	if(__renderer != this->renderer()){
-		logging::Exception(__FILE__, __LINE__, "Sprite renderer and target renderer has been changed!!");
-	}
-	Renderer& renderer = dynamic_cast<Renderer&>(*__renderer);
-	renderer.draw(x, y, this);
+	Context* const ctx = dynamic_cast<Context*>(_ctx.get());
+	ctx->draw(x, y, this);
 }
 
 void Sprite::lock(void** data, int* w, int* h, int* stride)

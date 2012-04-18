@@ -47,7 +47,7 @@ int NullSprite::height() const
 {
 	return 0;
 }
-void NullSprite::draw(Renderer* renderer, int x, int y)
+void NullSprite::draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y)
 {
 	//null。なにも描画しない。
 }

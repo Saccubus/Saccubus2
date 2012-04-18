@@ -32,7 +32,7 @@ class Sprite : public draw::RawSprite {
 public:
 	Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	virtual ~Sprite();
-	virtual void draw(draw::Renderer* renderer, int x, int y);
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
 	virtual void lock(void** data, int* w, int* h, int* stride);
 	virtual void unlock();
 };

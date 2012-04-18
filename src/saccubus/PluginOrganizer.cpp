@@ -110,10 +110,10 @@ saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* c
 			config[PLUGIN_SHAPE].c_str()
 			);
 }
-saccubus::draw::Renderer* PluginOrganizer::newRenderer(const int w, const int h)
+saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 {
 	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC]){
-		return new saccubus::draw::cairo::Renderer(log, w, h);
+		return new saccubus::draw::cairo::Renderer(log);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no renderer plugin corresponding to [graphic: %s]",

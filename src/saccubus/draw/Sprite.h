@@ -146,7 +146,7 @@ public:
 protected:
 	virtual void onFree() = 0;
 public:
-	virtual void draw(Renderer* renderer, int x, int y) = 0;
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y) = 0;
 	virtual void resize(int w, int h) = 0;
 };
 

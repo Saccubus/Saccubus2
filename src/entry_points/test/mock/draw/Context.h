@@ -16,29 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Renderer.h"
+#ifndef Saccubus_MOCK_CONTEXT_H__CPP_
+#define Saccubus_MOCK_CONTEXT_H__CPP_
+
+#include <vector>
 #include "Sprite.h"
-#include "Context.h"
+#include "../../../../saccubus/classdefs.h"
+#include "../../../../saccubus/draw/Context.h"
 
 namespace saccubus {
 namespace mock {
 namespace draw {
 
-Renderer::Renderer(logging::Logger& log)
-:saccubus::draw::Renderer(log){
-}
+class Context: public saccubus::draw::Context {
+public:
+	Context(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Renderer*> renderer);
+	virtual ~Context();
+private:
+	std::vector<std::pair<std::pair<int, int>, Sprite* > > drawQuery;
+public:
+	typedef std::vector<std::pair<std::pair<int, int>, Sprite* > >::const_iterator QueryIterator;
+public:
+	void draw(int x, int y, Sprite* spr);
+	QueryIterator queryBegin();
+	QueryIterator queryEnd();
+	std::size_t querySize();
+public:
+	virtual float width() const;
+	virtual float height() const;
 
-Renderer::~Renderer() {
-}
-
-saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
-{
-	return new Sprite(log, handler(), w, h);
-}
-
-std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
-{
-	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
-}
+};
 
 }}}
+#endif /* INCLUDE_GUARD */

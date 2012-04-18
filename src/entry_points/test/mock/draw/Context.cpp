@@ -16,29 +16,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Renderer.h"
-#include "Sprite.h"
 #include "Context.h"
 
 namespace saccubus {
 namespace mock {
 namespace draw {
 
-Renderer::Renderer(logging::Logger& log)
-:saccubus::draw::Renderer(log){
-}
-
-Renderer::~Renderer() {
-}
-
-saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
+Context::Context(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Renderer*> renderer)
+:saccubus::draw::Context(log, renderer)
 {
-	return new Sprite(log, handler(), w, h);
 }
 
-std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
-{
-	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
+Context::~Context() {
 }
+
+void Context::draw(int x, int y, Sprite* spr)
+{
+	this->drawQuery.push_back(std::pair<std::pair<int,int>,Sprite* >(std::pair<int, int>(x, y), spr));
+}
+
+Context::QueryIterator Context::queryBegin()
+{
+	return this->drawQuery.begin();
+}
+Context::QueryIterator Context::queryEnd()
+{
+	return this->drawQuery.end();
+}
+std::size_t Context::querySize()
+{
+	return this->drawQuery.size();
+}
+
+float Context::width() const
+{
+	return 640;
+}
+float Context::height() const
+{
+	return 480;
+}
+
 
 }}}

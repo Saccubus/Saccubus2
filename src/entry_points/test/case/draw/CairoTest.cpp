@@ -37,7 +37,7 @@ TEST(SDLTest, QureyTest)
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
 	layer::item::Comment comment = layer::item::Comment(&orig);
-	cairo::Renderer renderer(log_err, 640, 480);
+	cairo::Renderer renderer(log_err);
 	cairo::SimpleCommentFactory factory(log_err, &renderer);
 
 	Sprite::Handler<cairo::Sprite> spr, dspr;
