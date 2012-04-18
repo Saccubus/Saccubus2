@@ -18,7 +18,6 @@
 
 #include "Sprite.h"
 #include "../../logging/Exception.h"
-#include <SDL2/SDL_rect.h>
 
 namespace saccubus {
 namespace draw {
@@ -28,13 +27,13 @@ Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> rende
 :draw::RawSprite(log, renderer, w, h)
 {
 	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*(this->renderer()));
-	this->texture(SDL_CreateTexture(_renderer.renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h));
+	this->surface(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h));
 
 }
 
 Sprite::~Sprite() {
-	SDL_DestroyTexture(this->texture());
-	this->texture(0);
+	cairo_surface_destroy(this->surface());
+	this->surface(0);
 }
 
 void Sprite::draw(draw::Renderer* __renderer, int x, int y)
@@ -43,36 +42,16 @@ void Sprite::draw(draw::Renderer* __renderer, int x, int y)
 		logging::Exception(__FILE__, __LINE__, "Sprite renderer and target renderer has been changed!!");
 	}
 	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*__renderer);
-	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
-	dst.w = this->width();
-	dst.h = this->height();
-	SDL_Rect src;
-	src.x = 0;
-	src.y = 0;
-	src.w = this->width();
-	src.h = this->height();
-
-	if( SDL_RenderCopy(_renderer.renderer(), this->texture(), &src, &dst) != 0)
-	{
-		throw logging::Exception("Failed to render SDL Sprite!!");
-	}
 }
 void Sprite::lock(void** data, int* w, int* h, int* stride)
 {
-	SDL_Rect rect;
-	rect.x=0;
-	rect.y=0;
 	*w = this->width();
 	*h = this->height();
-	rect.w=*w;
-	rect.h=*h;
-	SDL_LockTexture(this->texture(), &rect, data, stride);
+	cairo_surface_flush(this->surface());
 }
 void Sprite::unlock()
 {
-	SDL_UnlockTexture(this->texture());
+	cairo_surface_mark_dirty_rectangle(this->surface(), 0, 0, this->width(), this->height());
 }
 
 

@@ -26,6 +26,7 @@ namespace draw {
 RawSprite::RawSprite(logging::Logger& log, std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
 :Sprite(log)
 ,_renderer(_renderer)
+,_locked(false)
 {
 	this->width(w);
 	this->_origWidth=w;
@@ -80,11 +81,16 @@ void RawSprite::onFree()
 RawSprite::Session::Session(Sprite::Handler<RawSprite> spr)
 :sprite(spr)
 {
+	if(this->sprite->_locked){
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Sprite already locked.");
+	}
+	this->sprite->_locked = true;
 	this->sprite->lock(&_data, &_w, &_h, &_stride);
 }
 RawSprite::Session::~Session()
 {
 	this->sprite->unlock();
+	this->sprite->_locked = false;
 }
 void* RawSprite::Session::data() const
 {

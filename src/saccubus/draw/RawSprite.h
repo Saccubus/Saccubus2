@@ -46,6 +46,7 @@ public:
 	};
 private:
 	std::tr1::shared_ptr<Renderer*> _renderer;
+	bool _locked;
 	int _width;
 	int _height;
 	int _origWidth;

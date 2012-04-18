@@ -19,31 +19,20 @@
 #ifndef CAIRO_RENDERER_H_
 #define CAIRO_RENDERER_H_
 
+#include <cairo/cairo.h>
 #include "../Renderer.h"
 #include "../../util/ClassAccessor.h"
 #include "../../classdefs.h"
 
-struct SDL_Renderer;
-struct SDL_Window;
-typedef struct SDL_Renderer SDL_Renderer;
-typedef struct SDL_Window SDL_Window;
 namespace saccubus {
 namespace draw {
 namespace cairo {
 
 class Renderer : public saccubus::draw::Renderer {
-private:
-	const bool sdlInitializedByMe;
-	DEF_ATTR_ACCESSOR(public, private, SDL_Window*, window);
-	DEF_ATTR_ACCESSOR(public, private, SDL_Renderer*, renderer);
+	DEF_ATTR_ACCESSOR(public, private, cairo_t*, cairo);
 public:
 	Renderer(logging::Logger& log, const int w, const int h);
 	virtual ~Renderer();
-public:
-	void windowVisibility(bool visibility);
-	void windowTitle(const std::string& title);
-	std::string windowTitle();
-	void updateWindow();
 protected: /* 各実装がこれを実際に実装する */
 	virtual draw::RawSprite* createRawSprite(int w, int h);
 };

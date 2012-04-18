@@ -19,8 +19,7 @@
 #ifndef CAIRO_SPRITE_H_
 #define CAIRO_SPRITE_H_
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
+#include <cairo/cairo.h>
 #include "../Sprite.h"
 #include "Renderer.h"
 
@@ -29,7 +28,7 @@ namespace draw {
 namespace cairo {
 
 class Sprite : public draw::RawSprite {
-	DEF_ATTR_ACCESSOR(public, private, SDL_Texture*, texture);
+	DEF_ATTR_ACCESSOR(public, private, cairo_surface_t*, surface);
 public:
 	Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	virtual ~Sprite();
