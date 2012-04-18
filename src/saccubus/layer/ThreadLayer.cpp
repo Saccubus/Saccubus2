@@ -31,27 +31,47 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta:
 :Layer(log, renderer)
 ,thread(thread)
 {
-	this->commentFactory = organizer->newCommentFactory(this->renderer());
-	this->shapeFactory = organizer->newShapeFactory(this->renderer());
+	{ // ねこまたとの接続
+		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
+		this->nekomataLayer = new NekomataLayer(log, *this->nekoLogger, this->renderer());
+		this->nekomata = new nekomata::Nekomata(*this->nekomataLayer, *this->nekoLogger);
+	}
+
+	{ // ファクトリ
+		this->shapeFactory = organizer->newShapeFactory(this->renderer());
+		this->commentPipeLine = new item::CommentPipeLine(log, table, this->nekomataLayer);
+		this->commentFactory = organizer->newCommentFactory(this->renderer());
+	}
+
+	{ // コメントレイヤをプラグインオーガナイザからもらってくる
+
+	}
 
 
-	this->commentPipeLine = new item::CommentPipeLine(log, table, this->nekomataLayer);
 }
 
 ThreadLayer::~ThreadLayer() {
-	delete this->commentPipeLine;
 
-	delete this->nekomataLayer;
-	delete this->mainCommentLayer;
-	delete this->forkedCommentLayer;
+	{
+		delete this->mainCommentLayer;
+		delete this->forkedCommentLayer;
+	}
 
-	delete this->commentFactory;
-	delete this->shapeFactory;
+	{ // ファクトリ
+		delete this->commentFactory;
+		delete this->commentPipeLine;
+		delete this->shapeFactory;
+	}
+
+	{ // ねこまたと接続解除
+		delete this->nekomata;
+		delete this->nekomataLayer;
+		delete this->nekoLogger;
+	}
 }
 
 void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
-	//描画
 	this->nekomataLayer->draw(ctx, vpos);
 	this->mainCommentLayer->draw(ctx, vpos);
 	this->forkedCommentLayer->draw(ctx, vpos);

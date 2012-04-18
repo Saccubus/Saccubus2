@@ -27,7 +27,7 @@ namespace saccubus {
 namespace logging{
 
 Logger::Logger(std::ostream& stream, enum Level level)
-:stream(stream), level(level)
+:_stream(stream), level(level)
 {
 }
 
@@ -61,13 +61,32 @@ void Logger::msg(enum Level level, const std::string& tag, const std::string& fm
 	}
 	ss << "[" << std::setw(16) << tag << "] ";
 	ss << util::formatv(fmt, args) << std::endl;
-	stream << ss.str();
-	stream.flags();
+	_stream << ss.str();
+	_stream.flags();
 }
 
 Logger::~Logger() {
 }
 
+nekomata::logging::Logger::Level Logger::levelAsNekomataLogger()
+{
+	switch(this->level){
+	case TRACE_:
+		return nekomata::logging::Logger::TRACE_;
+	case VERBOSE_:
+		return nekomata::logging::Logger::VERBOSE_;
+	case DEBUG_:
+		return nekomata::logging::Logger::DEBUG_;
+	case INFO_:
+		return nekomata::logging::Logger::INFO_;
+	case WARN_:
+		return nekomata::logging::Logger::WARNING_;
+	case ERROR_:
+		return nekomata::logging::Logger::ERROR_;
+	default:
+		throw Exception("[BUG][FIXME] Invalid log level!!");
+	}
+}
 bool Logger::t()
 {
 	return this->level <= TRACE_;

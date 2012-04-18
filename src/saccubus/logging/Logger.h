@@ -19,6 +19,7 @@
 #ifndef SACCUBUS_LOGGER_H_
 #define SACCUBUS_LOGGER_H_
 
+#include <nekomata/logging/Logging.h>
 #include <ostream>
 #include <cstdarg>
 #include <string>
@@ -48,12 +49,15 @@ public:
 		ERROR_=5,
 	};
 private:
-	std::ostream& stream;
+	std::ostream& _stream;
 	enum Level level;
 	void msg(enum Level level, const std::string& tag, const std::string& fmt, std::va_list args);
 public:
 	Logger(std::ostream& stream, enum Level level);
 	virtual ~Logger();
+public:
+	std::ostream& stream() const{ return _stream; };
+	nekomata::logging::Logger::Level levelAsNekomataLogger();
 public:
 	bool t();
 	void t(const std::string& tag, const std::string& fmt, ...);

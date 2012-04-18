@@ -19,6 +19,7 @@
 #ifndef THREADLAYER_H_
 #define THREADLAYER_H_
 
+#include <nekomata/Nekomata.h>
 #include <vector>
 #include "../classdefs.h"
 #include "CommentLayer.h"
@@ -37,6 +38,9 @@ class CommentPipeLine;
 class ThreadLayer : public Layer {
 private:
 	const meta::Thread& thread;
+private:
+	nekomata::logging::Logger* nekoLogger;
+	nekomata::Nekomata* nekomata;
 private:
 	draw::CommentFactory* commentFactory;
 	draw::ShapeFactory* shapeFactory;
