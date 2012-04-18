@@ -17,6 +17,7 @@
  */
 
 #include "Sprite.h"
+#include "Context.h"
 #include "../../logging/Exception.h"
 
 namespace saccubus {
@@ -34,8 +35,13 @@ Sprite::~Sprite() {
 	this->surface(0);
 }
 
-void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
+void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
 {
+	cairo::Context& ctx = dynamic_cast<cairo::Context&>(*(_ctx.get()));
+	cairo_set_source_surface(ctx.cairo(), this->surface(), x, y);
+	//FIXME: ええと、どうやるんだっけ
+	//cairo_clip_extents(ctx.cairo(), x, y, (x+this->_width), (y+this->_height) );
+	cairo_paint(ctx.cairo());
 }
 void Sprite::lock(void** data, int* w, int* h, int* stride)
 {

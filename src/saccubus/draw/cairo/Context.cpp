@@ -17,29 +17,49 @@
  */
 
 #include "Context.h"
+#include "Renderer.h"
+#include "../../logging/Exception.h"
 
 namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer)
+Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 :draw::Context(log, renderer)
 {
-	// TODO Auto-generated constructor stub
-
+	cairo_format_t cfmt;
+	switch(fmt){
+	case Renderer::RGB24:
+		cfmt = CAIRO_FORMAT_RGB24;
+		break;
+	case Renderer::RGBA32:
+		cfmt = CAIRO_FORMAT_ARGB32;
+		break;
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknwon format: %d", fmt);
+	}
+	this->surface(cairo_image_surface_create_for_data(
+			reinterpret_cast<unsigned char*>(data),
+			cfmt,
+			w,
+			h,
+			stride
+			));
+	this->cairo(cairo_create(this->surface()));
 }
 
 Context::~Context() {
-	// TODO Auto-generated destructor stub
+	cairo_destroy(this->cairo());
+	cairo_surface_destroy(this->surface());
 }
 
 float Context::width() const
 {
-
+	return cairo_image_surface_get_width(this->surface());
 }
 float Context::height() const
 {
-
+	return cairo_image_surface_get_height(this->surface());
 }
 
 }}}
