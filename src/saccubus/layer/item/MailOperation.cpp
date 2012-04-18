@@ -110,10 +110,11 @@ static bool timeCode_func(const std::string& command, Comment* comment)
 
 bool MailOperation::execute(const std::string& command, Comment* comment) const
 {
-	if((permission & Premium) == Premium){
-		if(!comment->orig()->premium()){
-			return false;
-		}
+	if(
+		(permission == MailOperation::Premium && (!comment->orig()->premium())) ||
+		(permission == MailOperation::Forked && (comment->layer() != Comment::Forked))
+	){
+		return false;
 	}
 	switch(this->argType){
 	case MailOperation::Exactly:
@@ -212,7 +213,6 @@ const struct MailOperation MailOperation::Instance[] = {
 
 		/* 位置X */
 		MailOperation(MailOperation::Exactly,    "migi",           MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Right)),
-		MailOperation(MailOperation::Exactly,    "naka",           MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Center)),
 		MailOperation(MailOperation::Exactly,    "hidari",         MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Left)),
 
 		/* 表示時間 */

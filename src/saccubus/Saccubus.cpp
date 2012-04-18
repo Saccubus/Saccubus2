@@ -69,7 +69,6 @@ void version(std::ostream& logStream, int argc, char* argv[]){
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
 ,currentVideo(0)
-,renderer(0)
 ,bridge(0)
 {
 	logging::Logger::Level level = logging::Logger::WARN_;
@@ -140,6 +139,8 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 	this->bridge = new python::PyBridge(*this->log);
 	this->pluginOrganizer = new PluginOrganizer(*this->log, organizerArg);
 
+	this->renderer(this->pluginOrganizer->newRenderer());
+
 	if(optind >= argc){
 		throw logging::Exception("You need to set video id!");
 	}else{
@@ -153,6 +154,8 @@ Saccubus::~Saccubus() {
 	if(currentVideo){
 		delete currentVideo;
 	}
+	delete this->renderer();
+	this->renderer(0);
 	delete pluginOrganizer;
 	delete bridge;
 	delete log;

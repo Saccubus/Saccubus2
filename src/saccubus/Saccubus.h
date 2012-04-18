@@ -49,6 +49,7 @@ public:
 };
 
 class Saccubus {
+	DEF_ATTR_ACCESSOR(public, private, draw::Renderer*, renderer);
 private:
 	Adapter* adapter;
 private:
@@ -58,8 +59,6 @@ private:
 	const meta::Video* currentVideo;
 private:
 	PluginOrganizer* pluginOrganizer;
-private:
-	draw::Renderer* renderer;
 private:
 	python::PyBridge* bridge;
 	logging::Logger* log;

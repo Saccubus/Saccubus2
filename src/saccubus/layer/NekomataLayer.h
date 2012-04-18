@@ -27,6 +27,9 @@
 namespace saccubus {
 namespace layer {
 
+/**
+ * TODO: やっぱりレイヤとnekomata::system::Systemは分けた方がいいと思った
+ */
 class NekomataLayer: public nekomata::system::System, public Layer {
 public:
 	NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog, draw::Renderer* renderer);

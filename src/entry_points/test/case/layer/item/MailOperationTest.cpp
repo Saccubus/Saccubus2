@@ -123,7 +123,17 @@ TEST_F(MailOperationTest, PremiumColorCodeTest)
 TEST_F(MailOperationTest, PlaceXTest)
 {
 	ASSERT_EQ(Comment::Center, ctx->placeX());
-	//コメントからはいじれない。
+	{
+		this->ctx->layer(Comment::Normal);
+		ASSERT_FALSE(MailOperation::apply("migi", ctx)); //投稿者コメントでないので失敗
+		ASSERT_EQ(Comment::Center, ctx->placeX());
+	}
+	{
+		this->ctx->layer(Comment::Forked);
+		ASSERT_TRUE(MailOperation::apply("migi", ctx)); //投稿者コメントなので成功
+		ASSERT_EQ(Comment::Right, ctx->placeX());
+	}
+
 }
 TEST_F(MailOperationTest, PlaceYTest)
 {
