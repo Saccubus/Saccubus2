@@ -52,7 +52,7 @@ public:
 public: /* コメントレイヤから呼ばれる */
 	void getCommentBetween(float from, float to, CommentLayer* self) const;
 public:
-	virtual void draw(float vpos);
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 };
 
 }}

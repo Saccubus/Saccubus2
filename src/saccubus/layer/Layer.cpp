@@ -28,6 +28,12 @@ Layer::Layer(logging::Logger& log, draw::Renderer* renderer)
 
 }
 
+void Layer::measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight)
+{
+	*measuredWidth = w;
+	*measuredHeight = h;
+}
+
 Layer::~Layer() {
 	// do nothing
 }

@@ -31,7 +31,7 @@ CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, Threa
 CommentLayer::~CommentLayer() {
 }
 
-void CommentLayer::draw(float vpos)
+void CommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 
 }

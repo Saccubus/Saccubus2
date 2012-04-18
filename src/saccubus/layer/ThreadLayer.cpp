@@ -49,12 +49,12 @@ ThreadLayer::~ThreadLayer() {
 	delete this->shapeFactory;
 }
 
-void ThreadLayer::draw(float vpos)
+void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	//描画
-	this->nekomataLayer->draw(vpos);
-	this->mainCommentLayer->draw(vpos);
-	this->forkedCommentLayer->draw(vpos);
+	this->nekomataLayer->draw(ctx, vpos);
+	this->mainCommentLayer->draw(ctx, vpos);
+	this->forkedCommentLayer->draw(ctx, vpos);
 }
 
 void ThreadLayer::getCommentBetween(float from, float to, CommentLayer* self) const

@@ -27,9 +27,6 @@
 
 namespace saccubus {
 namespace layer {
-namespace item {
-class CommentPipeLine;
-}
 
 class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(public, private, bool, isForked);
@@ -41,7 +38,7 @@ public:
 public: /* ThreadLayerからのコールバック関数 */
 	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end) = 0;
 public:
-	virtual void draw(float vpos) = 0;
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 };
 
 }}

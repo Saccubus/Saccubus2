@@ -47,6 +47,7 @@ class Exception;
 namespace layer{
 namespace item{
 class Comment;
+class CommentPipeLine;
 }
 class Layer;
 class CommentLayer;

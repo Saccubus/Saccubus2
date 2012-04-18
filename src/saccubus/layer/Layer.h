@@ -39,7 +39,10 @@ public:
 	Layer(logging::Logger& log, draw::Renderer* renderer);
 	virtual ~Layer();
 public:
-	virtual void draw(float vpos) = 0;
+	//指定されたサイズより大きなサイズが必要な場合は、適宜measured\w+を修正してください。
+	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
+	//描画
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 };
 
 }}
