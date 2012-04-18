@@ -20,6 +20,7 @@
 #define Saccubus_SHAPEFACTORY_H__CPP_
 #include "RawSprite.h"
 #include "../util/ClassAccessor.h"
+#include <nekomata/system/System.h>
 
 namespace saccubus {
 namespace draw {
@@ -33,6 +34,8 @@ public:
 	ShapeFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~ShapeFactory();
 public:
+	virtual Sprite::Handler<Sprite> renderButton(int w, int h, unsigned int color, unsigned int hoverColor);
+	virtual Sprite::Handler<Sprite> renderShape(const nekomata::system::Shape* const shape);
 };
 
 }}
