@@ -28,11 +28,12 @@ namespace item {
 
 struct MailOperation{
 public:
-	enum Permission{
+	enum Permission {
 		Normal=0,
 		Premium = 1,
+		Forked = 2
 	};
-	enum ArgType{
+	enum ArgType {
 		Exactly,
 		StartsWith
 	};

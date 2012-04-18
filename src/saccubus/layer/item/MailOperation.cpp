@@ -51,14 +51,13 @@ static bool size_func(const std::string& command, Comment* comment, Comment::Siz
 	comment->size(size);
 	return true;
 }
-/*
- * TODO: 使われてない？
+
 static bool placeX_func(const std::string& command, Comment* comment, Comment::PlaceX x)
 {
 	comment->placeX(x);
 	return true;
 }
-*/
+
 static bool placeY_func(const std::string& command, Comment* comment, Comment::PlaceY y)
 {
 	comment->placeY(y);
@@ -95,6 +94,17 @@ static bool from_button_func(const std::string& command, Comment* comment){
 }
 static bool is_button_func(const std::string& command, Comment* comment){
 	comment->isButton(true);
+	return true;
+}
+
+static bool timeCode_func(const std::string& command, Comment* comment)
+{
+	char* left;
+	unsigned long c = std::strtoul(command.substr(1).c_str(), &left, 10);
+	if(*left != '\0'){ //エラー
+		return false;
+	}
+	comment->from(comment->to()+c);
 	return true;
 }
 
@@ -195,6 +205,18 @@ const struct MailOperation MailOperation::Instance[] = {
 
 		MailOperation(MailOperation::Exactly,    "from_button",    MailOperation::Normal , bind(from_button_func, _1, _2)),
 		MailOperation(MailOperation::Exactly,    "is_button",      MailOperation::Normal , bind(is_button_func, _1, _2)),
+
+		/*
+		 * 投稿者コメントだけ！
+		 */
+
+		/* 位置X */
+		MailOperation(MailOperation::Exactly,    "migi",           MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Right)),
+		MailOperation(MailOperation::Exactly,    "naka",           MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Center)),
+		MailOperation(MailOperation::Exactly,    "hidari",         MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Left)),
+
+		/* 表示時間 */
+		MailOperation(MailOperation::StartsWith, "@",              MailOperation::Forked , bind(timeCode_func, _1, _2)),
 };
 const size_t MailOperation::Count = sizeof(Instance)/sizeof(MailOperation);
 
