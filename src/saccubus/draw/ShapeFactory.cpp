@@ -27,11 +27,6 @@ ShapeFactory::ShapeFactory(logging::Logger& log, Renderer* renderer)
 }
 
 ShapeFactory::~ShapeFactory() {
-	// TODO Auto-generated destructor stub
-}
-
-Sprite::Handler<Sprite> ShapeFactory::renderShape(const nekomata::system::Shape* const shape)
-{
 }
 
 }}

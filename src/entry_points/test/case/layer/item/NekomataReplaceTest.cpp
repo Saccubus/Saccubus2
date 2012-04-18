@@ -72,6 +72,18 @@ TEST_F(NekomataReplaceOperationTest, SrcTest)
 	com->message("aaa");
 	NekomataReplaceOperation::apply(replace, com);
 	ASSERT_EQ("aaa", com->message());
+
+	replace->load("a", "", true, "", false, true, 1, "", "");
+	com->message("aaa");
+	NekomataReplaceOperation::apply(replace, com);
+	ASSERT_EQ("aaa", com->message());
+	ASSERT_EQ(1U, com->color());
+
+	replace->load("a", "b", true, "", true, false, 1, "", "");
+	com->message("aaa");
+	NekomataReplaceOperation::apply(replace, com);
+	ASSERT_EQ("b", com->message());
+	ASSERT_EQ(1U, com->color());
 }
 
 }}}}
