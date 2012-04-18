@@ -35,7 +35,7 @@ const std::string PLUGIN_COMMENT_CFG_PREFIX(PLUGIN_COMMENT+"-");
 const std::string PLUGIN_SHAPE("shape");
 const std::string PLUGIN_SHAPE_CFG_PREFIX(PLUGIN_SHAPE+"-");
 
-const std::string PLUGIN_IMPL_SDL("sdl");
+const std::string PLUGIN_IMPL_CAIRO("cairo");
 const std::string PLUGIN_IMPL_SIMPLE("simple");
 
 /**
