@@ -24,11 +24,11 @@
 
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
 const double SimpleCommentFactory::ShadowWidth = 5.0;
 
-SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, sdl::Renderer* renderer)
+SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer* renderer)
 :CommentFactory(log, renderer)
 {
 #ifdef WIN32

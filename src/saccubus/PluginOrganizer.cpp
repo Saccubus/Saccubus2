@@ -20,9 +20,9 @@
 #include "logging/Exception.h"
 #include "logging/Logger.h"
 #include "util/StringUtil.h"
-#include "draw/sdl/SimpleCommentFactory.h"
-#include "draw/sdl/SimpleShapeFactory.h"
-#include "draw/sdl/Renderer.h"
+#include "draw/cairo/SimpleCommentFactory.h"
+#include "draw/cairo/SimpleShapeFactory.h"
+#include "draw/cairo/Renderer.h"
 
 namespace saccubus {
 
@@ -73,7 +73,7 @@ PluginOrganizer::~PluginOrganizer() {
 saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Renderer* const renderer)
 {
 	if(PLUGIN_IMPL_SDL == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_TEXT]){
-		draw::sdl::Renderer* _renderer = dynamic_cast<draw::sdl::Renderer*>(renderer);
+		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
 					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::Renderer*, but got %s",
@@ -82,7 +82,7 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 					typeid(renderer).name()
 					);
 		}
-		return new saccubus::draw::sdl::SimpleCommentFactory(log, _renderer);
+		return new saccubus::draw::cairo::SimpleCommentFactory(log, _renderer);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
@@ -93,7 +93,7 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* const renderer)
 {
 	if(PLUGIN_IMPL_SDL == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_TEXT]){
-		draw::sdl::Renderer* _renderer = dynamic_cast<draw::sdl::Renderer*>(renderer);
+		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
 					"[BUG] Shape factory corresponding to [graphic: %s, shape: %s] needs draw::sdl::Renderer*, but got %s",
@@ -102,7 +102,7 @@ saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* c
 					typeid(renderer).name()
 					);
 		}
-		return new saccubus::draw::sdl::SimpleShapeFactory(log, _renderer);
+		return new saccubus::draw::cairo::SimpleShapeFactory(log, _renderer);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment shape plugin corresponding to [graphic: %s, shape: %s]",
@@ -113,7 +113,7 @@ saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* c
 saccubus::draw::Renderer* PluginOrganizer::newRenderer(const int w, const int h)
 {
 	if(PLUGIN_IMPL_SDL == config[PLUGIN_GRAPHIC]){
-		return new saccubus::draw::sdl::Renderer(log, w, h);
+		return new saccubus::draw::cairo::Renderer(log, w, h);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no renderer plugin corresponding to [graphic: %s]",

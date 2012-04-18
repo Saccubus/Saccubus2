@@ -16,21 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_SIMPLESHAPEFACTORY_H__CPP_
-#define Saccubus_SIMPLESHAPEFACTORY_H__CPP_
+#ifndef CAIRO_SPRITE_H_
+#define CAIRO_SPRITE_H_
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include "../Sprite.h"
 #include "Renderer.h"
-#include "../ShapeFactory.h"
 
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
-class SimpleShapeFactory: public saccubus::draw::ShapeFactory {
+class Sprite : public draw::RawSprite {
+	DEF_ATTR_ACCESSOR(public, private, SDL_Texture*, texture);
 public:
-	SimpleShapeFactory(logging::Logger& log, saccubus::draw::sdl::Renderer* renderer);
-	virtual ~SimpleShapeFactory();
+	Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
+	virtual ~Sprite();
+	virtual void draw(draw::Renderer* renderer, int x, int y);
+	virtual void lock(void** data, int* w, int* h, int* stride);
+	virtual void unlock();
 };
 
 }}}
-#endif /* INCLUDE_GUARD */
+
+#endif /* CAIRO_SPRITE_H_ */

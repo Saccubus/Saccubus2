@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SDL_RENDERER_H_
-#define SDL_RENDERER_H_
+#ifndef CAIRO_RENDERER_H_
+#define CAIRO_RENDERER_H_
 
 #include "../Renderer.h"
 #include "../../util/ClassAccessor.h"
@@ -29,7 +29,7 @@ typedef struct SDL_Renderer SDL_Renderer;
 typedef struct SDL_Window SDL_Window;
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
 class Renderer : public saccubus::draw::Renderer {
 private:
@@ -49,4 +49,4 @@ protected: /* 各実装がこれを実際に実装する */
 };
 
 }}}
-#endif /* SDL_RENDERER_H_ */
+#endif /* INCLUDE_GUARD */

@@ -17,9 +17,9 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/draw/sdl/Sprite.h"
-#include "../../../../saccubus/draw/sdl/Renderer.h"
-#include "../../../../saccubus/draw/sdl/SimpleCommentFactory.h"
+#include "../../../../saccubus/draw/cairo/Sprite.h"
+#include "../../../../saccubus/draw/cairo/Renderer.h"
+#include "../../../../saccubus/draw/cairo/SimpleCommentFactory.h"
 #include "../../../../saccubus/layer/item/Comment.h"
 #include "../../mock/meta/Comment.h"
 
@@ -37,15 +37,15 @@ TEST(SDLTest, QureyTest)
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
 	layer::item::Comment comment = layer::item::Comment(&orig);
-	sdl::Renderer renderer(log_err, 640, 480);
-	sdl::SimpleCommentFactory factory(log_err, &renderer);
+	cairo::Renderer renderer(log_err, 640, 480);
+	cairo::SimpleCommentFactory factory(log_err, &renderer);
 
-	Sprite::Handler<sdl::Sprite> spr, dspr;
-	ASSERT_NO_THROW(spr = factory.renderComment(&comment, 1).cast<sdl::Sprite>());
+	Sprite::Handler<cairo::Sprite> spr, dspr;
+	ASSERT_NO_THROW(spr = factory.renderComment(&comment, 1).cast<cairo::Sprite>());
 	ASSERT_GT(spr->width(), 0);
 	ASSERT_GT(spr->height(), 0);
 
-	ASSERT_NO_THROW(dspr = factory.renderComment(&comment, 1.5).cast<sdl::Sprite>());
+	ASSERT_NO_THROW(dspr = factory.renderComment(&comment, 1.5).cast<cairo::Sprite>());
 
 	//まあ大体2倍ならよし
 	ASSERT_NEAR(spr->width() * 1.5, dspr->width(), dspr->width()/20.0f);

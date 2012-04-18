@@ -22,12 +22,12 @@
 
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
 Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
 :draw::RawSprite(log, renderer, w, h)
 {
-	sdl::Renderer& _renderer = dynamic_cast<sdl::Renderer&>(*(this->renderer()));
+	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*(this->renderer()));
 	this->texture(SDL_CreateTexture(_renderer.renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h));
 
 }
@@ -42,7 +42,7 @@ void Sprite::draw(draw::Renderer* __renderer, int x, int y)
 	if(__renderer != this->renderer()){
 		logging::Exception(__FILE__, __LINE__, "Sprite renderer and target renderer has been changed!!");
 	}
-	sdl::Renderer& _renderer = dynamic_cast<sdl::Renderer&>(*__renderer);
+	cairo::Renderer& _renderer = dynamic_cast<cairo::Renderer&>(*__renderer);
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;

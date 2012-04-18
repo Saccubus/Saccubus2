@@ -16,23 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SimpleShapeFactory.h"
+#ifndef CAIRO_SIMPLESHAPEFACTORY_H__CPP_
+#define CAIRO_SIMPLESHAPEFACTORY_H__CPP_
+
+#include "Renderer.h"
+#include "../ShapeFactory.h"
 
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
-SimpleShapeFactory::SimpleShapeFactory(logging::Logger& log, saccubus::draw::sdl::Renderer* renderer)
-:ShapeFactory(log, renderer)
-{
-	// TODO Auto-generated constructor stub
+class SimpleShapeFactory: public saccubus::draw::ShapeFactory {
+public:
+	SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer);
+	virtual ~SimpleShapeFactory();
+};
 
-}
-
-SimpleShapeFactory::~SimpleShapeFactory() {
-	// TODO Auto-generated destructor stub
-}
-
-}
-}
-}
+}}}
+#endif /* INCLUDE_GUARD */

@@ -23,7 +23,7 @@
 
 namespace saccubus {
 namespace draw {
-namespace sdl {
+namespace cairo {
 
 Renderer::Renderer(logging::Logger& log, const int w, const int h)
 :saccubus::draw::Renderer(log, w, h)
@@ -57,7 +57,7 @@ Renderer::~Renderer() {
 
 draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
-	return new sdl::Sprite(log, this->handler(), w, h);
+	return new cairo::Sprite(log, this->handler(), w, h);
 }
 
 void Renderer::windowVisibility(bool visibility)

@@ -19,7 +19,7 @@
 #include "../../TestCommon.h"
 #include "../../mock/draw/Sprite.h"
 #include "../../mock/draw/Renderer.h"
-#include "../../../../saccubus/draw/sdl/Sprite.h"
+#include "../../../../saccubus/draw/cairo/Sprite.h"
 #include "../../../../saccubus/draw/LayerdSprite.h"
 using namespace saccubus::mock::draw;
 
@@ -106,7 +106,7 @@ TEST(SpriteHandlerTest, DynamicCastTest)
 	ASSERT_TRUE(rawSpr2.get());
 
 	//失敗する例も試す
-	ASSERT_THROW(spr.cast<saccubus::draw::sdl::Sprite>(), logging::Exception);
+	ASSERT_THROW(spr.cast<saccubus::draw::cairo::Sprite>(), logging::Exception);
 	ASSERT_THROW(spr.cast<saccubus::draw::LayerdSprite>(), logging::Exception);
 }
 
