@@ -31,7 +31,7 @@ public:
 	virtual ~Item();
 private:
 	virtual draw::Sprite::Handler<draw::Sprite> querySprite(draw::ShapeFactory* shapeFactory, draw::CommentFactory* commentFactory) = 0;
-	virtual bool onClick(float x, float y) = 0;
+	virtual bool onClick() = 0;
 };
 
 }}}

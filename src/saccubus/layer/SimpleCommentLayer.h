@@ -30,6 +30,8 @@ public:
 	virtual ~SimpleCommentLayer();
 public:
 	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end);
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
+	virtual void onClick(int x, int y);
 };
 
 }}

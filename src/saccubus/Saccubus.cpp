@@ -166,10 +166,10 @@ void Saccubus::init(Adapter* const adapter)
 	this->onVideoChanged(firstVideoId);
 }
 
-void Saccubus::measure(const int w, const int h, int& measuredWidth, int& measuredHeight)
+void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight)
 {
-	measuredWidth = w;
-	measuredHeight = h;
+	*measuredWidth = w;
+	*measuredHeight = h;
 }
 
 void Saccubus::draw(float vpos, draw::Sprite* videoSprite)

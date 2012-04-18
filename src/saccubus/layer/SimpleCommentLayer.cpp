@@ -37,4 +37,14 @@ void SimpleCommentLayer::appendComment(item::CommentPipeLine* const pipeLine, me
 
 }
 
+void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
+{
+
+}
+void SimpleCommentLayer::onClick(int x, int y)
+{
+
+}
+
+
 }}

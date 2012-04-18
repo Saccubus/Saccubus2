@@ -68,8 +68,9 @@ public: //
 	virtual ~Saccubus();
 public: //公開メソッド
 	void init(Adapter* const adapter);
-	void measure(const int w, const int h, int& measuredWidth, int& measuredHeight);
+	void measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight);
 	void draw(float vpos, draw::Sprite* videoSprite);
+	void click(int x, int y);
 public: // 内部から呼ばれます
 	void onVideoChanged(const std::string& videoId);
 };

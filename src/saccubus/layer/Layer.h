@@ -43,6 +43,8 @@ public:
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 	//描画
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
+	//クリックイベント
+	virtual void onClick(int x, int y) = 0;
 };
 
 }}
