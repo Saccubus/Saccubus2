@@ -20,7 +20,7 @@
 from saccubus.error import SaccubusError;
 from . import rule;
 import os;
-from ..net import login;
+from ..net import login, video, thread, meta_info, play_info;
 
 '''
 	オプションはタプルのシーケンスで渡してください。
@@ -28,15 +28,16 @@ from ..net import login;
 	-resource-path:<string> リソースの置いてある場所を指定
 	-override-video: <string>([video_id]:[filename])　命名規則を無視したい場合に。（最後の引数優先）
 	-override-thread: <string>([video_id]:[filename])　命名規則を無視したい場合に。（複数OK）
-	-userid: メールアドレス
+	-user: メールアドレス
 	-password: パスワード
 	-cookie: クッキー取得方法（デフォルト：own;　上記のIDとパスワードを用いる）
+	-comment-back: コメント取得数　デフォルト：1000
 '''
 def fromNative(*opts):
 	optDict = dict(opts);
 	
 	auth = {
-		"userid": optDict.get("userid"),
+		"user": optDict.get("user"),
 		"password": optDict.get("password"),
 		"cookie": optDict.get("cookie"),
 	}
@@ -58,8 +59,12 @@ def fromNative(*opts):
 				override_table['thread'][vid] = [file];
 		else:
 			pass
-	resolver = Resolver(optDict['resource-path'], override_table);
+	comment_back = 1000
+	if "comment-back" in optDict:
+		comment_back = int(optDict["comment-back"]);
+	resolver = Resolver(optDict['resource-path'], auth, override_table);
 	resolved = resolver.resolve(optDict['video-id']);
+	resolved = resolver.download(optDict['video-id'], comment_back, resolved);
 	#TODO: Nativeへは、str->strの辞書しか返さない約束なので、ここで変換してしまう。ここでいいの？
 	#見苦しい。
 	resolved['thread'] = '\n'.join(resolved['thread']);
@@ -80,10 +85,11 @@ class Resolver(object):
 	を集め、所定のフォルダに格納します。
 	さきゅばす本体から呼ばれる他、GUIからも呼んでも可
 	'''
-	def __init__(self, resource_path, override_table={'video':{}, 'thread':{}}):
+	def __init__(self, resource_path, auth=dict(), override_table={'video':{}, 'thread':{}}):
 		'''
 		コンストラクタ。
 		'''
+		self.auth = auth;
 		self.resource_path = resource_path;
 		self.override_table = override_table;
 		
@@ -122,17 +128,16 @@ class Resolver(object):
 			resolved['video'] = self.override_table['video'][video_id];
 		return resolved
 	
-	def download(self, auth, video_id, resolved):
-		jar = login.login(auth["userid"], auth["password"], auth["cookie"])
-		if 'video' not in resolved:
-			pass
-		if 'thread' not in resolved:
-			pass
-		if 'play_info' not in resolved:
-			pass
-		if 'meta_info' not in resolved:
-			pass
+	def download(self, video_id, comment_back, resolved):
+		if 'video' not in resolved or 'thread' not in resolved or 'play_info' not in resolved or 'meta_info' not in resolved:
+			#どれか一つでも足りないなら
+			cjar = login.login(self.auth["user"], self.auth["password"], self.auth["cookie"])
+			play_info_path, play_info_dic = play_info.downloadPlayInfo(cjar, video_id, self.resource_path);
+			meta_info_path, meta_info_dic = meta_info.downloadMetaInfo(video_id, self.resource_path);
+			resolved['play_info'] = play_info_path;
+			resolved['meta_info'] = meta_info_path;
+			if 'video' not in resolved:
+				resolved['video'] = video.downloadVideo(cjar, play_info_dic, meta_info_dic, self.resource_path)
+			if 'thread' not in resolved:
+				resolved['thread'] = thread.downloadThreads(cjar, video_id, play_info_dic, comment_back, self.resource_path)
 		return resolved;
-	
-	def resolveAndDownload(self, video_id):
-		return self.download(self.resolve(video_id));
