@@ -39,8 +39,8 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta:
 
 	{ // ファクトリ
 		this->shapeFactory(organizer->newShapeFactory(renderer));
-		this->pipeLine(new item::CommentPipeLine(log, table, this->nekomataLayer));
 		this->commentFactory(organizer->newCommentFactory(renderer));
+		this->pipeLine(new item::CommentPipeLine(log, table, this->nekomataLayer));
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる
@@ -58,10 +58,10 @@ ThreadLayer::~ThreadLayer() {
 	}
 
 	{ // ファクトリ
-		delete this->commentFactory();
-		this->commentFactory(0);
 		delete this->pipeLine();
 		this->pipeLine(0);
+		delete this->commentFactory();
+		this->commentFactory(0);
 		delete this->shapeFactory();
 		this->shapeFactory(0);
 	}
