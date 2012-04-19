@@ -45,9 +45,11 @@ void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int
 }
 void Sprite::lock(void** data, int* w, int* h, int* stride)
 {
+	cairo_surface_flush(this->surface());
 	*w = this->width();
 	*h = this->height();
-	cairo_surface_flush(this->surface());
+	*stride = cairo_image_surface_get_stride(this->surface());
+	*data = cairo_image_surface_get_data(this->surface());
 }
 void Sprite::unlock()
 {

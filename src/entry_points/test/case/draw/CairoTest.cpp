@@ -31,7 +31,7 @@ namespace saccubus{
 namespace test {
 namespace draw{
 
-TEST(SDLTest, QureyTest)
+TEST(CairoTest, QureyTest)
 {
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("おいしいうどんが食べたいな");
@@ -52,7 +52,7 @@ TEST(SDLTest, QureyTest)
 	ASSERT_NEAR(spr->height() * 1.5, dspr->height(), dspr->height()/20.0f);
 }
 
-TEST(SDLTest, EmptyStringTest)
+TEST(CairoTest, EmptyStringTest)
 {
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("");
