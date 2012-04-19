@@ -86,4 +86,10 @@ draw::Sprite::Handler<draw::Sprite> Comment::querySprite()
 
 }
 
+bool Comment::onClick()
+{
+	return true;
+}
+
+
 }}}

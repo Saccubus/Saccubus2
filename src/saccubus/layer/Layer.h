@@ -43,7 +43,7 @@ public:
 	//描画
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 	//クリックイベント
-	virtual void onClick(int x, int y) = 0;
+	virtual bool onClick(int x, int y) = 0;
 };
 
 }}

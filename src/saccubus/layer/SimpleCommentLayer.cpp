@@ -32,12 +32,10 @@ const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
 :CommentLayer(log, threadLayer, isForked)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-SimpleCommentLayer::~SimpleCommentLayer() {
-	// TODO Auto-generated destructor stub
+SimpleCommentLayer::~SimpleCommentLayer()
+{
 }
 
 void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<LayoutData> layout)
@@ -108,28 +106,47 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, item::Comment* com
 void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	const float from = comments.size() > 0 ? comments.back()->comment()->orig()->vpos() : 0;
-	{ /* 非表示のコメントを削除 */
+	{ /* 表示し終わったコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, LayoutData::CommentEndTimeComparator());
 		this->comments.erase(beg, end);
 	}
-	std::vector<const meta::Comment*> lst;
-	this->threadLayer()->getCommentBetween(from, vpos+CommentAheadTime, isForked(), lst);
-	for(std::vector<const meta::Comment*>::iterator it = lst.begin(); it != lst.end(); ++it){
-		const meta::Comment* metaCom = *it;
-		item::Comment* com = threadLayer()->pipeLine()->process(metaCom);
+	{ /* 新しいコメントを追加 */
+		std::vector<const meta::Comment*> lst;
+		this->threadLayer()->getCommentBetween(from, vpos+CommentAheadTime, isForked(), lst);
+		for(std::vector<const meta::Comment*>::iterator it = lst.begin(); it != lst.end(); ++it){
+			const meta::Comment* metaCom = *it;
+			item::Comment* com = threadLayer()->pipeLine()->process(metaCom);
 
-		std::tr1::shared_ptr<LayoutData> item(new LayoutData(com));
-		doLayout(ctx, vpos, item);
-		CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item);
-		this->comments.insert(insertPoint, item);
+			std::tr1::shared_ptr<LayoutData> item(new LayoutData(com));
+			doLayout(ctx, vpos, item);
+			CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item);
+			this->comments.insert(insertPoint, item);
+		}
+	}
+	{ /* 描画 */
+		for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
+			std::tr1::shared_ptr<LayoutData> item(*it);
+			int x = static_cast<int>(getX(vpos, ctx->width(), item->comment()));
+			item->x(x);
+			item->comment()->querySprite()->draw(ctx, x, item->y());
+		}
 	}
 
 
 }
-void SimpleCommentLayer::onClick(int x, int y)
+bool SimpleCommentLayer::onClick(int x, int y)
 {
-
+	for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
+		std::tr1::shared_ptr<const LayoutData> item(*it);
+		if(
+				( item->x() <= x && x <= item->x()+item->comment()->querySprite()->width() ) &&
+				( item->y() <= y && y <= item->y()+item->comment()->querySprite()->height() )
+		){
+			if(item->comment()->onClick()) return true;
+		}
+	}
+	return false;
 }
 //---------------------------------------------------------------------------------------------------------------------
 bool LayoutData::operator !=(const LayoutData& other)
@@ -157,6 +174,8 @@ bool LayoutData::CommentEndTimeComparator::operator() (const std::tr1::shared_pt
 LayoutData::LayoutData(item::Comment* comment)
 {
 	this->comment(comment);
+	this->x(-1);
+	this->y(-1);
 }
 LayoutData::~LayoutData()
 {

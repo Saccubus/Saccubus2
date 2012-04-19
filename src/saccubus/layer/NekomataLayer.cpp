@@ -132,7 +132,7 @@ void NekomataLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, floa
 {
 }
 
-void NekomataLayer::onClick(int x, int y)
+bool NekomataLayer::onClick(int x, int y)
 {
 
 }

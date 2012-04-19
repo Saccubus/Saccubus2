@@ -29,6 +29,7 @@ namespace layer {
 
 class LayoutData{
 	DEF_ATTR_ACCESSOR(public, public, int, y);
+	DEF_ATTR_ACCESSOR(public, public, int, x);
 	DEF_ATTR_ACCESSOR(public, private, item::Comment*, comment);
 private:
 	LayoutData& operator=(const LayoutData& other){return *this;};
@@ -59,7 +60,7 @@ public:
 	virtual ~SimpleCommentLayer();
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
-	virtual void onClick(int x, int y);
+	virtual bool onClick(int x, int y);
 private:
 	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<LayoutData> layout);
 	float getX(float vpos, float screenWidth, item::Comment* comment);

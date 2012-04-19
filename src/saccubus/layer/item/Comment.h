@@ -22,6 +22,7 @@
 #include <string>
 #include <tr1/memory>
 #include <tr1/functional>
+#include "Item.h"
 #include "../../classdefs.h"
 #include "../../util/ClassAccessor.h"
 #include "../../draw/Sprite.h"
@@ -34,7 +35,7 @@ namespace saccubus {
 namespace layer {
 namespace item {
 
-class Comment {
+class Comment : public Item {
 	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
 	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
 public:
@@ -93,6 +94,7 @@ public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
 public:
 	virtual draw::Sprite::Handler<draw::Sprite> querySprite();
+	virtual bool onClick();
 };
 
 }}}

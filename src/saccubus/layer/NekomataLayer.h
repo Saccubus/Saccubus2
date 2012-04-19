@@ -63,7 +63,7 @@ public:
 	 * レイヤ
 	 ******************************************************************************************************************/
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
-	virtual void onClick(int x, int y);
+	virtual bool onClick(int x, int y);
 public:
 	/******************************************************************************************************************
 	 * コメント変換

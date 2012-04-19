@@ -80,6 +80,14 @@ void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 	this->forkedCommentLayer->draw(ctx, vpos);
 }
 
+bool ThreadLayer::onClick(int x, int y)
+{
+	if(this->forkedCommentLayer->onClick(x,y)) return true;
+	if(this->mainCommentLayer->onClick(x,y)) return true;
+	if(this->nekomataLayer->onClick(x,y)) return true;
+	return false;
+}
+
 void ThreadLayer::getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const
 {
 	meta::Comment::CompareLessByVpos cmp;
