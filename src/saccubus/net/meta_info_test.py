@@ -19,20 +19,23 @@
 import unittest
 from . import meta_info;
 from . import error;
+from .. import test_common;
+import os;
 class Test(unittest.TestCase):
 	def testSucceed(self):
-		t = meta_info.getMetaInfo('sm60');
+		f, t = meta_info.downloadMetaInfo('sm60', test_common.RESOURCE_DL_PATH);
+		self.assertTrue(os.path.exists(f))
 		self.assertEqual(t['title'], "なに勘違いしているんだ")
 	
 	def testFailure(self):
 		try:
-			t = meta_info.getMetaInfo('sm0');
+			f, t = meta_info.downloadMetaInfo('sm0', test_common.RESOURCE_DL_PATH);
 		except error.LoadError:
 			pass
 		except:
 			self.fail("未知のエラーが発生")
 		else:
-			self.fail("sm0は存在しないのに、タイトルが取得できてしまった => {0}".format(t))
+			self.fail("sm0は存在しないのに、取得できてしまった => {0}:{1}".format(f,t))
 
 
 if __name__ == "__main__":

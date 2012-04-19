@@ -21,18 +21,25 @@ META_API_URL = "http://ext.nicovideo.jp/api/getthumbinfo/{0}"
 import xml.dom.minidom;
 import urllib;
 from . import error;
+from ..resource import rule;
+import os;
 
-__all__=['getMetaInfo']
+__all__=['downloadMetaInfo']
 
 '''
-動画のメタ情報を取得する。
+動画のメタ情報を取得し、ファイルを書き出す。
 タイトルなどが含まれる
+ファイル名と、パースした結果のタプルを返します
 '''
-def getMetaInfo(video_id):
+def downloadMetaInfo(video_id, resDir):
 	resp = urllib.request.urlopen(META_API_URL.format(video_id))
-	dom = xml.dom.minidom.parseString(resp.read()).documentElement;
+	data = resp.read();
+	file = os.path.join(resDir, rule.formatMetaInfoFilename(video_id));
+	with open(file, "wb") as f:
+		f.write(data)
+	dom = xml.dom.minidom.parseString(data).documentElement;
 	resp.close();
-	return parseMetaInfo(dom, video_id)
+	return file, parseMetaInfo(dom, video_id)
 
 '''
 DOMを解析する

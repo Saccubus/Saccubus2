@@ -34,9 +34,9 @@ class Test(unittest.TestCase):
 		if Test.jar is None:
 			Test.jar = login.login(test_common.TEST_USER, test_common.TEST_PASS, 'own')
 		if Test.defInfo is None:
-			Test.defInfo = play_info.getPlayInfo(Test.jar, VIDEO_ID)
+			_, Test.defInfo = play_info.downloadPlayInfo(Test.jar, VIDEO_ID, test_common.RESOURCE_DL_PATH)
 		if Test.offInfo is None:
-			Test.offInfo = play_info.getPlayInfo(Test.jar, OFFICIAL_VIDEO)
+			_, Test.offInfo = play_info.downloadPlayInfo(Test.jar, OFFICIAL_VIDEO, test_common.RESOURCE_DL_PATH)
 	def tearDown(self):
 		pass
 	def testDownloadThread(self):

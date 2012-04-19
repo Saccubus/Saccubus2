@@ -20,6 +20,7 @@
 from saccubus.error import SaccubusError;
 from . import rule;
 import os;
+from ..net import login;
 
 '''
 	オプションはタプルのシーケンスで渡してください。
@@ -27,9 +28,19 @@ import os;
 	-resource-path:<string> リソースの置いてある場所を指定
 	-override-video: <string>([video_id]:[filename])　命名規則を無視したい場合に。（最後の引数優先）
 	-override-thread: <string>([video_id]:[filename])　命名規則を無視したい場合に。（複数OK）
+	-userid: メールアドレス
+	-password: パスワード
+	-cookie: クッキー取得方法（デフォルト：own;　上記のIDとパスワードを用いる）
 '''
 def fromNative(*opts):
 	optDict = dict(opts);
+	
+	auth = {
+		"userid": optDict.get("userid"),
+		"password": optDict.get("password"),
+		"cookie": optDict.get("cookie"),
+	}
+	
 	override_table = {'video':{}, 'thread':{}};
 	if 'resource-path' not in optDict:
 		raise SaccubusError("Invalid arguments! 'resource-path' is required.");
@@ -64,7 +75,8 @@ class Resolver(object):
 	ニコニコ動画の
 	・動画
 	・ユーザーコメント・投稿者コメント・オプショナルコメント
-	・getfｌｖで手に入る動画情報
+	・getflvで手に入る動画情報
+	・thumbinfoで手に入る、タイトルなどの情報
 	を集め、所定のフォルダに格納します。
 	さきゅばす本体から呼ばれる他、GUIからも呼んでも可
 	'''
@@ -110,8 +122,17 @@ class Resolver(object):
 			resolved['video'] = self.override_table['video'][video_id];
 		return resolved
 	
-	def download(self, video_id, resolved):
-		pass
+	def download(self, auth, video_id, resolved):
+		jar = login.login(auth["userid"], auth["password"], auth["cookie"])
+		if 'video' not in resolved:
+			pass
+		if 'thread' not in resolved:
+			pass
+		if 'play_info' not in resolved:
+			pass
+		if 'meta_info' not in resolved:
+			pass
+		return resolved;
 	
 	def resolveAndDownload(self, video_id):
 		return self.download(self.resolve(video_id));

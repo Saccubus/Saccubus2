@@ -25,6 +25,7 @@ from ..resource import rule;
 
 '''
 コメントをDLします。
+ファイル名の配列を返します。
 '''
 def downloadThreads(jar, video_id, play_info, backCnt, resDir):
 	files = [];

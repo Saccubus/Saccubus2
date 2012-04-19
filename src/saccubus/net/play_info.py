@@ -20,17 +20,23 @@
 INFO_API_URL="http://flapi.nicovideo.jp/api/getflv/{0}"
 
 import urllib;
+from ..resource import rule;
+import os;
 '''
 動画DLのための情報を取得する。
 meta_indoより、もっと動的な情報が手に入る。
 DLサーバや、メッセージサーバのURLなどが含まれる。
 '''
-def getPlayInfo(jar, videoid):
+def downloadPlayInfo(jar, videoid, resDir):
 	url = INFO_API_URL.format(videoid);
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(url);
-	content = resp.read().decode('ascii')
+	file = os.path.join(resDir, rule.formatPlayInfoFilename(videoid));
+	data = resp.read();
+	with open(file, "wb") as f:
+		f.write(data)
+	content = data.decode('ascii')
 	resp.close();
-	return parsePlayInfo(content);
+	return file, parsePlayInfo(content);
 
 
 def parsePlayInfo(content):

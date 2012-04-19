@@ -21,6 +21,7 @@ from . import login;
 from .login import util;
 from . import play_info;
 from .. import test_common;
+import os;
 
 class Test(unittest.TestCase):
 	def setUp(self):
@@ -29,9 +30,10 @@ class Test(unittest.TestCase):
 	def tearDown(self):
 		pass
 	def testBasic(self):
-		dic = play_info.getPlayInfo(self.jar, 'sm60')
+		f, dic = play_info.downloadPlayInfo(self.jar, 'sm60', test_common.RESOURCE_DL_PATH)
 		self.assertEquals(dic['thread_id'], '1173124005')
 		self.assertEquals(dic['l'], '50')
+		self.assertTrue(os.path.exists(f))
 		pass
 
 

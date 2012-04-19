@@ -29,8 +29,8 @@ TEST_VIDEO_ID="sm60" #安心と信頼のsm60
 class Test(unittest.TestCase):
 	def setUp(self):
 		self.jar = login.login(test_common.TEST_USER, test_common.TEST_PASS, 'own')
-		self.meta_info = meta_info.getMetaInfo('sm60');
-		self.play_info = play_info.getPlayInfo(self.jar, 'sm60')
+		_, self.meta_info = meta_info.downloadMetaInfo('sm60', test_common.RESOURCE_DL_PATH);
+		_, self.play_info = play_info.downloadPlayInfo(self.jar, 'sm60', test_common.RESOURCE_DL_PATH)
 	def tearDown(self):
 		pass
 	def testNormalVideoDownloading(self):
