@@ -32,7 +32,7 @@ namespace layer {
  */
 class NekomataLayer: public nekomata::system::System, public Layer {
 public:
-	NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog, draw::Renderer* renderer);
+	NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog);
 	virtual ~NekomataLayer();
 	/******************************************************************************************************************
 	 * Nekomataとのブリッジ

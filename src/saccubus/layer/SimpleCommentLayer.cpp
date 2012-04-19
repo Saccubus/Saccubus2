@@ -21,8 +21,8 @@
 namespace saccubus {
 namespace layer {
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked)
-:CommentLayer(log, renderer, threadLayer, isForked)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
+:CommentLayer(log, threadLayer, isForked)
 {
 	// TODO Auto-generated constructor stub
 

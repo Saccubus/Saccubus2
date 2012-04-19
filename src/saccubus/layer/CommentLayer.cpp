@@ -21,8 +21,8 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked)
-:Layer(log, renderer)
+CommentLayer::CommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
+:Layer(log)
 ,threadLayer(threadLayer)
 {
 	this->isForked(isForked);
@@ -31,9 +31,5 @@ CommentLayer::CommentLayer(logging::Logger& log, draw::Renderer* renderer, Threa
 CommentLayer::~CommentLayer() {
 }
 
-void CommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
-{
-
-}
 
 }}

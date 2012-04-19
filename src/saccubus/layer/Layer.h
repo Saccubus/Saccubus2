@@ -32,14 +32,13 @@ namespace layer {
  * ！！　それらはdraw名前空間以下のクラスに投げましょう　！！
  */
 class Layer {
-	DEF_ATTR_ACCESSOR(protected, private, draw::Renderer*, renderer)
 protected:
 	logging::Logger& log;
 public:
-	Layer(logging::Logger& log, draw::Renderer* renderer);
+	Layer(logging::Logger& log);
 	virtual ~Layer();
 public:
-	//指定されたサイズより大きなサイズが必要な場合は、適宜measured\w+を修正してください。
+	//wとhが指定されたサイズです。measuredWidthやmeasuredHeightにレイヤが必要とするサイズを指定してください。
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 	//描画
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;

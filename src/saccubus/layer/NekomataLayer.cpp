@@ -30,9 +30,9 @@ namespace layer {
 
 const static std::string TAG("NekomataLayer");
 
-NekomataLayer::NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog, draw::Renderer* renderer)
+NekomataLayer::NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog)
 :nekomata::system::System(nlog)
-,Layer(log, renderer)
+,Layer(log)
 {
 	// TODO Auto-generated constructor stub
 

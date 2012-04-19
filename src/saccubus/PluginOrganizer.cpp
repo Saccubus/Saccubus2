@@ -23,6 +23,7 @@
 #include "draw/cairo/SimpleCommentFactory.h"
 #include "draw/cairo/SimpleShapeFactory.h"
 #include "draw/cairo/Renderer.h"
+#include "layer/SimpleCommentLayer.h"
 
 namespace saccubus {
 
@@ -120,13 +121,13 @@ saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 			config[PLUGIN_GRAPHIC].c_str()
 			);
 }
-saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer()
+saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer(layer::ThreadLayer* threadLayer, bool isforked)
 {
 	if(PLUGIN_IMPL_SIMPLE == config[PLUGIN_COMMENT]){
-		return 0; //FIXME
+		return new layer::SimpleCommentLayer(log, threadLayer, isforked);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
-			"There is no comment layer plugin corresponding to [graphic: %s]",
+			"There is no comment layer plugin corresponding to [comment: %s]",
 			config[PLUGIN_COMMENT].c_str()
 			);
 }

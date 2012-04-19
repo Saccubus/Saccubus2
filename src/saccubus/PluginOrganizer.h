@@ -59,7 +59,7 @@ public:
 	saccubus::draw::Renderer* newRenderer();
 	saccubus::draw::CommentFactory* newCommentFactory(draw::Renderer* const renderer);
 	saccubus::draw::ShapeFactory* newShapeFactory(draw::Renderer* const renderer);
-	saccubus::layer::CommentLayer* newCommentLayer();
+	saccubus::layer::CommentLayer* newCommentLayer(layer::ThreadLayer* threadLayer, bool isforked);
 };
 
 }

@@ -26,7 +26,7 @@ namespace layer {
 
 class SimpleCommentLayer: public saccubus::layer::CommentLayer {
 public:
-	SimpleCommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked);
+	SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
 	virtual ~SimpleCommentLayer();
 public:
 	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end);

@@ -28,19 +28,19 @@ namespace saccubus {
 namespace layer {
 
 ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer)
-:Layer(log, renderer)
+:Layer(log)
 ,thread(thread)
 {
 	{ // ねこまたとの接続
 		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
-		this->nekomataLayer = new NekomataLayer(log, *this->nekoLogger, this->renderer());
+		this->nekomataLayer = new NekomataLayer(log, *this->nekoLogger);
 		this->nekomata = new nekomata::Nekomata(*this->nekomataLayer, *this->nekoLogger);
 	}
 
 	{ // ファクトリ
-		this->shapeFactory = organizer->newShapeFactory(this->renderer());
+		this->shapeFactory = organizer->newShapeFactory(renderer);
 		this->commentPipeLine = new item::CommentPipeLine(log, table, this->nekomataLayer);
-		this->commentFactory = organizer->newCommentFactory(this->renderer());
+		this->commentFactory = organizer->newCommentFactory(renderer);
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる

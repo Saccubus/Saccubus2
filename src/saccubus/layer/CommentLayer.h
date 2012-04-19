@@ -33,7 +33,7 @@ class CommentLayer: public saccubus::layer::Layer {
 private:
 	ThreadLayer* const threadLayer;
 public:
-	CommentLayer(logging::Logger& log, draw::Renderer* renderer, ThreadLayer* threadLayer, bool isForked);
+	CommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
 	virtual ~CommentLayer();
 public: /* ThreadLayerからのコールバック関数 */
 	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end) = 0;

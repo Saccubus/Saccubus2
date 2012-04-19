@@ -21,10 +21,9 @@
 namespace saccubus {
 namespace layer {
 
-Layer::Layer(logging::Logger& log, draw::Renderer* renderer)
+Layer::Layer(logging::Logger& log)
 :log(log)
 {
-	this->renderer(renderer);
 
 }
 
