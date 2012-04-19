@@ -31,8 +31,8 @@ __all__=[
 名前規則
 ・play_info(getflv)： dir/[video_id]_play_info.txt
 ・meta_info(getthumbinfo)： dir/[video_id]_meta_info.xml
-・動画： dir/[video_id]_video_title.<ext>
-・コメント:dir/[video_id]_thread_<スレッドID>.<ext>
+・動画： dir/[video_id]_video_title<.ext>　→　注意、extは最初のドット込みで。
+・コメント:dir/[video_id]_thread_<スレッドID><.ext>
 '''
 PLAY_INFO_FORMAT="{video_id}_play_info.txt"
 META_INFO_FORMAT="{video_id}_meta_info.xml"

@@ -50,6 +50,7 @@ def fromNative(*opts):
 	resolver = Resolver(optDict['resource-path'], override_table);
 	resolved = resolver.resolve(optDict['video-id']);
 	#TODO: Nativeへは、str->strの辞書しか返さない約束なので、ここで変換してしまう。ここでいいの？
+	#見苦しい。
 	resolved['thread'] = '\n'.join(resolved['thread']);
 	return resolved;
 
