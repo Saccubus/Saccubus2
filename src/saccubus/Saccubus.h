@@ -61,6 +61,9 @@ private:
 	std::string firstVideoId;
 	const meta::Video* currentVideo;
 private:
+	layer::ThreadLayer* mainThradLayer;
+	layer::ThreadLayer* optionalThradLayer;
+private:
 	PluginOrganizer* pluginOrganizer;
 private:
 	python::PyBridge* bridge;

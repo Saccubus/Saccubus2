@@ -21,6 +21,7 @@
 #include <algorithm>
 #include "Bundle.h"
 #include "./StringUtil.h"
+#include "../logging/Exception.h"
 
 namespace saccubus {
 namespace util {
@@ -59,7 +60,7 @@ std::string Bundle::getString(const std::string& key) const
 {
 	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
-		return std::string();
+		throw logging::Exception(__FILE__, __LINE__, "There is no item for key: %s", key.c_str());
 	}else{
 		return val->second;
 	}
@@ -69,7 +70,7 @@ long long Bundle::getLong(const std::string& key) const
 {
 	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
-		return -1;
+		throw logging::Exception(__FILE__, __LINE__, "There is no item for key: %s", key.c_str());
 	}else{
 		return std::strtoll(val->second.c_str(), 0, 10);
 	}
@@ -78,7 +79,7 @@ bool Bundle::getBool(const std::string& key) const
 {
 	std::map<std::string, std::string>::const_iterator val = map.find(key);
 	if(val == map.end()){
-		return false;
+		throw logging::Exception(__FILE__, __LINE__, "There is no item for key: %s", key.c_str());
 	}else{
 		std::string v(val->second);
 		char* end;
@@ -89,6 +90,31 @@ bool Bundle::getBool(const std::string& key) const
 			std::transform(v.begin(), v.end(), v.begin(), ::tolower);
 			return v == "true";
 		}
+	}
+}
+
+std::string Bundle::optString(const std::string& key, const std::string& def) const
+{
+	if(this->has(key)){
+		return getString(key);
+	}else{
+		return def;
+	}
+}
+long long Bundle::optLong(const std::string& key, long long def) const
+{
+	if(this->has(key)){
+		return getLong(key);
+	}else{
+		return def;
+	}
+}
+bool Bundle::optBool(const std::string& key, bool def) const
+{
+	if(this->has(key)){
+		return getBool(key);
+	}else{
+		return def;
 	}
 }
 

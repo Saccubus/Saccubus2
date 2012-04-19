@@ -25,10 +25,12 @@
 #include "logging/Exception.h"
 #include "logging/Logger.h"
 #include "meta/MetaInfo.h"
+#include "meta/PlayInfo.h"
 #include "meta/Video.h"
 #include "PluginOrganizer.h"
 #include "Saccubus.h"
 #include "draw/Renderer.h"
+#include "layer/ThreadLayer.h"
 
 namespace saccubus {
 
@@ -70,6 +72,8 @@ void version(std::ostream& logStream, int argc, char* argv[]){
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 :progPath(dirname(const_cast<char*>(argv[0])))
 ,currentVideo(0)
+,mainThradLayer(0)
+,optionalThradLayer(0)
 ,bridge(0)
 {
 	logging::Logger::Level level = logging::Logger::WARN_;
@@ -178,7 +182,12 @@ void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* 
 
 void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos, draw::Sprite* videoSprite)
 {
-
+	if(this->mainThradLayer){
+		this->mainThradLayer->draw(ctx, vpos);
+	}
+	if(this->optionalThradLayer){
+		this->optionalThradLayer->draw(ctx, vpos);
+	}
 }
 
 std::tr1::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
@@ -192,18 +201,52 @@ draw::RawSprite* Saccubus::createRawSprite(int w, int h)
 
 void Saccubus::onVideoChanged(const std::string& videoId)
 {
-	std::vector<std::pair<std::string, std::string> > arg(this->resolveOpts.begin(), this->resolveOpts.end());
-	arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
-	const meta::Video* video = bridge->resolveResource(videoId, arg);
-	if(this->currentVideo){
-		this->log->i("Context deleted: %s", this->currentVideo->metaInfo()->title());
-		delete this->currentVideo;
+	{ /* 現在のスレッドの削除 */
+		if(this->currentVideo){
+			this->log->i("Context deleted: %s", this->currentVideo->metaInfo()->title());
+			delete this->currentVideo;
+			this->currentVideo = 0;
+		}
+		if(this->mainThradLayer){
+			delete this->mainThradLayer;
+			this->mainThradLayer = 0;
+		}
+		if(this->optionalThradLayer){
+			delete this->optionalThradLayer;
+			this->optionalThradLayer = 0;
+		}
 	}
-	this->currentVideo = video;
-	this->log->i("Context entered: %s", this->currentVideo->metaInfo()->title());
+
+	{ /* 新しいビデオの、XMLファイルやメタ情報・プレイ情報のパース */
+		std::vector<std::pair<std::string, std::string> > arg(this->resolveOpts.begin(), this->resolveOpts.end());
+		arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
+		const meta::Video* video = bridge->resolveResource(videoId, arg);
+		this->currentVideo = video;
+		this->log->i("Context entered: %s", this->currentVideo->metaInfo()->title());
+	}
+
+	{ /* スレッドレイヤの作成 */
+		this->mainThradLayer = new layer::ThreadLayer(
+				*log,
+				*(this->currentVideo->thread(this->currentVideo->playInfo()->thread())),
+				this->currentVideo->playInfo()->replaceTable(),
+				this->renderer(),
+				this->pluginOrganizer
+				);
+		if(this->currentVideo->playInfo()->optional_thread() >= 0){
+			this->optionalThradLayer = new layer::ThreadLayer(
+					*log,
+					*(this->currentVideo->thread(this->currentVideo->playInfo()->optional_thread())),
+					this->currentVideo->playInfo()->replaceTable(),
+					this->renderer(),
+					this->pluginOrganizer
+					);
+		}
+	}
+
 	if(adapter)
 	{
-		adapter->onVideoChanged(videoId, video->videofile());
+		adapter->onVideoChanged(videoId, this->currentVideo->videofile());
 	}
 }
 

@@ -38,6 +38,7 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, long long, user_id);
 	DEF_ATTR_ACCESSOR(public, private, bool, is_premium);
 	DEF_ATTR_ACCESSOR(public, private, long long, thread);
+	DEF_ATTR_ACCESSOR(public, private, long long, optional_thread);
 public:
 	PlayInfo(logging::Logger& log, const std::string& filename);
 	virtual ~PlayInfo();

@@ -49,7 +49,7 @@ private:
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public: /* コメントレイヤから呼ばれる */
 	void getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const;

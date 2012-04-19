@@ -39,6 +39,7 @@ PlayInfo::PlayInfo(logging::Logger& log, const std::string& filename)
 	user_id(bundle->getLong("user_id"));
 	thread(bundle->getLong("thread_id"));
 	is_premium(bundle->getBool("is_premium"));
+	optional_thread(bundle->optLong("optional_thread_id", -1));
 	_replaceTable = bundle->has("ng_up") ? new ReplaceTable(bundle->getString("ng_up")) : 0;
 }
 

@@ -26,16 +26,16 @@ namespace logging{
 
 TEST(ExceptionTest, ThrowingTest)
 {
-	ASSERT_THROW(throw Exception("Hey!"), Exception);
+	ASSERT_THROW(throw Exception(__FILE__, __LINE__, "Hey!"), Exception);
 }
 
 TEST(ExceptionTest, MessageTest)
 {
-	Exception e("Hey!");
-	ASSERT_EQ("Hey!", e.what());
+	Exception e(__FILE__, __LINE__, "Hey!");
+	ASSERT_EQ("Hey!", e.msg());
 
-	Exception e2("%d", 12);
-	ASSERT_EQ("12", e2.what());
+	Exception e2(__FILE__, __LINE__, "%d", 12);
+	ASSERT_EQ("12", e2.msg());
 }
 
 }}}

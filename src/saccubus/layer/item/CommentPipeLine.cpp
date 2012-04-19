@@ -26,7 +26,7 @@ namespace item {
 
 static const std::string TAG("CommentProcessingFlow");
 
-CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
+CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
 :log(log)
 {
 	this->commentFactory(commentFactory);

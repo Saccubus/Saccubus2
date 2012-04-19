@@ -31,6 +31,7 @@ TEST(PlayInfoTest, BasicReadingTest)
 	ASSERT_TRUE(info.is_premium());
 	ASSERT_EQ(1302222473, info.thread());
 	ASSERT_EQ(185957, info.user_id());
+	ASSERT_LE(info.optional_thread(), 0);
 }
 
 TEST(PlayInfoTest, ReplaceTest)

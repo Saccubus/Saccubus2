@@ -42,9 +42,15 @@ Exception::Exception(const char* file, const size_t line, const std::string& fmt
 void Exception::init(const char* file, const size_t line, const std::string& fmt, va_list lst) throw()
 {
 	try{
-		this->msg = util::format("line %d in %s: ", line, file) + util::formatv(fmt, lst);
+		this->_line = line;
+		this->_file = std::string(file);
+		this->_loc = util::format("line %d in %s: ", line, file);
+		this->_msg = util::formatv(fmt, lst);
 	}catch(...){
-		this->msg = "[BUG] Failed to format string!!";
+		this->_line = 0;
+		this->_file = __FILE__;
+		this->_loc = "line ? in "__FILE__": ";
+		this->_msg = "[BUG] Failed to format string!!";
 	}
 }
 
@@ -53,7 +59,17 @@ Exception::~Exception() throw(){
 
 std::string Exception::what()
 {
-	return msg;
+	return _loc+_msg;
 }
+
+std::string Exception::msg()
+{
+	return _msg;
+}
+size_t Exception::line()
+{
+	return _line;
+}
+
 
 }}

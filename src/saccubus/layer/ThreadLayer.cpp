@@ -27,7 +27,7 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer)
+ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer)
 :Layer(log)
 ,thread(thread)
 {

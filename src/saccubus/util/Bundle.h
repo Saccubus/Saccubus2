@@ -38,8 +38,11 @@ public:
 	size_t size() const;
 	bool has(const std::string& key) const;
 	std::string getString(const std::string& key) const;
+	std::string optString(const std::string& key, const std::string& def) const;
 	long long getLong(const std::string& key) const;
+	long long optLong(const std::string& key, long long def) const;
 	bool getBool(const std::string& key) const;
+	bool optBool(const std::string& key, bool def) const;
 	Iterator begin() const;
 	Iterator end() const;
 };

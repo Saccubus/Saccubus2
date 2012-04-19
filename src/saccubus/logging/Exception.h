@@ -35,7 +35,10 @@ namespace logging {
  */
 class Exception : public std::exception {
 private:
-	std::string msg;
+	std::string _loc;
+	std::string _msg;
+	std::string _file;
+	size_t _line;
 protected:
 	void init(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
 public:
@@ -44,6 +47,9 @@ public:
 	Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
 	virtual ~Exception() throw();
 	std::string what();
+	std::string msg();
+	std::string file();
+	size_t line();
 };
 
 }}

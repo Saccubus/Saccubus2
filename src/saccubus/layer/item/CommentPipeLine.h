@@ -63,12 +63,12 @@ public:
 class CommentPipeLine {
 	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
 	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
-	DEF_ATTR_ACCESSOR(private, private, meta::ReplaceTable*, replaceTable);
+	DEF_ATTR_ACCESSOR(private, private, const meta::ReplaceTable*, replaceTable);
 	DEF_ATTR_ACCESSOR(private, private, layer::NekomataLayer*, nekomataLayer);
 private:
 	logging::Logger& log;
 public:
-	CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer);
+	CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer);
 	virtual ~CommentPipeLine();
 public:
 	Comment* process(const meta::Comment* comment);
