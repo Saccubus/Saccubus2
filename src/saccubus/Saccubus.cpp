@@ -28,6 +28,7 @@
 #include "meta/Video.h"
 #include "PluginOrganizer.h"
 #include "Saccubus.h"
+#include "draw/Renderer.h"
 
 namespace saccubus {
 

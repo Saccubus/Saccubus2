@@ -26,11 +26,13 @@ namespace item {
 
 static const std::string TAG("CommentProcessingFlow");
 
-CommentPipeLine::CommentPipeLine(logging::Logger& log, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
+CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
 :log(log)
-,replaceTable(replaceTable)
-,nekomataLayer(nekomataLayer)
 {
+	this->commentFactory(commentFactory);
+	this->shapeFactory(shapeFactory);
+	this->replaceTable(replaceTable);
+	this->nekomataLayer(nekomataLayer);
 }
 
 CommentPipeLine::~CommentPipeLine()
@@ -39,7 +41,7 @@ CommentPipeLine::~CommentPipeLine()
 
 Comment* CommentPipeLine::process(const meta::Comment* comment)
 {
-	Comment* const product = new Comment(comment);
+	Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
 	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, product))
 		{
@@ -47,11 +49,11 @@ Comment* CommentPipeLine::process(const meta::Comment* comment)
 		}
 	}
 
-	if(replaceTable){
-		product->message(replaceTable->replace(product->message()));
+	if(this->replaceTable()){
+		product->message(this->replaceTable()->replace(product->message()));
 	}
-	if(nekomataLayer){
-		nekomataLayer->replace(product);
+	if(this->nekomataLayer()){
+		this->nekomataLayer()->replace(product);
 	}
 
 	return product;

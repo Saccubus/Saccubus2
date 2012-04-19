@@ -33,7 +33,7 @@ protected:
 	saccubus::layer::item::CommentPipeLine* pipeLine;
 public:
 	void SetUp(){
-		pipeLine = new saccubus::layer::item::CommentPipeLine(log_err, 0, 0);
+		pipeLine = new saccubus::layer::item::CommentPipeLine(log_err, 0, 0, 0, 0);
 	}
 	void TearDown(){
 		delete pipeLine;

@@ -36,7 +36,7 @@ TEST(SDLTest, QureyTest)
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
-	layer::item::Comment comment = layer::item::Comment(&orig);
+	layer::item::Comment comment = layer::item::Comment(&orig, 0, 0);
 	cairo::Renderer renderer(log_err);
 	cairo::SimpleCommentFactory factory(log_err, &renderer);
 
@@ -57,7 +57,7 @@ TEST(SDLTest, EmptyStringTest)
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("");
 	orig.mail("big");
-	layer::item::Comment comment = layer::item::Comment(&orig);
+	layer::item::Comment comment = layer::item::Comment(&orig, 0, 0);
 	cairo::Renderer renderer(log_err);
 	cairo::SimpleCommentFactory factory(log_err, &renderer);
 

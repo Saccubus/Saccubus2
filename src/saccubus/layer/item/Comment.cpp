@@ -30,11 +30,15 @@ static const std::string TAG("item::Comment");
 Comment::Comment()
 {
 	this->orig(0);
+	this->commentFactory(0);
+	this->shapeFactory(0);
 	this->setDefault();
 }
-Comment::Comment(const meta::Comment* comment)
+Comment::Comment(const meta::Comment* comment, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 {
 	this->orig(comment);
+	this->commentFactory(commentFactory);
+	this->shapeFactory(shapeFactory);
 	this->setDefault();
 }
 
@@ -77,5 +81,9 @@ std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
 			));
 }
 
+draw::Sprite::Handler<draw::Sprite> Comment::querySprite()
+{
+
+}
 
 }}}

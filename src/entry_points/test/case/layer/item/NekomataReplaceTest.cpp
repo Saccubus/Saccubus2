@@ -43,7 +43,7 @@ public:
 	void SetUp(){
 		replace = new Replace(mockSystem);
 		metaCom = new mock::meta::Comment();
-		com = new Comment();
+		com = new Comment(metaCom, 0, 0);
 	}
 	void TearDown(){
 		delete com;

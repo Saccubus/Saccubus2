@@ -35,6 +35,8 @@ namespace layer {
 namespace item {
 
 class Comment {
+	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
+	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
 public:
 	enum Layer {
 		Normal,
@@ -80,9 +82,10 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
-public:
+protected:
 	Comment();
-	Comment(const meta::Comment* comment);
+public:
+	Comment(const meta::Comment* comment, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Comment();
 private:
 	void setDefault();

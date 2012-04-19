@@ -40,7 +40,7 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta:
 	{ // ファクトリ
 		this->shapeFactory(organizer->newShapeFactory(renderer));
 		this->commentFactory(organizer->newCommentFactory(renderer));
-		this->pipeLine(new item::CommentPipeLine(log, table, this->nekomataLayer));
+		this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekomataLayer));
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる
