@@ -31,6 +31,7 @@ public:
 	virtual ~Item();
 private:
 	virtual draw::Sprite::Handler<draw::Sprite> querySprite() = 0;
+	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
 	virtual bool onClick() = 0;
 };
 

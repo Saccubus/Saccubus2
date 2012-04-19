@@ -43,6 +43,7 @@ public:
 	//描画
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 	//クリックイベント
+	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
 	virtual bool onClick(int x, int y) = 0;
 };
 

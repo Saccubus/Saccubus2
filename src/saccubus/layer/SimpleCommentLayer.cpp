@@ -50,8 +50,9 @@ void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> 
 	}
 	const float w = layout->comment()->querySprite()->width();
 	const float h = layout->comment()->querySprite()->height();
-	bool running = false;
+	bool running;
 	do{
+		running = false;
 		for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
 			std::tr1::shared_ptr<const LayoutData> other = *it;
 			const float other_h = other->comment()->querySprite()->height();

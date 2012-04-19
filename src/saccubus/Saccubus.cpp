@@ -80,11 +80,11 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 	{ /* オプションのパース */
 		util::OptionParser parser;
 		parser.add(new LoglevelOption("trace", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("verbose", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("debug", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("info", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("warning", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("error", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("verbose", logging::Logger::VERBOSE_, &level));
+		parser.add(new LoglevelOption("debug", logging::Logger::DEBUG_, &level));
+		parser.add(new LoglevelOption("info", logging::Logger::INFO_, &level));
+		parser.add(new LoglevelOption("warning", logging::Logger::WARN_, &level));
+		parser.add(new LoglevelOption("error", logging::Logger::ERROR_, &level));
 		parser.add(new FuncOption("help", std::tr1::bind(usage, &logStream, argc, argv)));
 		parser.add(new FuncOption("version", std::tr1::bind(version, &logStream, argc, argv)));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
@@ -156,7 +156,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 {
 	{ /* 現在のスレッドの削除 */
 		if(this->currentVideo){
-			this->log->i("Context deleted: %s", this->currentVideo->metaInfo()->title());
+			this->log->i(TAG, "Context deleted: %s", this->currentVideo->metaInfo()->title().c_str());
 			delete this->currentVideo;
 			this->currentVideo = 0;
 		}
@@ -175,7 +175,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 		arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
 		const meta::Video* video = bridge->resolveResource(videoId, arg);
 		this->currentVideo = video;
-		this->log->i("Context entered: %s", this->currentVideo->metaInfo()->title());
+		this->log->i(TAG, "Context entered: %s", this->currentVideo->metaInfo()->title().c_str());
 	}
 
 	{ /* スレッドレイヤの作成 */

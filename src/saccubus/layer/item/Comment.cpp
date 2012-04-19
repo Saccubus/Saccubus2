@@ -20,6 +20,7 @@
 #include <cmath>
 #include <nekomata/system/System.h>
 #include "../../meta/Comment.h"
+#include "../../draw/CommentFactory.h"
 
 namespace saccubus {
 namespace layer {
@@ -83,7 +84,9 @@ std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
 
 draw::Sprite::Handler<draw::Sprite> Comment::querySprite()
 {
-
+	if(!this->isButton()){
+		return commentFactory()->renderComment(this, 1);
+	}
 }
 
 bool Comment::onClick()

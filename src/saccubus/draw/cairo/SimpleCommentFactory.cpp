@@ -22,10 +22,13 @@
 #include "Sprite.h"
 #include "../../layer/item/Comment.h"
 #include "../NullSprite.h"
+#include "../../logging/Logger.h"
 
 namespace saccubus {
 namespace draw {
 namespace cairo {
+
+const std::string(TAG);
 
 const double SimpleCommentFactory::ShadowWidth = 5.0;
 
@@ -125,6 +128,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	}
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(width, height);
 	{ /* 実際にレンダリング */
+		log.d(TAG, "Rendering: %s", comment->message().c_str());
 		RawSprite::Session session(spr);
 		cairo_surface_t* surface = cairo_image_surface_create_for_data(
 						reinterpret_cast<unsigned char*>(session.data()),

@@ -70,6 +70,7 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 			switch (e.type) {
 			case SDL_QUIT:
 				return;
+			case SDL_MOUSEMOTION:
 			default:
 				break;
 			}

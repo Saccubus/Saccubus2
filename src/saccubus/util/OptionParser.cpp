@@ -63,8 +63,12 @@ void OptionParser::parse(int argc, char** argv, std::vector<std::string>& left)
 			}
 
 			if(haveArgument){
-				const std::string opt_str(argv[++i]);
-				opt->invoke(current, &opt_str);
+				if(opt->argument() != Option::No){
+					const std::string opt_str(argv[++i]);
+					opt->invoke(current, &opt_str);
+				}else{
+					opt->invoke(current, 0);
+				}
 			}else{
 				opt->invoke(current, 0);
 			}
