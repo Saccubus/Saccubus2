@@ -23,6 +23,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include "util/ClassAccessor.h"
 #include "classdefs.h"
 
 namespace saccubus {
