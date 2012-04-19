@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <libgen.h>
+#include <string.h>
 #include "python/PyBridge.h"
 #include "util/StringUtil.h"
 #include "logging/Exception.h"
@@ -31,6 +32,8 @@
 #include "Saccubus.h"
 #include "draw/Renderer.h"
 #include "layer/ThreadLayer.h"
+#include "util/OptionParser.h"
+#include "SaccubusOptions.h"
 
 namespace saccubus {
 
@@ -39,109 +42,59 @@ static const std::string PLUGIN_PREFIX("--plugin-");
 
 static const std::string TAG("Saccubus");
 
-const struct option ARG_OPTIONS[] = {
-		{"trace", no_argument, 0, 1},
-		{"verbose", no_argument, 0, 2},
-		{"debug", no_argument, 0, 3},
-		{"info", no_argument, 0, 4},
-		{"warning", no_argument, 0, 5},
-		{"error", no_argument, 0, 6},
-		{"help", no_argument, 0, 7},
-		{"version", no_argument, 0, 8},
-		{0,0,0,0}
-};
-
-void usage(std::ostream& logStream, int argc, char* argv[]){
+void usage(std::ostream* logStream, int argc, char* argv[]){
 	static const std::string USAGE_TAB="    ";
-	std::cout << "Usage: " << basename(argv[0]) << " [switches] [--] [programfile]" << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--trace" << "set log level." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << std::endl;
-	std::cout << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << std::endl;
+	*logStream << "Usage: " << basename(argv[0]) << " [switches] [--] [programfile]" << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--trace" << "set log level." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--verbose" << "set log level." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--debug"<<"set log level." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << std::endl;
 	exit(0);
 }
 
-void version(std::ostream& logStream, int argc, char* argv[]){
-	std::cout << PROGRAM_NAME << ": "<< PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << std::endl;
+void version(std::ostream* logStream, int argc, char* argv[]){
+	*logStream << PROGRAM_NAME << ": "<< PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << std::endl;
 	exit(0);
 }
+
 
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
-:progPath(dirname(const_cast<char*>(argv[0])))
-,currentVideo(0)
+:currentVideo(0)
 ,mainThradLayer(0)
 ,optionalThradLayer(0)
 ,bridge(0)
 {
+	{
+		char* argv0 = new char[strlen(argv[0])+1];
+		strcpy(argv0, argv[0]);
+		this->programPath = dirname(argv0);
+		delete [] argv0;
+	}
 	logging::Logger::Level level = logging::Logger::WARN_;
 	std::map<std::string, std::string> organizerArg;
-	int index = 0;
-	while ( 1 )
-	{
-		/*
-		 * CLI、ffmpegの双方で同じオプションを使えるようにするために、
-		 * ここでオプションをパースする。
-		 */
-		int opt = getopt_long(argc, argv, "h", ARG_OPTIONS, &index);
-		if ( opt < 0 )
-		{
-			break;
-		}
-		switch (opt)
-		{
-		case 1:
-			level = logging::Logger::TRACE_;
-			break;
-		case 2:
-			level = logging::Logger::VERBOSE_;
-			break;
-		case 3:
-			level = logging::Logger::DEBUG_;
-			break;
-		case 4:
-			level = logging::Logger::INFO_;
-			break;
-		case 5:
-			level = logging::Logger::WARN_;
-			break;
-		case 6:
-			level = logging::Logger::ERROR_;
-			break;
-		case 7:
-		case 'h':
-			usage(logStream, argc, argv);
-			break;
-		case 8:
-			version(logStream, argc, argv);
-			break;
-		case '?':
-			exit(-1);
-			break;
-		default:
-		{
-			std::string arg(argv[index]);
-			if(index+1<argc && util::startsWith(arg, RESOLVE_PREFIX)){
-				this->resolveOpts.push_back(std::pair<std::string, std::string>(arg.substr(RESOLVE_PREFIX.size()), argv[++index]));
-			}else if(index+1<argc && util::startsWith(arg, PLUGIN_PREFIX)){
-				const std::string key(arg.substr(RESOLVE_PREFIX.size()));
-				const std::string val(argv[index]);
-				std::map<std::string, std::string>::iterator it = organizerArg.find(key);
-				if(it != organizerArg.end()){
-					log->w(TAG, "Plugin argument duplicated: %s", arg.c_str());
-					organizerArg.erase(it);
-				}
-				organizerArg.insert(std::pair<std::string, std::string>(key, val));
-			}
-			break;
-		}
-		}
+	std::vector<std::string> left;
+
+	{ /* オプションのパース */
+		util::OptionParser parser;
+		parser.add(new LoglevelOption("trace", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("verbose", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("debug", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("info", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("warning", logging::Logger::TRACE_, &level));
+		parser.add(new LoglevelOption("error", logging::Logger::TRACE_, &level));
+		parser.add(new FuncOption("help", std::tr1::bind(usage, &logStream, argc, argv)));
+		parser.add(new FuncOption("version", std::tr1::bind(version, &logStream, argc, argv)));
+		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
+		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));
+
+		parser.parse(argc, argv, left);
 	}
 
 	this->log = new logging::Logger(logStream, level);
-	this->bridge = new python::PyBridge(*this->log);
+	this->bridge = new python::PyBridge(*this->log, programPath);
 	this->pluginOrganizer = new PluginOrganizer(*this->log, organizerArg);
 
 	this->renderer(this->pluginOrganizer->newRenderer());

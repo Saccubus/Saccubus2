@@ -111,6 +111,9 @@ int main(int argc, char** argv) {
 	SDL_Surface* const windowSurface = SDL_GetWindowSurface(window);
 	if(!windowSurface) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to get SDL window surface: %s", SDL_GetError());
 
+	CLIAdapter adapter;
+	sacc.init(&adapter);
+
 	loop(w, h, window, windowSurface, &sacc);
 
 	SDL_FreeSurface(windowSurface);

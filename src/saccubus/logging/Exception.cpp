@@ -44,7 +44,7 @@ void Exception::init(const char* file, const size_t line, const std::string& fmt
 	try{
 		this->_line = line;
 		this->_file = std::string(file);
-		this->_loc = util::format("line %d in %s: ", line, file);
+		this->_loc = util::format("(in %s:%d): ", file, line);
 		this->_msg = util::formatv(fmt, lst);
 	}catch(...){
 		this->_line = 0;

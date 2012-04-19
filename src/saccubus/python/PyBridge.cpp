@@ -28,9 +28,10 @@
 namespace saccubus {
 namespace python {
 
-PyBridge::PyBridge(logging::Logger& log)
+PyBridge::PyBridge(logging::Logger& log, const std::string& programPath)
 :log(log)
 ,impl(new PyBridgeImpl(log))
+,programPath(programPath)
 {
 }
 

@@ -21,7 +21,6 @@
 
 #include <string>
 #include <map>
-#include <vector>
 #include <iostream>
 #include <tr1/memory>
 #include "util/ClassAccessor.h"
@@ -56,8 +55,8 @@ class Saccubus {
 private:
 	Adapter* adapter;
 private:
-	const std::string progPath;
-	std::vector<std::pair<std::string, std::string> > resolveOpts;
+	std::string programPath;
+	std::multimap<std::string, std::string> resolveOpts;
 	std::string firstVideoId;
 	const meta::Video* currentVideo;
 private:
