@@ -58,7 +58,7 @@ public:
 	}
 };
 
-void loop(int w, int h, SDL_Window* window, SDL_Surface* windowSurface, saccubus::Saccubus* saccubus) {
+void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurface, saccubus::Saccubus* const saccubus) {
 
 	unsigned long long now = SDL_GetTicks();
 	unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
@@ -106,14 +106,10 @@ int main(int argc, char** argv) {
 	saccubus::Saccubus sacc(std::cout, argc, argv);
 	sacc.measure(640, 480, &w, &h);
 
-	SDL_Window* window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
-	if(!window){
-		throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to create SDL window: %s", SDL_GetError());
-	}
-	SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
-	if(!windowSurface){
-		throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to get SDL window surface: %s", SDL_GetError());
-	}
+	SDL_Window* const window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
+	if(!window) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to create SDL window: %s", SDL_GetError());
+	SDL_Surface* const windowSurface = SDL_GetWindowSurface(window);
+	if(!windowSurface) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to get SDL window surface: %s", SDL_GetError());
 
 	loop(w, h, window, windowSurface, &sacc);
 
