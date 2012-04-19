@@ -43,7 +43,7 @@ const meta::Video* PyBridge::resolveResource(const std::string& video_id, const 
 	std::map<std::string, std::string>::const_iterator end = res.end();
 	meta::Video* ctx = new meta::Video(this->log);
 	if(res.find("video") == end){
-		throw ScriptException("Resolve failed. There is no videofile.");
+		throw ScriptException(__FILE__, __LINE__, "Resolve failed. There is no videofile.");
 	}
 	ctx->initVideoFile(res.find("video")->second);
 	std::vector<std::string> threads;

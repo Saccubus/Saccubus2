@@ -35,7 +35,7 @@ PyBridgeImpl::PyBridgeImpl(logging::Logger& log)
 {
 	Py_Initialize();
 	if(!Py_IsInitialized()){
-		throw logging::Exception("Failed to init Python!!");
+		throw logging::Exception(__FILE__, __LINE__, "Failed to init Python!!");
 	}
 }
 std::auto_ptr<Session> PyBridgeImpl::createSession()
@@ -66,7 +66,7 @@ void Session::loadFile(const std::string& file)
 	//ファイルのオープン
 	if(!stream){
 		log.e(TAG, "File \"%s\" not found.", file.c_str());
-		throw ScriptException("File \"%s\" not found.", file.c_str());
+		throw ScriptException(__FILE__, __LINE__, "File \"%s\" not found.", file.c_str());
 	}
 	//ファイルの読み込み
 	stream.seekg(0, std::istream::beg);
@@ -79,7 +79,7 @@ void Session::loadFile(const std::string& file)
 	std::auto_ptr<char> buffer(new char[len+1]);
 	if(!buffer.get()){
 		log.e(TAG, "Failed to allocate memory for \"%s\"", file.c_str());
-		throw ScriptException("Failed to allocate memory for \"%s\"", file.c_str());
+		throw ScriptException(__FILE__, __LINE__, "Failed to allocate memory for \"%s\"", file.c_str());
 	}
 
 	while(stream && pos < len){
@@ -88,7 +88,7 @@ void Session::loadFile(const std::string& file)
 	}
 	if(len != pos){
 		log.e(TAG, "Failed to read \"%s\".", file.c_str());
-		throw ScriptException("Failed to read \"%s\".", file.c_str());
+		throw ScriptException(__FILE__, __LINE__, "Failed to read \"%s\".", file.c_str());
 	}
 	buffer.get()[len]='\0';
 
@@ -97,7 +97,7 @@ void Session::loadFile(const std::string& file)
 	if(!code){
 		log.e(TAG, "Failed to compile: %s", file.c_str());
 		this->printExceptionLog();
-		throw ScriptException("Failed to run: %s", file.c_str());
+		throw ScriptException(__FILE__, __LINE__, "Failed to run: %s", file.c_str());
 	}
 	//実行
 	PyObject* res = PyEval_EvalCode(code, this->global, this->local);
@@ -105,7 +105,7 @@ void Session::loadFile(const std::string& file)
 	if(!res){
 		log.e(TAG, "Failed to run: %s", file.c_str());
 		this->printExceptionLog();
-		throw ScriptException("Failed to run: %s", file.c_str());
+		throw ScriptException(__FILE__, __LINE__, "Failed to run: %s", file.c_str());
 	}
 }
 
@@ -160,7 +160,7 @@ PyObject* Session::findMethod(const std::string& module, const std::string& name
 
 	if(!imported){
 		log.e(TAG, "'%s.%s' is not found!", module.c_str(), name.c_str());
-		throw ScriptException("'%s.%s' is not found!", module.c_str(), name.c_str());
+		throw ScriptException(__FILE__, __LINE__, "'%s.%s' is not found!", module.c_str(), name.c_str());
 	}else{
 		if(log.t()) log.t(TAG, "Module for \"%s\" imported: '%s'", name.c_str(), toRepr(imported).c_str());
 	}
@@ -168,13 +168,13 @@ PyObject* Session::findMethod(const std::string& module, const std::string& name
 	PyObject* func = PyDict_GetItemString(PyModule_GetDict(imported), name.c_str());
 	if(!func){
 		log.e(TAG, "\"%s.%s\" is not found!", module.c_str(), name.c_str());
-		throw ScriptException("\"%s.%s\" is not found!", module.c_str(), name.c_str());
+		throw ScriptException(__FILE__, __LINE__, "\"%s.%s\" is not found!", module.c_str(), name.c_str());
 	}
 	std::string repr = toRepr(func).c_str();
 	if(!PyCallable_Check(func)){
 		this->printExceptionLog();
 		log.e(TAG, "\"%s.%s\" is not callable! It's '%s'", module.c_str(), name.c_str(), repr.c_str());
-		throw ScriptException("\"%s.%s\" is not callable! It's '%s'", module.c_str(), name.c_str(), repr.c_str());
+		throw ScriptException(__FILE__, __LINE__, "\"%s.%s\" is not callable! It's '%s'", module.c_str(), name.c_str(), repr.c_str());
 	}
 	Py_XINCREF(func);
 	Py_XDECREF(imported);imported = 0;
@@ -190,13 +190,13 @@ PyObject* Session::findMethod(const std::string& name)
 	PyObject* func = PyDict_GetItemString(this->local, name.c_str());
 	if(!func){
 		log.e(TAG, "\"%s\" is not found!", name.c_str());
-		throw ScriptException("\"%s\" is not found!", name.c_str());
+		throw ScriptException(__FILE__, __LINE__, "\"%s\" is not found!", name.c_str());
 	}
 	std::string repr = toRepr(func).c_str();
 	if(!PyCallable_Check(func)){
 		this->printExceptionLog();
 		log.e(TAG, "\"%s\" is not callable! It's '%s'", name.c_str(), repr.c_str());
-		throw ScriptException("\"%s\" is not callable! It's '%s'", name.c_str(), repr.c_str());
+		throw ScriptException(__FILE__, __LINE__, "\"%s\" is not callable! It's '%s'", name.c_str(), repr.c_str());
 	}else{
 		if(log.t()) log.t(TAG, "\"%s\" found: %s", name.c_str(), repr.c_str());
 	}
@@ -304,7 +304,7 @@ PyObject* Session::executeCallable(PyObject* obj, PyObject* argTuple,PyObject* a
 	if(!res){
 		this->printExceptionLog();
 		log.e(TAG, "Failed to run: %s", toRepr(obj).c_str());
-		throw ScriptException("Failed to run: %s", toRepr(obj).c_str());
+		throw ScriptException(__FILE__, __LINE__, "Failed to run: %s", toRepr(obj).c_str());
 	}
 	return res;
 }

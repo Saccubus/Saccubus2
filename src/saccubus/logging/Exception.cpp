@@ -22,27 +22,27 @@
 namespace saccubus {
 namespace logging {
 
-Exception::Exception() throw()
+Exception::Exception(const char* file, const size_t line) throw()
 {
 }
 
-Exception::Exception(const std::string& fmt, ...) throw()
+Exception::Exception(const char* file, const size_t line, const std::string& fmt, ...) throw()
 {
 	va_list lst;
 	va_start(lst, fmt);
-	init(fmt, lst);
+	init(file, line, fmt, lst);
 	va_end(lst);
 }
 
-Exception::Exception(const std::string& fmt, va_list lst) throw()
+Exception::Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw()
 {
-	init(fmt, lst);
+	init(file, line, fmt, lst);
 }
 
-void Exception::init(const std::string& fmt, va_list lst) throw()
+void Exception::init(const char* file, const size_t line, const std::string& fmt, va_list lst) throw()
 {
 	try{
-		this->msg = util::formatv(fmt, lst);
+		this->msg = util::format("line %d in %s: ", line, file) + util::formatv(fmt, lst);
 	}catch(...){
 		this->msg = "[BUG] Failed to format string!!";
 	}

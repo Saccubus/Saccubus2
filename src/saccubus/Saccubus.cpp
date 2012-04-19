@@ -143,7 +143,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 	this->renderer(this->pluginOrganizer->newRenderer());
 
 	if(optind >= argc){
-		throw logging::Exception("You need to set video id!");
+		throw logging::Exception(__FILE__, __LINE__, "You need to set video id!");
 	}else{
 		firstVideoId = argv[optind];
 		log->i(TAG, "First Video ID: %s", firstVideoId.c_str());
@@ -176,9 +176,18 @@ void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* 
 	*measuredHeight = h;
 }
 
-void Saccubus::draw(float vpos, draw::Sprite* videoSprite)
+void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos, draw::Sprite* videoSprite)
 {
 
+}
+
+std::tr1::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+{
+	return this->renderer()->createContext(fmt, data, w, h, stride);
+}
+draw::RawSprite* Saccubus::createRawSprite(int w, int h)
+{
+	return this->renderer()->createRawSprite(w, h);
 }
 
 void Saccubus::onVideoChanged(const std::string& videoId)

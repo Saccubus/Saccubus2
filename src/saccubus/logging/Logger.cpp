@@ -57,7 +57,7 @@ void Logger::msg(enum Level level, const std::string& tag, const std::string& fm
 		ss << "[E]";
 		break;
 	default:
-		throw Exception("[BUG][FIXME] Invalid log level!!");
+		throw Exception(__FILE__, __LINE__, "[BUG][FIXME] Invalid log level!!");
 	}
 	ss << "[" << std::setw(16) << tag << "] ";
 	ss << util::formatv(fmt, args) << std::endl;
@@ -84,7 +84,7 @@ nekomata::logging::Logger::Level Logger::levelAsNekomataLogger()
 	case ERROR_:
 		return nekomata::logging::Logger::ERROR_;
 	default:
-		throw Exception("[BUG][FIXME] Invalid log level!!");
+		throw Exception(__FILE__, __LINE__, "[BUG][FIXME] Invalid log level!!");
 	}
 }
 bool Logger::t()

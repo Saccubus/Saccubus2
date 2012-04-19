@@ -37,11 +37,11 @@ class Exception : public std::exception {
 private:
 	std::string msg;
 protected:
-	void init(const std::string& fmt, va_list lst) throw();
+	void init(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
 public:
-	Exception() throw();
-	Exception(const std::string& fmt, ...) throw();
-	Exception(const std::string& fmt, va_list lst) throw();
+	Exception(const char* file, const size_t line) throw();
+	Exception(const char* file, const size_t line, const std::string& fmt, ...) throw();
+	Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
 	virtual ~Exception() throw();
 	std::string what();
 };

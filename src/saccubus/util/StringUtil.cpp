@@ -40,7 +40,7 @@ std::string formatv(const std::string& fmt, va_list args)
 	char buff[8192];
 	size_t len = vsnprintf(buff, 8192, fmt.c_str(), args);
 	if(len <= 0){
-		throw logging::Exception("Format string too long!!");
+		throw logging::Exception(__FILE__, __LINE__, "Format string too long!!");
 	}
 	return buff;
 }
@@ -62,7 +62,7 @@ std::string decodePercent(const std::string& str)
 			char* failed = 0;
 			to[j] = static_cast<char>(std::strtol(code, &failed, 16) & 0xff);
 			if(failed != &code[2]){
-				throw logging::Exception("Failed to decode percent: %s", str.c_str());
+				throw logging::Exception(__FILE__, __LINE__, "Failed to decode percent: %s", str.c_str());
 			}
 		}else if(from[i]=='+'){
 			to[j] = ' ';

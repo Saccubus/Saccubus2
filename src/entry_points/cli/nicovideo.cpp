@@ -20,7 +20,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include "../../saccubus/Saccubus.h"
-#include "../../saccubus/draw/sdl/Renderer.h"
+#include "../../saccubus/draw/Renderer.h"
 #include "../../saccubus/logging/Exception.h"
 #include "../../saccubus/logging/Logger.h"
 using namespace std;
@@ -58,7 +58,8 @@ public:
 	}
 };
 
-void loop() {
+void loop(int w, int h, SDL_Window* window, SDL_Surface* windowSurface, saccubus::Saccubus* saccubus) {
+
 	unsigned long long now = SDL_GetTicks();
 	unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
 	unsigned long long fpsTime = now;
@@ -74,7 +75,15 @@ void loop() {
 			}
 		}
 
-		//sacc.draw((float)now/(1000*FACTOR), 0);
+		{
+			SDL_LockSurface(windowSurface);
+			std::tr1::shared_ptr<saccubus::draw::Context> ctx =
+					saccubus->createContext(saccubus::draw::Renderer::RGBA32, windowSurface->pixels, windowSurface->w, windowSurface->h, windowSurface->pitch);
+			saccubus->draw(ctx, (float)now/(1000*FACTOR), 0);
+			SDL_UnlockSurface(windowSurface);
+
+			SDL_UpdateWindowSurface(window);
+		}
 
 		++fps;
 		now = SDL_GetTicks();
@@ -93,11 +102,23 @@ void loop() {
 }
 
 int main(int argc, char** argv) {
-	saccubus::Saccubus sacc(std::cout, argc, argv);
 	int w, h;
-	sacc.measure(640, 480, w, h);
+	saccubus::Saccubus sacc(std::cout, argc, argv);
+	sacc.measure(640, 480, &w, &h);
 
-	loop();
+	SDL_Window* window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
+	if(!window){
+		throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to create SDL window: %s", SDL_GetError());
+	}
+	SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
+	if(!windowSurface){
+		throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to get SDL window surface: %s", SDL_GetError());
+	}
+
+	loop(w, h, window, windowSurface, &sacc);
+
+	SDL_FreeSurface(windowSurface);
+	SDL_DestroyWindow(window);
 
 	return 0;
 }
@@ -105,16 +126,25 @@ int main(int argc, char** argv) {
 }}
 
 int main(int argc, char** argv) {
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	try {
-		return entry_points::cli::main(argc, argv);
+		int result = entry_points::cli::main(argc, argv);
+		SDL_Quit();
+		return result;
 	} catch (saccubus::logging::Exception& e) {
-		std::cerr << "Saccubus Exception Catched." << e.what() << std::endl;
+		std::cerr << "Saccubus Exception caught." << e.what() << std::endl;
+		std::cerr.flush();
+		SDL_Quit();
 		return -1;
 	} catch (std::exception& e) {
-		std::cerr << "Standard Exception Catched." << e.what() << std::endl;
+		std::cerr << "Standard Exception caught." << e.what() << std::endl;
+		std::cerr.flush();
+		SDL_Quit();
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon Exception Catched" << std::endl;
+		std::cerr << "Unknwon Exception caught." << std::endl;
+		std::cerr.flush();
+		SDL_Quit();
 		return -3;
 	}
 }

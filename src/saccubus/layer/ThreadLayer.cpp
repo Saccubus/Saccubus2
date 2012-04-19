@@ -44,7 +44,8 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta:
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる
-
+		this->forkedCommentLayer = organizer->newCommentLayer(this, true);
+		this->mainCommentLayer = organizer->newCommentLayer(this, false);
 	}
 
 

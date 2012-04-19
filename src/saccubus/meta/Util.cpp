@@ -109,7 +109,7 @@ std::string readNodeContent(xmlNode* node)
 {
 	xmlChar* body = xmlNodeGetContent(node);
 	if(!body){
-		throw logging::Exception("Invalid XML. Content for node(%s) not found.", node->name);
+		throw logging::Exception(__FILE__, __LINE__, "Invalid XML. Content for node(%s) not found.", node->name);
 	}
 	std::string msg (reinterpret_cast<char*>(body));
 	xmlFree(body);

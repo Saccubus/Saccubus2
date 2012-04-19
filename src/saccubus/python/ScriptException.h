@@ -27,7 +27,7 @@ namespace python {
 
 class ScriptException: public saccubus::logging::Exception {
 public:
-	ScriptException(const std::string& fmt, ...);
+	ScriptException(const char* file, const size_t line, const std::string& fmt, ...);
 	virtual ~ScriptException() throw();
 };
 

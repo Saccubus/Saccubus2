@@ -55,7 +55,7 @@ void Thread::read(logging::Logger& log, xmlNode* node)
 {
 	bool infoGrabbed = false;
 	if(!compareNodeName(node, "packet")){
-		throw logging::Exception("Invalid Element Name: %s", node->name);
+		throw logging::Exception(__FILE__, __LINE__, "Invalid Element Name: %s", node->name);
 	}
 	for(xmlNode* child = node->children;child;child = child->next){
 		if(compareNodeName(child, "thread")){
