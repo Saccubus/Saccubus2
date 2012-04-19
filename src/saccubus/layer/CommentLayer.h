@@ -30,13 +30,10 @@ namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(public, private, bool, isForked);
-private:
-	ThreadLayer* const threadLayer;
+	DEF_ATTR_ACCESSOR(public, private, ThreadLayer*, threadLayer);
 public:
 	CommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
 	virtual ~CommentLayer();
-public: /* ThreadLayerからのコールバック関数 */
-	virtual void appendComment(item::CommentPipeLine* const pipeLine, meta::Thread::Iterator const begin, meta::Thread::Iterator const end) = 0;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 };

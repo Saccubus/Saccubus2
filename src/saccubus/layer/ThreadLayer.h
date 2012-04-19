@@ -36,16 +36,14 @@ class CommentPipeLine;
  * 複数のコメントレイヤと、猫又レイヤを持つ。
  */
 class ThreadLayer : public Layer {
+	DEF_ATTR_ACCESSOR(public, private, item::CommentPipeLine*, pipeLine);
+	DEF_ATTR_ACCESSOR(public, private, draw::CommentFactory*, commentFactory);
+	DEF_ATTR_ACCESSOR(public, private, draw::ShapeFactory*, shapeFactory);
 private:
 	const meta::Thread& thread;
 private:
 	nekomata::logging::Logger* nekoLogger;
 	nekomata::Nekomata* nekomata;
-private:
-	draw::CommentFactory* commentFactory;
-	draw::ShapeFactory* shapeFactory;
-private:
-	item::CommentPipeLine* commentPipeLine;
 private:
 	NekomataLayer* nekomataLayer;
 	CommentLayer* mainCommentLayer;
@@ -54,7 +52,7 @@ public:
 	ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public: /* コメントレイヤから呼ばれる */
-	void getCommentBetween(float from, float to, CommentLayer* self) const;
+	void getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 };

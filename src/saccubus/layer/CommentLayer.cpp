@@ -23,9 +23,9 @@ namespace layer {
 
 CommentLayer::CommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
 :Layer(log)
-,threadLayer(threadLayer)
 {
 	this->isForked(isForked);
+	this->threadLayer(threadLayer);
 }
 
 CommentLayer::~CommentLayer() {

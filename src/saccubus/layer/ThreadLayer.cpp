@@ -38,9 +38,9 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, meta:
 	}
 
 	{ // ファクトリ
-		this->shapeFactory = organizer->newShapeFactory(renderer);
-		this->commentPipeLine = new item::CommentPipeLine(log, table, this->nekomataLayer);
-		this->commentFactory = organizer->newCommentFactory(renderer);
+		this->shapeFactory(organizer->newShapeFactory(renderer));
+		this->pipeLine(new item::CommentPipeLine(log, table, this->nekomataLayer));
+		this->commentFactory(organizer->newCommentFactory(renderer));
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる
@@ -58,9 +58,12 @@ ThreadLayer::~ThreadLayer() {
 	}
 
 	{ // ファクトリ
-		delete this->commentFactory;
-		delete this->commentPipeLine;
-		delete this->shapeFactory;
+		delete this->commentFactory();
+		this->commentFactory(0);
+		delete this->pipeLine();
+		this->pipeLine(0);
+		delete this->shapeFactory();
+		this->shapeFactory(0);
 	}
 
 	{ // ねこまたと接続解除
@@ -77,22 +80,17 @@ void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 	this->forkedCommentLayer->draw(ctx, vpos);
 }
 
-void ThreadLayer::getCommentBetween(float from, float to, CommentLayer* self) const
+void ThreadLayer::getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const
 {
-	//FIXME: 複雑、なにかよい方法は？
 	meta::Comment::CompareLessByVpos cmp;
 	meta::Thread::Iterator it = std::lower_bound(thread.begin(), thread.end(), from, cmp);
 	meta::Thread::Iterator const end = std::upper_bound(thread.begin(), thread.end(), to, cmp);
 
-	std::vector<const meta::Comment*> list;
-
 	for(; it != end; ++it){
-		if((*it)->fork() == self->isForked()){
-			list.push_back(*it);
+		if((*it)->fork() == isForked){
+			result.push_back(*it);
 		}
 	}
-
-	self->appendComment(this->commentPipeLine, list.begin(), list.end());
 }
 
 }}

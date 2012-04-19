@@ -24,6 +24,7 @@
 #include <tr1/functional>
 #include "../../classdefs.h"
 #include "../../util/ClassAccessor.h"
+#include "../../draw/Sprite.h"
 
 namespace nekomata{
 namespace system{
@@ -87,6 +88,8 @@ private:
 	void setDefault();
 public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
+public:
+	virtual draw::Sprite::Handler<draw::Sprite> querySprite();
 };
 
 }}}
