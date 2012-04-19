@@ -133,9 +133,7 @@ class Resolver(object):
 		no_thread = 'thread' not in resolved or len(resolved['thread']) <= 0;
 		if no_video or no_thread or 'play_info' not in resolved or 'meta_info' not in resolved:
 			#どれか一つでも足りないなら
-			print("auth: {0}".format(self.auth))
 			cjar = login.login(self.auth.get('user'), self.auth.get('password'), self.auth.get('cookie'))
-			print("jar: {0}".format(cjar))
 			play_info_path, play_info_dic = play_info.downloadPlayInfo(cjar, video_id, self.resource_path);
 			meta_info_path, meta_info_dic = meta_info.downloadMetaInfo(video_id, self.resource_path);
 			resolved['play_info'] = play_info_path;
