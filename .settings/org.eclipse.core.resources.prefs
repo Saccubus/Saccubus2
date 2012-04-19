@@ -15,6 +15,7 @@ encoding//src/saccubus/net/login/firefox.py=utf-8
 encoding//src/saccubus/net/login/firefox_test.py=utf-8
 encoding//src/saccubus/net/login/ie.py=utf-8
 encoding//src/saccubus/net/login/ie_test.py=utf-8
+encoding//src/saccubus/net/login/login_test.py=utf-8
 encoding//src/saccubus/net/login/own.py=utf-8
 encoding//src/saccubus/net/login/own_test.py=utf-8
 encoding//src/saccubus/net/login/util.py=utf-8

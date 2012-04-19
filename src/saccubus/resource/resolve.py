@@ -39,9 +39,9 @@ def fromNative(*opts):
 	auth = {
 		"user": optDict.get("user"),
 		"password": optDict.get("password"),
-		"cookie": optDict.get("cookie"),
+		"cookie": optDict.get('cookie')
 	}
-	
+
 	override_table = {'video':{}, 'thread':{}};
 	if 'resource-path' not in optDict:
 		raise SaccubusError("Invalid arguments! 'resource-path' is required.");
@@ -129,15 +129,19 @@ class Resolver(object):
 		return resolved
 	
 	def download(self, video_id, comment_back, resolved):
-		if 'video' not in resolved or 'thread' not in resolved or 'play_info' not in resolved or 'meta_info' not in resolved:
+		no_video = 'video' not in resolved;
+		no_thread = 'thread' not in resolved or len(resolved['thread']) <= 0;
+		if no_video or no_thread or 'play_info' not in resolved or 'meta_info' not in resolved:
 			#どれか一つでも足りないなら
-			cjar = login.login(self.auth["user"], self.auth["password"], self.auth["cookie"])
+			print("auth: {0}".format(self.auth))
+			cjar = login.login(self.auth.get('user'), self.auth.get('password'), self.auth.get('cookie'))
+			print("jar: {0}".format(cjar))
 			play_info_path, play_info_dic = play_info.downloadPlayInfo(cjar, video_id, self.resource_path);
 			meta_info_path, meta_info_dic = meta_info.downloadMetaInfo(video_id, self.resource_path);
 			resolved['play_info'] = play_info_path;
 			resolved['meta_info'] = meta_info_path;
-			if 'video' not in resolved:
+			if no_video:
 				resolved['video'] = video.downloadVideo(cjar, play_info_dic, meta_info_dic, self.resource_path)
-			if 'thread' not in resolved:
+			if no_thread:
 				resolved['thread'] = thread.downloadThreads(cjar, video_id, play_info_dic, comment_back, self.resource_path)
 		return resolved;

@@ -88,6 +88,15 @@ class Test(unittest.TestCase):
 		self.assertEqual(dic['video'], 'noodle', "動画のオーバーライドに失敗しています")
 		self.assertListEqual(dic['thread'].split('\n'), ['udon', 'soba'], "スレッドのオーバーライドに失敗しています")
 
+	def testDownload(self):
+		auth = {'user': test_common.TEST_USER, 'password': test_common.TEST_PASS, 'cookie':'own'}
+		resolv = Resolver(self.resource_path, auth)
+		dic = resolv.resolve("sm60");
+		dic = resolv.download("sm60", 1000, dic)
+		self.assertTrue('thread' in dic)
+		self.assertTrue('video' in dic)
+		self.assertTrue('meta_info' in dic)
+		self.assertTrue('play_info' in dic)
 if __name__ == "__main__":
 	#import sys;sys.argv = ['', 'Test.testName']
 	unittest.main()

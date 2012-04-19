@@ -25,7 +25,7 @@ from . import constant, error;
 def login(userid, password):
 	return searchProfile(
 		# in windows vista
-		os.path.join(os.getenv('LOCALAPPDATA'), 'Google','Chrome','User Data','Default')
+		os.path.join(os.getenv('LOCALAPPDATA', ''), 'Google','Chrome','User Data','Default')
 	);
 
 def searchProfile(*dirs):

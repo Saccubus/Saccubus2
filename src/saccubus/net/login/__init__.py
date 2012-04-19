@@ -19,6 +19,7 @@
 
 from . import chrome, firefox, own, ie;
 from .util import isLoggedIn;
+from ..error import SaccubusError;
 
 '''
 ニコニコ動画にログインし、CookieJarを返します。
@@ -28,9 +29,10 @@ def login(userid, password, method=None):
 	if method == None:
 		for _method in LOGIN_METHOD:
 			try:
-				return _method(userid, password)
-			finally:
+				return LOGIN_METHOD[_method](userid, password)
+			except:
 				pass
+			raise SaccubusError("ログインできませんでした");
 	else:
 		if method not in LOGIN_METHOD:
 			raise ValueError("Unknwon login method: {0}".format(method));
