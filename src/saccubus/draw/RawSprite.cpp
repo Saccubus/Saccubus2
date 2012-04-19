@@ -63,6 +63,9 @@ RawSprite::~RawSprite() {
 
 void RawSprite::resize(int w, int h)
 {
+	if(w > this->_origWidth || h > this->_origHeight){
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] You can't resize sprite bigger than original.");
+	}
 	this->width(w);
 	this->height(h);
 }

@@ -19,9 +19,12 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "../logging/Exception.h"
+#include "../logging/Logger.h"
 
 namespace saccubus {
 namespace draw {
+
+const std::string TAG("draw::Renderer");
 
 Renderer::Renderer(logging::Logger& log)
 :log(log),_handler(new Renderer*(this))
@@ -37,7 +40,7 @@ Renderer::~Renderer() {
 
 Sprite::Handler<RawSprite> Renderer::queryRawSprite(int w, int h)
 {
-	SpriteIterator it = std::lower_bound(unusedSprites.begin(), unusedSprites.end(), std::pair<int, int>(w,h), order());
+	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), std::pair<int, int>(w,h), order());
 	if(it == unusedSprites.end()){
 		Sprite::Handler<RawSprite> handler(createRawSprite(w, h));
 		return handler;
@@ -64,6 +67,7 @@ void Renderer::backRawSprite(RawSprite* spr)
 			unusedSprites.erase(unusedSprites.begin());
 		}
 		if(deleted){
+			log.d(TAG, "Sprite cache deleted.");
 			delete deleted;
 		}
 	}

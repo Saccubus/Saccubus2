@@ -28,7 +28,7 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-const std::string(TAG);
+const std::string TAG("SimpleCommentFactory");
 
 const double SimpleCommentFactory::ShadowWidth = 5.0;
 
@@ -142,6 +142,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		this->setupCairo(cairo, comment, factor);
 
 		cairo_move_to(cairo, x, y);
+
 		cairo_text_path(cairo, comment->message().c_str());
 
 		this->setColor(cairo, comment->shadowColor());

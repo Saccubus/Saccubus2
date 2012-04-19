@@ -117,6 +117,7 @@ public:
 		{
 			if(this->sprite){
 				this->sprite->decref();
+				this->sprite = 0;
 			}
 		}
 		S* operator->() const
