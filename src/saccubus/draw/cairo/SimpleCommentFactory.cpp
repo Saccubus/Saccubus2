@@ -21,6 +21,7 @@
 #include "Renderer.h"
 #include "Sprite.h"
 #include "../../layer/item/Comment.h"
+#include "../NullSprite.h"
 
 namespace saccubus {
 namespace draw {
@@ -102,6 +103,9 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::layer::item::Comment* comment, float factor)
 {
+	if(comment->message().size() <= 0){
+		return NullSprite::newInstance(log);
+	}
 	double x;
 	double y;
 	int width;

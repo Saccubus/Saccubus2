@@ -52,5 +52,19 @@ TEST(SDLTest, QureyTest)
 	ASSERT_NEAR(spr->height() * 1.5, dspr->height(), dspr->height()/20.0f);
 }
 
+TEST(SDLTest, EmptyStringTest)
+{
+	mock::meta::Comment orig = mock::meta::Comment();
+	orig.message("");
+	orig.mail("big");
+	layer::item::Comment comment = layer::item::Comment(&orig);
+	cairo::Renderer renderer(log_err);
+	cairo::SimpleCommentFactory factory(log_err, &renderer);
+
+	Sprite::Handler<saccubus::draw::Sprite> spr;
+	ASSERT_NO_THROW(spr = factory.renderComment(&comment, 1));
+	ASSERT_EQ(0, spr->width());
+	ASSERT_EQ(0, spr->height());
+}
 
 }}}
