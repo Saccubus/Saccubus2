@@ -61,7 +61,7 @@ public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual void onClick(int x, int y);
 private:
-	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, LayoutData* layout);
+	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<LayoutData> layout);
 	float getX(float vpos, float screenWidth, item::Comment* comment);
 };
 

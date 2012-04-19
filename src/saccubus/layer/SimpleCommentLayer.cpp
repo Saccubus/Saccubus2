@@ -40,7 +40,7 @@ SimpleCommentLayer::~SimpleCommentLayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, LayoutData* layout)
+void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<LayoutData> layout)
 {
 	switch(layout->comment()->placeY()){
 	case item::Comment::Bottom:
@@ -50,12 +50,51 @@ void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> 
 		layout->y(0);
 		break;
 	}
-	for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
-		std::tr1::shared_ptr<const LayoutData> other = *it;
+	const float w = layout->comment()->querySprite()->width();
+	const float h = layout->comment()->querySprite()->height();
+	bool running = false;
+	do{
+		for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
+			std::tr1::shared_ptr<const LayoutData> other = *it;
+			const float other_h = other->comment()->querySprite()->height();
+			const float other_y = other->y();
+			if(other_y + other_h <= layout->y()){
+				continue;
+			}
+			if(layout->y() + h <= other_y){
+				continue;
+			}
+			if(other->comment()->placeY() != layout->comment()->placeY()){
+				continue;
+			}
+
+			const float other_w = other->comment()->querySprite()->width();
+			const float startTime = std::max(other->comment()->from(), layout->comment()->from());
+			const float endTime = std::min(other->comment()->to(), layout->comment()->to());
+			const float obj_x_t1 = getX(startTime, ctx->width(), layout->comment());
+			const float obj_x_t2 = getX(endTime, ctx->width(), layout->comment());
+			const float o_x_t1 = getX(startTime,ctx->width(), other->comment());
+			const float o_x_t2 = getX(endTime,ctx->width(), other->comment());
+			//当たり判定
+			if ((obj_x_t1 <= o_x_t1 + other_w && o_x_t1 <= obj_x_t1 + w)
+				|| (obj_x_t2 <= o_x_t2 + other_w && o_x_t2 <= obj_x_t2 + w)){
+				if(layout->comment()->placeY() == item::Comment::Bottom){
+					layout->y(other_y - h - 1);
+				}else{
+					layout->y(other_y + other_h + 1);
+				}
+				running = true;
+				break;
+			}
+		}
+	} while(running);
+	// 範囲外
+	if(layout->y() < 0 || layout->y()+h > ctx->height()){
+		layout->y(((rand() % 10000) * (ctx->height() - h)) / 10000);
 	}
 }
 
-float getX(float vpos, float screenWidth, item::Comment* comment)
+float SimpleCommentLayer::getX(float vpos, float screenWidth, item::Comment* comment)
 {
 	const float text_width = comment->querySprite()->width();
 	if(comment->placeY() != item::Comment::Middle){
@@ -79,7 +118,11 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 	for(std::vector<const meta::Comment*>::iterator it = lst.begin(); it != lst.end(); ++it){
 		const meta::Comment* metaCom = *it;
 		item::Comment* com = threadLayer()->pipeLine()->process(metaCom);
-		LayoutData* item = new LayoutData(com);
+
+		std::tr1::shared_ptr<LayoutData> item(new LayoutData(com));
+		doLayout(ctx, vpos, item);
+		CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item);
+		this->comments.insert(insertPoint, item);
 	}
 
 
