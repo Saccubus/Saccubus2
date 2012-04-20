@@ -22,13 +22,13 @@
 namespace saccubus {
 namespace draw {
 
-Sprite::Handler<Sprite> NullSprite::newInstance(logging::Logger& log)
+Sprite::Handler<Sprite> NullSprite::newInstance()
 {
-	return Sprite::Handler<Sprite>(new NullSprite(log));
+	return Sprite::Handler<Sprite>(new NullSprite());
 }
 
-NullSprite::NullSprite(logging::Logger& log)
-:Sprite(log)
+NullSprite::NullSprite()
+:Sprite()
 {
 }
 

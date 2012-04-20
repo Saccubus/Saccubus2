@@ -33,7 +33,7 @@ Renderer::~Renderer() {
 
 saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
-	return new Sprite(log, handler(), w, h);
+	return new Sprite(handler(), w, h);
 }
 
 std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)

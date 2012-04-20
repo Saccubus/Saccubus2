@@ -26,9 +26,9 @@ namespace draw {
 
 class NullSprite: public saccubus::draw::Sprite {
 public:
-	static Sprite::Handler<Sprite> newInstance(logging::Logger& log);
+	static Sprite::Handler<Sprite> newInstance();
 private:
-	NullSprite(logging::Logger& log);
+	NullSprite();
 public:
 	virtual ~NullSprite();
 protected:

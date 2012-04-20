@@ -30,9 +30,9 @@ class LayerdSprite: public saccubus::draw::Sprite {
 private:
 	std::vector<std::pair<Point, Sprite::Handler<Sprite> > > sprites;
 private:
-	LayerdSprite(logging::Logger& log);
+	LayerdSprite();
 public:
-	static Sprite::Handler<LayerdSprite> newInstance(logging::Logger& log);
+	static Sprite::Handler<LayerdSprite> newInstance();
 	virtual ~LayerdSprite();
 public:
 	virtual void draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y);

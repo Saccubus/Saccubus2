@@ -35,7 +35,7 @@ Renderer::~Renderer() {
 
 draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
-	return new cairo::Sprite(log, this->handler(), w, h);
+	return new cairo::Sprite(this->handler(), w, h);
 }
 
 std::tr1::shared_ptr<draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)

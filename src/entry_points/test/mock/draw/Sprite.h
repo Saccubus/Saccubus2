@@ -27,7 +27,7 @@ namespace draw {
 
 class Sprite: public saccubus::draw::RawSprite {
 public:
-	Sprite(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h);
+	Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
 	virtual void lock(void** data, int* w, int* h, int* stride);

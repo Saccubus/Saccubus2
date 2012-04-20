@@ -43,4 +43,8 @@ void Item::invalidate()
 	sprite.reset();
 }
 
+bool Item::onClick(){
+	return false;
+}
+
 }}}

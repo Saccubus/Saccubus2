@@ -23,8 +23,8 @@
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(logging::Logger& log, std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
-:Sprite(log)
+RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
+:Sprite()
 ,_renderer(_renderer)
 ,_locked(false)
 {

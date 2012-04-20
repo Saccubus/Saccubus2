@@ -31,7 +31,7 @@ TEST(LayerdSpriteTest, BasicTest)
 {
 	Renderer renderer(log_err);
 	{
-		Sprite::Handler<LayerdSprite> layer = LayerdSprite::newInstance(log_err);
+		Sprite::Handler<LayerdSprite> layer = LayerdSprite::newInstance();
 		layer->addSprite(0, 0, renderer.queryRawSprite(10, 12));
 		ASSERT_EQ(10, layer->width());
 		ASSERT_EQ(12, layer->height());
@@ -55,7 +55,7 @@ TEST(LayerdSpriteTest, ShrinkTest)
 {
 	Renderer renderer(log_err);
 	{
-		Sprite::Handler<LayerdSprite> layer = LayerdSprite::newInstance(log_err);
+		Sprite::Handler<LayerdSprite> layer = LayerdSprite::newInstance();
 		Sprite::Handler<saccubus::draw::RawSprite> spr1 = renderer.queryRawSprite(10, 12);
 		layer->addSprite(0, 0, spr1);
 		ASSERT_EQ(10, layer->width());

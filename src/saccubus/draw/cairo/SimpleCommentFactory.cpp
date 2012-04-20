@@ -107,7 +107,7 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::layer::item::Comment* comment, float factor)
 {
 	if(comment->message().size() <= 0){
-		return NullSprite::newInstance(log);
+		return NullSprite::newInstance();
 	}
 	double x;
 	double y;

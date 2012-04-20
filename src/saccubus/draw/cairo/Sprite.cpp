@@ -24,8 +24,8 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Sprite::Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
-:draw::RawSprite(log, renderer, w, h)
+Sprite::Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
+:draw::RawSprite(renderer, w, h)
 {
 	this->surface(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h));
 }

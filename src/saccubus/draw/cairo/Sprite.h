@@ -30,7 +30,7 @@ namespace cairo {
 class Sprite : public draw::RawSprite {
 	DEF_ATTR_ACCESSOR(public, private, cairo_surface_t*, surface);
 public:
-	Sprite(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
+	Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	virtual ~Sprite();
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
 	virtual void lock(void** data, int* w, int* h, int* stride);
