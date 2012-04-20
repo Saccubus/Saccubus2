@@ -402,7 +402,7 @@ public:
 	virtual ~System();
 private:
 	float _currentTime;
-	std::tr1::shared_ptr<const Message> currentComment;
+	std::tr1::shared_ptr<const Message> currentMessage;
 public:
 	float currentTime(){return _currentTime;}
 protected:

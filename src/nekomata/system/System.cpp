@@ -36,7 +36,7 @@ static const std::string TAG("System");
 System::System(logging::Logger& log)
 :log(log)
 ,_currentTime(0)
-,currentComment()
+,currentMessage()
 {
 }
 
@@ -253,16 +253,16 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	if(currentTime() != from){
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly %f != %f.", currentTime(), from);
 	}
-	while((currentComment = nextComment()) && currentComment->vpos() < to){
-		dispatchTimer(machine, currentTime(), currentComment->vpos());
-		currentTime(currentComment->vpos());
-		switch(currentComment->type)
+	while((currentMessage = nextComment()) && currentMessage->vpos() < to){
+		dispatchTimer(machine, currentTime(), currentMessage->vpos());
+		currentTime(currentMessage->vpos());
+		switch(currentMessage->type)
 		{
 		case Message::COMMENT:
-			dispatchCommentTrigger(machine, std::tr1::dynamic_pointer_cast<const Comment>(currentComment));
+			dispatchCommentTrigger(machine, std::tr1::dynamic_pointer_cast<const Comment>(currentMessage));
 			break;
 		case Message::SCRIPT:
-			machine.eval(std::tr1::dynamic_pointer_cast<const Script>(currentComment)->node().get());
+			machine.eval(std::tr1::dynamic_pointer_cast<const Script>(currentMessage)->node().get());
 			break;
 		default:
 			log.e(TAG, 0, "[BUG] Unknwon message type received.");
@@ -277,7 +277,7 @@ void System::dispatchTimer(machine::Machine& machine, const double from, const d
 {
 	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = timerLine.begin(); it != timerLine.end(); ++it){
 		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
-		if(nextTimer->from() <= currentComment->vpos() && currentComment->vpos() < nextTimer->to()){
+		if(nextTimer->from() <= currentMessage->vpos() && currentMessage->vpos() < nextTimer->to()){
 			machine.eval(nextTimer->then());
 			it=timerLine.begin();
 			while(it != timerLine.end() && it->second != nextTimer){
