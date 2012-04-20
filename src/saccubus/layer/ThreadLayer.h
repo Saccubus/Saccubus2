@@ -48,6 +48,7 @@ private:
 	NekomataSystem* nekoSystem;
 private:
 	ScriptLayer* scriptLayer;
+	CommentLayer* localCommentLayer;
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:

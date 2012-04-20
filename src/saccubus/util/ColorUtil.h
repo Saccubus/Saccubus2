@@ -16,27 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_SHAPEFACTORY_H__CPP_
-#define Saccubus_SHAPEFACTORY_H__CPP_
-#include "RawSprite.h"
-#include "../util/ClassAccessor.h"
-#include <nekomata/system/System.h>
+#ifndef Saccubus_COLORUTIL_H__CPP_
+#define Saccubus_COLORUTIL_H__CPP_
 
 namespace saccubus {
-namespace draw {
+namespace util {
 
-class ShapeFactory {
-private:
-	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
-protected:
-	logging::Logger& log;
-public:
-	ShapeFactory(logging::Logger& log, Renderer* renderer);
-	virtual ~ShapeFactory();
-public:
-	virtual Sprite::Handler<Sprite> renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color) = 0;
-	virtual Sprite::Handler<Sprite> renderShape(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape) = 0;
-};
+void decodeColor(unsigned int color, float* r, float* g, float* b);
 
 }}
 #endif /* INCLUDE_GUARD */

@@ -31,10 +31,10 @@ Item::~Item() {
 	// TODO Auto-generated destructor stub
 }
 
-draw::Sprite::Handler<draw::Sprite> Item::querySprite()
+draw::Sprite::Handler<draw::Sprite> Item::querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
 	if(!sprite){
-		sprite = this->createSprite();
+		sprite = this->createSprite(ctx);
 	}
 	return sprite;
 }

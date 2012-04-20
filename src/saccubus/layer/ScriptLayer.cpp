@@ -27,6 +27,8 @@ namespace layer {
 
 const static std::string TAG("ScriptLayer");
 
+using nekomata::system::System;
+
 ScriptLayer::ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem)
 :Layer(log)
 {

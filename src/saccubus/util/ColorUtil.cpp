@@ -16,25 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DRAW_COMMENTFACTORY_H_
-#define DRAW_COMMENTFACTORY_H_
+#include "ColorUtil.h"
 
-#include "RawSprite.h"
-#include "../util/ClassAccessor.h"
 namespace saccubus {
-namespace draw {
+namespace util {
 
-class CommentFactory {
-private:
-	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
-protected:
-	logging::Logger& log;
-public:
-	CommentFactory(logging::Logger& log, Renderer* renderer);
-	virtual ~CommentFactory();
-public:
-	virtual Sprite::Handler<Sprite> renderComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const layer::item::Comment* comment) = 0;
-};
+void decodeColor(unsigned int color, float* r, float* g, float* b)
+{
+	unsigned int ir = (color & 0xff0000) >> 16;
+	unsigned int ig = (color & 0x00ff00) >> 8;
+	unsigned int ib = (color & 0x0000ff) >> 0;
+	*r = ir/255.0f;
+	*g = ig/255.0f;
+	*b = ib/255.0f;
+}
 
-}}
-#endif /* DRAW_COMMENTFACTORY_H_ */
+}
+}

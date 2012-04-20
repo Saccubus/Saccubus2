@@ -36,7 +36,7 @@ SimpleShapeFactory::~SimpleShapeFactory() {
 	// TODO Auto-generated destructor stub
 }
 
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(int w, int h, unsigned int color)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color)
 {
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(w, h);
 	{
@@ -81,7 +81,7 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(int w, int h, uns
 	}
 	return spr;
 }
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(const nekomata::system::Shape* const shape)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape)
 {
 	const int w = std::ceil(shape->width());
 	const int h = std::ceil(shape->height());

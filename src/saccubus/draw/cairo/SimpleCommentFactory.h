@@ -48,9 +48,9 @@ public:
 	virtual ~SimpleCommentFactory();
 private:
 	void setColor(cairo_t* cairo, unsigned int color);
-	void setupCairo(cairo_t* cairo, const saccubus::layer::item::Comment* comment, float factor);
+	void setupCairo(cairo_t* cairo, const saccubus::layer::item::Comment* comment);
 public:
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(const saccubus::layer::item::Comment* comment, float factor);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment);
 };
 
 }}}

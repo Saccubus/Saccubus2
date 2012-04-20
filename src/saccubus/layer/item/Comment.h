@@ -92,10 +92,13 @@ private:
 	void setDefault();
 public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
-protected:
-	virtual draw::Sprite::Handler<draw::Sprite> createSprite();
+	/**
+	 * Item Methods
+	 */
 public:
 	virtual bool onClick();
+protected:
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 };
 
 }}}

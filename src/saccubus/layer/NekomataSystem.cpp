@@ -61,6 +61,7 @@ void NekomataSystem::jumpCancel() {
 }
 
 void NekomataSystem::seek(double vpos, const std::string& msg) {
+	this->log.e(TAG, 0, "Sorry, 'seek' not supported yet!!");
 }
 
 nekomata::util::Handler<nekomata::system::Sum> NekomataSystem::sum(double x,

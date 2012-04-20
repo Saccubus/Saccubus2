@@ -37,7 +37,7 @@ private:
 public:
 	typedef std::vector<std::pair<std::pair<int, int>, Sprite* > >::const_iterator QueryIterator;
 public:
-	void draw(int x, int y, Sprite* spr);
+	virtual void draw(int x, int y, Sprite* spr);
 	QueryIterator queryBegin();
 	QueryIterator queryEnd();
 	std::size_t querySize();

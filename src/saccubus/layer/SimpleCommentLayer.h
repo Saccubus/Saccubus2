@@ -22,39 +22,43 @@
 #include <tr1/memory>
 #include "CommentLayer.h"
 #include <vector>
+#include <set>
 #include "../util/ClassAccessor.h"
 
 namespace saccubus {
 namespace layer {
 
-class LayoutData{
-	DEF_ATTR_ACCESSOR(public, public, int, y);
-	DEF_ATTR_ACCESSOR(public, public, int, x);
-	DEF_ATTR_ACCESSOR(public, private, item::Comment*, comment);
-private:
-	LayoutData& operator=(const LayoutData& other){return *this;};
-	LayoutData(const LayoutData& other){};
-public:
-	LayoutData(item::Comment* comment);
-	virtual ~LayoutData();
-public: /* setで比較する時用 */
-	bool operator !=(const LayoutData& other);
-	bool operator ==(const LayoutData& other);
-public:
-	struct CommentEndTimeComparator{
-		bool operator() (const std::tr1::shared_ptr<const LayoutData>& a, const std::tr1::shared_ptr<const LayoutData>& b);
-		bool operator() (const float& a, const std::tr1::shared_ptr<const LayoutData>& b);
-		bool operator() (const std::tr1::shared_ptr<const LayoutData>& a, const float& b);
-	};
-};
-
 class SimpleCommentLayer: public saccubus::layer::CommentLayer {
+private:
+	class Slot{
+		DEF_ATTR_ACCESSOR(public, public, int, y);
+		DEF_ATTR_ACCESSOR(public, public, int, x);
+		DEF_ATTR_ACCESSOR(public, public, float, width);
+		DEF_ATTR_ACCESSOR(public, public, float, height);
+		DEF_ATTR_ACCESSOR(public, private, item::Comment*, comment);
+	private:
+		Slot& operator=(const Slot& other){return *this;};
+		Slot(const Slot& other){};
+	public:
+		Slot(item::Comment* comment);
+		virtual ~Slot();
+	public: /* setで比較する時用 */
+		bool operator !=(const Slot& other);
+		bool operator ==(const Slot& other);
+	public:
+		struct CommentEndTimeComparator{
+			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const std::tr1::shared_ptr<const Slot>& b);
+			bool operator() (const float& a, const std::tr1::shared_ptr<const Slot>& b);
+			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const float& b);
+		};
+	};
 private:
 	static const float CommentAheadTime;
 private:
-	std::vector<std::tr1::shared_ptr<LayoutData> > comments;
-	typedef std::vector<std::tr1::shared_ptr<LayoutData> >::iterator CommentIterator;
-	typedef std::vector<std::tr1::shared_ptr<LayoutData> >::const_iterator CommentConstIterator;
+	std::vector<std::tr1::shared_ptr<Slot> > comments;
+	std::set<const meta::Comment*> metaSet;
+	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
+	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
 	SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
 	virtual ~SimpleCommentLayer();
@@ -63,8 +67,8 @@ public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
 private:
-	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<LayoutData> layout);
-	float getX(float vpos, float screenWidth, item::Comment* comment);
+	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
+	float getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> layout);
 };
 
 }}

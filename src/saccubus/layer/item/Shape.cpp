@@ -18,6 +18,7 @@
 
 #include "Shape.h"
 #include "../../draw/NullSprite.h"
+#include "../../draw/ShapeFactory.h"
 
 namespace saccubus {
 namespace layer {
@@ -33,9 +34,9 @@ Shape::Shape(::nekomata::system::System* system, draw::ShapeFactory* shapeFactor
 Shape::~Shape() {
 }
 
-draw::Sprite::Handler<draw::Sprite> Shape::createSprite()
+draw::Sprite::Handler<draw::Sprite> Shape::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
-	return this->shapeFactory()->renderShape(this);
+	return this->shapeFactory()->renderShape(ctx, this);
 }
 
 void Shape::onChanged()

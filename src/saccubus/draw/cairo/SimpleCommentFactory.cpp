@@ -85,10 +85,9 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 }
 
 
-void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::layer::item::Comment* comment, float factor)
+void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::layer::item::Comment* comment)
 {
 	cairo_identity_matrix(cairo);
-	cairo_scale(cairo, factor, factor);
 	cairo_set_font_face(cairo, this->face());
 	cairo_set_font_size(cairo, comment->size());
 	cairo_move_to(cairo, 0, 0);
@@ -101,7 +100,7 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, r, g, b, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::layer::item::Comment* comment, float factor)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
 {
 	if(comment->message().size() <= 0){
 		return NullSprite::newInstance();
@@ -112,7 +111,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	int height;
 	cairo_text_extents_t ext;
 	{ /* 大きさを測定 */
-		this->setupCairo(this->emptyCairo(), comment, factor);
+		this->setupCairo(this->emptyCairo(), comment);
 		cairo_text_extents(this->emptyCairo(), comment->message().c_str(), &ext);
 		x = -ext.x_bearing+ShadowWidth/2;
 		y = -ext.y_bearing+ShadowWidth/2;
@@ -135,7 +134,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 						session.stride()
 				);
 		cairo_t* cairo = cairo_create(surface);
-		this->setupCairo(cairo, comment, factor);
+		this->setupCairo(cairo, comment);
 
 		/* サーフェイスの中身を一旦すべて削除 */
 		cairo_set_operator(cairo, CAIRO_OPERATOR_CLEAR);

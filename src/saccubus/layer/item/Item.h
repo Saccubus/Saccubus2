@@ -32,10 +32,10 @@ public:
 private:
 	draw::Sprite::Handler<draw::Sprite> sprite;
 public:
-	draw::Sprite::Handler<draw::Sprite> querySprite();
+	draw::Sprite::Handler<draw::Sprite> querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 	void invalidate();
 protected:
-	virtual draw::Sprite::Handler<draw::Sprite> createSprite() = 0;
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx) = 0;
 public:
 	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
 	virtual bool onClick();

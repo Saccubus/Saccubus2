@@ -21,6 +21,7 @@
 #include <nekomata/system/System.h>
 #include "../../meta/Comment.h"
 #include "../../draw/CommentFactory.h"
+#include "../../draw/ShapeFactory.h"
 
 namespace saccubus {
 namespace layer {
@@ -82,10 +83,13 @@ std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
 			));
 }
 
-draw::Sprite::Handler<draw::Sprite> Comment::createSprite()
+draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
-	if(!this->isButton()){
-		return commentFactory()->renderComment(this, 1);
+	if(this->isButton()){
+		draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderComment(ctx, this);
+		draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), this->color());
+	}else{
+		return commentFactory()->renderComment(ctx, this);
 	}
 }
 

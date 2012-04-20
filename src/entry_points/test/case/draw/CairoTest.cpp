@@ -36,6 +36,7 @@ namespace draw{
 
 TEST(CairoTest, QureyTest)
 {
+	mock::draw::Context ctx;
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("おいしいうどんが食べたいな");
 	orig.mail("big");
@@ -57,6 +58,7 @@ TEST(CairoTest, QureyTest)
 
 TEST(CairoTest, EmptyStringTest)
 {
+	mock::draw::Context ctx;
 	mock::meta::Comment orig = mock::meta::Comment();
 	orig.message("");
 	orig.mail("big");
@@ -72,17 +74,18 @@ TEST(CairoTest, EmptyStringTest)
 
 TEST(CairoTest, ShapeTest)
 {
+	mock::draw::Context ctx;
 	cairo::Renderer renderer(log_err);
 	cairo::SimpleShapeFactory factory = cairo::SimpleShapeFactory(log_err, &renderer);
 	MockSystem mock = MockSystem();
-	Shape shape = Shape(&mock, 0);
+	Shape shape = Shape(renderer.createContext(), &mock, 0);
 	shape.color(0xff0000);
 	shape.width(15);
 	shape.height(60);
 	shape.alpha(0.5);
 	shape.rotation(30);
 	shape.shape("circle");
-	Sprite::Handler<saccubus::draw::Sprite> spr = factory.renderShape(&shape);
+	Sprite::Handler<saccubus::draw::Sprite> spr = shape.querySprite(renderer.createContext());
 
 	ASSERT_EQ(15, spr->width());
 	ASSERT_EQ(60, spr->height());
@@ -90,9 +93,10 @@ TEST(CairoTest, ShapeTest)
 
 TEST(CairoTest, ButtonTest)
 {
+	mock::draw::Context ctx;
 	cairo::Renderer renderer(log_err);
 	cairo::SimpleShapeFactory factory = cairo::SimpleShapeFactory(log_err, &renderer);
-	Sprite::Handler<saccubus::draw::Sprite> spr = factory.renderButton(300, 100, 0xff0000);
+	Sprite::Handler<saccubus::draw::Sprite> spr = factory.renderButton(&ctx, 300, 100, 0xff0000);
 
 	ASSERT_EQ(300, spr->width());
 	ASSERT_EQ(100, spr->height());
