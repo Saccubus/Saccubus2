@@ -70,7 +70,7 @@ TEST(CairoTest, EmptyStringTest)
 	ASSERT_EQ(0, spr->height());
 }
 
-TEST(CairoTest, CircleTest)
+TEST(CairoTest, ShapeTest)
 {
 	cairo::Renderer renderer(log_err);
 	cairo::SimpleShapeFactory factory = cairo::SimpleShapeFactory(log_err, &renderer);
@@ -82,11 +82,20 @@ TEST(CairoTest, CircleTest)
 	shape.alpha(0.5);
 	shape.rotation(30);
 	shape.shape("circle");
-	factory.renderShape(&shape);
+	Sprite::Handler<saccubus::draw::Sprite> spr = factory.renderShape(&shape);
 
-	ASSERT_EQ(15, shape.width());
-	ASSERT_EQ(60, shape.height());
+	ASSERT_EQ(15, spr->width());
+	ASSERT_EQ(60, spr->height());
+}
 
+TEST(CairoTest, ButtonTest)
+{
+	cairo::Renderer renderer(log_err);
+	cairo::SimpleShapeFactory factory = cairo::SimpleShapeFactory(log_err, &renderer);
+	Sprite::Handler<saccubus::draw::Sprite> spr = factory.renderButton(300, 100, 0xff0000);
+
+	ASSERT_EQ(300, spr->width());
+	ASSERT_EQ(100, spr->height());
 }
 
 }}}

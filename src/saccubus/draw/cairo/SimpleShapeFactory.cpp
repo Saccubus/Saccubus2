@@ -36,9 +36,52 @@ SimpleShapeFactory::~SimpleShapeFactory() {
 	// TODO Auto-generated destructor stub
 }
 
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(int w, int h, unsigned int color, unsigned int hoverColor)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(int w, int h, unsigned int color)
 {
+	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(w, h);
+	{
+		RawSprite::Session session(spr);
+		cairo_surface_t* surf = cairo_image_surface_create_for_data(
+				reinterpret_cast<unsigned char*>(session.data()),
+				CAIRO_FORMAT_ARGB32, session.width(), session.height(), session.stride());
+		cairo_t* cairo = cairo_create(surf);
 
+		// 使い回しデータである可能性があるので、クリアする
+		cairo_set_operator(cairo, CAIRO_OPERATOR_CLEAR);
+		cairo_set_source_rgba(cairo, 0, 0, 0, 0);
+		cairo_paint(cairo);
+		cairo_set_operator(cairo, CAIRO_OPERATOR_OVER);
+
+		{
+			float r,g,b;
+			util::decodeColor(color, &r, &g, &b);
+			cairo_pattern_t *pat;
+
+			pat = cairo_pattern_create_linear (0.0, 0.0,  0.0, h);
+			cairo_pattern_add_color_stop_rgba (pat, 1, r/2, g/2, b/2, 1);
+			cairo_pattern_add_color_stop_rgba (pat, 0, r, g, b, 1);
+			if(w > h){
+				cairo_move_to(cairo, h/2.0, h/2.0);
+				cairo_line_to(cairo, w-(h/2.0), h/2.0);
+				cairo_set_line_width(cairo, h);
+			}else{
+				cairo_move_to(cairo, w/2.0, w/2.0);
+				cairo_line_to(cairo, w/2.0, h-(w/2.0));
+				cairo_set_line_width(cairo, w);
+			}
+			cairo_set_line_cap(cairo, CAIRO_LINE_CAP_ROUND);
+			cairo_set_source (cairo, pat);
+			cairo_stroke (cairo);
+			cairo_pattern_destroy (pat);
+		}
+
+		cairo_destroy(cairo);
+
+		cairo_surface_write_to_png(surf, "image.png");
+
+		cairo_surface_destroy(surf);
+	}
+	return spr;
 }
 Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(const nekomata::system::Shape* const shape)
 {
