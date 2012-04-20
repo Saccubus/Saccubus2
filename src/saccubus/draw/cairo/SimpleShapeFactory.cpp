@@ -77,8 +77,6 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(int w, int h, uns
 
 		cairo_destroy(cairo);
 
-		cairo_surface_write_to_png(surf, "image.png");
-
 		cairo_surface_destroy(surf);
 	}
 	return spr;
@@ -116,8 +114,6 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(const nekomata::sy
 		}
 
 		cairo_destroy(cairo);
-
-		cairo_surface_write_to_png(surf, "image.png");
 
 		cairo_surface_destroy(surf);
 	}
