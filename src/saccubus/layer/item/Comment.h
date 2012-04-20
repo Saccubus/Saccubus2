@@ -29,7 +29,7 @@
 
 namespace nekomata{
 namespace system{
-class Comment;
+class Message;
 }}
 namespace saccubus {
 namespace layer {
@@ -91,7 +91,7 @@ public:
 private:
 	void setDefault();
 public:
-	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
+	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
 	/**
 	 * Item Methods
 	 */

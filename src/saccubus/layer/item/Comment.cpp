@@ -68,7 +68,7 @@ void Comment::setDefault()
 	this->layer((orig() && orig()->fork()) ? Comment::Forked : Comment::Normal);
 }
 
-std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
+std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 {
 	return std::tr1::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
 			this->message(),

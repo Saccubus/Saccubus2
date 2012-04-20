@@ -113,11 +113,11 @@ void NekomataSystem::playCM(int id) {
 	this->log.e(TAG, 0, "Sorry, 'playCM' not supported yet!!");
 }
 
-std::tr1::shared_ptr<const nekomata::system::Comment> NekomataSystem::nextComment() {
+std::tr1::shared_ptr<const nekomata::system::Message> NekomataSystem::nextMessage() {
 	if(this->queue.empty()){
 		return std::tr1::shared_ptr<const nekomata::system::Comment>();
 	}
-	std::tr1::shared_ptr<const nekomata::system::Comment> comment = this->queue.front();
+	std::tr1::shared_ptr<const nekomata::system::Message> comment = this->queue.front();
 	this->queue.pop_front();
 	return comment;
 }
@@ -141,10 +141,10 @@ void NekomataSystem::replace(item::Comment* comment)
 	}
 }
 
-void NekomataSystem::queueComment(std::tr1::shared_ptr<const nekomata::system::Comment> comment)
+void NekomataSystem::queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg)
 {
-	std::deque<std::tr1::shared_ptr<const nekomata::system::Comment> >::iterator it = std::upper_bound(this->queue.begin(), this->queue.end(), comment, nekomata::system::Comment::ComparatorByVpos());
-	this->queue.insert(it, comment);
+	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = std::upper_bound(this->queue.begin(), this->queue.end(), msg, nekomata::system::Comment::ComparatorByVpos());
+	this->queue.insert(it, msg);
 }
 
 }}

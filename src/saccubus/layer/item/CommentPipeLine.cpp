@@ -19,6 +19,10 @@
 #include "CommentPipeLine.h"
 #include "../../meta/Comment.h"
 #include "../../meta/ReplaceTable.h"
+#include "../../util/StringUtil.h"
+
+#include <nekomata/parser/Parser.h>
+using nekomata::parser::Parser;
 
 namespace saccubus {
 namespace layer {
@@ -41,22 +45,25 @@ CommentPipeLine::~CommentPipeLine()
 
 Comment* CommentPipeLine::process(const meta::Comment* comment)
 {
-	Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
-	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
-		if(!MailOperation::apply(*it, product))
-		{
-			log.v(TAG, "Unknwon command: %s", it->c_str());
+	if(util::startsWith(comment->message(), "/")){ /* スクリプト */
+	} else if(util::startsWith(comment->message(), "@") || util::startsWith(comment->message(), "＠")){
+	}else{ /* 普通のコメント */
+		Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
+		for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+			if(!MailOperation::apply(*it, product))
+			{
+				log.v(TAG, "Unknwon command: %s", it->c_str());
+			}
 		}
-	}
 
-	if(this->replaceTable()){
-		product->message(this->replaceTable()->replace(product->message()));
+		if(this->replaceTable()){
+			product->message(this->replaceTable()->replace(product->message()));
+		}
+		if(this->nekomataSystem()){
+			this->nekomataSystem()->replace(product);
+		}
+		return product;
 	}
-	if(this->nekomataSystem()){
-		this->nekomataSystem()->replace(product);
-	}
-
-	return product;
 }
 
 }}}
