@@ -17,6 +17,7 @@
  */
 
 #include <nekomata/logging/Logging.h>
+#include <algorithm>
 #include "item/Comment.h"
 #include "item/CommentPipeLine.h"
 #include "NekomataSystem.h"
@@ -113,6 +114,9 @@ void NekomataSystem::playCM(int id) {
 }
 
 std::tr1::shared_ptr<const nekomata::system::Comment> NekomataSystem::nextComment() {
+	std::tr1::shared_ptr<const nekomata::system::Comment> comment = this->queue.front();
+	this->queue.pop_front();
+	return comment;
 }
 
 std::string NekomataSystem::inspect() {
@@ -132,6 +136,12 @@ void NekomataSystem::replace(item::Comment* comment)
 	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
 		item::NekomataReplaceOperation::apply(*it, comment);
 	}
+}
+
+void NekomataSystem::queueComment(std::tr1::shared_ptr<const nekomata::system::Comment> comment)
+{
+	std::deque<std::tr1::shared_ptr<const nekomata::system::Comment> >::iterator it = std::upper_bound(this->queue.begin(), this->queue.end(), comment, nekomata::system::Comment::ComparatorByVpos());
+	this->queue.insert(it, comment);
 }
 
 }}

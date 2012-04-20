@@ -31,8 +31,8 @@ const static std::string TAG("SimpleCommentLayer");
 
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
-:CommentLayer(log, threadLayer, isForked)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem)
+:CommentLayer(log, isForked, pipeLine, nekoSystem)
 ,last(0)
 {
 }
@@ -105,33 +105,32 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_p
 	}
 }
 
+void SimpleCommentLayer::queueComment(const meta::Comment* comment)
+{
+	QueueIterator it = std::upper_bound(this->queue.begin(), this->queue.end(), comment, meta::Comment::CompareLessByVpos());
+	this->queue.insert(it, comment);
+}
+
 void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	{ /* 表示しないコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, SimpleCommentLayer::Slot::CommentEndTimeComparator());
-		for(CommentIterator it = beg; it != end; ++it){
-			this->metaSet.erase((*it)->comment()->orig());
-		}
 		this->comments.erase(beg, end);
 	}
 	{ /* 新しいコメントを追加 */
-		std::vector<const meta::Comment*> lst;
-		/* 前方に追加される可能性があるので… */
-		this->threadLayer()->getCommentBetween(0, vpos+CommentAheadTime, isForked(), lst);
-		for(std::vector<const meta::Comment*>::iterator it = lst.begin(); it != lst.end(); ++it){
-			const meta::Comment* metaCom = *it;
-			if(metaSet.count(metaCom) > 0 || vpos < metaCom->vpos()+1.0){
-				continue;
-			}
-			item::Comment* com = threadLayer()->pipeLine()->process(metaCom);
-
+		QueueIterator it = this->queue.begin();
+		for(; it != this->queue.end(); ++it){
+			const meta::Comment* orig = *it;
+			if(vpos < orig->vpos()-CommentAheadTime) break;
+			item::Comment* com = pipeLine()->process(orig);
 			std::tr1::shared_ptr<Slot> item(new Slot(com));
 			doLayout(ctx, vpos, item);
 			CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item, SimpleCommentLayer::Slot::CommentEndTimeComparator());
 			this->comments.insert(insertPoint, item);
-			this->metaSet.insert(metaCom);
 		}
+		this->queue.erase(this->queue.begin(), it);
+
 	}
 	{ /* 描画 */
 		for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){

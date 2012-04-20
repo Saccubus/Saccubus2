@@ -20,11 +20,13 @@
 #define Saccubus_NEKOMATASYSTEM_H__CPP_
 
 #include <nekomata/system/System.h>
-
+#include <deque>
 namespace saccubus {
 namespace layer {
 
 class NekomataSystem: public nekomata::system::System {
+private:
+	std::deque<std::tr1::shared_ptr<const nekomata::system::Comment> > queue;
 public:
 	NekomataSystem(nekomata::logging::Logger& nlog);
 	virtual ~NekomataSystem();
@@ -54,6 +56,7 @@ public:
 	 * コメント変換
 	 ******************************************************************************************************************/
 	void replace(item::Comment* comment);
+	void queueComment(std::tr1::shared_ptr<const nekomata::system::Comment> comment);
 };
 
 }}

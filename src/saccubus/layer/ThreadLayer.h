@@ -54,8 +54,6 @@ private:
 public:
 	ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
-public: /* コメントレイヤから呼ばれる */
-	void getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);

@@ -53,6 +53,7 @@ class Layer;
 class CommentLayer;
 class ThreadLayer;
 class VideoLayer;
+class NekomataSystem;
 }
 
 namespace meta{

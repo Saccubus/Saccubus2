@@ -19,24 +19,27 @@
 #ifndef COMMENTLAYER_H_
 #define COMMENTLAYER_H_
 
-#include <deque>
+#include <vector>
 #include "Layer.h"
 #include <tr1/memory>
 #include "../util/ClassAccessor.h"
-#include "../meta/Thread.h"
+#include "../meta/Comment.h"
+#include "NekomataSystem.h"
 
 namespace saccubus {
 namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
-	DEF_ATTR_ACCESSOR(public, private, bool, isForked);
-	DEF_ATTR_ACCESSOR(public, private, ThreadLayer*, threadLayer);
+	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
+	DEF_ATTR_ACCESSOR(protected, private, NekomataSystem*, nekoSystem);
+	DEF_ATTR_ACCESSOR(protected, private, item::CommentPipeLine*, pipeLine);
 public:
-	CommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
+	CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem);
 	virtual ~CommentLayer();
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 	virtual bool onClick(int x, int y) = 0;
+	virtual void queueComment(const meta::Comment* comment) = 0;
 };
 
 }}

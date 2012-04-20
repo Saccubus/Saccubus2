@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include "ThreadLayer.h"
+#include "../meta/Thread.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
@@ -35,7 +36,6 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
 		this->nekoSystem = new NekomataSystem(*this->nekoLogger);
 		this->neko = new nekomata::Nekomata(*this->nekoSystem, *this->nekoLogger);
-		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
 	}
 
 	{ // ファクトリ
@@ -44,11 +44,21 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 		this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekoSystem));
 	}
 
-	{ // コメントレイヤをプラグインオーガナイザからもらってくる
-		this->forkedCommentLayer = organizer->newCommentLayer(this, true);
-		this->mainCommentLayer = organizer->newCommentLayer(this, false);
+	{ // これでやっとレイヤの作成
+		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
+		this->forkedCommentLayer = organizer->newCommentLayer(true, this->pipeLine(), this->nekoSystem);
+		this->mainCommentLayer = organizer->newCommentLayer(false, this->pipeLine(), this->nekoSystem);
 	}
 
+	{ /* 確定済みコメントを渡す */
+		for(meta::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
+			if((*it)->fork()){
+				this->forkedCommentLayer->queueComment(*it);
+			}else{
+				this->mainCommentLayer->queueComment(*it);
+			}
+		}
+	}
 
 }
 
@@ -89,19 +99,6 @@ bool ThreadLayer::onClick(int x, int y)
 	if(this->mainCommentLayer->onClick(x,y)) return true;
 	if(this->scriptLayer->onClick(x,y)) return true;
 	return false;
-}
-
-void ThreadLayer::getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const
-{
-	meta::Comment::CompareLessByVpos cmp;
-	meta::Thread::Iterator it = std::upper_bound(thread.begin(), thread.end(), from, cmp);
-	meta::Thread::Iterator const end = std::lower_bound(thread.begin(), thread.end(), to, cmp);
-
-	for(; it != end; ++it){
-		if((*it)->fork() == isForked){
-			result.push_back(*it);
-		}
-	}
 }
 
 }}

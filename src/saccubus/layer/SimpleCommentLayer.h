@@ -55,17 +55,19 @@ private:
 private:
 	static const float CommentAheadTime;
 private:
+	std::vector<const meta::Comment*> queue;
+	typedef std::vector<const meta::Comment*>::iterator QueueIterator;
 	std::vector<std::tr1::shared_ptr<Slot> > comments;
-	std::set<const meta::Comment*> metaSet;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
-	SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
+	SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem);
 	virtual ~SimpleCommentLayer();
 	float last;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
+	virtual void queueComment(const meta::Comment* comment);
 private:
 	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
 	float getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> layout);
