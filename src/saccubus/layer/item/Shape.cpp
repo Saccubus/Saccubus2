@@ -31,18 +31,11 @@ Shape::Shape(::nekomata::system::System* system, draw::ShapeFactory* shapeFactor
 }
 
 Shape::~Shape() {
-	// TODO Auto-generated destructor stub
 }
 
 draw::Sprite::Handler<draw::Sprite> Shape::createSprite()
 {
-	if(this->shape()=="circle"){
-
-	}else if(this->shape()=="rect"){
-
-	}else{
-		return draw::NullSprite::newInstance();
-	}
+	return this->shapeFactory()->renderShape(this);
 }
 
 void Shape::onChanged()
