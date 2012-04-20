@@ -114,6 +114,9 @@ void NekomataSystem::playCM(int id) {
 }
 
 std::tr1::shared_ptr<const nekomata::system::Comment> NekomataSystem::nextComment() {
+	if(this->queue.empty()){
+		return std::tr1::shared_ptr<const nekomata::system::Comment>();
+	}
 	std::tr1::shared_ptr<const nekomata::system::Comment> comment = this->queue.front();
 	this->queue.pop_front();
 	return comment;
