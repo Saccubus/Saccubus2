@@ -31,4 +31,16 @@ Item::~Item() {
 	// TODO Auto-generated destructor stub
 }
 
+draw::Sprite::Handler<draw::Sprite> Item::querySprite()
+{
+	if(!sprite){
+		sprite = this->createSprite();
+	}
+	return sprite;
+}
+void Item::invalidate()
+{
+	sprite.reset();
+}
+
 }}}

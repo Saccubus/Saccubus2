@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_SACCUBUSOPTIONS_H__CPP_
-#define Saccubus_SACCUBUSOPTIONS_H__CPP_
+#ifndef Saccubus_SACCUBUS_OPTIONS_H__CPP_
+#define Saccubus_SACCUBUS_OPTIONS_H__CPP_
 
 #include <tr1/functional>
 #include <map>
@@ -32,10 +32,12 @@ private:
 	logging::Logger::Level const level;
 	logging::Logger::Level* const stored;
 public:
-	LoglevelOption(const std::string& name, logging::Logger::Level level, logging::Logger::Level* stored);
-	virtual ~LoglevelOption();
+	LoglevelOption(const std::string& name, logging::Logger::Level level, logging::Logger::Level* stored)
+	:util::Option(name, util::Option::Normal, util::Option::No)
+	,level(level),stored(stored){}
+	virtual ~LoglevelOption(){};
 public:
-	virtual void invoke(const std::string& name, const std::string* arg);
+	virtual void invoke(const std::string& name, const std::string* arg){*stored=level;};
 };
 
 class FuncOption : public util::Option
@@ -43,12 +45,14 @@ class FuncOption : public util::Option
 public:
 	typedef std::tr1::function<void()> Func;
 private:
-	Func func;
+	Func const func;
 public:
-	FuncOption(const std::string& name, Func func);
-	virtual ~FuncOption();
+	FuncOption(const std::string& name, Func func)
+	:util::Option(name, util::Option::Normal, util::Option::No)
+	,func(func){};
+	virtual ~FuncOption(){};
 public:
-	virtual void invoke(const std::string& name, const std::string* arg);
+	virtual void invoke(const std::string& name, const std::string* arg) {func();} ;
 };
 
 template<class T>

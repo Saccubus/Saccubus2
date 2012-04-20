@@ -58,6 +58,7 @@ private:
 public:
 	SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked);
 	virtual ~SimpleCommentLayer();
+	float last;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);

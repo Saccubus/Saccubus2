@@ -92,8 +92,9 @@ private:
 	void setDefault();
 public:
 	std::tr1::shared_ptr<nekomata::system::Comment> createNekomataComment();
+protected:
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite();
 public:
-	virtual draw::Sprite::Handler<draw::Sprite> querySprite();
 	virtual bool onClick();
 };
 

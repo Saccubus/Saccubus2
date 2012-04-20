@@ -92,8 +92,8 @@ bool ThreadLayer::onClick(int x, int y)
 void ThreadLayer::getCommentBetween(float from, float to, bool isForked, std::vector<const meta::Comment*>& result) const
 {
 	meta::Comment::CompareLessByVpos cmp;
-	meta::Thread::Iterator it = std::lower_bound(thread.begin(), thread.end(), from, cmp);
-	meta::Thread::Iterator const end = std::upper_bound(thread.begin(), thread.end(), to, cmp);
+	meta::Thread::Iterator it = std::upper_bound(thread.begin(), thread.end(), from, cmp);
+	meta::Thread::Iterator const end = std::lower_bound(thread.begin(), thread.end(), to, cmp);
 
 	for(; it != end; ++it){
 		if((*it)->fork() == isForked){

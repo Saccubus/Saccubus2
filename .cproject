@@ -309,7 +309,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
@@ -328,10 +327,8 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
-									<listOptionValue builtIn="false" value=".:/D/software/dev/msys/mingw/include:/D/software/dev/applib/cairo/include:/D/software/dev/applib/ff/include:/D/software/dev/applib/ffmpeg/include:/D/software/dev/applib/opencv/include:/D/software/dev/applib/xml/include:/D/software/dev/lib/antlr/include:/D/software/dev/lib/glib/include:/D/software/dev/lib/gtest/include:/D/software/dev/lib/icu/include:/D/software/dev/lib/intl/include:/D/software/dev/lib/perftools/include:/D/software/dev/lib/sdl/include"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1334247816" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
@@ -350,7 +347,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\icu\include&quot;"/>
@@ -448,7 +444,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
@@ -468,7 +463,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>
@@ -490,7 +484,6 @@
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ff\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\ffmpeg\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\gtest\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\sdl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\applib\cairo\include\freetype2&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\lib\antlr\include&quot;"/>

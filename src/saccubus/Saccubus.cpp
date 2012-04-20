@@ -37,9 +37,6 @@
 
 namespace saccubus {
 
-static const std::string RESOLVE_PREFIX("--resolve-");
-static const std::string PLUGIN_PREFIX("--plugin-");
-
 static const std::string TAG("Saccubus");
 
 void usage(std::ostream* logStream, int argc, char* argv[]){
@@ -51,7 +48,7 @@ void usage(std::ostream* logStream, int argc, char* argv[]){
 	*logStream << USAGE_TAB << std::left << std::setw(15) << "--warning"<<"set log level." << std::endl;
 	*logStream << USAGE_TAB << std::left << std::setw(15) << "--error"<<"set log level." << std::endl;
 	*logStream << USAGE_TAB << std::left << std::setw(15) << "--version"<<"output the version, then exit." << std::endl;
-	*logStream << USAGE_TAB << std::left << std::setw(15) << "-h, --help"<<"output the help, then exit." << std::endl;
+	*logStream << USAGE_TAB << std::left << std::setw(15) << "--help"<<"output the help, then exit." << std::endl;
 	exit(0);
 }
 
@@ -94,7 +91,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 	}
 
 	this->log = new logging::Logger(logStream, level);
-	this->bridge = new python::PyBridge(*this->log, programPath);
+	this->bridge = new python::PyBridge(*this->log);
 	this->pluginOrganizer = new PluginOrganizer(*this->log, organizerArg);
 
 	this->renderer(this->pluginOrganizer->newRenderer());

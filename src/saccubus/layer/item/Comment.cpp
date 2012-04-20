@@ -82,7 +82,7 @@ std::tr1::shared_ptr<nekomata::system::Comment> Comment::createNekomataComment()
 			));
 }
 
-draw::Sprite::Handler<draw::Sprite> Comment::querySprite()
+draw::Sprite::Handler<draw::Sprite> Comment::createSprite()
 {
 	if(!this->isButton()){
 		return commentFactory()->renderComment(this, 1);

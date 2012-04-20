@@ -40,8 +40,10 @@ void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int
 	cairo::Context& ctx = dynamic_cast<cairo::Context&>(*(_ctx.get()));
 	cairo_set_source_surface(ctx.cairo(), this->surface(), x, y);
 	//FIXME: ええと、どうやるんだっけ
-	//cairo_clip_extents(ctx.cairo(), x, y, (x+this->_width), (y+this->_height) );
+	cairo_rectangle(ctx.cairo(), x, y, this->width(), this->height());
+	cairo_clip(ctx.cairo());
 	cairo_paint(ctx.cairo());
+	cairo_reset_clip(ctx.cairo());
 }
 void Sprite::lock(void** data, int* w, int* h, int* stride)
 {

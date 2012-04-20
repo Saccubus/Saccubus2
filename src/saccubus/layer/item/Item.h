@@ -30,7 +30,13 @@ public:
 	Item();
 	virtual ~Item();
 private:
-	virtual draw::Sprite::Handler<draw::Sprite> querySprite() = 0;
+	draw::Sprite::Handler<draw::Sprite> sprite;
+public:
+	draw::Sprite::Handler<draw::Sprite> querySprite();
+	void invalidate();
+protected:
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite() = 0;
+public:
 	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
 	virtual bool onClick() = 0;
 };

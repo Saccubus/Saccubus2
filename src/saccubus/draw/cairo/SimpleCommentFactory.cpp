@@ -128,7 +128,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	}
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(width, height);
 	{ /* 実際にレンダリング */
-		log.d(TAG, "Rendering: %s", comment->message().c_str());
+		//log.d(TAG, "Rendering: %s", comment->message().c_str());
 		RawSprite::Session session(spr);
 		cairo_surface_t* surface = cairo_image_surface_create_for_data(
 						reinterpret_cast<unsigned char*>(session.data()),
@@ -137,10 +137,14 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 						session.height(),
 						session.stride()
 				);
-
 		cairo_t* cairo = cairo_create(surface);
 		this->setupCairo(cairo, comment, factor);
 
+		/* サーフェイスの中身を一旦すべて削除 */
+		cairo_set_operator(cairo, CAIRO_OPERATOR_CLEAR);
+		cairo_paint(cairo);
+
+		cairo_set_operator(cairo, CAIRO_OPERATOR_OVER);
 		cairo_move_to(cairo, x, y);
 
 		cairo_text_path(cairo, comment->message().c_str());

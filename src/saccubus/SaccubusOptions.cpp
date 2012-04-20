@@ -19,35 +19,6 @@
 #include "SaccubusOptions.h"
 
 namespace saccubus {
-LoglevelOption::LoglevelOption(const std::string& name, logging::Logger::Level level, logging::Logger::Level* stored)
-:Option(name, util::Option::Normal, util::Option::No)
-,level(level)
-,stored(stored)
-{
-
-}
-LoglevelOption::~LoglevelOption()
-{
-
-}
-void LoglevelOption::invoke(const std::string& name, const std::string* arg)
-{
-	*stored = level;
-}
-
-FuncOption::FuncOption(const std::string& name, Func func)
-:Option(name, util::Option::Normal, util::Option::No)
-,func(func)
-{
-}
-FuncOption::~FuncOption()
-{
-
-}
-void FuncOption::invoke(const std::string& name, const std::string* arg)
-{
-	func();
-}
 
 
 }

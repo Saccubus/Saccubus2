@@ -27,10 +27,13 @@
 namespace saccubus {
 namespace layer {
 
+const static std::string TAG("SimpleCommentLayer");
+
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
 SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, ThreadLayer* threadLayer, bool isForked)
 :CommentLayer(log, threadLayer, isForked)
+,last(0)
 {
 }
 
@@ -57,13 +60,13 @@ void SimpleCommentLayer::doLayout(std::tr1::shared_ptr<saccubus::draw::Context> 
 			std::tr1::shared_ptr<const LayoutData> other = *it;
 			const float other_h = other->comment()->querySprite()->height();
 			const float other_y = other->y();
+			if(other->comment()->placeY() != layout->comment()->placeY()){
+				continue;
+			}
 			if(other_y + other_h <= layout->y()){
 				continue;
 			}
 			if(layout->y() + h <= other_y){
-				continue;
-			}
-			if(other->comment()->placeY() != layout->comment()->placeY()){
 				continue;
 			}
 
@@ -106,7 +109,7 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, item::Comment* com
 
 void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
-	const float from = comments.size() > 0 ? comments.back()->comment()->orig()->vpos() : 0;
+	const float from = this->comments.size() > 0 ? this->comments.back()->comment()->orig()->vpos() : 0;
 	{ /* 表示し終わったコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, LayoutData::CommentEndTimeComparator());
@@ -121,7 +124,7 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 
 			std::tr1::shared_ptr<LayoutData> item(new LayoutData(com));
 			doLayout(ctx, vpos, item);
-			CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item);
+			CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item, LayoutData::CommentEndTimeComparator());
 			this->comments.insert(insertPoint, item);
 		}
 	}

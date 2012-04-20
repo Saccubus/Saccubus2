@@ -132,6 +132,15 @@ public:
 		{
 			return this->sprite != 0;
 		}
+		void swap(Sprite::Handler<S>& other)
+		{
+			using std::swap;
+			swap(other.sprite, this->sprite);
+		}
+		void reset()
+		{
+			Handler<S>().swap(*this);
+		}
 	};
 public:
 	virtual int width() const = 0;
@@ -151,6 +160,11 @@ public:
 	virtual void resize(int w, int h) = 0;
 };
 
+template<class T>
+void swap(Sprite::Handler<T>& a, Sprite::Handler<T>& b)
+{
+	a.swap(b);
+}
 
 }}
 

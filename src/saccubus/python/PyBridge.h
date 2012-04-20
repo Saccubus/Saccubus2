@@ -32,9 +32,8 @@ class PyBridge {
 private:
 	logging::Logger& log;
 	PyBridgeImpl* const impl;
-	std::string const programPath;
 public:
-	PyBridge(logging::Logger& log, const std::string& programPath);
+	PyBridge(logging::Logger& log);
 	virtual ~PyBridge();
 public:
 	const meta::Video* resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args);

@@ -41,6 +41,9 @@ TEST(PyBridgeTest, BasicResolveTest)
 	PyBridge bridge(log_err);
 	std::vector<std::pair<std::string, std::string> > args;
 	args.push_back(std::pair<std::string, std::string>("resource-path", MATERIAL_DIR));
+	args.push_back(std::pair<std::string, std::string>("user", "saccubus@gmail.com"));
+	args.push_back(std::pair<std::string, std::string>("password", "test1234"));
+	args.push_back(std::pair<std::string, std::string>("cookie", "own"));
 	std::auto_ptr<const Video> result(bridge.resolveResource("sm14097905", args));
 	ASSERT_EQ(MATERIAL_DIR"sm14097905_video_test.mp4", result->videofile());
 	ASSERT_EQ(1U, result->threadSize());

@@ -57,7 +57,7 @@ void OptionParser::parse(int argc, char** argv, std::vector<std::string>& left)
 				continue;
 			}
 			// 次の引数の有無
-			bool haveArgument = i != argc-1 || !util::startsWith(argv[i+1], "--");
+			bool haveArgument = i != argc-1 && !util::startsWith(argv[i+1], "--");
 			if(!haveArgument && Option::Require == opt->argument() ){ //かつ引数必須
 				throw logging::Exception(__FILE__, __LINE__, "You need an argument for %s", current.c_str());
 			}
