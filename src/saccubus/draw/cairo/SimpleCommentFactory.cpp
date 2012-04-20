@@ -23,6 +23,7 @@
 #include "../../layer/item/Comment.h"
 #include "../NullSprite.h"
 #include "../../logging/Logger.h"
+#include "../../util/ColorUtil.h"
 
 namespace saccubus {
 namespace draw {
@@ -95,13 +96,9 @@ void SimpleCommentFactory::setupCairo(cairo_t* cairo, const saccubus::layer::ite
 
 void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 {
-	unsigned int r = (color & 0xff0000) >> 16;
-	unsigned int g = (color & 0x00ff00) >> 8;
-	unsigned int b = (color & 0x0000ff) >> 0;
-	float red = r/255.0f;
-	float green = g/255.0f;
-	float blue = b/255.0f;
-	cairo_set_source_rgba(cairo, red, green, blue, 1);
+	float r,g,b;
+	util::decodeColor(color, &r, &g, &b);
+	cairo_set_source_rgba(cairo, r, g, b, 1);
 }
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(const saccubus::layer::item::Comment* comment, float factor)

@@ -31,6 +31,7 @@ class Shape: public saccubus::layer::item::Item, public nekomata::system::Shape 
 public:
 	Shape(::nekomata::system::System* system, draw::ShapeFactory* shapeFactory);
 	virtual ~Shape();
+	virtual void onChanged();
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite();
 };

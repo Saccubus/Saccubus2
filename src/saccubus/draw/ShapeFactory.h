@@ -34,10 +34,8 @@ public:
 	ShapeFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~ShapeFactory();
 public:
-	/*
-	virtual Sprite::Handler<Sprite> renderButton(int w, int h, unsigned int color, unsigned int hoverColor);
-	virtual Sprite::Handler<Sprite> renderShape(const nekomata::system::Shape* const shape);
-	*/
+	virtual Sprite::Handler<Sprite> renderButton(int w, int h, unsigned int color, unsigned int hoverColor) = 0;
+	virtual Sprite::Handler<Sprite> renderShape(const nekomata::system::Shape* const shape) = 0;
 };
 
 }}

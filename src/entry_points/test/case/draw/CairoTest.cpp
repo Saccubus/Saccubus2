@@ -20,8 +20,11 @@
 #include "../../../../saccubus/draw/cairo/Sprite.h"
 #include "../../../../saccubus/draw/cairo/Renderer.h"
 #include "../../../../saccubus/draw/cairo/SimpleCommentFactory.h"
+#include "../../../../saccubus/draw/cairo/SimpleShapeFactory.h"
 #include "../../../../saccubus/layer/item/Comment.h"
+#include "../../../../saccubus/layer/item/Shape.h"
 #include "../../mock/meta/Comment.h"
+#include "../../mock/MockSystem.h"
 
 using namespace saccubus::draw;
 using namespace saccubus::layer::item;
@@ -65,6 +68,25 @@ TEST(CairoTest, EmptyStringTest)
 	ASSERT_NO_THROW(spr = factory.renderComment(&comment, 1));
 	ASSERT_EQ(0, spr->width());
 	ASSERT_EQ(0, spr->height());
+}
+
+TEST(CairoTest, CircleTest)
+{
+	cairo::Renderer renderer(log_err);
+	cairo::SimpleShapeFactory factory = cairo::SimpleShapeFactory(log_err, &renderer);
+	MockSystem mock = MockSystem();
+	Shape shape = Shape(&mock, 0);
+	shape.color(0xff0000);
+	shape.width(15);
+	shape.height(60);
+	shape.alpha(0.5);
+	shape.rotation(30);
+	shape.shape("circle");
+	factory.renderShape(&shape);
+
+	ASSERT_EQ(15, shape.width());
+	ASSERT_EQ(60, shape.height());
+
 }
 
 }}}

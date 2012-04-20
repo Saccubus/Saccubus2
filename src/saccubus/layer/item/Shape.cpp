@@ -45,4 +45,10 @@ draw::Sprite::Handler<draw::Sprite> Shape::createSprite()
 	}
 }
 
+void Shape::onChanged()
+{
+	this->invalidate();
+}
+
+
 }}}

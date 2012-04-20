@@ -30,6 +30,9 @@ class SimpleShapeFactory: public saccubus::draw::ShapeFactory {
 public:
 	SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer);
 	virtual ~SimpleShapeFactory();
+public:
+	virtual Sprite::Handler<draw::Sprite> renderButton(int w, int h, unsigned int color, unsigned int hoverColor);
+	virtual Sprite::Handler<draw::Sprite> renderShape(const nekomata::system::Shape* const shape);
 };
 
 }}}
