@@ -60,8 +60,10 @@ class Machine;
 
 namespace system{
 class System;
-class Label;
+class Message;
 class Comment;
+class Script;
+class Label;
 class Replace;
 class Sum;
 class SumResult;

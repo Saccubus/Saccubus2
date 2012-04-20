@@ -28,7 +28,7 @@ void CLILabel::onChanged()
 	system.stream() << nekomata::util::format("[Label][% 8.2f] %s", this->system.currentTime(), text().c_str()) << std::endl;
 }
 
-CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream, const std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment> >& commentLine)
+CLISystem::CLISystem(nekomata::logging::Logger& log, std::ostream& _stream, const std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >& commentLine)
 :System(log)
 ,_stream(_stream)
 , commentLine(commentLine.begin(), commentLine.end())
@@ -47,7 +47,7 @@ nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::
 	return label;
 }
 
-std::tr1::shared_ptr<const nekomata::system::Comment> CLISystem::nextComment()
+std::tr1::shared_ptr<const nekomata::system::Message> CLISystem::nextComment()
 {
 	if(_currentComment != commentLine.end()){
 		return (_currentComment++)->second;

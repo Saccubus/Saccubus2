@@ -116,7 +116,7 @@ int main(int argc, char* argv[]){
 
 	nekomata::logging::Logger log(std::cout, level);
 	log.t(TAG, 0, "Logger created. Level: %d", level);
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment> > commentLine;
+	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> > commentLine;
 
 	if(optind == argc){
 		log.t(TAG, 0, "Parsing timeline from input stream.");
@@ -133,13 +133,13 @@ int main(int argc, char* argv[]){
 	if(dump){
 		log.t(TAG, 0, "Dumping timeline.");
 		nekomata::logging::Dumper dumper(std::cout);
-		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
+		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
 			std::cout << "time: " << it->first << std::endl;
 			std::cout.flush();
-			if(it->second->hasScript()){
-				it->second->node()->dump(dumper);
+			if(it->second->type == nekomata::system::Message::SCRIPT){
+				std::tr1::dynamic_pointer_cast<const nekomata::system::Script>(it->second)->node()->dump(dumper);
 			}else{
-				std::cout << "Comment: " << it->second->message() << std::endl;
+				std::cout << "Comment: " << std::tr1::dynamic_pointer_cast<const nekomata::system::Comment>(it->second)->message() << std::endl;
 			}
 		}
 		return 0;

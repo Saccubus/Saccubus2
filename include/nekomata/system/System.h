@@ -296,7 +296,7 @@ public:
 
 //---------------------------------------------------------------------------------------------------------------------
 
-class Comment
+class Message
 {
 public:
 	enum Type{
@@ -304,57 +304,64 @@ public:
 		COMMENT=1,
 		SCRIPT=2
 	};
-private:
 	const enum Type type;
-public:
-	const std::string message_;
-	std::string message() const{return message_;};
-
+private:
 	const double vpos_;
+public:
 	double vpos() const{return vpos_;};
-
-	const bool isYourPost_;
-	bool isYourPost() const{return isYourPost_;};
-
-	const std::string mail_;
-	std::string mail() const{return mail_;};
-
-	const bool fromButton_;
-	bool fromButton() const{return fromButton_;};
-
-	const bool isPremium_;
-	bool isPremium() const{return isPremium_;};
-
-	const unsigned int color_;
-	unsigned int color() const{return color_;};
-
-	const double size_;
-	double size() const{return size_;};
-
-	const unsigned int no_;
-	unsigned int no() const{return no_;};
-
-	std::tr1::shared_ptr<const tree::Node> node_;
-	std::tr1::shared_ptr<const tree::Node> node() const{return node_;};
+private:
+	Message():type(INVALID), vpos_(NAN){};
+	Message(Message& other):type(INVALID), vpos_(NAN){};
+	Message& operator = (Message& other){ return *this;};
+protected:
+	Message(enum Message::Type const type, float const vpos);
 public:
-	Comment(const Comment& other);
-	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
-	explicit Comment(const float vpos, std::tr1::shared_ptr<const tree::Node> node);
-	explicit Comment();
-	virtual ~Comment(){};
-public:
-	bool isValid() const;
-	bool hasScript() const;
-	bool isComment() const;
+	virtual ~Message(){};
 	struct ComparatorByVpos
 	{
-		bool operator() (const Comment& a, const Comment& b);
-		bool operator() (const Comment& a, const float& b);
-		bool operator() (const float& a, const Comment& b);
-		bool operator() (const std::tr1::shared_ptr<const Comment>& a, const std::tr1::shared_ptr<const Comment>& b);
-		bool operator() (const std::tr1::shared_ptr<const Comment>& a, const float& b);
-		bool operator() (const float& a, const std::tr1::shared_ptr<const Comment>& b);
+		bool operator() (const Message& a, const Message& b);
+		bool operator() (const Message& a, const float& b);
+		bool operator() (const float& a, const Message& b);
+		bool operator() (const std::tr1::shared_ptr<const Message>& a, const std::tr1::shared_ptr<const Message>& b);
+		bool operator() (const std::tr1::shared_ptr<const Message>& a, const float& b);
+		bool operator() (const float& a, const std::tr1::shared_ptr<const Message>& b);
 	};
+};
+
+class Comment : public Message
+{
+private:
+	const std::string message_;
+	const bool isYourPost_;
+	const std::string mail_;
+	const bool fromButton_;
+	const bool isPremium_;
+	const unsigned int color_;
+	const double size_;
+	const unsigned int no_;
+public:
+	std::string message() const{return message_;};
+	bool isYourPost() const{return isYourPost_;};
+	std::string mail() const{return mail_;};
+	bool fromButton() const{return fromButton_;};
+	bool isPremium() const{return isPremium_;};
+	unsigned int color() const{return color_;};
+	double size() const{return size_;};
+	unsigned int no() const{return no_;};
+public:
+	explicit Comment(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
+	virtual ~Comment(){};
+};
+
+class Script : public Message
+{
+public:
+	explicit Script(const float vpos, std::tr1::shared_ptr<const tree::Node> node);
+	virtual ~Script(){};
+private:
+	std::tr1::shared_ptr<const tree::Node> node_;
+public:
+	std::tr1::shared_ptr<const tree::Node> node() const{return node_;};
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -395,7 +402,7 @@ public:
 	virtual ~System();
 private:
 	float _currentTime;
-	std::tr1::shared_ptr<const Comment> currentComment;
+	std::tr1::shared_ptr<const Message> currentComment;
 public:
 	float currentTime(){return _currentTime;}
 protected:
@@ -473,7 +480,7 @@ public: /* SystemItemからのコールバック関数 */
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 public: /* INFO: 各サブシステムで再実装すること。 */
-	virtual std::tr1::shared_ptr<const Comment> nextComment() = 0;
+	virtual std::tr1::shared_ptr<const Message> nextComment() = 0;
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

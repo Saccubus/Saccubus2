@@ -251,26 +251,25 @@ void System::onChanged()
 void System::seek(machine::Machine& machine, const double from, const double to)
 {
 	if(currentTime() != from){
-		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly.");
+		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly %f != %f.", currentTime(), from);
 	}
-	if(!currentComment.get()){
-		currentComment = nextComment();
-	}
-	while(currentComment.get() && currentComment->isValid() && currentComment->vpos() < to){
+	while((currentComment = nextComment()) && currentComment->vpos() < to){
+		dispatchTimer(machine, currentTime(), currentComment->vpos());
 		currentTime(currentComment->vpos());
-		if(currentComment->hasScript()){
-			machine.eval(currentComment->node().get());
-		}else{
-			dispatchCommentTrigger(machine, currentComment);
+		switch(currentComment->type)
+		{
+		case Message::COMMENT:
+			dispatchCommentTrigger(machine, std::tr1::dynamic_pointer_cast<const Comment>(currentComment));
+			break;
+		case Message::SCRIPT:
+			machine.eval(std::tr1::dynamic_pointer_cast<const Script>(currentComment)->node().get());
+			break;
+		default:
+			log.e(TAG, 0, "[BUG] Unknwon message type received.");
+			break;
 		}
-		std::tr1::shared_ptr<const Comment> next = nextComment();
-		if(next.get() && next->isValid() && next->vpos() < to){ //次がある
-			dispatchTimer(machine, currentTime(), next->vpos());
-		}else{ //最後まで実行
-			dispatchTimer(machine, currentTime(), to);
-		}
-		currentComment = next;
 	}
+	dispatchTimer(machine, currentTime(), to);
 	currentTime(to);
 }
 

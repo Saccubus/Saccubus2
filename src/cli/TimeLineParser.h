@@ -33,9 +33,9 @@ public:
 	TimeLineParser(std::istream& stream, const std::string& filename="<UNSPECIFIED>");
 	virtual ~TimeLineParser();
 private:
-	void parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> >& timeLine, const std::string& line);
+	void parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line);
 public:
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> > parse();
+	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > parse();
 };
 
 }

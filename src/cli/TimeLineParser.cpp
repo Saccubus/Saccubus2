@@ -31,7 +31,7 @@ TimeLineParser::TimeLineParser(std::istream& stream, const std::string& filename
 TimeLineParser::~TimeLineParser() {
 }
 
-void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> >& timeLine, const std::string& line)
+void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line)
 {
 	const size_t firstSep = line.find(':');
 	if(firstSep == std::string::npos){
@@ -62,22 +62,22 @@ void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const n
 	case '/':
 	{
 		std::tr1::shared_ptr<const nekomata::tree::Node> node(nekomata::parser::Parser::fromString(message.substr(1), filename)->parseProgram());
-		std::tr1::shared_ptr<const nekomata::system::Comment> com(new nekomata::system::Comment(time, node));
-		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Comment> >(time, com));
+		std::tr1::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Script(time, node));
+		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Message> >(time, com));
 		break;
 	}
 	default:
 	{
-		std::tr1::shared_ptr<const nekomata::system::Comment> com(new nekomata::system::Comment(message, time, true, mail, false, false, 0xffffff, 30, 0));
-		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Comment> >(time, com));
+		std::tr1::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Comment(message, time, true, mail, false, false, 0xffffff, 30, 0));
+		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Message> >(time, com));
 		break;
 	}
 	}
 }
 
-std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> > TimeLineParser::parse()
+std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > TimeLineParser::parse()
 {
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Comment>, std::less<float> > timeLine;
+	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > timeLine;
 	std::string buf;
 	while(stream && std::getline(stream, buf)){
 		this->parseLine(timeLine,buf);
