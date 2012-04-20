@@ -35,6 +35,7 @@ PluginOrganizer::PluginOrganizer(logging::Logger& log, const std::map<std::strin
 	// insertは、すでに値がある場合は上書きされない。
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_GRAPHIC, PLUGIN_IMPL_CAIRO));
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_TEXT, PLUGIN_IMPL_SIMPLE));
+	this->config.insert(std::pair<std::string, std::string>(PLUGIN_SHAPE, PLUGIN_IMPL_SIMPLE));
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_COMMENT, PLUGIN_IMPL_SIMPLE));
 	for(std::map<std::string, std::string>::const_iterator it = config.begin(); it != config.end(); ++it){
 		if(util::startsWith(PLUGIN_GRAPHIC_CFG_PREFIX, it->first)){
@@ -77,7 +78,7 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
-					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::sdl::Renderer*, but got %s",
+					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::cairo::Renderer*, but got %s",
 					config[PLUGIN_GRAPHIC].c_str(),
 					config[PLUGIN_COMMENT].c_str(),
 					typeid(renderer).name()
@@ -93,11 +94,11 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 }
 saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* const renderer)
 {
-	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_TEXT]){
+	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_SHAPE]){
 		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
-					"[BUG] Shape factory corresponding to [graphic: %s, shape: %s] needs draw::sdl::Renderer*, but got %s",
+					"[BUG] Shape factory corresponding to [graphic: %s, shape: %s] needs draw::cairo::Renderer*, but got %s",
 					config[PLUGIN_GRAPHIC].c_str(),
 					config[PLUGIN_SHAPE].c_str(),
 					typeid(renderer).name()
