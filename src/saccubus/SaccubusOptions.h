@@ -40,17 +40,15 @@ public:
 	virtual void invoke(const std::string& name, const std::string* arg){*stored=level;};
 };
 
-class FuncOption : public util::Option
+class FunctionOption : public util::Option
 {
-public:
-	typedef std::tr1::function<void()> Func;
 private:
-	Func const func;
+	std::tr1::function<void()> const func;
 public:
-	FuncOption(const std::string& name, Func func)
+	FunctionOption(const std::string& name, std::tr1::function<void()> func)
 	:util::Option(name, util::Option::Normal, util::Option::No)
 	,func(func){};
-	virtual ~FuncOption(){};
+	virtual ~FunctionOption(){};
 public:
 	virtual void invoke(const std::string& name, const std::string* arg) {func();} ;
 };
