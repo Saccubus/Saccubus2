@@ -37,7 +37,7 @@ public:
 public:
 	std::ostream& stream(){return _stream;};
 	virtual nekomata::util::Handler<nekomata::system::Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
-	virtual std::tr1::shared_ptr<const nekomata::system::Message> nextComment();
+	virtual std::tr1::shared_ptr<const nekomata::system::Message> nextMessage();
 };
 
 class CLILabel : public nekomata::system::Label

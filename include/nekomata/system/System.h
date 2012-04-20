@@ -480,7 +480,7 @@ public: /* SystemItemからのコールバック関数 */
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 public: /* INFO: 各サブシステムで再実装すること。 */
-	virtual std::tr1::shared_ptr<const Message> nextComment() = 0;
+	virtual std::tr1::shared_ptr<const Message> nextMessage() = 0;
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

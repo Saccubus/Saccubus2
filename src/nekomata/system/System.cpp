@@ -253,7 +253,7 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	if(currentTime() != from){
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly %f != %f.", currentTime(), from);
 	}
-	while((currentMessage = nextComment()) && currentMessage->vpos() < to){
+	while((currentMessage = nextMessage()) && currentMessage->vpos() < to){
 		dispatchTimer(machine, currentTime(), currentMessage->vpos());
 		currentTime(currentMessage->vpos());
 		switch(currentMessage->type)

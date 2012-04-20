@@ -47,7 +47,7 @@ nekomata::util::Handler<nekomata::system::Label> CLISystem::drawText(const std::
 	return label;
 }
 
-std::tr1::shared_ptr<const nekomata::system::Message> CLISystem::nextComment()
+std::tr1::shared_ptr<const nekomata::system::Message> CLISystem::nextMessage()
 {
 	if(_currentComment != commentLine.end()){
 		return (_currentComment++)->second;
