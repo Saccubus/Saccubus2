@@ -61,6 +61,9 @@ static bool placeX_func(const std::string& command, Comment* comment, Comment::P
 static bool placeY_func(const std::string& command, Comment* comment, Comment::PlaceY y)
 {
 	comment->placeY(y);
+	if(comment->placeY() == Comment::Top || comment->placeY() == Comment::Bottom){
+		comment->to(comment->from()+3.0f);
+	}
 	return true;
 }
 

@@ -50,7 +50,7 @@ void Comment::setDefault()
 {
 	this->message(orig() ? orig()->message() : "");
 	this->from(orig() ? orig()->vpos()-1.0f : NAN);
-	this->to(orig() ? orig()->vpos()+2.0f : NAN);
+	this->to(this->from()+4.0f);
 	this->isButton(false);
 	this->isYourPost(false);
 	this->fromButton(false);
