@@ -37,7 +37,7 @@ private:\
 rscope:\
 	inline type name() const{return _##name;}\
 wscope:\
-	inline void name(type const& val){\
+	virtual void name(type const& val){\
 		if(this->_##name != val){\
 			this->_##name=val;\
 			this->onChanged();\
@@ -353,7 +353,7 @@ public:
 #define DEF_SYSTEM_LIST(clazz, name)\
 private:\
 	std::set<clazz*> name##List;\
-protected:\
+public:\
 	typedef std::set<clazz*>::const_iterator clazz##Iterator;\
 	inline clazz##Iterator name##Begin() const\
 	{\
