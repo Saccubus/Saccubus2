@@ -33,14 +33,15 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 {
 	{ // ねこまたとの接続
 		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
-		this->nekomataLayer = new NekomataLayer(log, *this->nekoLogger);
-		this->nekomata = new nekomata::Nekomata(*this->nekomataLayer, *this->nekoLogger);
+		this->nekoSystem = new NekomataSystem(*this->nekoLogger);
+		this->neko = new nekomata::Nekomata(*this->nekoSystem, *this->nekoLogger);
+		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
 	}
 
 	{ // ファクトリ
 		this->shapeFactory(organizer->newShapeFactory(renderer));
 		this->commentFactory(organizer->newCommentFactory(renderer));
-		this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekomataLayer));
+		this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekoSystem));
 	}
 
 	{ // コメントレイヤをプラグインオーガナイザからもらってくる
@@ -68,15 +69,16 @@ ThreadLayer::~ThreadLayer() {
 	}
 
 	{ // ねこまたと接続解除
-		delete this->nekomata;
-		delete this->nekomataLayer;
+		delete this->neko;
+		delete this->scriptLayer;
+		delete this->nekoSystem;
 		delete this->nekoLogger;
 	}
 }
 
 void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
-	this->nekomataLayer->draw(ctx, vpos);
+	this->scriptLayer->draw(ctx, vpos);
 	this->mainCommentLayer->draw(ctx, vpos);
 	this->forkedCommentLayer->draw(ctx, vpos);
 }
@@ -85,7 +87,7 @@ bool ThreadLayer::onClick(int x, int y)
 {
 	if(this->forkedCommentLayer->onClick(x,y)) return true;
 	if(this->mainCommentLayer->onClick(x,y)) return true;
-	if(this->nekomataLayer->onClick(x,y)) return true;
+	if(this->scriptLayer->onClick(x,y)) return true;
 	return false;
 }
 

@@ -16,27 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef Saccubus_NEKOMATASYSTEM_H__CPP_
+#define Saccubus_NEKOMATASYSTEM_H__CPP_
+
 #include <nekomata/system/System.h>
-
-#include "../classdefs.h"
-#include "Layer.h"
-
-#ifndef Saccubus_NEKOMATALAYER_H__CPP_
-#define Saccubus_NEKOMATALAYER_H__CPP_
 
 namespace saccubus {
 namespace layer {
 
-/**
- * TODO: やっぱりレイヤとnekomata::system::Systemは分けた方がいいと思った
- */
-class NekomataLayer: public nekomata::system::System, public Layer {
+class NekomataSystem: public nekomata::system::System {
 public:
-	NekomataLayer(logging::Logger& log, nekomata::logging::Logger& nlog);
-	virtual ~NekomataLayer();
-	/******************************************************************************************************************
-	 * Nekomataとのブリッジ
-	 ******************************************************************************************************************/
+	NekomataSystem(nekomata::logging::Logger& nlog);
+	virtual ~NekomataSystem();
 public: /* スクリプトから参照される */
 	virtual nekomata::util::Handler<nekomata::system::Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
 	virtual nekomata::util::Handler<nekomata::system::Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
@@ -58,12 +49,6 @@ protected:
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();
-public:
-	/******************************************************************************************************************
-	 * レイヤ
-	 ******************************************************************************************************************/
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
-	virtual bool onClick(int x, int y);
 public:
 	/******************************************************************************************************************
 	 * コメント変換

@@ -20,7 +20,7 @@
 #define Saccubus_COMMENTPROCESSINGFLOW_H__CPP_
 
 #include "Comment.h"
-#include "../NekomataLayer.h"
+#include "../NekomataSystem.h"
 
 namespace saccubus {
 namespace layer {
@@ -64,11 +64,11 @@ class CommentPipeLine {
 	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
 	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
 	DEF_ATTR_ACCESSOR(private, private, const meta::ReplaceTable*, replaceTable);
-	DEF_ATTR_ACCESSOR(private, private, layer::NekomataLayer*, nekomataLayer);
+	DEF_ATTR_ACCESSOR(private, private, layer::NekomataSystem*, nekomataSystem);
 private:
 	logging::Logger& log;
 public:
-	CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer);
+	CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, layer::NekomataSystem* nekomataSystem);
 	virtual ~CommentPipeLine();
 public:
 	Comment* process(const meta::Comment* comment);

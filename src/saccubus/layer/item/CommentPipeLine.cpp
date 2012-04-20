@@ -24,15 +24,15 @@ namespace saccubus {
 namespace layer {
 namespace item {
 
-static const std::string TAG("CommentProcessingFlow");
+static const std::string TAG("CommentPipeLine");
 
-CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataLayer* nekomataLayer)
+CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataSystem* nekomataSystem)
 :log(log)
 {
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
 	this->replaceTable(replaceTable);
-	this->nekomataLayer(nekomataLayer);
+	this->nekomataSystem(nekomataSystem);
 }
 
 CommentPipeLine::~CommentPipeLine()
@@ -52,8 +52,8 @@ Comment* CommentPipeLine::process(const meta::Comment* comment)
 	if(this->replaceTable()){
 		product->message(this->replaceTable()->replace(product->message()));
 	}
-	if(this->nekomataLayer()){
-		this->nekomataLayer()->replace(product);
+	if(this->nekomataSystem()){
+		this->nekomataSystem()->replace(product);
 	}
 
 	return product;

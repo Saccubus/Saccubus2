@@ -22,8 +22,9 @@
 #include <nekomata/Nekomata.h>
 #include <vector>
 #include "../classdefs.h"
+#include "NekomataSystem.h"
 #include "CommentLayer.h"
-#include "NekomataLayer.h"
+#include "ScriptLayer.h"
 
 namespace saccubus {
 namespace layer {
@@ -43,9 +44,10 @@ private:
 	const meta::Thread& thread;
 private:
 	nekomata::logging::Logger* nekoLogger;
-	nekomata::Nekomata* nekomata;
+	nekomata::Nekomata* neko;
+	NekomataSystem* nekoSystem;
 private:
-	NekomataLayer* nekomataLayer;
+	ScriptLayer* scriptLayer;
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
