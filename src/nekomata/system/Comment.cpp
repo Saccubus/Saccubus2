@@ -97,5 +97,30 @@ bool Comment::isComment() const
 	return type == COMMENT;
 }
 
+bool Comment::ComparatorByVpos::operator() (const Comment& a, const Comment& b)
+{
+	return a.vpos() < b.vpos();
+}
+bool Comment::ComparatorByVpos::operator() (const Comment& a, const float& b)
+{
+	return a.vpos() < b;
+}
+bool Comment::ComparatorByVpos::operator() (const float& a, const Comment& b)
+{
+	return a < b.vpos();
+}
+bool Comment::ComparatorByVpos::operator() (const std::tr1::shared_ptr<const Comment>& a, const std::tr1::shared_ptr<const Comment>& b)
+{
+	return a->vpos() < b->vpos();
+}
+bool Comment::ComparatorByVpos::operator() (const std::tr1::shared_ptr<const Comment>& a, const float& b)
+{
+	return a->vpos() < b;
+}
+bool Comment::ComparatorByVpos::operator() (const float& a, const std::tr1::shared_ptr<const Comment>& b)
+{
+	return a < b->vpos();
+}
+
 
 }}

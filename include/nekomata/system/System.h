@@ -346,6 +346,15 @@ public:
 	bool isValid() const;
 	bool hasScript() const;
 	bool isComment() const;
+	struct ComparatorByVpos
+	{
+		bool operator() (const Comment& a, const Comment& b);
+		bool operator() (const Comment& a, const float& b);
+		bool operator() (const float& a, const Comment& b);
+		bool operator() (const std::tr1::shared_ptr<const Comment>& a, const std::tr1::shared_ptr<const Comment>& b);
+		bool operator() (const std::tr1::shared_ptr<const Comment>& a, const float& b);
+		bool operator() (const float& a, const std::tr1::shared_ptr<const Comment>& b);
+	};
 };
 
 //----------------------------------------------------------------------------------------------------------------------
