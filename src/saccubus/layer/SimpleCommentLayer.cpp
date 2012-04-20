@@ -110,6 +110,9 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, item::Comment* com
 void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	const float from = this->comments.size() > 0 ? this->comments.back()->comment()->orig()->vpos() : 0;
+	if(vpos+CommentAheadTime < from){ // 逆方向シーク
+		//TODO
+	}
 	{ /* 表示し終わったコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, LayoutData::CommentEndTimeComparator());

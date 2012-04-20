@@ -53,7 +53,7 @@ void usage(std::ostream* logStream, int argc, char** argv){
 }
 
 void version(std::ostream* logStream, int argc, char** argv){
-	*logStream << PROGRAM_NAME << ": "<< PROGRAM_VERSION <<" (build at " << __DATE__ << " " << __TIME__ << " )" << std::endl;
+	*logStream << PROGRAM_NAME << " "<< PROGRAM_VERSION <<" ( build at " << __DATE__ << " " << __TIME__ << " )" << std::endl;
 	exit(0);
 }
 
@@ -82,8 +82,8 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new LoglevelOption("info", logging::Logger::INFO_, &level));
 		parser.add(new LoglevelOption("warning", logging::Logger::WARN_, &level));
 		parser.add(new LoglevelOption("error", logging::Logger::ERROR_, &level));
-		parser.add(new FunctionOption("version", std::tr1::bind(version, &logStream, argc, argv)));
-		parser.add(new FunctionOption("help", std::tr1::bind(usage, &logStream, argc, argv)));
+		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
+		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
 		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));
 
