@@ -54,12 +54,12 @@ Sprite::Handler<RawSprite> Renderer::queryRawSprite(int w, int h)
 
 void Renderer::backRawSprite(RawSprite* spr)
 {
-	SpriteIterator it = std::upper_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
+	SpriteIterator it = std::lower_bound(unusedSprites.begin(), unusedSprites.end(), spr, order());
 	unusedSprites.insert(it, spr);
 	while(MaxCachedRawSprites < unusedSprites.size()){
 		//TODO: まんなかぐらいの大きさのスプライトを残す
 		RawSprite* deleted = 0;
-		if((unusedSprites.size() & 1U) == 1U){
+		if((rand() & 1U) == 1U){
 			deleted = unusedSprites.back();
 			unusedSprites.pop_back();
 		}else{
@@ -67,7 +67,12 @@ void Renderer::backRawSprite(RawSprite* spr)
 			unusedSprites.erase(unusedSprites.begin());
 		}
 		if(deleted){
-			log.d(TAG, "Sprite cache deleted.");
+			RawSprite* min = unusedSprites.front();
+			RawSprite* max = unusedSprites.back();
+			log.d(TAG, "Sprite cache deleted. size: %dx%d / min:%dx%d, max:%dx%d",
+					deleted->width(), deleted->height(),
+					min->width(), min->height(),
+					max->width(), max->height());
 			delete deleted;
 		}
 	}
@@ -80,15 +85,15 @@ std::size_t Renderer::availableRawSprites()
 
 bool Renderer::order::operator ()(const Sprite* a, const Sprite* b)
 {
-	return a->width() < b->width() && a->height() < b->height();
+	return a->width() <= b->width() && a->height() <= b->height();
 }
 bool Renderer::order::operator() (const Sprite* a, const std::pair<int,int>& b)
 {
-	return a->width() < b.first && a->height() < b.second;
+	return a->width() <= b.first && a->height() <= b.second;
 }
 bool Renderer::order::operator() (const std::pair<int,int>& a, const Sprite* b)
 {
-	return a.first < b->width() && a.second < b->height();
+	return a.first <= b->width() && a.second <= b->height();
 }
 
 }}
