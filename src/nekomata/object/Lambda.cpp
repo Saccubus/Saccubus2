@@ -47,9 +47,9 @@ DEF_BUILTIN(LambdaObject, index)
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
 	}
 	const Handler<Object> local = self->getHeap().newLambdaScopeObject(machine.getArgument());
-	machine.enterLocal(local, self->Object::getSlot("$$scope"));
+	machine.enterLocal(machine.getSelf(), local, self->Object::getSlot("$$scope"));
 	machine.pushResult(machine.eval(self->node));
-	machine.endLocal(local);
+	machine.endLocal(machine.getSelf(), local);
 }
 
 std::string LambdaObject::toString()

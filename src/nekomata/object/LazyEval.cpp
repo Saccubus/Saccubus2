@@ -39,10 +39,37 @@ LazyEvalObject::LazyEvalObject(Object& parent)
 LazyEvalObject::LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node)
 :Object(parent, hash), machine(machine), node(node)
 {
+	Object::setSlot("$$local", machine.getLocal());
+	Object::setSlot("$$self", machine.getSelf());
 }
 LazyEvalObject::~LazyEvalObject(){
 
 }
+
+Handler<Object> LazyEvalObject::forceEvalNode(const tree::ExprNode* const node)
+{
+	machine.enterLocal(Object::getSlot("$$self"), Object::getSlot("$$local"));
+	Handler<Object> obj = machine.eval(node);
+	machine.endLocal(Object::getSlot("$$self"), Object::getSlot("$$local"));
+	return obj;
+}
+Handler<Object> LazyEvalObject::forceEval(size_t idx)
+{
+	if(node->has(idx)){
+		return forceEvalNode(node->index(idx));
+	}else{
+		return getHeap().newUndefinedObject();
+	}
+}
+Handler<Object> LazyEvalObject::forceEval(const std::string& name)
+{
+	if(node->has(name)){
+		return forceEvalNode(node->getSlot(name));
+	}else{
+		return getHeap().newUndefinedObject();
+	}
+}
+
 /*******************************************************************
  *  INDEXアクセス
  *******************************************************************/
@@ -77,14 +104,11 @@ Handler<Object> LazyEvalObject::index(size_t idx)
 	} else if(frozen()) {
 		log().w(TAG, &this->node->location(), "Frozen LazyEvalObj does not support lazy evaluation.");
 		return getHeap().newUndefinedObject();
-	}else if(node->has(idx)){
-		const ExprNode* const expr = node->index(idx);
-		const Handler<Object> result(machine.eval(expr));
+	}else{
+		const Handler<Object> result(forceEval(idx));
 		indexEvalState.insert(std::pair<size_t, bool>(idx, true));
 		Object::indexSet(idx, result);
 		return result;
-	}else{
-		return getHeap().newUndefinedObject();
 	}
 }
 Handler<Object> LazyEvalObject::indexSet(size_t idx, Handler<Object> item)
@@ -102,6 +126,7 @@ bool LazyEvalObject::has(size_t idx)
 	return node->has(idx);
 }
 
+
 /*******************************************************************
  *  KEYアクセス
  *******************************************************************/
@@ -118,14 +143,11 @@ Handler<Object> LazyEvalObject::getSlot(const std::string& key)
 	} else if(frozen()) {
 		log().w(TAG, &this->node->location(), "Frozen LazyEvalObj does not support lazy evaluation.");
 		return getHeap().newUndefinedObject();
-	}else if(node->has(key)){ //未評価
-		const ExprNode* const expr = node->getSlot(key);
-		const Handler<Object> result(machine.eval(expr));
+	}else{ //未評価
+		const Handler<Object> result(forceEval(key));
 		slotEvalState.insert(std::pair<std::string, bool>(key, true));
 		Object::setSlot(key, result);
 		return result;
-	}else{
-		return getHeap().newUndefinedObject();
 	}
 }
 bool LazyEvalObject::has(const std::string& key)

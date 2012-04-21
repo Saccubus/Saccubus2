@@ -526,8 +526,8 @@ DEF_BUILTIN(Object, while_kari)
 			return;
 		}
 		Handler<Object> obj(arg->getHeap().newUndefinedObject());
-		while(cast<bool>(machine.eval(node->index(0)))){
-			obj = machine.eval(node->index(1));
+		while(cast<bool>(arg->forceEval(0))){
+			obj = arg->forceEval(1);
 		}
 		machine.pushResult(obj);
 	}else{

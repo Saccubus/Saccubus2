@@ -38,8 +38,7 @@ Machine::Machine(logging::Logger& log, system::System& system)
 ,heap(log, system, *this)
 ,log(log)
 {
-	selfStack.push(heap.getSystemObject().get());
-	this->enterLocal(heap.getSystemObject(), heap.newUndefinedObject());
+	this->enterLocal(heap.getSystemObject(), heap.getSystemObject(), heap.newUndefinedObject());
 	rootStacks.push_back(&argStack);
 	rootStacks.push_back(&selfStack);
 	rootStacks.push_back(&resultStack);
@@ -72,23 +71,25 @@ object::Handler<object::Object> Machine::getLocal()
 {
 	return object::Handler<object::Object>(scopeStack.top());
 }
-void Machine::enterLocal(object::Handler<object::Object> local, object::Handler<object::Object> parent)
+void Machine::enterLocal(object::Handler<object::Object> self, object::Handler<object::Object> local, object::Handler<object::Object> parent)
 {
 	this->log.t(TAG, 0, "enter local (depth: %d->%d)", scopeStack.size(), scopeStack.size()+1);
 	if(parent){
 		local->setSlot("$$parent", parent);
 	}
+	selfStack.push(self.get());
 	scopeStack.push(local.get());
 }
-void Machine::endLocal(object::Handler<object::Object> local)
+void Machine::endLocal(object::Handler<object::Object> self, object::Handler<object::Object> local)
 {
-	if(scopeStack.top() != local.get()){
+	if(selfStack.top() != self.get() || scopeStack.top() != local.get()){
 		this->log.e(TAG, 0, "[BUG] calling \"end local\" was forgotten!");
-	}else if(scopeStack.size() <= 1){
+	}else if(selfStack.size() <= 1 || scopeStack.size() <= 1){
 		this->log.e(TAG, 0, "[BUG] leaving from top level scope!!");
 	}
 	this->log.t(TAG, 0, "leaving local (depth: %d->%d)", scopeStack.size(), scopeStack.size()-1);
 	scopeStack.pop();
+	selfStack.pop();
 }
 
 object::Handler<object::Object> Machine::resolveScope(const std::string& name)
@@ -105,6 +106,10 @@ object::Handler<object::Object> Machine::resolveScope(const std::string& name)
 				this->log.t(TAG, 0, "Scope resolved: %s in %s", name.c_str(), object::cast<std::string>(obj).c_str());
 				return obj;
 			}
+		}
+		if(getSelf()->has(name)){
+			this->log.t(TAG, 0, "Scope resolved: %s in %s(self)", name.c_str(), object::cast<std::string>(getSelf()).c_str());
+			return getSelf();
 		}
 		this->log.t(TAG, 0, "%s not found.", name.c_str());
 		return getLocal();

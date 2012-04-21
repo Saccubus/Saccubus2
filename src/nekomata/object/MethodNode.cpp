@@ -82,14 +82,14 @@ void MethodNodeObject::eval(machine::Machine& machine)
 	const Handler<Object> arg = machine.getArgument();
 
 	const Handler<Object> local = getHeap().newRawObject();
-	machine.enterLocal(local, Object::getSlot("$$scope"));
+	machine.enterLocal(machine.getSelf(), local, Object::getSlot("$$scope"));
 	{
-		machine.enterLocal(origLocal);
+		machine.enterLocal(machine.getSelf(), origLocal);
 		mergeArg(machine, local, arg);
-		machine.endLocal(origLocal);
+		machine.endLocal(machine.getSelf(), origLocal);
 	}
 	machine.pushResult(machine.eval(this->node));
-	machine.endLocal(local);
+	machine.endLocal(machine.getSelf(), local);
 }
 
 std::string MethodNodeObject::toString()

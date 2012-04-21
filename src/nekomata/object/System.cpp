@@ -77,9 +77,6 @@ SystemObject::SystemObject(Object& parent, system::System& system)
 		ADD_BUILTIN(playCM);
 		includeBuitin();
 	}
-	{
-		this->setSlot("Object", getHeap().newObject());
-	}
 
 }
 SystemObject::~SystemObject()

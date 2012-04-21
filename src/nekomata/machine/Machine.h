@@ -52,8 +52,8 @@ public: //for Object
 	object::Handler<object::Object> getLocal();
 	object::Handler<object::Object> getSelf();
 	object::Handler<object::SystemObject> getTopLevel();
-	void enterLocal(object::Handler<object::Object> local, object::Handler<object::Object> parent=object::Handler<object::Object>(0));
-	void endLocal(object::Handler<object::Object> local);
+	void enterLocal(object::Handler<object::Object> self, object::Handler<object::Object> local, object::Handler<object::Object> parent=object::Handler<object::Object>(0));
+	void endLocal(object::Handler<object::Object> self, object::Handler<object::Object> local);
 protected: //for tree
 	void walkIn();
 	void walkOut();

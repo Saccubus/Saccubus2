@@ -59,6 +59,8 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,falseObject(baseObject, false)
 ,undefinedObject(*this)
 {
+	systemObject.setSlot("Object", newObject());
+	systemObject.setSlot("undefined", newUndefinedObject());
 }
 ObjectHeap::~ObjectHeap()
 {

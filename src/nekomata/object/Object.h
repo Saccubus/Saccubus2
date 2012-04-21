@@ -226,10 +226,14 @@ private:
 	const tree::ObjectNode* const node;
 	std::map<std::string, bool> slotEvalState;
 	std::map<size_t, bool> indexEvalState;
+private:
+	Handler<Object> forceEvalNode(const tree::ExprNode* const node);
 public:
 	explicit LazyEvalObject(Object& parent);
 	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
+	Handler<Object> forceEval(size_t idx);
+	Handler<Object> forceEval(const std::string& name);
 public: /* INDEXアクセス */
 	virtual Handler<Object> unshift(const Handler<Object> item);
 	virtual Handler<Object> push(const Handler<Object> item);
