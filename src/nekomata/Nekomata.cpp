@@ -17,7 +17,7 @@ using namespace std::tr1;
 
 namespace nekomata {
 
-static const std::string TAG("TOP");
+static const std::string TAG("Nekomata");
 
 Nekomata::Nekomata(system::System& system, logging::Logger& log)
 :system(system)
@@ -36,8 +36,10 @@ void Nekomata::seek(float time)
 	if(time < currentTime){
 		log.e(TAG, 0, "Sorry, rewind operation is not supported yet!");
 	}else{
-		system.seek(*machine, currentTime, time);
-		currentTime = time;
+		for(float t = currentTime; t < time; t += 1){
+			system.seek(*machine, currentTime, t);
+			currentTime = t;
+		}
 	}
 }
 
