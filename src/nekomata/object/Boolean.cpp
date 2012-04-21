@@ -35,7 +35,9 @@ BooleanObject::BooleanObject(Object& parent, bool literal)
 	ADD_BUILTIN(not);
 	ADD_BUILTIN(alternate);
 	ADD_BUILTIN_ALT(alternate, "alt");
+	ADD_BUILTIN(clone);
 	includeBuitin();
+	freeze();
 }
 BooleanObject::~BooleanObject()
 {
@@ -89,5 +91,10 @@ DEF_BUILTIN(BooleanObject, alternate)
 	}
 }
 
+DEF_BUILTIN(BooleanObject, clone)
+{
+	Handler<BooleanObject> self(machine.getSelf());
+	machine.pushResult( self );
+}
 
 }}

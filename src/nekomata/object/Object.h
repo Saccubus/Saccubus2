@@ -354,6 +354,7 @@ public:
 	DEC_BUILTIN(eval);
 public:
 	DEC_BUILTIN(add);
+	DEC_BUILTIN(clone);
 };
 class BooleanObject : public LiteralObject
 {
@@ -370,6 +371,7 @@ public:
 	DEC_BUILTIN(or);
 	DEC_BUILTIN(not);
 	DEC_BUILTIN(alternate);
+	DEC_BUILTIN(clone);
 };
 class NumericObject : public LiteralObject
 {

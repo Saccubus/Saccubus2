@@ -52,13 +52,15 @@ StringObject::StringObject(Object& parent)
 	ADD_BUILTIN(eval);
 
 	ADD_BUILTIN(add);
+	ADD_BUILTIN(clone);
 	includeBuitin();
+	freeze();
 }
 
 StringObject::StringObject(StringObject& parent, int hash, const std::string& literal)
 :LiteralObject(parent, hash), value(literal)
 {
-
+	freeze();
 }
 StringObject::~StringObject()
 {
@@ -209,6 +211,12 @@ DEF_BUILTIN(StringObject, eval)
 	std::tr1::shared_ptr<const tree::Node> node = parser::Parser::fromString(self->toString())->parseProgram();
 	const Handler<Object> result(machine.eval(node.get()));
 	machine.pushResult(result);
+}
+
+DEF_BUILTIN(StringObject, clone)
+{
+	const Handler<StringObject> self(machine.getSelf());
+	machine.pushResult( self->getHeap().newStringObject( self->toString() ) );
 }
 
 DEF_BUILTIN(StringObject, add)

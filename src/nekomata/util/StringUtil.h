@@ -39,6 +39,7 @@ void splitSpace(const std::string& str, std::vector<std::string>& list);
 void splitLine(const std::string& str, std::vector<std::string>& list);
 bool startsWith(const std::string& target, const std::string& prefix);
 bool endsWith(const std::string& target, const std::string& suffix);
+std::string generateRandomString(size_t len);
 
 }}
 #endif /* STRINGUTIL_H_ */

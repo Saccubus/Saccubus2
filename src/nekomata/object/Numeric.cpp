@@ -48,16 +48,19 @@ NumericObject::NumericObject(Object& parent)
 	ADD_BUILTIN(greaterThan);
 	ADD_BUILTIN(lessThan);
 
-
 	ADD_BUILTIN(floor);
 	ADD_BUILTIN(sin);
 	ADD_BUILTIN(cos);
 	ADD_BUILTIN(pow);
+
+	ADD_BUILTIN(clone);
 	includeBuitin();
+	freeze();
 }
 NumericObject::NumericObject(NumericObject& parent, int hash, const double literal)
 : LiteralObject(parent,hash), value(literal)
 {
+	freeze();
 }
 NumericObject::~NumericObject()
 {
@@ -124,9 +127,8 @@ DEF_BUILTIN(NumericObject, modulo){
 }
 DEF_BUILTIN(NumericObject, clone)
 {
-	//FIXME: コピーできない？
 	const Handler<NumericObject> self(machine.getSelf());
-	machine.pushResult(self->getHeap().newUndefinedObject());
+	machine.pushResult(self->getHeap().newNumericObject( self->toNumeric() ));
 }
 
 /* FIXME:見苦しすぎ */
