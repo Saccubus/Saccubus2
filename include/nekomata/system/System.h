@@ -250,12 +250,6 @@ public:
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
-	struct CompareByVpos{
-		bool operator () (const Button* a, const Button*b)
-		{
-			return a->vpos() < b->vpos();
-		}
-	};
 };
 
 class Replace : public SystemItem
