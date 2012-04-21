@@ -33,7 +33,7 @@ namespace nekomata{
 namespace system {
 
 #define DEF_ADAPTER_ACCESSOR(rscope, wscope, type, name)\
-private:\
+protected:\
 	type _##name;\
 rscope:\
 	inline type name() const{return _##name;}\
@@ -46,6 +46,7 @@ wscope:\
 	}
 
 #define SET_PARAM(name) this->_##name = _##name;
+#define SET_PARAM_CONST(name, val) this->_##name = val;
 #define SET_DEFAULT(name, val) _##name(val)
 
 class SystemItem
@@ -66,7 +67,21 @@ public:
 	virtual void decNativeRef();
 };
 
-class Shape : public SystemItem
+class Drawable : public SystemItem
+{
+	DEF_ADAPTER_ACCESSOR(public, public, double, x);
+	DEF_ADAPTER_ACCESSOR(public, public, double, y);
+	DEF_ADAPTER_ACCESSOR(public, public, double, z);
+	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
+protected:
+	explicit Drawable(System& system)
+	:SystemItem(system){};
+public:
+	virtual ~Drawable(){};
+};
+
+class Shape : public Drawable
 {
 public:
 	virtual void load(double _x, double _y, double _z, const std::string& _shape, double _width, double _height, unsigned int _color, bool _visible, const std::string& _pos, bool _mask, bool _commentmask, double _alpha, double _rotation, const std::string& _mover)
@@ -87,15 +102,10 @@ public:
 		SET_PARAM(mover);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(public, public, double, x);
-	DEF_ADAPTER_ACCESSOR(public, public, double, y);
-	DEF_ADAPTER_ACCESSOR(public, public, double, z);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, shape);
 	DEF_ADAPTER_ACCESSOR(public, public, double, width);
 	DEF_ADAPTER_ACCESSOR(public, public, double, height);
 	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, mask);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, commentmask);
 	DEF_ADAPTER_ACCESSOR(public, public, double, alpha);
@@ -103,20 +113,23 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Shape(System& system)
-	:SystemItem(system), SET_DEFAULT(visible, false){};
+	:Drawable(system) {
+		SET_PARAM_CONST(visible, false);
+	};
 	virtual ~Shape(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
 };
 
-class Sum : public SystemItem
+class Sum : public Drawable
 {
 public:
 	virtual void load(double _x, double _y, double _size, unsigned int _color,bool _visible, bool _enabled, const std::string& _pos, bool _asc, const std::string& _unit, bool _buttononly, const std::vector<std::string>& _words, bool _partial)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
+		SET_PARAM_CONST(z, -1);
 		SET_PARAM(size);
 		SET_PARAM(color);
 		SET_PARAM(visible);
@@ -129,13 +142,9 @@ public:
 		SET_PARAM(partial);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(public, public, double, x);
-	DEF_ADAPTER_ACCESSOR(public, public, double, y);
 	DEF_ADAPTER_ACCESSOR(public, public, double, size);
 	DEF_ADAPTER_ACCESSOR(public, public,unsigned int, color);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, enabled);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, asc);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, unit);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, buttononly);
@@ -143,19 +152,22 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, bool, partial);
 public:
 	explicit Sum(System& system)
-	:SystemItem(system), SET_DEFAULT(visible, false){};
+	:Drawable(system){
+		SET_PARAM_CONST(visible, false);
+	};
 	virtual ~Sum(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
 };
-class SumResult : public SystemItem
+class SumResult : public Drawable
 {
 public:
 	virtual void load(double _x, double _y, unsigned int _color,bool _visible, const std::string& _pos, const std::string& _unit, bool _asc, std::vector<util::Handler<Sum> > _sum)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
+		SET_PARAM_CONST(z, -1);
 		SET_PARAM(color);
 		SET_PARAM(visible);
 		SET_PARAM(pos);
@@ -164,23 +176,22 @@ public:
 		SET_PARAM(sum);
 	}
 public:
-	DEF_ADAPTER_ACCESSOR(public, public, double, x);
-	DEF_ADAPTER_ACCESSOR(public, public, double, y);
 	DEF_ADAPTER_ACCESSOR(public, public,unsigned int, color);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, unit);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, asc);
 	DEF_ADAPTER_ACCESSOR(public, public, std::vector<util::Handler<Sum> >, sum);
 public:
 	explicit SumResult(System& system)
-	:SystemItem(system), SET_DEFAULT(visible, false){};
+	:Drawable(system){
+		SET_PARAM_CONST(visible, false);
+	};
 	virtual ~SumResult(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
 };
-class Label : public SystemItem
+class Label : public Drawable
 {
 public:
 	virtual void load(const std::string& _text, double _x, double _y, double _z, double _size, const std::string& _pos, unsigned int _color, bool _bold, bool _visible, const std::string& _filter, double _alpha, const std::string& _mover)
@@ -200,11 +211,7 @@ public:
 	}
 public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, text);
-	DEF_ADAPTER_ACCESSOR(public, public, double, x);
-	DEF_ADAPTER_ACCESSOR(public, public, double, y);
-	DEF_ADAPTER_ACCESSOR(public, public, double, z);
 	DEF_ADAPTER_ACCESSOR(public, public, double, size);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, bold);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
@@ -213,7 +220,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Label(System& system):
-	SystemItem(system), SET_DEFAULT(visible, false){};
+	Drawable(system), SET_DEFAULT(visible, false){};
 	virtual ~Label(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
@@ -245,7 +252,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, bool, hidden);
 public:
 	explicit Button(System& system)
-	:SystemItem(system), SET_DEFAULT(hidden, true){};
+	:SystemItem(system), SET_DEFAULT(hidden, false){};
 	virtual ~Button(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
