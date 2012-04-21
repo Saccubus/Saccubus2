@@ -29,15 +29,12 @@ namespace cli {
 class CLISystem: public nekomata::system::System {
 private:
 	std::ostream& _stream;
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > commentLine;
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >::const_iterator _currentComment;
 public:
-	CLISystem(nekomata::logging::Logger& log, std::ostream& _stream, const std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >& commentLine);
+	CLISystem(nekomata::logging::Logger& log, std::ostream& _stream);
 	virtual ~CLISystem();
 public:
 	std::ostream& stream(){return _stream;};
 	virtual nekomata::util::Handler<nekomata::system::Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
-	virtual std::tr1::shared_ptr<const nekomata::system::Message> nextMessage();
 };
 
 class CLILabel : public nekomata::system::Label

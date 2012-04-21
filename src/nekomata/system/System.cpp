@@ -20,6 +20,7 @@
 #include <cmath>
 #include <nekomata/logging/Logging.h>
 #include <nekomata/system/System.h>
+#include <algorithm>
 #include "../tree/Node.h"
 #include "../machine/Machine.h"
 #include "../object/Object.h"
@@ -271,6 +272,22 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	}
 	dispatchTimer(machine, currentTime(), to);
 	currentTime(to);
+}
+
+void System::queueMessage(std::tr1::shared_ptr<const Message> message)
+{
+	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = std::upper_bound(this->messageQueue.begin(), this->messageQueue.end(), message, Message::ComparatorByVpos());
+	this->messageQueue.insert(it, message);
+}
+
+std::tr1::shared_ptr<const Message> System::nextMessage()
+{
+	if(this->messageQueue.empty()){
+		return std::tr1::shared_ptr<const nekomata::system::Comment>();
+	}
+	std::tr1::shared_ptr<const nekomata::system::Message> comment = this->messageQueue.front();
+	this->messageQueue.pop_front();
+	return comment;
 }
 
 void System::dispatchTimer(machine::Machine& machine, const double from, const double to)

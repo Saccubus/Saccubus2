@@ -35,8 +35,5 @@ const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok);
 const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node);
 const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
 
-}
-}
-}
-
+}}}
 #endif /* PARSEUTIL_H_ */

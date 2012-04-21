@@ -41,5 +41,9 @@ void Nekomata::seek(float time)
 	}
 }
 
+void Nekomata::queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg)
+{
+	system.queueMessage(msg);
+}
 
 }

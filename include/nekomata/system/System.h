@@ -25,6 +25,7 @@
 #include <vector>
 #include <map>
 #include <tr1/memory>
+#include <deque>
 #include "../classdefs.h"
 #include "../util/Handler.h"
 
@@ -457,8 +458,10 @@ private:
 	DEF_SYSTEM_LIST(Button, button);
 	DEF_SYSTEM_LIST(Replace, replace);
 private:
+	std::deque<std::tr1::shared_ptr<const Message> > messageQueue;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
+	std::tr1::shared_ptr<const Message> nextMessage();
 public: /* SystemItemからのコールバック関数 */
 	void regist(Shape* const shape);
 	void unregist(Shape* const shape);
@@ -479,8 +482,7 @@ public: /* SystemItemからのコールバック関数 */
 	void unregist(Button* const button);
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
-public: /* INFO: 各サブシステムで再実装すること。 */
-	virtual std::tr1::shared_ptr<const Message> nextMessage() = 0;
+	void queueMessage(std::tr1::shared_ptr<const Message> message);
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

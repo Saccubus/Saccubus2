@@ -127,7 +127,7 @@ int main(int argc, char* argv[]){
 		commentLine = TimeLineParser(fst, argv[optind]).parse();
 	}
 
-	CLISystem _system(log, std::cout, commentLine);
+	CLISystem _system(log, std::cout);
 	nekomata::Nekomata nekomata(_system, log);
 
 	if(dump){
@@ -143,6 +143,10 @@ int main(int argc, char* argv[]){
 			}
 		}
 		return 0;
+	}else{
+		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
+			nekomata.queueMessage(it->second);
+		}
 	}
 	log.t(TAG, 0, "Executing...");
 	nekomata.seek();
