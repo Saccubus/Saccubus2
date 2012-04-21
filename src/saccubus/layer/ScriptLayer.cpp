@@ -22,6 +22,7 @@
 #include <sstream>
 #include "../util/StringUtil.h"
 #include "item/Label.h"
+#include "item/Shape.h"
 #include "../draw/Context.h"
 
 namespace saccubus {
@@ -66,10 +67,10 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 		*y = (height/2)+nekoItem->drawable()->y();
 		break;
 	case item::NekoItem::Top:
-		*y = height+nekoItem->drawable()->y();
+		*y = nekoItem->drawable()->y();
 		break;
 	case item::NekoItem::Bottom:
-		*y = nekoItem->drawable()->y();
+		*y = height+nekoItem->drawable()->y();
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
@@ -81,7 +82,17 @@ void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 		item::Label* label = dynamic_cast<item::Label*>(*it);
 		if(!label->visible()) continue;
 		draw::Sprite::Handler<draw::Sprite> spr = label->querySprite(ctx);
-		spr->draw(ctx, label->x(), label->y());
+		float x,y;
+		resolvePos(label, ctx->width(), ctx->height(), &x, &y);
+		spr->draw(ctx, x, y);
+	}
+	for(NekomataSystem::ShapeIterator it = nekoSystem()->shapeBegin(); it != nekoSystem()->shapeEnd(); ++it){
+		item::Shape* shape = dynamic_cast<item::Shape*>(*it);
+		if(!shape->visible()) continue;
+		draw::Sprite::Handler<draw::Sprite> spr = shape->querySprite(ctx);
+		float x,y;
+		resolvePos(shape, ctx->width(), ctx->height(), &x, &y);
+		spr->draw(ctx, x, y);
 	}
 }
 

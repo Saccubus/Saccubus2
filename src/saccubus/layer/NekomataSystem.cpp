@@ -20,6 +20,7 @@
 #include "item/Comment.h"
 #include "item/CommentPipeLine.h"
 #include "item/Label.h"
+#include "item/Shape.h"
 #include "NekomataSystem.h"
 
 namespace saccubus {
@@ -42,7 +43,11 @@ nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		double x, double y, double z, const std::string& shape, double width,
 		double height, unsigned int color, bool visible, const std::string& pos,
 		bool mask, bool commentmask, double alpha, double rotation,
-		const std::string& mover) {
+		const std::string& mover)
+{
+	nekomata::util::Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory()));
+	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
+	return _shape;
 }
 
 nekomata::util::Handler<nekomata::system::Label> NekomataSystem::drawText(

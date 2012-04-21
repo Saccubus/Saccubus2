@@ -16,42 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_NEKOITEM_H__CPP_
-#define Saccubus_NEKOITEM_H__CPP_
+#ifndef Saccubus_SHAPE_H__CPP_
+#define Saccubus_SHAPE_H__CPP_
 
 #include <nekomata/system/System.h>
-#include "Item.h"
+#include "NekoItem.h"
 
 namespace saccubus {
 namespace layer {
 namespace item {
 
-class NekoItem: public saccubus::layer::item::Item {
+class Shape: public saccubus::layer::item::NekoItem, public nekomata::system::Shape
+{
+	DEF_ATTR_ACCESSOR(protected, private, draw::ShapeFactory*, shapeFactory);
 public:
-	enum PosX{
-		UndefinedX,
-		CenterX,
-		Right,
-		Left
-	};
-	enum PosY{
-		UndefinedY,
-		CenterY,
-		Top,
-		Bottom
-	};
-	enum PosX _posX;
-	enum PosY _posY;
-	DEF_ATTR_ACCESSOR(public, private, nekomata::system::Drawable*, drawable);
-public:
-	NekoItem(nekomata::system::Drawable* nekoDrawable);
-	virtual ~NekoItem();
-public:
-	virtual void invalidate();
-	enum PosX posX();
-	enum PosY posY();
-private:
-	void reload();
+	Shape(nekomata::system::System& system, draw::ShapeFactory* shapeFactory);
+	virtual ~Shape();
+	virtual void onChanged();
+protected:
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 };
 
 }}}

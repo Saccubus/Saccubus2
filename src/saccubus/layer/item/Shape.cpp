@@ -16,43 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_NEKOITEM_H__CPP_
-#define Saccubus_NEKOITEM_H__CPP_
-
-#include <nekomata/system/System.h>
-#include "Item.h"
+#include "Shape.h"
+#include "../../draw/ShapeFactory.h"
 
 namespace saccubus {
 namespace layer {
 namespace item {
 
-class NekoItem: public saccubus::layer::item::Item {
-public:
-	enum PosX{
-		UndefinedX,
-		CenterX,
-		Right,
-		Left
-	};
-	enum PosY{
-		UndefinedY,
-		CenterY,
-		Top,
-		Bottom
-	};
-	enum PosX _posX;
-	enum PosY _posY;
-	DEF_ATTR_ACCESSOR(public, private, nekomata::system::Drawable*, drawable);
-public:
-	NekoItem(nekomata::system::Drawable* nekoDrawable);
-	virtual ~NekoItem();
-public:
-	virtual void invalidate();
-	enum PosX posX();
-	enum PosY posY();
-private:
-	void reload();
-};
+Shape::Shape(nekomata::system::System& system, draw::ShapeFactory* shapeFactory)
+:NekoItem(this)
+,nekomata::system::Shape(system)
+{
+	this->shapeFactory(shapeFactory);
+}
 
+Shape::~Shape()
+{
+}
+
+void Shape::onChanged()
+{
+	this->invalidate();
+}
+draw::Sprite::Handler<draw::Sprite> Shape::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+{
+	return this->shapeFactory()->renderShape(ctx, this);
+}
 }}}
-#endif /* INCLUDE_GUARD */

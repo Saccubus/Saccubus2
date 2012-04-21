@@ -24,6 +24,7 @@ namespace layer {
 namespace item {
 
 NekoItem::NekoItem(nekomata::system::Drawable* nekoDrawable)
+:_posX(UndefinedX), _posY(UndefinedY)
 {
 	this->drawable(nekoDrawable);
 }
@@ -31,25 +32,44 @@ NekoItem::NekoItem(nekomata::system::Drawable* nekoDrawable)
 NekoItem::~NekoItem() {
 }
 
-void NekoItem::invalidate()
+void NekoItem::reload()
 {
 	std::vector<std::string> posList;
 	util::splitSpace(drawable()->pos(), posList);
-	this->posX(CenterX);
-	this->posY(CenterY);
+	_posX = CenterX;
+	_posY = CenterY;
 	for(std::vector<std::string>::const_iterator it = posList.begin(); it != posList.end(); ++it)
 	{
 		if("migi" == *it){
-			this->posX(Right);
+			_posX = Right;
 		}else if("hidari" == *it){
-			this->posX(Left);
+			_posX = Left;
 		}else if("ue" == *it){
-			this->posY(Top);
+			_posY = Top;
 		}else if("shita" == *it){
-			this->posY(Bottom);
+			_posY = Bottom;
 		}
 	}
+}
+void NekoItem::invalidate()
+{
+	_posX = UndefinedX;
+	_posY = UndefinedY;
 	this->Item::invalidate();
+}
+enum NekoItem::PosX NekoItem::posX()
+{
+	if(_posX == UndefinedX){
+		this->reload();
+	}
+	return _posX;
+}
+enum NekoItem::PosY NekoItem::posY()
+{
+	if(_posY == UndefinedY){
+		this->reload();
+	}
+	return _posY;
 }
 
 
