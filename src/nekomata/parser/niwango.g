@@ -382,27 +382,6 @@ string returns [shared_ptr<const StringLiteralNode> result]
 	;
 
 //---------------------------------------------------------------------------------------------------------------------
-FLOAT_LITERAL
-    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-    |   '.' ('0'..'9')+ EXPONENT?
-    |   ('0'..'9')+ EXPONENT
-    ;
-
-fragment
-EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
-
-INT_LITERAL: ('1'..'9' DIGIT*) | '0';
-
-HEX_LITERAL:
-	'0' ('x'|'X') HEX_DIGIT+;
-
-fragment HEX_DIGIT:
-	('0'..'9'|'A'..'F'|'a'..'f');
-
-OCT_LITERAL :
-	'0' (OCT_DIGIT)+;
-fragment OCT_DIGIT :
-	'0'..'7';
 
 IDENT:
 	LETTER (LETTER | DIGIT)*;
@@ -441,6 +420,27 @@ ESC_SEQ
 		| '\'' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"'")); }
 		)?
 	;
+
+INT_LITERAL: ('1'..'9' DIGIT*) | '0';
+
+HEX_LITERAL:
+	'0' ('x'|'X') HEX_DIGIT+;
+
+OCT_LITERAL :
+	'0' (OCT_DIGIT)+;
+
+FLOAT_LITERAL
+	: ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+	| ('0'..'9')+ EXPONENT
+	;
+
+fragment EXPONENT
+	: ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
+fragment HEX_DIGIT
+	: ('0'..'9'|'A'..'F'|'a'..'f');
+
+fragment OCT_DIGIT
+	: '0'..'7';
 
 EOL: '\r'|'\n';
 WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace

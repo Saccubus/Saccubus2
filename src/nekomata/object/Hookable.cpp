@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../machine/Machine.h"
 #include "Object.h"
 #include "../util/StringUtil.h"
 
@@ -25,7 +26,8 @@ namespace object{
 HookableObject::HookableObject(Object& parent)
 :Object(parent, 0)
 {
-
+	ADD_BUILTIN(clone);
+	includeBuitin();
 }
 HookableObject::HookableObject(HookableObject& parent, int hash)
 :Object(parent, hash)
@@ -86,6 +88,12 @@ size_t HookableObject::slotSize()
 std::string HookableObject::toString()
 {
 	return util::format("<<HookableObject:%d>>", getHash());
+}
+
+DEF_BUILTIN(HookableObject, clone)
+{
+	const Handler<HookableObject> self(machine.getSelf());
+	return machine.pushResult( self->getHeap().newUndefinedObject() );
 }
 
 

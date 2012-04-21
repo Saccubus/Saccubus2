@@ -206,6 +206,8 @@ public:
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 	virtual std::string toString();
+public:
+	DEC_BUILTIN(clone);
 };
 
 
