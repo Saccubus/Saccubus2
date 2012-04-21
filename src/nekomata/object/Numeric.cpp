@@ -129,29 +129,32 @@ DEF_BUILTIN(NumericObject, clone)
 	machine.pushResult(self->getHeap().newUndefinedObject());
 }
 
+/* FIXME:見苦しすぎ */
+static const double DELTA=1e-10;
+
 DEF_BUILTIN(NumericObject, equals)
 {
 	const Handler<NumericObject> self(machine.getSelf());
 	const Handler<Object> other(machine.getArgument()->index(0));
-	machine.pushResult( self->getHeap().newBooleanObject( self->toNumeric() == other->toNumeric() ) );
+	machine.pushResult( self->getHeap().newBooleanObject( std::fabs(self->toNumeric() - other->toNumeric()) < DELTA ) );
 }
 DEF_BUILTIN(NumericObject, notEquals)
 {
 	const Handler<NumericObject> self(machine.getSelf());
 	const Handler<Object> other(machine.getArgument()->index(0));
-	machine.pushResult( self->getHeap().newBooleanObject( self->toNumeric() != other->toNumeric() ) );
+	machine.pushResult( self->getHeap().newBooleanObject( std::fabs(self->toNumeric() - other->toNumeric()) >= DELTA ) );
 }
 DEF_BUILTIN(NumericObject, notLessThan)
 {
 	const Handler<NumericObject> self(machine.getSelf());
 	const Handler<Object> other(machine.getArgument()->index(0));
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() >= other->toNumeric()) );
+	machine.pushResult( self->getHeap().newBooleanObject( (self->toNumeric() - other->toNumeric()) >= -DELTA ) );
 }
 DEF_BUILTIN(NumericObject, notGreaterThan)
 {
 	const Handler<NumericObject> self(machine.getSelf());
 	const Handler<Object> other(machine.getArgument()->index(0));
-	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() <= other->toNumeric() ) );
+	machine.pushResult( self->getHeap().newBooleanObject( (self->toNumeric() - other->toNumeric()) <= DELTA ) );
 }
 DEF_BUILTIN(NumericObject, greaterThan)
 {
