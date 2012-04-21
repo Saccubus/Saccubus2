@@ -62,7 +62,6 @@ void Comment::init(){
 	this->device(Comment::Unspecified);
 	this->visibility(true);
 	this->sizeType(Comment::Medium);
-	this->placeX(Comment::Center);
 	this->placeY(Comment::Middle);
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);

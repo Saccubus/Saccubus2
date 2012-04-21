@@ -56,11 +56,6 @@ public:
 		Small=15,
 		Medium=24
 	};
-	enum PlaceX{
-		Right,
-		Center,
-		Left
-	};
 	enum PlaceY{
 		Top,
 		Middle,
@@ -82,7 +77,6 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, bool, visibility);
 	DEF_ATTR_ACCESSOR(public, public, double, size);
 	DEF_ATTR_ACCESSOR(public, public, enum Layer, layer);
-	DEF_ATTR_ACCESSOR(public, public, enum PlaceX, placeX);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);

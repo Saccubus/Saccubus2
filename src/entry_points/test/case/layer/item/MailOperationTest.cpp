@@ -119,21 +119,6 @@ TEST_F(MailOperationTest, PremiumColorCodeTest)
 	}
 }
 
-TEST_F(MailOperationTest, PlaceXTest)
-{
-	ASSERT_EQ(Comment::Center, com->placeX());
-	{
-		this->com->layer(Comment::Normal);
-		ASSERT_FALSE(MailOperation::apply("migi", com)); //投稿者コメントでないので失敗
-		ASSERT_EQ(Comment::Center, com->placeX());
-	}
-	{
-		this->com->layer(Comment::Forked);
-		ASSERT_TRUE(MailOperation::apply("migi", com)); //投稿者コメントなので成功
-		ASSERT_EQ(Comment::Right, com->placeX());
-	}
-
-}
 TEST_F(MailOperationTest, PlaceYTest)
 {
 	ASSERT_EQ(Comment::Middle, com->placeY());

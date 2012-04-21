@@ -52,12 +52,6 @@ static bool size_func(const std::string& command, Comment* comment, Comment::Siz
 	return true;
 }
 
-static bool placeX_func(const std::string& command, Comment* comment, Comment::PlaceX x)
-{
-	comment->placeX(x);
-	return true;
-}
-
 static bool placeY_func(const std::string& command, Comment* comment, Comment::PlaceY y)
 {
 	comment->placeY(y);
@@ -213,10 +207,6 @@ const struct MailOperation MailOperation::Instance[] = {
 		/*
 		 * 投稿者コメントだけ！
 		 */
-
-		/* 位置X */
-		MailOperation(MailOperation::Exactly,    "migi",           MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Right)),
-		MailOperation(MailOperation::Exactly,    "hidari",         MailOperation::Forked , bind(placeX_func, _1, _2, Comment::Left)),
 
 		/* 表示時間 */
 		MailOperation(MailOperation::StartsWith, "@",              MailOperation::Forked , bind(timeCode_func, _1, _2)),
