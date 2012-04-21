@@ -21,12 +21,24 @@
 
 #include <string>
 #include <cstdarg>
+#include <vector>
 
 namespace nekomata {
 namespace util {
-
-std::string format(const std::string& msg, ...);
-std::string formatv(const std::string& msg, va_list arg);
+std::string format(const std::string& fmt, ...);
+std::string formatv(const std::string& fmt, va_list args);
+std::string decodePercent(const std::string& str);
+void split(const std::string& str, const std::string& sep, std::vector<std::string>& list);
+void split(const std::string& str, const std::string* sep, size_t n, std::vector<std::string>& list);
+template <size_t N>
+void split(const std::string& str, const std::string (&sep)[N], std::vector<std::string>& list)
+{
+	split(str, sep, N, list);
+}
+void splitSpace(const std::string& str, std::vector<std::string>& list);
+void splitLine(const std::string& str, std::vector<std::string>& list);
+bool startsWith(const std::string& target, const std::string& prefix);
+bool endsWith(const std::string& target, const std::string& suffix);
 
 }}
 #endif /* STRINGUTIL_H_ */

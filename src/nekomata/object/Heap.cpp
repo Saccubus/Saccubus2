@@ -240,10 +240,17 @@ void ObjectHeap::gc()
 			obj->mark(this->gcCount);
 		}
 	}
+	//ネイティブから参照されてるオブジェクトもルート扱い。
+	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
+	{
+		if((*it)->getNativeRef() > 0){
+			(*it)->mark(gcCount);
+		}
+	}
 	std::set<Object*> unused;
 	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
 	{
-		if((*it)->getColor() != gcCount && (*it)->getNativeRef() <= 0){
+		if((*it)->getColor() != gcCount){
 			unused.insert(*it);
 		}else{
 			to->push_back(*it);

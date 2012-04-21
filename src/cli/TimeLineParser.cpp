@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include "TimeLineParser.h"
 #include "../nekomata/tree/Node.h"
+#include "../nekomata/util/StringUtil.h"
 
 namespace cli{
 
@@ -33,19 +34,22 @@ TimeLineParser::~TimeLineParser() {
 
 void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line)
 {
+	if(line.size() <= 0){
+		return;
+	}
 	const size_t firstSep = line.find(':');
 	if(firstSep == std::string::npos){
-		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse timeline: %s", line.c_str());
+		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse timeline: \"%s\"", line.c_str());
 	}
 	const size_t secondSep = line.find(':', firstSep+1);
 	if(secondSep == std::string::npos){
-		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse timeline: %s", line.c_str());
+		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse timeline: \"%s\"", line.c_str());
 	}
 	const std::string timeStr(line.substr(0, firstSep));
 	char* endPtr;
 	const float time = std::strtof(timeStr.c_str(), &endPtr);
 	if(*endPtr != '\0'){
-		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse time: %s", timeStr.c_str());
+		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse time: \"%s\"", timeStr.c_str());
 	}
 	const std::string mail(line.substr(firstSep+1, secondSep));
 	std::string message(line.substr(secondSep+1));
@@ -80,6 +84,12 @@ std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std:
 	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > timeLine;
 	std::string buf;
 	while(stream && std::getline(stream, buf)){
+		while(buf.size() > 0 && (buf.at(buf.size()-1)=='\r' || buf.at(buf.size()-1)=='\n')){
+			buf=buf.substr(0, buf.size()-1);
+		}
+		while(buf.size() > 0 && (buf.at(0)=='\r' || buf.at(0)=='\n')){
+			buf=buf.substr(1);
+		}
 		this->parseLine(timeLine,buf);
 	}
 	return timeLine;

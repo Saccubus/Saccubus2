@@ -26,10 +26,11 @@ namespace logging{
 Exception::Exception(const std::string& fname, size_t line, const std::string& msg, ...) throw(){
 	try {
 		std::stringstream ss;
-		ss << "(" << fname << ":" << line;
+		ss << "<line " << line << " in " << fname << "> : ";
 		va_list arg;
 		va_start(arg, msg);
-		ss << util::formatv(msg, arg);
+		std::string fmtmsg(util::formatv(msg, arg));
+		ss << fmtmsg;
 		this->msg = ss.str();
 		va_end(arg);
 	} catch (...) {
