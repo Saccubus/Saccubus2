@@ -57,7 +57,7 @@
 							<tool errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.661990164" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.flags.336554972" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.1957020860" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/DebugLibrary}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.160696291" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="Nekomata"/>
@@ -88,11 +88,21 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="entry_points/test/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/saccubus"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/entry_points/cli"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1645403562" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/DebugLibrary"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.release.102821655">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.102821655" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -180,11 +190,20 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="entry_points/test/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/saccubus"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/entry_points/cli"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1138823037" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Library"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1536386510" moduleId="org.eclipse.cdt.core.settings" name="Test">
@@ -241,7 +260,7 @@
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.66734910" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.flags.2122253935" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.1666349967" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/DebugLibrary}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.2129914306" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="Nekomata"/>
@@ -272,11 +291,21 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="entry_points/cli/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/saccubus"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/entry_points/test"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Nekomata;cdt.managedbuild.config.gnu.mingw.exe.debug.607381577.1645403562" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Nekomata"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Nekomata/DebugLibrary"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Nekomata"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1608868685.1487851102" moduleId="org.eclipse.cdt.core.settings" name="WinTest">
@@ -401,7 +430,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="entry_points/cli/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/entry_points/test"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/saccubus"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -539,7 +569,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="entry_points/test/**/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/saccubus"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/entry_points/cli"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

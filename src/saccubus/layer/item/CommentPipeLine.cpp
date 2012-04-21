@@ -64,6 +64,7 @@ Comment* CommentPipeLine::process(const meta::Comment* orig)
 	/* スクリプトによる置換リスト */
 	if(this->nekomataSystem()){
 		this->nekomataSystem()->replace(product);
+		product->isYourPost(true);
 		this->nekomataSystem()->queueMessage(product->createNekomataMessage());
 	}
 	return product;
