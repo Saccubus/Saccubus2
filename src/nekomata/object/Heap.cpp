@@ -49,7 +49,6 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,baseReplaceObject(baseObject)
 ,baseSumObject(baseObject)
 ,baseSumResultObject(baseObject)
-,baseButtonObject(baseObject)
 ,baseShapePbject(baseObject)
 ,baseLambdaObject(*this)
 ,baseLambdaScopeObject(*this)
@@ -99,12 +98,6 @@ Handler<SumObject> ObjectHeap::newSumObject(Handler<system::Sum> sum)
 Handler<SumResultObject> ObjectHeap::newSumResultObject(Handler<system::SumResult> sumResult)
 {
 	const Handler<SumResultObject> obj(new SumResultObject(baseSumResultObject, createHash(), sumResult));
-	registObject(obj.get());
-	return obj;
-}
-Handler<ButtonObject> ObjectHeap::newButtonObject(Handler<system::Button> button)
-{
-	const Handler<ButtonObject> obj(new ButtonObject(baseButtonObject, createHash(), button));
 	registObject(obj.get());
 	return obj;
 }

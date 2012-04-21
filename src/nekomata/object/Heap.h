@@ -68,7 +68,6 @@ private:
 	ReplaceObject baseReplaceObject;
 	SumObject baseSumObject;
 	SumResultObject baseSumResultObject;
-	ButtonObject baseButtonObject;
 	ShapeObject baseShapePbject;
 //
 	LambdaObject baseLambdaObject;
@@ -90,7 +89,6 @@ public:
 	Handler<ReplaceObject> newReplaceObject(Handler<system::Replace> replace);
 	Handler<SumObject> newSumObject(Handler<system::Sum> sum);
 	Handler<SumResultObject> newSumResultObject(Handler<system::SumResult> sumResult);
-	Handler<ButtonObject> newButtonObject(Handler<system::Button> button);
 	Handler<ShapeObject> newShapeObject(Handler<system::Shape> shape);
 public:
 	Handler<Object> newRawObject();

@@ -55,7 +55,6 @@ System::~System() {
 	deleteSystemItems<Sum>(sumList);
 	deleteSystemItems<SumResult>(sumResultList);
 	deleteSystemItems<Replace>(replaceList);
-	deleteSystemItems<Button>(buttonList);
 }
 
 
@@ -177,15 +176,12 @@ double System::screenHeight()
 	log.v(TAG, 0,"screenHeight()");
 	return 384; //DEFAULT(4:3)
 }
-util::Handler<Button> System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+void System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
 {
 	log.v(TAG, 0,
 			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
 			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
 			);
-	util::Handler<Button> _button(new Button(*this));
-	_button->load(message, mail, vpos, commes, commail, comvisible, limit, hidden);
-	return _button;
 }
 double System::playStartTime()
 {
@@ -354,7 +350,6 @@ REGIST_TEMPLATE(Shape, shape)
 REGIST_TEMPLATE(Label, label)
 REGIST_TEMPLATE(Sum, sum)
 REGIST_TEMPLATE(SumResult, sumResult)
-REGIST_TEMPLATE(Button, button)
 REGIST_TEMPLATE(Replace, replace)
 
 #undef REGIST_TEMPLATE

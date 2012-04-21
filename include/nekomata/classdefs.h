@@ -67,7 +67,6 @@ class Label;
 class Replace;
 class Sum;
 class SumResult;
-class Button;
 class Shape;
 }
 

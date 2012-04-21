@@ -76,7 +76,8 @@ class Drawable : public SystemItem
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 protected:
 	explicit Drawable(System& system)
-	:SystemItem(system){};
+	:SystemItem(system)
+	,SET_DEFAULT(x, 0),SET_DEFAULT(y, 0),SET_DEFAULT(z, 0),SET_DEFAULT(visible, false),SET_DEFAULT(pos, ""){};
 public:
 	virtual ~Drawable(){};
 };
@@ -113,9 +114,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Shape(System& system)
-	:Drawable(system) {
-		SET_PARAM_CONST(visible, false);
-	};
+	:Drawable(system) {};
 	virtual ~Shape(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
@@ -152,9 +151,7 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, bool, partial);
 public:
 	explicit Sum(System& system)
-	:Drawable(system){
-		SET_PARAM_CONST(visible, false);
-	};
+	:Drawable(system){};
 	virtual ~Sum(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
@@ -214,46 +211,13 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, double, size);
 	DEF_ADAPTER_ACCESSOR(public, public, unsigned int, color);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, bold);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, visible);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, filter);
 	DEF_ADAPTER_ACCESSOR(public, public, double, alpha);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, mover);
 public:
 	explicit Label(System& system):
-	Drawable(system), SET_DEFAULT(visible, false){};
+	Drawable(system){};
 	virtual ~Label(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
-	virtual std::string inspect();
-};
-
-class Button : public SystemItem
-{
-public:
-	virtual void load(const std::string& _message, const std::string& _mail, double _vpos, const std::string& _commes, const std::string& _commail, bool _comvisible, int _limit, bool _hidden)
-	{
-		SET_PARAM(message);
-		SET_PARAM(mail);
-		SET_PARAM(vpos);
-		SET_PARAM(commes);
-		SET_PARAM(commail);
-		SET_PARAM(comvisible);
-		SET_PARAM(limit);
-		SET_PARAM(hidden);
-	}
-public:
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, message);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, mail);
-	DEF_ADAPTER_ACCESSOR(public, public, double, vpos);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, commes);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, commail);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, comvisible);
-	DEF_ADAPTER_ACCESSOR(public, public, int, limit);
-	DEF_ADAPTER_ACCESSOR(public, public, bool, hidden);
-public:
-	explicit Button(System& system)
-	:SystemItem(system), SET_DEFAULT(hidden, false){};
-	virtual ~Button(){};
 	virtual void incNativeRef();
 	virtual void decNativeRef();
 	virtual std::string inspect();
@@ -428,7 +392,7 @@ public: /* スクリプトから参照される */
 	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
 	virtual double screenWidth();
 	virtual double screenHeight();
-	virtual util::Handler<Button> addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
+	virtual void addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);
 	virtual double playStartTime();
 	virtual void BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume);
 	virtual void playBGM(int id);
@@ -455,7 +419,6 @@ private:
 	DEF_SYSTEM_LIST(Label, label);
 	DEF_SYSTEM_LIST(Sum, sum);
 	DEF_SYSTEM_LIST(SumResult, sumResult);
-	DEF_SYSTEM_LIST(Button, button);
 	DEF_SYSTEM_LIST(Replace, replace);
 private:
 	std::deque<std::tr1::shared_ptr<const Message> > messageQueue;
@@ -476,9 +439,6 @@ public: /* SystemItemからのコールバック関数 */
 
 	void regist(Replace* const replace);
 	void unregist(Replace* const replace);
-
-	void regist(Button* const button);
-	void unregist(Button* const button);
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
 	void queueMessage(std::tr1::shared_ptr<const Message> message);

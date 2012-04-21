@@ -172,28 +172,6 @@ public:
 	virtual std::string toString();
 };
 
-class ButtonObject : public HookableObject
-{
-private:
-	Handler<system::Button> button;
-public:
-	explicit ButtonObject(Object& parent);
-	explicit ButtonObject(ButtonObject& parent, int hash, Handler<system::Button> button);
-	virtual ~ButtonObject();
-	Handler<system::Button> getButton();
-public:
-	DEC_HOOK_ACCESSOR(message);
-	DEC_HOOK_ACCESSOR(mail);
-	DEC_HOOK_ACCESSOR(vpos);
-	DEC_HOOK_ACCESSOR(commes);
-	DEC_HOOK_ACCESSOR(commail);
-	DEC_HOOK_ACCESSOR(comvisible);
-	DEC_HOOK_ACCESSOR(limit);
-	DEC_HOOK_ACCESSOR(hidden);
-public:
-	virtual std::string toString();
-};
-
 class ReplaceObject : public HookableObject
 {
 private:

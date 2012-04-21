@@ -301,7 +301,7 @@ DEF_BUILTIN(SystemObject, addButton)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	util::Handler<system::Button> button = self->system.addButton(
+	self->system.addButton(
 		opt(arg, "message", ""),
 		opt(arg, "mail", ""),
 		opt(arg, "vpos", 0.0),
@@ -311,7 +311,7 @@ DEF_BUILTIN(SystemObject, addButton)
 		opt(arg, "limit", 1),
 		opt(arg, "hidden", false)
 	);
-	machine.pushResult(self->getHeap().newButtonObject(button));
+	machine.pushResult( self->getHeap().newUndefinedObject() );
 }
 DEF_BUILTIN(SystemObject, playStartTime)
 {

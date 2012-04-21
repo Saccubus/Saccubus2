@@ -78,13 +78,6 @@ std::string Replace::inspect()
 		src().c_str(), dst().c_str(), enabled(), target().c_str(), fill(), partial(), color(), size().c_str(), pos().c_str()
 	);
 }
-std::string Button::inspect()
-{
-	return nekomata::util::format(
-		"Button(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
-		message().c_str(), mail().c_str(), vpos(), commes().c_str(), commail().c_str(), comvisible(), limit(), hidden()
-	);
-}
 
 #define REF_TEMPLATE(clazz, valid_expr)\
 void clazz::decNativeRef()\
@@ -109,22 +102,6 @@ REF_TEMPLATE(Label, visible())
 REF_TEMPLATE(Sum, visible())
 REF_TEMPLATE(SumResult, visible())
 REF_TEMPLATE(Replace, enabled())
-
-void Button::decNativeRef()
-{
-	SystemItem::decNativeRef();
-	if(getNativeRef() == 0){
-		system.log.v(TAG, 0, "%s was not referenced any more, but cannot delete?", inspect().c_str());
-		//system.unregist(this);
-	}
-}
-void Button::incNativeRef()
-{
-	if(getNativeRef() <= 0){
-		system.regist(this);
-	}
-	SystemItem::incNativeRef();
-}
 
 #undef REF_TEMPLATE
 
