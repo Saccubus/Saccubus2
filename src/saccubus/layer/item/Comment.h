@@ -36,8 +36,8 @@ namespace layer {
 namespace item {
 
 class Comment : public Item {
-	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
-	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
+	DEF_ATTR_ACCESSOR(protected, private, draw::CommentFactory*, commentFactory);
+	DEF_ATTR_ACCESSOR(protected, private, draw::ShapeFactory*, shapeFactory);
 public:
 	enum Layer {
 		Normal,
@@ -72,7 +72,6 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, float, from);
 	DEF_ATTR_ACCESSOR(public, public, float, vpos);
 	DEF_ATTR_ACCESSOR(public, public, float, to);
-	DEF_ATTR_ACCESSOR(public, public, bool, isButton);
 	DEF_ATTR_ACCESSOR(public, public, bool, isYourPost);
 	DEF_ATTR_ACCESSOR(public, public, bool, fromButton);
 	DEF_ATTR_ACCESSOR(public, public, bool, isPremium);
@@ -100,6 +99,8 @@ public:
 	enum Size sizeType() const;
 private:
 	void init();
+public:
+	virtual bool isButton() const;
 	/**
 	 * Item Methods
 	 */

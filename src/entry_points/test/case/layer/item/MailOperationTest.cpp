@@ -196,12 +196,6 @@ TEST_F(MailOperationTest, EtcTest)
 		ASSERT_TRUE(MailOperation::apply("from_button", com));
 		ASSERT_TRUE(com->fromButton());
 	}
-	{
-		com->isButton(false);
-		ASSERT_FALSE(com->isButton());
-		ASSERT_TRUE(MailOperation::apply("is_button", com));
-		ASSERT_TRUE(com->isButton());
-	}
 }
 
 TEST_F(MailOperationTest, BrokenCommandTest)

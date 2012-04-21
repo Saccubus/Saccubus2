@@ -22,7 +22,6 @@
 #include "../../meta/Comment.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
-#include "../../draw/LayerdSprite.h"
 
 namespace saccubus {
 namespace layer {
@@ -54,7 +53,6 @@ void Comment::init(){
 	this->vpos(NAN);
 	this->to(NAN);
 
-	this->isButton(false);
 	this->isYourPost(false);
 	this->fromButton(false);
 	this->isPremium(false);
@@ -99,16 +97,7 @@ std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 
 draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
-	if(this->isButton()){
-		draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
-		draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderComment(ctx, this);
-		draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), this->color());
-		layerd->addSprite(0, 0, btnSpr);
-		layerd->addSprite((btnSpr->width()-textSpr->width())/2, (btnSpr->height()-textSpr->height())/2, textSpr);
-		return layerd;
-	}else{
-		return commentFactory()->renderComment(ctx, this);
-	}
+	return commentFactory()->renderComment(ctx, this);
 }
 
 void Comment::sizeType(enum Size size)
@@ -121,9 +110,14 @@ enum Comment::Size Comment::sizeType() const
 	return _sizeType;
 }
 
+bool Comment::isButton() const
+{
+	return false;
+}
+
 bool Comment::onClick()
 {
-	return true;
+	return false;
 }
 
 

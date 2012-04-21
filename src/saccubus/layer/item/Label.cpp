@@ -41,7 +41,7 @@ void Label::onChanged()
 draw::Sprite::Handler<draw::Sprite> Label::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
 	Comment com = Comment(this->commentFactory(), 0);
-	rendererdText.message(this->text());
+	com.message(this->text());
 	com.size(this->size());
 	com.color(this->color());
 	com.mail(this->pos());

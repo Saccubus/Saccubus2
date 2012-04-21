@@ -80,7 +80,7 @@ nekomata::util::Handler<nekomata::system::SumResult> NekomataSystem::showResult(
 		std::vector<nekomata::util::Handler<nekomata::system::Sum> > sum) {
 }
 
-nekomata::util::Handler<nekomata::system::Button> NekomataSystem::addButton(
+void NekomataSystem::addButton(
 		const std::string& message, const std::string& mail, double vpos,
 		const std::string& commes, const std::string& commail, bool comvisible,
 		int limit, bool hidden) {

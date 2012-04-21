@@ -96,7 +96,7 @@ static bool from_button_func(const std::string& command, Comment* comment){
 	return true;
 }
 static bool is_button_func(const std::string& command, Comment* comment){
-	comment->isButton(true);
+	//comment->isButton(true);
 	return true;
 }
 
