@@ -16,32 +16,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Shape.h"
-#include "../../draw/NullSprite.h"
-#include "../../draw/ShapeFactory.h"
+#include "NekoItem.h"
+#include "../../util/StringUtil.h"
 
 namespace saccubus {
 namespace layer {
 namespace item {
 
-Shape::Shape(::nekomata::system::System* system, draw::ShapeFactory* shapeFactory)
-: ::nekomata::system::Shape(*system)
+NekoItem::NekoItem(nekomata::system::Drawable* nekoDrawable)
 {
-	this->shapeFactory(shapeFactory);
-
+	this->drawable(nekoDrawable);
 }
 
-Shape::~Shape() {
+NekoItem::~NekoItem() {
 }
 
-draw::Sprite::Handler<draw::Sprite> Shape::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+void NekoItem::invalidate()
 {
-	return this->shapeFactory()->renderShape(ctx, this);
-}
-
-void Shape::onChanged()
-{
-	this->invalidate();
+	std::vector<std::string> posList;
+	util::splitSpace(drawable()->pos(), posList);
+	this->posX(CenterX);
+	this->posY(CenterY);
+	for(std::vector<std::string>::const_iterator it = posList.begin(); it != posList.end(); ++it)
+	{
+		if("migi" == *it){
+			this->posX(Right);
+		}else if("hidari" == *it){
+			this->posX(Left);
+		}else if("ue" == *it){
+			this->posY(Top);
+		}else if("shita" == *it){
+			this->posY(Bottom);
+		}
+	}
+	this->Item::invalidate();
 }
 
 

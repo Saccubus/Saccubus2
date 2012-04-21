@@ -22,6 +22,7 @@
 #include "Layer.h"
 #include "../util/ClassAccessor.h"
 #include "NekomataSystem.h"
+#include "item/NekoItem.h"
 
 #ifndef Saccubus_NEKOMATALAYER_H__CPP_
 #define Saccubus_NEKOMATALAYER_H__CPP_
@@ -31,6 +32,8 @@ namespace layer {
 
 class ScriptLayer: public Layer {
 	DEF_ATTR_ACCESSOR(private, private, NekomataSystem*, nekoSystem);
+private:
+	void resolvePos(item::NekoItem* nekoItem, float width, float height, float* x, float* y);
 public:
 	ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem);
 	virtual ~ScriptLayer();

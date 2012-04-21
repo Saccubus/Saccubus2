@@ -46,10 +46,37 @@ ScriptLayer::~ScriptLayer() {
 /******************************************************************************************************************
  * レイヤ
  ******************************************************************************************************************/
+void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height, float* x, float* y)
+{
+	switch(nekoItem->posX()){
+	case item::NekoItem::CenterX:
+		*x = (width/2)+nekoItem->drawable()->x();
+		break;
+	case item::NekoItem::Right:
+		*x = width+nekoItem->drawable()->x();
+		break;
+	case item::NekoItem::Left:
+		*x = nekoItem->drawable()->x();
+		break;
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosX type.");
+	}
+	switch(nekoItem->posY()){
+	case item::NekoItem::CenterY:
+		*y = (height/2)+nekoItem->drawable()->y();
+		break;
+	case item::NekoItem::Top:
+		*y = height+nekoItem->drawable()->y();
+		break;
+	case item::NekoItem::Bottom:
+		*y = nekoItem->drawable()->y();
+		break;
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
+	}
+}
 void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
-	const float centerX = ctx->width()/2;
-	const float centerY = ctx->height()/2;
 	for(NekomataSystem::LabelIterator it = nekoSystem()->labelBegin(); it != nekoSystem()->labelEnd(); ++it){
 		item::Label* label = dynamic_cast<item::Label*>(*it);
 		if(!label->visible()) continue;

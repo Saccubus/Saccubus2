@@ -24,7 +24,6 @@
 #include "../../../../saccubus/draw/cairo/SimpleCommentFactory.h"
 #include "../../../../saccubus/draw/cairo/SimpleShapeFactory.h"
 #include "../../../../saccubus/layer/item/Comment.h"
-#include "../../../../saccubus/layer/item/Shape.h"
 #include "../../mock/meta/Comment.h"
 #include "../../mock/MockSystem.h"
 
@@ -80,6 +79,7 @@ TEST_F(CairoTest, EmptyStringTest)
 	ASSERT_EQ(0, spr->height());
 }
 
+/*
 TEST_F(CairoTest, ShapeTest)
 {
 	saccubus::draw::cairo::SimpleShapeFactory factory = saccubus::draw::cairo::SimpleShapeFactory(log_err, renderer);
@@ -95,7 +95,7 @@ TEST_F(CairoTest, ShapeTest)
 
 	ASSERT_EQ(15, spr->width());
 	ASSERT_EQ(60, spr->height());
-}
+}*/
 
 TEST_F(CairoTest, ButtonTest)
 {

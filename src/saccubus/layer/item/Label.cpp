@@ -25,7 +25,7 @@ namespace layer {
 namespace item {
 
 Label::Label(nekomata::system::System& system, draw::CommentFactory* commentFactory)
-: nekomata::system::Label(system)
+: NekoItem(this), nekomata::system::Label(system)
 {
 	this->commentFactory(commentFactory);
 }
