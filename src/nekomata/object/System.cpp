@@ -400,7 +400,7 @@ DEF_HOOK_GETTER(SystemObject, commentColor)
 }
 DEF_HOOK_SETTER(SystemObject, commentColor)
 {
-	Handler<SystemObject>(self)->system.commentColor(cast<unsigned int>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentColor(cast<unsigned int>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, commentPlace)
 {
@@ -408,7 +408,7 @@ DEF_HOOK_GETTER(SystemObject, commentPlace)
 }
 DEF_HOOK_SETTER(SystemObject, commentPlace)
 {
-	Handler<SystemObject>(self)->system.commentPlace(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentPlace(cast<std::string>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, commentSize)
 {
@@ -416,7 +416,7 @@ DEF_HOOK_GETTER(SystemObject, commentSize)
 }
 DEF_HOOK_SETTER(SystemObject, commentSize)
 {
-	Handler<SystemObject>(self)->system.commentSize(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentSize(cast<std::string>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, commentInvisible)
 {
@@ -424,7 +424,7 @@ DEF_HOOK_GETTER(SystemObject, commentInvisible)
 }
 DEF_HOOK_SETTER(SystemObject, commentInvisible)
 {
-	Handler<SystemObject>(self)->system.commentInvisible(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentInvisible(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, commentReverse)
 {
@@ -432,7 +432,7 @@ DEF_HOOK_GETTER(SystemObject, commentReverse)
 }
 DEF_HOOK_SETTER(SystemObject, commentReverse)
 {
-	Handler<SystemObject>(self)->system.commentReverse(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.commentReverse(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, defaultSage)
 {
@@ -440,7 +440,7 @@ DEF_HOOK_GETTER(SystemObject, defaultSage)
 }
 DEF_HOOK_SETTER(SystemObject, defaultSage)
 {
-	Handler<SystemObject>(self)->system.defaultSage(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.defaultSage(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, postDisabled)
 {
@@ -448,7 +448,7 @@ DEF_HOOK_GETTER(SystemObject, postDisabled)
 }
 DEF_HOOK_SETTER(SystemObject, postDisabled)
 {
-	Handler<SystemObject>(self)->system.postDisabled(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.postDisabled(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, seekDisabled)
 {
@@ -456,7 +456,7 @@ DEF_HOOK_GETTER(SystemObject, seekDisabled)
 }
 DEF_HOOK_SETTER(SystemObject, seekDisabled)
 {
-	Handler<SystemObject>(self)->system.seekDisabled(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.seekDisabled(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, isLoaded)
 {
@@ -464,7 +464,7 @@ DEF_HOOK_GETTER(SystemObject, isLoaded)
 }
 DEF_HOOK_SETTER(SystemObject, isLoaded)
 {
-	Handler<SystemObject>(self)->system.isLoaded(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.isLoaded(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, isWide)
 {
@@ -472,7 +472,7 @@ DEF_HOOK_GETTER(SystemObject, isWide)
 }
 DEF_HOOK_SETTER(SystemObject, isWide)
 {
-	Handler<SystemObject>(self)->system.isWide(cast<bool>(obj->index(0)));
+	Handler<SystemObject>(self)->system.isWide(cast<bool>(obj));
 }
 DEF_HOOK_GETTER(SystemObject, lastVideo)
 {
@@ -480,7 +480,7 @@ DEF_HOOK_GETTER(SystemObject, lastVideo)
 }
 DEF_HOOK_SETTER(SystemObject, lastVideo)
 {
-	Handler<SystemObject>(self)->system.lastVideo(cast<std::string>(obj->index(0)));
+	Handler<SystemObject>(self)->system.lastVideo(cast<std::string>(obj));
 }
 
 }}

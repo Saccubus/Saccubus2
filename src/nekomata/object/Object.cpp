@@ -76,6 +76,7 @@ Object::Object(ObjectHeap& heap, bool isRaw)
 Object::Object(Object& parent, const unsigned int hash)
 :heap(parent.getHeap()), hash(hash), color(0), nativeRef(0), builtins(0), _frozen(false)
 {
+	specialMap.insert(std::pair<std::string, Object*>("self", this));
 	objectList.insert(objectList.end(), parent.objectList.begin(), parent.objectList.end());
 	objectMap.insert(parent.objectMap.begin(), parent.objectMap.end());
 }
@@ -164,7 +165,7 @@ void Object::freeze()
 Handler<Object> Object::unshift(const Handler<Object> item)
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"unshift\" called, but obj %s is frozen.", toString().c_str());
+		log().w(TAG, 0, "\"unshift\" called, but obj \"%s\" is frozen.", toString().c_str());
 	}else{
 		objectList.insert(objectList.begin(), item.get());
 	}
@@ -173,7 +174,7 @@ Handler<Object> Object::unshift(const Handler<Object> item)
 Handler<Object> Object::push(const Handler<Object> item)
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"push\" called, but obj %s is frozen.", toString().c_str());
+		log().w(TAG, 0, "\"push\" called, but obj \"%s\" is frozen.", toString().c_str());
 	}else{
 		objectList.push_back(item.get());
 	}
@@ -182,7 +183,7 @@ Handler<Object> Object::push(const Handler<Object> item)
 Handler<Object> Object::shift()
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"shift\" called, but obj %s is frozen.", toString().c_str());
+		log().w(TAG, 0, "\"shift\" called, but obj \"%s\" is frozen.", toString().c_str());
 		return heap.newUndefinedObject();
 	}else{
 		if(Object::size() > 0){
@@ -197,7 +198,7 @@ Handler<Object> Object::shift()
 Handler<Object> Object::pop()
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"pop\" called, but obj %s is frozen.", toString().c_str());
+		log().w(TAG, 0, "\"pop\" called, but obj \"%s\" is frozen.", toString().c_str());
 		return heap.newUndefinedObject();
 	} else {
 		if(Object::size() > 0){
@@ -211,21 +212,16 @@ Handler<Object> Object::pop()
 }
 Handler<Object> Object::index(size_t idx)
 {
-	if(frozen()){
-		log().w(TAG, 0, "\"index\" called, but obj %s is frozen.", toString().c_str());
+	if(Object::has(idx)){
+		return Handler<Object>(objectList.at(idx));
+	}else{
 		return heap.newUndefinedObject();
-	} else {
-		if(Object::has(idx)){
-			return Handler<Object>(objectList.at(idx));
-		}else{
-			return heap.newUndefinedObject();
-		}
 	}
 }
 Handler<Object> Object::indexSet(size_t idx, Handler<Object> item)
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"indexSet\" called, but obj %s is frozen.", toString().c_str());
+		log().w(TAG, 0, "\"indexSet\" called, but obj \"%s\" is frozen.", toString().c_str());
 	} else {
 		if(idx < objectList.size()){
 			objectList[idx] = item.get();
@@ -262,16 +258,23 @@ std::vector<std::string> Object::getSlotNames()
 Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"setSlot\" called, but obj %s is frozen.", toString().c_str());
-	} else {
-		objectMap.erase(name);
-		objectMap.insert(SlotMapPair(name, item.get()));
+		log().w(TAG, 0, "\"setSlot\" to %s called, but obj \"%s\" is frozen.", name.c_str(), toString().c_str());
+		return Handler<Object>(this);
 	}
+	if(specialMap.find(name) != specialMap.end()){
+		log().w(TAG, 0, "\"setSlot\" to %s called, but this is special object.", name.c_str());
+		return Handler<Object>(this);
+	}
+	objectMap.erase(name);
+	objectMap.insert(SlotMapPair(name, item.get()));
 	return Handler<Object>(this);
 }
 Handler<Object> Object::getSlot(const std::string& name){
 	SlotMapIterator it = objectMap.find(name);
-	if(it == objectMap.end()){
+	SlotMapIterator special = specialMap.find(name);
+	if(special != specialMap.end()){
+		return Handler<Object>(special->second);
+	}else if(it == objectMap.end()){
 		return getHeap().newUndefinedObject();
 	}else{
 		return Handler<Object>(it->second);

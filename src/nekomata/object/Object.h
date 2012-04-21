@@ -70,6 +70,7 @@ private: /* Heap management */
 	BuiltinMethods* builtins;
 	std::vector<Object*> objectList;
 	std::map<std::string, Object*> objectMap;
+	std::map<std::string, Object*> specialMap;
 	bool _frozen;
 protected:
 	ObjectHeap& getHeap(){return heap;};
