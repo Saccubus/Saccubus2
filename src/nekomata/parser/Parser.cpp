@@ -146,7 +146,7 @@ std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<const tree::ExprNode> Parser::parseProgram()
+std::tr1::shared_ptr<const tree::Node> Parser::parseProgram()
 {
 	return impl->parseProgram();
 }

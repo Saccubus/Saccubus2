@@ -37,7 +37,6 @@ static const std::string TAG("System");
 System::System(logging::Logger& log)
 :log(log)
 ,_currentTime(0)
-,currentMessage()
 {
 }
 
@@ -254,16 +253,25 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	if(currentTime() != from){
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly %f != %f.", currentTime(), from);
 	}
-	while((currentMessage = nextMessage()) && currentMessage->vpos() < to){
-		dispatchTimer(machine, currentTime(), currentMessage->vpos());
-		currentTime(currentMessage->vpos());
-		switch(currentMessage->type)
+	log.t(TAG, 0, "Running: <%f -> %f>", from, to);
+	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = messageQueue.begin();
+	for(; it != messageQueue.end(); ++it){
+		std::tr1::shared_ptr<const nekomata::system::Message> msg = *it;
+		dispatchTimer(machine, currentTime(), msg->vpos());
+		currentTime(msg->vpos());
+		switch(msg->type)
 		{
 		case Message::COMMENT:
-			dispatchCommentTrigger(machine, std::tr1::dynamic_pointer_cast<const Comment>(currentMessage));
+		{
+			std::tr1::shared_ptr<const Comment> com = std::tr1::dynamic_pointer_cast<const Comment>(msg);
+			dispatchCommentTrigger(machine, com);
+		}
 			break;
 		case Message::SCRIPT:
-			machine.eval(std::tr1::dynamic_pointer_cast<const Script>(currentMessage)->node().get());
+		{
+			std::tr1::shared_ptr<const Script> script = std::tr1::dynamic_pointer_cast<const Script>(msg);
+			machine.eval(script->node().get());
+		}
 			break;
 		default:
 			log.e(TAG, 0, "[BUG] Unknwon message type received.");
@@ -271,6 +279,7 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 		}
 	}
 	dispatchTimer(machine, currentTime(), to);
+	this->messageQueue.erase(messageQueue.begin(), it);
 	currentTime(to);
 }
 
@@ -280,21 +289,11 @@ void System::queueMessage(std::tr1::shared_ptr<const Message> message)
 	this->messageQueue.insert(it, message);
 }
 
-std::tr1::shared_ptr<const Message> System::nextMessage()
-{
-	if(this->messageQueue.empty()){
-		return std::tr1::shared_ptr<const nekomata::system::Comment>();
-	}
-	std::tr1::shared_ptr<const nekomata::system::Message> comment = this->messageQueue.front();
-	this->messageQueue.pop_front();
-	return comment;
-}
-
 void System::dispatchTimer(machine::Machine& machine, const double from, const double to)
 {
 	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = timerLine.begin(); it != timerLine.end(); ++it){
 		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
-		if(nextTimer->from() <= currentMessage->vpos() && currentMessage->vpos() < nextTimer->to()){
+		if((from <= nextTimer->from() && nextTimer->from() < to) || (from <= nextTimer->to() && nextTimer->to() < to)){
 			machine.eval(nextTimer->then());
 			it=timerLine.begin();
 			while(it != timerLine.end() && it->second != nextTimer){

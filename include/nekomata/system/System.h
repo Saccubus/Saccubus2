@@ -403,7 +403,6 @@ public:
 	virtual ~System();
 private:
 	float _currentTime;
-	std::tr1::shared_ptr<const Message> currentMessage;
 public:
 	float currentTime(){return _currentTime;}
 protected:
@@ -461,7 +460,6 @@ private:
 	std::deque<std::tr1::shared_ptr<const Message> > messageQueue;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
-	std::tr1::shared_ptr<const Message> nextMessage();
 public: /* SystemItemからのコールバック関数 */
 	void regist(Shape* const shape);
 	void unregist(Shape* const shape);

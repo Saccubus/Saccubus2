@@ -206,7 +206,7 @@ DEF_BUILTIN(StringObject, toFloat)
 DEF_BUILTIN(StringObject, eval)
 {
 	const Handler<StringObject> self(machine.getSelf());
-	std::tr1::shared_ptr<const tree::ExprNode> node = parser::Parser::fromString(self->toString())->parseProgram();
+	std::tr1::shared_ptr<const tree::Node> node = parser::Parser::fromString(self->toString())->parseProgram();
 	const Handler<Object> result(machine.eval(node.get()));
 	machine.pushResult(result);
 }
