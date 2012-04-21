@@ -21,6 +21,8 @@
 #include <iostream>
 #include <sstream>
 #include "../util/StringUtil.h"
+#include "item/Label.h"
+#include "../draw/Context.h"
 
 namespace saccubus {
 namespace layer {
@@ -46,6 +48,14 @@ ScriptLayer::~ScriptLayer() {
  ******************************************************************************************************************/
 void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
+	const float centerX = ctx->width()/2;
+	const float centerY = ctx->height()/2;
+	for(NekomataSystem::LabelIterator it = nekoSystem()->labelBegin(); it != nekoSystem()->labelEnd(); ++it){
+		item::Label* label = dynamic_cast<item::Label*>(*it);
+		if(!label->visible()) continue;
+		draw::Sprite::Handler<draw::Sprite> spr = label->querySprite(ctx);
+		spr->draw(ctx, label->x(), label->y());
+	}
 }
 
 bool ScriptLayer::onClick(int x, int y)

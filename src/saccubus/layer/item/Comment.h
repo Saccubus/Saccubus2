@@ -51,6 +51,7 @@ public:
 		softbank
 	};
 	enum Size{
+		Unknwon=0,
 		Big=39,
 		Small=15,
 		Medium=24
@@ -80,20 +81,25 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, bool, patissier);
 	DEF_ATTR_ACCESSOR(public, public, enum Device, device);
 	DEF_ATTR_ACCESSOR(public, public, bool, visibility);
-	DEF_ATTR_ACCESSOR(public, public, enum Size, size);
+	DEF_ATTR_ACCESSOR(public, public, double, size);
 	DEF_ATTR_ACCESSOR(public, public, enum Layer, layer);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceX, placeX);
 	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
-protected:
-	Comment();
+private:
+	enum Size _sizeType;
 public:
+	Comment();
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Comment();
-	void setDefault(const meta::Comment* orig);
+	void import(const meta::Comment* orig);
 public:
 	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
+	void sizeType(enum Size size);
+	enum Size sizeType() const;
+private:
+	void init();
 	/**
 	 * Item Methods
 	 */

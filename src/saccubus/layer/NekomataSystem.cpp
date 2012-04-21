@@ -19,6 +19,7 @@
 #include <nekomata/logging/Logging.h>
 #include "item/Comment.h"
 #include "item/CommentPipeLine.h"
+#include "item/Label.h"
 #include "NekomataSystem.h"
 
 namespace saccubus {
@@ -26,11 +27,11 @@ namespace layer {
 
 static const std::string TAG("SaccubusSystem");
 
-NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog)
+NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 :nekomata::system::System(nlog)
 {
-	// TODO Auto-generated constructor stub
-
+	this->commentFactory(commentFactory);
+	this->shapeFactory(shapeFactory);
 }
 
 NekomataSystem::~NekomataSystem() {
@@ -42,22 +43,15 @@ nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		double height, unsigned int color, bool visible, const std::string& pos,
 		bool mask, bool commentmask, double alpha, double rotation,
 		const std::string& mover) {
-	log.e(TAG, 0,
-			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
-			x, y, z, shape.c_str(), width, height, color, visible, pos.c_str(), mask, commentmask, alpha, rotation, mover.c_str()
-			);
-	return System::drawShape(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 }
 
 nekomata::util::Handler<nekomata::system::Label> NekomataSystem::drawText(
 		const std::string& text, double x, double y, double z, double size,
 		const std::string& pos, unsigned int color, bool bold, bool visible,
 		const std::string& filter, double alpha, const std::string& mover) {
-	log.e(TAG, 0,
-			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
-			text.c_str(), x, y, z, size, pos.c_str(), color, bold, visible, filter.c_str(), alpha, mover.c_str()
-			);
-	return System::drawText(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
+	nekomata::util::Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory()));
+	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
+	return label;
 }
 
 void NekomataSystem::jump(const std::string& id, const std::string& msg,

@@ -33,17 +33,18 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 :Layer(log)
 ,thread(thread)
 {
-	{ // ねこまたとの接続
-		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
-		this->nekoSystem = new NekomataSystem(*this->nekoLogger);
-		this->neko = new nekomata::Nekomata(*this->nekoSystem, *this->nekoLogger);
-	}
-
 	{ // ファクトリ
 		this->shapeFactory(organizer->newShapeFactory(renderer));
 		this->commentFactory(organizer->newCommentFactory(renderer));
-		this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekoSystem));
 	}
+	{ // ねこまたとの接続
+		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
+		this->nekoSystem = new NekomataSystem(*this->nekoLogger, this->commentFactory(), this->shapeFactory());
+		this->neko = new nekomata::Nekomata(*this->nekoSystem, *this->nekoLogger);
+	}
+
+	//コメントの変換用
+	this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekoSystem));
 
 	{ // これでやっとレイヤの作成
 		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);

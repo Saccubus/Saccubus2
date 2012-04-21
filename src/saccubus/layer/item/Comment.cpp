@@ -33,17 +33,43 @@ Comment::Comment()
 {
 	this->commentFactory(0);
 	this->shapeFactory(0);
+	init();
 }
 Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 {
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
+	init();
 }
 
 Comment::~Comment() {
 }
 
-void Comment::setDefault(const meta::Comment* orig)
+void Comment::init(){
+	this->message("");
+	this->mail("");
+	this->no(-1);
+	this->from(NAN);
+	this->vpos(NAN);
+	this->to(NAN);
+
+	this->isButton(false);
+	this->isYourPost(false);
+	this->fromButton(false);
+	this->isPremium(false);
+	this->full(false);
+	this->sage(true);
+	this->patissier(false);
+	this->device(Comment::Unspecified);
+	this->visibility(true);
+	this->sizeType(Comment::Medium);
+	this->placeX(Comment::Center);
+	this->placeY(Comment::Middle);
+	this->color(0xFFFFFF);
+	this->shadowColor(0x000000);
+	this->layer(Comment::Normal);}
+
+void Comment::import(const meta::Comment* orig)
 {
 	this->message(orig->message());
 	this->mail(orig->mail());
@@ -51,21 +77,8 @@ void Comment::setDefault(const meta::Comment* orig)
 	this->from(orig->vpos()-1.0f);
 	this->vpos(orig->vpos());
 	this->to(this->from()+4.0f);
-	this->isButton(false);
-	this->isYourPost(false);
-	this->fromButton(false);
 	this->isPremium(orig->premium());
-	this->full(false);
-	this->sage(true);
-	this->patissier(false);
-	this->device(Comment::Unspecified);
-	this->visibility(true);
-	this->size(Comment::Medium);
-	this->placeX(Comment::Center);
-	this->placeY(Comment::Middle);
-	this->color(0xFFFFFF);
-	this->shadowColor(0x000000);
-	this->layer((orig->fork()) ? Comment::Forked : Comment::Normal);
+	this->layer(orig->fork() ? Comment::Forked : Comment::Normal);
 }
 
 std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
@@ -91,6 +104,16 @@ draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<s
 	}else{
 		return commentFactory()->renderComment(ctx, this);
 	}
+}
+
+void Comment::sizeType(enum Size size)
+{
+	this->_sizeType = size;
+	this->size(size);
+}
+enum Comment::Size Comment::sizeType() const
+{
+	return _sizeType;
 }
 
 bool Comment::onClick()

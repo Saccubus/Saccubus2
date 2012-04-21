@@ -21,12 +21,16 @@
 
 #include <nekomata/system/System.h>
 #include <deque>
+#include "../draw/CommentFactory.h"
+#include "../draw/ShapeFactory.h"
 namespace saccubus {
 namespace layer {
 
 class NekomataSystem: public nekomata::system::System {
+	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
+	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
 public:
-	NekomataSystem(nekomata::logging::Logger& nlog);
+	NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~NekomataSystem();
 public: /* スクリプトから参照される */
 	virtual nekomata::util::Handler<nekomata::system::Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);

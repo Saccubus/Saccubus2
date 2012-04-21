@@ -48,7 +48,7 @@ static bool colorCode_func(const std::string& command, Comment* comment)
 
 static bool size_func(const std::string& command, Comment* comment, Comment::Size size)
 {
-	comment->size(size);
+	comment->sizeType(size);
 	return true;
 }
 

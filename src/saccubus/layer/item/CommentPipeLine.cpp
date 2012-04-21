@@ -46,10 +46,10 @@ CommentPipeLine::~CommentPipeLine()
 Comment* CommentPipeLine::process(const meta::Comment* orig)
 {
 	if(orig->haveScript()){
-		return 0;
+		throw logging::Exception(__FILE__, __LINE__, "[BUG] Cannot process script comment in Comment Pipeline.");
 	}
 	Comment* const product = new Comment(this->commentFactory(), this->shapeFactory());
-	product->setDefault(orig);
+	product->import(orig);
 	/* コマンド欄の処理 */
 	for(meta::Comment::MailIterator it= orig->mailBegin(); it != orig->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, product))
