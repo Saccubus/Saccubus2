@@ -21,6 +21,7 @@
 
 #include <nekomata/system/System.h>
 #include "Item.h"
+#include "Comment.h"
 
 namespace saccubus {
 namespace layer {
@@ -28,6 +29,8 @@ namespace item {
 
 class Label: public saccubus::layer::item::Item, public nekomata::system::Label {
 	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
+private:
+	Comment rendererdText;
 public:
 	explicit Label(nekomata::system::System& system, draw::CommentFactory* commentFactory);
 	virtual ~Label();

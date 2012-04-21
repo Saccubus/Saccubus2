@@ -35,6 +35,7 @@ public:
 public:
 	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);
 	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
+	std::tr1::shared_ptr<saccubus::draw::Context> createContext();
 };
 }}}
 #endif /* MOCK_RENDERER_H_ */

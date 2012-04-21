@@ -33,11 +33,10 @@ namespace item {
 class MailOperationTest : public ::testing::Test
 {
 protected:
-	saccubus::mock::meta::Comment meta;
 	saccubus::layer::item::Comment* com;
 public:
 	void SetUp(){
-		this->com = new saccubus::layer::item::Comment(&meta, 0, 0);
+		this->com = new saccubus::layer::item::Comment(0, 0);
 	}
 	void TearDown(){
 		delete com;
@@ -60,7 +59,7 @@ TEST_F(MailOperationTest, ColorTest)
 }
 TEST_F(MailOperationTest, PremiumColorTest)
 {
-	meta.premium(true);
+	com->isPremium(true);
 	{
 		ASSERT_TRUE(MailOperation::apply("purple2", com));
 		ASSERT_EQ(0x6633CCU, com->color());
@@ -80,7 +79,7 @@ TEST_F(MailOperationTest, PremiumColorTest)
 
 TEST_F(MailOperationTest, PermissionTest)
 {
-	meta.premium(false);
+	com->isPremium(false);
 	com->color(0U);
 	com->shadowColor(0U);
 	{
@@ -107,7 +106,7 @@ TEST_F(MailOperationTest, PermissionTest)
 
 TEST_F(MailOperationTest, PremiumColorCodeTest)
 {
-	meta.premium(true);
+	com->isPremium(true);
 	{
 		ASSERT_TRUE(MailOperation::apply("#123456", com));
 		ASSERT_EQ(0x123456U, com->color());
@@ -149,6 +148,19 @@ TEST_F(MailOperationTest, PlaceYTest)
 	{
 		ASSERT_TRUE(MailOperation::apply("naka", com));
 		ASSERT_EQ(Comment::Middle, com->placeY());
+	}
+}
+
+TEST_F(MailOperationTest, TimeTest)
+{
+	{
+		com->vpos(0);
+		com->from(0);
+		com->to(0);
+		com->layer(Comment::Forked);
+		ASSERT_TRUE(MailOperation::apply("@10", com));
+		ASSERT_FLOAT_EQ(10.0, com->to()-com->from());
+
 	}
 }
 
@@ -194,7 +206,7 @@ TEST_F(MailOperationTest, EtcTest)
 
 TEST_F(MailOperationTest, BrokenCommandTest)
 {
-	meta.premium(true);
+	com->isPremium(true);
 	ASSERT_TRUE(MailOperation::apply("#123456", com));
 	ASSERT_FALSE(MailOperation::apply("#12ker3", com));
 }

@@ -37,17 +37,14 @@ class NekomataReplaceOperationTest : public ::testing::Test
 protected:
 	mock::MockSystem mockSystem;
 	Replace* replace;
-	mock::meta::Comment* metaCom;
 	Comment* com;
 public:
 	void SetUp(){
 		replace = new Replace(mockSystem);
-		metaCom = new mock::meta::Comment();
-		com = new Comment(metaCom, 0, 0);
+		com = new Comment(0, 0);
 	}
 	void TearDown(){
 		delete com;
-		delete metaCom;
 		delete replace;
 	}
 };

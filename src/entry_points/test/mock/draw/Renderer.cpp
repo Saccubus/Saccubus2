@@ -40,5 +40,8 @@ std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Forma
 {
 	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
 }
-
+std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext()
+{
+	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
+}
 }}}

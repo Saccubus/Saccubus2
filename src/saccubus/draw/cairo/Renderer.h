@@ -33,7 +33,7 @@ class Renderer : public saccubus::draw::Renderer {
 public:
 	Renderer(logging::Logger& log);
 	virtual ~Renderer();
-protected: /* 各実装がこれを実際に実装する */
+public: /* 各実装がこれを実際に実装する */
 	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
 	virtual draw::RawSprite* createRawSprite(int w, int h);
 };

@@ -107,7 +107,7 @@ static bool timeCode_func(const std::string& command, Comment* comment)
 	if(*left != '\0'){ //エラー
 		return false;
 	}
-	comment->from(comment->to()+c);
+	comment->to(comment->from()+c);
 	return true;
 }
 
