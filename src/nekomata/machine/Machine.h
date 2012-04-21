@@ -37,6 +37,9 @@ private:
 	Stack<object::Object*> resultStack;
 	Stack<object::Object*> scopeStack;
 	std::vector<Stack<object::Object*>* > rootStacks;
+private:
+	Machine();
+	Machine(const Machine& other);
 public:
 	explicit Machine(logging::Logger& log, system::System& system);
 	virtual ~Machine();

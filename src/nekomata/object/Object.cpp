@@ -84,10 +84,13 @@ Object::Object(Object& parent, const unsigned int hash)
 Object::~Object()
 {
 	if(builtins){
+		for(BuiltinMethods::iterator it = builtins->begin(); builtins->end() != it; ++it){
+			delete it->second;
+		}
 		delete builtins;
 	}
 }
-void Object::addBuiltin(const std::string& name, NativeMethodObject obj)
+void Object::addBuiltin(const std::string& name, NativeMethodObject* obj)
 {
 	if(!builtins){
 		builtins = new BuiltinMethods();
@@ -100,7 +103,7 @@ void Object::includeBuitin()
 		return;
 	}
 	for(BuiltinMethods::iterator it = builtins->begin(); it!=builtins->end();++it){
-		Object::setSlot(it->first, Handler<Object>(&it->second));
+		Object::setSlot(it->first, Handler<Object>(it->second));
 	}
 }
 
@@ -418,15 +421,15 @@ DEF_BUILTIN(Object, pop)
 	machine.pushResult(self->pop());
 }
 
-bool Object::_sort_func(machine::Machine& machine, Object* const self, Object* const other)
+bool Object::_sort_func(machine::Machine* machine, Object* const self, Object* const other)
 {
-	return cast<bool>(machine.send(Handler<Object>(self), "lessThan", self->getHeap().newArrayObject(1, other)));
+	return cast<bool>(machine->send(Handler<Object>(self), "lessThan", self->getHeap().newArrayObject(1, other)));
 }
 
 DEF_BUILTIN(Object, sort)
 {
 	const Handler<Object> self(machine.getSelf());
-	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
+	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, &machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
 	machine.pushResult(self);
 }
 DEF_BUILTIN(Object, sum)
@@ -483,10 +486,15 @@ DEF_BUILTIN(Object, getSlot)
 	const Handler<Object> obj(self->getSlot(name));
 	machine.pushResult(obj);
 }
-DEF_BUILTIN(Object, clone){
+DEF_BUILTIN(Object, clone)
+{
 	const Handler<Object> self(machine.getSelf());
-	//FIXME: どうすれば、綺麗に実装できるかな？
-	machine.pushResult(self->getHeap().newUndefinedObject());
+	const Handler<Object> obj( self->getHeap().newRawObject() );
+	obj->objectList.clear();
+	obj->objectList.insert(obj->objectList.begin(), self->objectList.begin(), self->objectList.end());
+	obj->objectMap.clear();
+	obj->objectMap.insert(self->objectMap.begin(), self->objectMap.end());
+	machine.pushResult( obj );
 }
 
 DEF_BUILTIN(Object, if)

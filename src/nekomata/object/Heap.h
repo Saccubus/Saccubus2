@@ -50,6 +50,9 @@ class ObjectHeap
 public:
 	logging::Logger& log;
 private:
+	explicit ObjectHeap();
+	explicit ObjectHeap(const ObjectHeap& other);
+private:
 	RootHolder& rootHolder;
 	std::vector<Object*> area1;
 	std::vector<Object*> area2;
@@ -70,6 +73,7 @@ private:
 	SumResultObject baseSumResultObject;
 	ShapeObject baseShapePbject;
 //
+	LazyEvalObject baseLazyEvalObject;
 	LambdaObject baseLambdaObject;
 	LambdaScopeObject baseLambdaScopeObject;
 	StringObject baseStringObject;

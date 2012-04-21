@@ -50,6 +50,7 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,baseSumObject(baseObject)
 ,baseSumResultObject(baseObject)
 ,baseShapePbject(baseObject)
+,baseLazyEvalObject(baseObject)
 ,baseLambdaObject(*this)
 ,baseLambdaScopeObject(*this)
 ,baseStringObject(baseObject)
@@ -185,7 +186,7 @@ Handler<UndefinedObject> ObjectHeap::newUndefinedObject()
 
 Handler<LazyEvalObject> ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)
 {
-	Handler<LazyEvalObject> obj(new LazyEvalObject(baseObject, createHash(), machine, objNode));
+	Handler<LazyEvalObject> obj(new LazyEvalObject(baseLazyEvalObject, createHash(), machine, objNode));
 	registObject(obj.get());
 	return obj;
 }

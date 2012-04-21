@@ -30,8 +30,15 @@ namespace object{
 
 const std::string TAG("LazyEvalObj");
 
+LazyEvalObject::LazyEvalObject(Object& parent)
+:Object(parent, 0), machine(*((machine::Machine*)0)), node(0)
+{
+	ADD_BUILTIN(clone);
+	includeBuitin();
+}
 LazyEvalObject::LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node)
-:Object(parent, hash), machine(machine), node(node){
+:Object(parent, hash), machine(machine), node(node)
+{
 }
 LazyEvalObject::~LazyEvalObject(){
 
@@ -138,5 +145,12 @@ std::string LazyEvalObject::toString()
 {
 	return util::format("<<LazyEvalObject:%d>>", getHash());
 }
+
+DEF_BUILTIN(LazyEvalObject, clone)
+{
+	const Handler<LazyEvalObject> self(machine.getSelf());
+	machine.pushResult( self->getHeap().newUndefinedObject() );
+}
+
 
 }}

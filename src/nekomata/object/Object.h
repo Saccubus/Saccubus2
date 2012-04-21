@@ -33,6 +33,11 @@ using util::Handler;
 
 class Object
 {
+protected:
+	Object();
+private:
+	Object(const Object& other);
+	Object& operator=(const Object& other);
 public:
 	explicit Object(ObjectHeap& heap);
 	explicit Object(ObjectHeap& heap, bool isRaw);
@@ -40,18 +45,18 @@ public:
 	virtual ~Object();
 public: /* Builtin Method Utils */
 #define ADD_BUILTIN(name) \
-		addBuiltin(#name, NativeMethodObject(getHeap(), _method_##name));
+		addBuiltin(#name, new NativeMethodObject(getHeap(), _method_##name));
 #define ADD_BUILTIN_ALT(name, alt) \
-		addBuiltin((alt), NativeMethodObject(getHeap(), _method_##name));
+		addBuiltin((alt), new NativeMethodObject(getHeap(), _method_##name));
 #define DEC_BUILTIN(name) \
 	static void _method_##name(NativeMethodObject* method, machine::Machine& machine);
 #define DEF_BUILTIN(clazz, name) \
 	void clazz::_method_##name(NativeMethodObject* method, machine::Machine& machine)
 
-	typedef std::map<std::string, NativeMethodObject> BuiltinMethods;
-	typedef std::pair<std::string, NativeMethodObject> BuiltinMethodPair;
+	typedef std::map<std::string, NativeMethodObject*> BuiltinMethods;
+	typedef std::pair<std::string, NativeMethodObject*> BuiltinMethodPair;
 protected:
-	void addBuiltin(const std::string& name, NativeMethodObject obj);
+	void addBuiltin(const std::string& name, NativeMethodObject* obj);
 	void includeBuitin();
 public: /* SlotTypeDefinition */
 	typedef std::vector<Object*>::const_iterator SlotListIterator;
@@ -101,7 +106,7 @@ public: /* 基本操作 */
 	bool frozen();
 	void freeze();
 private:
-	static bool _sort_func(machine::Machine& machine, Object* const self, Object* const other);
+	static bool _sort_func(machine::Machine* machine, Object* const self, Object* const other);
 public:
 	DEC_BUILTIN(def);
 	DEC_BUILTIN(def_kari);
@@ -221,6 +226,7 @@ private:
 	std::map<std::string, bool> slotEvalState;
 	std::map<size_t, bool> indexEvalState;
 public:
+	explicit LazyEvalObject(Object& parent);
 	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject();
 public: /* INDEXアクセス */
@@ -242,6 +248,8 @@ public:
 	virtual std::string toString();
 public:
 	const tree::ObjectNode* const getRawNode() const{return node;};
+public:
+	DEC_BUILTIN(clone);
 };
 
 //---------------------------------------------------------------------------------------------------------------------
