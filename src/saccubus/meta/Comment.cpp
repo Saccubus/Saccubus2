@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <nekomata/parser/Parser.h>
 #include <sstream>
 #include "Comment.h"
 #include "Util.h"
@@ -40,6 +41,11 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->fork(readNodeProp(node, "fork", false));
 	this->mail(readNodeProp(node, "mail", ""));
 	this->message(readNodeContent(node));
+
+	if(util::startsWith(this->message(), "/")){ /* スクリプト */
+		this->node(nekomata::parser::Parser::fromString(this->message().substr(1))->parseProgram());
+	} else if(util::startsWith(this->message(), "@") || util::startsWith(this->message(), "＠")){
+	}
 
 	if(log.t()){
 		log.t(TAG, "Thread: %llu No:%llu vpos:%f Date:%llu Deleted:%llu Score:%llu UserId:%s Anon:%d Leaf:%d Premium:%d Fork:%d -> %s",
@@ -93,6 +99,11 @@ void Comment::mail(std::string const& mail)
 {
 	this->_mail = mail;
 	this->splitMail();
+}
+
+bool Comment::haveScript() const
+{
+	return this->node();
 }
 
 size_t Comment::mailSize() const

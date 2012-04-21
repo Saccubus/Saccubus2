@@ -22,13 +22,12 @@ namespace saccubus {
 namespace layer {
 namespace item {
 
-Item::Item() {
-	// TODO Auto-generated constructor stub
-
+Item::Item()
+{
 }
 
-Item::~Item() {
-	// TODO Auto-generated destructor stub
+Item::~Item()
+{
 }
 
 draw::Sprite::Handler<draw::Sprite> Item::querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)

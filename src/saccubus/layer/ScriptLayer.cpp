@@ -50,7 +50,7 @@ void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 
 bool ScriptLayer::onClick(int x, int y)
 {
-
+	return false;
 }
 
 

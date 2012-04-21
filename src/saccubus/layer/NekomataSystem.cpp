@@ -17,7 +17,6 @@
  */
 
 #include <nekomata/logging/Logging.h>
-#include <algorithm>
 #include "item/Comment.h"
 #include "item/CommentPipeLine.h"
 #include "NekomataSystem.h"
@@ -43,12 +42,22 @@ nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		double height, unsigned int color, bool visible, const std::string& pos,
 		bool mask, bool commentmask, double alpha, double rotation,
 		const std::string& mover) {
+	log.e(TAG, 0,
+			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
+			x, y, z, shape.c_str(), width, height, color, visible, pos.c_str(), mask, commentmask, alpha, rotation, mover.c_str()
+			);
+	return System::drawShape(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 }
 
 nekomata::util::Handler<nekomata::system::Label> NekomataSystem::drawText(
 		const std::string& text, double x, double y, double z, double size,
 		const std::string& pos, unsigned int color, bool bold, bool visible,
 		const std::string& filter, double alpha, const std::string& mover) {
+	log.e(TAG, 0,
+			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
+			text.c_str(), x, y, z, size, pos.c_str(), color, bold, visible, filter.c_str(), alpha, mover.c_str()
+			);
+	return System::drawText(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 }
 
 void NekomataSystem::jump(const std::string& id, const std::string& msg,
@@ -113,15 +122,6 @@ void NekomataSystem::playCM(int id) {
 	this->log.e(TAG, 0, "Sorry, 'playCM' not supported yet!!");
 }
 
-std::tr1::shared_ptr<const nekomata::system::Message> NekomataSystem::nextMessage() {
-	if(this->queue.empty()){
-		return std::tr1::shared_ptr<const nekomata::system::Comment>();
-	}
-	std::tr1::shared_ptr<const nekomata::system::Message> comment = this->queue.front();
-	this->queue.pop_front();
-	return comment;
-}
-
 std::string NekomataSystem::inspect() {
 	return "Saccubus::NekomataSystem";
 }
@@ -139,12 +139,6 @@ void NekomataSystem::replace(item::Comment* comment)
 	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
 		item::NekomataReplaceOperation::apply(*it, comment);
 	}
-}
-
-void NekomataSystem::queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg)
-{
-	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = std::upper_bound(this->queue.begin(), this->queue.end(), msg, nekomata::system::Comment::ComparatorByVpos());
-	this->queue.insert(it, msg);
 }
 
 }}

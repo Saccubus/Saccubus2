@@ -19,6 +19,7 @@
 #ifndef META_COMMENT_H_
 #define META_COMMENT_H_
 
+#include <nekomata/classdefs.h>
 #include <string>
 #include <vector>
 #include <libxml2/libxml/tree.h>
@@ -45,8 +46,10 @@ class Comment {
 	DEF_ATTR_ACCESSOR(public, protected, bool, leaf)
 	DEF_ATTR_ACCESSOR(public, protected, bool, premium)
 	DEF_ATTR_ACCESSOR(public, protected, bool, fork)
+	DEF_ATTR_ACCESSOR(public, protected, std::tr1::shared_ptr<const nekomata::tree::Node>, node)
 public: /* mailだけは少しだけ扱いが違う */
 	std::string mail() const;
+	bool haveScript() const;
 protected:
 	void mail(std::string const& mail);
 private:

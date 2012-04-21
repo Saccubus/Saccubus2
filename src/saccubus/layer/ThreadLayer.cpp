@@ -17,6 +17,7 @@
  */
 
 #include <algorithm>
+#include <tr1/memory>
 #include "ThreadLayer.h"
 #include "../meta/Thread.h"
 #include "../PluginOrganizer.h"
@@ -52,7 +53,9 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 
 	{ /* 確定済みコメントを渡す */
 		for(meta::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
-			if((*it)->fork()){
+			if((*it)->haveScript()){
+				this->neko->queueMessage(std::tr1::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
+			}else if((*it)->fork()){
 				this->forkedCommentLayer->queueComment(*it);
 			}else{
 				this->mainCommentLayer->queueComment(*it);
@@ -88,6 +91,7 @@ ThreadLayer::~ThreadLayer() {
 
 void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
+	this->neko->seek(vpos);
 	this->scriptLayer->draw(ctx, vpos);
 	this->mainCommentLayer->draw(ctx, vpos);
 	this->forkedCommentLayer->draw(ctx, vpos);

@@ -25,8 +25,6 @@ namespace saccubus {
 namespace layer {
 
 class NekomataSystem: public nekomata::system::System {
-private:
-	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> > queue;
 public:
 	NekomataSystem(nekomata::logging::Logger& nlog);
 	virtual ~NekomataSystem();
@@ -46,8 +44,6 @@ public: /* スクリプトから参照される */
 	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
-protected:
-	virtual std::tr1::shared_ptr<const nekomata::system::Message> nextMessage();
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();
@@ -56,7 +52,6 @@ public:
 	 * コメント変換
 	 ******************************************************************************************************************/
 	void replace(item::Comment* comment);
-	void queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg);
 };
 
 }}

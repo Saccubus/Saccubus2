@@ -45,25 +45,24 @@ CommentPipeLine::~CommentPipeLine()
 
 Comment* CommentPipeLine::process(const meta::Comment* comment)
 {
-	if(util::startsWith(comment->message(), "/")){ /* スクリプト */
-	} else if(util::startsWith(comment->message(), "@") || util::startsWith(comment->message(), "＠")){
-	}else{ /* 普通のコメント */
-		Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
-		for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
-			if(!MailOperation::apply(*it, product))
-			{
-				log.v(TAG, "Unknwon command: %s", it->c_str());
-			}
-		}
-
-		if(this->replaceTable()){
-			product->message(this->replaceTable()->replace(product->message()));
-		}
-		if(this->nekomataSystem()){
-			this->nekomataSystem()->replace(product);
-		}
-		return product;
+	if(comment->haveScript()){
+		return 0;
 	}
+	Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
+	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+		if(!MailOperation::apply(*it, product))
+		{
+			log.v(TAG, "Unknwon command: %s", it->c_str());
+		}
+	}
+
+	if(this->replaceTable()){
+		product->message(this->replaceTable()->replace(product->message()));
+	}
+	if(this->nekomataSystem()){
+		this->nekomataSystem()->replace(product);
+	}
+	return product;
 }
 
 }}}

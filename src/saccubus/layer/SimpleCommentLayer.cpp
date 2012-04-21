@@ -35,6 +35,7 @@ SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, item
 :CommentLayer(log, isForked, pipeLine, nekoSystem)
 ,last(0)
 {
+
 }
 
 SimpleCommentLayer::~SimpleCommentLayer()
@@ -124,6 +125,9 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 			const meta::Comment* orig = *it;
 			if(vpos < orig->vpos()-CommentAheadTime) break;
 			item::Comment* com = pipeLine()->process(orig);
+			if(!com){
+				logging::Exception(__FILE__, __LINE__, "failed to process comment: %s", orig->message().c_str());
+			}
 			std::tr1::shared_ptr<Slot> item(new Slot(com));
 			doLayout(ctx, vpos, item);
 			CommentIterator insertPoint = std::upper_bound(this->comments.begin(), this->comments.end(), item, SimpleCommentLayer::Slot::CommentEndTimeComparator());
