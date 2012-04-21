@@ -47,8 +47,8 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 
 	{ // これでやっとレイヤの作成
 		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
-		this->forkedCommentLayer = organizer->newCommentLayer(true, this->pipeLine(), this->nekoSystem);
-		this->mainCommentLayer = organizer->newCommentLayer(false, this->pipeLine(), this->nekoSystem);
+		this->forkedCommentLayer = organizer->newCommentLayer(true, this->pipeLine());
+		this->mainCommentLayer = organizer->newCommentLayer(false, this->pipeLine());
 	}
 
 	{ /* 確定済みコメントを渡す */

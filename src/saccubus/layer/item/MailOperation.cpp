@@ -114,7 +114,7 @@ static bool timeCode_func(const std::string& command, Comment* comment)
 bool MailOperation::execute(const std::string& command, Comment* comment) const
 {
 	if(
-		(permission == MailOperation::Premium && (!comment->orig()->premium())) ||
+		(permission == MailOperation::Premium && (!comment->isPremium())) ||
 		(permission == MailOperation::Forked && (comment->layer() != Comment::Forked))
 	){
 		return false;

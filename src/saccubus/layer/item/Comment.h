@@ -66,12 +66,15 @@ public:
 		Bottom,
 	};
 	DEF_ATTR_ACCESSOR(public, public, std::string, message);
-	DEF_ATTR_ACCESSOR(public, public, const meta::Comment*, orig);
+	DEF_ATTR_ACCESSOR(public, public, std::string, mail);
+	DEF_ATTR_ACCESSOR(public, public, unsigned int, no);
 	DEF_ATTR_ACCESSOR(public, public, float, from);
+	DEF_ATTR_ACCESSOR(public, public, float, vpos);
 	DEF_ATTR_ACCESSOR(public, public, float, to);
 	DEF_ATTR_ACCESSOR(public, public, bool, isButton);
 	DEF_ATTR_ACCESSOR(public, public, bool, isYourPost);
 	DEF_ATTR_ACCESSOR(public, public, bool, fromButton);
+	DEF_ATTR_ACCESSOR(public, public, bool, isPremium);
 	DEF_ATTR_ACCESSOR(public, public, bool, full);
 	DEF_ATTR_ACCESSOR(public, public, bool, sage);
 	DEF_ATTR_ACCESSOR(public, public, bool, patissier);
@@ -86,10 +89,9 @@ public:
 protected:
 	Comment();
 public:
-	Comment(const meta::Comment* comment, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
+	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Comment();
-private:
-	void setDefault();
+	void setDefault(const meta::Comment* orig);
 public:
 	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
 	/**

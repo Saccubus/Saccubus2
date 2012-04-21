@@ -31,10 +31,9 @@ namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
-	DEF_ATTR_ACCESSOR(protected, private, NekomataSystem*, nekoSystem);
 	DEF_ATTR_ACCESSOR(protected, private, item::CommentPipeLine*, pipeLine);
 public:
-	CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem);
+	CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine);
 	virtual ~CommentLayer();
 public:
 	virtual void queueComment(const meta::Comment* comment) = 0;

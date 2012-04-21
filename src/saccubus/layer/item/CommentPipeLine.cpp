@@ -43,24 +43,28 @@ CommentPipeLine::~CommentPipeLine()
 {
 }
 
-Comment* CommentPipeLine::process(const meta::Comment* comment)
+Comment* CommentPipeLine::process(const meta::Comment* orig)
 {
-	if(comment->haveScript()){
+	if(orig->haveScript()){
 		return 0;
 	}
-	Comment* const product = new Comment(comment, this->commentFactory(), this->shapeFactory());
-	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+	Comment* const product = new Comment(this->commentFactory(), this->shapeFactory());
+	product->setDefault(orig);
+	/* コマンド欄の処理 */
+	for(meta::Comment::MailIterator it= orig->mailBegin(); it != orig->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, product))
 		{
 			log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}
-
+	/* 置換リスト */
 	if(this->replaceTable()){
 		product->message(this->replaceTable()->replace(product->message()));
 	}
+	/* スクリプトによる置換リスト */
 	if(this->nekomataSystem()){
 		this->nekomataSystem()->replace(product);
+		this->nekomataSystem()->queueMessage(product->createNekomataMessage());
 	}
 	return product;
 }

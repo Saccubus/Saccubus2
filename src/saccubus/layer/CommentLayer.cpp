@@ -21,11 +21,10 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem)
+CommentLayer::CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine)
 :Layer(log)
 {
 	this->isForked(isForked);
-	this->nekoSystem(nekoSystem);
 	this->pipeLine(pipeLine);
 }
 

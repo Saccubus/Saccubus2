@@ -31,8 +31,8 @@ const static std::string TAG("SimpleCommentLayer");
 
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine, NekomataSystem* nekoSystem)
-:CommentLayer(log, isForked, pipeLine, nekoSystem)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine)
+:CommentLayer(log, isForked, pipeLine)
 ,last(0)
 {
 

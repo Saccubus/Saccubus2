@@ -31,30 +31,30 @@ static const std::string TAG("item::Comment");
 
 Comment::Comment()
 {
-	this->orig(0);
 	this->commentFactory(0);
 	this->shapeFactory(0);
-	this->setDefault();
 }
-Comment::Comment(const meta::Comment* comment, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
+Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 {
-	this->orig(comment);
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
-	this->setDefault();
 }
 
 Comment::~Comment() {
 }
 
-void Comment::setDefault()
+void Comment::setDefault(const meta::Comment* orig)
 {
-	this->message(orig() ? orig()->message() : "");
-	this->from(orig() ? orig()->vpos()-1.0f : NAN);
+	this->message(orig->message());
+	this->mail(orig->mail());
+	this->no(orig->no());
+	this->from(orig->vpos()-1.0f);
+	this->vpos(orig->vpos());
 	this->to(this->from()+4.0f);
 	this->isButton(false);
 	this->isYourPost(false);
 	this->fromButton(false);
+	this->isPremium(orig->premium());
 	this->full(false);
 	this->sage(true);
 	this->patissier(false);
@@ -65,21 +65,21 @@ void Comment::setDefault()
 	this->placeY(Comment::Middle);
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);
-	this->layer((orig() && orig()->fork()) ? Comment::Forked : Comment::Normal);
+	this->layer((orig->fork()) ? Comment::Forked : Comment::Normal);
 }
 
 std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 {
 	return std::tr1::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
 			this->message(),
-			this->orig()->vpos(),
+			this->vpos(),
 			this->isYourPost(),
-			this->orig()->mail(),
+			this->mail(),
 			this->fromButton(),
-			this->orig()->premium(),
+			this->isPremium(),
 			this->color(),
 			this->size(),
-			this->orig()->no()
+			this->no()
 			));
 }
 
