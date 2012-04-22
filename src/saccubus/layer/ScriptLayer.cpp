@@ -54,7 +54,7 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 		*x = (screenWidth/2)+nekoItem->drawable()->x()-(width/2);
 		break;
 	case item::NekoItem::Right:
-		*x = screenWidth+nekoItem->drawable()->x();
+		*x = screenWidth+nekoItem->drawable()->x()-width;
 		break;
 	case item::NekoItem::Left:
 		*x = nekoItem->drawable()->x();
@@ -70,7 +70,7 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 		*y = nekoItem->drawable()->y();
 		break;
 	case item::NekoItem::Bottom:
-		*y = screenHeight+nekoItem->drawable()->y();
+		*y = screenHeight+nekoItem->drawable()->y()-height;
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
