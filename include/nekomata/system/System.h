@@ -80,6 +80,12 @@ protected:
 	,SET_DEFAULT(x, 0),SET_DEFAULT(y, 0),SET_DEFAULT(z, 0),SET_DEFAULT(visible, false),SET_DEFAULT(pos, ""){};
 public:
 	virtual ~Drawable(){};
+public:
+	struct ComparatorByZ{
+		bool operator () (Drawable* const a, Drawable* const b);
+		bool operator () (Drawable* const a, const double& b);
+		bool operator () (const double& a, Drawable* const b);
+	};
 };
 
 class Shape : public Drawable
@@ -345,7 +351,6 @@ public:\
 	{\
 		return name##List.end();\
 	}
-
 class System
 {
 private:
@@ -416,11 +421,10 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, lastVideo);
 private:
 	std::map<std::string, double> markerMap;
-	DEF_SYSTEM_LIST(Shape, shape);
-	DEF_SYSTEM_LIST(Label, label);
-	DEF_SYSTEM_LIST(Sum, sum);
-	DEF_SYSTEM_LIST(SumResult, sumResult);
+	std::set<Drawable*> drawableList;
 	DEF_SYSTEM_LIST(Replace, replace);
+public:
+	void fetchDrawables(std::vector<Drawable*>& lst);
 private:
 	std::deque<std::tr1::shared_ptr<const Message> > messageQueue;
 	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
@@ -449,6 +453,7 @@ protected: /* INFO: 各サブシステムで再実装すること。 */
 };
 
 
+#undef DEF_DRAWABLE_LIST
 #undef DEF_SYSTEM_LIST
 #undef DEF_ADAPTER_ACCESSOR
 #undef SET_PARAM

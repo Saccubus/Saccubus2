@@ -70,10 +70,7 @@ void deleteSystemItems(std::set<T*, C>& map)
 }
 
 System::~System() {
-	deleteSystemItems<Shape>(shapeList);
-	deleteSystemItems<Label>(labelList);
-	deleteSystemItems<Sum>(sumList);
-	deleteSystemItems<SumResult>(sumResultList);
+	deleteSystemItems<Drawable>(drawableList);
 	deleteSystemItems<Replace>(replaceList);
 }
 
@@ -360,6 +357,35 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const std::string
 	}
 }
 
+void System::fetchDrawables(std::vector<Drawable*>& lst)
+{
+	lst.clear();
+	std::copy( drawableList.begin(), drawableList.end(), std::back_inserter(lst));
+	std::sort(lst.begin(), lst.end(), Drawable::ComparatorByZ());
+}
+
+#define DRAWABLE_REGIST_TEMPLATE(clazz, name) \
+void System::regist(clazz* const name)\
+{\
+	const bool inserted = this->drawableList.insert(name).second;\
+	if(!inserted){\
+		log.e(TAG, 0, "[BUG] registed duplicated %s!: %s", #clazz, name->inspect().c_str());\
+	}\
+}\
+void System::unregist(clazz* const name)\
+{\
+	const size_t deleted = this->drawableList.erase(name);\
+	if(deleted <= 0){\
+		log.e(TAG, 0, "[BUG] unregisted duplicated %s!: %s", #clazz, name->inspect().c_str());\
+	}\
+	delete name;\
+}
+
+DRAWABLE_REGIST_TEMPLATE(Shape, shape)
+DRAWABLE_REGIST_TEMPLATE(Label, label)
+DRAWABLE_REGIST_TEMPLATE(Sum, sum)
+DRAWABLE_REGIST_TEMPLATE(SumResult, sumResult)
+
 #define REGIST_TEMPLATE(clazz, name) \
 void System::regist(clazz* const name)\
 {\
@@ -376,13 +402,9 @@ void System::unregist(clazz* const name)\
 	}\
 	delete name;\
 }
-
-REGIST_TEMPLATE(Shape, shape)
-REGIST_TEMPLATE(Label, label)
-REGIST_TEMPLATE(Sum, sum)
-REGIST_TEMPLATE(SumResult, sumResult)
 REGIST_TEMPLATE(Replace, replace)
 
+#undef DRAWABLE_REGIST_TEMPLATE
 #undef REGIST_TEMPLATE
 
 }}

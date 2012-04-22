@@ -35,6 +35,19 @@ void SystemItem::decNativeRef(){
 	}
 };
 
+bool Drawable::ComparatorByZ::operator () (Drawable* const a, Drawable* const b)
+{
+	return a->z() < b->z();
+}
+bool Drawable::ComparatorByZ::operator () (Drawable* const a, const double& b)
+{
+	return a->z() < b;
+}
+bool Drawable::ComparatorByZ::operator () (const double& a, Drawable* const b)
+{
+	return a < b->z();
+}
+
 void SystemItem::onChanged()
 {
 	system.log.v(TAG, 0, "prop changed: %s", inspect().c_str());
