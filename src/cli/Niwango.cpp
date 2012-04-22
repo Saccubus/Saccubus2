@@ -130,6 +130,7 @@ int main(int argc, char* argv[]){
 	CLISystem _system(log, std::cout);
 	nekomata::Nekomata nekomata(_system, log);
 
+	float last = 0.0f;
 	if(dump){
 		log.t(TAG, 0, "Dumping timeline.");
 		nekomata::logging::Dumper dumper(std::cout);
@@ -146,10 +147,13 @@ int main(int argc, char* argv[]){
 	}else{
 		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
 			nekomata.queueMessage(it->second);
+			last = it->first;
 		}
 	}
 	log.t(TAG, 0, "Executing...");
-	nekomata.seek();
+	for(float t = 0; t<last; t+=(1/30.0f)){
+		nekomata.seek(t);
+	}
 
 	return 0;
 }

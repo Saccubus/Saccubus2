@@ -41,7 +41,7 @@ public:
 	virtual ~Nekomata();
 public:
 	void queueMessage(std::tr1::shared_ptr<const system::Message> msg);
-	void seek(float time=FLT_MAX);
+	void seek(float time);
 };
 
 }
