@@ -151,7 +151,7 @@ int main(int argc, char* argv[]){
 		}
 	}
 	log.t(TAG, 0, "Executing...");
-	for(float t = 0; t<last; t+=(1/30.0f)){
+	for(float t = 0; t<=last; t+=(1/30.0f)){
 		nekomata.seek(t);
 	}
 

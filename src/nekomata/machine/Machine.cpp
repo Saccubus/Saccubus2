@@ -304,7 +304,7 @@ void Machine::walkImpl(const PostOpNode & node)
 		const object::Handler<object::Object> result = send(operandObj, node.getOp());
 
 		send(destObj, "indexSet", heap.newArrayObject(2, idxObj->index(0).get(), result.get()));
-		this->log.t(TAG, &invokeNode->location(), "Walked post op(%s) assign node %s[%s] (%s -> %s)",
+		this->log.t(TAG, &idxNode->location(), "Walked post op(%s) assign node %s[%s] (%s -> %s)",
 				node.getOp().c_str(),
 				object::cast<std::string>(destObj).c_str(),
 				object::cast<std::string>(idxObj).c_str(),

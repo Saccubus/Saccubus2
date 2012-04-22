@@ -21,10 +21,10 @@
 
 namespace nekomata{
 namespace object{
-UndefinedObject::UndefinedObject(ObjectHeap& heap)
-:Object(heap)
+UndefinedObject::UndefinedObject(Object& parent)
+:Object(parent, 0)
 {
-
+	freeze();
 }
 UndefinedObject::~UndefinedObject()
 {

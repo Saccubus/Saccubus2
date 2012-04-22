@@ -431,7 +431,7 @@ public:
 class UndefinedObject : public Object
 {
 public:
-	explicit UndefinedObject(ObjectHeap& heap);
+	explicit UndefinedObject(Object& parent);
 	virtual ~UndefinedObject();
 public:
 	virtual std::string toString();
