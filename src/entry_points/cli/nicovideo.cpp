@@ -106,7 +106,7 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 int main(int argc, char** argv) {
 	int w, h;
 	saccubus::Saccubus sacc(std::cout, argc, argv);
-	sacc.measure(640, 480, &w, &h);
+	sacc.measure(640, 360, &w, &h);
 
 	SDL_Window* const window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
 	if(!window) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to create SDL window: %s", SDL_GetError());

@@ -48,6 +48,8 @@ public: /* スクリプトから参照される */
 	virtual void addPostRoute(const std::string& match, const std::string& id, const std::string& button);
 	virtual void CM(const std::string& id, double time, bool pause, const std::string& link, double volume);
 	virtual void playCM(int id);
+	double screenWidth();
+	double screenHeight();
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

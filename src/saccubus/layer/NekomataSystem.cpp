@@ -120,7 +120,14 @@ void NekomataSystem::CM(const std::string& id, double time, bool pause,
 void NekomataSystem::playCM(int id) {
 	this->log.e(TAG, 0, "Sorry, 'playCM' not supported yet!!");
 }
-
+double NekomataSystem::screenWidth()
+{
+	return 640; //KARI
+}
+double NekomataSystem::screenHeight()
+{
+	return 360; //KARI
+}
 std::string NekomataSystem::inspect() {
 	return "Saccubus::NekomataSystem";
 }
