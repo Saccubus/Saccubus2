@@ -351,16 +351,16 @@ class System
 private:
 	class EventEntry{
 	public:
-		EventEntry(float const from, float const to, const tree::Node* then): _from(from), _to(to), _then(then){};
-		virtual ~EventEntry(){};
+		EventEntry(float const from, float const to, util::Handler<object::LambdaObject> then);
+		virtual ~EventEntry();
 	private:
 		const float _from;
 		const float _to;
-		const tree::Node* _then;
+		const util::Handler<object::LambdaObject> _then;
 	public:
 		float from(){return _from;}
 		float to(){return _to;}
-		const tree::Node* then(){return _then;}
+		const util::Handler<object::LambdaObject> then();
 	};
 public:
 	logging::Logger& log;
@@ -370,6 +370,8 @@ private:
 	float _currentTime;
 public:
 	float currentTime(){return _currentTime;}
+	void commentTrigger(float const timer, util::Handler<object::LambdaObject> then);
+	void timer(float const timer, util::Handler<object::LambdaObject> then);
 protected:
 	void currentTime(float time){_currentTime=time;}
 private:
@@ -380,8 +382,6 @@ private:
 public: /* スクリプトから参照される */
 	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
 	virtual util::Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
-	virtual void commentTrigger(float const timer, const tree::Node* then);
-	virtual void timer(float const timer, const tree::Node* then);
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
 	virtual void jumpCancel();
 	virtual void seek(double vpos, const std::string& msg);

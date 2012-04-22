@@ -34,6 +34,17 @@ using namespace std::tr1;
 
 static const std::string TAG("System");
 
+System::EventEntry::EventEntry(float const from, float const to, util::Handler<object::LambdaObject> then)
+:_from(from),_to(to), _then(then) {
+
+}
+
+System::EventEntry::~EventEntry()
+{
+}
+const util::Handler<object::LambdaObject> System::EventEntry::then(){
+	return _then;
+}
 System::System(logging::Logger& log)
 :log(log)
 ,_currentTime(0)
@@ -78,23 +89,28 @@ util::Handler<Label> System::drawText(const std::string& text, double x, double 
 	_label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return _label;
 }
-void System::commentTrigger(float const timer, const tree::Node* then)
+void System::commentTrigger(float const timer, util::Handler<object::LambdaObject>then)
 {
+	const tree::Node* node = then->getNode();
 	log.v(TAG, 0,
-			"commentTrigger(timer: %f, node: (%d, %d in %s))",
-			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
+			"commentTrigger(timer: %f, node: (%d, %d in %s), total: %d)",
+			timer, node->location().getLineNo(), node->location().getColNo(), node->location().getFilename().c_str(),
+			this->ctrigLine.size()
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, then));
 	this->ctrigLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime(), evt));
 }
-void System::timer(float const timer, const tree::Node* then)
+void System::timer(float const timer, util::Handler<object::LambdaObject> then)
 {
+	const tree::Node* node = then->getNode();
 	log.v(TAG, 0,
-			"timer(timer: %f, node: (%d, %d in %s))",
-			timer, then->location().getLineNo(), then->location().getColNo(), then->location().getFilename().c_str()
+			"timer(timer: %f+%f=%f, node: (%d, %d in %s), total: %d)",
+			currentTime(), timer, currentTime()+timer,
+			node->location().getLineNo(), node->location().getColNo(), node->location().getFilename().c_str(),
+			this->timerLine.size()+1
 			);
 	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, then));
-	this->timerLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime(), evt));
+	this->timerLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime()+timer, evt));
 }
 void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
 {
@@ -292,8 +308,8 @@ void System::dispatchTimer(machine::Machine& machine, const double from, const d
 	while(it != end){
 		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
 		if(it->first < to){
-			log.d(TAG, &nextTimer->then()->location(), "Dispathing timer at: %f left:%d", it->first, timerLine.size());
-			machine.eval(nextTimer->then());
+			log.d(TAG, &nextTimer->then()->getNode()->location(), "Dispathing timer at: %f left:%d", it->first, timerLine.size());
+			machine.send(nextTimer->then(), "index");
 			timerLine.erase(it);
 			it=timerLine.begin();
 			end = timerLine.end();
@@ -324,10 +340,10 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const std::string
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
 	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){
-		log.d(TAG, 0, "Dispathing comment trigger for \"%s\"", message.c_str());
 		const std::tr1::shared_ptr<EventEntry> trigger = it->second;
+		log.v(TAG, &trigger->then()->getNode()->location(), "Dispathing comment trigger for \"%s\"", message.c_str());
 		if(trigger->from() <= vpos && vpos < trigger->to()){
-			machine.eval(trigger->then());
+			machine.send(trigger->then(), "index");
 			it=ctrigLine.begin();
 			while(it!=ctrigLine.end() && it->second != trigger){
 				++it;

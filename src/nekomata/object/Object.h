@@ -314,6 +314,8 @@ public:
 	DEC_BUILTIN(index);
 public:
 	virtual std::string toString();
+public:
+	const tree::Node* getNode(){ return node; };
 };
 
 class LambdaScopeObject : public Object

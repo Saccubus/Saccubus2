@@ -60,7 +60,7 @@ std::string LambdaObject::toString()
 LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
 :Object(heap)
 {
-	ADD_BUILTIN_ALT(atmark, "alt");
+	ADD_BUILTIN_ALT(atmark, "@");
 	includeBuitin();
 }
 

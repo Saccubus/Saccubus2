@@ -153,9 +153,10 @@ DEF_BUILTIN(SystemObject, commentTrigger)
 	const Handler<Object> arg(machine.getArgument());
 	const Handler<LazyEvalObject> lazy(arg);
 	if(lazy && (arg->has(0) || arg->has("then"))){
+		const Handler<LambdaObject> lambda = self->getHeap().newLambdaObject(machine.getLocal(), arg->has("then") ? lazy->getRawNode()->getSlot("then") : lazy->getRawNode()->index(0));
 		self->system.commentTrigger(
 			opt(arg, "timer", DBL_MAX),
-			arg->has("then") ? lazy->getRawNode()->getSlot("then") : lazy->getRawNode()->index(0)
+			lambda
 		);
 	}
 	machine.pushResult(self->getHeap().newUndefinedObject());
@@ -166,9 +167,10 @@ DEF_BUILTIN(SystemObject, timer)
 	const Handler<Object> arg(machine.getArgument());
 	const Handler<LazyEvalObject> lazy(arg);
 	if(lazy && arg->has("timer") && (arg->has(0) || arg->has("then"))){
+		const Handler<LambdaObject> lambda = self->getHeap().newLambdaObject(machine.getLocal(), arg->has("then") ? lazy->getRawNode()->getSlot("then") : lazy->getRawNode()->index(0));
 		self->system.timer(
 			opt(arg, "timer", 0.0),
-			arg->has("then") ? lazy->getRawNode()->getSlot("then") : lazy->getRawNode()->index(0)
+			lambda
 		);
 	}
 	machine.pushResult(self->getHeap().newUndefinedObject());
