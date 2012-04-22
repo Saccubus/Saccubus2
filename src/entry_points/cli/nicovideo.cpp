@@ -60,7 +60,7 @@ public:
 
 void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurface, saccubus::Saccubus* const saccubus) {
 
-	unsigned long long now = SDL_GetTicks();
+	unsigned long long now = 0;//SDL_GetTicks();
 	unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
 	unsigned long long fpsTime = now;
 	unsigned int fps = 0;
@@ -88,6 +88,7 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 		SDL_UpdateWindowSurface(window);
 
 		++fps;
+		/*
 		now = SDL_GetTicks();
 		if (now - fpsTime >= 1000) {
 			printf("FPS:%d\n", fps);
@@ -100,6 +101,9 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 			SDL_Delay((nextFactored - nowFactored) / FACTOR);
 		}
 		nextFactored += FACTORED_INTERVAL;
+		*/
+		SDL_Delay(16);
+		now+=16;
 	}
 }
 

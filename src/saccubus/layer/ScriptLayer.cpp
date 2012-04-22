@@ -78,20 +78,14 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 }
 void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
-	for(NekomataSystem::LabelIterator it = nekoSystem()->labelBegin(); it != nekoSystem()->labelEnd(); ++it){
-		item::Label* label = dynamic_cast<item::Label*>(*it);
-		if(!label->visible()) continue;
-		draw::Sprite::Handler<draw::Sprite> spr = label->querySprite(ctx);
+	std::vector<nekomata::system::Drawable*> lst;
+	nekoSystem()->fetchDrawables(lst);
+	for(std::vector<nekomata::system::Drawable*>::const_iterator it = lst.begin(); it != lst.end(); ++it){
+		if(!(*it)->visible()) continue;
+		item::NekoItem* item = dynamic_cast<item::NekoItem*>(*it);
+		draw::Sprite::Handler<draw::Sprite> spr = item->querySprite(ctx);
 		float x,y;
-		resolvePos(label, ctx->width(), ctx->height(), &x, &y);
-		spr->draw(ctx, x, y);
-	}
-	for(NekomataSystem::ShapeIterator it = nekoSystem()->shapeBegin(); it != nekoSystem()->shapeEnd(); ++it){
-		item::Shape* shape = dynamic_cast<item::Shape*>(*it);
-		if(!shape->visible()) continue;
-		draw::Sprite::Handler<draw::Sprite> spr = shape->querySprite(ctx);
-		float x,y;
-		resolvePos(shape, ctx->width(), ctx->height(), &x, &y);
+		resolvePos(item, ctx->width(), ctx->height(), &x, &y);
 		spr->draw(ctx, x, y);
 	}
 }
