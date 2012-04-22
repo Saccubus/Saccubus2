@@ -28,6 +28,7 @@ namespace util {
 std::string format(const std::string& fmt, ...);
 std::string formatv(const std::string& fmt, va_list args);
 std::string decodePercent(const std::string& str);
+
 void split(const std::string& str, const std::string& sep, std::vector<std::string>& list);
 void split(const std::string& str, const std::string* sep, size_t n, std::vector<std::string>& list);
 template <size_t N>
@@ -40,6 +41,7 @@ void splitLine(const std::string& str, std::vector<std::string>& list);
 bool startsWith(const std::string& target, const std::string& prefix);
 bool endsWith(const std::string& target, const std::string& suffix);
 std::string generateRandomString(size_t len);
+const std::string unescapeString(const std::string& str);
 
 }}
 #endif /* STRINGUTIL_H_ */
