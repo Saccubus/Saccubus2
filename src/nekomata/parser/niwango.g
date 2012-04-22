@@ -377,7 +377,7 @@ string returns [shared_ptr<const StringLiteralNode> result]
 	{
 		std::string str = createStringFromToken($t);
 		//FIXME: ちょっと醜い。どうにかならないかな。
-		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($t), str.substr(1, str.length()-2)));
+		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($t), unescapeString(str.substr(1, str.length()-2))));
 	}
 	;
 
@@ -411,13 +411,14 @@ STRING_DOUBLE_ELEMENT: ESC_SEQ | ~('\\'|'"'|'\r'|'\n');
 fragment
 ESC_SEQ
 	:'\\'
-		( 'b' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\b")); }
-		| 't' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\t")); }
-		| 'n' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\n")); }
-		| 'f' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\f")); }
-		| 'r' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\r")); }
-		| '"' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\"")); }
-		| '\'' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"'")); }
+		( 'b'
+		| 't'
+		| 'n'
+		| 'f'
+		| 'r'
+		| '"'
+		| '\''
+		| '\\'
 		)?
 	;
 
