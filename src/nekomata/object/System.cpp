@@ -301,7 +301,7 @@ DEF_BUILTIN(SystemObject, addButton)
 	self->system.addButton(
 		opt(arg, "message", ""),
 		opt(arg, "mail", ""),
-		opt(arg, "vpos", 0.0),
+		opt(arg, "vpos", NAN),
 		opt(arg, "commes", ""),
 		opt(arg, "commail", ""),
 		opt(arg, "comvisible", true),
