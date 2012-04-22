@@ -351,16 +351,17 @@ class System
 private:
 	class EventEntry{
 	public:
-		EventEntry(float const from, float const to, util::Handler<object::LambdaObject> then);
+		EventEntry(float const from, float const to, util::Handler<object::LazyEvalObject> obj);
 		virtual ~EventEntry();
 	private:
 		const float _from;
 		const float _to;
-		const util::Handler<object::LambdaObject> _then;
+		const util::Handler<object::LazyEvalObject> _obj;
 	public:
 		float from(){return _from;}
 		float to(){return _to;}
-		const util::Handler<object::LambdaObject> then();
+		void eval();
+		const tree::Location* location();
 	};
 public:
 	logging::Logger& log;
@@ -370,8 +371,8 @@ private:
 	float _currentTime;
 public:
 	float currentTime(){return _currentTime;}
-	void commentTrigger(float const timer, util::Handler<object::LambdaObject> then);
-	void timer(float const timer, util::Handler<object::LambdaObject> then);
+	void commentTrigger(float const timer, util::Handler<object::LazyEvalObject> obj);
+	void timer(float const timer, util::Handler<object::LazyEvalObject> obj);
 protected:
 	void currentTime(float time){_currentTime=time;}
 private:
