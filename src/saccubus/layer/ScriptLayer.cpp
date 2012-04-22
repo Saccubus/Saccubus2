@@ -47,14 +47,14 @@ ScriptLayer::~ScriptLayer() {
 /******************************************************************************************************************
  * レイヤ
  ******************************************************************************************************************/
-void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height, float* x, float* y)
+void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height, float screenWidth, float screenHeight, float* x, float* y)
 {
 	switch(nekoItem->posX()){
 	case item::NekoItem::CenterX:
-		*x = (width/2)+nekoItem->drawable()->x();
+		*x = (screenWidth/2)+nekoItem->drawable()->x()-(width/2);
 		break;
 	case item::NekoItem::Right:
-		*x = width+nekoItem->drawable()->x();
+		*x = screenWidth+nekoItem->drawable()->x();
 		break;
 	case item::NekoItem::Left:
 		*x = nekoItem->drawable()->x();
@@ -64,13 +64,13 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 	}
 	switch(nekoItem->posY()){
 	case item::NekoItem::CenterY:
-		*y = (height/2)+nekoItem->drawable()->y();
+		*y = (screenHeight/2)+nekoItem->drawable()->y()-(height/2);
 		break;
 	case item::NekoItem::Top:
 		*y = nekoItem->drawable()->y();
 		break;
 	case item::NekoItem::Bottom:
-		*y = height+nekoItem->drawable()->y();
+		*y = screenHeight+nekoItem->drawable()->y();
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
@@ -85,7 +85,7 @@ void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 		item::NekoItem* item = dynamic_cast<item::NekoItem*>(*it);
 		draw::Sprite::Handler<draw::Sprite> spr = item->querySprite(ctx);
 		float x,y;
-		resolvePos(item, ctx->width(), ctx->height(), &x, &y);
+		resolvePos(item, spr->width(), spr->height(), ctx->width(), ctx->height(), &x, &y);
 		spr->draw(ctx, x, y);
 	}
 }

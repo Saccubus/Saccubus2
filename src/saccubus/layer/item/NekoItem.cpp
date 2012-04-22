@@ -48,6 +48,8 @@ void NekoItem::reload()
 			_posY = Top;
 		}else if("shita" == *it){
 			_posY = Bottom;
+		}else if("naka" == *it){
+			_posY = CenterY;
 		}
 	}
 }

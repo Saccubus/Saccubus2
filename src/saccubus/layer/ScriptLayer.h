@@ -33,7 +33,7 @@ namespace layer {
 class ScriptLayer: public Layer {
 	DEF_ATTR_ACCESSOR(private, private, NekomataSystem*, nekoSystem);
 private:
-	void resolvePos(item::NekoItem* nekoItem, float width, float height, float* x, float* y);
+	void resolvePos(item::NekoItem* nekoItem, float width, float height, float screenWidth, float screenHeight, float* x, float* y);
 public:
 	ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem);
 	virtual ~ScriptLayer();
