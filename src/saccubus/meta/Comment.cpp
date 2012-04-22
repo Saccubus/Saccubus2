@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <nekomata/trans/NicosTrans.h>
 #include <nekomata/parser/Parser.h>
 #include <sstream>
 #include "Comment.h"
@@ -44,7 +45,9 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 
 	if(util::startsWith(this->message(), "/")){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->message().substr(1))->parseProgram());
-	} else if(util::startsWith(this->message(), "@") || util::startsWith(this->message(), "＠")){
+	} else if(util::startsWith(this->message(), "＠")){
+		std::string translated = nekomata::trans::toNiwango(this->mail(), this->message());
+		this->node(nekomata::parser::Parser::fromString(translated)->parseProgram());
 	}
 
 	if(log.t()){

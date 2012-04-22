@@ -89,6 +89,10 @@ void NekomataSystem::addButton(
 		const std::string& message, const std::string& mail, double vpos,
 		const std::string& commes, const std::string& commail, bool comvisible,
 		int limit, bool hidden) {
+	log.e(TAG, 0,
+			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
+			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
+			);
 }
 
 void NekomataSystem::BGM(const std::string& id, double x, double y,
