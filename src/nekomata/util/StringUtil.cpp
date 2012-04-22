@@ -40,7 +40,7 @@ std::string formatv(const std::string& fmt, va_list args)
 {
 	char buff[8192];
 	size_t len = vsnprintf(buff, 8192, fmt.c_str(), args);
-	if(len <= 0){
+	if(len < 0){
 		throw logging::Exception(__FILE__, __LINE__, "Format string too long!!");
 	}
 	return buff;
