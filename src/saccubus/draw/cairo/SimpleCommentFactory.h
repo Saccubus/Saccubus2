@@ -53,8 +53,8 @@ private:
 	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLine(const std::string& str, unsigned long color, unsigned long shadowColor, double size);
 	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLines(const std::string& str, unsigned long color, unsigned long shadowColor, double size);
 public:
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment);
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabel(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label);
 };
 
 }}}

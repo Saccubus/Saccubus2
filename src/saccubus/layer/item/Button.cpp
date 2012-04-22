@@ -48,7 +48,7 @@ bool Button::onClick()
 draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
 	draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
-	draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderComment(ctx, this);
+	draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderCommentText(ctx, this);
 	draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), this->color());
 	layerd->addSprite(0, 0, btnSpr);
 	layerd->addSprite((btnSpr->width()-textSpr->width())/2, (btnSpr->height()-textSpr->height())/2, textSpr);

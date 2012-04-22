@@ -96,7 +96,7 @@ std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 
 draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
-	return commentFactory()->renderComment(ctx, this);
+	return commentFactory()->renderCommentText(ctx, this);
 }
 
 void Comment::sizeType(enum Size size)

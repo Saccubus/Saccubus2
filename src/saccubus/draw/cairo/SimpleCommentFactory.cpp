@@ -180,12 +180,12 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	return spr;
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
 {
 	return renderLines(comment->message(), comment->color(), comment->shadowColor(), comment->size());
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLabel(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label)
 {
 	return renderLines(label->text(), label->color(), 0x000000, label->size());
 }
