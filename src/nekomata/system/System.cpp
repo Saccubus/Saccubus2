@@ -269,7 +269,7 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = messageQueue.begin();
 	for(; it != messageQueue.end() && (*it)->vpos() < to+1.0f; ++it){
 		std::tr1::shared_ptr<const nekomata::system::Message> msg = *it;
-		dispatchTimer(machine, currentTime(), msg->vpos());
+		dispatchTimer(machine, currentTime());
 		currentTime(msg->vpos());
 		switch(msg->type)
 		{
@@ -290,9 +290,9 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 			break;
 		}
 	}
-	dispatchTimer(machine, currentTime(), to);
 	this->messageQueue.erase(messageQueue.begin(), it);
 	currentTime(to);
+	dispatchTimer(machine, currentTime());
 }
 
 void System::queueMessage(std::tr1::shared_ptr<const Message> message)
@@ -301,21 +301,18 @@ void System::queueMessage(std::tr1::shared_ptr<const Message> message)
 	this->messageQueue.insert(it, message);
 }
 
-void System::dispatchTimer(machine::Machine& machine, const double from, const double to)
+void System::dispatchTimer(machine::Machine& machine, const double to)
 {
 	std::multimap<float, std::tr1::shared_ptr<EventEntry> >::iterator it = timerLine.begin();
 	std::multimap<float, std::tr1::shared_ptr<EventEntry> >::iterator end = timerLine.end();
 	while(it != end){
 		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
 		if(it->first < to){
-			log.d(TAG, &nextTimer->then()->getNode()->location(), "Dispathing timer at: %f left:%d", it->first, timerLine.size());
+			log.v(TAG, &nextTimer->then()->getNode()->location(), "Dispathing timer at: %f left:%d", it->first, timerLine.size());
 			machine.send(nextTimer->then(), "index");
 			timerLine.erase(it);
 			it=timerLine.begin();
 			end = timerLine.end();
-			if(timerLine.size() <= 0){
-				machine.getLocal();
-			}
 			continue;
 		}
 		++it;

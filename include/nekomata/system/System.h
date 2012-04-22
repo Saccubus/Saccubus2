@@ -377,7 +377,7 @@ protected:
 private:
 	void dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_ptr<const Comment> comment);
 	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
-	void dispatchTimer(machine::Machine& machine, const double from, const double to);
+	void dispatchTimer(machine::Machine& machine, const double to);
 //---------------------------------------------------------------------------------------------------------------------
 public: /* スクリプトから参照される */
 	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
