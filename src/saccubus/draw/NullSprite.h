@@ -25,10 +25,13 @@ namespace saccubus {
 namespace draw {
 
 class NullSprite: public saccubus::draw::Sprite {
-public:
-	static Sprite::Handler<Sprite> newInstance();
 private:
-	NullSprite();
+	int _width;
+	int _height;
+public:
+	static Sprite::Handler<Sprite> newInstance(int width, int height);
+private:
+	NullSprite(int width, int height);
 public:
 	virtual ~NullSprite();
 protected:

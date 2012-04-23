@@ -22,13 +22,13 @@
 namespace saccubus {
 namespace draw {
 
-Sprite::Handler<Sprite> NullSprite::newInstance()
+Sprite::Handler<Sprite> NullSprite::newInstance(int width, int height)
 {
-	return Sprite::Handler<Sprite>(new NullSprite());
+	return Sprite::Handler<Sprite>(new NullSprite(width, height));
 }
 
-NullSprite::NullSprite()
-:Sprite()
+NullSprite::NullSprite(int width, int height)
+:Sprite(), _width(width), _height(height)
 {
 }
 
@@ -41,11 +41,11 @@ void NullSprite::onFree()
 }
 int NullSprite::width() const
 {
-	return 0;
+	return _width;
 }
 int NullSprite::height() const
 {
-	return 0;
+	return _height;
 }
 void NullSprite::draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y)
 {

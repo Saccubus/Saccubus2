@@ -106,7 +106,7 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLine(const std::string& str, unsigned long color, unsigned long shadowColor, double size)
 {
 	if(str.size() <= 0){
-		return NullSprite::newInstance();
+		return NullSprite::newInstance(0, 0);
 	}
 	double x;
 	double y;

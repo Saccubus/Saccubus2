@@ -123,9 +123,6 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 	{ /* 表示しないコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, SimpleCommentLayer::Slot::EndTimeComparator());
-		if(end-beg > 0){
-			log.e(TAG, "erased: %d", end-beg);
-		}
 		this->comments.erase(beg, end);
 	}
 	{ /* 変換されるメタコメントを実体へ変換 */
