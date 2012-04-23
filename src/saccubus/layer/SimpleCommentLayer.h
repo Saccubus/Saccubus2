@@ -46,7 +46,7 @@ private:
 		bool operator !=(const Slot& other);
 		bool operator ==(const Slot& other);
 	public:
-		struct CommentEndTimeComparator{
+		struct EndTimeComparator{
 			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const std::tr1::shared_ptr<const Slot>& b);
 			bool operator() (const float& a, const std::tr1::shared_ptr<const Slot>& b);
 			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const float& b);
@@ -55,8 +55,10 @@ private:
 private:
 	static const float CommentAheadTime;
 private:
-	std::vector<const meta::Comment*> queue;
-	typedef std::vector<const meta::Comment*>::iterator QueueIterator;
+	std::vector<const meta::Comment*> metaQueue;
+	std::vector<item::Comment*> deployQueue;
+	typedef std::vector<const meta::Comment*>::iterator MetaQueueIterator;
+	typedef std::vector<item::Comment*>::iterator DeployQueueIterator;
 	std::vector<std::tr1::shared_ptr<Slot> > comments;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
@@ -68,8 +70,9 @@ public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
 	virtual void queueComment(const meta::Comment* comment);
+	virtual void queueComment(item::Comment* comment);
 private:
-	void doLayout(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
+	void deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
 	float getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> layout);
 };
 

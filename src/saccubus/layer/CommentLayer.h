@@ -37,6 +37,7 @@ public:
 	virtual ~CommentLayer();
 public:
 	virtual void queueComment(const meta::Comment* comment) = 0;
+	virtual void queueComment(item::Comment* comment) = 0;
 };
 
 }}

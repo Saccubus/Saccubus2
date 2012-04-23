@@ -93,6 +93,7 @@ void NekomataSystem::addButton(
 			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
 			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
 			);
+	/* FIXME: ユーザとオーナー、どうやって区別する？ */
 	item::Button* btn = new item::Button(this->commentFactory(), this->shapeFactory());
 	btn->vpos(vpos);
 	btn->comvisible(comvisible);
