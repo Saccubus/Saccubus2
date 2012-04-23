@@ -41,24 +41,24 @@ public:
 	const enum ArgType argType;
 	const std::string name;
 	const enum Permission permission;
-	typedef std::tr1::function<bool(const std::string& name, item::Comment* comment)> Func;
+	typedef std::tr1::function<bool(const std::string& name, std::tr1::shared_ptr<item::Comment> comment)> Func;
 	const Func func;
 	MailOperation(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
 	:argType(argType), name(name), permission(permission), func(func){};
 	virtual ~MailOperation(){};
-	bool execute(const std::string& command, item::Comment* comment) const;
+	bool execute(const std::string& command, std::tr1::shared_ptr<item::Comment> comment) const;
 private:
 	static const struct MailOperation Instance[];
 	static const size_t Count;
 public:
-	static bool apply(const std::string& mail, item::Comment* product);
+	static bool apply(const std::string& mail, std::tr1::shared_ptr<item::Comment> product);
 };
 
 struct NekomataReplaceOperation
 {
 public:
-	static void apply(nekomata::system::Replace* replace, item::Comment* comment);
-	static void apply(nekomata::system::System* system, item::Comment* comment);
+	static void apply(nekomata::system::Replace* replace, std::tr1::shared_ptr<item::Comment> comment);
+	static void apply(nekomata::system::System* system, std::tr1::shared_ptr<item::Comment> comment);
 };
 
 }}

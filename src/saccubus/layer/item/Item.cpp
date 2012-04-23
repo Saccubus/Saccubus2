@@ -26,8 +26,30 @@ Item::Item()
 {
 }
 
+Item::Item(const Item& other)
+{
+
+}
+Item& Item::operator = (const Item& other)
+{
+	return *this;
+}
+
 Item::~Item()
 {
+}
+
+void Item::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
+{
+	querySprite(ctx)->draw(ctx, x, y);
+}
+float Item::width(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+{
+	return querySprite(ctx)->width();
+}
+float Item::height(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+{
+	return querySprite(ctx)->height();
 }
 
 draw::Sprite::Handler<draw::Sprite> Item::querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
@@ -42,7 +64,8 @@ void Item::invalidate()
 	sprite.reset();
 }
 
-bool Item::onClick(){
+bool Item::onClick(int relX, int relY)
+{
 	return false;
 }
 

@@ -42,8 +42,8 @@ public:
 	MessageOrganizer(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, nekomata::Nekomata* neko, layer::NekomataSystem* nekomataSystem);
 	virtual ~MessageOrganizer();
 public:
-	item::Comment* organize(const meta::Comment* comment);
-	void rewrite(item::Comment* comment);
+	std::tr1::shared_ptr<item::Comment> organize(const meta::Comment* comment);
+	void rewrite(std::tr1::shared_ptr<item::Comment> comment);
 };
 
 }}

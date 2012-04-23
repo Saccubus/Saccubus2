@@ -84,8 +84,11 @@ private:
 	enum Size _sizeType;
 	std::string _mail;
 	std::vector<std::string> _mails;
-protected:
+private:
 	Comment();
+public:
+	Comment(const Comment& other);
+	Comment& operator = (const Comment& other);
 public:
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Comment();
@@ -95,7 +98,7 @@ public:
 	void sizeType(enum Size size);
 	enum Size sizeType() const;
 public:
-	std::string mail();
+	std::string mail() const;
 	void mail(const std::string& val);
 	typedef std::vector<std::string>::const_iterator MailIterator;
 	size_t mailSize() const;
@@ -108,8 +111,6 @@ public:
 	/**
 	 * Item Methods
 	 */
-public:
-	virtual bool onClick();
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 };

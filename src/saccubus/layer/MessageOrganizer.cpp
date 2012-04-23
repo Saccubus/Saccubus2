@@ -43,14 +43,14 @@ MessageOrganizer::MessageOrganizer(logging::Logger& log, draw::CommentFactory* c
 MessageOrganizer::~MessageOrganizer() {
 }
 
-item::Comment* MessageOrganizer::organize(const meta::Comment* comment)
+std::tr1::shared_ptr<item::Comment> MessageOrganizer::organize(const meta::Comment* comment)
 {
-	item::Comment* const product = new item::Comment(this->commentFactory(), this->shapeFactory());
+	const std::tr1::shared_ptr<item::Comment> product = std::tr1::shared_ptr<item::Comment>(new item::Comment(this->commentFactory(), this->shapeFactory()));
 	product->import(comment);
 	rewrite(product);
 	return product;
 }
-void MessageOrganizer::rewrite(item::Comment* comment)
+void MessageOrganizer::rewrite(std::tr1::shared_ptr<item::Comment> comment)
 {
 	/* コマンド欄の処理 */
 	comment->from(comment->vpos()-1.0f);

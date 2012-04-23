@@ -42,8 +42,8 @@ SimpleCommentLayer::~SimpleCommentLayer()
 
 void SimpleCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> slot)
 {
-	slot->width(slot->comment()->querySprite(ctx)->width());
-	slot->height(slot->comment()->querySprite(ctx)->height());
+	slot->width(slot->comment()->width(ctx));
+	slot->height(slot->comment()->height(ctx));
 	switch(slot->comment()->placeY()){
 	case item::Comment::Bottom:
 		slot->y(ctx->height()-slot->height());
@@ -113,7 +113,7 @@ void SimpleCommentLayer::queueComment(const meta::Comment* comment)
 	this->metaQueue.insert(it, comment);
 }
 
-void SimpleCommentLayer::queueComment(item::Comment* comment)
+void SimpleCommentLayer::queueComment(std::tr1::shared_ptr<item::Comment> comment)
 {
 	this->deployQueue.push_back(comment);
 
@@ -147,7 +147,7 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 			std::tr1::shared_ptr<Slot> item(*it);
 			int x = static_cast<int>(getX(vpos, ctx->width(), item));
 			item->x(x);
-			item->comment()->querySprite(ctx)->draw(ctx, x, item->y());
+			item->comment()->draw(ctx, x, item->y());
 		}
 	}
 }
@@ -159,7 +159,7 @@ bool SimpleCommentLayer::onClick(int x, int y)
 				( slot->x() <= x && x <= slot->x()+slot->width() ) &&
 				( slot->y() <= y && y <= slot->y()+slot->height() )
 		){
-			if(slot->comment()->onClick()) return true;
+			if(slot->comment()->onClick(x-slot->x(), y-slot->y())) return true;
 		}
 	}
 	return false;
@@ -187,7 +187,7 @@ bool SimpleCommentLayer::Slot::EndTimeComparator::operator() (const std::tr1::sh
 	return a->comment()->to() < b;
 }
 
-SimpleCommentLayer::Slot::Slot(item::Comment* comment)
+SimpleCommentLayer::Slot::Slot(std::tr1::shared_ptr<item::Comment> comment)
 {
 	this->comment(comment);
 	this->x(-1);
@@ -195,8 +195,6 @@ SimpleCommentLayer::Slot::Slot(item::Comment* comment)
 }
 SimpleCommentLayer::Slot::~Slot()
 {
-	delete this->comment();
-	this->comment(0);
 }
 
 }}

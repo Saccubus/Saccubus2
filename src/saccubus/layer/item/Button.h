@@ -32,16 +32,30 @@ class Button: public saccubus::layer::item::Comment {
 	DEF_ATTR_ACCESSOR(public, public, int, limit);
 	DEF_ATTR_ACCESSOR(public, public, bool, hidden);
 private:
+	int isClicked;
+private:
 	MessageOrganizer* const organizer;
 	NekomataSystem* const nekoSystem;
 	CommentLayer* const postLayer;
+private:
+	draw::Sprite::Handler<draw::Sprite> leftSprite;
+	float btnRelX;
+	float btnRelY;
+	draw::Sprite::Handler<draw::Sprite> buttonSprite;
+	draw::Sprite::Handler<draw::Sprite> rightSprite;
+	void constructComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+private:
+	Button();
+	Button(const Button& other);
+	Button& operator = (const Button& other);
 public:
 	Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer, NekomataSystem* const nekoSystem, CommentLayer* const postLayer);
 	virtual ~Button();
 public:
 	virtual bool isButton() const;
 public:
-	virtual bool onClick();
+	virtual bool onClick(int relX, int relY);
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 };

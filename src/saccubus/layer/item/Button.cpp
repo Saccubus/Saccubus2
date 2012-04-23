@@ -30,6 +30,7 @@ namespace item {
 
 Button::Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer,  NekomataSystem* const nekoSystem, CommentLayer* const postLayer)
 :Comment(commentFactory, shapeFactory)
+,isClicked(0)
 ,organizer(organizer)
 ,nekoSystem(nekoSystem)
 ,postLayer(postLayer)
@@ -44,13 +45,14 @@ bool Button::isButton() const
 	return true;
 }
 
-bool Button::onClick()
+bool Button::onClick(int relX, int relY)
 {
-	if(this->limit() <= 0){
-		invalidate();
+	relX -= this->btnRelX;
+	relY -= this->btnRelY;
+	if(this->limit() <= 0 || !(0 <= relX && relX <= this->buttonSprite->width() && 0 <= relY && relY <= this->buttonSprite->height())){
 		return false;
 	}
-	Comment* post = new Comment(commentFactory(), shapeFactory());
+	std::tr1::shared_ptr<item::Comment> post(new Comment(commentFactory(), shapeFactory()));
 	post->vpos(nekoSystem->currentTime());
 	post->message(this->commes());
 	post->mail(this->commail());
@@ -62,19 +64,74 @@ bool Button::onClick()
 		postLayer->queueComment(post);
 	}else if(postLayer){
 		nekoSystem->queueMessage(post->createNekomataMessage());
-		delete post;
 	}
+	isClicked = 3;
+	invalidate();
 	return true;
 }
-
 draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
 {
-	draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
-	draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderCommentText(ctx, this);
-	draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), this->color());
-	layerd->addSprite(0, 0, btnSpr);
-	layerd->addSprite((btnSpr->width()-textSpr->width())/2, (btnSpr->height()-textSpr->height())/2, textSpr);
-	return layerd;
+	if(!leftSprite){
+		size_t left = this->message().find("[");
+		if(left != std::string::npos){
+			std::string leftString(this->message().substr(0, left));
+			Comment com(*this);
+			com.message(leftString);
+			leftSprite = this->commentFactory()->renderCommentText(ctx, &com);
+			this->message(this->message().substr(left+1));
+		}
+	}
+	if(!rightSprite){
+		size_t right = this->message().find("]");
+		if(right != std::string::npos){
+			std::string rightString(this->message().substr(right+1));
+			Comment com(*this);
+			com.message(rightString);
+			rightSprite = this->commentFactory()->renderCommentText(ctx, &com);
+			this->message(this->message().substr(0, right));
+		}
+	}
+	{
+		draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
+		Comment com(*this);
+		com.color(0xffffff);
+		com.shadowColor(0x000000);
+		draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderCommentText(ctx, &com);
+		unsigned int color = 0;
+		if(this->limit() <= 0){
+			color = 0x888888;
+		}else if(isClicked){
+			color = ~this->color();
+		}else{
+			color = this->color();
+		}
+		draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), color);
+		layerd->addSprite(0, 0, btnSpr);
+		layerd->addSprite((btnSpr->width()-textSpr->width())/2, (btnSpr->height()-textSpr->height())/2, textSpr);
+		this->buttonSprite = layerd;
+	}
+	draw::Sprite::Handler<draw::LayerdSprite> spr = draw::LayerdSprite::newInstance();
+	float x = 0.0f;
+	if(leftSprite){
+		spr->addSprite(0, 0, leftSprite);
+		x += this->leftSprite->width();
+	}
+	btnRelX = x;
+	btnRelY = 0;
+	spr->addSprite(btnRelX, btnRelY, this->buttonSprite);
+	x += this->buttonSprite->width();
+	if(rightSprite){
+		spr->addSprite(0, 0, rightSprite);
+	}
+	return spr;
+}
+
+void Button::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
+{
+	this->Comment::draw(ctx, x, y);
+	if(isClicked > 0 && (--isClicked) == 0){
+		invalidate();
+	}
 }
 
 }}}

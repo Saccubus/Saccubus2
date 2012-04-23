@@ -28,21 +28,24 @@ namespace item {
 class Item {
 protected:
 	Item();
-private:
 	Item(const Item& other);
 	Item& operator = (const Item& other);
 public:
 	virtual ~Item();
 private:
 	draw::Sprite::Handler<draw::Sprite> sprite;
-public:
+private:
 	draw::Sprite::Handler<draw::Sprite> querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
-	virtual void invalidate();
+public:
+	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
+	virtual float width(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+	virtual float height(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 protected:
+	void invalidate();
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx) = 0;
 public:
 	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
-	virtual bool onClick();
+	virtual bool onClick(int relX, int relY);
 };
 
 }}}

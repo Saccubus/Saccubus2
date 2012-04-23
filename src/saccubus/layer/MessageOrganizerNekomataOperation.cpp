@@ -25,14 +25,14 @@
 namespace saccubus {
 namespace layer {
 
-void NekomataReplaceOperation::apply(nekomata::system::System* system, item::Comment* comment)
+void NekomataReplaceOperation::apply(nekomata::system::System* system, std::tr1::shared_ptr<item::Comment> comment)
 {
 	for(nekomata::system::System::ReplaceIterator it = system->replaceBegin(); it != system->replaceEnd(); ++it){
 		NekomataReplaceOperation::apply(*it, comment);
 	}
 }
 
-void NekomataReplaceOperation::apply(nekomata::system::Replace* replace, item::Comment* comment)
+void NekomataReplaceOperation::apply(nekomata::system::Replace* replace, std::tr1::shared_ptr<item::Comment> comment)
 {
 	if(!replace->enabled()) return;
 	if(replace->src().size() > 0 && comment->message().find(replace->src()) == std::string::npos){

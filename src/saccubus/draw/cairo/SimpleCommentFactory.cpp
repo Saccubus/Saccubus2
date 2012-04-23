@@ -54,7 +54,7 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 	}
 	{ /* パターンを設定 */
 		FcPatternAddString( this->pattern(), FC_LANG, (const FcChar8*)"ja" );
-		FcPatternAddString( this->pattern(), FC_FAMILY, (FcChar8*)"gothic");
+		FcPatternAddString( this->pattern(), FC_FAMILY, (FcChar8*)"Gothic");
 		cairo_font_options_t* opt = cairo_font_options_create();
 		cairo_font_options_set_subpixel_order(opt, CAIRO_SUBPIXEL_ORDER_RGB);
 		cairo_font_options_set_antialias(opt, CAIRO_ANTIALIAS_DEFAULT);
@@ -120,13 +120,13 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		double w = ext.x_advance+ShadowWidth;
 		y = -ext.y_bearing+ShadowWidth/2;
 		double h = ext.height+ext.y_advance+ShadowWidth;
-		if(ext.height <= 1){
-			return NullSprite::newInstance(0, size+ShadowWidth);
-		}
 		//このwとhは論理座標なので、実際の大きさを取得するために変換してもらう。
 		cairo_user_to_device_distance(this->emptyCairo(), &w, &h);
 		width = std::ceil(w);
 		height = std::ceil(h);
+		if(ext.width <= 1 || ext.height <= 1){
+			return NullSprite::newInstance(width, std::ceil(size+ShadowWidth));
+		}
 	}
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(width, height);
 	{ /* 実際にレンダリング */

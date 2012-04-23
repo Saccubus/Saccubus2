@@ -47,14 +47,14 @@ ScriptLayer::~ScriptLayer() {
 /******************************************************************************************************************
  * レイヤ
  ******************************************************************************************************************/
-void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height, float screenWidth, float screenHeight, float* x, float* y)
+void ScriptLayer::resolvePos(std::tr1::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y)
 {
 	switch(nekoItem->posX()){
 	case item::NekoItem::CenterX:
-		*x = (screenWidth/2)+nekoItem->drawable()->x()-(width/2);
+		*x = (screenWidth/2)+nekoItem->drawable()->x()-(nekoItem->width(ctx)/2);
 		break;
 	case item::NekoItem::Right:
-		*x = screenWidth+nekoItem->drawable()->x()-width;
+		*x = screenWidth+nekoItem->drawable()->x()-nekoItem->width(ctx);
 		break;
 	case item::NekoItem::Left:
 		*x = nekoItem->drawable()->x();
@@ -64,13 +64,13 @@ void ScriptLayer::resolvePos(item::NekoItem* nekoItem, float width, float height
 	}
 	switch(nekoItem->posY()){
 	case item::NekoItem::CenterY:
-		*y = (screenHeight/2)+nekoItem->drawable()->y()-(height/2);
+		*y = (screenHeight/2)+nekoItem->drawable()->y()-(nekoItem->height(ctx)/2);
 		break;
 	case item::NekoItem::Top:
 		*y = nekoItem->drawable()->y();
 		break;
 	case item::NekoItem::Bottom:
-		*y = screenHeight+nekoItem->drawable()->y()-height;
+		*y = screenHeight+nekoItem->drawable()->y()-nekoItem->height(ctx);
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
@@ -83,10 +83,9 @@ void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 	for(std::vector<nekomata::system::Drawable*>::const_iterator it = lst.begin(); it != lst.end(); ++it){
 		if(!(*it)->visible()) continue;
 		item::NekoItem* item = dynamic_cast<item::NekoItem*>(*it);
-		draw::Sprite::Handler<draw::Sprite> spr = item->querySprite(ctx);
-		float x,y;
-		resolvePos(item, spr->width(), spr->height(), ctx->width(), ctx->height(), &x, &y);
-		spr->draw(ctx, x, y);
+		float x, y;
+		resolvePos(ctx, item, ctx->width(), ctx->height(), &x, &y);
+		item->draw(ctx, x, y);
 	}
 }
 

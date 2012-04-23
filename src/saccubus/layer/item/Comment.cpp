@@ -36,6 +36,51 @@ Comment::Comment()
 	this->shapeFactory(0);
 	init();
 }
+Comment::Comment(const Comment& other)
+{
+	this->message(other.message());
+	this->no(other.no());
+	this->from(other.from());
+	this->vpos(other.vpos());
+	this->to(other.to());
+	this->isYourPost(other.isYourPost());
+	this->fromButton(other.fromButton());
+	this->isPremium(other.isPremium());
+	this->full(other.full());
+	this->sage(other.sage());
+	this->patissier(other.patissier());
+	this->device(other.device());
+	this->visibility(other.visibility());
+	this->size(other.size());
+	this->layer(other.layer());
+	this->placeY(other.placeY());
+	this->color(other.color());
+	this->mail(other.mail());
+	this->shadowColor(other.shadowColor());
+}
+Comment& Comment::operator = (const Comment& other)
+{
+	this->message(other.message());
+	this->no(other.no());
+	this->from(other.from());
+	this->vpos(other.vpos());
+	this->to(other.to());
+	this->isYourPost(other.isYourPost());
+	this->fromButton(other.fromButton());
+	this->isPremium(other.isPremium());
+	this->full(other.full());
+	this->sage(other.sage());
+	this->patissier(other.patissier());
+	this->device(other.device());
+	this->visibility(other.visibility());
+	this->size(other.size());
+	this->layer(other.layer());
+	this->placeY(other.placeY());
+	this->color(other.color());
+	this->mail(other.mail());
+	this->shadowColor(other.shadowColor());
+	return *this;
+}
 Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 {
 	this->commentFactory(commentFactory);
@@ -114,13 +159,7 @@ bool Comment::isButton() const
 {
 	return false;
 }
-
-bool Comment::onClick()
-{
-	return false;
-}
-
-std::string Comment::mail()
+std::string Comment::mail() const
 {
 	return _mail;
 }

@@ -35,12 +35,12 @@ private:
 		DEF_ATTR_ACCESSOR(public, public, int, x);
 		DEF_ATTR_ACCESSOR(public, public, float, width);
 		DEF_ATTR_ACCESSOR(public, public, float, height);
-		DEF_ATTR_ACCESSOR(public, private, item::Comment*, comment);
+		DEF_ATTR_ACCESSOR(public, private, std::tr1::shared_ptr<item::Comment>, comment);
 	private:
 		Slot& operator=(const Slot& other){return *this;};
 		Slot(const Slot& other){};
 	public:
-		Slot(item::Comment* comment);
+		Slot(std::tr1::shared_ptr<item::Comment> comment);
 		virtual ~Slot();
 	public: /* setで比較する時用 */
 		bool operator !=(const Slot& other);
@@ -56,9 +56,9 @@ private:
 	static const float CommentAheadTime;
 private:
 	std::vector<const meta::Comment*> metaQueue;
-	std::vector<item::Comment*> deployQueue;
+	std::vector<std::tr1::shared_ptr<item::Comment> > deployQueue;
 	typedef std::vector<const meta::Comment*>::iterator MetaQueueIterator;
-	typedef std::vector<item::Comment*>::iterator DeployQueueIterator;
+	typedef std::vector<std::tr1::shared_ptr<item::Comment> >::iterator DeployQueueIterator;
 	std::vector<std::tr1::shared_ptr<Slot> > comments;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
@@ -70,7 +70,7 @@ public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
 	virtual void queueComment(const meta::Comment* comment);
-	virtual void queueComment(item::Comment* comment);
+	virtual void queueComment(std::tr1::shared_ptr<item::Comment> comment);
 private:
 	void deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
 	float getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> layout);

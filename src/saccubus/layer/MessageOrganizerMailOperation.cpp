@@ -26,14 +26,14 @@
 namespace saccubus {
 namespace layer {
 
-static bool color_func(const std::string& command, item::Comment* comment, unsigned int color, unsigned int shadowColor)
+static bool color_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment, unsigned int color, unsigned int shadowColor)
 {
 	comment->color(color);
 	comment->shadowColor(shadowColor);
 	return true;
 }
 
-static bool colorCode_func(const std::string& command, item::Comment* comment)
+static bool colorCode_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	char* left;
 	unsigned long c = std::strtoul(command.substr(1).c_str(), &left,16);
@@ -45,13 +45,13 @@ static bool colorCode_func(const std::string& command, item::Comment* comment)
 	return true;
 }
 
-static bool size_func(const std::string& command, item::Comment* comment, item::Comment::Size size)
+static bool size_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment, item::Comment::Size size)
 {
 	comment->sizeType(size);
 	return true;
 }
 
-static bool placeY_func(const std::string& command, item::Comment* comment, item::Comment::PlaceY y)
+static bool placeY_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment, item::Comment::PlaceY y)
 {
 	comment->placeY(y);
 	if(comment->placeY() == item::Comment::Top || comment->placeY() == item::Comment::Bottom){
@@ -60,40 +60,40 @@ static bool placeY_func(const std::string& command, item::Comment* comment, item
 	return true;
 }
 
-static bool device_func(const std::string& command, item::Comment* comment, item::Comment::Device device)
+static bool device_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment, item::Comment::Device device)
 {
 	comment->device(device);
 	return true;
 }
 
-static bool full_func(const std::string& command, item::Comment* comment)
+static bool full_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	comment->full(true);
 	return true;
 }
-static bool sage_func(const std::string& command, item::Comment* comment)
+static bool sage_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	comment->sage(true);
 	return true;
 }
-static bool invisible_func(const std::string& command, item::Comment* comment){
+static bool invisible_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment){
 	comment->visibility(false);
 	return true;
 }
-static bool patissier_func(const std::string& command, item::Comment* comment){
+static bool patissier_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment){
 	comment->patissier(true);
 	return true;
 }
-static bool from_button_func(const std::string& command, item::Comment* comment){
+static bool from_button_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment){
 	comment->fromButton(true);
 	return true;
 }
-static bool is_button_func(const std::string& command, item::Comment* comment){
+static bool is_button_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment){
 	//comment->isButton(true);
 	return true;
 }
 
-static bool timeCode_func(const std::string& command, item::Comment* comment)
+static bool timeCode_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	char* left;
 	unsigned long c = std::strtoul(command.substr(1).c_str(), &left, 10);
@@ -104,7 +104,7 @@ static bool timeCode_func(const std::string& command, item::Comment* comment)
 	return true;
 }
 
-bool MailOperation::execute(const std::string& command, item::Comment* comment) const
+bool MailOperation::execute(const std::string& command, std::tr1::shared_ptr<item::Comment> comment) const
 {
 	if(
 		(permission == MailOperation::Premium && (!comment->isPremium())) ||
@@ -213,7 +213,7 @@ const struct MailOperation MailOperation::Instance[] = {
 const size_t MailOperation::Count = sizeof(Instance)/sizeof(MailOperation);
 
 
-bool MailOperation::apply(const std::string& mail, item::Comment* product)
+bool MailOperation::apply(const std::string& mail, std::tr1::shared_ptr<item::Comment> product)
 {
 	for(size_t i = 0;i < Count;++i){
 		const MailOperation* cmd = &Instance[i];
