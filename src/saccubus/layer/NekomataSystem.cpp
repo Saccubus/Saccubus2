@@ -21,6 +21,7 @@
 #include "item/Label.h"
 #include "item/Shape.h"
 #include "NekomataSystem.h"
+#include "CommentLayer.h"
 
 namespace saccubus {
 namespace layer {
@@ -29,15 +30,21 @@ static const std::string TAG("SaccubusSystem");
 
 NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 :nekomata::system::System(nlog)
+,forkedCommentLayer(0)
+,mainCommentLayer(0)
 {
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
 }
 
 NekomataSystem::~NekomataSystem() {
-	// TODO Auto-generated destructor stub
 }
 
+void NekomataSystem::tellCommentLayers(CommentLayer* forkedCommentLayer, CommentLayer* mainCommentLayer)
+{
+	this->forkedCommentLayer = forkedCommentLayer;
+	this->mainCommentLayer = mainCommentLayer;
+}
 nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		double x, double y, double z, const std::string& shape, double width,
 		double height, unsigned int color, bool visible, const std::string& pos,
@@ -95,12 +102,16 @@ void NekomataSystem::addButton(
 			);
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
 	item::Button* btn = new item::Button(this->commentFactory(), this->shapeFactory());
+	btn->message(message);
+	btn->from(vpos);
 	btn->vpos(vpos);
+	btn->to(vpos+3);
 	btn->comvisible(comvisible);
 	btn->commail(commail);
 	btn->commes(commes);
 	btn->limit(limit);
 	btn->hidden(hidden);
+	this->forkedCommentLayer->queueComment(btn);
 }
 
 void NekomataSystem::BGM(const std::string& id, double x, double y,

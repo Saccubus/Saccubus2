@@ -92,6 +92,8 @@ void SimpleCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ct
 	if(slot->y() < 0 || slot->y()+slot->height() > ctx->height()){
 		slot->y(((rand() % 10000) * (ctx->height() - slot->height())) / 10000);
 	}
+	CommentIterator it = std::upper_bound(this->comments.begin(), this->comments.end(), slot, Slot::EndTimeComparator());
+	this->comments.insert(it, slot);
 }
 
 float SimpleCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> slot)

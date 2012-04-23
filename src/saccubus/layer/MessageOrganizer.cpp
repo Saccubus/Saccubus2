@@ -66,4 +66,5 @@ item::Comment* MessageOrganizer::organize(const meta::Comment* comment)
 	return product;
 }
 
+
 }}
