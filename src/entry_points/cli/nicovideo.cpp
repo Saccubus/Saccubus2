@@ -84,7 +84,7 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 		SDL_LockSurface(windowSurface);
 		{
 			std::tr1::shared_ptr<saccubus::draw::Context> ctx =
-					saccubus->createContext(saccubus::draw::Renderer::RGBA32, windowSurface->pixels, windowSurface->w, windowSurface->h, windowSurface->pitch);
+					saccubus->createContext(saccubus::draw::Renderer::ARGB32, windowSurface->pixels, windowSurface->w, windowSurface->h, windowSurface->pitch);
 			saccubus->draw(ctx, now/1000.0f, 0);
 		}
 		SDL_UnlockSurface(windowSurface);

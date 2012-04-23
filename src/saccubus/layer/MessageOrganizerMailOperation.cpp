@@ -36,7 +36,8 @@ static bool color_func(const std::string& command, std::tr1::shared_ptr<item::Co
 static bool colorCode_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	char* left;
-	unsigned long c = std::strtoul(command.substr(1).c_str(), &left,16);
+	std::string str = command.substr(1);
+	unsigned long c = std::strtoul(str.c_str(), &left,16);
 	if(*left != '\0'){ //エラー
 		return false;
 	}
@@ -54,9 +55,6 @@ static bool size_func(const std::string& command, std::tr1::shared_ptr<item::Com
 static bool placeY_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment, item::Comment::PlaceY y)
 {
 	comment->placeY(y);
-	if(comment->placeY() == item::Comment::Top || comment->placeY() == item::Comment::Bottom){
-		comment->to(comment->from()+3.0f);
-	}
 	return true;
 }
 
@@ -96,11 +94,12 @@ static bool is_button_func(const std::string& command, std::tr1::shared_ptr<item
 static bool timeCode_func(const std::string& command, std::tr1::shared_ptr<item::Comment> comment)
 {
 	char* left;
-	unsigned long c = std::strtoul(command.substr(1).c_str(), &left, 10);
+	std::string str = command.substr(1);
+	unsigned long c = std::strtoul(str.c_str(), &left, 10);
 	if(*left != '\0'){ //エラー
 		return false;
 	}
-	comment->to(comment->from()+c);
+	comment->span(c);
 	return true;
 }
 

@@ -64,9 +64,10 @@ public:
 	};
 	DEF_ATTR_ACCESSOR(public, public, std::string, message);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, no);
-	DEF_ATTR_ACCESSOR(public, public, float, from);
+	DEF_ATTR_ACCESSOR(public, private, float, from);
 	DEF_ATTR_ACCESSOR(public, public, float, vpos);
-	DEF_ATTR_ACCESSOR(public, public, float, to);
+	DEF_ATTR_ACCESSOR(public, public, float, span);
+	DEF_ATTR_ACCESSOR(public, private, float, to);
 	DEF_ATTR_ACCESSOR(public, public, bool, isYourPost);
 	DEF_ATTR_ACCESSOR(public, public, bool, fromButton);
 	DEF_ATTR_ACCESSOR(public, public, bool, isPremium);
@@ -104,6 +105,7 @@ public:
 	size_t mailSize() const;
 	MailIterator mailBegin() const;
 	MailIterator mailEnd() const;
+	void fixTime();
 private:
 	void init();
 public:

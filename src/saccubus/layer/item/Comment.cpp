@@ -111,7 +111,19 @@ void Comment::init(){
 	this->placeY(Comment::Middle);
 	this->color(0xFFFFFF);
 	this->shadowColor(0x000000);
-	this->layer(Comment::Normal);}
+	this->layer(Comment::Normal);
+}
+
+void Comment::fixTime()
+{
+	if(this->placeY() == item::Comment::Top || this->placeY() == item::Comment::Bottom){
+		this->from(this->vpos());
+		this->to(this->from() + this->span() );
+	}else{
+		this->from(this->vpos()-1.0f);
+		this->to(this->from() + this->span() );
+	}
+}
 
 void Comment::import(const meta::Comment* orig)
 {

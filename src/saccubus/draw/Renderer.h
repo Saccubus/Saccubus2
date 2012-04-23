@@ -31,7 +31,7 @@ const std::size_t MaxCachedRawSprites = 100;
 class Renderer {
 public:
 	enum Format {
-		RGBA32,
+		ARGB32,
 		RGB24
 	};
 protected:

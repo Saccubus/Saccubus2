@@ -138,9 +138,10 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 		DeployQueueIterator it = this->deployQueue.begin();
 		for(; it != this->deployQueue.end(); ++it){
 			std::tr1::shared_ptr<Slot> item(new Slot(*it));
+			if(vpos < item->comment()->from()) break;
 			deploy(ctx, vpos, item);
 		}
-		this->deployQueue.clear();
+		this->deployQueue.erase(this->deployQueue.begin(), it);
 	}
 	{ /* 描画 */
 		for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){

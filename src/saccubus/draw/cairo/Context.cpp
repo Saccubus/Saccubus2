@@ -19,7 +19,6 @@
 #include "Context.h"
 #include "Renderer.h"
 #include "../../logging/Exception.h"
-
 namespace saccubus {
 namespace draw {
 namespace cairo {
@@ -32,7 +31,7 @@ Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> ren
 	case Renderer::RGB24:
 		cfmt = CAIRO_FORMAT_RGB24;
 		break;
-	case Renderer::RGBA32:
+	case Renderer::ARGB32:
 		cfmt = CAIRO_FORMAT_ARGB32;
 		break;
 	default:
@@ -45,11 +44,36 @@ Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> ren
 			h,
 			stride
 			));
+	switch(cairo_surface_status(this->surface())){
+	case CAIRO_STATUS_SUCCESS:
+		break;
+	case CAIRO_STATUS_INVALID_STRIDE:
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo surface. Invalid stride: %d != %d", stride, cairo_format_stride_for_width(cfmt, w));
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo surface. Unknwon error.");
+	}
 	this->cairo(cairo_create(this->surface()));
+	switch(cairo_status(this->cairo())){
+	case CAIRO_STATUS_SUCCESS:
+		break;
+	case CAIRO_STATUS_WRITE_ERROR:
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo context. Write Error.");
+	case CAIRO_STATUS_NO_MEMORY:
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo context. No Memory.");
+	default:
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo context. Unknwon error.");
+	}
+	if(!this->cairo()){
+		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo context.");
+	}
+	cairo_set_operator(this->cairo(), CAIRO_OPERATOR_CLEAR);
+	cairo_paint(this->cairo());
+	cairo_set_operator(this->cairo(), CAIRO_OPERATOR_OVER);
 }
 
 Context::~Context() {
 	cairo_destroy(this->cairo());
+	cairo_surface_flush(this->surface());
 	cairo_surface_destroy(this->surface());
 }
 

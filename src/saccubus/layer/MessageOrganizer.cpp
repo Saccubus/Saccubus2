@@ -53,13 +53,13 @@ std::tr1::shared_ptr<item::Comment> MessageOrganizer::organize(const meta::Comme
 void MessageOrganizer::rewrite(std::tr1::shared_ptr<item::Comment> comment)
 {
 	/* コマンド欄の処理 */
-	comment->from(comment->vpos()-1.0f);
 	for(item::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, comment))
 		{
 			log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}
+	comment->fixTime();
 	/* 置換リスト */
 	if(this->replaceTable()){
 		comment->message(this->replaceTable()->replace(comment->message()));
