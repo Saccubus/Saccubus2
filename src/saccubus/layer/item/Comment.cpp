@@ -43,6 +43,7 @@ Comment::Comment(const Comment& other)
 	this->from(other.from());
 	this->vpos(other.vpos());
 	this->to(other.to());
+	this->span(other.span());
 	this->isYourPost(other.isYourPost());
 	this->fromButton(other.fromButton());
 	this->isPremium(other.isPremium());
@@ -65,6 +66,7 @@ Comment& Comment::operator = (const Comment& other)
 	this->from(other.from());
 	this->vpos(other.vpos());
 	this->to(other.to());
+	this->span(other.span());
 	this->isYourPost(other.isYourPost());
 	this->fromButton(other.fromButton());
 	this->isPremium(other.isPremium());
@@ -98,6 +100,7 @@ void Comment::init(){
 	this->from(NAN);
 	this->vpos(NAN);
 	this->to(NAN);
+	this->span(NAN);
 
 	this->isYourPost(false);
 	this->fromButton(false);
@@ -116,12 +119,13 @@ void Comment::init(){
 
 void Comment::fixTime()
 {
+	bool spanIsNan = !(this->span() == this->span());
 	if(this->placeY() == item::Comment::Top || this->placeY() == item::Comment::Bottom){
 		this->from(this->vpos());
-		this->to(this->from() + this->span() );
+		this->to(this->from() + (spanIsNan ? 3 : this->span()) );
 	}else{
 		this->from(this->vpos()-1.0f);
-		this->to(this->from() + this->span() );
+		this->to(this->from() + (spanIsNan ? 4 : this->span()) );
 	}
 }
 
@@ -130,9 +134,7 @@ void Comment::import(const meta::Comment* orig)
 	this->message(orig->message());
 	this->mail(orig->mail());
 	this->no(orig->no());
-	this->from(orig->vpos()-1.0f);
 	this->vpos(orig->vpos());
-	this->to(this->from()+4.0f);
 	this->isPremium(orig->premium());
 	this->layer(orig->fork() ? Comment::Forked : Comment::Normal);
 }

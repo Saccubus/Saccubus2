@@ -19,7 +19,9 @@
 #ifndef CAIRO_SIMPLECOMMENTFACTORY_H_
 #define CAIRO_SIMPLECOMMENTFACTORY_H_
 
-#ifdef WIN32
+#define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
+
+#if USE_WINDOWS_NATIVE
 #include <cairo/cairo-win32.h>
 #else
 #include <cairo/cairo-ft.h>
@@ -37,7 +39,7 @@ class SimpleCommentFactory: public saccubus::draw::CommentFactory {
 private:
 	static const double ShadowWidth;
 private:
-#ifndef WIN32
+#if !(USE_WINDOWS_NATIVE)
 	DEF_ATTR_ACCESSOR(private, private, FcPattern*, pattern);
 #endif
 	DEF_ATTR_ACCESSOR(private, private, cairo_font_face_t*, face);

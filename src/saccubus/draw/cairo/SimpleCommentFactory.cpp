@@ -39,12 +39,13 @@ const double SimpleCommentFactory::ShadowWidth = 5.0;
 SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer* renderer)
 :CommentFactory(log, renderer)
 {
-#ifdef WIN32
+#if USE_WINDOWS_NATIVE
 	{
 		LOGFONTW logf;
 		memset(&logf, 0, sizeof(LOGFONTW));
 		logf.lfCharSet=DEFAULT_CHARSET;
 		cairo_font_face_t* ft = cairo_win32_font_face_create_for_logfontw(&logf);
+		wcscpy(logf.lfFaceName, L"MS UI Gothic");
 		this->face(ft);
 	}
 #else
@@ -54,7 +55,7 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 	}
 	{ /* パターンを設定 */
 		FcPatternAddString( this->pattern(), FC_LANG, (const FcChar8*)"ja" );
-		FcPatternAddString( this->pattern(), FC_FAMILY, (FcChar8*)"Gothic");
+		FcPatternAddString( this->pattern(), FC_FAMILY, (FcChar8*)"MS UI Gothic");
 		cairo_font_options_t* opt = cairo_font_options_create();
 		cairo_font_options_set_subpixel_order(opt, CAIRO_SUBPIXEL_ORDER_RGB);
 		cairo_font_options_set_antialias(opt, CAIRO_ANTIALIAS_DEFAULT);
@@ -79,7 +80,7 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 	this->emptySurface(0);
 	cairo_font_face_destroy(this->face());
 	this->face(0);
-#ifdef WIN32
+#if USE_WINDOWS_NATIVE
 	// do nothing!
 #else
 	FcPatternDestroy(this->pattern());
@@ -105,9 +106,6 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLine(const std::string& str, unsigned long color, unsigned long shadowColor, double size)
 {
-	if(str.size() <= 0){
-		return NullSprite::newInstance(0, 0);
-	}
 	double x = 0;
 	double y = 0;
 	int width = 0;
