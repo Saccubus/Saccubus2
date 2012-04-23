@@ -70,7 +70,9 @@ ThreadLayer::~ThreadLayer() {
 
 	{
 		delete this->mainCommentLayer;
+		this->mainCommentLayer = 0;
 		delete this->forkedCommentLayer;
+		this->forkedCommentLayer = 0;
 	}
 
 	{ // ファクトリ
@@ -84,9 +86,13 @@ ThreadLayer::~ThreadLayer() {
 
 	{ // ねこまたと接続解除
 		delete this->neko;
+		this->neko = 0;
 		delete this->scriptLayer;
+		this->scriptLayer = 0;
 		delete this->nekoSystem;
+		this->nekoSystem = 0;
 		delete this->nekoLogger;
+		this->nekoLogger = 0;
 	}
 }
 

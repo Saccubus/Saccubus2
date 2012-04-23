@@ -22,9 +22,15 @@
 #include "Comment.h"
 
 namespace saccubus {
-namespace util {
+namespace layer {
+namespace item {
 
 class Button: public saccubus::layer::item::Comment {
+	DEF_ATTR_ACCESSOR(public, public, std::string, commes);
+	DEF_ATTR_ACCESSOR(public, public, bool, comvisible);
+	DEF_ATTR_ACCESSOR(public, public, std::string, commail);
+	DEF_ATTR_ACCESSOR(public, public, int, limit);
+	DEF_ATTR_ACCESSOR(public, public, bool, hidden);
 public:
 	Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Button();
@@ -36,5 +42,5 @@ protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 };
 
-}}
+}}}
 #endif /* INCLUDE_GUARD */

@@ -17,7 +17,7 @@
  */
 
 #include <nekomata/logging/Logging.h>
-#include "item/Comment.h"
+#include "item/Button.h"
 #include "item/Label.h"
 #include "item/Shape.h"
 #include "NekomataSystem.h"
@@ -93,6 +93,13 @@ void NekomataSystem::addButton(
 			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
 			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
 			);
+	item::Button* btn = new item::Button(this->commentFactory(), this->shapeFactory());
+	btn->vpos(vpos);
+	btn->comvisible(comvisible);
+	btn->commail(commail);
+	btn->commes(commes);
+	btn->limit(limit);
+	btn->hidden(hidden);
 }
 
 void NekomataSystem::BGM(const std::string& id, double x, double y,

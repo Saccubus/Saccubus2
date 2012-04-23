@@ -22,17 +22,15 @@
 #include "../../draw/ShapeFactory.h"
 
 namespace saccubus {
-namespace util {
+namespace layer {
+namespace item {
 
 Button::Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 :Comment(commentFactory, shapeFactory)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Button::~Button() {
-	// TODO Auto-generated destructor stub
 }
 
 bool Button::isButton() const
@@ -55,4 +53,4 @@ draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<sa
 	return layerd;
 }
 
-}}
+}}}
