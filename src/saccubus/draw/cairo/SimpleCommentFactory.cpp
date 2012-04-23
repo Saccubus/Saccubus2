@@ -108,18 +108,21 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	if(str.size() <= 0){
 		return NullSprite::newInstance(0, 0);
 	}
-	double x;
-	double y;
-	int width;
-	int height;
-	cairo_text_extents_t ext;
+	double x = 0;
+	double y = 0;
+	int width = 0;
+	int height = 0;
 	{ /* 大きさを測定 */
+		cairo_text_extents_t ext;
 		this->setupCairo(this->emptyCairo(), size);
-		cairo_text_extents(this->emptyCairo(), str.c_str(), &ext);
-		x = -ext.x_bearing+ShadowWidth/2;
+		cairo_text_extents(this->emptyCairo(), (str).c_str(), &ext);
+		x = ShadowWidth/2;
+		double w = ext.x_advance+ShadowWidth;
 		y = -ext.y_bearing+ShadowWidth/2;
-		double w = ext.width+ShadowWidth;
-		double h = ext.height+ShadowWidth;
+		double h = ext.height+ext.y_advance+ShadowWidth;
+		if(ext.height <= 1){
+			return NullSprite::newInstance(0, size+ShadowWidth);
+		}
 		//このwとhは論理座標なので、実際の大きさを取得するために変換してもらう。
 		cairo_user_to_device_distance(this->emptyCairo(), &w, &h);
 		width = std::ceil(w);
