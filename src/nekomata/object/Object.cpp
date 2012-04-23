@@ -31,7 +31,7 @@ namespace nekomata{
 namespace object
 {
 
-static std::string TAG(__FILE__);
+static std::string TAG("Object");
 
 Object::Object(ObjectHeap& heap)
 :heap(heap), hash(-1), color(0), nativeRef(0), builtins(0), _frozen(false)
