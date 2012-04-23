@@ -70,7 +70,11 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 			switch (e.type) {
 			case SDL_QUIT:
 				return;
-			case SDL_MOUSEMOTION:
+			case SDL_MOUSEBUTTONDOWN:
+				if(SDL_BUTTON_LEFT == e.button.button){
+					saccubus->click(e.button.x, e.button.y);
+				}
+				break;
 			default:
 				break;
 			}

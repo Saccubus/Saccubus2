@@ -140,6 +140,16 @@ void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpo
 	}
 }
 
+void Saccubus::click(int x, int y)
+{
+	if(this->mainThradLayer){
+		this->mainThradLayer->onClick(x,y);
+	}
+	if(this->optionalThradLayer){
+		this->optionalThradLayer->onClick(x,y);
+	}
+}
+
 std::tr1::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 {
 	return this->renderer()->createContext(fmt, data, w, h, stride);

@@ -17,16 +17,22 @@
  */
 
 #include "Button.h"
+#include "../NekomataSystem.h"
+#include "../CommentLayer.h"
 #include "../../draw/LayerdSprite.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
+#include "../MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
 namespace item {
 
-Button::Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
+Button::Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer,  NekomataSystem* const nekoSystem, CommentLayer* const postLayer)
 :Comment(commentFactory, shapeFactory)
+,organizer(organizer)
+,nekoSystem(nekoSystem)
+,postLayer(postLayer)
 {
 }
 
@@ -40,6 +46,24 @@ bool Button::isButton() const
 
 bool Button::onClick()
 {
+	if(this->limit() <= 0){
+		invalidate();
+		return false;
+	}
+	Comment* post = new Comment(commentFactory(), shapeFactory());
+	post->vpos(nekoSystem->currentTime());
+	post->message(this->commes());
+	post->mail(this->commail());
+	post->isPremium(true);
+	post->fromButton(true);
+	post->isYourPost(true);
+	this->organizer->rewrite(post);
+	if(comvisible()){
+		postLayer->queueComment(post);
+	}else if(postLayer){
+		nekoSystem->queueMessage(post->createNekomataMessage());
+		delete post;
+	}
 	return true;
 }
 

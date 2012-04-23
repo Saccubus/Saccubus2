@@ -103,7 +103,7 @@ void NekomataSystem::addButton(
 		int limit, bool hidden) {
 	vpos = vpos != vpos ? currentTime() : vpos;
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
-	item::Button* btn = new item::Button(this->commentFactory, this->shapeFactory);
+	item::Button* btn = new item::Button(this->commentFactory, this->shapeFactory, this->organizer, this, this->forkedCommentLayer);
 	btn->isPremium(true);
 	btn->layer(item::Comment::Forked);
 	btn->message(message);

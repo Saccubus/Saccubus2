@@ -31,8 +31,12 @@ class Button: public saccubus::layer::item::Comment {
 	DEF_ATTR_ACCESSOR(public, public, std::string, commail);
 	DEF_ATTR_ACCESSOR(public, public, int, limit);
 	DEF_ATTR_ACCESSOR(public, public, bool, hidden);
+private:
+	MessageOrganizer* const organizer;
+	NekomataSystem* const nekoSystem;
+	CommentLayer* const postLayer;
 public:
-	Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
+	Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer, NekomataSystem* const nekoSystem, CommentLayer* const postLayer);
 	virtual ~Button();
 public:
 	virtual bool isButton() const;
