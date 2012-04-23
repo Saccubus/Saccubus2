@@ -61,7 +61,7 @@ private:
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
-	SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine);
+	SimpleCommentLayer(logging::Logger& log, bool isForked, layer::MessageOrganizer* organizer);
 	virtual ~SimpleCommentLayer();
 	float last;
 public:

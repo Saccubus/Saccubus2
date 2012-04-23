@@ -19,10 +19,9 @@
 #include <algorithm>
 #include "SimpleCommentLayer.h"
 #include "item/Comment.h"
-#include "item/CommentPipeLine.h"
 #include "ThreadLayer.h"
 #include "../draw/Context.h"
-
+#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
@@ -31,8 +30,8 @@ const static std::string TAG("SimpleCommentLayer");
 
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine)
-:CommentLayer(log, isForked, pipeLine)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, layer::MessageOrganizer* organizer)
+:CommentLayer(log, isForked, organizer)
 ,last(0)
 {
 
@@ -124,7 +123,7 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 		for(; it != this->queue.end(); ++it){
 			const meta::Comment* orig = *it;
 			if(vpos < orig->vpos()-CommentAheadTime) break;
-			item::Comment* com = pipeLine()->process(orig);
+			item::Comment* com = organizer()->organize(orig);
 			if(!com){
 				logging::Exception(__FILE__, __LINE__, "failed to process comment: %s", orig->message().c_str());
 			}

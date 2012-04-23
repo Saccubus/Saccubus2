@@ -24,18 +24,18 @@
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
 #include "../draw/ShapeFactory.h"
-#include "item/CommentPipeLine.h"
+#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer)
+ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,thread(thread)
 {
 	{ // ファクトリ
-		this->shapeFactory(organizer->newShapeFactory(renderer));
-		this->commentFactory(organizer->newCommentFactory(renderer));
+		this->shapeFactory(pluginOrganizer->newShapeFactory(renderer));
+		this->commentFactory(pluginOrganizer->newCommentFactory(renderer));
 	}
 	{ // ねこまたとの接続
 		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
@@ -44,12 +44,12 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 	}
 
 	//コメントの変換用
-	this->pipeLine(new item::CommentPipeLine(log, this->commentFactory(), this->shapeFactory(), table, this->nekoSystem));
+	this->messageOrganizer = new MessageOrganizer(log, this->commentFactory(), this->shapeFactory(), table, this->neko, this->nekoSystem);
 
 	{ // これでやっとレイヤの作成
 		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
-		this->forkedCommentLayer = organizer->newCommentLayer(true, this->pipeLine());
-		this->mainCommentLayer = organizer->newCommentLayer(false, this->pipeLine());
+		this->forkedCommentLayer = pluginOrganizer->newCommentLayer(true, this->messageOrganizer);
+		this->mainCommentLayer = pluginOrganizer->newCommentLayer(false, this->messageOrganizer);
 	}
 
 	{ /* 確定済みコメントを渡す */
@@ -74,8 +74,8 @@ ThreadLayer::~ThreadLayer() {
 	}
 
 	{ // ファクトリ
-		delete this->pipeLine();
-		this->pipeLine(0);
+		delete this->messageOrganizer;
+		this->messageOrganizer = 0;
 		delete this->commentFactory();
 		this->commentFactory(0);
 		delete this->shapeFactory();

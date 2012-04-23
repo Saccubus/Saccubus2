@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_COMMENTPROCESSINGFLOW_H__CPP_
-#define Saccubus_COMMENTPROCESSINGFLOW_H__CPP_
+#ifndef Saccubus_MESSAGEORGANIZEROPERATION_H__CPP_
+#define Saccubus_MESSAGEORGANIZEROPERATION_H__CPP_
 
-#include "Comment.h"
-#include "../NekomataSystem.h"
+#include <tr1/functional>
+#include <nekomata/system/System.h>
+#include "../classdefs.h"
 
 namespace saccubus {
 namespace layer {
-namespace item {
 
 struct MailOperation{
 public:
@@ -41,38 +41,25 @@ public:
 	const enum ArgType argType;
 	const std::string name;
 	const enum Permission permission;
-	typedef std::tr1::function<bool(const std::string& name, Comment* comment)> Func;
+	typedef std::tr1::function<bool(const std::string& name, item::Comment* comment)> Func;
 	const Func func;
 	MailOperation(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
 	:argType(argType), name(name), permission(permission), func(func){};
 	virtual ~MailOperation(){};
-	bool execute(const std::string& command, Comment* comment) const;
+	bool execute(const std::string& command, item::Comment* comment) const;
 private:
 	static const struct MailOperation Instance[];
 	static const size_t Count;
 public:
-	static bool apply(const std::string& mail, Comment* product);
+	static bool apply(const std::string& mail, item::Comment* product);
 };
 
 struct NekomataReplaceOperation
 {
 public:
 	static void apply(nekomata::system::Replace* replace, item::Comment* comment);
+	static void apply(nekomata::system::System* system, item::Comment* comment);
 };
 
-class CommentPipeLine {
-	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
-	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
-	DEF_ATTR_ACCESSOR(private, private, const meta::ReplaceTable*, replaceTable);
-	DEF_ATTR_ACCESSOR(private, private, layer::NekomataSystem*, nekomataSystem);
-private:
-	logging::Logger& log;
-public:
-	CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, layer::NekomataSystem* nekomataSystem);
-	virtual ~CommentPipeLine();
-public:
-	Comment* process(const meta::Comment* comment);
-};
-
-}}}
+}}
 #endif /* INCLUDE_GUARD */

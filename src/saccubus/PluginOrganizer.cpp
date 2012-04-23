@@ -122,10 +122,10 @@ saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 			config[PLUGIN_GRAPHIC].c_str()
 			);
 }
-saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer(bool isforked, layer::item::CommentPipeLine* pipeLine)
+saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer(bool isforked, layer::MessageOrganizer* organizer)
 {
 	if(PLUGIN_IMPL_SIMPLE == config[PLUGIN_COMMENT]){
-		return new layer::SimpleCommentLayer(log, isforked, pipeLine);
+		return new layer::SimpleCommentLayer(log, isforked, organizer);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment layer plugin corresponding to [comment: %s]",

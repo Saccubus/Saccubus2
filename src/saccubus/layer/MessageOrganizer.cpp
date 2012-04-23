@@ -16,42 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CommentPipeLine.h"
-#include "../../meta/Comment.h"
-#include "../../meta/ReplaceTable.h"
-#include "../../util/StringUtil.h"
-
-#include <nekomata/parser/Parser.h>
-using nekomata::parser::Parser;
+#include <nekomata/Nekomata.h>
+#include "MessageOrganizer.h"
+#include "MessageOrganizerOperation.h"
+#include "../meta/Comment.h"
+#include "../meta/ReplaceTable.h"
+#include "item/Comment.h"
+#include "item/Button.h"
 
 namespace saccubus {
 namespace layer {
-namespace item {
 
-static const std::string TAG("CommentPipeLine");
+static const std::string TAG("MsgOrganizer");
 
-CommentPipeLine::CommentPipeLine(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, NekomataSystem* nekomataSystem)
+MessageOrganizer::MessageOrganizer(logging::Logger& log, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, nekomata::Nekomata* neko, layer::NekomataSystem* nekomataSystem)
 :log(log)
 {
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
 	this->replaceTable(replaceTable);
-	this->nekomataSystem(nekomataSystem);
+	this->neko(neko);
+	this->nekoSystem(nekomataSystem);
 }
 
-CommentPipeLine::~CommentPipeLine()
-{
+
+MessageOrganizer::~MessageOrganizer() {
 }
 
-Comment* CommentPipeLine::process(const meta::Comment* orig)
+item::Comment* MessageOrganizer::organize(const meta::Comment* comment)
 {
-	if(orig->haveScript()){
-		throw logging::Exception(__FILE__, __LINE__, "[BUG] Cannot process script comment in Comment Pipeline.");
-	}
-	Comment* const product = new Comment(this->commentFactory(), this->shapeFactory());
-	product->import(orig);
+	item::Comment* const product = new item::Comment(this->commentFactory(), this->shapeFactory());
+	product->import(comment);
 	/* コマンド欄の処理 */
-	for(meta::Comment::MailIterator it= orig->mailBegin(); it != orig->mailEnd(); ++it){
+	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, product))
 		{
 			log.v(TAG, "Unknwon command: %s", it->c_str());
@@ -62,12 +59,11 @@ Comment* CommentPipeLine::process(const meta::Comment* orig)
 		product->message(this->replaceTable()->replace(product->message()));
 	}
 	/* スクリプトによる置換リスト */
-	if(this->nekomataSystem()){
-		this->nekomataSystem()->replace(product);
-		product->isYourPost(true);
-		this->nekomataSystem()->queueMessage(product->createNekomataMessage());
+	if(this->nekoSystem()){
+		NekomataReplaceOperation::apply(this->nekoSystem(), product);
+		this->neko()->queueMessage(product->createNekomataMessage());
 	}
 	return product;
 }
 
-}}}
+}}

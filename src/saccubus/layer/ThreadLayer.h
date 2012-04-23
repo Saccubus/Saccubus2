@@ -37,7 +37,6 @@ class CommentPipeLine;
  * 複数のコメントレイヤと、猫又レイヤを持つ。
  */
 class ThreadLayer : public Layer {
-	DEF_ATTR_ACCESSOR(public, private, item::CommentPipeLine*, pipeLine);
 	DEF_ATTR_ACCESSOR(public, private, draw::CommentFactory*, commentFactory);
 	DEF_ATTR_ACCESSOR(public, private, draw::ShapeFactory*, shapeFactory);
 private:
@@ -46,6 +45,8 @@ private:
 	nekomata::logging::Logger* nekoLogger;
 	nekomata::Nekomata* neko;
 	NekomataSystem* nekoSystem;
+private:
+	MessageOrganizer* messageOrganizer;
 private:
 	ScriptLayer* scriptLayer;
 	CommentLayer* localCommentLayer;

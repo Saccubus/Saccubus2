@@ -18,7 +18,6 @@
 
 #include <nekomata/logging/Logging.h>
 #include "item/Comment.h"
-#include "item/CommentPipeLine.h"
 #include "item/Label.h"
 #include "item/Shape.h"
 #include "NekomataSystem.h"
@@ -140,16 +139,5 @@ std::string NekomataSystem::inspect() {
 void NekomataSystem::onChanged() {
 }
 
-
-/******************************************************************************************************************
- * コメント変換
- ******************************************************************************************************************/
-
-void NekomataSystem::replace(item::Comment* comment)
-{
-	for(System::ReplaceIterator it = replaceBegin(); it != replaceEnd(); ++it){
-		item::NekomataReplaceOperation::apply(*it, comment);
-	}
-}
 
 }}

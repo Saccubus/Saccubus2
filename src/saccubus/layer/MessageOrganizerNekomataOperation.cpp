@@ -16,15 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Comment.h"
-#include "CommentPipeLine.h"
-#include "../..//logging/Logger.h"
-#include "../../util/StringUtil.h"
+#include "item/Comment.h"
+#include "MessageOrganizerOperation.h"
+#include "../logging/Logger.h"
+#include "../util/StringUtil.h"
 #include <sstream>
 
 namespace saccubus {
 namespace layer {
-namespace item {
+
+void NekomataReplaceOperation::apply(nekomata::system::System* system, item::Comment* comment)
+{
+	for(nekomata::system::System::ReplaceIterator it = system->replaceBegin(); it != system->replaceEnd(); ++it){
+		NekomataReplaceOperation::apply(*it, comment);
+	}
+}
 
 void NekomataReplaceOperation::apply(nekomata::system::Replace* replace, item::Comment* comment)
 {
@@ -49,8 +55,8 @@ void NekomataReplaceOperation::apply(nekomata::system::Replace* replace, item::C
 
 	//色やポジションが設定される。
 	if(nekomata::system::Replace::SAME_COLOR != replace->color()) comment->color(replace->color());
-	if(replace->size().size() > 0) item::MailOperation::apply(replace->size(), comment);
-	if(replace->pos().size() > 0) item::MailOperation::apply(replace->pos(), comment);
+	if(replace->size().size() > 0) MailOperation::apply(replace->size(), comment);
+	if(replace->pos().size() > 0) MailOperation::apply(replace->pos(), comment);
 
 	if(replace->dst().size() <= 0){
 		return; //メッセージの書き換えは行わない。
@@ -80,4 +86,4 @@ void NekomataReplaceOperation::apply(nekomata::system::Replace* replace, item::C
 	}
 }
 
-}}}
+}}

@@ -47,10 +47,11 @@ class Exception;
 namespace layer{
 namespace item{
 class Comment;
+class Button;
 class Label;
 class Shape;
-class CommentPipeLine;
 }
+class MessageOrganizer;
 class Layer;
 class CommentLayer;
 class ThreadLayer;

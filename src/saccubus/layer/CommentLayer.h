@@ -31,9 +31,9 @@ namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
-	DEF_ATTR_ACCESSOR(protected, private, item::CommentPipeLine*, pipeLine);
+	DEF_ATTR_ACCESSOR(protected, private, MessageOrganizer*, organizer);
 public:
-	CommentLayer(logging::Logger& log, bool isForked, item::CommentPipeLine* pipeLine);
+	CommentLayer(logging::Logger& log, bool isForked, MessageOrganizer* organizer);
 	virtual ~CommentLayer();
 public:
 	virtual void queueComment(const meta::Comment* comment) = 0;
