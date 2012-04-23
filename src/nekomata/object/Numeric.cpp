@@ -86,11 +86,11 @@ double NumericObject::toNumeric(){
 
 DEF_BUILTIN(NumericObject, plus){
 	const Handler<NumericObject> self(machine.getSelf());
-	machine.pushResult(self->getHeap().newNumericObject(fabs(self->toNumeric())));
+	machine.pushResult(self->getHeap().newNumericObject( self->toNumeric() ));
 }
 DEF_BUILTIN(NumericObject, minus){
 	const Handler<NumericObject> self(machine.getSelf());
-	machine.pushResult(self->getHeap().newNumericObject(-1*fabs(self->toNumeric())));
+	machine.pushResult(self->getHeap().newNumericObject(-1* self->toNumeric() ));
 }
 DEF_BUILTIN(NumericObject, increase){
 	const Handler<NumericObject> self(machine.getSelf());
