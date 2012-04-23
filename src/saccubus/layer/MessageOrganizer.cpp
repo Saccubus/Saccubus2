@@ -47,24 +47,27 @@ item::Comment* MessageOrganizer::organize(const meta::Comment* comment)
 {
 	item::Comment* const product = new item::Comment(this->commentFactory(), this->shapeFactory());
 	product->import(comment);
+	rewrite(product);
+	return product;
+}
+void MessageOrganizer::rewrite(item::Comment* comment)
+{
 	/* コマンド欄の処理 */
-	for(meta::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
-		if(!MailOperation::apply(*it, product))
+	for(item::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+		if(!MailOperation::apply(*it, comment))
 		{
 			log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}
 	/* 置換リスト */
 	if(this->replaceTable()){
-		product->message(this->replaceTable()->replace(product->message()));
+		comment->message(this->replaceTable()->replace(comment->message()));
 	}
 	/* スクリプトによる置換リスト */
 	if(this->nekoSystem()){
-		NekomataReplaceOperation::apply(this->nekoSystem(), product);
-		this->neko()->queueMessage(product->createNekomataMessage());
+		NekomataReplaceOperation::apply(this->nekoSystem(), comment);
+		this->neko()->queueMessage(comment->createNekomataMessage());
 	}
-	return product;
 }
-
 
 }}

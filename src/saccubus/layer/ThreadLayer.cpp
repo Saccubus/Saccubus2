@@ -52,6 +52,7 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 		this->mainCommentLayer = pluginOrganizer->newCommentLayer(false, this->messageOrganizer);
 	}
 
+	this->nekoSystem->tellOrganizer(this->messageOrganizer);
 	this->nekoSystem->tellCommentLayers(this->forkedCommentLayer, this->mainCommentLayer);
 
 	{ /* 確定済みコメントを渡す */

@@ -22,6 +22,7 @@
 #include "item/Shape.h"
 #include "NekomataSystem.h"
 #include "CommentLayer.h"
+#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
@@ -30,16 +31,21 @@ static const std::string TAG("SaccubusSystem");
 
 NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
 :nekomata::system::System(nlog)
+,commentFactory(commentFactory)
+,shapeFactory(shapeFactory)
+,organizer(0)
 ,forkedCommentLayer(0)
 ,mainCommentLayer(0)
 {
-	this->commentFactory(commentFactory);
-	this->shapeFactory(shapeFactory);
 }
 
 NekomataSystem::~NekomataSystem() {
 }
 
+void NekomataSystem::tellOrganizer(MessageOrganizer* organizer)
+{
+	this->organizer = organizer;
+}
 void NekomataSystem::tellCommentLayers(CommentLayer* forkedCommentLayer, CommentLayer* mainCommentLayer)
 {
 	this->forkedCommentLayer = forkedCommentLayer;
@@ -51,7 +57,7 @@ nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		bool mask, bool commentmask, double alpha, double rotation,
 		const std::string& mover)
 {
-	nekomata::util::Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory()));
+	nekomata::util::Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory));
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
@@ -60,7 +66,7 @@ nekomata::util::Handler<nekomata::system::Label> NekomataSystem::drawText(
 		const std::string& text, double x, double y, double z, double size,
 		const std::string& pos, unsigned int color, bool bold, bool visible,
 		const std::string& filter, double alpha, const std::string& mover) {
-	nekomata::util::Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory()));
+	nekomata::util::Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory));
 	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return label;
 }
@@ -96,21 +102,19 @@ void NekomataSystem::addButton(
 		const std::string& commes, const std::string& commail, bool comvisible,
 		int limit, bool hidden) {
 	vpos = vpos != vpos ? currentTime() : vpos;
-	log.e(TAG, 0,
-			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
-			message.c_str(), mail.c_str(), vpos, commes.c_str(), commail.c_str(), comvisible, limit, hidden
-			);
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
-	item::Button* btn = new item::Button(this->commentFactory(), this->shapeFactory());
+	item::Button* btn = new item::Button(this->commentFactory, this->shapeFactory);
+	btn->isPremium(true);
+	btn->layer(item::Comment::Forked);
 	btn->message(message);
-	btn->from(vpos);
+	btn->mail(mail);
 	btn->vpos(vpos);
-	btn->to(vpos+3);
 	btn->comvisible(comvisible);
 	btn->commail(commail);
 	btn->commes(commes);
 	btn->limit(limit);
 	btn->hidden(hidden);
+	this->organizer->rewrite(btn);
 	this->forkedCommentLayer->queueComment(btn);
 }
 

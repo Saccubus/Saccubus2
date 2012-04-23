@@ -42,30 +42,19 @@ class Comment {
 	DEF_ATTR_ACCESSOR(public, protected, long long, score)
 	DEF_ATTR_ACCESSOR(public, protected, std::string, user_id)
 	DEF_ATTR_ACCESSOR(public, protected, std::string, message)
+	DEF_ATTR_ACCESSOR(public, protected, std::string, mail)
 	DEF_ATTR_ACCESSOR(public, protected, bool, anonymity)
 	DEF_ATTR_ACCESSOR(public, protected, bool, leaf)
 	DEF_ATTR_ACCESSOR(public, protected, bool, premium)
 	DEF_ATTR_ACCESSOR(public, protected, bool, fork)
 	DEF_ATTR_ACCESSOR(public, protected, std::tr1::shared_ptr<const nekomata::tree::Node>, node)
-public: /* mailだけは少しだけ扱いが違う */
-	std::string mail() const;
+public:
 	bool haveScript() const;
 protected:
-	void mail(std::string const& mail);
-private:
-	std::vector<std::string> mailList;
-	std::string _mail;
-protected:
 	Comment();
-	void splitMail();
 public:
 	Comment(logging::Logger& log, xmlNode* node);
 	virtual ~Comment();
-public:
-	typedef std::vector<std::string>::const_iterator MailIterator;
-	size_t mailSize() const;
-	MailIterator mailBegin() const;
-	MailIterator mailEnd() const;
 public:
 	struct CompareLessByVpos
 	{

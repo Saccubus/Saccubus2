@@ -43,6 +43,7 @@ public:
 	virtual ~MessageOrganizer();
 public:
 	item::Comment* organize(const meta::Comment* comment);
+	void rewrite(item::Comment* comment);
 };
 
 }}

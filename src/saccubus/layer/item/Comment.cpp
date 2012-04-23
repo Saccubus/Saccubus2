@@ -22,6 +22,7 @@
 #include "../../meta/Comment.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
+#include "../../util/StringUtil.h"
 
 namespace saccubus {
 namespace layer {
@@ -119,5 +120,28 @@ bool Comment::onClick()
 	return false;
 }
 
+std::string Comment::mail()
+{
+	return _mail;
+}
+void Comment::mail(const std::string& val)
+{
+	_mail = val;
+	_mails.clear();
+	util::splitSpace(_mail, this->_mails);
+}
+
+size_t Comment::mailSize() const
+{
+	return _mails.size();
+}
+Comment::MailIterator Comment::mailBegin() const
+{
+	return _mails.begin();
+}
+Comment::MailIterator Comment::mailEnd() const
+{
+	return _mails.end();
+}
 
 }}}

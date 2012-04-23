@@ -22,6 +22,7 @@
 #include <string>
 #include <tr1/memory>
 #include <tr1/functional>
+#include <vector>
 #include "Item.h"
 #include "../../classdefs.h"
 #include "../../util/ClassAccessor.h"
@@ -62,7 +63,6 @@ public:
 		Bottom,
 	};
 	DEF_ATTR_ACCESSOR(public, public, std::string, message);
-	DEF_ATTR_ACCESSOR(public, public, std::string, mail);
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, no);
 	DEF_ATTR_ACCESSOR(public, public, float, from);
 	DEF_ATTR_ACCESSOR(public, public, float, vpos);
@@ -82,8 +82,11 @@ public:
 	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
 private:
 	enum Size _sizeType;
-public:
+	std::string _mail;
+	std::vector<std::string> _mails;
+protected:
 	Comment();
+public:
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~Comment();
 	void import(const meta::Comment* orig);
@@ -91,6 +94,13 @@ public:
 	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
 	void sizeType(enum Size size);
 	enum Size sizeType() const;
+public:
+	std::string mail();
+	void mail(const std::string& val);
+	typedef std::vector<std::string>::const_iterator MailIterator;
+	size_t mailSize() const;
+	MailIterator mailBegin() const;
+	MailIterator mailEnd() const;
 private:
 	void init();
 public:

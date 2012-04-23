@@ -27,15 +27,17 @@ namespace saccubus {
 namespace layer {
 
 class NekomataSystem: public nekomata::system::System {
-	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
-	DEF_ATTR_ACCESSOR(private, private, draw::ShapeFactory*, shapeFactory);
+	draw::CommentFactory* const commentFactory;
+	draw::ShapeFactory* const shapeFactory;
 private:
+	MessageOrganizer* organizer;
 	CommentLayer* forkedCommentLayer;
 	CommentLayer* mainCommentLayer;
 public:
 	NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
 	virtual ~NekomataSystem();
 public:
+	void tellOrganizer(MessageOrganizer* organizer);
 	void tellCommentLayers(CommentLayer* forkedCommentLayer, CommentLayer* mainCommentLayer);
 public: /* スクリプトから参照される */
 	virtual nekomata::util::Handler<nekomata::system::Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);

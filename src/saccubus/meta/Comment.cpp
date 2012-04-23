@@ -85,41 +85,11 @@ Comment::Comment()
 	this->fork(false);
 }
 
-void Comment::splitMail()
-{
-	this->mailList.clear();
-	util::splitSpace(this->mail(), this->mailList);
-}
-
 Comment::~Comment() {
-}
-
-std::string Comment::mail() const
-{
-	return _mail;
-}
-void Comment::mail(std::string const& mail)
-{
-	this->_mail = mail;
-	this->splitMail();
 }
 
 bool Comment::haveScript() const
 {
 	return this->node();
 }
-
-size_t Comment::mailSize() const
-{
-	return mailList.size();
-}
-Comment::MailIterator Comment::mailBegin() const
-{
-	return mailList.begin();
-}
-Comment::MailIterator Comment::mailEnd() const
-{
-	return mailList.end();
-}
-
 }}

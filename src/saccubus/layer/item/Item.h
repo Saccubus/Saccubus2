@@ -26,8 +26,12 @@ namespace layer {
 namespace item {
 
 class Item {
-public:
+protected:
 	Item();
+private:
+	Item(const Item& other);
+	Item& operator = (const Item& other);
+public:
 	virtual ~Item();
 private:
 	draw::Sprite::Handler<draw::Sprite> sprite;
