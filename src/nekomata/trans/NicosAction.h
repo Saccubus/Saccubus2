@@ -30,7 +30,8 @@ std::string escape(bool val);
 
 class NicosAction {
 protected:
-	std::string mail;
+	const float vpos;
+	const std::string mail;
 private:
 	NicosAction();
 	NicosAction(const NicosAction& other);
@@ -40,7 +41,7 @@ private:
 	std::vector<std::string> msgTokens;
 	std::string nextToken(bool require);
 public:
-	NicosAction(const std::string& mail, const std::vector<std::string>& tokens);
+	NicosAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens);
 	virtual ~NicosAction();
 public:
 	std::string trans();

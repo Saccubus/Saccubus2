@@ -79,9 +79,9 @@ public:
 };
 
 #define DEF_ACTION(cmd, clazz)\
-	if(front==cmd) return clazz(mail, tokens).trans();
+	if(front==cmd) return clazz(vpos, mail, tokens).trans();
 
-std::string toNiwango(const std::string& mail, const std::string& message)
+std::string toNiwango(const float vpos, const std::string& mail, const std::string& message)
 {
 	std::vector<std::string> tokens = Impl(message).parse();
 	if(tokens.size() > 0){

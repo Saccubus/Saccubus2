@@ -22,8 +22,8 @@
 namespace nekomata {
 namespace trans {
 
-ButtonAction::ButtonAction(const std::string& mail, const std::vector<std::string>& tokens)
-:NicosAction(mail, tokens)
+ButtonAction::ButtonAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens)
+:NicosAction(vpos, mail, tokens)
 ,_message()
 ,_commsg()
 ,_local(true)
@@ -50,6 +50,7 @@ std::string ButtonAction::write()
 	ss << "addButton(";
 	ss << "message:" << escape(_message) << ",";
 	ss << "mail:" << escape(mail) << ",";
+	ss << "vpos:" << vpos << ",";
 	ss << "commes:" << escape(_commsg) << ",";
 	ss << "commail:" << escape(_commail) << ",";
 	ss << "comvisible:" << escape(_local) << ",";

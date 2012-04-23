@@ -24,7 +24,7 @@
 namespace nekomata {
 namespace trans {
 
-std::string toNiwango(const std::string& mail, const std::string& message);
+std::string toNiwango(const float vpos, const std::string& mail, const std::string& message);
 
 }}
 #endif /* INCLUDE_GUARD */
