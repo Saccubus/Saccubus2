@@ -48,16 +48,16 @@ script returns [std::vector<std::string> val]
 	)*;
 
 string returns [std::string val]:
-	a=JapString { std::string tmp=createStringFromToken($b); $val=tmp.substr(std::string("「").size(), tmp.size()-std::string("「」").size()); }
+	a=JapString { std::string tmp=createStringFromToken($b); $val=tmp.substr(std::string("\u300c").size(), tmp.size()-std::string("\u300c\u300d").size()); }
 	| b=SingleString { std::string tmp=createStringFromToken($b); $val=unescapeString(tmp.substr(1, tmp.size()-2)); }
 	| c=DoubleString { std::string tmp=createStringFromToken($c); $val=unescapeString(tmp.substr(1, tmp.size()-2)); }
 	| d=NoSpacedString { $val=createStringFromToken($d); }
 	;
 
-JapString: '「'  ~('」')* '」';
+JapString: '\u300c'  ~('\u300d')* '\u300d';
 SingleString: '\'' SingleElement* '\'';
 DoubleString: '"' DoubleElement* '"';
-NoSpacedString: (~(' '|'　'))*;
+NoSpacedString: (~(' '|'\u3000'))*;
 
 fragment
 SingleElement
@@ -82,5 +82,5 @@ Escape
 		)?
 	;
 
-WS: (' '|'\t'|'　'|'\r'|'\n')+ {$channel=HIDDEN;} ; // ignore whitespace
+WS: (' '|'\t'|'\u3000'|'\r'|'\n')+ {$channel=HIDDEN;} ; // ignore whitespace
 
