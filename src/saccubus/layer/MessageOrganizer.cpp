@@ -53,6 +53,7 @@ item::Comment* MessageOrganizer::organize(const meta::Comment* comment)
 void MessageOrganizer::rewrite(item::Comment* comment)
 {
 	/* コマンド欄の処理 */
+	comment->from(comment->vpos()-1.0f);
 	for(item::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
 		if(!MailOperation::apply(*it, comment))
 		{

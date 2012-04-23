@@ -92,6 +92,7 @@ void SimpleCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ct
 	if(slot->y() < 0 || slot->y()+slot->height() > ctx->height()){
 		slot->y(((rand() % 10000) * (ctx->height() - slot->height())) / 10000);
 	}
+	log.t(TAG, "Delployded: \"%s\" to -> %d, %d (size: %fx%f) time:%f->%f",slot->comment()->message().c_str(), slot->x(), slot->y(), slot->width(), slot->height(), slot->comment()->from(), slot->comment()->to());
 	CommentIterator it = std::upper_bound(this->comments.begin(), this->comments.end(), slot, Slot::EndTimeComparator());
 	this->comments.insert(it, slot);
 }
@@ -122,6 +123,9 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 	{ /* 表示しないコメントを削除 */
 		CommentIterator beg = this->comments.begin();
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, SimpleCommentLayer::Slot::EndTimeComparator());
+		if(end-beg > 0){
+			log.e(TAG, "erased: %d", end-beg);
+		}
 		this->comments.erase(beg, end);
 	}
 	{ /* 変換されるメタコメントを実体へ変換 */
