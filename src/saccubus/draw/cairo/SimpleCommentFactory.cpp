@@ -43,9 +43,19 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 	{
 		LOGFONTW logf;
 		memset(&logf, 0, sizeof(LOGFONTW));
-		logf.lfCharSet=DEFAULT_CHARSET;
+		logf.lfEscapement = 0;
+		logf.lfOrientation = 0;
+		logf.lfWeight = FW_DONTCARE;
+		logf.lfItalic = FALSE;
+		logf.lfUnderline = FALSE;
+		logf.lfStrikeOut = FALSE;
+		logf.lfCharSet=SHIFTJIS_CHARSET;
+		logf.lfOutPrecision = OUT_STROKE_PRECIS;
+		logf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+		logf.lfQuality = ANTIALIASED_QUALITY;
+		logf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+		wcscpy(logf.lfFaceName,  L"MS UI Gothic");
 		cairo_font_face_t* ft = cairo_win32_font_face_create_for_logfontw(&logf);
-		wcscpy(logf.lfFaceName, L"MS UI Gothic");
 		this->face(ft);
 	}
 #else
@@ -112,6 +122,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	int height = 0;
 	{ /* 大きさを測定 */
 		cairo_text_extents_t ext;
+		cairo_font_extents_t fext;
 		this->setupCairo(this->emptyCairo(), size);
 		cairo_text_extents(this->emptyCairo(), (str).c_str(), &ext);
 		x = ShadowWidth/2;
@@ -123,7 +134,11 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		width = std::ceil(w);
 		height = std::ceil(h);
 		if(ext.width <= 1 || ext.height <= 1){
-			return NullSprite::newInstance(width, std::ceil(size+ShadowWidth));
+			cairo_font_extents(this->emptyCairo(), &fext);
+			double fontW = fext.max_x_advance;
+			double fontH = fext.max_y_advance + fext.height;
+			cairo_user_to_device_distance(this->emptyCairo(), &fontW, &fontH);
+			return NullSprite::newInstance(width, std::ceil(fontH+ShadowWidth));
 		}
 	}
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(width, height);
@@ -168,8 +183,10 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 {
 	std::vector<std::string> lines;
 	util::splitLine(str, lines);
-	if(lines.size() <= 1){
+	if(lines.size() <= 0){
 		return renderLine(str, color, shadowColor, size);
+	}else if(lines.size() == 1){
+		return renderLine(lines.front(), color, shadowColor, size);
 	}
 	saccubus::draw::Sprite::Handler<saccubus::draw::LayerdSprite> spr = saccubus::draw::LayerdSprite::newInstance();
 	int y = 0;
