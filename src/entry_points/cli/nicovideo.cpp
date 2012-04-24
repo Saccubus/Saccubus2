@@ -80,7 +80,6 @@ void loop(int w, int h, SDL_Window* const window, SDL_Surface* const windowSurfa
 			}
 		}
 
-		SDL_FillRect(windowSurface, 0, SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff));
 		SDL_LockSurface(windowSurface);
 		{
 			std::tr1::shared_ptr<saccubus::draw::Context> ctx =
