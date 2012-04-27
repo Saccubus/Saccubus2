@@ -258,11 +258,11 @@ std::vector<std::string> Object::getSlotNames()
 Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
 {
 	if(frozen()){
-		log().w(TAG, 0, "\"setSlot\" to %s called, but obj \"%s\" is frozen.", name.c_str(), toString().c_str());
+		log().w(TAG, 0, "\"setSlot\" to property %s called, but obj \"%s\" is frozen.", name.c_str(), toString().c_str());
 		return Handler<Object>(this);
 	}
 	if(specialMap.find(name) != specialMap.end()){
-		log().w(TAG, 0, "\"setSlot\" to %s called, but this is special object.", name.c_str());
+		log().w(TAG, 0, "\"setSlot\" to property %s called, but this is special object.", name.c_str());
 		return Handler<Object>(this);
 	}
 	objectMap.erase(name);
