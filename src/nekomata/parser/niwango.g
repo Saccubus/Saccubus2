@@ -447,3 +447,4 @@ fragment OCT_DIGIT
 
 EOL: '\r'|'\n';
 WS: (' '|'\t')+ {$channel=HIDDEN;} ; // ignore whitespace
+COMMENT: '#' (~EOL)* {$channel=HIDDEN;};
