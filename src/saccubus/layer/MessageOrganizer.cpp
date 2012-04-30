@@ -19,6 +19,7 @@
 #include <nekomata/Nekomata.h>
 #include "MessageOrganizer.h"
 #include "MessageOrganizerOperation.h"
+#include "../util/StringUtil.h"
 #include "../meta/Comment.h"
 #include "../meta/ReplaceTable.h"
 #include "item/Comment.h"
@@ -53,7 +54,9 @@ std::tr1::shared_ptr<item::Comment> MessageOrganizer::organize(const meta::Comme
 void MessageOrganizer::rewrite(std::tr1::shared_ptr<item::Comment> comment)
 {
 	/* コマンド欄の処理 */
-	for(item::Comment::MailIterator it= comment->mailBegin(); it != comment->mailEnd(); ++it){
+	std::vector<std::string> lst;
+	util::splitSpace(comment->mail(), lst);
+	for(std::vector<std::string>::const_iterator it= lst.begin(); it != lst.end(); ++it){
 		if(!MailOperation::apply(*it, comment))
 		{
 			log.v(TAG, "Unknwon command: %s", it->c_str());

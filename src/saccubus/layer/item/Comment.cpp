@@ -180,21 +180,6 @@ std::string Comment::mail() const
 void Comment::mail(const std::string& val)
 {
 	_mail = val;
-	_mails.clear();
-	util::splitSpace(_mail, this->_mails);
-}
-
-size_t Comment::mailSize() const
-{
-	return _mails.size();
-}
-Comment::MailIterator Comment::mailBegin() const
-{
-	return _mails.begin();
-}
-Comment::MailIterator Comment::mailEnd() const
-{
-	return _mails.end();
 }
 
 }}}

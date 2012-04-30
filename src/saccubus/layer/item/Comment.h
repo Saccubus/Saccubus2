@@ -84,7 +84,6 @@ public:
 private:
 	enum Size _sizeType;
 	std::string _mail;
-	std::vector<std::string> _mails;
 private:
 	Comment();
 public:
@@ -102,9 +101,6 @@ public:
 	std::string mail() const;
 	void mail(const std::string& val);
 	typedef std::vector<std::string>::const_iterator MailIterator;
-	size_t mailSize() const;
-	MailIterator mailBegin() const;
-	MailIterator mailEnd() const;
 	void fixTime();
 private:
 	void init();
