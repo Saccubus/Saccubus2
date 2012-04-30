@@ -23,7 +23,6 @@ Nekomata::Nekomata(system::System& system, logging::Logger& log)
 :system(system)
 ,log(log)
 ,machine(new machine::Machine(log, system))
-,currentTime(0)
 {
 }
 
@@ -33,12 +32,16 @@ Nekomata::~Nekomata() {
 
 void Nekomata::seek(float time)
 {
-	if(time < currentTime){
+	if(time < currentTime()){
 		log.e(TAG, 0, "Sorry, rewind operation is not supported yet!");
 	}else{
-		system.seek(*machine, currentTime, time);
-		currentTime = time;
+		system.seek(*machine, currentTime(), time);
 	}
+}
+
+float Nekomata::currentTime()
+{
+	return system.currentTime();
 }
 
 void Nekomata::queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg)

@@ -35,13 +35,13 @@ private:
 	system::System& system;
 	logging::Logger& log;
 	machine::Machine* const machine;
-	float currentTime;
 public:
 	explicit Nekomata(system::System& system, logging::Logger& log);
 	virtual ~Nekomata();
 public:
 	void queueMessage(std::tr1::shared_ptr<const system::Message> msg);
 	void seek(float time);
+	float currentTime();
 };
 
 }
