@@ -363,12 +363,12 @@ boolean returns [shared_ptr<const BoolLiteralNode> result]
 	}
 	;
 numeric returns [shared_ptr<const NumericLiteralNode> result]
-	: (str=INT_LITERAL | str=HEX_LITERAL | str=OCT_LITERAL)
+	: ( str=HEX_LITERAL | str=OCT_LITERAL)
 	{
 		int num = strtol(createStringFromToken($str).c_str(), 0, 0);
 		$result = shared_ptr<const NumericLiteralNode>(new NumericLiteralNode(createLocationFromToken($str), num));
 	}
-	| str=FLOAT_LITERAL
+	| str=NUM_LITERAL
 	{
 		double num = atof(createStringFromToken($str).c_str());
 		$result = shared_ptr<const NumericLiteralNode>(new NumericLiteralNode(createLocationFromToken($str), num));
@@ -396,9 +396,6 @@ LETTER:
 	| '@'
 	| '$'
 	;
-fragment
-DIGIT :
-  '0'..'9';
 
 STRING_SINGLE: '\'' t=STRING_SINGLE_ELEMENT* '\'';
 
@@ -424,19 +421,21 @@ ESC_SEQ
 		)?
 	;
 
-INT_LITERAL: ('1'..'9' DIGIT*) | '0';
-
 HEX_LITERAL:
 	'0' ('x'|'X') HEX_DIGIT+;
 
 OCT_LITERAL :
 	'0' (OCT_DIGIT)+;
 
-FLOAT_LITERAL
-	: ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-	| ('0'..'9')+ EXPONENT
+NUM_LITERAL
+	: DIGIT+ (('.' DIGIT)=> '.' DIGIT+)?  EXPONENT?
 	;
-
+fragment
+DIGIT :
+  '0'..'9';
+fragment
+NONZERO_DIGIT :
+  '1'..'9';
 fragment EXPONENT
 	: ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 fragment HEX_DIGIT
