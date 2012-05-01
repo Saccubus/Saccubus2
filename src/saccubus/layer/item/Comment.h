@@ -19,6 +19,7 @@
 #ifndef CONTEXT_COMMENT_H_
 #define CONTEXT_COMMENT_H_
 
+#include <nekomata/system/System.h>
 #include <string>
 #include <tr1/memory>
 #include <tr1/functional>
@@ -62,48 +63,48 @@ public:
 		Middle,
 		Bottom,
 	};
-	DEF_ATTR_ACCESSOR(public, public, std::string, message);
-	DEF_ATTR_ACCESSOR(public, public, unsigned int, no);
-	DEF_ATTR_ACCESSOR(public, private, float, from);
-	DEF_ATTR_ACCESSOR(public, public, float, vpos);
-	DEF_ATTR_ACCESSOR(public, public, float, span);
-	DEF_ATTR_ACCESSOR(public, private, float, to);
-	DEF_ATTR_ACCESSOR(public, public, bool, isYourPost);
-	DEF_ATTR_ACCESSOR(public, public, bool, fromButton);
-	DEF_ATTR_ACCESSOR(public, public, bool, isPremium);
-	DEF_ATTR_ACCESSOR(public, public, bool, full);
-	DEF_ATTR_ACCESSOR(public, public, bool, sage);
-	DEF_ATTR_ACCESSOR(public, public, bool, patissier);
-	DEF_ATTR_ACCESSOR(public, public, enum Device, device);
-	DEF_ATTR_ACCESSOR(public, public, bool, visibility);
-	DEF_ATTR_ACCESSOR(public, public, double, size);
-	DEF_ATTR_ACCESSOR(public, public, enum Layer, layer);
-	DEF_ATTR_ACCESSOR(public, public, enum PlaceY, placeY);
-	DEF_ATTR_ACCESSOR(public, public, unsigned int, color);
-	DEF_ATTR_ACCESSOR(public, public, unsigned int, shadowColor);
-private:
-	enum Size _sizeType;
-	std::string _mail;
+	DEF_ATTR_ACCESSOR(public , protected, std::string, message);
+	DEF_ATTR_ACCESSOR(public , private  , std::string, mail);
+	DEF_ATTR_ACCESSOR(public , private  , unsigned int, no);
+	DEF_ATTR_ACCESSOR(public , private  , float, from);
+	DEF_ATTR_ACCESSOR(public , private  , float, vpos);
+	DEF_ATTR_ACCESSOR(private, private  , float, span);
+	DEF_ATTR_ACCESSOR(public , private  , float, to);
+	DEF_ATTR_ACCESSOR(public , private  , bool, isYourPost);
+	DEF_ATTR_ACCESSOR(public , private  , bool, fromButton);
+	DEF_ATTR_ACCESSOR(public , private  , bool, isPremium);
+	DEF_ATTR_ACCESSOR(public , private  , bool, full);
+	DEF_ATTR_ACCESSOR(public , private  , bool, sage);
+	DEF_ATTR_ACCESSOR(public , private  , bool, patissier);
+	DEF_ATTR_ACCESSOR(public , private  , enum Device, device);
+	DEF_ATTR_ACCESSOR(public , private  , bool, visibility);
+	DEF_ATTR_ACCESSOR(public , private  , enum Size, sizeType);
+	DEF_ATTR_ACCESSOR(public , private  , enum Layer, layer);
+	DEF_ATTR_ACCESSOR(public , private  , enum PlaceY, placeY);
+	DEF_ATTR_ACCESSOR(public , protected, unsigned int, color);
+	DEF_ATTR_ACCESSOR(public , protected, unsigned int, shadowColor);
 private:
 	Comment();
-public:
-	Comment(const Comment& other);
 	Comment& operator = (const Comment& other);
 public:
-	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory);
+	Comment(const Comment& other);
+	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, const meta::Comment* meta);
+	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
+			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
+			const float& vpos, const std::string& message, const std::string& mail
+			);
 	virtual ~Comment();
-	void import(const meta::Comment* orig);
 public:
 	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
-	void sizeType(enum Size size);
-	enum Size sizeType() const;
-public:
-	std::string mail() const;
-	void mail(const std::string& val);
-	typedef std::vector<std::string>::const_iterator MailIterator;
-	void fixTime();
+	float size() const;
 private:
 	void init();
+	void update();
+	struct MailOperation;
+	struct NekomataReplaceOperation;
+	bool applyMail(const std::string& ml);
+public:
+	void replace(nekomata::system::System* system);
 public:
 	virtual bool isButton() const;
 	/**
@@ -111,6 +112,18 @@ public:
 	 */
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+public:
+	struct StartTimeCompare{
+		bool operator() (const Comment& a, const Comment& b);
+		bool operator() (const Comment& a, const float& b);
+		bool operator() (const float& a, const Comment& b);
+		bool operator() (const Comment* a, const Comment* b);
+		bool operator() (const float& a, const Comment* b);
+		bool operator() (const Comment* a, const float& b);
+		bool operator() (const std::tr1::shared_ptr<Comment>& a, const std::tr1::shared_ptr<Comment>& b);
+		bool operator() (const float& a, const std::tr1::shared_ptr<Comment>& b);
+		bool operator() (const std::tr1::shared_ptr<Comment>& a, const float& b);
+	};
 };
 
 }}}

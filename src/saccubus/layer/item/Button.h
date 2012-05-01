@@ -26,15 +26,14 @@ namespace layer {
 namespace item {
 
 class Button: public saccubus::layer::item::Comment {
-	DEF_ATTR_ACCESSOR(public, public, std::string, commes);
-	DEF_ATTR_ACCESSOR(public, public, bool, comvisible);
-	DEF_ATTR_ACCESSOR(public, public, std::string, commail);
-	DEF_ATTR_ACCESSOR(public, public, int, limit);
-	DEF_ATTR_ACCESSOR(public, public, bool, hidden);
+	DEF_ATTR_ACCESSOR(public, private, std::string, commes);
+	DEF_ATTR_ACCESSOR(public, private, std::string, commail);
+	DEF_ATTR_ACCESSOR(public, private, bool, comvisible);
+	DEF_ATTR_ACCESSOR(public, private, int, limit);
+	DEF_ATTR_ACCESSOR(public, private, bool, hidden);
 private:
 	int isClicked;
 private:
-	MessageOrganizer* const organizer;
 	NekomataSystem* const nekoSystem;
 	CommentLayer* const postLayer;
 private:
@@ -49,7 +48,13 @@ private:
 	Button(const Button& other);
 	Button& operator = (const Button& other);
 public:
-	Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer, NekomataSystem* const nekoSystem, CommentLayer* const postLayer);
+	Button(
+			draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
+			NekomataSystem* const nekoSystem, CommentLayer* const postLayer,
+			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
+			const float& vpos, const std::string& message, const std::string& mail,
+			const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden
+			);
 	virtual ~Button();
 public:
 	virtual bool isButton() const;

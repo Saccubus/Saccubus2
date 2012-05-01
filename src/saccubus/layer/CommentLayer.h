@@ -30,13 +30,12 @@ namespace saccubus {
 namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
+	DEF_ATTR_ACCESSOR(protected, private, layer::ThreadLayer*, thread);
 	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
-	DEF_ATTR_ACCESSOR(protected, private, MessageOrganizer*, organizer);
 public:
-	CommentLayer(logging::Logger& log, bool isForked, MessageOrganizer* organizer);
+	CommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked);
 	virtual ~CommentLayer();
 public:
-	virtual void queueComment(const meta::Comment* comment) = 0;
 	virtual void queueComment(std::tr1::shared_ptr<item::Comment> comment) = 0;
 };
 

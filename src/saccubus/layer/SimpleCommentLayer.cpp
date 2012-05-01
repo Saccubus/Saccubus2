@@ -21,7 +21,6 @@
 #include "item/Comment.h"
 #include "ThreadLayer.h"
 #include "../draw/Context.h"
-#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
@@ -30,8 +29,8 @@ const static std::string TAG("SimpleCommentLayer");
 
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, bool isForked, layer::MessageOrganizer* organizer)
-:CommentLayer(log, isForked, organizer)
+SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked)
+:CommentLayer(log, thread, isForked)
 ,last(0)
 {
 }
@@ -107,15 +106,10 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_p
 	}
 }
 
-void SimpleCommentLayer::queueComment(const meta::Comment* comment)
-{
-	MetaQueueIterator it = std::upper_bound(this->metaQueue.begin(), this->metaQueue.end(), comment, meta::Comment::CompareLessByVpos());
-	this->metaQueue.insert(it, comment);
-}
-
 void SimpleCommentLayer::queueComment(std::tr1::shared_ptr<item::Comment> comment)
 {
-	this->deployQueue.push_back(comment);
+	DeployQueueIterator it = std::upper_bound(deployQueue.begin(), deployQueue.end(), comment, item::Comment::StartTimeCompare());
+	deployQueue.insert(it, comment);
 
 }
 void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
@@ -125,20 +119,12 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, SimpleCommentLayer::Slot::EndTimeComparator());
 		this->comments.erase(beg, end);
 	}
-	{ /* 変換されるメタコメントを実体へ変換 */
-		MetaQueueIterator it = this->metaQueue.begin();
-		for(; it != this->metaQueue.end(); ++it){
-			const meta::Comment* orig = *it;
-			if(vpos < orig->vpos()-CommentAheadTime) break;
-			queueComment(organizer()->organize(orig));
-		}
-		this->metaQueue.erase(this->metaQueue.begin(), it);
-	}
 	{ /* 実体の配置を計算 */
 		DeployQueueIterator it = this->deployQueue.begin();
 		for(; it != this->deployQueue.end(); ++it){
 			std::tr1::shared_ptr<Slot> item(new Slot(*it));
 			if(vpos < item->comment()->from()) break;
+//			item->comment()->replace(thread()->nekoSystem);
 			deploy(ctx, vpos, item);
 		}
 		this->deployQueue.erase(this->deployQueue.begin(), it);

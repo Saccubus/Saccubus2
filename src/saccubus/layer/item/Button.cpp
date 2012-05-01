@@ -22,19 +22,28 @@
 #include "../../draw/LayerdSprite.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
-#include "../MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
 namespace item {
 
-Button::Button(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, MessageOrganizer* const organizer,  NekomataSystem* const nekoSystem, CommentLayer* const postLayer)
-:Comment(commentFactory, shapeFactory)
+Button::Button(
+	draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
+	NekomataSystem* const nekoSystem, CommentLayer* const postLayer,
+	bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
+	const float& vpos, const std::string& message, const std::string& mail,
+	const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden
+	)
+:Comment(commentFactory, shapeFactory, fromButton, isYourPost, isPremium, layer, vpos, message, mail)
 ,isClicked(0)
-,organizer(organizer)
 ,nekoSystem(nekoSystem)
 ,postLayer(postLayer)
 {
+	this->commes(commes);
+	this->commail(commail);
+	this->comvisible(comvisible);
+	this->limit(limit);
+	this->hidden(hidden);
 }
 
 Button::~Button() {
@@ -52,17 +61,23 @@ bool Button::onClick(int relX, int relY)
 	if(this->limit() <= 0 || !(0 <= relX && relX <= this->buttonSprite->width() && 0 <= relY && relY <= this->buttonSprite->height())){
 		return false;
 	}
-	std::tr1::shared_ptr<item::Comment> post(new Comment(commentFactory(), shapeFactory()));
-	post->vpos(nekoSystem->currentTime());
-	post->message(this->commes());
-	post->mail(this->commail());
-	post->isPremium(true);
-	post->fromButton(true);
-	post->isYourPost(true);
-	this->organizer->rewrite(post);
 	if(comvisible()){
+		std::tr1::shared_ptr<item::Comment> post(
+				new Comment(
+						commentFactory(), shapeFactory(),
+						true, true, true, Comment::Forked,
+						nekoSystem->currentTime(), this->commes(), this->commail()
+						)
+		);
 		postLayer->queueComment(post);
 	}else if(postLayer){
+		std::tr1::shared_ptr<item::Comment> post(
+				new Comment(
+						commentFactory(), shapeFactory(),
+						true, true, true, Comment::Script,
+						nekoSystem->currentTime(), this->commes(), this->commail()
+						)
+		);
 		nekoSystem->queueMessage(post->createNekomataMessage());
 	}
 	isClicked = 3;
@@ -75,8 +90,9 @@ draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<sa
 		size_t left = this->message().find("[");
 		if(left != std::string::npos){
 			std::string leftString(this->message().substr(0, left));
-			Comment com(*this);
-			com.message(leftString);
+			Comment com(this->commentFactory(), this->shapeFactory(),
+					this->fromButton(), this->isYourPost(), this->isPremium(), this->layer(),
+					this->vpos(), leftString, this->mail());
 			leftSprite = this->commentFactory()->renderCommentText(ctx, &com);
 			this->message(this->message().substr(left+1));
 		}
@@ -85,18 +101,26 @@ draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<sa
 		size_t right = this->message().find("]");
 		if(right != std::string::npos){
 			std::string rightString(this->message().substr(right+1));
-			Comment com(*this);
-			com.message(rightString);
+			Comment com(this->commentFactory(), this->shapeFactory(),
+					this->fromButton(), this->isYourPost(), this->isPremium(), this->layer(),
+					this->vpos(), rightString, this->mail());
 			rightSprite = this->commentFactory()->renderCommentText(ctx, &com);
 			this->message(this->message().substr(0, right));
 		}
 	}
 	{
 		draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
-		Comment com(*this);
-		com.color(0xffffff);
-		com.shadowColor(0x000000);
-		draw::Sprite::Handler<draw::Sprite> textSpr = this->commentFactory()->renderCommentText(ctx, &com);
+		//FIXME: うまい方法ないかなあ
+		draw::Sprite::Handler<draw::Sprite> textSpr;
+		{
+			unsigned int origColor = this->color();
+			unsigned int origShadowColor = this->shadowColor();
+			this->color(0xffffff);
+			this->shadowColor(0x000000);
+			textSpr = this->commentFactory()->renderCommentText(ctx, this);
+			this->color(origColor);
+			this->shadowColor(origShadowColor);
+		}
 		unsigned int color = 0;
 		if(this->limit() <= 0){
 			color = 0x888888;

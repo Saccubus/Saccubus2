@@ -39,14 +39,12 @@ class CommentPipeLine;
 class ThreadLayer : public Layer {
 	DEF_ATTR_ACCESSOR(public, private, draw::CommentFactory*, commentFactory);
 	DEF_ATTR_ACCESSOR(public, private, draw::ShapeFactory*, shapeFactory);
+	DEF_ATTR_ACCESSOR(public, private, NekomataSystem*, nekoSystem);
 private:
 	const meta::Thread& thread;
 private:
 	nekomata::logging::Logger* nekoLogger;
 	nekomata::Nekomata* neko;
-	NekomataSystem* nekoSystem;
-private:
-	MessageOrganizer* messageOrganizer;
 private:
 	ScriptLayer* scriptLayer;
 	CommentLayer* localCommentLayer;

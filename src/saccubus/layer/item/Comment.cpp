@@ -20,6 +20,7 @@
 #include <cmath>
 #include <nekomata/system/System.h>
 #include "../../meta/Comment.h"
+#include "../../meta/ReplaceTable.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
 #include "../../util/StringUtil.h"
@@ -30,70 +31,82 @@ namespace item {
 
 static const std::string TAG("item::Comment");
 
-Comment::Comment()
-{
-	this->commentFactory(0);
-	this->shapeFactory(0);
+Comment::Comment(
+	draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
+	bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
+	const float& vpos, const std::string& message, const std::string& mail
+){
 	init();
+
+	this->commentFactory(commentFactory);
+	this->shapeFactory(shapeFactory);
+
+	this->fromButton(fromButton);
+	this->isYourPost(isYourPost);
+	this->isPremium(isPremium);
+	this->layer(layer);
+
+	this->vpos(vpos);
+	this->message(message);
+	this->mail(mail);
+
+	update();
+}
+Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, const meta::Comment* meta)
+{
+	init();
+
+	this->commentFactory(commentFactory);
+	this->shapeFactory(shapeFactory);
+
+	this->message(meta->message());
+	this->mail(meta->mail());
+	this->no(meta->no());
+	this->vpos(meta->vpos());
+	this->isPremium(meta->premium());
+	this->layer(meta->fork() ? Comment::Forked : Comment::Normal);
+
+	if(replaceTable){
+		this->message(replaceTable->replace(this->message()));
+	}
+
+	update();
 }
 Comment::Comment(const Comment& other)
 {
-	this->message(other.message());
-	this->no(other.no());
-	this->from(other.from());
-	this->vpos(other.vpos());
-	this->to(other.to());
-	this->span(other.span());
-	this->isYourPost(other.isYourPost());
-	this->fromButton(other.fromButton());
-	this->isPremium(other.isPremium());
-	this->full(other.full());
-	this->sage(other.sage());
-	this->patissier(other.patissier());
-	this->device(other.device());
-	this->visibility(other.visibility());
-	this->size(other.size());
-	this->layer(other.layer());
-	this->placeY(other.placeY());
-	this->color(other.color());
-	this->mail(other.mail());
-	this->shadowColor(other.shadowColor());
-}
-Comment& Comment::operator = (const Comment& other)
-{
-	this->message(other.message());
-	this->no(other.no());
-	this->from(other.from());
-	this->vpos(other.vpos());
-	this->to(other.to());
-	this->span(other.span());
-	this->isYourPost(other.isYourPost());
-	this->fromButton(other.fromButton());
-	this->isPremium(other.isPremium());
-	this->full(other.full());
-	this->sage(other.sage());
-	this->patissier(other.patissier());
-	this->device(other.device());
-	this->visibility(other.visibility());
-	this->size(other.size());
-	this->layer(other.layer());
-	this->placeY(other.placeY());
-	this->color(other.color());
-	this->mail(other.mail());
-	this->shadowColor(other.shadowColor());
-	return *this;
-}
-Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory)
-{
-	this->commentFactory(commentFactory);
-	this->shapeFactory(shapeFactory);
 	init();
+	this->commentFactory(other.commentFactory());
+	this->shapeFactory(other.shapeFactory());
+
+	this->message(other.message());
+	this->mail(other.mail());
+	this->no(other.no());
+	this->from(other.from());
+	this->vpos(other.vpos());
+	this->to(other.to());
+	this->span(other.span());
+	this->isYourPost(other.isYourPost());
+	this->fromButton(other.fromButton());
+	this->isPremium(other.isPremium());
+	this->full(other.full());
+	this->sage(other.sage());
+	this->patissier(other.patissier());
+	this->device(other.device());
+	this->visibility(other.visibility());
+	this->sizeType(other.sizeType());
+	this->layer(other.layer());
+	this->placeY(other.placeY());
+	this->color(other.color());
+	this->shadowColor(other.shadowColor());
 }
 
 Comment::~Comment() {
 }
 
 void Comment::init(){
+	this->commentFactory(0);
+	this->shapeFactory(0);
+
 	this->message("");
 	this->mail("");
 	this->no(-1);
@@ -117,8 +130,16 @@ void Comment::init(){
 	this->layer(Comment::Normal);
 }
 
-void Comment::fixTime()
+void Comment::update()
 {
+	std::vector<std::string> lst;
+	util::splitSpace(this->mail(), lst);
+	for(std::vector<std::string>::const_iterator it= lst.begin(); it != lst.end(); ++it){
+		if(!this->applyMail(*it)){
+			//log.v(TAG, "Unknwon command: %s", it->c_str());
+		}
+	}
+
 	bool spanIsNan = !(this->span() == this->span());
 	if(this->placeY() == item::Comment::Top || this->placeY() == item::Comment::Bottom){
 		this->from(this->vpos());
@@ -129,15 +150,6 @@ void Comment::fixTime()
 	}
 }
 
-void Comment::import(const meta::Comment* orig)
-{
-	this->message(orig->message());
-	this->mail(orig->mail());
-	this->no(orig->no());
-	this->vpos(orig->vpos());
-	this->isPremium(orig->premium());
-	this->layer(orig->fork() ? Comment::Forked : Comment::Normal);
-}
 
 std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 {
@@ -159,27 +171,13 @@ draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<s
 	return commentFactory()->renderCommentText(ctx, this);
 }
 
-void Comment::sizeType(enum Size size)
-{
-	this->_sizeType = size;
-	this->size(size);
-}
-enum Comment::Size Comment::sizeType() const
-{
-	return _sizeType;
+float Comment::size() const{
+	return this->sizeType();
 }
 
 bool Comment::isButton() const
 {
 	return false;
-}
-std::string Comment::mail() const
-{
-	return _mail;
-}
-void Comment::mail(const std::string& val)
-{
-	_mail = val;
 }
 
 }}}

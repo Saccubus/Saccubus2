@@ -21,11 +21,11 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, bool isForked, MessageOrganizer* organizer)
+CommentLayer::CommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked)
 :Layer(log)
 {
+	this->thread(thread);
 	this->isForked(isForked);
-	this->organizer(organizer);
 }
 
 CommentLayer::~CommentLayer() {

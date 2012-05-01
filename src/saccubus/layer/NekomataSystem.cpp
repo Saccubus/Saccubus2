@@ -22,7 +22,6 @@
 #include "item/Shape.h"
 #include "NekomataSystem.h"
 #include "CommentLayer.h"
-#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
@@ -33,7 +32,6 @@ NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFac
 :nekomata::system::System(nlog)
 ,commentFactory(commentFactory)
 ,shapeFactory(shapeFactory)
-,organizer(0)
 ,forkedCommentLayer(0)
 ,mainCommentLayer(0)
 {
@@ -42,10 +40,6 @@ NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFac
 NekomataSystem::~NekomataSystem() {
 }
 
-void NekomataSystem::tellOrganizer(MessageOrganizer* organizer)
-{
-	this->organizer = organizer;
-}
 void NekomataSystem::tellCommentLayers(CommentLayer* forkedCommentLayer, CommentLayer* mainCommentLayer)
 {
 	this->forkedCommentLayer = forkedCommentLayer;
@@ -103,18 +97,14 @@ void NekomataSystem::addButton(
 		int limit, bool hidden) {
 	vpos = vpos != vpos ? currentTime() : vpos;
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
-	std::tr1::shared_ptr<item::Button> btn(new item::Button(this->commentFactory, this->shapeFactory, this->organizer, this, this->forkedCommentLayer));
-	btn->isPremium(true);
-	btn->layer(item::Comment::Forked);
-	btn->message(message);
-	btn->mail(mail);
-	btn->vpos(vpos);
-	btn->comvisible(comvisible);
-	btn->commail(commail);
-	btn->commes(commes);
-	btn->limit(limit);
-	btn->hidden(hidden);
-	this->organizer->rewrite(btn);
+	std::tr1::shared_ptr<item::Button> btn(
+		new item::Button(
+			this->commentFactory, this->shapeFactory, this, this->forkedCommentLayer,
+			true, false, true, item::Comment::Forked,
+			currentTime(), message, mail,
+			commes, commail, comvisible, limit, hidden
+			)
+	);
 	this->forkedCommentLayer->queueComment(btn);
 }
 

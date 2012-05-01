@@ -19,12 +19,12 @@
 #include <algorithm>
 #include <tr1/memory>
 #include "ThreadLayer.h"
+#include "item/Comment.h"
 #include "../meta/Thread.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
 #include "../draw/ShapeFactory.h"
-#include "MessageOrganizer.h"
 
 namespace saccubus {
 namespace layer {
@@ -39,30 +39,30 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 	}
 	{ // ねこまたとの接続
 		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
-		this->nekoSystem = new NekomataSystem(*this->nekoLogger, this->commentFactory(), this->shapeFactory());
-		this->neko = new nekomata::Nekomata(*this->nekoSystem, *this->nekoLogger);
+		this->nekoSystem(new NekomataSystem(*this->nekoLogger, this->commentFactory(), this->shapeFactory()));
+		this->neko = new nekomata::Nekomata(*(this->nekoSystem()), *this->nekoLogger);
 	}
-
-	//コメントの変換用
-	this->messageOrganizer = new MessageOrganizer(log, this->commentFactory(), this->shapeFactory(), table, this->neko, this->nekoSystem);
 
 	{ // これでやっとレイヤの作成
-		this->scriptLayer = new ScriptLayer(log, this->nekoSystem);
-		this->forkedCommentLayer = pluginOrganizer->newCommentLayer(true, this->messageOrganizer);
-		this->mainCommentLayer = pluginOrganizer->newCommentLayer(false, this->messageOrganizer);
+		this->scriptLayer = new ScriptLayer(log, this->nekoSystem());
+		this->forkedCommentLayer = pluginOrganizer->newCommentLayer(this, true);
+		this->mainCommentLayer = pluginOrganizer->newCommentLayer(this, false);
 	}
 
-	this->nekoSystem->tellOrganizer(this->messageOrganizer);
-	this->nekoSystem->tellCommentLayers(this->forkedCommentLayer, this->mainCommentLayer);
+	this->nekoSystem()->tellCommentLayers(this->forkedCommentLayer, this->mainCommentLayer);
 
 	{ /* 確定済みコメントを渡す */
 		for(meta::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
 			if((*it)->haveScript()){
 				this->neko->queueMessage(std::tr1::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
 			}else if((*it)->fork()){
-				this->forkedCommentLayer->queueComment(*it);
+				this->forkedCommentLayer->queueComment(
+						std::tr1::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						);
 			}else{
-				this->mainCommentLayer->queueComment(*it);
+				this->mainCommentLayer->queueComment(
+						std::tr1::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						);
 			}
 		}
 	}
@@ -79,8 +79,6 @@ ThreadLayer::~ThreadLayer() {
 	}
 
 	{ // ファクトリ
-		delete this->messageOrganizer;
-		this->messageOrganizer = 0;
 		delete this->commentFactory();
 		this->commentFactory(0);
 		delete this->shapeFactory();
@@ -92,8 +90,8 @@ ThreadLayer::~ThreadLayer() {
 		this->neko = 0;
 		delete this->scriptLayer;
 		this->scriptLayer = 0;
-		delete this->nekoSystem;
-		this->nekoSystem = 0;
+		delete this->nekoSystem();
+		this->nekoSystem(0);
 		delete this->nekoLogger;
 		this->nekoLogger = 0;
 	}

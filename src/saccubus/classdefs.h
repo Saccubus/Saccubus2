@@ -51,7 +51,6 @@ class Button;
 class Label;
 class Shape;
 }
-class MessageOrganizer;
 class Layer;
 class CommentLayer;
 class ThreadLayer;
