@@ -26,22 +26,25 @@ namespace layer {
 namespace item {
 
 class Button: public saccubus::layer::item::Comment {
-	DEF_ATTR_ACCESSOR(public, private, std::string, commes);
-	DEF_ATTR_ACCESSOR(public, private, std::string, commail);
-	DEF_ATTR_ACCESSOR(public, private, bool, comvisible);
-	DEF_ATTR_ACCESSOR(public, private, int, limit);
-	DEF_ATTR_ACCESSOR(public, private, bool, hidden);
+	DEF_ATTR_ACCESSOR(private, private, unsigned int, buttonColor);
+	DEF_ATTR_ACCESSOR(private, private, std::string, commes);
+	DEF_ATTR_ACCESSOR(private, private, std::string, commail);
+	DEF_ATTR_ACCESSOR(private, private, bool, comvisible);
+	DEF_ATTR_ACCESSOR(private, private, int, limit);
+	DEF_ATTR_ACCESSOR(private, private, bool, hidden);
 private:
 	int isClicked;
 private:
 	NekomataSystem* const nekoSystem;
 	CommentLayer* const postLayer;
 private:
-	draw::Sprite::Handler<draw::Sprite> leftSprite;
 	float btnRelX;
 	float btnRelY;
-	draw::Sprite::Handler<draw::Sprite> buttonSprite;
+	draw::Sprite::Handler<draw::Sprite> leftSprite;
+	draw::Sprite::Handler<draw::Sprite> textSprite;
 	draw::Sprite::Handler<draw::Sprite> rightSprite;
+
+	draw::Sprite::Handler<draw::Sprite> buttonSprite;
 	void constructComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
 private:
 	Button();

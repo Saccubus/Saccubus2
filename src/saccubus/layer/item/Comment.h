@@ -100,8 +100,6 @@ public:
 private:
 	void init();
 	void update();
-	struct MailOperation;
-	struct NekomataReplaceOperation;
 	bool applyMail(const std::string& ml);
 public:
 	void replace(nekomata::system::System* system);
@@ -112,6 +110,7 @@ public:
 	 */
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+/* 補助的なデータ構造他 */
 public:
 	struct StartTimeCompare{
 		bool operator() (const Comment& a, const Comment& b);
@@ -124,6 +123,9 @@ public:
 		bool operator() (const float& a, const std::tr1::shared_ptr<Comment>& b);
 		bool operator() (const std::tr1::shared_ptr<Comment>& a, const float& b);
 	};
+private:
+	struct MailOperation;
+	struct NekomataReplaceOperation;
 };
 
 }}}

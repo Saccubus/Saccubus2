@@ -39,6 +39,12 @@ Button::Button(
 ,nekoSystem(nekoSystem)
 ,postLayer(postLayer)
 {
+	//FIXME: うまい方法ないかなあ
+	this->buttonColor(this->color());
+
+	this->color(0xffffff);
+	this->shadowColor(0x000000);
+
 	this->commes(commes);
 	this->commail(commail);
 	this->comvisible(comvisible);
@@ -108,30 +114,22 @@ draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<sa
 			this->message(this->message().substr(0, right));
 		}
 	}
+	if(!textSprite){
+		this->textSprite = this->commentFactory()->renderCommentText(ctx, this);
+	}
 	{
 		draw::Sprite::Handler<draw::LayerdSprite> layerd = draw::LayerdSprite::newInstance();
-		//FIXME: うまい方法ないかなあ
-		draw::Sprite::Handler<draw::Sprite> textSpr;
-		{
-			unsigned int origColor = this->color();
-			unsigned int origShadowColor = this->shadowColor();
-			this->color(0xffffff);
-			this->shadowColor(0x000000);
-			textSpr = this->commentFactory()->renderCommentText(ctx, this);
-			this->color(origColor);
-			this->shadowColor(origShadowColor);
-		}
 		unsigned int color = 0;
 		if(this->limit() <= 0){
 			color = 0x888888;
 		}else if(isClicked){
-			color = ~this->color();
+			color = ~this->buttonColor();
 		}else{
-			color = this->color();
+			color = this->buttonColor();
 		}
-		draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSpr->width(), textSpr->height(), color);
+		draw::Sprite::Handler<draw::Sprite> btnSpr = this->shapeFactory()->renderButton(ctx, textSprite->width(), textSprite->height(), color);
 		layerd->addSprite(0, 0, btnSpr);
-		layerd->addSprite((btnSpr->width()-textSpr->width())/2, (btnSpr->height()-textSpr->height())/2, textSpr);
+		layerd->addSprite((btnSpr->width()-textSprite->width())/2, (btnSpr->height()-textSprite->height())/2, textSprite);
 		this->buttonSprite = layerd;
 	}
 	draw::Sprite::Handler<draw::LayerdSprite> spr = draw::LayerdSprite::newInstance();
