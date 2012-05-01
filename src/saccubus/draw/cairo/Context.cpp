@@ -66,8 +66,6 @@ Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> ren
 	if(!this->cairo()){
 		throw logging::Exception(__FILE__, __LINE__, "Failed to create cairo context.");
 	}
-	cairo_set_operator(this->cairo(), CAIRO_OPERATOR_CLEAR);
-	cairo_paint(this->cairo());
 	cairo_set_operator(this->cairo(), CAIRO_OPERATOR_OVER);
 }
 
