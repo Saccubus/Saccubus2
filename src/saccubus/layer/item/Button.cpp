@@ -41,7 +41,7 @@ Button::Button(
 {
 	//FIXME: うまい方法ないかなあ
 	this->buttonColor(this->color());
-
+	//ボタンの文字色は、どのような色を設定しても白固定で、背景の色だけ変わるっぽい（？）
 	this->color(0xffffff);
 	this->shadowColor(0x000000);
 
