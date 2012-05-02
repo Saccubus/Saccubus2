@@ -46,10 +46,11 @@ void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const n
 		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse timeline: \"%s\"", line.c_str());
 	}
 	const std::string timeStr(line.substr(0, firstSep));
-	char* endPtr;
-	const float time = std::strtof(timeStr.c_str(), &endPtr);
-	if(*endPtr != '\0'){
-		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse time: \"%s\"", timeStr.c_str());
+	const char* timeCstr = timeStr.c_str();
+	char* endPtr=0;
+	const float time = std::strtof(timeCstr, &endPtr);
+	if(!endPtr && *endPtr != '\0'){
+		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse time string: \"%s\", invalid sequence: \"%s\"", timeCstr, endPtr);
 	}
 	const std::string mail(line.substr(firstSep+1, secondSep));
 	std::string message(line.substr(secondSep+1));
