@@ -168,7 +168,7 @@ util::Handler<Sum> System::sum(double x, double y, double size, unsigned int col
 	_sum->load(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 	return _sum;
 }
-util::Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, std::vector<util::Handler<Sum> > sum)
+util::Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<util::Handler<Sum> >& sum)
 {
 	util::Handler<SumResult> _sumResult(new SumResult(*this));
 	log.v(TAG, 0,
