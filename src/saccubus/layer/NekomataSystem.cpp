@@ -83,12 +83,16 @@ nekomata::util::Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
 		double y, double size, unsigned int color, bool visible, bool enabled,
 		const std::string& pos, bool asc, const std::string& unit,
 		bool buttononly, const std::vector<std::string>& words, bool partial) {
+	//FIXME: ちゃんと実装すること。
+	return System::sum(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 }
 
 nekomata::util::Handler<nekomata::system::SumResult> NekomataSystem::showResult(
 		double x, double y, unsigned int color, bool visible,
 		const std::string& pos, const std::string& unit, bool asc,
-		std::vector<nekomata::util::Handler<nekomata::system::Sum> > sum) {
+		const std::vector<nekomata::util::Handler<nekomata::system::Sum> >& sum) {
+	//FIXME: ちゃんと実装すること。
+	return System::showResult(x, y, color, visible, pos, unit, asc, sum);
 }
 
 void NekomataSystem::addButton(
@@ -139,14 +143,14 @@ void NekomataSystem::playCM(int id) {
 }
 double NekomataSystem::screenWidth()
 {
-	return 640; //KARI
+	return 640; // FIXME: 仮
 }
 double NekomataSystem::screenHeight()
 {
-	return 360; //KARI
+	return 360; // FIXME: 仮
 }
 std::string NekomataSystem::inspect() {
-	return "Saccubus::NekomataSystem";
+	return "Saccubus::System";
 }
 
 void NekomataSystem::onChanged() {

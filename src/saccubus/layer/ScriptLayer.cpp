@@ -83,6 +83,10 @@ void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float 
 	for(std::vector<nekomata::system::Drawable*>::const_iterator it = lst.begin(); it != lst.end(); ++it){
 		if(!(*it)->visible()) continue;
 		item::NekoItem* item = dynamic_cast<item::NekoItem*>(*it);
+		if(!item){
+			// FIXME: 仮。他のコマンドもすべて実装したら、これはNULL（dynamic_cast失敗）にはならないはず。
+			continue;
+		}
 		float x, y;
 		resolvePos(ctx, item, ctx->width(), ctx->height(), &x, &y);
 		item->draw(ctx, x, y);
