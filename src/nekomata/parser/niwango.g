@@ -375,7 +375,12 @@ numeric returns [shared_ptr<const NumericLiteralNode> result]
 	}
 	;
 string returns [shared_ptr<const StringLiteralNode> result]
-	: (t=STRING_SINGLE | t=STRING_DOUBLE)
+	: t=STRING_SINGLE
+	{
+		std::string str = createStringFromToken($t);
+		$result = shared_ptr<const StringLiteralNode>(new StringLiteralNode(createLocationFromToken($t), str.substr(1, str.length()-2)));
+	}
+	| t=STRING_DOUBLE
 	{
 		std::string str = createStringFromToken($t);
 		//FIXME: ちょっと醜い。どうにかならないかな。
@@ -400,7 +405,7 @@ LETTER:
 STRING_SINGLE: '\'' t=STRING_SINGLE_ELEMENT* '\'';
 
 fragment
-STRING_SINGLE_ELEMENT: ESC_SEQ | ~('\\'|'\''|'\r'|'\n');
+STRING_SINGLE_ELEMENT: ~('\''|'\r'|'\n');
 
 STRING_DOUBLE: '"' t=STRING_DOUBLE_ELEMENT* '"';
 

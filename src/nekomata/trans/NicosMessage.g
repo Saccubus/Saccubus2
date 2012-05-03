@@ -48,8 +48,8 @@ script returns [std::vector<std::string> val]
 	)*;
 
 string returns [std::string val]:
-	a=JapString { std::string tmp=createStringFromToken($b); $val=tmp.substr(std::string("\u300c").size(), tmp.size()-std::string("\u300c\u300d").size()); }
-	| b=SingleString { std::string tmp=createStringFromToken($b); $val=unescapeString(tmp.substr(1, tmp.size()-2)); }
+	a=JapString { std::string tmp=createStringFromToken($a); $val=tmp.substr(std::string("\u300c").size(), tmp.size()-std::string("\u300c\u300d").size()); }
+	| b=SingleString { std::string tmp=createStringFromToken($b); $val=tmp.substr(1, tmp.size()-2); }
 	| c=DoubleString { std::string tmp=createStringFromToken($c); $val=unescapeString(tmp.substr(1, tmp.size()-2)); }
 	| d=NoSpacedString { $val=createStringFromToken($d); }
 	;
@@ -61,7 +61,7 @@ NoSpacedString: (~(' '|'\u3000'))*;
 
 fragment
 SingleElement
-	: Escape | ~('\'' | '\\')
+	: ~('\'')
 	;
 
 fragment
