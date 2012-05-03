@@ -18,7 +18,9 @@
 '''
 
 import tkinter
+import re
 from saccubus.gui.main_window.version_info import VersionInfoWindow;
+from saccubus.gui.main_window.convert_list import ConvertList;
 
 class MainWindow(object):
 	'''
@@ -28,37 +30,70 @@ class MainWindow(object):
 		'''
 		Constructor
 		'''
-		self.master = tkinter.Tk();
-		self.master.title("Saccubus");
-		self.initMenu();
-		self.mainFrame = tkinter.Frame(self.master, width=640, height=480);
-		self.statusbar = tkinter.Label(self.master);
-		self.statusbar['text']="status"
-		self.mainFrame.grid(column=1, row=1, sticky=tkinter.W + tkinter.S);
-		self.statusbar.grid(column=1, row=2, sticky=tkinter.W);
-	def initMenu(self):
-		self.menuRoot = tkinter.Menu(self.master);
-		self.master.configure(menu=self.menuRoot);
+		master = tkinter.Tk();
+		master.title("Saccubus");
+		master.configure(menu=self.initMenu(master))
 		
-		self.menuFile = tkinter.Menu(self.menuRoot);
-		self.menuRoot.add_cascade(label="ファイル", menu=self.menuFile);
-		self.menuFile.add_command(label="終了", command=exit)
+		mainFrame = tkinter.Frame(master);
+		videoAddPanel = self.initVideoAddPanel(master)
+		statusbar = self.initStatusBar(master);
+
+		convertList = ConvertList(mainFrame);
+		convertList.pack(fill=tkinter.BOTH, expand=tkinter.YES)
+
+		#配置
+		master.columnconfigure(0, weight=1)
+		master.rowconfigure(1, weight=1)
+		videoAddPanel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
+		mainFrame.grid(column=0, row=1, sticky=tkinter.W + tkinter.N+tkinter.E + tkinter.S);
+		statusbar.grid(column=0, row=2, sticky=tkinter.W);
+
 		
-		self.menuConfig = tkinter.Menu(self.menuRoot)
-		self.menuRoot.add_cascade(label="設定", menu=self.menuConfig);
-		self.menuConfig.add_command(label="フロントエンド設定", command=self.onFrontendConfigMenuClicked)
-		self.menuConfig.add_command(label="バックエンド設定", command=None)
-		
-		self.menuHelp = tkinter.Menu(self.menuRoot)
-		self.menuRoot.add_cascade(label="ヘルプ", menu=self.menuHelp)
-		self.menuHelp.add_command(label="バージョン情報", command=self.onVersionInfoMenuClicked)
+		#self.convertList = convertList;
+		self.statusbar = statusbar;
+		self.master = master;
+		self.setStatus("Initialized.")
 	
+	def setStatus(self, msg):
+		self.statusbar['text']=msg;
+	
+	def initVideoAddPanel(self, master):
+		panel = tkinter.Frame(master)
+		panel.columnconfigure(1, weight=1)
+		tkinter.Label(panel, text="動画を変換：").grid(column=0, row=0)
+		videoIdText=tkinter.Text(panel, height=3)
+		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
+		tkinter.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END))).grid(column=2, row=0)
+		return panel;
+	
+	def initStatusBar(self, master):
+		statusbar = tkinter.Label(master);
+		statusbar['text']="status"
+		return statusbar;
+	
+	def initMenu(self, master):
+		menuRoot = tkinter.Menu(master);
+		
+		menuFile = tkinter.Menu(menuRoot);
+		menuRoot.add_cascade(label="ファイル", menu=menuFile);
+		menuFile.add_command(label="終了", command=exit)
+		
+		menuConfig = tkinter.Menu(menuRoot)
+		menuRoot.add_cascade(label="設定", menu=menuConfig);
+		menuConfig.add_command(label="フロントエンド設定", command=self.onFrontendConfigMenuClicked)
+		menuConfig.add_command(label="バックエンド設定", command=None)
+		
+		menuHelp = tkinter.Menu(menuRoot)
+		menuRoot.add_cascade(label="ヘルプ", menu=menuHelp)
+		menuHelp.add_command(label="バージョン情報", command=self.onVersionInfoMenuClicked)
+		
+		return menuRoot;
 	def onFrontendConfigMenuClicked(self):
 		exit()
-	
 	def onVersionInfoMenuClicked(self):
-		self.master.wait_window(VersionInfoWindow(self.master).getWindow());
-		
+		self.master.wait_window(VersionInfoWindow(self.master));
+	def onConvertButtonClicked(self, videoIds):
+		print(re.split("[\n\r]*", videoIds.strip()))
 	def mainLoop(self):
 		self.master.mainloop();
 

@@ -20,25 +20,29 @@
 import tkinter;
 import tkinter.font;
 
-class VersionInfoWindow(object):
+class VersionInfoWindow(tkinter.Toplevel):
 	'''
 	バージョン情報などを表示します。
 	'''
 
 
-	def __init__(self, master):
-		self.master = tkinter.Toplevel(master, width=240, height=320)
-		self.master.title("バージョン情報")
-		self.master.protocol("WM_DELETE_WINDOW", lambda: self.master.destroy())
-		self.titleLabel = tkinter.Label(self.master, text="さきゅばす", font=tkinter.font.Font(size=36,weight="bold"));
-		self.versionLabel = tkinter.Label(self.master, text="version: 2.0");
-		self.authorLabel = tkinter.Label(self.master, text="""Developed by
+	def __init__(self, master, cnf={}, **kw):
+		tkinter.Toplevel.__init__(self, master, cnf={}, **kw)
+		self.title("バージョン情報")
+		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
+		self.panel = tkinter.Frame(self)
+		self.initPanel(self.panel)
+		self.resizable(False, False)
+		self.panel.pack(fill=tkinter.BOTH, expand=tkinter.YES)
+	
+	def initPanel(self, panel):
+		titleLabel = tkinter.Label(panel, text="さきゅばす", font=tkinter.font.Font(size=36,weight="bold"));
+		versionLabel = tkinter.Label(panel, text="version: 2.0");
+		authorLabel = tkinter.Label(panel, text="""Developed by
 PSI 2007〜
 orz 2011〜""");
-		self.titleLabel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
-		self.versionLabel.grid(column=0, row=1, sticky=tkinter.W+tkinter.E);
-		self.authorLabel.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
-	
-	def getWindow(self):
-		return self.master;
+		panel.columnconfigure(0, weight=1)
+		titleLabel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
+		versionLabel.grid(column=0, row=1, sticky=tkinter.W+tkinter.E);
+		authorLabel.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
 	
