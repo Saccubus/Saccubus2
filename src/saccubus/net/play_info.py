@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-INFO_API_URL="http://flapi.nicovideo.jp/api/getflv/{0}"
+INFO_API_URL="http://flapi.nicovideo.jp/api/getflv/{0}?watch_harmful=1&as3=1"
 
 import urllib;
 from ..resource import rule;
