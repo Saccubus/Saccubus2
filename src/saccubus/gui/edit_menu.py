@@ -20,38 +20,13 @@
 import tkinter;
 
 class EditMenu(tkinter.Menu):
-	'''
-	切り取り、コピー、貼り付けが出来るいつもどおりな感じの右クリックメニューです。
-	masterには、編集対象のコンポーネントを指定です。
-	'''
 	def __init__(self, master):
 		'''
 		メニューを作成し、右クリックのハンドリングも行います。
 		'''
 		tkinter.Menu.__init__(self, master, tearoff=False);
-		self.add_cascade(label="切り取り (Ctrl+X)", command=self.cut)
-		self.add_cascade(label="コピー(Ctrl+C)", command=self.copy)
-		self.add_cascade(label="貼り付け (Ctrl+V)", command=self.paste)
+		self.add_command(label="切り取り (Ctrl+X)", command=lambda *a:master.event_generate("<<Cut>>"))
+		self.add_command(label="コピー(Ctrl+C)", command=lambda *a:master.event_generate("<<Copy>>"))
+		self.add_command(label="貼り付け (Ctrl+V)", command=lambda *a:master.event_generate("<<Paste>>"))
 		master.bind('<Button-3>', lambda event: self.post(event.x_root,event.y_root))
-	
-	def paste(self):
-		text = self.master.selection_get(selection='CLIPBOARD')
-		if text:
-			if self.master.tag_ranges(tkinter.SEL):
-				self.master.delete(tkinter.SEL_FIRST, tkinter.SEL_LAST)
-			self.master.insert(tkinter.INSERT, text)
-			self.master.tag_remove(tkinter.SEL, '1.0', tkinter.END) 
-			self.master.see(tkinter.INSERT)
-	
-	def copy(self):
-		if self.master.tag_ranges(tkinter.SEL):
-			text = self.master.get(tkinter.SEL_FIRST, tkinter.SEL_LAST)
-			self.master.clipboard_clear()
-			self.master.clipboard_append(text)
-	
-	def cut(self):
-		if self.master.tag_ranges(tkinter.SEL):
-			text = self.master.get(tkinter.SEL_FIRST, tkinter.SEL_LAST)
-			self.master.clipboard_clear()
-			self.master.clipboard_append(text)
-			self.master.delete(tkinter.SEL_FIRST, tkinter.SEL_LAST)
+

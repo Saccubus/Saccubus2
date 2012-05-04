@@ -22,7 +22,8 @@ import re
 from saccubus.gui.edit_menu import EditMenu;
 from saccubus.gui.main_window.version_info import VersionInfoWindow;
 from saccubus.gui.main_window.convert_list import ConvertList;
-from saccubus.gui.configure.frontend import FrontEndConfigureWindow
+from saccubus.gui.configure.frontend import FrontendConfigureWindow
+from saccubus.gui.configure.backend import BackendConfigureWindow
 
 class MainWindow(object):
 	'''
@@ -83,7 +84,7 @@ class MainWindow(object):
 		menuConfig = tkinter.Menu(menuRoot)
 		menuRoot.add_cascade(label="設定", menu=menuConfig);
 		menuConfig.add_command(label="フロントエンド設定", command=self.onFrontendConfigMenuClicked)
-		menuConfig.add_command(label="バックエンド設定", command=None)
+		menuConfig.add_command(label="バックエンド設定", command=self.onBackendConfigMenuClicked)
 		
 		menuHelp = tkinter.Menu(menuRoot)
 		menuRoot.add_cascade(label="ヘルプ", menu=menuHelp)
@@ -91,7 +92,9 @@ class MainWindow(object):
 		
 		return menuRoot;
 	def onFrontendConfigMenuClicked(self):
-		self.master.wait_window(FrontEndConfigureWindow(self.master));
+		self.master.wait_window(FrontendConfigureWindow(self.master));
+	def onBackendConfigMenuClicked(self):
+		self.master.wait_window(BackendConfigureWindow(self.master));
 	def onVersionInfoMenuClicked(self):
 		self.master.wait_window(VersionInfoWindow(self.master));
 	def onConvertButtonClicked(self, videoIds):

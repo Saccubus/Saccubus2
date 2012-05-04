@@ -18,11 +18,12 @@
 '''
 
 import tkinter
-from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel,\
-	FileConfigurePanel, ConfigureSectionPanel
-class FrontendConfigureWindow(tkinter.Toplevel):
+from saccubus.gui.configure.base import ConfigurePanel, ConfigureSectionPanel,\
+	IntegerConfigurePanel, FileConfigurePanel, SelectionConfigurePanel
+
+class BackendConfigureWindow(tkinter.Toplevel):
 	'''
-	フロントエンドの設定です。変換手順を決定するオプションファイルの指定などを行います。
+	バックエンドの設定ダイアログです。
 	'''
 	def __init__(self, master):
 		'''
@@ -31,7 +32,7 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		tkinter.Toplevel.__init__(self, master)
 		self.geometry("360x480")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
-		self.title("フロントエンド設定")
+		self.title("バックエンド設定")
 		self.focus_set()
 		self.grab_set()
 		
@@ -40,8 +41,15 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		'''
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		IntegerConfigurePanel(generalSection, "同時変換数", "同時に変換する動画数を指定します。", "parallel",1).deploy()
-		FileConfigurePanel(generalSection, "変換設定プラグインディレクトリ", "変換設定プラグインのディレクトリを指定します。", FileConfigurePanel.Directory, "convert-plugin-dir", "./conv_plugins").deploy()
+		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", 'loglevel', [
+							("トレース", "--trace"),
+							("詳細", "--verbose"),
+							("デバッグ", "--trace"),
+							("情報", "--info"),
+							("警告", "--warning"),
+							("エラー", "--error"),
+							],'警告').deploy()
+		
 		
 		'''
 		最後に配置
