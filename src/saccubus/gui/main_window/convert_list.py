@@ -50,6 +50,8 @@ class ConvertList(tkinter.Listbox):
 		tkinter.Listbox.__init__(self, master, cnf, **kw)
 		self.taskList = [];
 		ConvertListMenu(self)
+	def registTask(self, videoId):
+		print(videoId);
 	def update(self):
 		sel = int(self.curselection()[0])
 		self.select_set(sel)

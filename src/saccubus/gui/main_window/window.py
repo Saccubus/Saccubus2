@@ -98,7 +98,12 @@ class MainWindow(object):
 	def onVersionInfoMenuClicked(self):
 		self.master.wait_window(VersionInfoWindow(self.master));
 	def onConvertButtonClicked(self, videoIds):
-		print(re.split("[\n\r]*", videoIds.strip()))
+		videoIds = re.split("[\n\r]*", videoIds.strip())
+		for videoId in videoIds:
+			match = re.match("(?:http://www.nicovideo.jp/watch/)?([0-9a-zA-Z]+)", videoId)
+			if videoId and match:
+				self.convertList.registTask(match.group(1))
+		
 	def mainLoop(self):
 		self.master.mainloop();
 
