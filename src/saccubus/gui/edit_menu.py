@@ -37,6 +37,8 @@ class EditMenu(tkinter.Menu):
 	def paste(self):
 		text = self.master.selection_get(selection='CLIPBOARD')
 		if text:
+			if self.master.tag_ranges(tkinter.SEL):
+				self.master.delete(tkinter.SEL_FIRST, tkinter.SEL_LAST)
 			self.master.insert(tkinter.INSERT, text)
 			self.master.tag_remove(tkinter.SEL, '1.0', tkinter.END) 
 			self.master.see(tkinter.INSERT)
