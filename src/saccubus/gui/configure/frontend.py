@@ -30,4 +30,6 @@ class FrontEndConfigureWindow(tkinter.Toplevel):
 		tkinter.Toplevel.__init__(self, master)
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
 		self.title("フロントエンド設定")
+		self.focus_set()
+		self.grab_set()
 		ConfigurePanel(self).pack(expand=tkinter.YES, fill=tkinter.BOTH)

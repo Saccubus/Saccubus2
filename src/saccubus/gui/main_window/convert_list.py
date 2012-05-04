@@ -31,11 +31,11 @@ class ConvertListMenu(tkinter.Menu):
 	def __init__(self, master):
 		tkinter.Menu.__init__(self, master)
 		self.add_cascade(label="削除", command=None)
-		master.bind('<Button-3>', self.post)
+		master.bind('<Button-3>', self.onClick)
 	
-	def post(self, event):
+	def onClick(self, event):
 		if len(self.master.curselection()) > 0:
-			tkinter.Menu.post(self, event.x_root,event.y_root)
+			self.post(self, event.x_root,event.y_root)
 
 class ConvertList(tkinter.Listbox):
 	'''
