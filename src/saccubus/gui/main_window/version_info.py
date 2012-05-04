@@ -24,8 +24,6 @@ class VersionInfoWindow(tkinter.Toplevel):
 	'''
 	バージョン情報などを表示します。
 	'''
-
-
 	def __init__(self, master, cnf={}, **kw):
 		tkinter.Toplevel.__init__(self, master, cnf={}, **kw)
 		self.title("バージョン情報")
@@ -34,6 +32,8 @@ class VersionInfoWindow(tkinter.Toplevel):
 		self.initPanel(self.panel)
 		self.resizable(False, False)
 		self.panel.pack(fill=tkinter.BOTH, expand=tkinter.YES)
+		self.focus_set()
+		self.grab_set()
 	
 	def initPanel(self, panel):
 		titleLabel = tkinter.Label(panel, text="さきゅばす", font=tkinter.font.Font(size=36,weight="bold"));

@@ -26,21 +26,31 @@ class Task(object):
 		pass
 	def execute(self):
 		pass
+
+class ConvertListMenu(tkinter.Menu):
+	def __init__(self, master):
+		tkinter.Menu.__init__(self, master)
+		self.add_cascade(label="削除", command=None)
+		master.bind('<Button-3>', self.post)
 	
+	def post(self, event):
+		if len(self.master.curselection()) > 0:
+			tkinter.Menu.post(self, event.x_root,event.y_root)
 
 class ConvertList(tkinter.Listbox):
 	'''
+	変換タスクの管理と、その表示を担う。見苦しいけどこれで工数削減。
 	'''
 	def __init__(self, master=None, cnf={}, **kw):
 		'''
-		Constructor
+		UIと、タスクリストの初期化を行う
 		'''
 		cnf['font']="Monospace"
 		cnf['activestyle']='none'
 		tkinter.Listbox.__init__(self, master, cnf, **kw)
 		self.taskList = [];
+		ConvertListMenu(self)
 	def update(self):
 		sel = int(self.curselection()[0])
-		
 		self.select_set(sel)
 		tkinter.Listbox.update(self);

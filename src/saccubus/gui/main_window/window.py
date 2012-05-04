@@ -22,6 +22,7 @@ import re
 from saccubus.gui.edit_menu import EditMenu;
 from saccubus.gui.main_window.version_info import VersionInfoWindow;
 from saccubus.gui.main_window.convert_list import ConvertList;
+from saccubus.gui.configure.frontend import FrontEndConfigureWindow
 
 class MainWindow(object):
 	'''
@@ -35,7 +36,7 @@ class MainWindow(object):
 		master.title("Saccubus");
 		master.configure(menu=self.initMenu(master))
 		
-		mainFrame = tkinter.Frame(master);
+		mainFrame = tkinter.ttk.Frame(master);
 		videoAddPanel = self.initVideoAddPanel(master)
 		statusbar = self.initStatusBar(master);
 
@@ -49,8 +50,7 @@ class MainWindow(object):
 		mainFrame.grid(column=0, row=1, sticky=tkinter.W + tkinter.N+tkinter.E + tkinter.S);
 		statusbar.grid(column=0, row=2, sticky=tkinter.W);
 
-		
-		#self.convertList = convertList;
+		self.convertList = convertList;
 		self.statusbar = statusbar;
 		self.master = master;
 		self.setStatus("Initialized.")
@@ -59,17 +59,17 @@ class MainWindow(object):
 		self.statusbar['text']=msg;
 	
 	def initVideoAddPanel(self, master):
-		panel = tkinter.Frame(master)
+		panel = tkinter.ttk.Frame(master)
 		panel.columnconfigure(1, weight=1)
-		tkinter.Label(panel, text="動画を変換：").grid(column=0, row=0)
+		tkinter.ttk.Label(panel, text="動画を変換：").grid(column=0, row=0)
 		videoIdText=tkinter.Text(panel, height=3)
 		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
 		EditMenu(videoIdText)
-		tkinter.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END))).grid(column=2, row=0)
+		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END))).grid(column=2, row=0)
 		return panel;
 	
 	def initStatusBar(self, master):
-		statusbar = tkinter.Label(master);
+		statusbar = tkinter.ttk.Label(master);
 		statusbar['text']="status"
 		return statusbar;
 	
@@ -91,7 +91,7 @@ class MainWindow(object):
 		
 		return menuRoot;
 	def onFrontendConfigMenuClicked(self):
-		exit()
+		self.master.wait_window(FrontEndConfigureWindow(self.master));
 	def onVersionInfoMenuClicked(self):
 		self.master.wait_window(VersionInfoWindow(self.master));
 	def onConvertButtonClicked(self, videoIds):
