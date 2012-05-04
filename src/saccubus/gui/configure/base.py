@@ -80,14 +80,14 @@ class BaseConfigurePanel(tkinter.Frame):
 		self.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.TOP)
 
 class StringConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, name, desc, optname, default=None):
+	def __init__(self, master, name, desc, optname, default=None, **kw):
 		BaseConfigurePanel.__init__(self, master)
 		self.optname=optname
 		self.val = tkinter.StringVar(self, default)
 		self.columnconfigure(0, weight=1)
 		tkinter.Label(self, text=name, font=tkinter.font.BOLD).grid(column=0, row=0, sticky=tkinter.W);
 		tkinter.Label(self, text=desc).grid(column=0, row=1, sticky=tkinter.W);
-		entry=tkinter.Entry(self, textvariable=self.val)
+		entry=tkinter.Entry(self, textvariable=self.val, **kw)
 		entry.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
 		EditMenu(entry)
 	def crestore(self, conf):
@@ -97,14 +97,14 @@ class StringConfigurePanel(BaseConfigurePanel):
 		conf[self.optname]=self.val.get()
 
 class IntegerConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, name, desc, optname, default=None):
+	def __init__(self, master, name, desc, optname, default=None, **kw):
 		BaseConfigurePanel.__init__(self, master)
 		self.optname=optname
 		self.val = tkinter.IntVar(self, default)
 		self.columnconfigure(0, weight=1)
 		tkinter.Label(self, text=name, font=tkinter.font.BOLD).grid(column=0, row=0, sticky=tkinter.W);
 		tkinter.Label(self, text=desc).grid(column=0, row=1, sticky=tkinter.W);
-		entry=tkinter.Entry(self, textvariable=self.val)
+		entry=tkinter.Entry(self, textvariable=self.val, **kw)
 		entry.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
 		EditMenu(entry)
 	def crestore(self, conf):
@@ -115,7 +115,7 @@ class IntegerConfigurePanel(BaseConfigurePanel):
 
 class FileConfigurePanel(BaseConfigurePanel):
 	OpenFile, SaveFile, Directory = range(3)
-	def __init__(self, master, name, desc, _type, optname, default=None):
+	def __init__(self, master, name, desc, _type, optname, default=None, **kw):
 		self.type=_type
 		self.optname=optname
 		BaseConfigurePanel.__init__(self, master)
@@ -123,7 +123,7 @@ class FileConfigurePanel(BaseConfigurePanel):
 		self.columnconfigure(0, weight=1)
 		tkinter.Label(self, text=name, font=tkinter.font.BOLD).grid(column=0, row=0, columnspan=2, sticky=tkinter.W);
 		tkinter.Label(self, text=desc).grid(column=0, row=1, columnspan=2, sticky=tkinter.W);
-		entry=tkinter.Entry(self, textvariable=self.val, state='readonly')
+		entry=tkinter.Entry(self, textvariable=self.val, state='readonly', **kw)
 		entry.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
 		tkinter.Button(self, text="参照", command=self.onClicked).grid(column=1, row=2, sticky=tkinter.W+tkinter.E)
 		EditMenu(entry)
@@ -143,7 +143,7 @@ class FileConfigurePanel(BaseConfigurePanel):
 			pass
 
 class SelectionConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, name, desc, optname, lists, default=None):
+	def __init__(self, master, name, desc, optname, lists, default=None, **kw):
 		BaseConfigurePanel.__init__(self, master)
 		self.lists=lists;
 		self.optname=optname
@@ -151,12 +151,11 @@ class SelectionConfigurePanel(BaseConfigurePanel):
 		self.columnconfigure(0, weight=1)
 		tkinter.Label(self, text=name, font=tkinter.font.BOLD).grid(column=0, row=0, sticky=tkinter.W);
 		tkinter.Label(self, text=desc).grid(column=0, row=1, sticky=tkinter.W);
-		box=tkinter.ttk.Combobox(self, textvariable=self.val, state='readonly')
+		box=tkinter.ttk.Combobox(self, textvariable=self.val, state='readonly', **kw)
 		box.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
 		values=[]
 		idx=0;
-		i = 0;
-		for item in lists:
+		for i, item in enumerate(lists):
 			values.append(item[0])
 			if item[0] == default:
 				idx=i;

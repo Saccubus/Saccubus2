@@ -19,7 +19,8 @@
 
 import tkinter
 from saccubus.gui.configure.base import ConfigurePanel, ConfigureSectionPanel,\
-	IntegerConfigurePanel, FileConfigurePanel, SelectionConfigurePanel
+	IntegerConfigurePanel, FileConfigurePanel, SelectionConfigurePanel,\
+	StringConfigurePanel
 
 class BackendConfigureWindow(tkinter.Toplevel):
 	'''
@@ -41,16 +42,24 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		'''
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", 'loglevel', [
-							("トレース", "--trace"),
-							("詳細", "--verbose"),
-							("デバッグ", "--trace"),
-							("情報", "--info"),
-							("警告", "--warning"),
-							("エラー", "--error"),
-							],'警告').deploy()
+		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", 'log-level', [
+						("トレース", "--trace"),
+						("詳細", "--verbose"),
+						("デバッグ", "--trace"),
+						("情報", "--info"),
+						("警告", "--warning"),
+						("エラー", "--error"),
+						],'警告').deploy()
+		resolveSection = ConfigureSectionPanel(confPanel, "ダウンローダー")
+		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", '--resolve-cookie', [
+						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
+						('Firefox', "--resolve-cookie", "firefox"),
+						('Chrome', "--resolve-cookie", "chrome"),
+						('InternetExplorer', "--resolve-cookie", "ie")]).deploy()
+		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-user", "udon@example.com").deploy()
+		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-pass", "japanese_noodle", show="*").deploy()
 		
-		
+			
 		'''
 		最後に配置
 		'''
