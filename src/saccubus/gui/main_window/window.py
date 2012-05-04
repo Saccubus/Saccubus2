@@ -19,6 +19,7 @@
 
 import tkinter
 import re
+from saccubus.gui.edit_menu import EditMenu;
 from saccubus.gui.main_window.version_info import VersionInfoWindow;
 from saccubus.gui.main_window.convert_list import ConvertList;
 
@@ -63,6 +64,7 @@ class MainWindow(object):
 		tkinter.Label(panel, text="動画を変換：").grid(column=0, row=0)
 		videoIdText=tkinter.Text(panel, height=3)
 		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
+		EditMenu(videoIdText)
 		tkinter.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END))).grid(column=2, row=0)
 		return panel;
 	

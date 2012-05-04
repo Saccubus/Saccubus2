@@ -19,6 +19,14 @@
 
 import tkinter;
 import tkinter.font;
+import subprocess;
+
+class Task(object):
+	def __init__(self):
+		pass
+	def execute(self):
+		pass
+	
 
 class ConvertList(tkinter.Listbox):
 	'''
@@ -28,7 +36,11 @@ class ConvertList(tkinter.Listbox):
 		Constructor
 		'''
 		cnf['font']="Monospace"
+		cnf['activestyle']='none'
 		tkinter.Listbox.__init__(self, master, cnf, **kw)
-		self.insert(tkinter.END, "a", "b", "c")
+		self.taskList = [];
+	def update(self):
+		sel = int(self.curselection()[0])
 		
-		
+		self.select_set(sel)
+		tkinter.Listbox.update(self);
