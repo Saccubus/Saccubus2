@@ -21,11 +21,12 @@ import tkinter;
 
 class EditMenu(tkinter.Menu):
 	'''
-	classdocs
+	切り取り、コピー、貼り付けが出来るいつもどおりな感じの右クリックメニューです。
+	masterには、編集対象のコンポーネントを指定です。
 	'''
 	def __init__(self, master):
 		'''
-		Constructor
+		メニューを作成し、右クリックのハンドリングも行います。
 		'''
 		tkinter.Menu.__init__(self, master, tearoff=False);
 		self.add_cascade(label="切り取り (Ctrl+X)", command=self.cut)
