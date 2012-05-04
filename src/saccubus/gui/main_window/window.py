@@ -103,6 +103,8 @@ class MainWindow(object):
 			match = re.match("(?:http://www.nicovideo.jp/watch/)?([0-9a-zA-Z]+)", videoId)
 			if videoId and match:
 				self.convertList.registTask(match.group(1))
+			else:
+				self.setStatus("無効な動画ID,もしくはURLです： "+videoId)
 		
 	def mainLoop(self):
 		self.master.mainloop();
