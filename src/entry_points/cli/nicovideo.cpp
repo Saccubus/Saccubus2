@@ -188,8 +188,8 @@ private:
 				}
 				if(gotPicture){
 					sws_scale(this->swsContext, this->rawFrame->data, this->rawFrame->linesize, 0, this->srcHeight, this->rgbFrame->data, this->rgbFrame->linesize);
-					*data = this->rgbFrame->data[0];
-					*stride = this->rgbFrame->linesize[0];
+					*data = this->rgbFrame->data[this->rgbFrame->display_picture_number];
+					*stride = this->rgbFrame->linesize[this->rgbFrame->display_picture_number];
 					return;
 				}
 			}else if(packet.stream_index == this->audioStreamIndex){
