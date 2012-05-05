@@ -34,6 +34,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1104521883" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.undef.148794462" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
@@ -49,6 +50,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.2020333936" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1460258005" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -68,6 +70,10 @@
 									<listOptionValue builtIn="false" value="freetype"/>
 									<listOptionValue builtIn="false" value="antlr3c"/>
 									<listOptionValue builtIn="false" value="icuuc"/>
+									<listOptionValue builtIn="false" value="avformat"/>
+									<listOptionValue builtIn="false" value="avutil"/>
+									<listOptionValue builtIn="false" value="avcodec"/>
+									<listOptionValue builtIn="false" value="swscale"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1205333723" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -81,6 +87,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2136145602" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -134,6 +141,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.125380033" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.undef.1379280072" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
@@ -149,6 +157,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1540918168" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1846555747" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
@@ -169,6 +178,10 @@
 									<listOptionValue builtIn="false" value="freetype"/>
 									<listOptionValue builtIn="false" value="antlr3c"/>
 									<listOptionValue builtIn="false" value="icuuc"/>
+									<listOptionValue builtIn="false" value="avformat"/>
+									<listOptionValue builtIn="false" value="avutil"/>
+									<listOptionValue builtIn="false" value="avcodec"/>
+									<listOptionValue builtIn="false" value="swscale"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1123606248" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -182,6 +195,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/python3.2mu"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/ffmpeg"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1799807157" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
