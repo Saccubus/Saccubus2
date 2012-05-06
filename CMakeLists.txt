@@ -36,18 +36,13 @@ SET_TARGET_PROPERTIES(Saccubus PROPERTIES PREFIX "")
 
 find_package(PkgConfig)
 
-find_package(Freetype REQUIRED)
-include_directories(${FREETYPE_INCLUDE_DIRS})
-target_link_libraries(SaccubusCLI ${FREETYPE_LIBRARIES})
-target_link_libraries(Saccubus ${FREETYPE_LIBRARIES})
-
 find_package(LibXml2 REQUIRED)
 include_directories(${LIBXML2_INCLUDE_DIR})
 target_link_libraries(SaccubusCLI ${LIBXML2_LIBRARIES})
 target_link_libraries(Saccubus ${LIBXML2_LIBRARIES})
 add_definitions(${LIBXML2_DEFINITIONS})
 
-pkg_check_modules(PYTHON REQUIRED python3)
+find_package(Python REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 link_directories(${PYRHON_LIBRARY_DIRS})
 target_link_libraries(SaccubusCLI ${PYTHON_LIBRARIES})
@@ -59,34 +54,44 @@ link_directories(${CAIRO_LIBRARY_DIRS})
 target_link_libraries(SaccubusCLI ${CAIRO_LIBRARIES})
 target_link_libraries(Saccubus ${CAIRO_LIBRARIES})
 
+pkg_check_modules(FREETYPE REQUIRED freetype2)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+link_directories(${FREETYPE_LIBRARY_DIRS})
+target_link_libraries(SaccubusCLI ${FREETYPE_LIBRARIES})
+target_link_libraries(Saccubus ${FREETYPE_LIBRARIES})
+
 pkg_check_modules(FONTCONFIG REQUIRED fontconfig)
 include_directories(${FONTCONFIG_INCLUDE_DIRS})
 link_directories(${FONTCONFIG_LIBRARY_DIRS})
 target_link_libraries(SaccubusCLI ${FONTCONFIG_LIBRARIES})
 target_link_libraries(Saccubus ${FONTCONFIG_LIBRARIES})
 
-pkg_check_modules(ICU_UC REQUIRED icu-uc)
-include_directories(${ICU_UC_INCLUDE_DIRS})
-link_directories(${ICU_UC_LIBRARY_DIRS})
-target_link_libraries(SaccubusCLI ${ICU_UC_LIBRARIES})
-target_link_libraries(Saccubus ${ICU_UC_LIBRARIES})
+pkg_check_modules(SDL REQUIRED sdl)
+include_directories(${SDL_INCLUDE_DIRS})
+link_directories(${SDL_LIBRARY_DIRS})
+target_link_libraries(SaccubusCLI ${SDL_LIBRARIES})
+target_link_libraries(Saccubus ${SDL_LIBRARIES})
 
-find_package (SDL REQUIRED)
-include_directories(${SDL_INCLUDE_DIR})
-target_link_libraries(SaccubusCLI ${SDL_LIBRARY})
-target_link_libraries(Saccubus ${SDL_LIBRARY})
+#######################################################################################################################
 
-# antlr3cライブラリ
+# ねこまた
+find_package (Nekomata REQUIRED)
+include_directories(${NEKOMATA_INCLUDE_DIR})
+target_link_libraries(SaccubusCLI ${NEKOMATA_LIBRARIES})
+target_link_libraries(Saccubus ${NEKOMATA_LIBRARIES})
+
+# [ねこまた] antlr3cライブラリ
 find_package (ANTLR3C REQUIRED)
 include_directories(${ANTLR3C_INCLUDE_DIRS})
 target_link_libraries(SaccubusCLI ${ANTLR3C_LIBRARIES})
 target_link_libraries(Saccubus ${ANTLR3C_LIBRARIES})
 
-# ねこまたもインストールしてください
-find_package (Nekomata REQUIRED)
-include_directories(${NEKOMATA_INCLUDE_DIRS})
-target_link_libraries(SaccubusCLI ${NEKOMATA_LIBRARIES})
-target_link_libraries(Saccubus ${NEKOMATA_LIBRARIES})
+# [ねこまた] Unicodeライブラリ
+pkg_check_modules(ICUUC REQUIRED "icu-uc")
+include_directories(${ICUUC_INCLUDE_DIRS})
+link_directories(${ICUUC_LIBRARY_DIRS})
+target_link_libraries(SaccubusCLI ${ICUUC_LIBRARIES})
+target_link_libraries(Saccubus ${ICUUC_LIBRARIES})
 
 find_package(GTest)
 if (GTEST_FOUND)
@@ -95,10 +100,10 @@ if (GTEST_FOUND)
 	#include_directories(${GTEST_INCLUDE_DIRS})
 	#target_link_libraries(SaccubusTest ${GTEST_BOTH_LIBRARIES})
 	#add_test(AllTests SaccubusTest)
-	#target_link_libraries(SaccubusTest ${FREETYPE_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${LIBXML2_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${PYTHON_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${CAIRO_LIBRARIES})
+	#target_link_libraries(SaccubusTest ${FREETYPE_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${FONTCONFIG_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${ICU_UC_LIBRARIES})
 	#target_link_libraries(SaccubusTest ${SDL_LIBRARY})

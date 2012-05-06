@@ -1,6 +1,9 @@
-WinTest/
-Test/
-Release/
-Debug/
 *.dll
+.cproject
+.project
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+cmake_uninstall.cmake
+Makefile
 

@@ -16,10 +16,21 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # 
-find_path(ANTLR3C_INCLUDE_DIRS NAMES antlr3.h)
-find_library(ANTLR3C_LIBRARIES NAMES antlr3c)
-INCLUDE(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(ANTLR3C DEFAULT_MSG ANTLR3C_LIBRARIES ANTLR3C_INCLUDE_DIRS)
 
-#MARK_AS_ADVANCED(ANTLR3C_LIBRARIES ANTLR3C_INCLUDE_DIRS)
+pkg_check_modules(PC_PYTHON QUIET python3)
+include_directories(${PC_PYTHON_INCLUDE_DIRS})
+link_directories(${PC_PYTHON_LIBRARY_DIRS})
+
+if(PC_PYTHON_FOUND)
+	set(PYTHON_INCLUDE_DIRS ${PC_PYTHON_INCLUDE_DIRS})
+	set(PYTHON_LIBRARY_DIRS ${PC_PYTHON_LIBRARY_DIRS})
+	set(PYTHON_LIBRARIES ${PC_PYTHON_LIBRARIES})
+else()
+	find_path(PYTHON_INCLUDE_DIRS NAMES Python.h)
+	find_library(PYTHON_LIBRARIES NAMES python32)
+	INCLUDE(FindPackageHandleStandardArgs)
+	find_package_handle_standard_args(PYTHON DEFAULT_MSG PYTHON_LIBRARIES PYTHON_INCLUDE_DIRS)
+endif()
+
+#MARK_AS_ADVANCED(PYTHON_LIBRARIES PYTHON_INCLUDE_DIRS)
 
