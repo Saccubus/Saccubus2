@@ -1,8 +1,9 @@
 src/nekomata/parser/niwango.tokens
 src/nekomata/trans/NicosMessage.tokens
-/Release
-/Debug
-/DebugLibrary
-/WinDebug
-/WinLibrary
-
+.cproject
+.project
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+cmake_uninstall.cmake
+Makefile
