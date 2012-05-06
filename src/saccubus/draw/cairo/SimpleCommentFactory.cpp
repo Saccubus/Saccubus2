@@ -20,6 +20,8 @@
 #include "SimpleCommentFactory.h"
 #include "Renderer.h"
 #include "Sprite.h"
+#include "../Context.h"
+#include "../../NicoConstant.h"
 #include "../LayerdSprite.h"
 #include "../../layer/item/Comment.h"
 #include "../../layer/item/Label.h"
@@ -99,9 +101,11 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 }
 
 
-void SimpleCommentFactory::setupCairo(cairo_t* cairo, double fontSize)
+void SimpleCommentFactory::setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize)
 {
 	cairo_identity_matrix(cairo);
+	const double factor = ctx->width() / nico::ScreenWidth;
+	cairo_scale(cairo, factor, factor);
 	cairo_set_font_face(cairo, this->face());
 	cairo_set_font_size(cairo, fontSize);
 	cairo_move_to(cairo, 0, 0);
@@ -114,8 +118,9 @@ void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, r, g, b, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLine(const std::string& str, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLine(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
+	double scale = 1.0;
 	double x = 0;
 	double y = 0;
 	int width = 0;
@@ -123,7 +128,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	{ /* 大きさを測定 */
 		cairo_text_extents_t ext;
 		cairo_font_extents_t fext;
-		this->setupCairo(this->emptyCairo(), size);
+		this->setupCairo(ctx, this->emptyCairo(), size);
 		cairo_text_extents(this->emptyCairo(), (str).c_str(), &ext);
 		x = ShadowWidth/2;
 		double w = ext.x_advance+ShadowWidth;
@@ -131,8 +136,9 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		double h = ext.height+ext.y_advance+ShadowWidth;
 		//このwとhは論理座標なので、実際の大きさを取得するために変換してもらう。
 		cairo_user_to_device_distance(this->emptyCairo(), &w, &h);
-		width = std::ceil(w);
-		height = std::ceil(h);
+		scale = std::min(w, (double)ctx->width()) / w;
+		width = std::ceil(w*scale);
+		height = std::ceil(h*scale);
 		if(ext.width <= 1 || ext.height <= 1){
 			cairo_font_extents(this->emptyCairo(), &fext);
 			double fontW = fext.max_x_advance;
@@ -153,7 +159,8 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 						session.stride()
 				);
 		cairo_t* cairo = cairo_create(surface);
-		this->setupCairo(cairo, size);
+		this->setupCairo(ctx, cairo, size);
+		cairo_scale(cairo, scale, scale);
 
 		/* サーフェイスの中身を一旦すべて削除 */
 		cairo_set_operator(cairo, CAIRO_OPERATOR_CLEAR);
@@ -179,19 +186,19 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(spr);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLines(const std::string& str, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLines(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
 	std::vector<std::string> lines;
 	util::splitLine(str, lines);
 	if(lines.size() <= 0){
-		return renderLine(str, color, shadowColor, size);
+		return renderLine(ctx, str, fitToScreen, color, shadowColor, size);
 	}else if(lines.size() == 1){
-		return renderLine(lines.front(), color, shadowColor, size);
+		return renderLine(ctx, lines.front(), fitToScreen, color, shadowColor, size);
 	}
 	saccubus::draw::Sprite::Handler<saccubus::draw::LayerdSprite> spr = saccubus::draw::LayerdSprite::newInstance();
 	int y = 0;
 	for(std::vector<std::string>::const_iterator it = lines.begin(); it != lines.end(); ++it){
-		saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> line = renderLine(*it, color, shadowColor, size);
+		saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> line = renderLine(ctx, *it, fitToScreen, color, shadowColor, size);
 		spr->addSprite(0, y, line);
 		y += line->height();
 	}
@@ -200,12 +207,12 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
 {
-	return renderLines(comment->message(), comment->color(), comment->shadowColor(), comment->size());
+	return renderLines(ctx, comment->message(), comment->placeY() != layer::item::Comment::Middle, comment->color(), comment->shadowColor(), comment->size());
 }
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label)
 {
-	return renderLines(label->text(), label->color(), 0x000000, label->size());
+	return renderLines(ctx, label->text(), false, label->color(), 0x000000, label->size());
 }
 
 }}}

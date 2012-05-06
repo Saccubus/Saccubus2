@@ -19,6 +19,7 @@
 #include "Comment.h"
 #include <cmath>
 #include <nekomata/system/System.h>
+#include "../../NicoConstant.h"
 #include "../../meta/Comment.h"
 #include "../../meta/ReplaceTable.h"
 #include "../../draw/CommentFactory.h"
@@ -143,10 +144,10 @@ void Comment::update()
 	bool spanIsNan = !(this->span() == this->span());
 	if(this->placeY() == item::Comment::Top || this->placeY() == item::Comment::Bottom){
 		this->from(this->vpos());
-		this->to(this->from() + (spanIsNan ? 3 : this->span()) );
+		this->to(this->from() + (spanIsNan ? nico::FlowingCommentTime : this->span()) );
 	}else{
-		this->from(this->vpos()-1.0f);
-		this->to(this->from() + (spanIsNan ? 4 : this->span()) );
+		this->from(this->vpos()-nico::CommentAheadSec);
+		this->to(this->from() + (spanIsNan ? nico::FixedCommentTime : this->span()) );
 	}
 }
 

@@ -191,7 +191,7 @@ DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[
 		std::cerr << "failed to init sdl: " << SDL_GetError() << std::endl;
 		return -5;
 	}
-	SDL_EnableKeyRepeat(100, 30);
+	SDL_EnableKeyRepeat(100, 10);
 	try {
 		saccubus::Saccubus* const saccubus = new saccubus::Saccubus(std::cout, argc, argv);
 		FFmpegAdapter* const adapter = new FFmpegAdapter(saccubus, box);
