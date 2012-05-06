@@ -28,9 +28,17 @@ SET(INC_DIR ${CMAKE_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 FILE(GLOB_RECURSE nekomata_lib_SRCS ${SRC_DIR}/nekomata/*.cpp ${SRC_DIR}/nekomata/*.c)
 FILE(GLOB_RECURSE nekomata_cli_SRCS ${SRC_DIR}/cli/*.cpp ${SRC_DIR}/cli/*.c)
+
 ADD_EXECUTABLE(nekomata-cli ${nekomata_lib_SRCS} ${nekomata_cli_SRCS})
 SET_TARGET_PROPERTIES(nekomata-cli PROPERTIES OUTPUT_NAME nekomata)
 ADD_LIBRARY(nekomata ${nekomata_lib_SRCS})
+
+INSTALL(
+	TARGETS nekomata-cli nekomata
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+)
 
 # antlr3cライブラリ
 find_package (ANTLR3C REQUIRED)
