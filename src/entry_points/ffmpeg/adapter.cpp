@@ -17,7 +17,7 @@
  */
 
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
 #include "saccubus_adapter.h"
 #include "../../saccubus/Saccubus.h"
 
@@ -33,13 +33,11 @@ class FFmpegAdapter : public saccubus::Adapter
 private:
 	SaccToolBox* const box;
 private:
-	SDL_Window* window;
 	SDL_Surface* windowSurface;
 	SDL_Surface* cairoSurface;
 public:
 	FFmpegAdapter(saccubus::Saccubus* const parent, SaccToolBox* const box)
 	:box(box)
-	,window(0)
 	,windowSurface(0)
 	,cairoSurface(0)
 	{
@@ -47,10 +45,9 @@ public:
 	}
 	virtual ~FFmpegAdapter()
 	{
-		if(window){
+		if(windowSurface){
 			SDL_FreeSurface(cairoSurface);
 			SDL_FreeSurface(windowSurface);
-			SDL_DestroyWindow(window);
 		}
 	}
 public:
@@ -60,8 +57,6 @@ public:
 	 */
 	virtual void onVideoChanged(const std::string& videoId, const std::string& filepath)
 	{
-		std::cerr << "onVideoChanged(" << videoId << "," << filepath << std::endl ;
-		std::flush(std::cerr);
 		this->box->loadVideo(this->box, filepath.c_str());
 	}
 	/**
@@ -77,13 +72,7 @@ public:
 	void measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight)
 	{
 		parent()->measure(w, h, measuredWidth, measuredHeight);
-		this->window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, *measuredWidth, *measuredHeight, SDL_WINDOW_SHOWN);
-		if(!this->window) {
-			std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
-			std::flush(std::cerr);
-			exit(0);
-		}
-		this->windowSurface = SDL_GetWindowSurface(this->window);
+		this->windowSurface = SDL_SetVideoMode(*measuredWidth, *measuredHeight, 24, SDL_HWSURFACE | SDL_DOUBLEBUF);
 		if(!this->windowSurface) {
 			std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
 			std::flush(std::cerr);
@@ -111,7 +100,7 @@ public:
 
 	void draw(SaccFrame* const pict)
 	{
-		SDL_FillRect(this->cairoSurface, 0, SDL_MapRGB(this->windowSurface->format, 0xff, 0xff, 0xff));
+		SDL_FillRect(this->cairoSurface, 0, SDL_MapRGBA(this->windowSurface->format, 0, 0, 0, 0));
 		SDL_LockSurface(this->cairoSurface);
 		{
 			std::tr1::shared_ptr<saccubus::draw::Context> dctx =
@@ -166,7 +155,7 @@ public:
 					break;
 				}
 			}
-			SDL_UpdateWindowSurface(this->window);
+			SDL_Flip(this->windowSurface);
 			if( running ){
 				SDL_Delay(16);
 			}
@@ -197,11 +186,12 @@ public:
 
 DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[])
 {
-	if( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if( SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cerr << "failed to init sdl: " << SDL_GetError() << std::endl;
 		return -5;
 	}
+	SDL_EnableKeyRepeat(100, 30);
 	try {
 		saccubus::Saccubus* const saccubus = new saccubus::Saccubus(std::cout, argc, argv);
 		FFmpegAdapter* const adapter = new FFmpegAdapter(saccubus, box);

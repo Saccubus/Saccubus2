@@ -625,7 +625,7 @@
 							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1084485787" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.2017854654" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.675406559" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.745222808" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.745222808" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0  `sdl-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.239875558" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
@@ -642,7 +642,7 @@
 							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.486710928" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.580911146" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1763780420" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.misc.other.792742073" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 `sdl2-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
+								<option id="gnu.c.compiler.option.misc.other.792742073" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 `sdl-config --cflags` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --cflags`" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.1566929728" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
@@ -659,7 +659,7 @@
 								<option defaultValue="true" id="gnu.c.link.option.shared.678630765" name="Shared (-shared)" superClass="gnu.c.link.option.shared" valueType="boolean"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1189287363" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
-								<option id="gnu.cpp.link.option.flags.1363233667" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl2-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.1363233667" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" `sdl-config --static-libs` `pkg-config libxml-2.0 python3 fontconfig freetype2 cairo --libs`" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.875219401" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Nekomata/DebugLibrary}&quot;"/>
 								</option>
