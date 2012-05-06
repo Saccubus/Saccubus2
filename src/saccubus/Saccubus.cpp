@@ -126,8 +126,12 @@ void Saccubus::init(Adapter* const adapter)
 
 void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight)
 {
-	*measuredWidth = w;
-	*measuredHeight = h;
+	if(this->mainThradLayer){
+		this->mainThradLayer->measure(w, h, measuredWidth, measuredHeight);
+	}
+	if(this->optionalThradLayer){
+		this->optionalThradLayer->measure(*measuredWidth, *measuredHeight, measuredWidth, measuredHeight);
+	}
 }
 
 void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos, draw::Sprite* videoSprite)
