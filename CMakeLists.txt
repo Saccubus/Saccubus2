@@ -30,15 +30,9 @@ FILE(GLOB_RECURSE nekomata_lib_SRCS ${SRC_DIR}/nekomata/*.cpp ${SRC_DIR}/nekomat
 FILE(GLOB_RECURSE nekomata_cli_SRCS ${SRC_DIR}/cli/*.cpp ${SRC_DIR}/cli/*.c)
 
 ADD_EXECUTABLE(nekomata-cli ${nekomata_lib_SRCS} ${nekomata_cli_SRCS})
+ADD_LIBRARY(nekomata STATIC ${nekomata_lib_SRCS})
 SET_TARGET_PROPERTIES(nekomata-cli PROPERTIES OUTPUT_NAME nekomata)
-ADD_LIBRARY(nekomata ${nekomata_lib_SRCS})
 
-INSTALL(
-	TARGETS nekomata-cli nekomata
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-)
 
 # antlr3cライブラリ
 find_package (ANTLR3C REQUIRED)
@@ -49,5 +43,22 @@ target_link_libraries (nekomata-cli ${ANTLR3C_LIBRARIES})
 find_package (ICU REQUIRED)
 include_directories(${ICU_INCLUDE_DIRS})
 target_link_libraries (nekomata-cli ${ICU_LIBRARIES})
+
+# install target
+INSTALL(
+	TARGETS nekomata-cli nekomata
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+)
+INSTALL( DIRECTORY ${INC_DIR}/nekomata DESTINATION "include")
+
+# uninstall target
+configure_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+	IMMEDIATE @ONLY)
+
+add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 
