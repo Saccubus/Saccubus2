@@ -1,5 +1,5 @@
 #
-#  Nekomata
+#  Saccubus
 #  Copyright (C) 2012 psi
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -20,4 +20,6 @@ find_path(ANTLR3C_INCLUDE_DIRS NAMES antlr3.h)
 find_library(ANTLR3C_LIBRARIES NAMES antlr3c)
 INCLUDE(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(ANTLR3C DEFAULT_MSG ANTLR3C_LIBRARIES ANTLR3C_INCLUDE_DIRS)
+
+#MARK_AS_ADVANCED(ANTLR3C_LIBRARIES ANTLR3C_INCLUDE_DIRS)
 
