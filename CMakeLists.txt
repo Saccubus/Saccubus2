@@ -1,5 +1,5 @@
 #
-#  Saccubus
+#  Nekomata
 #  Copyright (C) 2012 psi
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -30,19 +30,22 @@ FILE(GLOB_RECURSE nekomata_lib_SRCS ${SRC_DIR}/nekomata/*.cpp ${SRC_DIR}/nekomat
 FILE(GLOB_RECURSE nekomata_cli_SRCS ${SRC_DIR}/cli/*.cpp ${SRC_DIR}/cli/*.c)
 
 ADD_EXECUTABLE(nekomata-cli ${nekomata_lib_SRCS} ${nekomata_cli_SRCS})
-ADD_LIBRARY(nekomata STATIC ${nekomata_lib_SRCS})
 SET_TARGET_PROPERTIES(nekomata-cli PROPERTIES OUTPUT_NAME nekomata)
+ADD_LIBRARY(nekomata STATIC ${nekomata_lib_SRCS})
+SET_TARGET_PROPERTIES(nekomata PROPERTIES COMPILE_FLAGS -fPIC)
 
+find_package(PkgConfig)
 
 # antlr3cライブラリ
 find_package (ANTLR3C REQUIRED)
 include_directories(${ANTLR3C_INCLUDE_DIRS})
 target_link_libraries (nekomata-cli ${ANTLR3C_LIBRARIES})
 
-# unicodeライブラリ
-find_package (ICU REQUIRED)
-include_directories(${ICU_INCLUDE_DIRS})
-target_link_libraries (nekomata-cli ${ICU_LIBRARIES})
+# unicode
+pkg_check_modules(ICU_UC REQUIRED icu-uc)
+include_directories(${ICU_UC_INCLUDE_DIRS})
+link_directories(${ICU_UC_LIBRARY_DIRS})
+target_link_libraries (nekomata-cli ${ICU_UC_LIBRARIES})
 
 # install target
 INSTALL(
