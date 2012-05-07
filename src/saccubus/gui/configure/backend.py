@@ -21,7 +21,7 @@ import tkinter
 from saccubus.gui.configure.base import\
 	ConfigurePanel, ConfigureSectionPanel,\
 	SelectionConfigurePanel, StringConfigurePanel,\
-	FileConfigurePanel
+	FileConfigurePanel, IntegerConfigurePanel
 import saccubus.gui.dialog
 
 class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
@@ -42,7 +42,9 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		'''
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", 'log-level', [
+		FileConfigurePanel(generalSection, "アダプタファイル", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/bin/Saccubus.dll").deploy()
+
+		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
 						("トレース", "--trace"),
 						("詳細", "--verbose"),
 						("デバッグ", "--trace"),
@@ -50,15 +52,27 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 						("警告", "--warning"),
 						("エラー", "--error"),
 						],'警告').deploy()
-		resolveSection = ConfigureSectionPanel(confPanel, "ダウンローダー")
-		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", '--resolve-cookie', [
+		
+		resolveSection = ConfigureSectionPanel(confPanel, "ダウンローダ")
+		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", 'sacc', 'resolve-cookie', [
 						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
 						('Firefox', "--resolve-cookie", "firefox"),
 						('Chrome', "--resolve-cookie", "chrome"),
-						('InternetExplorer', "--resolve-cookie", "ie")]).deploy()
-		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-user", "udon@example.com").deploy()
-		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-pass", "japanese_noodle", show="*").deploy()
-		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
+						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
+		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
+		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-pass", "--resolve-pass", "udonudon", show="*").deploy()
+
+		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./conv_plugins").deploy()
+
+		videoSection = ConfigureSectionPanel(confPanel, "動画設定")
+		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 0).deploy()
+		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 0).deploy()
+		IntegerConfigurePanel(videoSection, "最低FPS", "このFPS以上になるように出力されます。\nコメントがかくかくする場合などにお試し下さい。", "input-opt", "minfps", "-minfps", 25).deploy()
+	
+		commentSection = ConfigureSectionPanel(confPanel, "コメント設定")
+		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comments-num", "--resolve-comments-num", 500).deploy()
+		FileConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", FileConfigurePanel.OpenFile, "--ng-script", "./ng.py").deploy()
+
 		'''
 		最後に配置
 		'''
@@ -76,4 +90,5 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 	
 	def onOkButtonClicked(self):
 		self.confPanel.save(saccubus.gui.BackendConfigureFilename)
+		print(self.confPanel.toArgument())
 		self.destroy()
