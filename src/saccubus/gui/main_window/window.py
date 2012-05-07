@@ -35,6 +35,7 @@ class MainWindow(tkinter.Tk):
 		Constructor
 		'''
 		tkinter.Tk.__init__(self)
+		self.geometry("360x480")
 		self.title("Saccubus");
 		self.configure(menu=self.initMenu(self))
 		
