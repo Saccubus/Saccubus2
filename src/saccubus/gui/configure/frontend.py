@@ -20,6 +20,8 @@
 import tkinter
 from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel,\
 	FileConfigurePanel, ConfigureSectionPanel
+import saccubus.gui;
+
 class FrontendConfigureWindow(tkinter.Toplevel):
 	'''
 	フロントエンドの設定です。変換手順を決定するオプションファイルの指定などを行います。
@@ -46,7 +48,9 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		'''
 		最後に配置
 		'''
+		confPanel.load(saccubus.gui.FrontendConfigureFilename)
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
+		self.confPanel = confPanel;
 		self.initExitPanel()
 	
 	def initExitPanel(self):
@@ -56,4 +60,5 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
-		pass
+		self.confPanel.save(saccubus.gui.FrontendConfigureFilename)
+		self.destroy()
