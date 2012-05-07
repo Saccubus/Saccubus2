@@ -64,6 +64,7 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		最後に配置
 		'''
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
+		self.confPanel = confPanel;
 		self.initExitPanel()
 	
 	def initExitPanel(self):
@@ -73,4 +74,5 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
+		print(self.confPanel.toArgument([]));
 		pass

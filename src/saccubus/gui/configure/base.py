@@ -33,12 +33,17 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		'''
 		tkinter.ttk.Notebook.__init__(self, master)
 	def crestore(self, conf):
-		for slave in self.slaves():
-			slave.restore(self, conf)
+		for key in self.children:
+			self.children[key].restore(self, conf)
 	def cdump(self, conf):
-		for slave in self.slaves():
-			slave.dump(self, conf)
+		for key in self.children:
+			self.children[key].dump(self, conf)
 		return conf;
+	def toArgument(self, lst):
+		print(self.children)
+		for key in self.children:
+			self.children[key].toArgument(lst)
+		return lst;
 	def load(self, filename):
 		conf={}
 		if os.path.exists(filename):
@@ -59,18 +64,20 @@ class ConfigureSectionPanel(tkinter.Frame):
 	def __init__(self, master, sectionName):
 		'''
 		'''
-		box=tkinter.Frame(master)
-		tkinter.Frame.__init__(self, box)
-		box.columnconfigure(0, weight=1)
+		tkinter.Frame.__init__(self, master)
 		self.grid(row=0, column=0, sticky=tkinter.W+tkinter.E)
-		master.add(box, text=sectionName)
+		master.add(self, text=sectionName)
 	def crestore(self, conf):
-		for slave in self.slaves():
-			slave.restore(self, conf)
+		for key in self.children:
+			self.children[key].restore(self, conf)
 	def cdump(self, conf):
-		for slave in self.slaves():
-			slave.dump(self, conf)
+		for key in self.children:
+			self.children[key].cdump(self, conf)
 		return conf;
+	def toArgument(self, lst):
+		for key in self.children:
+			self.children[key].toArgument(lst)
+		return lst;
 
 class BaseConfigurePanel(tkinter.Frame):
 	def __init__(self, master):
@@ -95,6 +102,10 @@ class StringConfigurePanel(BaseConfigurePanel):
 			self.val.set(conf[self.optname])
 	def cdump(self, conf):
 		conf[self.optname]=self.val.get()
+	def toArgument(self, lst):
+		lst.append(self.optname)
+		lst.append(self.val.get());
+		return lst;
 
 class IntegerConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, name, desc, optname, default=None, **kw):
@@ -112,6 +123,10 @@ class IntegerConfigurePanel(BaseConfigurePanel):
 			self.val.set(int(conf[self.optname]))
 	def cdump(self, conf):
 		conf[self.optname]=str(self.val.get())
+	def toArgument(self, lst):
+		lst.append(self.optname)
+		lst.append(self.val.get());
+		return lst;
 
 class FileConfigurePanel(BaseConfigurePanel):
 	OpenFile, SaveFile, Directory = range(3)
@@ -132,6 +147,10 @@ class FileConfigurePanel(BaseConfigurePanel):
 			self.val.set(conf[self.optname])
 	def cdump(self, conf):
 		conf[self.optname]=self.val.get()
+	def toArgument(self, lst):
+		lst.append(self.optname)
+		lst.append(self.val.get());
+		return lst;
 	def onClicked(self):
 		if self.type == FileConfigurePanel.OpenFile:
 			self.val.set(tkinter.filedialog.askopenfilename())
@@ -143,10 +162,10 @@ class FileConfigurePanel(BaseConfigurePanel):
 			pass
 
 class SelectionConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, name, desc, optname, lists, default=None, **kw):
+	def __init__(self, master, name, desc, optkey, lists, default=None, **kw):
 		BaseConfigurePanel.__init__(self, master)
 		self.lists=lists;
-		self.optname=optname
+		self.optkey=optkey
 		self.val=tkinter.StringVar(self)
 		self.columnconfigure(0, weight=1)
 		tkinter.Label(self, text=name, font=tkinter.font.BOLD).grid(column=0, row=0, sticky=tkinter.W);
@@ -164,6 +183,12 @@ class SelectionConfigurePanel(BaseConfigurePanel):
 		box.current(idx)
 	def crestore(self, conf):
 		if self.optname in conf:
-			self.val.set(conf[self.optname])
+			self.val.set(conf[self.optkey])
 	def cdump(self, conf):
-		conf[self.optname]=self.val.get()
+		conf[self.optkey]=self.val.get()
+	def toArgument(self, lst):
+		for item in self.lists:
+			if(item[0] == self.val.get()):
+				lst.extend(item[1:])
+				return lst;
+		raise Exception("Unknwon opt: {0}".format(self.val.get()));
