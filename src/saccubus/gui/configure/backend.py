@@ -20,7 +20,8 @@
 import tkinter
 from saccubus.gui.configure.base import\
 	ConfigurePanel, ConfigureSectionPanel,\
-	SelectionConfigurePanel, StringConfigurePanel
+	SelectionConfigurePanel, StringConfigurePanel,\
+	FileConfigurePanel
 import saccubus.gui.dialog
 
 class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
@@ -57,6 +58,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 						('InternetExplorer', "--resolve-cookie", "ie")]).deploy()
 		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-user", "udon@example.com").deploy()
 		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-pass", "japanese_noodle", show="*").deploy()
+		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
 		'''
 		最後に配置
 		'''
