@@ -24,8 +24,9 @@ from saccubus.gui.main_window.version_info import VersionInfoWindow;
 from saccubus.gui.main_window.convert_list import ConvertList;
 from saccubus.gui.configure.frontend import FrontendConfigureWindow
 from saccubus.gui.configure.backend import BackendConfigureWindow
+import saccubus.gui.dialog;
 
-class MainWindow(object):
+class MainWindow(tkinter.Tk):
 	'''
 	メインウィンドウです。
 	'''
@@ -33,27 +34,26 @@ class MainWindow(object):
 		'''
 		Constructor
 		'''
-		master = tkinter.Tk();
-		master.title("Saccubus");
-		master.configure(menu=self.initMenu(master))
+		tkinter.Tk.__init__(self)
+		self.title("Saccubus");
+		self.configure(menu=self.initMenu(self))
 		
-		mainFrame = tkinter.ttk.Frame(master);
-		videoAddPanel = self.initVideoAddPanel(master)
-		statusbar = self.initStatusBar(master);
+		mainFrame = tkinter.ttk.Frame(self);
+		videoAddPanel = self.initVideoAddPanel(self)
+		statusbar = self.initStatusBar(self);
 
 		convertList = ConvertList(mainFrame);
 		convertList.pack(fill=tkinter.BOTH, expand=tkinter.YES)
 
 		#配置
-		master.columnconfigure(0, weight=1)
-		master.rowconfigure(1, weight=1)
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
 		videoAddPanel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
 		mainFrame.grid(column=0, row=1, sticky=tkinter.W + tkinter.N+tkinter.E + tkinter.S);
 		statusbar.grid(column=0, row=2, sticky=tkinter.W);
 
 		self.convertList = convertList;
 		self.statusbar = statusbar;
-		self.master = master;
 		self.setStatus("Initialized.")
 	
 	def setStatus(self, msg):
@@ -92,11 +92,11 @@ class MainWindow(object):
 		
 		return menuRoot;
 	def onFrontendConfigMenuClicked(self):
-		self.master.wait_window(FrontendConfigureWindow(self.master));
+		self.wait_window(FrontendConfigureWindow(self));
 	def onBackendConfigMenuClicked(self):
-		self.master.wait_window(BackendConfigureWindow(self.master));
+		self.wait_window(BackendConfigureWindow(self));
 	def onVersionInfoMenuClicked(self):
-		self.master.wait_window(VersionInfoWindow(self.master));
+		self.wait_window(VersionInfoWindow(self));
 	def onConvertButtonClicked(self, videoIds):
 		videoIds = re.split("[\n\r]*", videoIds.strip())
 		for videoId in videoIds:
@@ -106,9 +106,9 @@ class MainWindow(object):
 			else:
 				self.setStatus("無効な動画ID,もしくはURLです： "+videoId)
 		
-	def mainLoop(self):
-		self.master.mainloop();
+	def mainloop(self):
+		tkinter.Tk.mainloop(self);
 
 
 if __name__ == "__main__":
-	MainWindow().mainLoop()
+	MainWindow().mainloop()
