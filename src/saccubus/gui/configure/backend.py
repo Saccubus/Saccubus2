@@ -74,5 +74,5 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
-		print(self.confPanel.toArgument([]));
+		print(self.confPanel.carg([]));
 		pass

@@ -39,10 +39,9 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		for key in self.children:
 			self.children[key].dump(self, conf)
 		return conf;
-	def toArgument(self, lst):
-		print(self.children)
+	def carg(self, lst):
 		for key in self.children:
-			self.children[key].toArgument(lst)
+			self.children[key].carg(lst)
 		return lst;
 	def load(self, filename):
 		conf={}
@@ -65,8 +64,8 @@ class ConfigureSectionPanel(tkinter.Frame):
 		'''
 		'''
 		tkinter.Frame.__init__(self, master)
-		self.grid(row=0, column=0, sticky=tkinter.W+tkinter.E)
 		master.add(self, text=sectionName)
+		DummyConfigurePanel(self).pack(side=tkinter.BOTTOM, fill=tkinter.BOTH, expand=tkinter.YES)
 	def crestore(self, conf):
 		for key in self.children:
 			self.children[key].restore(self, conf)
@@ -74,17 +73,33 @@ class ConfigureSectionPanel(tkinter.Frame):
 		for key in self.children:
 			self.children[key].cdump(self, conf)
 		return conf;
-	def toArgument(self, lst):
+	def carg(self, lst):
 		for key in self.children:
-			self.children[key].toArgument(lst)
+			self.children[key].carg(lst)
 		return lst;
 
 class BaseConfigurePanel(tkinter.Frame):
-	def __init__(self, master):
-		tkinter.Frame.__init__(self, master)
+	def __init__(self, master, cnf={}, **kw):
+		tkinter.Frame.__init__(self, master, cnf, **kw)
 	
 	def deploy(self):
-		self.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.TOP)
+		self.pack(fill=tkinter.X, expand=tkinter.NO, side=tkinter.TOP)
+	def crestore(self, conf):
+		raise Exception("Please implement this method.");
+	def cdump(self, conf):
+		raise Exception("Please implement this method.");
+	def carg(self, lst):
+		raise Exception("Please implement this method.");
+
+class DummyConfigurePanel(BaseConfigurePanel):
+	def __init__(self, master, cnf={}, **kw):
+		BaseConfigurePanel.__init__(self, master, cnf, **kw)
+	def crestore(self, conf):
+		pass
+	def cdump(self, conf):
+		pass
+	def carg(self, lst):
+		pass
 
 class StringConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, name, desc, optname, default=None, **kw):
@@ -102,7 +117,7 @@ class StringConfigurePanel(BaseConfigurePanel):
 			self.val.set(conf[self.optname])
 	def cdump(self, conf):
 		conf[self.optname]=self.val.get()
-	def toArgument(self, lst):
+	def carg(self, lst):
 		lst.append(self.optname)
 		lst.append(self.val.get());
 		return lst;
@@ -123,7 +138,7 @@ class IntegerConfigurePanel(BaseConfigurePanel):
 			self.val.set(int(conf[self.optname]))
 	def cdump(self, conf):
 		conf[self.optname]=str(self.val.get())
-	def toArgument(self, lst):
+	def carg(self, lst):
 		lst.append(self.optname)
 		lst.append(self.val.get());
 		return lst;
@@ -147,7 +162,7 @@ class FileConfigurePanel(BaseConfigurePanel):
 			self.val.set(conf[self.optname])
 	def cdump(self, conf):
 		conf[self.optname]=self.val.get()
-	def toArgument(self, lst):
+	def carg(self, lst):
 		lst.append(self.optname)
 		lst.append(self.val.get());
 		return lst;
@@ -186,7 +201,7 @@ class SelectionConfigurePanel(BaseConfigurePanel):
 			self.val.set(conf[self.optkey])
 	def cdump(self, conf):
 		conf[self.optkey]=self.val.get()
-	def toArgument(self, lst):
+	def carg(self, lst):
 		for item in self.lists:
 			if(item[0] == self.val.get()):
 				lst.extend(item[1:])
