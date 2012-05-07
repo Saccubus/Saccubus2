@@ -21,6 +21,8 @@ import tkinter
 from saccubus.gui.configure.base import ConfigurePanel, ConfigureSectionPanel,\
 	IntegerConfigurePanel, FileConfigurePanel, SelectionConfigurePanel,\
 	StringConfigurePanel
+import saccubus
+import saccubus.gui;
 
 class BackendConfigureWindow(tkinter.Toplevel):
 	'''
@@ -58,11 +60,10 @@ class BackendConfigureWindow(tkinter.Toplevel):
 						('InternetExplorer', "--resolve-cookie", "ie")]).deploy()
 		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-user", "udon@example.com").deploy()
 		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "--resolve-pass", "japanese_noodle", show="*").deploy()
-		
-			
 		'''
 		最後に配置
 		'''
+		confPanel.load(saccubus.gui.BackendConfigureFilename)
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 		self.confPanel = confPanel;
 		self.initExitPanel()
@@ -74,5 +75,5 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
-		print(self.confPanel.carg([]));
-		pass
+		self.confPanel.save(saccubus.gui.BackendConfigureFilename)
+		self.destroy()

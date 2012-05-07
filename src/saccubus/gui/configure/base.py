@@ -34,10 +34,10 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		tkinter.ttk.Notebook.__init__(self, master)
 	def crestore(self, conf):
 		for key in self.children:
-			self.children[key].restore(self, conf)
+			self.children[key].crestore(conf)
 	def cdump(self, conf):
 		for key in self.children:
-			self.children[key].dump(self, conf)
+			self.children[key].cdump(conf)
 		return conf;
 	def carg(self, lst):
 		for key in self.children:
@@ -68,10 +68,10 @@ class ConfigureSectionPanel(tkinter.Frame):
 		DummyConfigurePanel(self).pack(side=tkinter.BOTTOM, fill=tkinter.BOTH, expand=tkinter.YES)
 	def crestore(self, conf):
 		for key in self.children:
-			self.children[key].restore(self, conf)
+			self.children[key].crestore(conf)
 	def cdump(self, conf):
 		for key in self.children:
-			self.children[key].cdump(self, conf)
+			self.children[key].cdump(conf)
 		return conf;
 	def carg(self, lst):
 		for key in self.children:
@@ -197,7 +197,7 @@ class SelectionConfigurePanel(BaseConfigurePanel):
 		box['values']=values;
 		box.current(idx)
 	def crestore(self, conf):
-		if self.optname in conf:
+		if self.optkey in conf:
 			self.val.set(conf[self.optkey])
 	def cdump(self, conf):
 		conf[self.optkey]=self.val.get()
