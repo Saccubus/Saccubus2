@@ -201,7 +201,7 @@ void Machine::walkImpl(const AssignNode & node)
 				);
 		pushResult(rhsObj);
 	}else{
-		this->log.w(TAG, &node.getLeftNode()->location(), "Invalid assign node.");
+		this->log.w(TAG, &node.location(), "Invalid assign node.");
 		pushResult(heap.newUndefinedObject());
 	}
 }
