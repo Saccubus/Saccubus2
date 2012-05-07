@@ -28,13 +28,16 @@ class VersionInfoWindow(saccubus.gui.dialog.Dialog):
 		saccubus.gui.dialog.Dialog.__init__(self, master, cnf, **kw)
 		self.title("バージョン情報")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
-		self.panel = tkinter.Frame(self)
-		self.initPanel(self.panel)
 		self.resizable(False, False)
+		
+		self.panel = self.initPanel(self)
 		self.panel.pack(fill=tkinter.BOTH, expand=tkinter.YES)
+		
+		self.exitPanel = self.initExitPanel(self)
 		self.moveToCenter();
 	
-	def initPanel(self, panel):
+	def initPanel(self, master):
+		panel = tkinter.Frame(master)
 		titleLabel = tkinter.Label(panel, text="さきゅばす", font=tkinter.font.Font(size=36,weight="bold"));
 		versionLabel = tkinter.Label(panel, text="version: 2.0");
 		authorLabel = tkinter.Label(panel, text="""Developed by
@@ -44,4 +47,11 @@ orz 2011〜""");
 		titleLabel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
 		versionLabel.grid(column=0, row=1, sticky=tkinter.W+tkinter.E);
 		authorLabel.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
+		return panel;
+	
+	def initExitPanel(self, master):
+		panel=tkinter.Frame(master)
+		tkinter.Button(panel, text="OK", command=lambda *a:self.destroy()).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
+		panel.pack(expand=tkinter.NO, fill=tkinter.X)
+		return panel;
 	
