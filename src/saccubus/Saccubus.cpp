@@ -31,6 +31,7 @@
 #include "PluginOrganizer.h"
 #include "Saccubus.h"
 #include "draw/Renderer.h"
+#include "draw/Context.h"
 #include "layer/ThreadLayer.h"
 #include "util/OptionParser.h"
 #include "SaccubusOptions.h"
@@ -134,8 +135,11 @@ void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* 
 	}
 }
 
-void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos, draw::Sprite* videoSprite)
+void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, std::tr1::shared_ptr<saccubus::draw::Sprite> video, float vpos)
 {
+	if(video.get()){
+		video->draw(ctx, static_cast<int>((ctx->width()-video->width())/2), static_cast<int>((ctx->height()-video->height())/2));
+	}
 	if(this->mainThradLayer){
 		this->mainThradLayer->draw(ctx, vpos);
 	}
@@ -158,9 +162,9 @@ std::tr1::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw:
 {
 	return this->renderer()->createContext(fmt, data, w, h, stride);
 }
-draw::RawSprite* Saccubus::createRawSprite(int w, int h)
+std::tr1::shared_ptr<saccubus::draw::Sprite> Saccubus::createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 {
-	return this->renderer()->createRawSprite(w, h);
+	return std::tr1::shared_ptr<saccubus::draw::Sprite>(this->renderer()->createRawSprite(fmt, data, w, h, stride));
 }
 
 void Saccubus::onVideoChanged(const std::string& videoId)

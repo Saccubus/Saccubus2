@@ -32,7 +32,7 @@ class Renderer {
 public:
 	enum Format {
 		ARGB32,
-		RGB24
+		RGB32
 	};
 protected:
 	logging::Logger& log;
@@ -63,6 +63,7 @@ public: /* Spriteからのコールバック関数 */
 	void backRawSprite(RawSprite* spr);
 public: /* 各実装がこれを実際に実装する */
 	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride) = 0;
+	virtual RawSprite* createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride) = 0;
 	virtual RawSprite* createRawSprite(int w, int h) = 0;
 };
 

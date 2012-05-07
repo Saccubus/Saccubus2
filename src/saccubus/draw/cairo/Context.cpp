@@ -26,15 +26,8 @@ namespace cairo {
 Context::Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 :draw::Context(log, renderer)
 {
-	cairo_format_t cfmt;
-	switch(fmt){
-	case Renderer::RGB24:
-		cfmt = CAIRO_FORMAT_RGB24;
-		break;
-	case Renderer::ARGB32:
-		cfmt = CAIRO_FORMAT_ARGB32;
-		break;
-	default:
+	cairo_format_t cfmt = cairo::Renderer::toCairoFormat(fmt);
+	if(cfmt == CAIRO_FORMAT_INVALID){
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknwon format: %d", fmt);
 	}
 	this->surface(cairo_image_surface_create_for_data(

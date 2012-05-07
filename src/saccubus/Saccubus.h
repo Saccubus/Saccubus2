@@ -73,10 +73,10 @@ public: //
 public: //公開メソッド
 	void init(Adapter* const adapter);
 	void measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight);
-	void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos, draw::Sprite* videoSprite);
+	void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, std::tr1::shared_ptr<saccubus::draw::Sprite> video, float vpos);
 public: /* 外界との接続 */
 	std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
-	draw::RawSprite* createRawSprite(int w, int h);
+	std::tr1::shared_ptr<saccubus::draw::Sprite> createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
 	void click(int x, int y);
 public: // 内部から呼ばれます
 	void onVideoChanged(const std::string& videoId);

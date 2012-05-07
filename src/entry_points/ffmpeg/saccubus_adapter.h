@@ -74,7 +74,7 @@ typedef SaccMeasureFn *SaccMeasureFnPtr;
 extern SaccMeasureFn SaccMeasure;
 
 // フレームに画像を焼きこむ
-typedef int (SaccProcessFn)(void *sacc, SaccToolBox *box, SaccFrame *pict);
+typedef int (SaccProcessFn)(void *sacc, SaccToolBox *box, SaccFrame *target, SaccFrame* video);
 typedef SaccProcessFn *SaccProcessFnPtr;
 extern SaccProcessFn SaccProcess;
 

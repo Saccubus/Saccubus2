@@ -34,19 +34,16 @@ private:
 	SaccToolBox* const box;
 private:
 	SDL_Surface* windowSurface;
-	SDL_Surface* cairoSurface;
 public:
 	FFmpegAdapter(saccubus::Saccubus* const parent, SaccToolBox* const box)
 	:box(box)
 	,windowSurface(0)
-	,cairoSurface(0)
 	{
 		this->parent(parent);
 	}
 	virtual ~FFmpegAdapter()
 	{
 		if(windowSurface){
-			SDL_FreeSurface(cairoSurface);
 			SDL_FreeSurface(windowSurface);
 		}
 	}
@@ -78,19 +75,6 @@ public:
 			std::flush(std::cerr);
 			exit(0);
 		}
-		this->cairoSurface = SDL_CreateRGBSurface(0, *measuredWidth, *measuredHeight, 32,
-		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-			0xff000000,
-			0x00ff0000,
-			0x0000ff00,
-			0x000000ff
-		#else
-			0x00ff0000,
-			0x0000ff00,
-			0x000000ff,
-			0xff000000
-		#endif
-		);
 		if(!this->windowSurface) {
 			std::cerr << "Failed to allocate surface: " << SDL_GetError() << std::endl;
 			std::flush(std::cerr);
@@ -98,27 +82,10 @@ public:
 		}
 	}
 
-	void draw(SaccFrame* const pict)
+	void draw(SaccFrame* const target, SaccFrame* const video)
 	{
-		SDL_FillRect(this->cairoSurface, 0, SDL_MapRGBA(this->windowSurface->format, 0, 0, 0, 0));
-		SDL_LockSurface(this->cairoSurface);
-		{
-			std::tr1::shared_ptr<saccubus::draw::Context> dctx =
-				this->parent()->createContext(saccubus::draw::Renderer::ARGB32,
-						this->cairoSurface->pixels,
-						this->cairoSurface->w,
-						this->cairoSurface->h,
-						this->cairoSurface->pitch
-						);
-			float time = static_cast<float>(pict->vpos);
-			this->parent()->draw(dctx, time, 0);
-			std::cerr << "Processed. "<<pict->w<<"x"<<pict->h<<". Time:" << time << std::endl;
-			std::flush(std::cerr);
-		}
-		SDL_UnlockSurface(this->cairoSurface);
-
-		SDL_Surface* surf = SDL_CreateRGBSurfaceFrom(pict->data,
-				pict->w,pict->h,24,pict->linesize,
+		SDL_Surface* dst = SDL_CreateRGBSurfaceFrom(target->data,
+				target->w, target->h, 32, target->linesize,
 				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
 					0xff000000,
 					0x00ff0000,
@@ -130,8 +97,31 @@ public:
 				#endif
 					0x00000000
 			);
-		SDL_BlitSurface(this->cairoSurface, NULL, surf, NULL);
-		SDL_BlitSurface(surf,NULL,this->windowSurface,NULL);
+		SDL_FillRect(dst, 0, SDL_MapRGB(dst->format, 0, 0, 0));
+		SDL_LockSurface(dst);
+		{
+			std::tr1::shared_ptr<saccubus::draw::Context> dctx =
+				this->parent()->createContext(saccubus::draw::Renderer::RGB32,
+						dst->pixels,
+						dst->w,
+						dst->h,
+						dst->pitch
+						);
+			std::tr1::shared_ptr<saccubus::draw::Sprite> vspr =
+				this->parent()->createRawSprite(saccubus::draw::Renderer::RGB32,
+				video->data,
+				video->w,
+				video->h,
+				video->linesize
+				);
+			float time = static_cast<float>(target->vpos);
+			this->parent()->draw(dctx, vspr, time);
+			std::cerr << "Processed. "<<target->w<<"x"<<target->h<<". Time:" << time << std::endl;
+			std::flush(std::cerr);
+		}
+		SDL_UnlockSurface(dst);
+
+		SDL_BlitSurface(dst,NULL,this->windowSurface,NULL);
 		bool running = true;
 		while( running ) {
 			SDL_Event e;
@@ -160,7 +150,7 @@ public:
 				SDL_Delay(16);
 			}
 		}
-		SDL_FreeSurface(surf);
+		SDL_FreeSurface(dst);
 		std::cerr << "goto next frame" << std::endl;
 	}
 };
@@ -229,11 +219,11 @@ DLLEXPORT int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHei
 	return 0;
 }
 
-DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *pict)
+DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccFrame* video)
 {
 	try {
 		Context* const ctx = reinterpret_cast<Context*>(sacc);
-		ctx->adapter()->draw(pict);
+		ctx->adapter()->draw(target, video);
 	} catch (saccubus::logging::Exception & e){
 		std::cerr << "saccubus exception caught: " << e.what() << std::endl;
 		return -1;
