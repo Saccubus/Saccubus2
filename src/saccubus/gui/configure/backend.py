@@ -23,21 +23,20 @@ from saccubus.gui.configure.base import ConfigurePanel, ConfigureSectionPanel,\
 	StringConfigurePanel
 import saccubus
 import saccubus.gui;
+import saccubus.gui.dialog
 
-class BackendConfigureWindow(tkinter.Toplevel):
+class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 	'''
 	バックエンドの設定ダイアログです。
 	'''
 	def __init__(self, master):
+		saccubus.gui.dialog.Dialog.__init__(self, master)
 		'''
 		コンストラクタ
 		'''
-		tkinter.Toplevel.__init__(self, master)
 		self.geometry("360x480")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
 		self.title("バックエンド設定")
-		self.focus_set()
-		self.grab_set()
 		
 		'''
 		具体的な設定項目
@@ -67,6 +66,7 @@ class BackendConfigureWindow(tkinter.Toplevel):
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 		self.confPanel = confPanel;
 		self.initExitPanel()
+		self.moveToCenter();
 	
 	def initExitPanel(self):
 		frame=tkinter.Frame(self)

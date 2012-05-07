@@ -167,14 +167,17 @@ class FileConfigurePanel(BaseConfigurePanel):
 		lst.append(self.val.get());
 		return lst;
 	def onClicked(self):
+		val=None
 		if self.type == FileConfigurePanel.OpenFile:
-			self.val.set(tkinter.filedialog.askopenfilename())
+			val = tkinter.filedialog.askopenfilename();
 		elif self.type == FileConfigurePanel.SaveFile:
-			self.val.set(tkinter.filedialog.asksaveasfilename())
+			val = tkinter.filedialog.asksaveasfilename();
 		elif self.type == FileConfigurePanel.Directory:
-			self.val.set(tkinter.filedialog.askdirectory())
+			val = tkinter.filedialog.askdirectory()
 		else:
 			pass
+		if val:
+			self.val.set(val)
 
 class SelectionConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, name, desc, optkey, lists, default=None, **kw):

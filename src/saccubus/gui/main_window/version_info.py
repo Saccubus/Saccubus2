@@ -19,21 +19,21 @@
 
 import tkinter;
 import tkinter.font;
+import saccubus.gui.dialog;
 
-class VersionInfoWindow(tkinter.Toplevel):
+class VersionInfoWindow(saccubus.gui.dialog.Dialog):
 	'''
 	バージョン情報などを表示します。
 	'''
 	def __init__(self, master, cnf={}, **kw):
-		tkinter.Toplevel.__init__(self, master, cnf={}, **kw)
+		saccubus.gui.dialog.Dialog.__init__(self, master, cnf, **kw)
 		self.title("バージョン情報")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
 		self.panel = tkinter.Frame(self)
 		self.initPanel(self.panel)
 		self.resizable(False, False)
 		self.panel.pack(fill=tkinter.BOTH, expand=tkinter.YES)
-		self.focus_set()
-		self.grab_set()
+		self.moveToCenter();
 	
 	def initPanel(self, panel):
 		titleLabel = tkinter.Label(panel, text="さきゅばす", font=tkinter.font.Font(size=36,weight="bold"));

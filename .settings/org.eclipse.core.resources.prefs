@@ -8,6 +8,7 @@ encoding//src/saccubus/gui/configure/__init__.py=utf-8
 encoding//src/saccubus/gui/configure/backend.py=utf-8
 encoding//src/saccubus/gui/configure/base.py=utf-8
 encoding//src/saccubus/gui/configure/frontend.py=utf-8
+encoding//src/saccubus/gui/dialog.py=utf-8
 encoding//src/saccubus/gui/edit_menu.py=utf-8
 encoding//src/saccubus/gui/main_window/__init__.py=utf-8
 encoding//src/saccubus/gui/main_window/convert_list.py=utf-8

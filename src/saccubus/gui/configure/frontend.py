@@ -21,22 +21,21 @@ import tkinter
 from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel,\
 	FileConfigurePanel, ConfigureSectionPanel
 import saccubus.gui;
+import saccubus.gui.dialog
 
-class FrontendConfigureWindow(tkinter.Toplevel):
+class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):
 	'''
 	フロントエンドの設定です。変換手順を決定するオプションファイルの指定などを行います。
 	'''
 	def __init__(self, master):
+		saccubus.gui.dialog.Dialog.__init__(self, master)
 		'''
 		コンストラクタ
 		'''
-		tkinter.Toplevel.__init__(self, master)
 		self.geometry("360x480")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
 		self.title("フロントエンド設定")
-		self.focus_set()
-		self.grab_set()
-		
+
 		'''
 		具体的な設定項目
 		'''
@@ -44,6 +43,7 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
 		IntegerConfigurePanel(generalSection, "同時変換数", "同時に変換する動画数を指定します。", "parallel",1).deploy()
 		FileConfigurePanel(generalSection, "変換設定プラグインディレクトリ", "変換設定プラグインのディレクトリを指定します。", FileConfigurePanel.Directory, "convert-plugin-dir", "./conv_plugins").deploy()
+		FileConfigurePanel(generalSection, "ffmpegアダプタ", "ffmpegのアダプタを指定します", FileConfigurePanel.OpenFile, "adapter-file", "./conv_plugins").deploy()
 		
 		'''
 		最後に配置
@@ -52,6 +52,7 @@ class FrontendConfigureWindow(tkinter.Toplevel):
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 		self.confPanel = confPanel;
 		self.initExitPanel()
+		self.moveToCenter();
 	
 	def initExitPanel(self):
 		frame=tkinter.Frame(self)
