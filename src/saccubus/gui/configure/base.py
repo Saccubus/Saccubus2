@@ -17,7 +17,6 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 from saccubus.gui.edit_menu import EditMenu
-import tkinter;
 import tkinter.ttk
 import tkinter.filedialog;
 import pickle;

@@ -17,7 +17,6 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import tkinter;
 import tkinter.font;
 import saccubus.gui.dialog;
 

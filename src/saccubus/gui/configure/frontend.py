@@ -20,7 +20,6 @@
 import tkinter
 from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel,\
 	FileConfigurePanel, ConfigureSectionPanel
-import saccubus.gui;
 import saccubus.gui.dialog
 
 class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):

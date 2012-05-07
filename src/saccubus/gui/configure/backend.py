@@ -18,11 +18,9 @@
 '''
 
 import tkinter
-from saccubus.gui.configure.base import ConfigurePanel, ConfigureSectionPanel,\
-	IntegerConfigurePanel, FileConfigurePanel, SelectionConfigurePanel,\
-	StringConfigurePanel
-import saccubus
-import saccubus.gui;
+from saccubus.gui.configure.base import\
+	ConfigurePanel, ConfigureSectionPanel,\
+	SelectionConfigurePanel, StringConfigurePanel
 import saccubus.gui.dialog
 
 class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
