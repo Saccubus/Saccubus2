@@ -21,21 +21,27 @@ import tkinter
 from saccubus.gui.configure.base import\
 	ConfigurePanel, ConfigureSectionPanel,\
 	SelectionConfigurePanel, StringConfigurePanel,\
-	FileConfigurePanel, IntegerConfigurePanel
+	FileConfigurePanel, IntegerConfigurePanel, FileSelectConfigurePanel
 import saccubus.gui.dialog
 
 class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 	'''
 	バックエンドの設定ダイアログです。
 	'''
-	def __init__(self, master):
+	def __init__(self, master, videoId=None):
 		saccubus.gui.dialog.Dialog.__init__(self, master)
+		self.saveFlag = tkinter.IntVar(self, 1)
+		self.videoId = videoId;
 		'''
 		コンストラクタ
 		'''
 		self.geometry("360x480")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
-		self.title("バックエンド設定")
+		if self.videoId:
+			self.saveFlag.set(0)
+			self.title("変換設定：{videoId}".format(videoId = self.videoId))
+		else:
+			self.title("バックエンド設定")
 		
 		'''
 		具体的な設定項目
@@ -43,6 +49,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
 		FileConfigurePanel(generalSection, "アダプタファイル", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/bin/Saccubus.dll").deploy()
+		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
 
 		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
 						("トレース", "--trace"),
@@ -86,12 +93,19 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		self.moveToCenter();
 	
 	def initExitPanel(self):
+		if not self.videoId:
+			vframe = tkinter.Frame(self)
+			tkinter.Checkbutton(vframe, variable=self.saveFlag, text='これを以降のデフォルト設定にする').pack(expand=tkinter.NO, side=tkinter.LEFT)
+			
+			vframe.pack(expand=tkinter.NO, fill=tkinter.X)
 		frame=tkinter.Frame(self)
 		tkinter.Button(frame, text="　　OK　　", command=self.onOkButtonClicked).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
 		tkinter.Button(frame, text="キャンセル", command=lambda *a: self.destroy()).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
-		self.confPanel.save(saccubus.gui.BackendConfigureFilename)
-		print(self.confPanel.toArgument())
+		if self.saveFlag.get() != 0:
+			self.confPanel.save(saccubus.gui.BackendConfigureFilename)
+		argument = self.confPanel.toArgument()
 		self.destroy()
+		return argument;

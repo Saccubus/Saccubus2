@@ -20,7 +20,7 @@ from saccubus.gui.edit_menu import EditMenu
 import tkinter.ttk
 import tkinter.filedialog;
 import pickle;
-import os;
+import os.path;
 
 BACKEND_SEP='&'
 
@@ -46,7 +46,6 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		for key in self.children:
 			self.children[key].toArgument(lstDic);
 		argList = [];
-		print (lstDic)
 		argList.extend( ('-f', 'saccubus') )
 		argList.extend( lstDic['input-opt'] )
 		argList.append("-sacc")
@@ -105,9 +104,12 @@ class BaseConfigurePanel(tkinter.Frame):
 		if self.typeName in conf and self.uniq in conf[self.typeName]:
 			self.cfgLoad(conf[self.typeName][self.uniq]);
 	def toArgument(self, lstDic):
+		val = self.cfg2Arg()
+		if not val:
+			return
 		if not self.typeName in lstDic:
 			lstDic[self.typeName] = []
-		lstDic[self.typeName].extend(self.cfg2Arg())
+		lstDic[self.typeName].extend(val)
 
 	def cfgDump(self):
 		raise Exception("Please implement");
@@ -178,6 +180,50 @@ class FileConfigurePanel(BaseConfigurePanel):
 		self.val.set(obj);
 	def cfg2Arg(self):
 		return (self.argname, str(self.val.get()))
+
+class FileSelectConfigurePanel(BaseConfigurePanel):
+	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, **kw):
+		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq)
+		self.argname = argname;
+
+		self.dval = tkinter.StringVar(self, defaultDir)
+		dframe = tkinter.Frame(self)
+		dentry=tkinter.Entry(dframe, textvariable=self.dval, state='readonly', **kw)
+		dentry.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.LEFT)
+		tkinter.Button(dframe, text="参照", command=self.onDirectorySelected).pack(expand=tkinter.NO, side=tkinter.LEFT)
+		EditMenu(dentry)
+		dframe.pack(expand=tkinter.YES, fill=tkinter.X)
+		
+		self.fval = tkinter.StringVar(self)
+		fframe = tkinter.Frame(self)
+		self.fbox = tkinter.ttk.Combobox(fframe, textvariable=self.fval, state='readonly', **kw)
+		self.fbox.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.LEFT)
+		tkinter.Button(fframe, text="再読み込み", command=lambda *a:self.reloadDirectory()).pack(expand=tkinter.NO, side=tkinter.LEFT)
+		fframe.pack(expand=tkinter.YES, fill=tkinter.X)
+		self.reloadDirectory()
+	def onDirectorySelected(self, *event):
+		self.dval.set(tkinter.filedialog.askdirectory())
+		self.reloadDirectory()
+	def reloadDirectory(self):
+		if os.path.exists(self.dval.get()) and os.path.isdir(self.dval.get()):
+			self.fbox['values'] = os.listdir(self.dval.get());
+			if not os.path.exists(os.path.join(self.dval.get(), self.fval.get())):
+				self.fbox.current(0)
+		else:
+			self.fbox['values'] = ("フォルダが存在しません。",)
+			self.fbox.current(0)
+	def cfgDump(self):
+		return (self.dval.get(), self.fval.get())
+	def cfgLoad(self, obj):
+		d,f = obj;
+		self.dval.set(d);
+		self.fval.set(f);
+		self.reloadDirectory()
+	def cfg2Arg(self):
+		if self.argname:
+			return (self.argname, os.path.join(self.dval.get(), self.fval.get()) )
+		else:
+			return ()
 
 class SelectionConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, title, desc, typeName, uniq, choices, default, **kw):

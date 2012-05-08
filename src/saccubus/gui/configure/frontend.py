@@ -41,8 +41,6 @@ class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
 		IntegerConfigurePanel(generalSection, "同時変換数", "同時に変換する動画数を指定します。", "frontend", "parallel", None,1).deploy()
-		FileConfigurePanel(generalSection, "変換レシピディレクトリ", "ffmpegの変換レシピの格納されているフォルダを指定します","frontend", "convert-plugin-dir", FileConfigurePanel.Directory, None, "./conv_plugins").deploy()
-		
 		'''
 		最後に配置
 		'''
