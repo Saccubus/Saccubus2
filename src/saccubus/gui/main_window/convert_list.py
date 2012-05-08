@@ -17,32 +17,51 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import tkinter;
+import tkinter.messagebox;
 import subprocess;
 import threading;
+import time
+import saccubus.gui.configure.backend;
+import itertools;
 
 class TaskRunner(threading.Thread):
-	pass
+	def __init__(self, task):
+		threading.Thread.__init__(self)
+		self.task = task;
+		self.setDaemon(True)
+	def run(self):
+		print("executing");
+		time.sleep(10)
+		print("executed");
+		self.task.onExecuted(self)
 
 class Task(object):
-	def __init__(self, videoId):
+	def __init__(self, parent, videoId):
 		self.videoId = videoId;
-		pass
+		self.parent = parent;
+		self.taskRunner = None;
 	def execute(self):
-		pass
-	def __str__(self, *args, **kwargs):
+		if self.taskRunner:
+			raise Exception("task already running.");
+		self.taskRunner = TaskRunner(self)
+		self.taskRunner.start()
+	def taskRepr(self):
 		status = '予約中'
 		if self.running():
 			status = '実行中'
 		return "動画ID:[{videoId:>15}] 状態:[{status:>10}]".format(videoId = self.videoId, status=status)
-		return self.videoId;
 	def running(self):
-		return False;
+		return self.taskRunner != None;
+	def onExecuted(self, taskRunner):
+		if self.taskRunner != taskRunner:
+			raise Exception("[BUG] Invalid task");
+		self.taskRunner = None;
+		self.parent.after_idle(lambda *a: self.parent.unregistTask(self))
 
 class ConvertListMenu(tkinter.Menu):
 	def __init__(self, master):
 		tkinter.Menu.__init__(self, master)
-		self.add_cascade(label="削除", command=self.onDeleteTask)
+		self.add_cascade(label="実行取り消し", command=self.onDeleteTask)
 		master.bind('<Button-3>', self.onClick)
 	def onClick(self, *event):
 		event=event[0]
@@ -51,45 +70,64 @@ class ConvertListMenu(tkinter.Menu):
 	def onDeleteTask(self, *event):
 		if len(self.master.curselection()) > 0:
 			for sel in self.master.curselection():
-				self.master.unregistTaskFromUser(int(sel))
+				self.master.cancelTaskFromUser(int(sel))
 
 class ConvertList(tkinter.Listbox):
 	'''
 	変換タスクの管理と、その表示を担う。見苦しいけどこれで工数削減。
 	'''
-	def __init__(self, master=None, cnf={}, **kw):
+	def __init__(self, master, conf, cnf={}, **kw):
 		'''
 		UIと、タスクリストの初期化を行う
 		'''
-		cnf['font']="Monospace"
+		cnf['font']=("monospace", )
 		cnf['activestyle']='none'
 		tkinter.Listbox.__init__(self, master, cnf, **kw)
 		self.taskList = [];
 		ConvertListMenu(self)
+		self.reloadConfig(conf);
 	def registTask(self, videoId):
-		self.taskList.append(Task(videoId))
-		self.update()
+		argument = saccubus.gui.configure.backend.BackendConfigureWindow(self.master, videoId).show()
+		if argument is None:
+			print("task {0} cancelled".format(videoId));
+			return
+		self.taskList.append(Task(self, videoId))
+		self.consumeQueue()
 	def unregistTask(self, task):
 		if task.running():
 			raise Exception("[BUG] Task is still running!!");
 		self.taskList.remove(task)
-		self.update()
-	def unregistTaskFromUser(self, index):
+		self.consumeQueue()
+	def cancelTaskFromUser(self, index):
 		task = self.taskList[index]
 		if task.running():
 			tkinter.messagebox.showerror('エラー', 'タスクは実行中です。')
+			self.select_clear(0, tkinter.END)
 			return
-		self.unregistTask(task);
-		
+		self.taskList.remove(task)
+		self.update()
+	def consumeQueue(self):
+		runningTasks = len([t for t in self.taskList if t.running()])
+		left = self.taskLimit - runningTasks
+		if left > 0:
+			for _ in range(0, left):
+				for task in self.taskList:
+					if not task.running():
+						task.execute()
+						break;
+		self.update()
 	def update(self):
 		sel = None
 		self.delete(0, tkinter.END)
 		if len(self.curselection()) > 0:
 			sel = self.taskList[int(self.curselection()[0])];
 		for task in self.taskList:
-			self.insert(tkinter.END, str(task))
+			self.insert(tkinter.END, task.taskRepr())
 			if task.running():
 				self.itemconfigure(tkinter.END, foreground='white', background='red')
 		if sel:
 			self.select_set(self.taskList.index(sel))
 		tkinter.Listbox.update(self);
+
+	def reloadConfig(self, conf):
+		self.taskLimit = int(conf.get('frontend', {}).get("task-limit", 1))

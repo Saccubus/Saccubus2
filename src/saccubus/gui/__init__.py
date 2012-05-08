@@ -25,3 +25,12 @@ __all__=[
 FrontendConfigureFilename="_cfg_frontend.bin";
 BackendConfigureFilename="_cfg_backend.bin";
 
+import pickle;
+import os.path
+
+def loadFrontendConfigure():
+	conf = {};
+	if os.path.exists(FrontendConfigureFilename):
+		with open(FrontendConfigureFilename, "rb") as f:
+			conf = pickle.load(f)
+	return conf;

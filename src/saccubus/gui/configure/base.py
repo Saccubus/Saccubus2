@@ -218,7 +218,11 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 		self.reloadDirectory()
 	def reloadDirectory(self):
 		if os.path.exists(self.dval.get()) and os.path.isdir(self.dval.get()):
-			self.fbox['values'] = os.listdir(self.dval.get());
+			values = []
+			for item in os.listdir(self.dval.get()):
+				if os.path.isfile(os.path.join(self.dval.get(), item)):
+					values.append(item)
+			self.fbox['values'] = values
 			if not os.path.exists(os.path.join(self.dval.get(), self.fval.get())):
 				self.fbox.current(0)
 		else:

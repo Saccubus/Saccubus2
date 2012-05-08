@@ -31,6 +31,7 @@ class MainWindow(tkinter.Tk):
 	メインウィンドウです。
 	'''
 	def __init__(self):
+		cfg = saccubus.gui.loadFrontendConfigure()
 		'''
 		Constructor
 		'''
@@ -43,7 +44,7 @@ class MainWindow(tkinter.Tk):
 		videoAddPanel = self.initVideoAddPanel(self)
 		statusbar = self.initStatusBar(self);
 
-		convertList = ConvertList(mainFrame);
+		convertList = ConvertList(mainFrame, cfg);
 		convertList.pack(fill=tkinter.BOTH, expand=tkinter.YES)
 
 		#配置
@@ -67,7 +68,7 @@ class MainWindow(tkinter.Tk):
 		videoIdText=tkinter.Text(panel, height=3)
 		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
 		EditMenu(videoIdText)
-		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END))).grid(column=2, row=0)
+		tkinter.ttk.Button(panel, text="変換", command=lambda: (self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END)),videoIdText.delete(1.0, tkinter.END))).grid(column=2, row=0)
 		return panel;
 	
 	def initStatusBar(self, master):
@@ -94,6 +95,8 @@ class MainWindow(tkinter.Tk):
 		return menuRoot;
 	def onFrontendConfigMenuClicked(self):
 		self.wait_window(FrontendConfigureWindow(self));
+		cfg = saccubus.gui.loadFrontendConfigure()
+		self.convertList.reloadConfig(cfg)
 	def onBackendConfigMenuClicked(self):
 		self.wait_window(BackendConfigureWindow(self));
 	def onVersionInfoMenuClicked(self):
