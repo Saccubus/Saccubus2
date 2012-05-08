@@ -59,7 +59,7 @@ void version(std::ostream* logStream, int argc, char** argv){
 }
 
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
-:tasEnabled(false)
+:_tasEnabled(false)
 ,ngScript("")
 ,currentVideo(0)
 ,mainThradLayer(0)
@@ -86,7 +86,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new FlagOption<logging::Logger::Level>("error", level, logging::Logger::ERROR_));
 		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
 		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
-		parser.add(new FlagOption<bool>("enable-tas", this->tasEnabled, true));
+		parser.add(new FlagOption<bool>("enable-tas", this->_tasEnabled, true));
 		parser.add(new ValueOption<std::string>("ng-script", this->ngScript));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
 		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));

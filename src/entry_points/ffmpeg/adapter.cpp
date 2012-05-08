@@ -22,7 +22,7 @@
 #include "../../saccubus/Saccubus.h"
 
 #ifdef WIN32
-#define DLLEXPORT __declspec(dllexport)
+#define DLLEXPORT extern "C" __declspec(dllexport)
 #else
 #define DLLEXPORT
 #endif
@@ -122,8 +122,8 @@ public:
 		SDL_UnlockSurface(dst);
 
 		SDL_BlitSurface(dst,NULL,this->windowSurface,NULL);
-		bool running = true;
-		while( running ) {
+		bool running = this->parent()->tasEnabled();
+		do{
 			SDL_Event e;
 			while (SDL_PollEvent(&e)) {
 				switch (e.type) {
@@ -149,7 +149,7 @@ public:
 			if( running ){
 				SDL_Delay(16);
 			}
-		}
+		} while (running);
 		SDL_FreeSurface(dst);
 		std::cerr << "goto next frame" << std::endl;
 	}
@@ -189,13 +189,13 @@ DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[
 
 		saccubus->init(adapter);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl;
+		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl;
+		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl;
+		std::cerr << "Unknwon error caught" << std::endl << std::flush;
 		return -3;
 	}
 	return 0;
@@ -207,13 +207,13 @@ DLLEXPORT int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHei
 		Context* const ctx = reinterpret_cast<Context*>(sacc);
 		ctx->adapter()->measure(srcWidth, srcHeight, dstWidth, dstHeight);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl;
+		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl;
+		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl;
+		std::cerr << "Unknwon error caught" << std::endl << std::flush;
 		return -3;
 	}
 	return 0;
@@ -225,13 +225,13 @@ DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccF
 		Context* const ctx = reinterpret_cast<Context*>(sacc);
 		ctx->adapter()->draw(target, video);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl;
+		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl;
+		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl;
+		std::cerr << "Unknwon error caught" << std::endl << std::flush;
 		return -3;
 	}
 	return 0;
@@ -244,13 +244,13 @@ DLLEXPORT int SaccRelease(void *sacc, SaccToolBox *box)
 
 		delete ctx;
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl;
+		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl;
+		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl;
+		std::cerr << "Unknwon error caught" << std::endl << std::flush;
 		return -3;
 	}
 	SDL_Quit();
