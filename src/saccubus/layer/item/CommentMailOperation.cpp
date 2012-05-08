@@ -90,7 +90,11 @@ bool Comment::MailOperation::colorCode_func(const std::string& command, Comment*
 		return false;
 	}
 	comment->color(c);
-	comment->shadowColor(0x000000);
+	if(c == 0x000000){
+		comment->shadowColor(0xffffff);
+	}else{
+		comment->shadowColor(0x000000);
+	}
 	return true;
 }
 
