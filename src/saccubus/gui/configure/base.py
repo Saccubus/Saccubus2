@@ -223,8 +223,12 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 				if os.path.isfile(os.path.join(self.dval.get(), item)):
 					values.append(item)
 			self.fbox['values'] = values
-			if not os.path.exists(os.path.join(self.dval.get(), self.fval.get())):
-				self.fbox.current(0)
+			f = os.path.join(self.dval.get(), self.fval.get())
+			if not os.path.exists(f) or not os.path.isfile(f):
+				if len(values) > 0:
+					self.fbox.current(0)
+				else:
+					self.fval.set('')
 		else:
 			self.fbox['values'] = ("フォルダが存在しません。",)
 			self.fbox.current(0)

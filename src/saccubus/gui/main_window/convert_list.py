@@ -48,18 +48,18 @@ class TaskRunner(threading.Thread):
 			self.launchWin(cmdline)
 		finally:
 			self.task.onExecuted(self)
-	def launchWin(self, cmdline):
-		cmdline = re.sub(r'/', r'\\', cmdline)
-		logfile = "__log__{videoId}.log".format(videoId = self.task.videoId)
-		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=cmdline, log=logfile)
+	def launchWin(self, ffarg):
+		ffarg = re.sub(r'/', r'\\', ffarg)
+		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], "{videoId}__log__.log".format(videoId = self.task.videoId))
+		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
 		tmp.write(bytes("echo executing... > {0}\r\n".format(logfile), 'CP932'))
 		tmp.write(bytes("echo {0} >> {1}\r\n".format(cmdline, logfile), 'CP932'))
 		tmp.write(bytes("echo result: >> {0}\r\n".format(logfile), 'CP932'))
 		tmp.write(bytes(cmdline, 'CP932'));
 		tmp.close()
-		cmdline = "start /WAIT cmd.exe /K {0}".format(tmp.name)
-		print("[{0}] executing => {1}".format(self.task.videoId, cmdline))
+		cmdline = "start /WAIT cmd.exe /C {0}".format(tmp.name)
+		print("[{0}] executing => {1}".format(self.task.videoId, ffarg))
 		p = subprocess.Popen(cmdline, shell=True)
 		p.wait()
 		print("[{0}] executed".format(self.task.videoId));
