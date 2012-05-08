@@ -82,6 +82,9 @@ bool Comment::MailOperation::colorCode_func(const std::string& command, Comment*
 {
 	char* left;
 	std::string str = command.substr(1);
+	if(str.size() != 6){ /* 六桁のみ受け付ける */
+		return false;
+	}
 	unsigned long c = std::strtoul(str.c_str(), &left,16);
 	if(*left != '\0'){ //エラー
 		return false;
