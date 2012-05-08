@@ -22,7 +22,6 @@ import subprocess;
 import threading;
 import time
 import saccubus.gui.configure.backend;
-import itertools;
 
 class TaskRunner(threading.Thread):
 	def __init__(self, task):
@@ -36,10 +35,12 @@ class TaskRunner(threading.Thread):
 		self.task.onExecuted(self)
 
 class Task(object):
-	def __init__(self, parent, videoId):
+	def __init__(self, parent, videoId, conf, arg):
 		self.videoId = videoId;
 		self.parent = parent;
 		self.taskRunner = None;
+		self.conf = conf
+		self.arg = arg
 	def execute(self):
 		if self.taskRunner:
 			raise Exception("task already running.");
@@ -76,28 +77,25 @@ class ConvertList(tkinter.Listbox):
 	'''
 	変換タスクの管理と、その表示を担う。見苦しいけどこれで工数削減。
 	'''
-	def __init__(self, master, conf, cnf={}, **kw):
+	def __init__(self, masterWindow, master, conf, cnf={}, **kw):
 		'''
 		UIと、タスクリストの初期化を行う
 		'''
 		cnf['font']=("monospace", )
 		cnf['activestyle']='none'
 		tkinter.Listbox.__init__(self, master, cnf, **kw)
+		self.masterWindow = masterWindow;
 		self.taskList = [];
 		ConvertListMenu(self)
 		self.reloadConfig(conf);
-	def registTask(self, videoId):
-		argument = saccubus.gui.configure.backend.BackendConfigureWindow(self.master, videoId).show()
-		if argument is None:
-			print("task {0} cancelled".format(videoId));
-			return
-		self.taskList.append(Task(self, videoId))
-		self.consumeQueue()
-	def unregistTask(self, task):
-		if task.running():
-			raise Exception("[BUG] Task is still running!!");
-		self.taskList.remove(task)
-		self.consumeQueue()
+	def registTasksFromUser(self, videoIds):
+		for videoId in videoIds:
+			conf, arg = saccubus.gui.configure.backend.BackendConfigureWindow(self.masterWindow, videoId).show()
+			if arg is None:
+				print("task {0} cancelled".format(videoId));
+				continue
+			self.registTask(videoId, conf, arg);
+
 	def cancelTaskFromUser(self, index):
 		task = self.taskList[index]
 		if task.running():
@@ -106,6 +104,14 @@ class ConvertList(tkinter.Listbox):
 			return
 		self.taskList.remove(task)
 		self.update()
+	def registTask(self, videoId, conf, arg):
+		self.taskList.append(Task(self, videoId, conf, arg))
+		self.consumeQueue()
+	def unregistTask(self, task):
+		if task.running():
+			raise Exception("[BUG] Task is still running!!");
+		self.taskList.remove(task)
+		self.consumeQueue()
 	def consumeQueue(self):
 		runningTasks = len([t for t in self.taskList if t.running()])
 		left = self.taskLimit - runningTasks

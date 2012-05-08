@@ -103,14 +103,16 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		tkinter.Button(frame, text="キャンセル", command=self.onCancelButtonClicked).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	def onCancelButtonClicked(self):
+		self.conf = None
 		self.argument = None;
 		self.destroy()
 	def onOkButtonClicked(self):
 		if self.saveFlag.get() != 0:
 			self.confPanel.save(saccubus.gui.BackendConfigureFilename)
+		self.conf = self.confPanel.serialize()
 		self.argument = self.confPanel.toArgument()
 		self.destroy()
 	
 	def show(self):
 		self.master.wait_window(self)
-		return self.argument
+		return self.conf ,self.argument

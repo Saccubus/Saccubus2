@@ -24,7 +24,7 @@ from saccubus.gui.main_window.version_info import VersionInfoWindow;
 from saccubus.gui.main_window.convert_list import ConvertList;
 from saccubus.gui.configure.frontend import FrontendConfigureWindow
 from saccubus.gui.configure.backend import BackendConfigureWindow
-import saccubus.gui.dialog;
+import saccubus.gui
 
 class MainWindow(tkinter.Tk):
 	'''
@@ -44,7 +44,7 @@ class MainWindow(tkinter.Tk):
 		videoAddPanel = self.initVideoAddPanel(self)
 		statusbar = self.initStatusBar(self);
 
-		convertList = ConvertList(mainFrame, cfg);
+		convertList = ConvertList(self, mainFrame, cfg);
 		convertList.pack(fill=tkinter.BOTH, expand=tkinter.YES)
 
 		#配置
@@ -68,7 +68,7 @@ class MainWindow(tkinter.Tk):
 		videoIdText=tkinter.Text(panel, height=3)
 		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
 		EditMenu(videoIdText)
-		tkinter.ttk.Button(panel, text="変換", command=lambda: (self.onConvertButtonClicked(videoIdText.get(1.0, tkinter.END)),videoIdText.delete(1.0, tkinter.END))).grid(column=2, row=0)
+		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText)).grid(column=2, row=0)
 		return panel;
 	
 	def initStatusBar(self, master):
@@ -101,14 +101,19 @@ class MainWindow(tkinter.Tk):
 		self.wait_window(BackendConfigureWindow(self));
 	def onVersionInfoMenuClicked(self):
 		self.wait_window(VersionInfoWindow(self));
-	def onConvertButtonClicked(self, videoIds):
-		videoIds = re.split("[\n\r]*", videoIds.strip())
-		for videoId in videoIds:
+	def onConvertButtonClicked(self, widget):
+		videoIds = []
+		rawVideoIdStr = widget.get(1.0, tkinter.END)
+		rawVideoIds = re.split("[\n\r]*", rawVideoIdStr.strip())
+		for videoId in rawVideoIds:
 			match = re.match("(?:http://www.nicovideo.jp/watch/)?([0-9a-zA-Z]+)", videoId)
 			if videoId and match:
-				self.convertList.registTask(match.group(1))
+				videoIds.append(match.group(1));
 			else:
 				self.setStatus("無効な動画ID,もしくはURLです： "+videoId)
+				return
+		self.convertList.registTasksFromUser(videoIds)
+		widget.delete(1.0, tkinter.END)
 		
 	def mainloop(self):
 		tkinter.Tk.mainloop(self);
