@@ -66,11 +66,11 @@ link_directories(${FONTCONFIG_LIBRARY_DIRS})
 target_link_libraries(SaccubusCLI ${FONTCONFIG_LIBRARIES})
 target_link_libraries(Saccubus ${FONTCONFIG_LIBRARIES})
 
-pkg_check_modules(SDL REQUIRED sdl)
-include_directories(${SDL_INCLUDE_DIRS})
-link_directories(${SDL_LIBRARY_DIRS})
-target_link_libraries(SaccubusCLI ${SDL_LIBRARIES})
-target_link_libraries(Saccubus ${SDL_LIBRARIES})
+pkg_check_modules(SDL2 REQUIRED sdl2)
+include_directories(${SDL2_INCLUDE_DIRS})
+link_directories(${SDL2_LIBRARY_DIRS})
+target_link_libraries(SaccubusCLI ${SDL2_LIBRARIES})
+target_link_libraries(Saccubus ${SDL2_LIBRARIES})
 
 #######################################################################################################################
 

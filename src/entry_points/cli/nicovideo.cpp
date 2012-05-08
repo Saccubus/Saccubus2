@@ -17,7 +17,7 @@
  */
 
 #include <iostream>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "../../saccubus/Saccubus.h"
 #include "../../saccubus/draw/Renderer.h"
 #include "../../saccubus/logging/Exception.h"
@@ -35,19 +35,24 @@ private:
 public:
 	CLIAdapter(saccubus::Saccubus & parent)
 	:parent(parent)
+	,window(0)
 	,windowSurface(0)
 	{
 	}
 	virtual ~CLIAdapter()
 	{
-		if(this->windowSurface){
+		if(this->window){
 			SDL_FreeSurface(this->windowSurface);
+			SDL_DestroyWindow(this->window);
 		}
 	}
 private:
+	SDL_Window* window;
 	SDL_Surface* windowSurface;
 	void initSDL(int width, int height){
-		this->windowSurface = this->windowSurface = SDL_SetVideoMode(width, height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+		this->window = SDL_CreateWindow("SaccubusCLI", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+		if(!this->window) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to create window: %s", SDL_GetError());
+		this->windowSurface = SDL_GetWindowSurface(this->window);
 		if(!this->windowSurface) throw saccubus::logging::Exception(__FILE__, __LINE__, "Failed to get SDL window surface: %s", SDL_GetError());
 	}
 public:
@@ -89,8 +94,7 @@ public:
 				parent.draw(ctx, std::tr1::shared_ptr<saccubus::draw::Sprite>(), now/1000.0);
 			}
 			SDL_UnlockSurface(windowSurface);
-
-			SDL_Flip(this->windowSurface);
+			SDL_UpdateWindowSurface(this->window);
 
 			++fps;
 			now = SDL_GetTicks();

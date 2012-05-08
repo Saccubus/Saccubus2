@@ -17,7 +17,7 @@
  */
 
 #include <iostream>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "saccubus_adapter.h"
 #include "../../saccubus/Saccubus.h"
 
@@ -33,18 +33,21 @@ class FFmpegAdapter : public saccubus::Adapter
 private:
 	SaccToolBox* const box;
 private:
+	SDL_Window* window;
 	SDL_Surface* windowSurface;
 public:
 	FFmpegAdapter(saccubus::Saccubus* const parent, SaccToolBox* const box)
 	:box(box)
+	,window(0)
 	,windowSurface(0)
 	{
 		this->parent(parent);
 	}
 	virtual ~FFmpegAdapter()
 	{
-		if(windowSurface){
-			SDL_FreeSurface(windowSurface);
+		if(this->window){
+			SDL_FreeSurface(this->windowSurface);
+			SDL_DestroyWindow(this->window);
 		}
 	}
 public:
@@ -69,15 +72,14 @@ public:
 	void measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight)
 	{
 		parent()->measure(w, h, measuredWidth, measuredHeight);
-		this->windowSurface = SDL_SetVideoMode(*measuredWidth, *measuredHeight, 24, SDL_HWSURFACE | SDL_DOUBLEBUF);
-		if(!this->windowSurface) {
-			std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
-			std::flush(std::cerr);
+		this->window = SDL_CreateWindow("Saccubus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, *measuredWidth, *measuredHeight, 0);
+		if(!this->window) {
+			std::cerr << "Failed to create window: " << SDL_GetError() << std::endl << std::flush;
 			exit(0);
 		}
+		this->windowSurface = SDL_GetWindowSurface(this->window);
 		if(!this->windowSurface) {
-			std::cerr << "Failed to allocate surface: " << SDL_GetError() << std::endl;
-			std::flush(std::cerr);
+			std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl << std::flush;
 			exit(0);
 		}
 	}
@@ -145,7 +147,7 @@ public:
 					break;
 				}
 			}
-			SDL_Flip(this->windowSurface);
+			SDL_UpdateWindowSurface(this->window);
 			if( running ){
 				std::cerr << "goto next frame" << std::endl << std::flush;
 				SDL_Delay(16);
@@ -181,7 +183,6 @@ DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[
 		std::cerr << "failed to init sdl: " << SDL_GetError() << std::endl;
 		return -5;
 	}
-	SDL_EnableKeyRepeat(100, 10);
 	try {
 		saccubus::Saccubus* const saccubus = new saccubus::Saccubus(std::cout, argc, argv);
 		FFmpegAdapter* const adapter = new FFmpegAdapter(saccubus, box);
