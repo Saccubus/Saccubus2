@@ -196,7 +196,7 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 		dframe = tkinter.Frame(self)
 		dentry=tkinter.Entry(dframe, textvariable=self.dval, state='readonly', **kw)
 		dentry.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.LEFT)
-		tkinter.Button(dframe, text="参照", command=self.onDirectorySelected).pack(expand=tkinter.NO, side=tkinter.LEFT)
+		tkinter.Button(dframe, text="参照", command=self.onDirectorySelect).pack(expand=tkinter.NO, side=tkinter.LEFT)
 		EditMenu(dentry)
 		dframe.pack(expand=tkinter.YES, fill=tkinter.X)
 		
@@ -207,8 +207,14 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 		tkinter.Button(fframe, text="再読み込み", command=lambda *a:self.reloadDirectory()).pack(expand=tkinter.NO, side=tkinter.LEFT)
 		fframe.pack(expand=tkinter.YES, fill=tkinter.X)
 		self.reloadDirectory()
-	def onDirectorySelected(self, *event):
-		self.dval.set(tkinter.filedialog.askdirectory())
+	def onDirectorySelect(self, *event):
+		newDir = tkinter.filedialog.askdirectory();
+		if not newDir:
+			return
+		if (not os.path.exists(newDir)) or (not os.path.isdir(newDir)):
+			tkinter.messagebox.showerror('エラー', 'ディレクトリは存在しません')
+			return
+		self.dval.set(newDir)
 		self.reloadDirectory()
 	def reloadDirectory(self):
 		if os.path.exists(self.dval.get()) and os.path.isdir(self.dval.get()):

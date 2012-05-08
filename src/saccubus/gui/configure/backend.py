@@ -93,7 +93,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		self.moveToCenter();
 	
 	def initExitPanel(self):
-		if not self.videoId:
+		if self.videoId:
 			vframe = tkinter.Frame(self)
 			tkinter.Checkbutton(vframe, variable=self.saveFlag, text='これを以降のデフォルト設定にする').pack(expand=tkinter.NO, side=tkinter.LEFT)
 			

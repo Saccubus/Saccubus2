@@ -51,7 +51,7 @@ class ConvertListMenu(tkinter.Menu):
 	def onDeleteTask(self, *event):
 		if len(self.master.curselection()) > 0:
 			for sel in self.master.curselection():
-				self.master.unregistTaskIndex(int(sel))
+				self.master.unregistTaskFromUser(int(sel))
 
 class ConvertList(tkinter.Listbox):
 	'''
@@ -74,13 +74,12 @@ class ConvertList(tkinter.Listbox):
 			raise Exception("[BUG] Task is still running!!");
 		self.taskList.remove(task)
 		self.update()
-	def unregistTaskIndex(self, index):
+	def unregistTaskFromUser(self, index):
 		task = self.taskList[index]
 		if task.running():
 			tkinter.messagebox.showerror('エラー', 'タスクは実行中です。')
 			return
-		self.taskList.remove(task)
-		self.update()
+		self.unregistTask(task);
 		
 	def update(self):
 		sel = None
