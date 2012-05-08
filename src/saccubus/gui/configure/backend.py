@@ -48,7 +48,8 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		'''
 		confPanel = ConfigurePanel(self)
 		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		FileConfigurePanel(generalSection, "アダプタファイル", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/bin/Saccubus.dll").deploy()
+		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
+		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/saccubus/Saccubus.dll").deploy()
 		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
 
 		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[

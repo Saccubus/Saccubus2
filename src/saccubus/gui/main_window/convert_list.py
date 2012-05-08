@@ -20,7 +20,6 @@
 import tkinter.messagebox;
 import subprocess;
 import threading;
-import time
 import saccubus.gui.configure.backend;
 
 class TaskRunner(threading.Thread):
@@ -29,10 +28,18 @@ class TaskRunner(threading.Thread):
 		self.task = task;
 		self.setDaemon(True)
 	def run(self):
-		print("executing");
-		time.sleep(10)
-		print("executed");
-		self.task.onExecuted(self)
+		try:
+			print("executing");
+			arg = list(self.task.arg)
+			arg.insert(0, self.task.conf['ffmpeg']['ffmpeg-path'])
+			cmdline = subprocess.list2cmdline(arg)
+			print(cmdline)
+			cmdline = "start /WAIT cmd.exe /U /K {arg} ".format(arg=cmdline)
+			p = subprocess.Popen(cmdline, shell=True)
+			p.wait()
+			print("executed");
+		finally:
+			self.task.onExecuted(self)
 
 class Task(object):
 	def __init__(self, parent, videoId, conf, arg):

@@ -22,7 +22,7 @@ import tkinter.filedialog;
 import pickle;
 import os.path;
 
-BACKEND_SEP='&'
+BACKEND_SEP='#'
 
 class ConfigurePanel(tkinter.ttk.Notebook):
 	'''
@@ -236,8 +236,9 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 		self.fval.set(f);
 		self.reloadDirectory()
 	def cfg2Arg(self):
-		if self.argname:
-			return (self.argname, os.path.join(self.dval.get(), self.fval.get()) )
+		fpath = os.path.join(self.dval.get(), self.fval.get());
+		if self.argname and os.path.exists(fpath) and os.path.isfile(fpath):
+			return (self.argname,  fpath)
 		else:
 			return ()
 
