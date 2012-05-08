@@ -32,14 +32,17 @@ __all__=['downloadMetaInfo']
 ファイル名と、パースした結果のタプルを返します
 '''
 def downloadMetaInfo(video_id, resDir):
+	fname=os.path.join(resDir, rule.formatMetaInfoFilename(video_id))
+	if os.path.exists(fname):
+		dom = xml.dom.minidom.parse(fname).documentElement
+		return fname, parseMetaInfo(dom, video_id)
 	resp = urllib.request.urlopen(META_API_URL.format(video_id))
 	data = resp.read();
-	file = os.path.join(resDir, rule.formatMetaInfoFilename(video_id));
-	with open(file, "wb") as f:
+	with open(fname, "wb") as f:
 		f.write(data)
 	dom = xml.dom.minidom.parseString(data).documentElement;
 	resp.close();
-	return file, parseMetaInfo(dom, video_id)
+	return fname, parseMetaInfo(dom, video_id)
 
 '''
 DOMを解析する

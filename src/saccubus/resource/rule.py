@@ -40,6 +40,9 @@ META_INFO_FORMAT="{video_id}_meta_info.xml"
 VIDEO_PREFIX="{video_id}_video_"
 VIDEO_FORMAT=VIDEO_PREFIX+"{title}{ext}"
 
+CONVERTED_PREFIX="{video_id}_conv_"
+CONVERTED_FORMAT=VIDEO_PREFIX+"{title}"
+
 THREAD_PREFIX="{video_id}_thread_"
 THREAD_FORMAT=THREAD_PREFIX+"{thread_id}.xml"
 
@@ -52,6 +55,9 @@ def formatVideoPrefix(video_id):
 	return VIDEO_PREFIX.format(video_id=video_id)
 def formatVideoFilename(video_id, title, ext):
 	return VIDEO_FORMAT.format(video_id=video_id, title=escapeFilename(title), ext=ext)
+
+def formatConvertedFilenameBase(video_id, title):
+	return CONVERTED_FORMAT.format(video_id=video_id, title=title)
 
 def formatThreadPrefix(video_id):
 	return THREAD_PREFIX.format(video_id=video_id)

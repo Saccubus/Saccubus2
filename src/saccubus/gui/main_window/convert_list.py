@@ -21,6 +21,11 @@ import tkinter.messagebox;
 import subprocess;
 import threading;
 import saccubus.gui.configure.backend;
+from saccubus.resource.resolve import meta_info
+from saccubus.resource import rule
+import os
+import re
+import tempfile
 
 class TaskRunner(threading.Thread):
 	def __init__(self, task):
@@ -31,15 +36,43 @@ class TaskRunner(threading.Thread):
 		try:
 			print("executing");
 			arg = list(self.task.arg)
-			arg.insert(0, self.task.conf['ffmpeg']['ffmpeg-path'])
-			cmdline = subprocess.list2cmdline(arg)
-			print(cmdline)
-			cmdline = "start /WAIT cmd.exe /U /K {arg} ".format(arg=cmdline)
-			p = subprocess.Popen(cmdline, shell=True)
-			p.wait()
-			print("executed");
+			val = {}
+			val['ffmpeg-file'] = self.task.conf['ffmpeg']['ffmpeg-path'];
+			val['saccubus-opts'] = subprocess.list2cmdline(arg)
+			#FIXME: 動画情報だけ先に取得してしまう。見苦し。
+			_, metainfo = meta_info.downloadMetaInfo(self.task.videoId, self.task.conf['sacc']['resolve-resource-path']);
+			val['out-file-base'] = rule.formatConvertedFilenameBase(self.task.videoId, metainfo['title'])
+			#レシピファイルに本当のコマンドを聞く
+			cmdline = self.createCmdlineFromRecipe(val)
+			#TODO: LINUX
+			self.launchWin(cmdline)
 		finally:
 			self.task.onExecuted(self)
+	def launchWin(self, cmdline):
+		cmdline = re.sub(r'/', r'\\', cmdline)
+		logfile = "__log__{videoId}.log".format(videoId = self.task.videoId)
+		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=cmdline, log=logfile)
+		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
+		tmp.write(bytes("echo executing... > {0}\r\n".format(logfile), 'CP932'))
+		tmp.write(bytes("echo {0} >> {1}\r\n".format(cmdline, logfile), 'CP932'))
+		tmp.write(bytes("echo result: >> {0}\r\n".format(logfile), 'CP932'))
+		tmp.write(bytes(cmdline, 'CP932'));
+		tmp.close()
+		cmdline = "start /WAIT cmd.exe /K {0}".format(tmp.name)
+		print("[{0}] executing => {1}".format(self.task.videoId, cmdline))
+		p = subprocess.Popen(cmdline, shell=True)
+		p.wait()
+		print("[{0}] executed".format(self.task.videoId));
+	def createCmdlineFromRecipe(self, info):
+		recipePath = os.path.join(*self.task.conf['ffmpeg']['recipe'])
+		src = open(recipePath).read()
+		obj = compile(src, recipePath, 'exec')
+		g = {}
+		l = {}
+		exec(obj, g, l)
+		l['info'] = info;
+		exec('__result__ = cmdline(info)', g, l)
+		return l['__result__']
 
 class Task(object):
 	def __init__(self, parent, videoId, conf, arg):
