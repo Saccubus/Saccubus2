@@ -53,6 +53,42 @@ public:
 	virtual void invoke(const std::string& name, const std::string* arg) {func();} ;
 };
 
+template <typename T>
+class FlagOption : public util::Option
+{
+private:
+	T & stored;
+	const T val;
+public:
+	FlagOption(const std::string& name, T & stored, T val)
+	:util::Option(name, util::Option::Normal, util::Option::No)
+	,stored(stored)
+	,val(val)
+	{}
+	virtual ~FlagOption(){};
+public:
+	virtual void invoke(const std::string& name, const std::string* arg) { this->stored = val; } ;
+};
+
+template <typename T>
+class ValueOption : public util::Option
+{
+public:
+	ValueOption(const std::string& name, T & stored);
+	virtual ~ValueOption();
+};
+
+template <>
+class ValueOption<std::string> : public util::Option
+{
+private:
+	std::string & stored;
+public:
+	ValueOption(const std::string& name, std::string & stored);
+	virtual ~ValueOption();
+	virtual void invoke(const std::string& name, const std::string* arg);
+};
+
 template<class T>
 class PreifxOption : public util::Option
 {

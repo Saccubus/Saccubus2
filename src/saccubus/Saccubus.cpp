@@ -58,9 +58,9 @@ void version(std::ostream* logStream, int argc, char** argv){
 	exit(0);
 }
 
-
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
-:currentVideo(0)
+:tasEnabled(false)
+,currentVideo(0)
 ,mainThradLayer(0)
 ,optionalThradLayer(0)
 ,bridge(0)
@@ -85,6 +85,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new LoglevelOption("error", logging::Logger::ERROR_, &level));
 		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
 		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
+		parser.add(new FlagOption<bool>("enable-tas", this->tasEnabled, true));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
 		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));
 
