@@ -59,12 +59,11 @@ def fromNative(*opts):
 				override_table['thread'][vid] = [file];
 		else:
 			pass
-	comment_back = 1000
-	if "comment-back" in optDict:
-		comment_back = int(optDict["comment-back"]);
+	commentOpt = {}
+	commentOpt['comment-back'] = int(optDict.get("comment-back", 500));
 	resolver = Resolver(optDict['resource-path'], auth, override_table);
 	resolved = resolver.resolve(optDict['video-id']);
-	resolved = resolver.download(optDict['video-id'], comment_back, resolved);
+	resolved = resolver.download(optDict['video-id'], commentOpt, resolved);
 	#TODO: Nativeへは、str->strの辞書しか返さない約束なので、ここで変換してしまう。ここでいいの？
 	#見苦しい。
 	resolved['thread'] = '\n'.join(resolved['thread']);
@@ -128,7 +127,7 @@ class Resolver(object):
 			resolved['video'] = self.override_table['video'][video_id];
 		return resolved
 	
-	def download(self, video_id, comment_back, resolved):
+	def download(self, video_id, commentOpt, resolved):
 		no_video = 'video' not in resolved;
 		no_thread = 'thread' not in resolved or len(resolved['thread']) <= 0;
 		if no_video or no_thread or 'play_info' not in resolved or 'meta_info' not in resolved:
@@ -141,5 +140,5 @@ class Resolver(object):
 			if no_video:
 				resolved['video'] = video.downloadVideo(cjar, play_info_dic, meta_info_dic, self.resource_path)
 			if no_thread:
-				resolved['thread'] = thread.downloadThreads(cjar, video_id, play_info_dic, comment_back, self.resource_path)
+				resolved['thread'] = thread.downloadThreads(cjar, video_id, play_info_dic, commentOpt, self.resource_path)
 		return resolved;

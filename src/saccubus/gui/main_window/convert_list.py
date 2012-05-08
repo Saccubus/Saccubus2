@@ -18,24 +18,40 @@
 '''
 
 import tkinter;
-import tkinter.font;
 import subprocess;
+import threading;
+
+class TaskRunner(threading.Thread):
+	pass
 
 class Task(object):
-	def __init__(self):
+	def __init__(self, videoId):
+		self.videoId = videoId;
 		pass
 	def execute(self):
 		pass
+	def __str__(self, *args, **kwargs):
+		status = '予約中'
+		if self.running():
+			status = '実行中'
+		return "動画ID:[{videoId:>15}] 状態:[{status:>10}]".format(videoId = self.videoId, status=status)
+		return self.videoId;
+	def running(self):
+		return False;
 
 class ConvertListMenu(tkinter.Menu):
 	def __init__(self, master):
 		tkinter.Menu.__init__(self, master)
-		self.add_cascade(label="削除", command=None)
+		self.add_cascade(label="削除", command=self.onDeleteTask)
 		master.bind('<Button-3>', self.onClick)
-	
-	def onClick(self, event):
+	def onClick(self, *event):
+		event=event[0]
 		if len(self.master.curselection()) > 0:
-			self.post(self, event.x_root,event.y_root)
+			self.post(event.x_root,event.y_root)
+	def onDeleteTask(self, *event):
+		if len(self.master.curselection()) > 0:
+			for sel in self.master.curselection():
+				self.master.unregistTaskIndex(int(sel))
 
 class ConvertList(tkinter.Listbox):
 	'''
@@ -51,8 +67,30 @@ class ConvertList(tkinter.Listbox):
 		self.taskList = [];
 		ConvertListMenu(self)
 	def registTask(self, videoId):
-		print(videoId);
+		self.taskList.append(Task(videoId))
+		self.update()
+	def unregistTask(self, task):
+		if task.running():
+			raise Exception("[BUG] Task is still running!!");
+		self.taskList.remove(task)
+		self.update()
+	def unregistTaskIndex(self, index):
+		task = self.taskList[index]
+		if task.running():
+			tkinter.messagebox.showerror('エラー', 'タスクは実行中です。')
+			return
+		self.taskList.remove(task)
+		self.update()
+		
 	def update(self):
-		sel = int(self.curselection()[0])
-		self.select_set(sel)
+		sel = None
+		self.delete(0, tkinter.END)
+		if len(self.curselection()) > 0:
+			sel = self.taskList[int(self.curselection()[0])];
+		for task in self.taskList:
+			self.insert(tkinter.END, str(task))
+			if task.running():
+				self.itemconfigure(tkinter.END, foreground='white', background='red')
+		if sel:
+			self.select_set(self.taskList.index(sel))
 		tkinter.Listbox.update(self);

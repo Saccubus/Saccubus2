@@ -27,16 +27,16 @@ from ..resource import rule;
 コメントをDLします。
 ファイル名の配列を返します。
 '''
-def downloadThreads(jar, video_id, play_info, backCnt, resDir):
+def downloadThreads(jar, video_id, play_info, commentOpt, resDir):
 	files = [];
 	if 'thread_id' in play_info:
-		files.append(downloadThread(jar, video_id, play_info, 'thread_id', backCnt, resDir))
+		files.append(downloadThread(jar, video_id, play_info, 'thread_id', commentOpt, resDir))
 	if 'optional_thread_id' in play_info:
-		files.append(downloadThread(jar, video_id, play_info, 'optional_thread_id', backCnt, resDir))
+		files.append(downloadThread(jar, video_id, play_info, 'optional_thread_id', commentOpt, resDir))
 	return files;
 
-def downloadThread(jar, video_id, play_info, thread_id_key, backCnt, resDir):
-	payload = constructCommand(jar, play_info, thread_id_key, backCnt)
+def downloadThread(jar, video_id, play_info, thread_id_key, commentOpt, resDir):
+	payload = constructCommand(jar, play_info, thread_id_key, commentOpt)
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(play_info['ms'], payload)
 	fname = os.path.join(resDir, rule.formatThreadFilename(video_id, play_info[thread_id_key]))
 	if os.path.exists(fname):
@@ -51,7 +51,7 @@ def getThreadKey(jar, thread_id):
 	resp = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)).open(url)
 	return dict(urllib.parse.parse_qsl(resp.read().decode('utf-8')))
 
-def constructCommand(jar, play_info, thread_id_key, backCnt):
+def constructCommand(jar, play_info, thread_id_key, commentOpt):
 	lst = minidom.NodeList();
 	#デフォルトコメント
 	th = minidom.Element('thread')
@@ -65,7 +65,7 @@ def constructCommand(jar, play_info, thread_id_key, backCnt):
 	leave.setAttribute('user_id', play_info['user_id'])
 	leave.setAttribute('scores', '1')
 	txt=minidom.Text();
-	txt.data = "0-{to}:100,{back}".format(back=backCnt, to=(int(play_info['l'])+59//60))
+	txt.data = "0-{to}:100,{back}".format(back=commentOpt['back-comment'], to=(int(play_info['l'])+59//60))
 	leave.appendChild(txt)
 	lst.append(leave)
 	#投稿者コメント
