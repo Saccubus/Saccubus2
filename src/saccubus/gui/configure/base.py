@@ -97,12 +97,18 @@ class BaseConfigurePanel(tkinter.Frame):
 	def serialize(self, conf):
 		if not self.typeName in conf:
 			conf[self.typeName] = dict()
-		conf[self.typeName][self.uniq] = self.cfgDump();
+		try:
+			conf[self.typeName][self.uniq] = self.cfgDump();
+		except Exception as e:
+			print("Error while serializing configure: {0}", e);
 	def deserialize(self, conf):
 		if not self.typeName in conf:
 			conf[self.typeName] = dict()
 		if self.typeName in conf and self.uniq in conf[self.typeName]:
-			self.cfgLoad(conf[self.typeName][self.uniq]);
+			try:
+				self.cfgLoad(conf[self.typeName][self.uniq]);
+			except Exception as e:
+				print("Error while deserializing configure: ", e);
 	def toArgument(self, lstDic):
 		val = self.cfg2Arg()
 		if not val:
