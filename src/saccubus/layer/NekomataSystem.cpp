@@ -34,6 +34,8 @@ NekomataSystem::NekomataSystem(nekomata::logging::Logger& nlog, draw::CommentFac
 ,shapeFactory(shapeFactory)
 ,forkedCommentLayer(0)
 ,mainCommentLayer(0)
+,_scerrnWidth(512)
+,_scerrnHeight(384)
 {
 }
 
@@ -143,11 +145,11 @@ void NekomataSystem::playCM(int id) {
 }
 double NekomataSystem::screenWidth()
 {
-	return 640; // FIXME: 仮
+	return _scerrnWidth;
 }
 double NekomataSystem::screenHeight()
 {
-	return 360; // FIXME: 仮
+	return _scerrnHeight;
 }
 std::string NekomataSystem::inspect() {
 	return "Saccubus::System";
@@ -156,5 +158,10 @@ std::string NekomataSystem::inspect() {
 void NekomataSystem::onChanged() {
 }
 
+void NekomataSystem::measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight)
+{
+	this->_scerrnWidth = *measuredWidth;
+	this->_scerrnHeight = *measuredHeight;
+}
 
 }}

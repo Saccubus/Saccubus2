@@ -98,5 +98,11 @@ bool ScriptLayer::onClick(int x, int y)
 	return false;
 }
 
+void ScriptLayer::measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight)
+{
+	this->Layer::measure(w, h, measuredWidth, measuredHeight);
+	this->nekoSystem()->measure(w, h, measuredWidth, measuredHeight);
+}
+
 
 }}

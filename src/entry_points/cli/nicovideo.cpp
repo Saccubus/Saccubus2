@@ -86,7 +86,7 @@ public:
 			{
 				std::tr1::shared_ptr<saccubus::draw::Context> ctx =
 						parent.createContext(saccubus::draw::Renderer::ARGB32, windowSurface->pixels, windowSurface->w, windowSurface->h, windowSurface->pitch);
-				parent.draw(ctx, now/1000.0, 0);
+				parent.draw(ctx, std::tr1::shared_ptr<saccubus::draw::Sprite>(), now/1000.0);
 			}
 			SDL_UnlockSurface(windowSurface);
 

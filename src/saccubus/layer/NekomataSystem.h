@@ -58,6 +58,11 @@ public: /* スクリプトから参照される */
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();
+private: /* レイヤとの連携 */
+	int _scerrnWidth;
+	int _scerrnHeight;
+public:
+	void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 };
 
 }}
