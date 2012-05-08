@@ -30,9 +30,9 @@ class Dialog(tkinter.Toplevel):
 		tkinter.Toplevel.__init__(self, master, cnf, **kw)
 
 	def moveToCenter(self):
-		self.transient(self.master)
 		self.focus_set()
 		self.grab_set()
+		self.transient(self.master)
 		self.update();
 		relX = int((self.master.winfo_width()-self.winfo_width())/2)
 		relY = int((self.master.winfo_height()-self.winfo_height())/2)

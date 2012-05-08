@@ -68,7 +68,10 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 0).deploy()
 		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 0).deploy()
 		IntegerConfigurePanel(videoSection, "最低FPS", "このFPS以上になるように出力されます。\nコメントがかくかくする場合などにお試し下さい。", "input-opt", "minfps", "-minfps", 25).deploy()
-	
+		SelectionConfigurePanel(videoSection, "TASモード", "TASのように変換中に１フレームずつ操作できます。\nスペースキーで次のフレームです。", 'sacc', 'controll-mode', [
+					('TASモードにしない', ),
+					('TASモードにする', "--enable-tas")],None).deploy()
+
 		commentSection = ConfigureSectionPanel(confPanel, "コメント設定")
 		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comments-num", "--resolve-comments-num", 500).deploy()
 		FileConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", FileConfigurePanel.OpenFile, "--ng-script", "./ng.py").deploy()
