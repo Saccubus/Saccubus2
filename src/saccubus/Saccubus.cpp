@@ -60,6 +60,7 @@ void version(std::ostream* logStream, int argc, char** argv){
 
 Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 :tasEnabled(false)
+,ngScript("")
 ,currentVideo(0)
 ,mainThradLayer(0)
 ,optionalThradLayer(0)
@@ -86,6 +87,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
 		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
 		parser.add(new FlagOption<bool>("enable-tas", this->tasEnabled, true));
+		parser.add(new ValueOption<std::string>("ng-script", this->ngScript));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
 		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));
 
@@ -198,6 +200,8 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 		this->mainThradLayer = new layer::ThreadLayer(
 				*log,
 				*(this->currentVideo->thread(this->currentVideo->playInfo()->thread())),
+				this->ngScript,
+				this->bridge,
 				this->currentVideo->playInfo()->replaceTable(),
 				this->renderer(),
 				this->pluginOrganizer
@@ -206,6 +210,8 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 			this->optionalThradLayer = new layer::ThreadLayer(
 					*log,
 					*(this->currentVideo->thread(this->currentVideo->playInfo()->optional_thread())),
+					this->ngScript,
+					this->bridge,
 					this->currentVideo->playInfo()->replaceTable(),
 					this->renderer(),
 					this->pluginOrganizer

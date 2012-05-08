@@ -54,6 +54,7 @@ class Saccubus {
 	DEF_ATTR_ACCESSOR(private, private, draw::Renderer*, renderer);
 private: /* option */
 	bool tasEnabled;
+	std::string ngScript;
 private:
 	Adapter* adapter;
 private:

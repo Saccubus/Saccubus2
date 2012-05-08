@@ -42,6 +42,8 @@ class ThreadLayer : public Layer {
 	DEF_ATTR_ACCESSOR(public, private, NekomataSystem*, nekoSystem);
 private:
 	const meta::Thread& thread;
+	const std::string ngScript;
+	python::PyBridge* bridge;
 private:
 	nekomata::logging::Logger* nekoLogger;
 	nekomata::Nekomata* neko;
@@ -51,7 +53,7 @@ private:
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(logging::Logger& log, const meta::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);

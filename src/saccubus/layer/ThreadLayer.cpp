@@ -20,6 +20,7 @@
 #include <tr1/memory>
 #include "ThreadLayer.h"
 #include "item/Comment.h"
+#include "../python/PyBridge.h"
 #include "../meta/Thread.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
@@ -29,9 +30,11 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
+ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,thread(thread)
+,ngScript(ngScript)
+,bridge(bridge)
 {
 	{ // ファクトリ
 		this->shapeFactory(pluginOrganizer->newShapeFactory(renderer));
@@ -53,6 +56,9 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 
 	{ /* 確定済みコメントを渡す */
 		for(meta::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
+			if(bridge->askCommentShouldBeIgnored(this->ngScript, **it)){
+				continue;
+			}
 			if((*it)->haveScript()){
 				this->neko->queueMessage(std::tr1::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
 			}else if((*it)->fork()){
