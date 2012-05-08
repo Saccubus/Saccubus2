@@ -26,20 +26,6 @@
 
 namespace saccubus {
 
-class LoglevelOption : public util::Option
-{
-private:
-	logging::Logger::Level const level;
-	logging::Logger::Level* const stored;
-public:
-	LoglevelOption(const std::string& name, logging::Logger::Level level, logging::Logger::Level* stored)
-	:util::Option(name, util::Option::Normal, util::Option::No)
-	,level(level),stored(stored){}
-	virtual ~LoglevelOption(){};
-public:
-	virtual void invoke(const std::string& name, const std::string* arg){*stored=level;};
-};
-
 class FunctionOption : public util::Option
 {
 private:

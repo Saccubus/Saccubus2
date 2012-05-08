@@ -77,12 +77,12 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 
 	{ /* オプションのパース */
 		util::OptionParser parser;
-		parser.add(new LoglevelOption("trace", logging::Logger::TRACE_, &level));
-		parser.add(new LoglevelOption("verbose", logging::Logger::VERBOSE_, &level));
-		parser.add(new LoglevelOption("debug", logging::Logger::DEBUG_, &level));
-		parser.add(new LoglevelOption("info", logging::Logger::INFO_, &level));
-		parser.add(new LoglevelOption("warning", logging::Logger::WARN_, &level));
-		parser.add(new LoglevelOption("error", logging::Logger::ERROR_, &level));
+		parser.add(new FlagOption<logging::Logger::Level>("trace", level, logging::Logger::TRACE_));
+		parser.add(new FlagOption<logging::Logger::Level>("verbose", level, logging::Logger::VERBOSE_));
+		parser.add(new FlagOption<logging::Logger::Level>("debug", level, logging::Logger::DEBUG_));
+		parser.add(new FlagOption<logging::Logger::Level>("info", level, logging::Logger::INFO_));
+		parser.add(new FlagOption<logging::Logger::Level>("warning", level, logging::Logger::WARN_));
+		parser.add(new FlagOption<logging::Logger::Level>("error", level, logging::Logger::ERROR_));
 		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
 		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
 		parser.add(new FlagOption<bool>("enable-tas", this->tasEnabled, true));

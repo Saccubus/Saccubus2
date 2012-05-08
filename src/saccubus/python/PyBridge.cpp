@@ -60,9 +60,9 @@ const meta::Video* PyBridge::resolveResource(const std::string& video_id, const 
 	return ctx;
 }
 
-bool PyBridge::askCommentShouldBeIgnored(const char* filename, const meta::Comment& com)
+bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const meta::Comment& com)
 {
-	if(!filename){
+	if(!(&filename) || filename.size() <= 0){
 		return false;
 	}
 	std::auto_ptr<Session> session = impl->createSession();
