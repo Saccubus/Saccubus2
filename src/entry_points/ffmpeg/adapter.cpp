@@ -147,11 +147,11 @@ public:
 			}
 			SDL_Flip(this->windowSurface);
 			if( running ){
+				std::cerr << "goto next frame" << std::endl << std::flush;
 				SDL_Delay(16);
 			}
 		} while (running);
 		SDL_FreeSurface(dst);
-		std::cerr << "goto next frame" << std::endl;
 	}
 };
 

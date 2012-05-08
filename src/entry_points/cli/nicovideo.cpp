@@ -65,8 +65,7 @@ public:
 		unsigned long long nextFactored = now*FACTOR+FACTORED_INTERVAL;
 		unsigned long long fpsTime = now;
 		unsigned int fps = 0;
-		bool running = this->parent.tasEnabled();
-		do {
+		while(1) {
 			SDL_Event e;
 			while (SDL_PollEvent(&e)) {
 				switch (e.type) {
@@ -106,7 +105,7 @@ public:
 				SDL_Delay((nextFactored - nowFactored) / FACTOR);
 			}
 			nextFactored += FACTORED_INTERVAL;
-		} while( running );
+		}
 	}
 	/**
 	 * ニワン語でseekが起こった時に呼ばれる。
