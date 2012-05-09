@@ -149,8 +149,9 @@ public:
 			}
 			SDL_UpdateWindowSurface(this->window);
 			if( running ){
-				std::cerr << "goto next frame" << std::endl << std::flush;
 				SDL_Delay(16);
+			} else if(this->parent()->tasEnabled()) {
+				std::cerr << "goto next frame" << std::endl << std::flush;
 			}
 		} while (running);
 		SDL_FreeSurface(dst);
