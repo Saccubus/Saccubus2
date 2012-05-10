@@ -87,18 +87,7 @@ public:
 	void draw(SaccFrame* const target, SaccFrame* const video)
 	{
 		SDL_Surface* dst = SDL_CreateRGBSurfaceFrom(target->data,
-				target->w, target->h, 32, target->linesize,
-				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-					0xff000000,
-					0x00ff0000,
-					0x0000ff00,
-				#else
-					0x000000ff,
-					0x0000ff00,
-					0x00ff0000,
-				#endif
-					0x00000000
-			);
+				target->w, target->h, 32, target->linesize, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x00000000);
 		SDL_FillRect(dst, 0, SDL_MapRGB(dst->format, 0, 0, 0));
 		SDL_LockSurface(dst);
 		{
