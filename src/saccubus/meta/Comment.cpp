@@ -46,7 +46,7 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	if(util::startsWith(this->message(), "/")){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->message().substr(1))->parseProgram());
 	} else if(util::startsWith(this->message(), "＠")){
-		std::string translated = nekomata::trans::toNiwango(this->vpos(),this->mail(), this->message());
+		std::string translated = nekomata::trans::toNiwango(this->vpos(),this->mail(), this->message(), this->fork(), this->premium());
 		this->node(nekomata::parser::Parser::fromString(translated)->parseProgram());
 	}
 
