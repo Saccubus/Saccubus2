@@ -79,7 +79,7 @@ class TaskRunner(threading.Thread):
 		tmp.write(bytes(cmdline, 'utf-8'));
 		tmp.close()
 		print("[{0}] executing => {1}".format(self.task.videoId, ffarg))
-		p = subprocess.Popen("gnome-terminal -e \"sh {0}\"".format(tmp.name), shell='/bin/bash')
+		p = subprocess.Popen("gnome-terminal --disable-factory --command \"sh {0}\"".format(tmp.name), shell='/bin/bash')
 		p.wait()
 		print("[{0}] executed".format(self.task.videoId));
 	def createCmdlineFromRecipe(self, info):
