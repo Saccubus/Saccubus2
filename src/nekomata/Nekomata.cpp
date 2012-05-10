@@ -33,7 +33,7 @@ Nekomata::~Nekomata() {
 void Nekomata::seek(float time)
 {
 	if(time < currentTime()){
-		log.e(TAG, 0, "Sorry, rewind operation is not supported yet!");
+		log.e(TAG, 0, "Sorry, rewind operation is not supported yet! now: %f, seeked time: %f", currentTime(), time);
 	}else{
 		system.seek(*machine, currentTime(), time);
 	}
