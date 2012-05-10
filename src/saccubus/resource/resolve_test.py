@@ -92,7 +92,7 @@ class Test(unittest.TestCase):
 		auth = {'user': test_common.TEST_USER, 'password': test_common.TEST_PASS, 'cookie':'own'}
 		resolv = Resolver(self.resource_path, auth)
 		dic = resolv.resolve("sm60");
-		dic = resolv.download("sm60", 1000, dic)
+		dic = resolv.download("sm60", {'comment-back': 1000}, dic)
 		self.assertTrue('thread' in dic)
 		self.assertTrue('video' in dic)
 		self.assertTrue('meta_info' in dic)

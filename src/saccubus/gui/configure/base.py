@@ -141,7 +141,11 @@ class StringConfigurePanel(BaseConfigurePanel):
 	def cfgLoad(self, obj):
 		self.val.set(obj);
 	def cfg2Arg(self):
-		return (self.argname, str(self.val.get()))
+		val = self.val.get()
+		if val:
+			return (self.argname, str(self.val.get()))
+		else:
+			return ()
 
 class IntegerConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, title, desc, typeName, uniq, argname, default, **kw):

@@ -20,6 +20,6 @@
 import os.path;
 PATH= os.path.abspath(os.path.dirname( os.path.abspath( __file__ ) ) + "../../../_TestMaterials")
 RESOURCE_PATH=os.path.join(PATH, "resources")
-RESOURCE_DL_PATH=os.path.join(PATH, "resources", "download")
+RESOURCE_DL_PATH=os.path.join(PATH, "download")
 TEST_USER='saccubus@gmail.com'
 TEST_PASS='test1234'

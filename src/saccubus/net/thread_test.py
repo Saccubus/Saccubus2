@@ -40,14 +40,14 @@ class Test(unittest.TestCase):
 	def tearDown(self):
 		pass
 	def testDownloadThread(self):
-		files = thread.downloadThreads(Test.jar, OFFICIAL_VIDEO, Test.offInfo, 1000, test_common.RESOURCE_DL_PATH)
+		files = thread.downloadThreads(Test.jar, OFFICIAL_VIDEO, Test.offInfo, {'comment-back': 1000}, test_common.RESOURCE_DL_PATH)
 		for f in files:
 			self.assertTrue(os.path.exists(f))
 			self.assertTrue(os.path.isfile(f))
 			os.remove(f)
 		
 	def testOfficialThread(self):
-		fname = thread.downloadThread(Test.jar, OFFICIAL_VIDEO, Test.offInfo, 'thread_id', 1000, test_common.RESOURCE_DL_PATH);
+		fname = thread.downloadThread(Test.jar, OFFICIAL_VIDEO, Test.offInfo, 'thread_id', {'comment-back': 1000}, test_common.RESOURCE_DL_PATH);
 		self.assertTrue(os.path.exists(fname))
 		self.assertTrue(os.path.isfile(fname))
 		os.remove(fname)
@@ -56,12 +56,12 @@ class Test(unittest.TestCase):
 		self.assertIsNotNone(key_dict['threadkey'])
 		self.assertNotEquals(key_dict['threadkey'], '')
 	def testGetNormalThread(self):
-		fname = thread.downloadThread(Test.jar, VIDEO_ID, Test.defInfo, 'thread_id', 1000, test_common.RESOURCE_DL_PATH);
+		fname = thread.downloadThread(Test.jar, VIDEO_ID, Test.defInfo, 'thread_id', {'comment-back': 1000}, test_common.RESOURCE_DL_PATH);
 		self.assertTrue(os.path.exists(fname))
 		self.assertTrue(os.path.isfile(fname))
 		os.remove(fname)
 	def testConstructCommand(self):
-		payload = thread.constructCommand(Test.jar, Test.defInfo, 'thread_id', 1000)
+		payload = thread.constructCommand(Test.jar, Test.defInfo, 'thread_id', {'comment-back': 1000},)
 		self.assertEqual(
 			payload,
 			b'<?xml version="1.0" encoding="utf-8"?><packet><thread scores="1" thread="1302222473" user_id="26735140" version="20090904"/><thread_leaves scores="1" thread="1302222473" user_id="26735140">0-99:100,1000</thread_leaves><thread click_revision="-1" fork="1" res_from="-1000" scores="1" thread="1302222473" user_id="26735140" version="20061206"/></packet>'
