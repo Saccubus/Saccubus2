@@ -25,8 +25,6 @@ Context::Context(logging::Logger& log, std::tr1::shared_ptr<Renderer*> renderer)
 :_renderer(renderer)
 ,log(log)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Renderer* Context::renderer()
@@ -35,7 +33,6 @@ Renderer* Context::renderer()
 }
 
 Context::~Context() {
-	// TODO Auto-generated destructor stub
 }
 
 }}
