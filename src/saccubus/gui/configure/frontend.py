@@ -18,9 +18,24 @@
 '''
 
 import tkinter
-from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel,\
-	FileConfigurePanel, ConfigureSectionPanel
+from saccubus.gui.configure.base import ConfigurePanel, IntegerConfigurePanel, ConfigureSectionPanel
 import saccubus.gui.dialog
+
+class FrontendConfigurePanel(ConfigurePanel):
+	def __init__(self, master):
+		ConfigurePanel.__init__(self, master)
+		generalSection = ConfigureSectionPanel(self, "一般的な設定")
+		IntegerConfigurePanel(generalSection, "同時変換数", "同時に変換する動画数を指定します。", "frontend", "task-limit", None,1).deploy()
+		
+		
+		#設定項目のロード
+		self.load()
+	def toArgument(self, videoId):
+		return ()
+	def load(self):
+		ConfigurePanel.load(self, saccubus.gui.FrontendConfigureFilename)
+	def save(self):
+		ConfigurePanel.save(self, saccubus.gui.FrontendConfigureFilename)
 
 class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):
 	'''
@@ -36,15 +51,12 @@ class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):
 		self.title("フロントエンド設定")
 
 		'''
-		具体的な設定項目
+		設定項目パネル
 		'''
-		confPanel = ConfigurePanel(self)
-		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		IntegerConfigurePanel(generalSection, "同時変換数", "同時に変換する動画数を指定します。", "frontend", "task-limit", None,1).deploy()
+		confPanel = FrontendConfigurePanel(self)
 		'''
-		最後に配置
+		配置
 		'''
-		confPanel.load(saccubus.gui.FrontendConfigureFilename)
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 		self.confPanel = confPanel;
 		self.initExitPanel()
@@ -57,5 +69,5 @@ class FrontendConfigureWindow(saccubus.gui.dialog.Dialog):
 		frame.pack(expand=tkinter.NO, fill=tkinter.X)
 	
 	def onOkButtonClicked(self):
-		self.confPanel.save(saccubus.gui.FrontendConfigureFilename)
+		self.confPanel.save()
 		self.destroy()

@@ -22,7 +22,6 @@ import tkinter.filedialog;
 import pickle;
 import os.path;
 
-BACKEND_SEP='#'
 
 class ConfigurePanel(tkinter.ttk.Notebook):
 	'''
@@ -42,20 +41,7 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		for key in self.children:
 			self.children[key].deserialize(conf);
 	def toArgument(self, videoId):
-		if not videoId:
-			return []
-		lstDic = {}
-		for key in self.children:
-			self.children[key].toArgument(lstDic);
-		argList = [];
-		argList.extend( ('-f', 'saccubus') )
-		argList.extend( lstDic['input-opt'] )
-		argList.append("-sacc")
-		saccArg = list(lstDic['sacc']);
-		saccArg.insert(0, videoId)
-		argList.append( BACKEND_SEP.join(saccArg) )
-		argList.extend(lstDic['input'])
-		return argList;
+		raise Exception("Please implement");
 			
 	def load(self, filename):
 		conf={}

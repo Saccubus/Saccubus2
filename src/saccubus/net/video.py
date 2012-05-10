@@ -19,7 +19,7 @@
 
 import os;
 import urllib;
-import shutil;
+import sys
 from ..resource.rule import formatVideoFilename
 
 WATCH_PAGE_URL='http://www.nicovideo.jp/watch/{0}'
@@ -46,6 +46,7 @@ def downloadVideo(jar, play_info, meta_info, resDir):
 			if not buf:
 				break
 			file.write(buf)
+			sys.stdout.flush()
 			print("Now downloading... {0} of {1}bytes ({2}%)".format(file.tell(), fsize, file.tell()*100//fsize));
 	return fname
 

@@ -16,6 +16,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+BACKEND_SEP='#'
 
 import tkinter
 from saccubus.gui.configure.base import\
@@ -23,6 +24,67 @@ from saccubus.gui.configure.base import\
 	SelectionConfigurePanel, StringConfigurePanel,\
 	FileConfigurePanel, IntegerConfigurePanel, FileSelectConfigurePanel
 import saccubus.gui.dialog
+
+class BackendConfigurePanel(ConfigurePanel):
+	def __init__(self, master):
+		ConfigurePanel.__init__(self, master)
+		generalSection = ConfigureSectionPanel(self, "一般的な設定")
+		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
+		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/saccubus/Saccubus.dll").deploy()
+		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
+
+		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
+						("トレース", "--trace"),
+						("詳細", "--verbose"),
+						("デバッグ", "--trace"),
+						("情報", "--info"),
+						("警告", "--warning"),
+						("エラー", "--error"),
+						],'警告').deploy()
+		
+		resolveSection = ConfigureSectionPanel(self, "ダウンローダ")
+		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", 'sacc', 'resolve-cookie', [
+						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
+						('Firefox', "--resolve-cookie", "firefox"),
+						('Chrome', "--resolve-cookie", "chrome"),
+						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
+		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
+		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-password", "--resolve-password", "udonudon", show="*").deploy()
+
+		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
+
+		videoSection = ConfigureSectionPanel(self, "動画設定")
+		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 0).deploy()
+		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 0).deploy()
+		IntegerConfigurePanel(videoSection, "最低FPS", "このFPS以上になるように出力されます。\nコメントがかくかくする場合などにお試し下さい。", "input-opt", "minfps", "-minfps", 25).deploy()
+		SelectionConfigurePanel(videoSection, "TASモード", "TASのように変換中に１フレームずつ操作できます。\nスペースキーで次のフレームです。", 'sacc', 'controll-mode', [
+					('TASモードにしない', ),
+					('TASモードにする', "--enable-tas")],None).deploy()
+
+		commentSection = ConfigureSectionPanel(self, "コメント設定")
+		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comment-back", "--resolve-comment-back", 500).deploy()
+		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script").deploy()
+		
+		self.load()
+	def load(self):
+		ConfigurePanel.load(self, saccubus.gui.BackendConfigureFilename)
+	def save(self):
+		ConfigurePanel.save(self, saccubus.gui.BackendConfigureFilename)
+	def toArgument(self, videoId):
+		if not videoId:
+			return []
+		lstDic = {}
+		for key in self.children:
+			self.children[key].toArgument(lstDic);
+		argList = [];
+		argList.extend( ('-f', 'saccubus') )
+		argList.extend( lstDic['input-opt'] )
+		argList.append("-sacc")
+		saccArg = list(lstDic['sacc']);
+		saccArg.insert(0, videoId)
+		argList.append( BACKEND_SEP.join(saccArg) )
+		argList.extend(lstDic['input'])
+		return argList;
 
 class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 	'''
@@ -44,50 +106,13 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 			self.title("バックエンド設定")
 		
 		'''
-		具体的な設定項目
+		設定項目パネル
 		'''
-		confPanel = ConfigurePanel(self)
-		generalSection = ConfigureSectionPanel(confPanel, "一般的な設定")
-		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
-		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/saccubus/Saccubus.dll").deploy()
-		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
-
-		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
-						("トレース", "--trace"),
-						("詳細", "--verbose"),
-						("デバッグ", "--trace"),
-						("情報", "--info"),
-						("警告", "--warning"),
-						("エラー", "--error"),
-						],'警告').deploy()
-		
-		resolveSection = ConfigureSectionPanel(confPanel, "ダウンローダ")
-		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", 'sacc', 'resolve-cookie', [
-						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
-						('Firefox', "--resolve-cookie", "firefox"),
-						('Chrome', "--resolve-cookie", "chrome"),
-						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
-		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
-		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-password", "--resolve-password", "udonudon", show="*").deploy()
-
-		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
-
-		videoSection = ConfigureSectionPanel(confPanel, "動画設定")
-		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 0).deploy()
-		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 0).deploy()
-		IntegerConfigurePanel(videoSection, "最低FPS", "このFPS以上になるように出力されます。\nコメントがかくかくする場合などにお試し下さい。", "input-opt", "minfps", "-minfps", 25).deploy()
-		SelectionConfigurePanel(videoSection, "TASモード", "TASのように変換中に１フレームずつ操作できます。\nスペースキーで次のフレームです。", 'sacc', 'controll-mode', [
-					('TASモードにしない', ),
-					('TASモードにする', "--enable-tas")],None).deploy()
-
-		commentSection = ConfigureSectionPanel(confPanel, "コメント設定")
-		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comment-back", "--resolve-comment-back", 500).deploy()
-		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script").deploy()
+		confPanel = BackendConfigurePanel(self)
 
 		'''
 		最後に配置
 		'''
-		confPanel.load(saccubus.gui.BackendConfigureFilename)
 		confPanel.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 		self.confPanel = confPanel;
 		self.initExitPanel()
@@ -109,7 +134,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		self.destroy()
 	def onOkButtonClicked(self):
 		if self.saveFlag.get() != 0:
-			self.confPanel.save(saccubus.gui.BackendConfigureFilename)
+			self.confPanel.save()
 		self.conf = self.confPanel.serialize()
 		self.argument = self.confPanel.toArgument(self.videoId)
 		self.destroy()
