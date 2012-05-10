@@ -25,6 +25,7 @@
 #include "./ScriptException.h"
 
 #include "PyBridgeImpl.h"
+#include <frameobject.h>
 namespace saccubus {
 namespace python {
 
@@ -112,34 +113,58 @@ void Session::loadFile(const std::string& file)
 /**
  *
  */
-void Session::outException(std::stringstream& msg, PyObject* v){
-	if(!v){
+void Session::outException(std::stringstream& msg, PyObject* const type, PyObject* const value, PyObject* const _tb)
+{
+	if(!value){
+		log.e(TAG, "Exception caught, but exception value was NULL. Maybe this is a bug.");
 		return;
 	}
-	Py_INCREF(v);
-	if(!PyExceptionInstance_Check(v)){
-		log.e(TAG, "TypeError: outException: Exception expected for value, %s found.", Py_TYPE(v)->tp_name);
+	if(!PyExceptionInstance_Check(value)){
+		log.e(TAG, "TypeError: outException: Exception expected for value, %s found.", Py_TYPE(type)->tp_name);
+		return;
 	}
-	PyObject* cause = PyException_GetCause(v);
-	if(cause){
-		outException(msg, cause);
-	}
-	PyObject* type = (PyObject*)Py_TYPE(v);
+	Py_INCREF(value);
+	Py_XINCREF(type);
+	Py_XINCREF(_tb);
 
-	//FIXME: うまく出力できないことがある
-	msg << "File \"" << toString(PyObject_GetAttrString(v, "filename")) << "\", line " << toString(PyObject_GetAttrString(v, "lineno")) << ", in " << toString(PyObject_GetAttrString(type, "__module__")) << std::endl;
-	msg << PyExceptionClass_Name(type) << ": " << toString(v) << std::endl;
-	msg << "here: " << toString(PyObject_GetAttrString(v, "text")) << std::endl;
-	Py_DECREF(v);
+	msg << "Traceback (most recent call last):" << std::endl;
+	if(_tb){
+		PyTracebackObject* tb = reinterpret_cast<PyTracebackObject*>(_tb);
+		while(tb != NULL){
+			PyObject* const _frame = PyObject_GetAttrString(reinterpret_cast<PyObject*>(tb), "tb_frame");
+			if(!_frame || !PyFrame_Check(_frame) ){
+				msg << "oops. Traceback missing.";
+			}
+			PyFrameObject* const frame = reinterpret_cast<PyFrameObject*>(_frame);
+			msg << "  File ";
+			msg << toString(frame->f_code->co_filename);
+			msg << ", ";
+			msg << frame->f_lineno;
+			msg << ", in ";
+			msg << toString(frame->f_code->co_name);
+			msg << std::endl;
+			tb = tb->tb_next;
+		}
+	}
+	msg << PyExceptionClass_Name(type) << ": " << toString(value);
+	if( PyObject_HasAttrString(value, "print_file_and_line") ){
+		msg << "File \"" << toString(PyObject_GetAttrString(value, "filename")) << "\", line " << toString(PyObject_GetAttrString(value, "lineno")) << ", in " << toString(PyObject_GetAttrString(type, "__module__")) << std::endl;
+		if( PyObject_HasAttrString(value, "text")) {
+			msg << "    here: " << toString(PyObject_GetAttrString(value, "text")) << std::endl;
+		}
+	}
+	Py_XDECREF(type);
+	Py_XDECREF(_tb);
+	Py_DECREF(value);
 }
 void Session::printExceptionLog()
 {
 	std::stringstream msg;
-	PyObject *exception, *v, *tb;
-	PyErr_Fetch(&exception, &v, &tb);
-	PyErr_NormalizeException(&exception, &v, &tb);
+	PyObject *type, *value, *tb;
+	PyErr_Fetch(&type, &value, &tb);
+	PyErr_NormalizeException(&type, &value, &tb);
 	msg << "Python says: \n";
-	outException(msg, v);
+	outException(msg, type, value ,tb);
 	log.e(TAG, msg.str());
 }
 

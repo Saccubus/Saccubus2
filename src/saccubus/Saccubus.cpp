@@ -91,7 +91,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
 		parser.add(new PreifxOption<std::map<std::string, std::string> >("plugin-", organizerArg));
 
-		parser.parse(argc, argv, left);
+		parser.parse(argc-1, argv+1, left);
 	}
 
 	this->log = new logging::Logger(logStream, level);
@@ -100,10 +100,10 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 
 	this->renderer(this->pluginOrganizer->newRenderer());
 
-	if(optind >= argc){
+	if(left.size() <= 0){
 		throw logging::Exception(__FILE__, __LINE__, "You need to set video id!");
 	}else{
-		firstVideoId = argv[optind];
+		firstVideoId = left.at(0);
 		log->i(TAG, "First Video ID: %s", firstVideoId.c_str());
 	}
 

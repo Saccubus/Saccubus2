@@ -47,7 +47,7 @@ private:
 	PyObject* global;
 	PyObject* local;
 private:
-	void outException(std::stringstream& msg, PyObject* v);
+	void outException(std::stringstream& msg, PyObject* const type, PyObject* const value, PyObject* const tb);
 	void printExceptionLog();
 	/**
 	 * これらの関数は、新しい参照を返しますし、引数の参照カウントを削ります。
