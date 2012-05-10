@@ -69,6 +69,7 @@ class Test(unittest.TestCase):
 		opt = [];
 		opt.append(('resource-path', self.resource_path))
 		opt.append(('video-id', 'sm0'))
+		opt.append(('comment-back', '500'))
 		dic = fromNative(*opt)
 		self.assertEqual(dic['video'], os.path.join(self.resource_path,"sm0_video_test.mp4"), "動画の取得に失敗しています")
 		self.assertEqual("test", dic['title'], "タイトルの取得に失敗しています");

@@ -27,19 +27,20 @@ def login(userid, password):
 	
 	return searchProfile(
 		# in windows vista
-		os.path.join(os.getenv('APP_DATA'), 'Mozilla','Firefox','Profiles'),
+		os.path.join(os.getenv('APP_DATA', ''), 'Mozilla','Firefox','Profiles'),
 		# in fedora 16
-		os.path.join(os.getenv('HOME'), '.mozilla','firefox')
+		os.path.join(os.getenv('HOME', ''), '.mozilla','firefox')
 	);
 
 def searchProfile(*prof_dirs):
 	for d in prof_dirs:
 		if os.path.isdir(d) and os.path.exists(d):
 			for pdir in os.listdir(d):
-				try:
-					return readDatabase(os.path.join(pdir, 'cookies.sqlite'))
-				except LoginError:
-					pass
+				if os.path.isfile(os.path.join(d, pdir, 'cookies.sqlite')):
+					try:
+						return readDatabase(os.path.join(d, pdir, 'cookies.sqlite'))
+					except LoginError:
+						pass
 	raise LoginError("Firefoxのクッキーが見つかりませんでした");
 
 '''

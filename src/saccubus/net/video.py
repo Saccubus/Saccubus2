@@ -39,8 +39,14 @@ def downloadVideo(jar, play_info, meta_info, resDir):
 	fname = os.path.join(resDir, fname)
 	if os.path.exists(fname):
 		os.remove(fname)
+	fsize = int(resp.info()['Content-Length'])
 	with open(fname,'wb') as file, resp:
-		shutil.copyfileobj(resp, file);
+		while 1:
+			buf = resp.read(65536)
+			if not buf:
+				break
+			file.write(buf)
+			print("Now downloading... {0} of {1}bytes ({2}%)".format(file.tell(), fsize, file.tell()*100//fsize));
 	return fname
 
 '''
