@@ -58,6 +58,7 @@ public:
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
+	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 };
 
 }}

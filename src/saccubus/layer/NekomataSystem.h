@@ -62,7 +62,7 @@ private: /* レイヤとの連携 */
 	int _scerrnWidth;
 	int _scerrnHeight;
 public:
-	void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
+	void setScreenSize(int const w, int const h);
 };
 
 }}

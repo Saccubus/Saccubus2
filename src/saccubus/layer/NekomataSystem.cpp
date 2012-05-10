@@ -158,10 +158,10 @@ std::string NekomataSystem::inspect() {
 void NekomataSystem::onChanged() {
 }
 
-void NekomataSystem::measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight)
+void NekomataSystem::setScreenSize(int const w, int const h)
 {
-	this->_scerrnWidth = *measuredWidth;
-	this->_scerrnHeight = *measuredHeight;
+	this->_scerrnWidth = w;
+	this->_scerrnHeight = h;
 }
 
 }}

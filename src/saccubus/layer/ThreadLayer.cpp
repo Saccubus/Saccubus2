@@ -119,4 +119,21 @@ bool ThreadLayer::onClick(int x, int y)
 	return false;
 }
 
+#define updateWidth(target) do { \
+	int mesW = *measuredWidth;\
+	int mesH = *measuredHeight;\
+	target->measure(w, h, &mesW, &mesW);\
+	*measuredWidth = std::max(mesW, *measuredWidth);\
+	*measuredHeight = std::max(mesH, *measuredHeight);\
+} while(0)
+
+void ThreadLayer::measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight)
+{
+	*measuredWidth = w;
+	*measuredHeight = h;
+	updateWidth(this->scriptLayer);
+	updateWidth(this->mainCommentLayer);
+	updateWidth(this->forkedCommentLayer);
+}
+
 }}

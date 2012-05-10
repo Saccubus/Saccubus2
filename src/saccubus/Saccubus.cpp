@@ -130,11 +130,19 @@ void Saccubus::init(Adapter* const adapter)
 
 void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* const measuredHeight)
 {
+	*measuredWidth = w;
+	*measuredHeight = h;
 	if(this->mainThradLayer){
-		this->mainThradLayer->measure(w, h, measuredWidth, measuredHeight);
+		int maxW, maxH;
+		this->mainThradLayer->measure(w, h, &maxW, &maxH);
+		*measuredWidth = std::max(*measuredWidth, maxW);
+		*measuredHeight = std::max(*measuredHeight, maxH);
 	}
 	if(this->optionalThradLayer){
-		this->optionalThradLayer->measure(*measuredWidth, *measuredHeight, measuredWidth, measuredHeight);
+		int maxW, maxH;
+		this->optionalThradLayer->measure(w, h, &maxW, &maxH);
+		*measuredWidth = std::max(*measuredWidth, maxW);
+		*measuredHeight = std::max(*measuredHeight, maxH);
 	}
 }
 
