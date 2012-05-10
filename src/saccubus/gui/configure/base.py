@@ -25,31 +25,45 @@ import os.path;
 
 class ConfigurePanel(tkinter.ttk.Notebook):
 	'''
-	classdocs
+	複数の設定項目のセクションをまとめてタブとして表示する
 	'''
 	def __init__(self, master):
-		'''
-		Constructor
-		'''
 		tkinter.ttk.Notebook.__init__(self, master)
 	def serialize(self):
+		'''
+		設定を永続化するために、dictionaryを作る。
+		子供はそのディクショナリに自分の設定項目を入れていく
+		'''
 		conf = {}
 		for key in self.children:
 			self.children[key].serialize(conf);
 		return conf;
 	def deserialize(self, conf):
+		'''
+		永続化されたディクショナリから、自分の設定項目をロードする。
+		'''
 		for key in self.children:
 			self.children[key].deserialize(conf);
-	def toArgument(self, videoId):
-		raise Exception("Please implement");
+	def toArgument(self, lstDic):
+		'''
+		設定項目からコマンドライン引数を作る。Backend設定でのみ用いる。
+		'''
+		for key in self.children:
+			self.children[key].toArgument(self, lstDic)
 			
 	def load(self, filename):
+		'''
+		ファイル名を指定して永続化されたディクショナリをロード
+		'''
 		conf={}
 		if os.path.exists(filename):
 			with open(filename, "rb") as f:
 				conf = pickle.load(f)
 		self.deserialize(conf);
 	def save(self, filename):
+		'''
+		ファイル名を指定して永続化されたディクショナリを保存
+		'''
 		with open(filename, "wb") as f:
 			conf = self.serialize()
 			pickle.dump(conf, f, pickle.HIGHEST_PROTOCOL)
@@ -57,11 +71,9 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 
 class ConfigureSectionPanel(tkinter.Frame):
 	'''
-	classdocs
+	各設定項目のセクションのパネル一枚。
 	'''
 	def __init__(self, master, sectionTitle):
-		'''
-		'''
 		tkinter.Frame.__init__(self, master)
 		master.add(self, text=sectionTitle)
 	def serialize(self, conf):
@@ -76,6 +88,10 @@ class ConfigureSectionPanel(tkinter.Frame):
 
 class BaseConfigurePanel(tkinter.Frame):
 	def __init__(self, master, title, desc, typeName, uniq):
+		'''
+		各設定項目一つ一つを表すクラスのベースクラス。
+		ここではタイトルと説明を表示する。
+		'''
 		tkinter.Frame.__init__(self, master)
 		self.typeName = typeName;
 		self.uniq = uniq
@@ -83,7 +99,6 @@ class BaseConfigurePanel(tkinter.Frame):
 		tkinter.Label(self, text=desc).pack(fill=tkinter.X, expand=tkinter.YES);
 	def deploy(self):
 		self.pack(fill=tkinter.X, expand=tkinter.NO, side=tkinter.TOP)
-
 	def serialize(self, conf):
 		if not self.typeName in conf:
 			conf[self.typeName] = dict()
@@ -114,6 +129,9 @@ class BaseConfigurePanel(tkinter.Frame):
 	def cfg2Arg(self):
 		raise Exception("Please implement");
 
+'''
+　以下、データタイプに合わせたBaseConfigurePanelのサブクラスが並ぶ。
+'''
 class StringConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, title, desc, typeName, uniq, argname, default, **kw):
 		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq)
