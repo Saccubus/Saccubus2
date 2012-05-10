@@ -68,7 +68,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 						('Chrome', "--resolve-cookie", "chrome"),
 						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
 		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
-		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-pass", "--resolve-pass", "udonudon", show="*").deploy()
+		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-password", "--resolve-password", "udonudon", show="*").deploy()
 
 		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
 
@@ -111,7 +111,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		if self.saveFlag.get() != 0:
 			self.confPanel.save(saccubus.gui.BackendConfigureFilename)
 		self.conf = self.confPanel.serialize()
-		self.argument = self.confPanel.toArgument()
+		self.argument = self.confPanel.toArgument(self.videoId)
 		self.destroy()
 	
 	def show(self):

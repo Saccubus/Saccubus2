@@ -42,25 +42,44 @@ class TaskRunner(threading.Thread):
 			#FIXME: 動画情報だけ先に取得してしまう。見苦し。
 			_, metainfo = meta_info.downloadMetaInfo(self.task.videoId, self.task.conf['sacc']['resolve-resource-path']);
 			val['out-file-base'] = rule.formatConvertedFilenameBase(self.task.videoId, metainfo['title'])
+			val['resource-path'] = self.task.conf['sacc']['resolve-resource-path'];
 			#レシピファイルに本当のコマンドを聞く
 			cmdline = self.createCmdlineFromRecipe(val)
-			#TODO: LINUX
-			self.launchWin(cmdline)
+			if os.name=='posix':
+				self.launchPosix(cmdline);
+			elif os.name=='nt':
+				self.launchWin(cmdline)
+			else:
+				raise Exception("Unsupported platform!");
 		finally:
 			self.task.onExecuted(self)
 	def launchWin(self, ffarg):
 		ffarg = re.sub(r'/', r'\\', ffarg)
-		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], "{videoId}__log__.log".format(videoId = self.task.videoId))
+		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
 		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
-		tmp.write(bytes("echo executing... > {0}\r\n".format(logfile), 'CP932'))
-		tmp.write(bytes("echo {0} >> {1}\r\n".format(cmdline, logfile), 'CP932'))
-		tmp.write(bytes("echo result: >> {0}\r\n".format(logfile), 'CP932'))
+		tmp.write(bytes("@echo executing... > {0}\r\n".format(logfile), 'CP932'))
+		tmp.write(bytes("@echo \"{0}\" >> {1}\r\n".format(cmdline, logfile), 'CP932'))
+		tmp.write(bytes("@echo result: >> {0}\r\n".format(logfile), 'CP932'))
 		tmp.write(bytes(cmdline, 'CP932'));
 		tmp.close()
 		cmdline = "start /WAIT cmd.exe /C {0}".format(tmp.name)
 		print("[{0}] executing => {1}".format(self.task.videoId, ffarg))
 		p = subprocess.Popen(cmdline, shell=True)
+		p.wait()
+		print("[{0}] executed".format(self.task.videoId));
+	def launchPosix(self, ffarg):
+		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
+		cmdline = "{arg} 2>&1 | tee -a {log}".format(arg=ffarg, log=logfile)
+		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.sh', delete=False)
+
+		tmp.write(bytes("echo executing... > {0}\n".format(logfile), 'utf-8'))
+		tmp.write(bytes("echo \"{0}\" >> {1}\n".format(cmdline, logfile), 'utf-8'))
+		tmp.write(bytes("echo result: >> {0}\n".format(logfile), 'utf-8'))
+		tmp.write(bytes(cmdline, 'utf-8'));
+		tmp.close()
+		print("[{0}] executing => {1}".format(self.task.videoId, ffarg))
+		p = subprocess.Popen("gnome-terminal -e \"sh {0}\"".format(tmp.name), shell='/bin/bash')
 		p.wait()
 		print("[{0}] executed".format(self.task.videoId));
 	def createCmdlineFromRecipe(self, info):
@@ -177,3 +196,4 @@ class ConvertList(tkinter.Listbox):
 
 	def reloadConfig(self, conf):
 		self.taskLimit = int(conf.get('frontend', {}).get("task-limit", 1))
+		self.consumeQueue()

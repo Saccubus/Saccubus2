@@ -41,7 +41,9 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 	def deserialize(self, conf):
 		for key in self.children:
 			self.children[key].deserialize(conf);
-	def toArgument(self):
+	def toArgument(self, videoId):
+		if not videoId:
+			return []
 		lstDic = {}
 		for key in self.children:
 			self.children[key].toArgument(lstDic);
@@ -49,7 +51,9 @@ class ConfigurePanel(tkinter.ttk.Notebook):
 		argList.extend( ('-f', 'saccubus') )
 		argList.extend( lstDic['input-opt'] )
 		argList.append("-sacc")
-		argList.append( BACKEND_SEP.join(lstDic['sacc']) )
+		saccArg = list(lstDic['sacc']);
+		saccArg.insert(0, videoId)
+		argList.append( BACKEND_SEP.join(saccArg) )
 		argList.extend(lstDic['input'])
 		return argList;
 			

@@ -41,7 +41,9 @@ VIDEO_PREFIX="{video_id}_video_"
 VIDEO_FORMAT=VIDEO_PREFIX+"{title}{ext}"
 
 CONVERTED_PREFIX="{video_id}_conv_"
-CONVERTED_FORMAT=VIDEO_PREFIX+"{title}"
+CONVERTED_FORMAT=CONVERTED_PREFIX+"{title}"
+
+LOG_FORMAT="{video_id}__log__.log"
 
 THREAD_PREFIX="{video_id}_thread_"
 THREAD_FORMAT=THREAD_PREFIX+"{thread_id}.xml"
@@ -57,8 +59,10 @@ def formatVideoFilename(video_id, title, ext):
 	return VIDEO_FORMAT.format(video_id=video_id, title=escapeFilename(title), ext=ext)
 
 def formatConvertedFilenameBase(video_id, title):
-	return CONVERTED_FORMAT.format(video_id=video_id, title=title)
+	return CONVERTED_FORMAT.format(video_id=video_id, title=escapeFilename(title))
 
+def formatLogFilename(video_id):
+	return LOG_FORMAT.format(video_id=video_id)
 def formatThreadPrefix(video_id):
 	return THREAD_PREFIX.format(video_id=video_id)
 def formatThreadFilename(video_id, thread_id):

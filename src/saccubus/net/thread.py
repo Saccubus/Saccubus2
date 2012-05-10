@@ -65,7 +65,7 @@ def constructCommand(jar, play_info, thread_id_key, commentOpt):
 	leave.setAttribute('user_id', play_info['user_id'])
 	leave.setAttribute('scores', '1')
 	txt=minidom.Text();
-	txt.data = "0-{to}:100,{back}".format(back=commentOpt['back-comment'], to=(int(play_info['l'])+59//60))
+	txt.data = "0-{to}:100,{back}".format(back=commentOpt['comment-back'], to=(int(play_info['l'])+59//60))
 	leave.appendChild(txt)
 	lst.append(leave)
 	#投稿者コメント
