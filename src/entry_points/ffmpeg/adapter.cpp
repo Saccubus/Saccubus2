@@ -118,8 +118,6 @@ public:
 				);
 			float time = static_cast<float>(target->vpos);
 			this->parent()->draw(dctx, vspr, time);
-			std::cerr << "Processed. "<<target->w<<"x"<<target->h<<". Time:" << time << std::endl;
-			std::flush(std::cerr);
 		}
 		SDL_UnlockSurface(dst);
 
@@ -151,7 +149,7 @@ public:
 			if( running ){
 				SDL_Delay(16);
 			} else if(this->parent()->tasEnabled()) {
-				std::cerr << "goto next frame" << std::endl << std::flush;
+				std::cerr << "Processed. "<<target->w<<"x"<<target->h<<". Time:" << target->vpos << std::endl << std::flush;
 			}
 		} while (running);
 		SDL_FreeSurface(dst);
