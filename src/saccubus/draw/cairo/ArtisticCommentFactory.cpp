@@ -17,7 +17,7 @@
  */
 
 #include <cmath>
-#include "SimpleCommentFactory.h"
+#include "ArtisticCommentFactory.h"
 #include "Renderer.h"
 #include "Sprite.h"
 #include "../Context.h"
@@ -34,11 +34,11 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-const std::string TAG("SimpleCommentFactory");
+const std::string TAG("ArtisticCommentFactory");
 
-const double SimpleCommentFactory::ShadowWidth = 5.0;
+const double ArtisticCommentFactory::ShadowWidth = 5.0;
 
-SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
+ArtisticCommentFactory::ArtisticCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
 :CommentFactory(log, renderer)
 {
 #if USE_WINDOWS_NATIVE
@@ -85,7 +85,7 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 	}
 }
 
-SimpleCommentFactory::~SimpleCommentFactory() {
+ArtisticCommentFactory::~ArtisticCommentFactory() {
 	cairo_destroy(this->emptyCairo());
 	this->emptyCairo(0);
 	cairo_surface_destroy(this->emptySurface());
@@ -101,7 +101,7 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 }
 
 
-void SimpleCommentFactory::setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize)
+void ArtisticCommentFactory::setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize)
 {
 	cairo_identity_matrix(cairo);
 	const double factor = ctx->width() / nico::ScreenWidth;
@@ -111,14 +111,14 @@ void SimpleCommentFactory::setupCairo(std::tr1::shared_ptr<saccubus::draw::Conte
 	cairo_move_to(cairo, 0, 0);
 }
 
-void SimpleCommentFactory::setColor(cairo_t* cairo, unsigned int color)
+void ArtisticCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 {
 	float r,g,b;
 	util::decodeColor(color, &r, &g, &b);
 	cairo_set_source_rgba(cairo, r, g, b, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLine(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLine(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
 	double scale = 1.0;
 	double x = 0;
@@ -186,7 +186,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(spr);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLines(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLines(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
 	std::vector<std::string> lines;
 	util::splitLine(str, lines);
@@ -205,12 +205,12 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	return spr;
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment)
 {
 	return renderLines(ctx, comment->message(), comment->placeY() != layer::item::Comment::Middle, comment->color(), comment->shadowColor(), comment->size());
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label)
 {
 	return renderLines(ctx, label->text(), false, label->color(), 0x000000, label->size());
 }

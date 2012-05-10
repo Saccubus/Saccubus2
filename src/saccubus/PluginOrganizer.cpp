@@ -21,9 +21,11 @@
 #include "logging/Logger.h"
 #include "util/StringUtil.h"
 #include "draw/cairo/SimpleCommentFactory.h"
+#include "draw/cairo/ArtisticCommentFactory.h"
 #include "draw/cairo/SimpleShapeFactory.h"
 #include "draw/cairo/Renderer.h"
 #include "layer/SimpleCommentLayer.h"
+#include "layer/ArtisticCommentLayer.h"
 
 namespace saccubus {
 
@@ -84,7 +86,18 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 					typeid(renderer).name()
 					);
 		}
-		return new saccubus::draw::cairo::SimpleCommentFactory(log, _renderer);
+		return new saccubus::draw::cairo::SimpleCommentFactory(log, _renderer, this->commentFactoryConfig);
+	}else if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_ARTISTIC == config[PLUGIN_TEXT]){
+		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
+		if(!_renderer){
+			throw logging::Exception(__FILE__, __LINE__,
+					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::cairo::Renderer*, but got %s",
+					config[PLUGIN_GRAPHIC].c_str(),
+					config[PLUGIN_COMMENT].c_str(),
+					typeid(renderer).name()
+					);
+		}
+		return new saccubus::draw::cairo::ArtisticCommentFactory(log, _renderer, this->commentFactoryConfig);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
@@ -104,7 +117,7 @@ saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* c
 					typeid(renderer).name()
 					);
 		}
-		return new saccubus::draw::cairo::SimpleShapeFactory(log, _renderer);
+		return new saccubus::draw::cairo::SimpleShapeFactory(log, _renderer, this->shapeFactoryConfig);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment shape plugin corresponding to [graphic: %s, shape: %s]",
@@ -115,7 +128,7 @@ saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* c
 saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 {
 	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC]){
-		return new saccubus::draw::cairo::Renderer(log);
+		return new saccubus::draw::cairo::Renderer(log, this->rendererConfig);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no renderer plugin corresponding to [graphic: %s]",
@@ -125,7 +138,9 @@ saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer(layer::ThreadLayer* thread, bool isforked)
 {
 	if(PLUGIN_IMPL_SIMPLE == config[PLUGIN_COMMENT]){
-		return new layer::SimpleCommentLayer(log, thread, isforked);
+		return new layer::SimpleCommentLayer(log, this->commentLayerConfig, thread, isforked);
+	}else if(PLUGIN_IMPL_ARTISTIC == config[PLUGIN_COMMENT]){
+		return new layer::ArtisticCommentLayer(log, this->commentLayerConfig, thread, isforked);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment layer plugin corresponding to [comment: %s]",

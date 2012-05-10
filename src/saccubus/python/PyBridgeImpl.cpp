@@ -265,13 +265,13 @@ bool Session::parseBool(PyObject* boolObj)
 }
 
 /**
- * std::vector<std::pair<std::string, std::string> >から、引数用のタプルのタプルを作成します。
+ * std::multimap<std::string, std::string>から、引数用のタプルのタプルを作成します。
  */
-PyObject* Session::createArgTuple(const std::vector<std::pair<std::string, std::string> >& args)
+PyObject* Session::createArgTuple(const std::multimap<std::string, std::string>& args)
 {
 	PyObject* const argObj = PyTuple_New(args.size());
 	int i=0;
-	for(std::vector<std::pair<std::string, std::string> >::const_iterator it = args.begin(); it != args.end();++it)
+	for(std::multimap<std::string, std::string>::const_iterator it = args.begin(); it != args.end();++it)
 	{
 		PyObject* tuple = PyTuple_New(2);
 		PyObject* key = PyUnicode_DecodeUTF8(it->first.c_str(), it->first.size(), "ignore");
@@ -334,20 +334,20 @@ PyObject* Session::executeCallable(PyObject* obj, PyObject* argTuple,PyObject* a
 	return res;
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
+std::map<std::string, std::string> Session::executeMethodDict(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseDict(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
+std::map<std::string, std::string> Session::executeMethodDict(const std::string& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseDict(executeCallable(findMethod(name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& module, const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
+bool Session::executeMethodBool(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseBool(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& name, const std::vector<std::pair<std::string, std::string> >& args)
+bool Session::executeMethodBool(const std::string& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseBool(executeCallable(findMethod(name), createArgTuple(args), 0));
 }

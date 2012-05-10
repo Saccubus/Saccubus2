@@ -17,7 +17,7 @@
  */
 
 #include <algorithm>
-#include "SimpleCommentLayer.h"
+#include "ArtisticCommentLayer.h"
 #include "item/Comment.h"
 #include "ThreadLayer.h"
 #include "../draw/Context.h"
@@ -25,21 +25,21 @@
 namespace saccubus {
 namespace layer {
 
-const static std::string TAG("SimpleCommentLayer");
+const static std::string TAG("ArtisticCommentLayer");
 
-const float SimpleCommentLayer::CommentAheadTime = 1.0f;
+const float ArtisticCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked)
+ArtisticCommentLayer::ArtisticCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked)
 :CommentLayer(log, thread, isForked)
 ,last(0)
 {
 }
 
-SimpleCommentLayer::~SimpleCommentLayer()
+ArtisticCommentLayer::~ArtisticCommentLayer()
 {
 }
 
-void SimpleCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> slot)
+void ArtisticCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> slot)
 {
 	slot->width(slot->comment()->width(ctx));
 	slot->height(slot->comment()->height(ctx));
@@ -96,7 +96,7 @@ void SimpleCommentLayer::deploy(std::tr1::shared_ptr<saccubus::draw::Context> ct
 	this->comments.insert(it, slot);
 }
 
-float SimpleCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> slot)
+float ArtisticCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> slot)
 {
 	if(slot->comment()->placeY() != item::Comment::Middle){
 		return (screenWidth - slot->width()) / 2;
@@ -106,17 +106,17 @@ float SimpleCommentLayer::getX(float vpos, float screenWidth, std::tr1::shared_p
 	}
 }
 
-void SimpleCommentLayer::queueComment(std::tr1::shared_ptr<item::Comment> comment)
+void ArtisticCommentLayer::queueComment(std::tr1::shared_ptr<item::Comment> comment)
 {
 	DeployQueueIterator it = std::upper_bound(deployQueue.begin(), deployQueue.end(), comment, item::Comment::StartTimeCompare());
 	deployQueue.insert(it, comment);
 
 }
-void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
+void ArtisticCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	{ /* 表示しないコメントを削除 */
 		CommentIterator beg = this->comments.begin();
-		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, SimpleCommentLayer::Slot::EndTimeComparator());
+		CommentIterator end = std::upper_bound(this->comments.begin(), this->comments.end(), vpos, ArtisticCommentLayer::Slot::EndTimeComparator());
 		this->comments.erase(beg, end);
 	}
 	{ /* 実体の配置を計算 */
@@ -138,7 +138,7 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 		}
 	}
 }
-bool SimpleCommentLayer::onClick(int x, int y)
+bool ArtisticCommentLayer::onClick(int x, int y)
 {
 	for(CommentConstIterator it = this->comments.begin(); it != this->comments.end(); ++it){
 		std::tr1::shared_ptr<const Slot> slot(*it);
@@ -152,35 +152,35 @@ bool SimpleCommentLayer::onClick(int x, int y)
 	return false;
 }
 //---------------------------------------------------------------------------------------------------------------------
-bool SimpleCommentLayer::Slot::operator !=(const Slot& other)
+bool ArtisticCommentLayer::Slot::operator !=(const Slot& other)
 {
 	return this->comment() != other.comment();
 }
-bool SimpleCommentLayer::Slot::operator ==(const Slot& other)
+bool ArtisticCommentLayer::Slot::operator ==(const Slot& other)
 {
 	return this->comment() == other.comment();
 }
 
-bool SimpleCommentLayer::Slot::EndTimeComparator::operator() (const std::tr1::shared_ptr<const Slot>& a, const std::tr1::shared_ptr<const Slot>& b)
+bool ArtisticCommentLayer::Slot::EndTimeComparator::operator() (const std::tr1::shared_ptr<const Slot>& a, const std::tr1::shared_ptr<const Slot>& b)
 {
 	return a->comment()->to() < b->comment()->to();
 }
-bool SimpleCommentLayer::Slot::EndTimeComparator::operator() (const float& a, const std::tr1::shared_ptr<const Slot>& b)
+bool ArtisticCommentLayer::Slot::EndTimeComparator::operator() (const float& a, const std::tr1::shared_ptr<const Slot>& b)
 {
 	return a < b->comment()->to();
 }
-bool SimpleCommentLayer::Slot::EndTimeComparator::operator() (const std::tr1::shared_ptr<const Slot>& a, const float& b)
+bool ArtisticCommentLayer::Slot::EndTimeComparator::operator() (const std::tr1::shared_ptr<const Slot>& a, const float& b)
 {
 	return a->comment()->to() < b;
 }
 
-SimpleCommentLayer::Slot::Slot(std::tr1::shared_ptr<item::Comment> comment)
+ArtisticCommentLayer::Slot::Slot(std::tr1::shared_ptr<item::Comment> comment)
 {
 	this->comment(comment);
 	this->x(-1);
 	this->y(-1);
 }
-SimpleCommentLayer::Slot::~Slot()
+ArtisticCommentLayer::Slot::~Slot()
 {
 }
 

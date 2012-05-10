@@ -36,6 +36,7 @@ const std::string PLUGIN_SHAPE("shape");
 const std::string PLUGIN_SHAPE_CFG_PREFIX(PLUGIN_SHAPE+"-");
 
 const std::string PLUGIN_IMPL_CAIRO("cairo");
+const std::string PLUGIN_IMPL_ARTISTIC("artistic");
 const std::string PLUGIN_IMPL_SIMPLE("simple");
 
 /**

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAIRO_SIMPLECOMMENTFACTORY_H_
-#define CAIRO_SIMPLECOMMENTFACTORY_H_
+#ifndef CAIRO_ARTISTIC_COMMENT_FACTORY_H_
+#define CAIRO_ARTISTIC_COMMENT_FACTORY_H_
 
 #define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
 
@@ -36,7 +36,7 @@ namespace draw {
 namespace cairo {
 
 class Renderer;
-class SimpleCommentFactory: public saccubus::draw::CommentFactory {
+class ArtisticCommentFactory: public saccubus::draw::CommentFactory {
 private:
 	static const double ShadowWidth;
 private:
@@ -47,8 +47,8 @@ private:
 	DEF_ATTR_ACCESSOR(private, private, cairo_t*, emptyCairo);
 	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, emptySurface);
 public:
-	SimpleCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
-	virtual ~SimpleCommentFactory();
+	ArtisticCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
+	virtual ~ArtisticCommentFactory();
 private:
 	void setColor(cairo_t* cairo, unsigned int color);
 	void setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize);
@@ -61,4 +61,4 @@ public:
 };
 
 }}}
-#endif /* CAIRO_SIMPLECOMMENTFACTORY_H_ */
+#endif /* INCLUDE GUARD */

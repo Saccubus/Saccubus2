@@ -34,11 +34,11 @@ PyBridge::PyBridge(logging::Logger& log)
 {
 }
 
-const meta::Video* PyBridge::resolveResource(const std::string& video_id, const std::vector<std::pair<std::string, std::string> >& args)
+const meta::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
 {
 	std::auto_ptr<Session> session = impl->createSession();
-	std::vector<std::pair<std::string, std::string> > callArgs(args.begin(), args.end());
-	callArgs.push_back(std::pair<std::string, std::string>("video-id", video_id));
+	std::multimap<std::string, std::string> callArgs(args.begin(), args.end());
+	callArgs.insert(std::pair<std::string, std::string>("video-id", video_id));
 	std::map<std::string, std::string> res = session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
 	std::map<std::string, std::string>::const_iterator end = res.end();
 	meta::Video* ctx = new meta::Video(this->log);
@@ -67,20 +67,20 @@ bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const meta
 	}
 	std::auto_ptr<Session> session = impl->createSession();
 	session->loadFile(filename);
-	std::vector<std::pair<std::string, std::string> > callArgs;
-	callArgs.push_back(std::pair<std::string, std::string>("thread", util::format("%llu", com.thread()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("no", util::format("%llu", com.no()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("vpos", util::format("%f", com.vpos()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("date", util::format("%llu", com.date()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("deleted", util::format("%llu", com.deleted()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("score", util::format("%lld", com.score()).c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("user_id", com.user_id().c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("mail", com.mail().c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("message", com.message().c_str()));
-	callArgs.push_back(std::pair<std::string, std::string>("anonymity", com.anonymity() ? "true" : "false"));
-	callArgs.push_back(std::pair<std::string, std::string>("leaf", com.leaf() ? "true" : "false"));
-	callArgs.push_back(std::pair<std::string, std::string>("premium", com.premium() ? "true" : "false"));
-	callArgs.push_back(std::pair<std::string, std::string>("fork", com.fork() ? "true" : "false"));
+	std::multimap<std::string, std::string> callArgs;
+	callArgs.insert(std::pair<std::string, std::string>("thread", util::format("%llu", com.thread()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("no", util::format("%llu", com.no()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("vpos", util::format("%f", com.vpos()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("date", util::format("%llu", com.date()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("deleted", util::format("%llu", com.deleted()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("score", util::format("%lld", com.score()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("user_id", com.user_id().c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("mail", com.mail().c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("message", com.message().c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("anonymity", com.anonymity() ? "true" : "false"));
+	callArgs.insert(std::pair<std::string, std::string>("leaf", com.leaf() ? "true" : "false"));
+	callArgs.insert(std::pair<std::string, std::string>("premium", com.premium() ? "true" : "false"));
+	callArgs.insert(std::pair<std::string, std::string>("fork", com.fork() ? "true" : "false"));
 	return session->executeMethodBool("shouldCommentBeIgnored", callArgs);
 }
 

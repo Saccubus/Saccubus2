@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_SIMPLECOMMENTLAYER_H__CPP_
-#define Saccubus_SIMPLECOMMENTLAYER_H__CPP_
+#ifndef Saccubus_ARTISTIC_COMMENT_LAYER_H__CPP_
+#define Saccubus_ARTISTIC_COMMENT_LAYER_H__CPP_
 
 #include <tr1/memory>
 #include "CommentLayer.h"
@@ -28,7 +28,7 @@
 namespace saccubus {
 namespace layer {
 
-class SimpleCommentLayer: public saccubus::layer::CommentLayer {
+class ArtisticCommentLayer: public saccubus::layer::CommentLayer {
 private:
 	class Slot{
 		DEF_ATTR_ACCESSOR(public, public, int, y);
@@ -61,8 +61,8 @@ private:
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
-	SimpleCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
-	virtual ~SimpleCommentLayer();
+	ArtisticCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
+	virtual ~ArtisticCommentLayer();
 	float last;
 public:
 	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);

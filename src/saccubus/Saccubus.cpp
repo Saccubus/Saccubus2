@@ -197,8 +197,8 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 	}
 
 	{ /* 新しいビデオの、XMLファイルやメタ情報・プレイ情報のパース */
-		std::vector<std::pair<std::string, std::string> > arg(this->resolveOpts.begin(), this->resolveOpts.end());
-		arg.push_back(std::pair<std::string, std::string>("video-id", videoId));
+		std::multimap<std::string, std::string> arg(this->resolveOpts.begin(), this->resolveOpts.end());
+		arg.insert(std::pair<std::string, std::string>("video-id", videoId));
 		const meta::Video* video = bridge->resolveResource(videoId, arg);
 		this->currentVideo = video;
 		this->log->i(TAG, "Context entered: %s", this->currentVideo->metaInfo()->title().c_str());

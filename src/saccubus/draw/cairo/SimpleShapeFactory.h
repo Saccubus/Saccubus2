@@ -28,7 +28,7 @@ namespace cairo {
 
 class SimpleShapeFactory: public saccubus::draw::ShapeFactory {
 public:
-	SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer);
+	SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
 	virtual ~SimpleShapeFactory();
 public:
 	virtual Sprite::Handler<draw::Sprite> renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color);
