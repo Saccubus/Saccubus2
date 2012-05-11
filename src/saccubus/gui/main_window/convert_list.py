@@ -84,7 +84,7 @@ class TaskRunner(threading.Thread):
 		print("[{0}] executed".format(self.task.videoId));
 	def createCmdlineFromRecipe(self, info):
 		recipePath = os.path.join(*self.task.conf['ffmpeg']['recipe'])
-		src = open(recipePath).read()
+		src = open(recipePath, encoding='utf-8').read()
 		obj = compile(src, recipePath, 'exec')
 		g = {}
 		l = {}
