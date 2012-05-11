@@ -78,13 +78,16 @@ class ConfigureSectionPanel(tkinter.Frame):
 		master.add(self, text=sectionTitle)
 	def serialize(self, conf):
 		for key in self.children:
-			self.children[key].serialize(conf);
+			if hasattr(self.children[key], 'serialize'):
+				self.children[key].serialize(conf);
 	def deserialize(self, conf):
 		for key in self.children:
-			self.children[key].deserialize(conf);
+			if hasattr(self.children[key], 'deserialize'):
+				self.children[key].deserialize(conf);
 	def toArgument(self, lstDic):
 		for key in self.children:
-			self.children[key].toArgument(lstDic);
+			if hasattr(self.children[key], 'toArgument'):
+				self.children[key].toArgument(lstDic);
 
 class BaseConfigurePanel(tkinter.Frame):
 	def __init__(self, master, title, desc, typeName, uniq):
@@ -95,8 +98,8 @@ class BaseConfigurePanel(tkinter.Frame):
 		tkinter.Frame.__init__(self, master)
 		self.typeName = typeName;
 		self.uniq = uniq
-		tkinter.Label(self, text=title, font=tkinter.font.BOLD).pack(fill=tkinter.X, expand=tkinter.YES);
-		tkinter.Label(self, text=desc).pack(fill=tkinter.X, expand=tkinter.YES);
+		tkinter.Label(self, text=title, font=tkinter.font.BOLD).pack(fill=tkinter.X, expand=tkinter.NO);
+		tkinter.Label(self, text=desc).pack(fill=tkinter.X, expand=tkinter.NO);
 	def deploy(self):
 		self.pack(fill=tkinter.X, expand=tkinter.NO, side=tkinter.TOP)
 	def serialize(self, conf):
@@ -105,7 +108,7 @@ class BaseConfigurePanel(tkinter.Frame):
 		try:
 			conf[self.typeName][self.uniq] = self.cfgDump();
 		except Exception as e:
-			print("Error while serializing configure: {0}", e);
+			print("Error while serializing configure: ", e);
 	def deserialize(self, conf):
 		if not self.typeName in conf:
 			conf[self.typeName] = dict()
@@ -132,6 +135,7 @@ class BaseConfigurePanel(tkinter.Frame):
 '''
 　以下、データタイプに合わせたBaseConfigurePanelのサブクラスが並ぶ。
 '''
+
 class StringConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, title, desc, typeName, uniq, argname, default, **kw):
 		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq)
@@ -284,3 +288,40 @@ class SelectionConfigurePanel(BaseConfigurePanel):
 	def cfg2Arg(self):
 		return self.choices[self.val.get()]
 
+class PluginConfigurePanel(BaseConfigurePanel):
+	def __init__(self, master, title, desc, typeName, uniq, argname, plugins, default=None, **kw):
+		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq);
+		self.val = tkinter.StringVar(self, default);
+		self.argname = argname
+		self.box = tkinter.ttk.Combobox(self, textvariable=self.val, state='readonly', **kw)
+		self.box.pack(fill=tkinter.X, expand=tkinter.NO, side=tkinter.TOP)
+		self.pluginPanel = ConfigurePanel(self)
+		self.pluginPanel.pack(fill=tkinter.BOTH, expand=tkinter.YES, side=tkinter.TOP)
+		self.plugins = {}
+		self.nowFrame = None;
+		for title, argval, klass in plugins:
+			self.box.insert(tkinter.END, title)
+			panel = klass(self.pluginPanel, title)
+			self.plugins[title] = (argval, panel)
+	def cfgDump(self):
+		cfg = {}
+		# すべての設定をちゃんと保存するため、子階層をつくる
+		for title in self.plugins:
+			cfg[title] = {}
+			self.plugins[title][1].serialize(cfg[title])
+		return cfg
+	def cfgLoad(self, obj):
+		for title in self.plugins:
+			self.plugins[title][1].deserialize(obj.get(title, {}))
+	def cfg2Arg(self):
+		title = self.val.get()
+		if title in self.plugins:
+			return (self.argname, self.plugins[title][0])
+	def toArgument(self, lstDic):
+		# 自分のを加えてから
+		BaseConfigurePanel.toArgument(self, lstDic);
+		# 設定項目の引数を加える
+		for title in self.plugins:
+			self.plugins[title][1].toArgument(lstDic)
+	def deploy(self):
+		self.pack(fill=tkinter.BOTH, expand=tkinter.YES, side=tkinter.TOP)

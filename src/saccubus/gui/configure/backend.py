@@ -22,8 +22,14 @@ import tkinter
 from saccubus.gui.configure.base import\
 	ConfigurePanel, ConfigureSectionPanel,\
 	SelectionConfigurePanel, StringConfigurePanel,\
-	FileConfigurePanel, IntegerConfigurePanel, FileSelectConfigurePanel
+	FileConfigurePanel, IntegerConfigurePanel, FileSelectConfigurePanel,\
+	PluginConfigurePanel
 import saccubus.gui.dialog
+
+class UnconfigurablePluginConfigurePanel(ConfigureSectionPanel):
+	def __init__(self, master, sectionTitle):
+		ConfigureSectionPanel.__init__(self, master, sectionTitle)
+		tkinter.Label(self, text="設定項目はありません").pack(fill=tkinter.BOTH, expand=tkinter.YES)
 
 class BackendConfigurePanel(ConfigurePanel):
 	def __init__(self, master):
@@ -61,9 +67,15 @@ class BackendConfigurePanel(ConfigurePanel):
 					('TASモードにしない', ),
 					('TASモードにする', "--enable-tas")],None).deploy()
 
-		commentSection = ConfigureSectionPanel(self, "コメント設定")
+		commentSection = ConfigureSectionPanel(self, "コメント")
 		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comment-back", "--resolve-comment-back", 500).deploy()
 		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script").deploy()
+		PluginConfigurePanel(commentSection, "コメント描画プラグイン", "コメント描画プラグインを選択します", "sacc", "comment-factory", "--plugin-font", [
+					('シンプル', 'simple', UnconfigurablePluginConfigurePanel)
+				], "シンプル").deploy()
+		PluginConfigurePanel(commentSection, "コメント配置プラグイン", "コメント配置プラグインを選択します", "sacc", "comment-factory", "--plugin-deploy", [
+					('シンプル', 'simple', UnconfigurablePluginConfigurePanel)
+				], "シンプル").deploy()
 		
 		self.load()
 	def load(self):

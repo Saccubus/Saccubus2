@@ -29,4 +29,7 @@ class EditMenu(tkinter.Menu):
 		self.add_command(label="コピー(Ctrl+C)", command=lambda *a:master.event_generate("<<Copy>>"))
 		self.add_command(label="貼り付け (Ctrl+V)", command=lambda *a:master.event_generate("<<Paste>>"))
 		master.bind('<Button-3>', lambda event: self.post(event.x_root,event.y_root))
+		# FIXME: 全部選択がうまくいかない
+		# master.bind('<Control-Key-a>', lambda event: master.select_range ( 0, tkinter.END ))
+		
 

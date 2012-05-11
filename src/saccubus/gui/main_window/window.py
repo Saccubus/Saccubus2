@@ -65,10 +65,16 @@ class MainWindow(tkinter.Tk):
 		panel = tkinter.ttk.Frame(master)
 		panel.columnconfigure(1, weight=1)
 		tkinter.ttk.Label(panel, text="動画を変換：").grid(column=0, row=0)
+
+		scrollbar = tkinter.Scrollbar(panel)
+		scrollbar.grid(column=2, row=0, sticky=tkinter.S+tkinter.N)
 		videoIdText=tkinter.Text(panel, height=3)
 		videoIdText.grid(column=1, row=0, sticky=tkinter.W + tkinter.E)
+		videoIdText.config(yscrollcommand=scrollbar.set)
+		scrollbar.config(command=videoIdText.yview)
+
 		EditMenu(videoIdText)
-		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText)).grid(column=2, row=0)
+		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText)).grid(column=3, row=0)
 		return panel;
 	
 	def initStatusBar(self, master):
