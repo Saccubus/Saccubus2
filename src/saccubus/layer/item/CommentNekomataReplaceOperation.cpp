@@ -66,18 +66,18 @@ void Comment::NekomataReplaceOperation::apply(nekomata::system::Replace* replace
 	if(replace->size().size() > 0) comment->applyMail(replace->size());
 	if(replace->pos().size() > 0) comment->applyMail(replace->pos());
 
-	if(replace->dst().size() <= 0){
+	if(replace->dest().size() <= 0){
 		return; //メッセージの書き換えは行わない。
 	}
 
-	if(replace->partial()){ //完全一致
+	if(!replace->partial()){ //完全一致
 		if(replace->src() == comment->message()){
-			comment->message(replace->dst());
+			comment->message(replace->dest());
 		}
 	}else{
 		if(replace->fill()){
 			if(comment->message().find(replace->src()) != std::string::npos){
-				comment->message(replace->dst());
+				comment->message(replace->dest());
 			}
 		}else{
 			std::vector<std::string> lst;
@@ -85,7 +85,7 @@ void Comment::NekomataReplaceOperation::apply(nekomata::system::Replace* replace
 			std::stringstream ss;
 			for(std::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); ++it){
 				if(ss.tellg() > 0){
-					ss << replace->dst();
+					ss << replace->dest();
 				}
 				ss << *it;
 			}
@@ -94,12 +94,13 @@ void Comment::NekomataReplaceOperation::apply(nekomata::system::Replace* replace
 	}
 }
 
-void Comment::replace(nekomata::system::System* system)
+void Comment::onDeploy(nekomata::system::System* system)
 {
 	nekomata::system::System::ReplaceIterator it = system->replaceBegin();
 	for(; it != system->replaceEnd(); ++it){
 		NekomataReplaceOperation::apply(*it, this);
 	}
+	system->queueMessage(this->createNekomataMessage());
 }
 
 }}}

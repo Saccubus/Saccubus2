@@ -124,7 +124,7 @@ void SimpleCommentLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx,
 		for(; it != this->deployQueue.end(); ++it){
 			std::tr1::shared_ptr<Slot> item(new Slot(*it));
 			if(vpos < item->comment()->from()) break;
-//			item->comment()->replace(thread()->nekoSystem);
+			item->comment()->onDeploy(thread()->nekoSystem());
 			deploy(ctx, vpos, item);
 		}
 		this->deployQueue.erase(this->deployQueue.begin(), it);

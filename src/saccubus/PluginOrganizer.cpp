@@ -36,29 +36,29 @@ PluginOrganizer::PluginOrganizer(logging::Logger& log, const std::map<std::strin
 	//デフォルトの値を設定
 	// insertは、すでに値がある場合は上書きされない。
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_GRAPHIC, PLUGIN_IMPL_CAIRO));
-	this->config.insert(std::pair<std::string, std::string>(PLUGIN_TEXT, PLUGIN_IMPL_SIMPLE));
+	this->config.insert(std::pair<std::string, std::string>(PLUGIN_FONT, PLUGIN_IMPL_SIMPLE));
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_SHAPE, PLUGIN_IMPL_SIMPLE));
-	this->config.insert(std::pair<std::string, std::string>(PLUGIN_COMMENT, PLUGIN_IMPL_SIMPLE));
+	this->config.insert(std::pair<std::string, std::string>(PLUGIN_DEPLOY, PLUGIN_IMPL_SIMPLE));
 	for(std::map<std::string, std::string>::const_iterator it = config.begin(); it != config.end(); ++it){
-		if(util::startsWith(PLUGIN_GRAPHIC_CFG_PREFIX, it->first)){
+		if(util::startsWith(it->first, PLUGIN_GRAPHIC_CFG_PREFIX)){
 			this->rendererConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_GRAPHIC_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(PLUGIN_TEXT_CFG_PREFIX, it->first)){
+		}else if(util::startsWith(it->first, PLUGIN_FONT_CFG_PREFIX)){
 			this->commentFactoryConfig.insert(
 					std::pair<std::string, std::string>(
-							it->first.substr(PLUGIN_TEXT_CFG_PREFIX.length()),
+							it->first.substr(PLUGIN_FONT_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(PLUGIN_COMMENT_CFG_PREFIX, it->first)){
+		}else if(util::startsWith(it->first, PLUGIN_DEPLOY_CFG_PREFIX)){
 			this->commentLayerConfig.insert(
 					std::pair<std::string, std::string>(
-							it->first.substr(PLUGIN_COMMENT_CFG_PREFIX.length()),
+							it->first.substr(PLUGIN_DEPLOY_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(PLUGIN_SHAPE_CFG_PREFIX, it->first)){
+		}else if(util::startsWith(it->first, PLUGIN_SHAPE_CFG_PREFIX)){
 			this->shapeFactoryConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_SHAPE_CFG_PREFIX.length()),
@@ -76,24 +76,24 @@ PluginOrganizer::~PluginOrganizer() {
 
 saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Renderer* const renderer)
 {
-	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_TEXT]){
+	if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_SIMPLE == config[PLUGIN_FONT]){
 		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
 					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::cairo::Renderer*, but got %s",
 					config[PLUGIN_GRAPHIC].c_str(),
-					config[PLUGIN_COMMENT].c_str(),
+					config[PLUGIN_DEPLOY].c_str(),
 					typeid(renderer).name()
 					);
 		}
 		return new saccubus::draw::cairo::SimpleCommentFactory(log, _renderer, this->commentFactoryConfig);
-	}else if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_ARTISTIC == config[PLUGIN_TEXT]){
+	}else if(PLUGIN_IMPL_CAIRO == config[PLUGIN_GRAPHIC] && PLUGIN_IMPL_ARTISTIC == config[PLUGIN_FONT]){
 		draw::cairo::Renderer* _renderer = dynamic_cast<draw::cairo::Renderer*>(renderer);
 		if(!_renderer){
 			throw logging::Exception(__FILE__, __LINE__,
 					"[BUG] Comment factory corresponding to [graphic: %s, text: %s] needs draw::cairo::Renderer*, but got %s",
 					config[PLUGIN_GRAPHIC].c_str(),
-					config[PLUGIN_COMMENT].c_str(),
+					config[PLUGIN_DEPLOY].c_str(),
 					typeid(renderer).name()
 					);
 		}
@@ -102,7 +102,7 @@ saccubus::draw::CommentFactory* PluginOrganizer::newCommentFactory(draw::Rendere
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment factory plugin corresponding to [graphic: %s, text: %s]",
 			config[PLUGIN_GRAPHIC].c_str(),
-			config[PLUGIN_COMMENT].c_str()
+			config[PLUGIN_DEPLOY].c_str()
 			);
 }
 saccubus::draw::ShapeFactory* PluginOrganizer::newShapeFactory(draw::Renderer* const renderer)
@@ -137,14 +137,14 @@ saccubus::draw::Renderer* PluginOrganizer::newRenderer()
 }
 saccubus::layer::CommentLayer* PluginOrganizer::newCommentLayer(layer::ThreadLayer* thread, bool isforked)
 {
-	if(PLUGIN_IMPL_SIMPLE == config[PLUGIN_COMMENT]){
+	if(PLUGIN_IMPL_SIMPLE == config[PLUGIN_DEPLOY]){
 		return new layer::SimpleCommentLayer(log, this->commentLayerConfig, thread, isforked);
-	}else if(PLUGIN_IMPL_ARTISTIC == config[PLUGIN_COMMENT]){
+	}else if(PLUGIN_IMPL_ARTISTIC == config[PLUGIN_DEPLOY]){
 		return new layer::ArtisticCommentLayer(log, this->commentLayerConfig, thread, isforked);
 	}
 	throw logging::Exception(__FILE__, __LINE__,
 			"There is no comment layer plugin corresponding to [comment: %s]",
-			config[PLUGIN_COMMENT].c_str()
+			config[PLUGIN_DEPLOY].c_str()
 			);
 }
 

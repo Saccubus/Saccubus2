@@ -51,7 +51,7 @@ Comment::Comment(
 	this->message(message);
 	this->mail(mail);
 
-	update();
+	parse();
 }
 Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, const meta::Comment* meta)
 {
@@ -60,6 +60,7 @@ Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shape
 	this->commentFactory(commentFactory);
 	this->shapeFactory(shapeFactory);
 
+	this->originalMessage(meta->message());
 	this->message(meta->message());
 	this->mail(meta->mail());
 	this->no(meta->no());
@@ -71,7 +72,7 @@ Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shape
 		this->message(replaceTable->replace(this->message()));
 	}
 
-	update();
+	parse();
 }
 Comment::Comment(const Comment& other)
 {
@@ -79,6 +80,7 @@ Comment::Comment(const Comment& other)
 	this->commentFactory(other.commentFactory());
 	this->shapeFactory(other.shapeFactory());
 
+	this->originalMessage(other.originalMessage());
 	this->message(other.message());
 	this->mail(other.mail());
 	this->no(other.no());
@@ -108,6 +110,7 @@ void Comment::init(){
 	this->commentFactory(0);
 	this->shapeFactory(0);
 
+	this->originalMessage("");
 	this->message("");
 	this->mail("");
 	this->no(-1);
@@ -131,7 +134,7 @@ void Comment::init(){
 	this->layer(Comment::Normal);
 }
 
-void Comment::update()
+void Comment::parse()
 {
 	std::vector<std::string> lst;
 	util::splitSpace(this->mail(), lst);
@@ -155,7 +158,7 @@ void Comment::update()
 std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 {
 	return std::tr1::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
-			this->message(),
+			this->originalMessage(),
 			this->vpos(),
 			this->isYourPost(),
 			this->mail(),

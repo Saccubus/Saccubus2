@@ -28,12 +28,12 @@ namespace saccubus {
 
 const std::string PLUGIN_GRAPHIC("gfx");
 const std::string PLUGIN_GRAPHIC_CFG_PREFIX(PLUGIN_GRAPHIC+"-");
-const std::string PLUGIN_TEXT("text");
-const std::string PLUGIN_TEXT_CFG_PREFIX(PLUGIN_TEXT+"-");
-const std::string PLUGIN_COMMENT("comment");
-const std::string PLUGIN_COMMENT_CFG_PREFIX(PLUGIN_COMMENT+"-");
+const std::string PLUGIN_FONT("font");
+const std::string PLUGIN_FONT_CFG_PREFIX(PLUGIN_FONT+"-");
 const std::string PLUGIN_SHAPE("shape");
 const std::string PLUGIN_SHAPE_CFG_PREFIX(PLUGIN_SHAPE+"-");
+const std::string PLUGIN_DEPLOY("deploy");
+const std::string PLUGIN_DEPLOY_CFG_PREFIX(PLUGIN_DEPLOY+"-");
 
 const std::string PLUGIN_IMPL_CAIRO("cairo");
 const std::string PLUGIN_IMPL_ARTISTIC("artistic");

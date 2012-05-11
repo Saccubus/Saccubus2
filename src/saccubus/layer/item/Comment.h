@@ -63,6 +63,7 @@ public:
 		Middle,
 		Bottom,
 	};
+	DEF_ATTR_ACCESSOR(public , private, std::string, originalMessage);
 	DEF_ATTR_ACCESSOR(public , protected, std::string, message);
 	DEF_ATTR_ACCESSOR(public , private  , std::string, mail);
 	DEF_ATTR_ACCESSOR(public , private  , unsigned int, no);
@@ -99,10 +100,10 @@ public:
 	float size() const;
 private:
 	void init();
-	void update();
+	void parse();
 	bool applyMail(const std::string& ml);
 public:
-	void replace(nekomata::system::System* system);
+	void onDeploy(nekomata::system::System* system);
 public:
 	virtual bool isButton() const;
 	/**

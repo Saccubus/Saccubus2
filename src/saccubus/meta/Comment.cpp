@@ -44,10 +44,10 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->message(readNodeContent(node));
 
 	if(util::startsWith(this->message(), "/")){ /* スクリプト */
-		this->node(nekomata::parser::Parser::fromString(this->message().substr(1))->parseProgram());
+		this->node(nekomata::parser::Parser::fromString(this->message().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
 	} else if(util::startsWith(this->message(), "＠")){
 		std::string translated = nekomata::trans::toNiwango(this->vpos(),this->mail(), this->message(), this->fork(), this->premium());
-		this->node(nekomata::parser::Parser::fromString(translated)->parseProgram());
+		this->node(nekomata::parser::Parser::fromString(translated, "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
 	}
 
 	if(log.t()){
