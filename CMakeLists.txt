@@ -36,17 +36,18 @@ SET_TARGET_PROPERTIES(Saccubus PROPERTIES PREFIX "")
 
 find_package(PkgConfig)
 
-find_package(LibXml2 REQUIRED)
-include_directories(${LIBXML2_INCLUDE_DIR})
-target_link_libraries(SaccubusCLI ${LIBXML2_LIBRARIES})
-target_link_libraries(Saccubus ${LIBXML2_LIBRARIES})
-add_definitions(${LIBXML2_DEFINITIONS})
 
 find_package(Python REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 link_directories(${PYRHON_LIBRARY_DIRS})
 target_link_libraries(SaccubusCLI ${PYTHON_LIBRARIES})
 target_link_libraries(Saccubus ${PYTHON_LIBRARIES})
+
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0)
+include_directories(${LIBXML2_INCLUDE_DIRS})
+link_directories(${LIBXML2_LIBRARY_DIRS})
+target_link_libraries(SaccubusCLI ${LIBXML2_LIBRARIES})
+target_link_libraries(Saccubus ${LIBXML2_LIBRARIES})
 
 pkg_check_modules(CAIRO REQUIRED cairo)
 include_directories(${CAIRO_INCLUDE_DIRS})
@@ -76,7 +77,7 @@ target_link_libraries(Saccubus ${SDL2_LIBRARIES})
 
 # ねこまた
 find_package (Nekomata REQUIRED)
-include_directories(${NEKOMATA_INCLUDE_DIR})
+include_directories(${NEKOMATA_INCLUDE_DIRS})
 target_link_libraries(SaccubusCLI ${NEKOMATA_LIBRARIES})
 target_link_libraries(Saccubus ${NEKOMATA_LIBRARIES})
 
