@@ -268,10 +268,10 @@ DEF_BUILTIN(SystemObject, replace)
 {
 	const Handler<SystemObject> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	std::string src = opt(arg, "src", "");
+	std::string src = opt<std::string>(arg, "src", "");
 	util::Handler<system::Replace> replace = self->system.replace(
 		src,
-		opt(arg, "dst", src),
+		opt<std::string>(arg, "dest", src),
 		opt(arg, "enabled", true),
 		opt(arg, "target", ""),
 		opt(arg, "fill", false),

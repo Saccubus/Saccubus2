@@ -183,7 +183,7 @@ public:
 	Handler<system::Replace> getReplace();
 public:
 	DEC_HOOK_ACCESSOR(src);
-	DEC_HOOK_ACCESSOR(dst);
+	DEC_HOOK_ACCESSOR(dest);
 	DEC_HOOK_ACCESSOR(enabled);
 	DEC_HOOK_ACCESSOR(target);
 	DEC_HOOK_ACCESSOR(fill);

@@ -566,14 +566,16 @@ DEF_BUILTIN(Object, rand)
 {
 	const Handler<Object> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	std::string txt = cast<std::string>(arg->index(0));
-	unsigned int seed = 0;
-	const char* str = txt.c_str();
-	const size_t max = txt.size();
-	for(size_t i = 0;i<max;++i){
-		seed += str[i];
+	if(arg->has(0)){
+		std::string txt = cast<std::string>(arg->index(0));
+		unsigned int seed = 0;
+		const char* str = txt.c_str();
+		const size_t max = txt.size();
+		for(size_t i = 0;i<max;++i){
+			seed += str[i];
+		}
+		srand(seed);
 	}
-	srand(seed);
 	machine.pushResult(self->getHeap().newNumericObject( rand() >> 5 ));
 }
 

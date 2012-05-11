@@ -88,7 +88,7 @@ std::string Replace::inspect()
 {
 	return nekomata::util::format(
 		"Replace(src: %s, dst: %s, enabled: %d, target: %s, fill: %d, partial: %d, color: %x, size: %s, pos: %s)",
-		src().c_str(), dst().c_str(), enabled(), target().c_str(), fill(), partial(), color(), size().c_str(), pos().c_str()
+		src().c_str(), dest().c_str(), enabled(), target().c_str(), fill(), partial(), color(), size().c_str(), pos().c_str()
 	);
 }
 

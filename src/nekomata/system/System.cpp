@@ -178,14 +178,14 @@ util::Handler<SumResult> System::showResult(double x, double y, unsigned int col
 	_sumResult->load(x, y, color, visible, pos, unit, asc, sum);
 	return _sumResult;
 }
-util::Handler<Replace> System::replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+util::Handler<Replace> System::replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
 {
 	util::Handler<Replace> _replace(new Replace(*this));
 	log.v(TAG, 0,
 			"replace(src: %s, dst: %s, enabled: %d, target: %s, fill: %d, partial: %d, color: %x, size: %s, pos: %s)",
-			src.c_str(), dst.c_str(), enabled, target.c_str(), fill, partial, color, size.c_str(), pos.c_str()
+			src.c_str(), dest.c_str(), enabled, target.c_str(), fill, partial, color, size.c_str(), pos.c_str()
 			);
-	_replace->load(src, dst, enabled, target, fill, partial, color, size, pos);
+	_replace->load(src, dest, enabled, target, fill, partial, color, size, pos);
 	return _replace;
 }
 double System::screenWidth()
@@ -315,7 +315,7 @@ void System::dispatchTimer(machine::Machine& machine, const double to)
 		if(to < it->first) break;
 		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
 		currentTime(it->first);
-		log.v(TAG, nextTimer->location(), "Current: %f Dispathing timer at: %f left:%d", currentTime(), it->first, timerLine.size());
+		log.v(TAG, nextTimer->location(), "Current: %f Dispatching timer at: %f left:%d", currentTime(), it->first, timerLine.size());
 		nextTimer->eval();
 		timerLine.erase(it);
 		it=timerLine.begin();
@@ -343,7 +343,7 @@ void System::dispatchCommentTrigger(machine::Machine& machine, const std::string
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
 	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){
 		const std::tr1::shared_ptr<EventEntry> trigger = it->second;
-		log.v(TAG, trigger->location(), "Dispathing comment trigger for \"%s\"", message.c_str());
+		log.v(TAG, trigger->location(), "Dispatching comment trigger for \"%s\"", message.c_str());
 		if(trigger->from() <= vpos && vpos < trigger->to()){
 			trigger->eval();
 			it=ctrigLine.begin();

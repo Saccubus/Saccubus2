@@ -232,10 +232,10 @@ public:
 class Replace : public SystemItem
 {
 public:
-	virtual void load(const std::string& _src, const std::string& _dst, bool _enabled, const std::string& _target, bool _fill, bool _partial, unsigned int _color, const std::string& _size, const std::string& _pos)
+	virtual void load(const std::string& _src, const std::string& _dest, bool _enabled, const std::string& _target, bool _fill, bool _partial, unsigned int _color, const std::string& _size, const std::string& _pos)
 	{
 		SET_PARAM(src);
-		SET_PARAM(dst);
+		SET_PARAM(dest);
 		SET_PARAM(enabled);
 		SET_PARAM(target);
 		SET_PARAM(fill);
@@ -246,7 +246,7 @@ public:
 	}
 public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, src);
-	DEF_ADAPTER_ACCESSOR(public, public, std::string, dst);
+	DEF_ADAPTER_ACCESSOR(public, public, std::string, dest);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, enabled);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, target);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, fill);
@@ -395,7 +395,7 @@ public: /* スクリプトから参照される */
 	virtual double getMarker(const std::string& name);
 	virtual util::Handler<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
 	virtual util::Handler<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<util::Handler<Sum> >& sum);
-	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dst, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
+	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
 	virtual double screenWidth();
 	virtual double screenHeight();
 	virtual void addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);

@@ -79,7 +79,7 @@ ReplaceObject::ReplaceObject(Object& parent)
 :HookableObject(parent), replace((system::Replace*)0)
 {
 	ADD_HOOK_ACCESSOR(src);
-	ADD_HOOK_ACCESSOR(dst);
+	ADD_HOOK_ACCESSOR(dest);
 	ADD_HOOK_ACCESSOR(enabled);
 	ADD_HOOK_ACCESSOR(target);
 	ADD_HOOK_ACCESSOR(fill);
@@ -89,7 +89,7 @@ ReplaceObject::ReplaceObject(Object& parent)
 	ADD_HOOK_ACCESSOR(pos);
 }
 DEF_HOOK_ACCESSOR_STR(ReplaceObject, src, replace);
-DEF_HOOK_ACCESSOR_STR(ReplaceObject, dst, replace);
+DEF_HOOK_ACCESSOR_STR(ReplaceObject, dest, replace);
 DEF_HOOK_ACCESSOR_BOOL(ReplaceObject, enabled, replace);
 DEF_HOOK_ACCESSOR_STR(ReplaceObject, target, replace);
 DEF_HOOK_ACCESSOR_BOOL(ReplaceObject, fill, replace);
