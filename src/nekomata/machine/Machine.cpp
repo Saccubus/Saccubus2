@@ -411,7 +411,7 @@ void Machine::walkImpl(const InvokeNode & node)
 	}else{
 		const object::Handler<object::Object> destObj = resolveScope(node.getMessageName());
 		const object::Handler<object::Object> result = send(destObj, node.getMessageName(), getArgument());
-		this->log.t(TAG, &node.location(), "Walked invoke node: %s.%s (=> %s)",
+		this->log.t(TAG, &node.location(), "Walked invoke node: %s.%s (return value=> %s)",
 				object::cast<std::string>(destObj).c_str(),
 				node.getMessageName().c_str(),
 				object::cast<std::string>(result).c_str()

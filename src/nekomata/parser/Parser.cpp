@@ -84,7 +84,7 @@ public:
 		setup();
 		return *this;
 	}
-	ParserImpl& fromString(const std::string& src, const std::string& filename="<ON MEMORY>")
+	ParserImpl& fromString(const std::string& src, const std::string& filename, int line)
 	{
 		this->src = src;
 		this->filename = filename;
@@ -92,6 +92,7 @@ public:
 		if(!stream){
 			throw logging::Exception(__FILE__, __LINE__, "Failed to create ANTLR3 String Stream for %s", filename.c_str());
 		}
+		stream->line=line;
 		setup();
 		return *this;
 	}
@@ -106,12 +107,18 @@ public:
 			ss.write(buff, stream_.gcount());
 		}
 		std::string src = ss.str();
-		return fromString(src, filename);
+		return fromString(src, filename, 0);
 	}
 public:
 	std::tr1::shared_ptr<const tree::ExprNode> parseProgram()
 	{
-		return std::tr1::shared_ptr<const tree::ExprNode>(parser->program(parser));
+		std::tr1::shared_ptr<const tree::ExprNode> node(parser->program(parser));
+		if(parser->pParser->rec->state->error)
+		{
+			ANTLR3_EXCEPTION* ex = parser->pParser->rec->state->exception;
+			throw logging::Exception(__FILE__, __LINE__, "Parser error: %s line: %d pos: %d", ex->message, ex->line, ex->charPositionInLine);
+		}
+		return node;
 	}
 };
 
@@ -132,10 +139,10 @@ std::tr1::shared_ptr<Parser> Parser::fromFile(const std::string& filename)
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<Parser> Parser::fromString(const std::string& src, const std::string& filename)
+std::tr1::shared_ptr<Parser> Parser::fromString(const std::string& src, const std::string& filename, int line)
 {
 	std::tr1::shared_ptr<ParserImpl> impl(new ParserImpl);
-	impl->fromString(src, filename);
+	impl->fromString(src, filename, line);
 	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }

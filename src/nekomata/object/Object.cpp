@@ -389,7 +389,11 @@ DEF_BUILTIN(Object, alternate)
 DEF_BUILTIN(Object, index)
 {
 	const Handler<Object> self(machine.getSelf());
-	machine.pushResult(self->index(cast<size_t>(machine.getArgument()->index(0))));
+	int idx = cast<size_t>(machine.getArgument()->index(0));
+	if(idx < 0){
+		idx += self->size();
+	}
+	machine.pushResult(self->index( static_cast<size_t>(idx) ));
 }
 DEF_BUILTIN(Object, indexSet)
 {

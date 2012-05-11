@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
 #include <nekomata/logging/Exception.h>
 
 #include "Object.h"
@@ -47,6 +48,23 @@ DEF_BUILTIN(LambdaObject, index)
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
 	}
 	const Handler<Object> local = self->getHeap().newLambdaScopeObject(machine.getArgument());
+
+	const Handler<Object> arg = machine.getArgument();
+	std::stringstream ss;
+	size_t idx=0;
+	while(arg->has(idx)){
+		ss.str("");
+		ss << "@" << idx;
+		local->setSlot(ss.str(), arg->index(idx));
+		++idx;
+	}
+	std::vector<std::string> names = arg->getSlotNames();
+	for(std::vector<std::string>::const_iterator it = names.begin();it!=names.end();++it){
+		ss.str("");
+		ss << "@" << (*it);
+		local->setSlot(ss.str(), arg->getSlot(*it));
+	}
+
 	machine.enterLocal(machine.getSelf(), local, self->Object::getSlot("$$scope"));
 	machine.pushResult(machine.eval(self->node));
 	machine.endLocal(machine.getSelf(), local);

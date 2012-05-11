@@ -32,7 +32,7 @@ TimeLineParser::TimeLineParser(std::istream& stream, const std::string& filename
 TimeLineParser::~TimeLineParser() {
 }
 
-void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line)
+void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line, int lineno)
 {
 	if(line.size() <= 0){
 		return;
@@ -66,7 +66,7 @@ void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const n
 	}
 	case '/':
 	{
-		std::tr1::shared_ptr<const nekomata::tree::Node> node(nekomata::parser::Parser::fromString(message.substr(1), filename)->parseProgram());
+		std::tr1::shared_ptr<const nekomata::tree::Node> node(nekomata::parser::Parser::fromString(message.substr(1), filename, lineno)->parseProgram());
 		std::tr1::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Script(time, node));
 		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Message> >(time, com));
 		break;
@@ -84,6 +84,7 @@ std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std:
 {
 	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > timeLine;
 	std::string buf;
+	int count = 0;
 	while(stream && std::getline(stream, buf)){
 		while(buf.size() > 0 && (buf.at(buf.size()-1)=='\r' || buf.at(buf.size()-1)=='\n')){
 			buf=buf.substr(0, buf.size()-1);
@@ -91,7 +92,7 @@ std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std:
 		while(buf.size() > 0 && (buf.at(0)=='\r' || buf.at(0)=='\n')){
 			buf=buf.substr(1);
 		}
-		this->parseLine(timeLine,buf);
+		this->parseLine(timeLine,buf, ++count);
 	}
 	return timeLine;
 }

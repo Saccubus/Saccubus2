@@ -78,8 +78,8 @@ public:
 	}
 };
 
-#define DEF_ACTION(cmd, clazz)\
-	if(front==cmd) return clazz(vpos, mail, tokens).trans();
+#define DEF_ACTION(cmd, shouldBeOwner, shouldBePremium, clazz)\
+	if(front==cmd && (shouldBeOwner ? isOwner : true) && (shouldBePremium ? isPremium : true) ) return clazz(vpos, mail, tokens).trans();
 
 std::string toNiwango(const float vpos, const std::string& mail, const std::string& message, bool isOwner, bool isPremium)
 {
@@ -87,7 +87,7 @@ std::string toNiwango(const float vpos, const std::string& mail, const std::stri
 	if(tokens.size() > 0){
 		std::string front = tokens.front();
 		tokens.erase(tokens.begin());
-		DEF_ACTION("＠ボタン", ButtonAction);
+		DEF_ACTION("＠ボタン", true, true, ButtonAction);
 	}
 	return "";
 }

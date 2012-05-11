@@ -61,6 +61,21 @@ program returns [shared_ptr<const ExprNode> result]
 	(';' | ',')?;
 
 expr returns [shared_ptr<const ExprNode> result]
+	: tok='\\' t=expr6
+	{
+		shared_ptr<ObjectNode> objNode(shared_ptr<ObjectNode>(new ObjectNode(createLocationFromToken($tok))));
+		objNode->append("", $t.result);
+
+		shared_ptr<const InvokeNode> invoke = shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($tok), shared_ptr<const ExprNode>(), "lambda"));
+
+		$result=shared_ptr<const BindNode>(new BindNode(createLocationFromToken($tok), invoke, objNode));
+	}
+	| t=expr6
+	{
+		$result = $t.result;
+	};
+
+expr6 returns [shared_ptr<const ExprNode> result]
 @init{
 	bool isLocal=false;
 	bool isOp=false;
@@ -145,7 +160,7 @@ expr3 returns [shared_ptr<const ExprNode> result]
 		resultNode = $fst.result;
 	}
 	(
-		(tok='<' {op="lessThan";} | tok='>' {op="greaterThan";} | tok='==' {op="equals";} | tok='!=' {op="notEquals";} | tok='<=' {op="notGreaterThan";} | tok='>=' {op="notLessThan";} )
+		(tok='<' {op="lessThan";} | tok='>' {op="greaterThan";} | tok='<>' {op="compare";} | tok='==' {op="equals";} | tok='!=' {op="notEquals";} | tok='<=' {op="notGreaterThan";} | tok='>=' {op="notLessThan";} )
 		nxt=expr2
 		{
 			resultNode=shared_ptr<const BinOpNode>(new BinOpNode(createLocationFromToken($tok), resultNode, op, $nxt.result));
@@ -265,10 +280,17 @@ primary returns [shared_ptr<const ExprNode> result]
 	{
 		$result = shared_ptr<const InvokeNode>(new InvokeNode(createLocationFromToken($name.token), shared_ptr<const ExprNode>(), $name.result));
 	}
-	| '(' expr ')'
-	{
-		$result = $expr.result;
-	}
+	| '('
+		fst=expr
+		{
+			$result = $fst.result;
+		}
+		(t=';' nxt=expr
+			{
+				$result = shared_ptr<const ContNode>(new ContNode(createLocationFromToken($t), $result, $nxt.result));
+			}
+		)*
+	')'
 	;
 
 object_def [Token tok] returns [shared_ptr<const ObjectNode> result]

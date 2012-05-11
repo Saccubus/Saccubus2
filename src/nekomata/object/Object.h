@@ -414,6 +414,7 @@ public:
 	DEC_BUILTIN(modulo);
 	DEC_BUILTIN(clone);
 public:
+	DEC_BUILTIN(compare);
 	DEC_BUILTIN(equals);
 	DEC_BUILTIN(notEquals);
 	DEC_BUILTIN(notLessThan);
@@ -425,6 +426,8 @@ public:
 	DEC_BUILTIN(sin);
 	DEC_BUILTIN(cos);
 	DEC_BUILTIN(pow);
+public:
+	DEC_BUILTIN(times);
 
 };
 
