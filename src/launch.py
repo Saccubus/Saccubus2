@@ -16,26 +16,20 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+import sys
+import os
+import saccubus.gui.main_window.window
 
-'''
-他のプログラムを発見したりする際にのベースとなるディレクトリをSACCUBUS_PATHに設定すること。
-'''
-SACCUBUS_PATH='SACCUBUS_PATH'
-SACCUBUS_INCLUDE_PATH=[
-	'saccubus'
-]
-
-import os;
-import sys;
-
-def appendPath():
-	saccubus_path = os.getenv(SACCUBUS_PATH);
-	for path in SACCUBUS_INCLUDE_PATH:
-		sys.path.insert(0, os.path.join(saccubus_path, path))
-
-if __name__ == '__main__':
-	print("launched")
-	if os.getenv(SACCUBUS_PATH) == None:
-		os.putenv(SACCUBUS_PATH, os.path.abspath(__file__));
-	appendPath();
-	
+if __name__ == "__main__":
+	if len(sys.argv) > 1:
+		#fd = os.open(sys.argv[1], os.O_WRONLY|os.O_CREAT)
+		#os.dup2(fd, sys.stdout.fileno())
+		#os.dup2(fd, sys.stderr.fileno())
+		logger = open(sys.argv[1], "w", encoding="utf-8")
+		sys.stdout = logger
+		sys.stderr = logger
+		print("log redirected to: "+sys.argv[1]);
+		sys.stdout.flush()
+	print("Launching Saccubus......");
+	sys.stdout.flush()
+	saccubus.gui.main_window.window.MainWindow().mainloop()

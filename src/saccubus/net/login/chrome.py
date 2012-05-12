@@ -35,7 +35,7 @@ def searchProfile(*dirs):
 				return readDatabase(os.path.join(d, 'Cookie'));
 			except:
 				pass
-	raise error.LoginError("Chromeのクッキーは取得できませんでした");
+	raise error.LoginError("Could not find Chrome cookie!");
 	
 
 def readDatabase(fname):

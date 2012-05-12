@@ -39,5 +39,5 @@ def login(userid, password):
 def readCookieFile(d):
 	jar = util.searchNicoSessionFrom(d)
 	if jar == None:
-		raise error.LoginError("IE Cookie not found: {0}", str(d));
+		raise error.LoginError("Could not Internet Explorer cookie.: {0}", str(d));
 	return jar

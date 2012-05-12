@@ -34,8 +34,8 @@ def login(userid, password):
 		)
 	try:
 		resp = opener.open(request)
-	except urllib.error.HTTPError as e:
-		raise LoginError("Failed to login: {0}".format(e));
+	except urllib.error.HTTPError:
+		raise LoginError("Failed to login Nicovideo. Please check your Email and password.");
 	resp.close()
 	for cookie in jar:
 		if cookie.domain == COOKIE_DOMAIN:

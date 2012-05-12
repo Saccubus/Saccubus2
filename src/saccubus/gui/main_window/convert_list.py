@@ -56,7 +56,7 @@ class TaskRunner(threading.Thread):
 	def launchWin(self, ffarg):
 		ffarg = re.sub(r'/', r'\\', ffarg)
 		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
-		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=ffarg, log=logfile)
+		cmdline = "{arg} 2>NUL | ext\\etc\\bin\\tee.exe -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
 		tmp.write(bytes("@echo executing... > {0}\r\n".format(logfile), 'CP932'))
 		tmp.write(bytes("@echo \"{0}\" >> {1}\r\n".format(cmdline, logfile), 'CP932'))

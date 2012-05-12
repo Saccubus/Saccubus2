@@ -41,7 +41,7 @@ def searchProfile(*prof_dirs):
 						return readDatabase(os.path.join(d, pdir, 'cookies.sqlite'))
 					except LoginError:
 						pass
-	raise LoginError("Firefoxのクッキーが見つかりませんでした");
+	raise LoginError("Could not find firefox cookie.");
 
 '''
 データベースファイルを読んで、データが存在すればクッキジャーに変換して返す。

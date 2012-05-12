@@ -123,7 +123,3 @@ class MainWindow(tkinter.Tk):
 		
 	def mainloop(self):
 		tkinter.Tk.mainloop(self);
-
-
-if __name__ == "__main__":
-	MainWindow().mainloop()
