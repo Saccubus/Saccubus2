@@ -69,7 +69,7 @@ class BackendConfigurePanel(ConfigurePanel):
 
 		commentSection = ConfigureSectionPanel(self, "コメント")
 		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comment-back", "--resolve-comment-back", 500).deploy()
-		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script").deploy()
+		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script", True).deploy()
 		PluginConfigurePanel(commentSection, "コメント描画プラグイン", "コメント描画プラグインを選択します", "sacc", "comment-factory", "--plugin-font", [
 					('シンプル', 'simple', UnconfigurablePluginConfigurePanel)
 				], "シンプル").deploy()

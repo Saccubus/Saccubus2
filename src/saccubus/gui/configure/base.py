@@ -204,9 +204,10 @@ class FileConfigurePanel(BaseConfigurePanel):
 		return (self.argname, str(self.val.get()))
 
 class FileSelectConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, **kw):
+	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, emptyAllowed=False, **kw):
 		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq)
 		self.argname = argname;
+		self.emptyAllowed = emptyAllowed;
 
 		self.dval = tkinter.StringVar(self, defaultDir)
 		dframe = tkinter.Frame(self)
@@ -235,6 +236,8 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 	def reloadDirectory(self):
 		if os.path.exists(self.dval.get()) and os.path.isdir(self.dval.get()):
 			values = []
+			if self.emptyAllowed:
+				values.append('<指定しない>')
 			for item in os.listdir(self.dval.get()):
 				if os.path.isfile(os.path.join(self.dval.get(), item)):
 					values.append(item)
