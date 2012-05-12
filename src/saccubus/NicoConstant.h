@@ -24,7 +24,7 @@ namespace nico {
 	const float CommentAheadSec=1.0f;
 	const float FixedCommentTime = 3.0f;
 	const float FlowingCommentTime = 4.0f;
-	const float ScreenWidth = 640;
+	const float ScreenHeight = 360;
 }}
 
 

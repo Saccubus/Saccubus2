@@ -38,7 +38,7 @@ public:
 public:
 	virtual float width() const = 0;
 	virtual float height() const = 0;
-	float factor() const { return this->width()/nico::ScreenWidth; };
+	float factor() const { return this->height()/nico::ScreenHeight; };
 };
 
 }}

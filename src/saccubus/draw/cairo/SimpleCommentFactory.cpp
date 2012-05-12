@@ -135,7 +135,9 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 		double h = ext.height+ext.y_advance+ShadowWidth;
 		//このwとhは論理座標なので、実際の大きさを取得するために変換してもらう。
 		cairo_user_to_device_distance(this->emptyCairo(), &w, &h);
-		scale = std::min(w, (double)ctx->width()) / w;
+		if(fitToScreen){
+			scale = std::min(w, (double)ctx->width()) / w;
+		}
 		width = std::ceil(w*scale);
 		height = std::ceil(h*scale);
 		if(ext.width <= 1 || ext.height <= 1){

@@ -21,7 +21,7 @@
 namespace saccubus {
 
 ValueOption<std::string>::ValueOption(const std::string& name, std::string & stored)
-:util::Option(name, util::Option::Normal, util::Option::No)
+:util::Option(name, util::Option::Normal, util::Option::Require)
 ,stored(stored)
 {
 
