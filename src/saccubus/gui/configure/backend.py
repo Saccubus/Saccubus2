@@ -36,7 +36,7 @@ class BackendConfigurePanel(ConfigurePanel):
 		ConfigurePanel.__init__(self, master)
 		generalSection = ConfigureSectionPanel(self, "一般的な設定")
 		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
-		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/saccubus/Saccubus.dll").deploy()
+		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/Saccubus/Saccubus.dll").deploy()
 		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
 
 		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
@@ -109,7 +109,7 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		'''
 		コンストラクタ
 		'''
-		self.geometry("360x480")
+		self.geometry("360x540")
 		self.protocol("WM_DELETE_WINDOW", lambda: self.destroy())
 		if self.videoId:
 			self.saveFlag.set(0)
@@ -129,6 +129,9 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		self.confPanel = confPanel;
 		self.initExitPanel()
 		self.moveToCenter();
+
+		self.conf = None
+		self.argument = None;
 	
 	def initExitPanel(self):
 		if self.videoId:
@@ -139,10 +142,8 @@ class BackendConfigureWindow(saccubus.gui.dialog.Dialog):
 		frame=tkinter.Frame(self)
 		tkinter.Button(frame, text="　　OK　　", command=self.onOkButtonClicked).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
 		tkinter.Button(frame, text="キャンセル", command=self.onCancelButtonClicked).pack(expand=tkinter.YES, fill=tkinter.X, side=tkinter.LEFT)
-		frame.pack(expand=tkinter.NO, fill=tkinter.X)
+		frame.pack(expand=tkinter.NO, fill=tkinter.X, side=tkinter.BOTTOM)
 	def onCancelButtonClicked(self):
-		self.conf = None
-		self.argument = None;
 		self.destroy()
 	def onOkButtonClicked(self):
 		if self.saveFlag.get() != 0:
