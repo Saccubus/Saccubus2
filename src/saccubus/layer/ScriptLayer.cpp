@@ -51,26 +51,26 @@ void ScriptLayer::resolvePos(std::tr1::shared_ptr<saccubus::draw::Context> ctx, 
 {
 	switch(nekoItem->posX()){
 	case item::NekoItem::CenterX:
-		*x = (screenWidth/2)+nekoItem->drawable()->x()-(nekoItem->width(ctx)/2);
+		*x = (screenWidth/2)+(nekoItem->drawable()->x() * ctx->factor())-(nekoItem->width(ctx)/2);
 		break;
 	case item::NekoItem::Right:
-		*x = screenWidth+nekoItem->drawable()->x()-nekoItem->width(ctx);
+		*x = screenWidth+(nekoItem->drawable()->x() * ctx->factor())-nekoItem->width(ctx);
 		break;
 	case item::NekoItem::Left:
-		*x = nekoItem->drawable()->x();
+		*x = nekoItem->drawable()->x() * ctx->factor();
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosX type.");
 	}
 	switch(nekoItem->posY()){
 	case item::NekoItem::CenterY:
-		*y = (screenHeight/2)+nekoItem->drawable()->y()-(nekoItem->height(ctx)/2);
+		*y = (screenHeight/2)+(nekoItem->drawable()->y() * ctx->factor())-(nekoItem->height(ctx)/2);
 		break;
 	case item::NekoItem::Top:
-		*y = nekoItem->drawable()->y();
+		*y = nekoItem->drawable()->y() * ctx->factor();
 		break;
 	case item::NekoItem::Bottom:
-		*y = screenHeight+nekoItem->drawable()->y()-nekoItem->height(ctx);
+		*y = screenHeight+(nekoItem->drawable()->y() * ctx->factor())-nekoItem->height(ctx);
 		break;
 	default:
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");

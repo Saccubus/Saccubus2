@@ -19,6 +19,7 @@
 #include <cmath>
 #include <cairo/cairo.h>
 #include "SimpleShapeFactory.h"
+#include "./Context.h"
 #include "../../util/ColorUtil.h"
 
 namespace saccubus {
@@ -35,8 +36,10 @@ SimpleShapeFactory::~SimpleShapeFactory()
 {
 }
 
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int _w, int _h, unsigned int color)
 {
+	const int w = std::ceil(_w * ctx->factor());
+	const int h = std::ceil(_h * ctx->factor());
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(w, h);
 	{
 		RawSprite::Session session(spr);
@@ -82,8 +85,8 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_
 }
 Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape)
 {
-	const int w = std::ceil(shape->width());
-	const int h = std::ceil(shape->height());
+	const int w = std::ceil(shape->width() * ctx->factor());
+	const int h = std::ceil(shape->height() * ctx->factor());
 	Sprite::Handler<RawSprite> spr = this->renderer()->queryRawSprite(w, h);
 	{
 		RawSprite::Session session(spr);

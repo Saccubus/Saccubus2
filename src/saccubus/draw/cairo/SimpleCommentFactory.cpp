@@ -21,7 +21,6 @@
 #include "Renderer.h"
 #include "Sprite.h"
 #include "../Context.h"
-#include "../../NicoConstant.h"
 #include "../LayerdSprite.h"
 #include "../../layer/item/Comment.h"
 #include "../../layer/item/Label.h"
@@ -104,7 +103,7 @@ SimpleCommentFactory::~SimpleCommentFactory() {
 void SimpleCommentFactory::setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize)
 {
 	cairo_identity_matrix(cairo);
-	const double factor = ctx->width() / nico::ScreenWidth;
+	const double factor = ctx->factor();
 	cairo_scale(cairo, factor, factor);
 	cairo_set_font_face(cairo, this->face());
 	cairo_set_font_size(cairo, fontSize);

@@ -20,6 +20,7 @@
 #define Saccubus_DRAW_CONTEXT_H__CPP_
 
 #include <tr1/memory>
+#include "../NicoConstant.h"
 #include "../classdefs.h"
 
 namespace saccubus {
@@ -37,6 +38,7 @@ public:
 public:
 	virtual float width() const = 0;
 	virtual float height() const = 0;
+	float factor() const { return this->width()/nico::ScreenWidth; };
 };
 
 }}
