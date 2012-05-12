@@ -34,6 +34,18 @@ class UnconfigurablePluginConfigurePanel(ConfigureSectionPanel):
 class BackendConfigurePanel(ConfigurePanel):
 	def __init__(self, master):
 		ConfigurePanel.__init__(self, master)
+		resolveSection = ConfigureSectionPanel(self, "ダウンローダ")
+		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", 'sacc', 'resolve-cookie', [
+						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
+						('Firefox', "--resolve-cookie", "firefox"),
+						('Chrome', "--resolve-cookie", "chrome"),
+						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
+		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
+		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-password", "--resolve-password", "udonudon", show="*").deploy()
+
+		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
+
+
 		generalSection = ConfigureSectionPanel(self, "一般的な設定")
 		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
 		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/Saccubus/Saccubus.dll").deploy()
@@ -48,20 +60,10 @@ class BackendConfigurePanel(ConfigurePanel):
 						("エラー", "--error"),
 						],'警告').deploy()
 		
-		resolveSection = ConfigureSectionPanel(self, "ダウンローダ")
-		SelectionConfigurePanel(resolveSection, "ログイン方法", "ニコニコ動画へのログイン方法を指定します。", 'sacc', 'resolve-cookie', [
-						('ユーザーID＆パスワード', "--resolve-cookie", "own"),
-						('Firefox', "--resolve-cookie", "firefox"),
-						('Chrome', "--resolve-cookie", "chrome"),
-						('InternetExplorer', "--resolve-cookie", "ie")], None).deploy()
-		StringConfigurePanel(resolveSection, "ユーザーID", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-user", "--resolve-user", "udon@example.com").deploy()
-		StringConfigurePanel(resolveSection, "パスワード", "上でブラウザを選択した場合は入力しなくて大丈夫です。", "sacc", "resolve-password", "--resolve-password", "udonudon", show="*").deploy()
-
-		FileConfigurePanel(resolveSection, "ダウンロード先", "動画のダウンロード先を指定します","sacc", "resolve-resource-path", FileConfigurePanel.Directory, "--resolve-resource-path", "./__download__").deploy()
 
 		videoSection = ConfigureSectionPanel(self, "動画設定")
-		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 0).deploy()
-		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 0).deploy()
+		IntegerConfigurePanel(videoSection, "横幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "width", "-width", 640).deploy()
+		IntegerConfigurePanel(videoSection, "縦幅", "この縦幅・横幅に短辺を合わせて拡大されます。", "input-opt", "height", "-height", 480).deploy()
 		IntegerConfigurePanel(videoSection, "最低FPS", "このFPS以上になるように出力されます。\nコメントがかくかくする場合などにお試し下さい。", "input-opt", "minfps", "-minfps", 25).deploy()
 		SelectionConfigurePanel(videoSection, "TASモード", "TASのように変換中に１フレームずつ操作できます。\nスペースキーで次のフレームです。", 'sacc', 'controll-mode', [
 					('TASモードにしない', ),
