@@ -371,6 +371,7 @@ public:
 	DEC_BUILTIN(eval);
 public:
 	DEC_BUILTIN(add);
+	DEC_BUILTIN(multiply);
 	DEC_BUILTIN(clone);
 };
 class BooleanObject : public LiteralObject
