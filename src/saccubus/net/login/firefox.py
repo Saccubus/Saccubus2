@@ -27,7 +27,7 @@ def login(userid, password):
 	
 	return searchProfile(
 		# in windows vista
-		os.path.join(os.getenv('APP_DATA', ''), 'Mozilla','Firefox','Profiles'),
+		os.path.join(os.getenv('APPDATA', ''), 'Mozilla','Firefox','Profiles'),
 		# in fedora 16
 		os.path.join(os.getenv('HOME', ''), '.mozilla','firefox')
 	);
@@ -36,12 +36,15 @@ def searchProfile(*prof_dirs):
 	for d in prof_dirs:
 		if os.path.isdir(d) and os.path.exists(d):
 			for pdir in os.listdir(d):
-				if os.path.isfile(os.path.join(d, pdir, 'cookies.sqlite')):
+				print("searching. ", pdir);
+				fcookie = os.path.join(d, pdir, 'cookies.sqlite')
+				if os.path.isfile(fcookie):
 					try:
-						return readDatabase(os.path.join(d, pdir, 'cookies.sqlite'))
+						return readDatabase(fcookie)
 					except LoginError:
 						pass
-	raise LoginError("Could not find firefox cookie.");
+				print("could not found ", fcookie);
+	raise LoginError("Could not find firefox cookie in {0}".format(repr(prof_dirs)));
 
 '''
 データベースファイルを読んで、データが存在すればクッキジャーに変換して返す。
