@@ -21,7 +21,11 @@ import tkinter.ttk
 import tkinter.filedialog;
 import pickle;
 import os.path;
+import re
 
+EncodedSep = os.path.sep.encode('unicode_escape').decode('ascii')
+def toNativePath(val):
+	return re.sub(r'/', EncodedSep, val);
 
 class ConfigurePanel(tkinter.ttk.Notebook):
 	'''
@@ -197,11 +201,11 @@ class FileConfigurePanel(BaseConfigurePanel):
 		if val:
 			self.val.set(val)
 	def cfgDump(self):
-		return self.val.get()
+		return toNativePath(str(self.val.get()))
 	def cfgLoad(self, obj):
 		self.val.set(obj);
 	def cfg2Arg(self):
-		return (self.argname, str(self.val.get()))
+		return (self.argname, toNativePath(str(self.val.get())))
 
 class FileSelectConfigurePanel(BaseConfigurePanel):
 	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, emptyAllowed=False, **kw):
@@ -252,7 +256,7 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 			self.fbox['values'] = ("フォルダが存在しません。",)
 			self.fbox.current(0)
 	def cfgDump(self):
-		return (self.dval.get(), self.fval.get())
+		return (self.dval.get(), toNativePath( self.fval.get() ) )
 	def cfgLoad(self, obj):
 		d,f = obj;
 		self.dval.set(d);
@@ -261,7 +265,7 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 	def cfg2Arg(self):
 		fpath = os.path.join(self.dval.get(), self.fval.get());
 		if self.argname and os.path.exists(fpath) and os.path.isfile(fpath):
-			return (self.argname,  fpath)
+			return (self.argname,  toNativePath(fpath))
 		else:
 			return ()
 

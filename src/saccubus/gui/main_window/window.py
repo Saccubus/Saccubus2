@@ -74,7 +74,7 @@ class MainWindow(tkinter.Tk):
 		scrollbar.config(command=videoIdText.yview)
 
 		EditMenu(videoIdText)
-		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText)).grid(column=3, row=0)
+		tkinter.ttk.Button(panel, text="変換", command=lambda: self.onConvertButtonClicked(videoIdText)).grid(column=3, row=0, sticky=tkinter.S + tkinter.N)
 		return panel;
 	
 	def initStatusBar(self, master):

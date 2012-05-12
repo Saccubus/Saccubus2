@@ -43,6 +43,7 @@ class TaskRunner(threading.Thread):
 			_, metainfo = meta_info.downloadMetaInfo(self.task.videoId, self.task.conf['sacc']['resolve-resource-path']);
 			val['out-file-base'] = rule.formatConvertedFilenameBase(self.task.videoId, metainfo['title'])
 			val['resource-path'] = self.task.conf['sacc']['resolve-resource-path'];
+
 			#レシピファイルに本当のコマンドを聞く
 			cmdline = self.createCmdlineFromRecipe(val)
 			if os.name=='posix':
@@ -54,7 +55,6 @@ class TaskRunner(threading.Thread):
 		finally:
 			self.task.onExecuted(self)
 	def launchWin(self, ffarg):
-		ffarg = re.sub(r'/', r'\\', ffarg)
 		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
 		cmdline = "{arg} 2>&1 | ext\\etc\\bin\\tee.exe -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
