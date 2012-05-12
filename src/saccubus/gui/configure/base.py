@@ -208,11 +208,12 @@ class FileConfigurePanel(BaseConfigurePanel):
 		return (self.argname, toNativePath(str(self.val.get())))
 
 class FileSelectConfigurePanel(BaseConfigurePanel):
-	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, emptyAllowed=False, **kw):
+	def __init__(self, master, title, desc, typeName, uniq, argname=None, defaultDir=None, defaultFile=None, emptyAllowed=False, **kw):
 		BaseConfigurePanel.__init__(self, master, title, desc, typeName, uniq)
 		self.argname = argname;
 		self.emptyAllowed = emptyAllowed;
-
+		self.defaultFile = defaultFile
+		
 		self.dval = tkinter.StringVar(self, defaultDir)
 		dframe = tkinter.Frame(self)
 		dentry=tkinter.Entry(dframe, textvariable=self.dval, state='readonly', **kw)
@@ -221,7 +222,7 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 		EditMenu(dentry)
 		dframe.pack(expand=tkinter.YES, fill=tkinter.X)
 		
-		self.fval = tkinter.StringVar(self)
+		self.fval = tkinter.StringVar(self, self.defaultFile)
 		fframe = tkinter.Frame(self)
 		self.fbox = tkinter.ttk.Combobox(fframe, textvariable=self.fval, state='readonly', **kw)
 		self.fbox.pack(fill=tkinter.X, expand=tkinter.YES, side=tkinter.LEFT)
@@ -242,16 +243,24 @@ class FileSelectConfigurePanel(BaseConfigurePanel):
 			values = []
 			if self.emptyAllowed:
 				values.append('<指定しない>')
+			files = []
 			for item in os.listdir(self.dval.get()):
 				if os.path.isfile(os.path.join(self.dval.get(), item)):
-					values.append(item)
+					files.append(item)
+			files.sort();
+			values.extend(files)
 			self.fbox['values'] = values
 			f = os.path.join(self.dval.get(), self.fval.get())
 			if not os.path.exists(f) or not os.path.isfile(f):
 				if len(values) > 0:
-					self.fbox.current(0)
+					if self.defaultFile in values:
+						self.fbox.current(values.index(self.defaultFile))
+					else:
+						self.fbox.current(0)
 				else:
 					self.fval.set('')
+			else:
+				self.fbox.current(values.index(self.fval.get()))
 		else:
 			self.fbox['values'] = ("フォルダが存在しません。",)
 			self.fbox.current(0)

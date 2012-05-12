@@ -49,7 +49,7 @@ class BackendConfigurePanel(ConfigurePanel):
 		generalSection = ConfigureSectionPanel(self, "一般的な設定")
 		FileConfigurePanel(generalSection, "FFmpegパス", "FFmpegの場所を指定します。", "ffmpeg", "ffmpeg-path", FileConfigurePanel.OpenFile, '-i', "ext/ffmpeg/bin/ffmpeg.exe").deploy()
 		FileConfigurePanel(generalSection, "FFmpegフィルタパス", "FFmpegフィルタの場所を指定します。", "input", "adapterfile", FileConfigurePanel.OpenFile, '-i', "ext/Saccubus/Saccubus.dll").deploy()
-		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe").deploy()
+		FileSelectConfigurePanel(generalSection, "変換レシピ", "変換に使うFFmpegオプションのレシピを指定します", "ffmpeg", "recipe", None, "./recipe", 'PC_default.py', False).deploy()
 
 		SelectionConfigurePanel(generalSection, "ログレベル", "出力ログのログレベルを設定します", "sacc", 'log-level',[
 						("トレース", "--trace"),
@@ -71,7 +71,7 @@ class BackendConfigurePanel(ConfigurePanel):
 
 		commentSection = ConfigureSectionPanel(self, "コメント")
 		IntegerConfigurePanel(commentSection, "コメント取得数", "コメント取得件数を指定します。", "sacc", "resolve-comment-back", "--resolve-comment-back", 500).deploy()
-		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script", True).deploy()
+		FileSelectConfigurePanel(commentSection, "NGスクリプトファイル", "変換しないコメントを決定するスクリプトを指定します。","sacc", "ng-script", "--ng-script", "./ng-script", None, True).deploy()
 		PluginConfigurePanel(commentSection, "コメント描画プラグイン", "コメント描画プラグインを選択します", "sacc", "comment-factory", "--plugin-font", [
 					('シンプル', 'simple', UnconfigurablePluginConfigurePanel)
 				], "シンプル").deploy()
