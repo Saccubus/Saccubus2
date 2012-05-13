@@ -36,7 +36,7 @@ def searchProfile(*dirs):
 	for d in dirs:
 		if os.path.exists(d) and os.path.isdir(d):
 			try:
-				return readDatabase(os.path.join(d, 'Cookie'));
+				return readDatabase(os.path.join(d, 'Cookies'));
 			except:
 				pass
 	raise error.LoginError("Could not find Chrome cookie in {0}".format(repr(dirs)));
