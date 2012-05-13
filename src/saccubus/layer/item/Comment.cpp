@@ -48,6 +48,7 @@ Comment::Comment(
 	this->layer(layer);
 
 	this->vpos(vpos);
+	this->originalMessage(message);
 	this->message(message);
 	this->mail(mail);
 
