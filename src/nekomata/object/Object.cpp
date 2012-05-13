@@ -390,17 +390,16 @@ DEF_BUILTIN(Object, index)
 {
 	const Handler<Object> self(machine.getSelf());
 	int idx = cast<size_t>(machine.getArgument()->index(0));
-	if(idx < 0){
-		idx += self->size();
-	}
+	if(idx < 0) idx += self->size();
 	machine.pushResult(self->index( static_cast<size_t>(idx) ));
 }
 DEF_BUILTIN(Object, indexSet)
 {
 	const Handler<Object> self(machine.getSelf());
 	const Handler<Object> arg(machine.getArgument());
-	size_t const idx = cast<size_t>(arg->index(0));
-	machine.pushResult(self->indexSet(idx, arg->index(1)));
+	int idx = cast<int>(arg->index(0));
+	if(idx < 0) idx += self->size();
+	machine.pushResult(self->indexSet(static_cast<size_t>(idx), arg->index(1)));
 }
 DEF_BUILTIN(Object, size)
 {

@@ -75,8 +75,8 @@ std::string LambdaObject::toString()
 	return util::format("<<LambdaObject:%d>>", getHash());
 }
 
-LambdaScopeObject::LambdaScopeObject(ObjectHeap& heap)
-:Object(heap)
+LambdaScopeObject::LambdaScopeObject(Object& parent)
+:Object(parent, 0)
 {
 	ADD_BUILTIN_ALT(atmark, "@");
 	includeBuitin();

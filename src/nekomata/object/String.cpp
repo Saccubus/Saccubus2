@@ -52,6 +52,7 @@ StringObject::StringObject(Object& parent)
 	ADD_BUILTIN(eval);
 
 	ADD_BUILTIN(add);
+	ADD_BUILTIN(multiply);
 	ADD_BUILTIN(clone);
 	includeBuitin();
 	freeze();
@@ -224,7 +225,17 @@ DEF_BUILTIN(StringObject, add)
 	const Handler<StringObject> self(machine.getSelf());
 	std::string const other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newStringObject(self->getValue()+other) );
+}
 
+DEF_BUILTIN(StringObject, multiply)
+{
+	const Handler<StringObject> self(machine.getSelf());
+	std::stringstream ss;
+	const int max = cast<int>(machine.getArgument()->index(0));
+	for(int i=0;i<max;++i){
+		ss << self->toString();
+	}
+	machine.pushResult( self->getHeap().newStringObject(ss.str()) );
 }
 
 

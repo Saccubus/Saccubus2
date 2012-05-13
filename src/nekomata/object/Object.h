@@ -321,7 +321,7 @@ public:
 class LambdaScopeObject : public Object
 {
 public:
-	explicit LambdaScopeObject(ObjectHeap& heap);
+	explicit LambdaScopeObject(Object& parent);
 	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, const Handler<Object> arg);
 	virtual ~LambdaScopeObject();
 public:

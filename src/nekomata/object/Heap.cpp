@@ -52,7 +52,7 @@ ObjectHeap::ObjectHeap(logging::Logger& log, system::System& system, RootHolder&
 ,baseShapePbject(baseObject)
 ,baseLazyEvalObject(baseObject)
 ,baseLambdaObject(*this)
-,baseLambdaScopeObject(*this)
+,baseLambdaScopeObject(rawObject)
 ,baseStringObject(baseObject)
 ,baseNumericObject(baseObject)
 ,trueObject(baseObject, true)
