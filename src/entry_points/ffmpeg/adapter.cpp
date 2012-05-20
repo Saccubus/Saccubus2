@@ -34,7 +34,7 @@ namespace ffmpeg {
 
 void errorwait(bool exit=false)
 {
-	std::cout << "[Saccubus FFmpeg Adapter] An error has occured. Press [ENTER] to continue." << std::endl;
+	std::cout << "[Saccubus FFmpeg Adapter] An error has occurred. Press [ENTER] to continue." << std::endl;
 	std::getchar();
 	if (exit){
 		std::exit(-1);
@@ -197,15 +197,15 @@ DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[
 
 		saccubus->init(adapter);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Saccubus exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Standard exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl << std::flush;
+		std::cerr << "Unknown error caught" << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -3;
 	}
@@ -218,15 +218,15 @@ DLLEXPORT int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHei
 		ffmpeg::Context* const ctx = reinterpret_cast<ffmpeg::Context*>(sacc);
 		ctx->adapter()->measure(srcWidth, srcHeight, dstWidth, dstHeight);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Saccubus exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Standard exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl << std::flush;
+		std::cerr << "Unknown error caught" << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -3;
 	}
@@ -239,15 +239,15 @@ DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccF
 		ffmpeg::Context* const ctx = reinterpret_cast<ffmpeg::Context*>(sacc);
 		ctx->adapter()->draw(target, video);
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Saccubus exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Standard exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl << std::flush;
+		std::cerr << "Unknown error caught" << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -3;
 	}
@@ -261,15 +261,15 @@ DLLEXPORT int SaccRelease(void *sacc, SaccToolBox *box)
 
 		delete ctx;
 	} catch (saccubus::logging::Exception & e){
-		std::cerr << "saccubus exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Saccubus exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -1;
 	} catch (std::exception & e) {
-		std::cerr << "std exception caught: " << e.what() << std::endl << std::flush;
+		std::cerr << "Standard exception caught: " << e.what() << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -2;
 	} catch (...) {
-		std::cerr << "Unknwon error caught" << std::endl << std::flush;
+		std::cerr << "Unknown error caught" << std::endl << std::flush;
 		ffmpeg::errorwait();
 		return -3;
 	}
