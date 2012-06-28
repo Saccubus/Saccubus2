@@ -88,10 +88,9 @@ void Session::loadFile(const std::string& file)
 		pos += stream.gcount();
 	}
 	if(len != pos){
-		log.e(TAG, "Failed to read \"%s\".", file.c_str());
-		throw ScriptException(__FILE__, __LINE__, "Failed to read \"%s\".", file.c_str());
+		log.w(TAG, "\"%s\" read, but the actual script file size was smaller than expected: %d < %d.", file.c_str(), pos, len);
 	}
-	buffer.get()[len]='\0';
+	buffer.get()[pos]='\0';
 
 	//コードのコンパイル
 	PyObject* code = Py_CompileString(buffer.get(), file.c_str(), Py_file_input);
