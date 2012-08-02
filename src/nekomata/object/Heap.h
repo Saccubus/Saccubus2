@@ -83,7 +83,7 @@ private:
 	UndefinedObject undefinedObject;
 	/*GCで管理するオブジェクトを登録*/
 	int createHash();
-	void registObject(Object* obj);
+	void registerObject(Object* obj);
 public:
 	explicit ObjectHeap(logging::Logger& log, system::System& system, RootHolder& rootHolder);
 	~ObjectHeap();

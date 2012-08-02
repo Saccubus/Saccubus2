@@ -83,45 +83,45 @@ Handler<SystemObject> ObjectHeap::getSystemObject()
 Handler<LabelObject> ObjectHeap::newLabelObject(Handler<system::Label> label)
 {
 	const Handler<LabelObject> obj(new LabelObject(baseLabelObject, createHash(), label));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 Handler<ReplaceObject> ObjectHeap::newReplaceObject(Handler<system::Replace> replace)
 {
 	const Handler<ReplaceObject> obj(new ReplaceObject(baseReplaceObject, createHash(), replace));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 Handler<SumObject> ObjectHeap::newSumObject(Handler<system::Sum> sum)
 {
 	const Handler<SumObject> obj(new SumObject(baseSumObject, createHash(), sum));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 Handler<SumResultObject> ObjectHeap::newSumResultObject(Handler<system::SumResult> sumResult)
 {
 	const Handler<SumResultObject> obj(new SumResultObject(baseSumResultObject, createHash(), sumResult));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 Handler<ShapeObject> ObjectHeap::newShapeObject(Handler<system::Shape> shape)
 {
 	const Handler<ShapeObject> obj(new ShapeObject(baseShapePbject, createHash(), shape));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
 Handler<Object> ObjectHeap::newObject()
 {
 	Handler<Object> obj(new Object(baseObject, createHash()));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
 Handler<Object> ObjectHeap::newRawObject()
 {
 	Handler<Object> obj(new Object(rawObject, createHash()));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
@@ -136,18 +136,18 @@ Handler<Object> ObjectHeap::newArrayObject(const size_t argc, ...)
 	}
 	va_end(list);
 
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
 Handler<LambdaScopeObject> ObjectHeap::newLambdaScopeObject(const Handler<Object> arg)
 {
 	Handler<LambdaScopeObject> obj(new LambdaScopeObject(baseLambdaScopeObject, createHash(), arg));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
-void ObjectHeap::registObject(Object* obj){
+void ObjectHeap::registerObject(Object* obj){
 	if(gcThreshold <= this->from->size()){
 		this->gc();
 	}
@@ -157,7 +157,7 @@ void ObjectHeap::registObject(Object* obj){
 Handler<StringObject> ObjectHeap::newStringObject(const std::string & str)
 {
 	Handler<StringObject> obj(new StringObject(baseStringObject, createHash(), str));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
@@ -177,7 +177,7 @@ Handler<BooleanObject> ObjectHeap::newBooleanObject(const bool val)
 Handler<NumericObject> ObjectHeap::newNumericObject(const double num)
 {
 	Handler<NumericObject> obj(new NumericObject(baseNumericObject, createHash(), num));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
@@ -189,27 +189,27 @@ Handler<UndefinedObject> ObjectHeap::newUndefinedObject()
 Handler<LazyEvalObject> ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)
 {
 	Handler<LazyEvalObject> obj(new LazyEvalObject(baseLazyEvalObject, createHash(), machine, objNode));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
 Handler<MethodNodeObject> ObjectHeap::newMethodNodeObject(const Handler<Object> scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule, std::vector<std::string>& argList)
 {
 	Handler<MethodNodeObject> obj(new MethodNodeObject(rawObject, createHash(), scope, node, rule, argList));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 Handler<MethodNodeObject> ObjectHeap::newMethodNodeObject(const Handler<Object> scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule)
 {
 	Handler<MethodNodeObject> obj(new MethodNodeObject(rawObject, createHash(), scope, node, rule));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
 Handler<LambdaObject> ObjectHeap::newLambdaObject(const Handler<Object> scope, const tree::Node* node)
 {
 	const Handler<LambdaObject> obj(new LambdaObject(baseLambdaObject, createHash(), scope, node));
-	registObject(obj.get());
+	registerObject(obj.get());
 	return obj;
 }
 
