@@ -366,14 +366,14 @@ void System::regist(clazz* const name)\
 {\
 	const bool inserted = this->drawableList.insert(name).second;\
 	if(!inserted){\
-		log.e(TAG, 0, "[BUG] registed duplicated %s!: %s", #clazz, name->inspect().c_str());\
+		log.e(TAG, 0, "[BUG] registered duplicated %s!: %s", #clazz, name->inspect().c_str());\
 	}\
 }\
 void System::unregist(clazz* const name)\
 {\
 	const size_t deleted = this->drawableList.erase(name);\
 	if(deleted <= 0){\
-		log.e(TAG, 0, "[BUG] unregisted duplicated %s!: %s", #clazz, name->inspect().c_str());\
+		log.e(TAG, 0, "[BUG] unregistered duplicated %s!: %s", #clazz, name->inspect().c_str());\
 	}\
 	delete name;\
 }
@@ -388,14 +388,14 @@ void System::regist(clazz* const name)\
 {\
 	const bool inserted = this->name##List.insert(name).second;\
 	if(!inserted){\
-		log.e(TAG, 0, "[BUG] registed duplicated %s!: %s", #clazz, name->inspect().c_str());\
+		log.e(TAG, 0, "[BUG] registered duplicated %s!: %s", #clazz, name->inspect().c_str());\
 	}\
 }\
 void System::unregist(clazz* const name)\
 {\
 	const size_t deleted = this->name##List.erase(name);\
 	if(deleted <= 0){\
-		log.e(TAG, 0, "[BUG] unregisted duplicated %s!: %s", #clazz, name->inspect().c_str());\
+		log.e(TAG, 0, "[BUG] unregistered duplicated %s!: %s", #clazz, name->inspect().c_str());\
 	}\
 	delete name;\
 }
