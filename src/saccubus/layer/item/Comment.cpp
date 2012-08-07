@@ -145,13 +145,13 @@ void Comment::parse()
 		}
 	}
 
-	bool spanIsNan = !(this->span() == this->span());
+	const bool spanIsNan = !(this->span() == this->span());
 	if(this->placeY() == item::Comment::Top || this->placeY() == item::Comment::Bottom){
 		this->from(this->vpos());
-		this->to(this->from() + (spanIsNan ? nico::FlowingCommentTime : this->span()) );
+		this->to(this->from() + (spanIsNan ? nico::FixedCommentTime : this->span()) );
 	}else{
 		this->from(this->vpos()-nico::CommentAheadSec);
-		this->to(this->from() + (spanIsNan ? nico::FixedCommentTime : this->span()) );
+		this->to(this->from() + (spanIsNan ? nico::FlowingCommentTime : this->span()) );
 	}
 }
 
