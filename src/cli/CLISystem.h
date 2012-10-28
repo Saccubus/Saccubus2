@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CLISYSTEM_H_
-#define CLISYSTEM_H_
-
+#pragma once
 #include <iostream>
 #include <nekomata/logging/Logging.h>
 #include <nekomata/system/System.h>
@@ -49,4 +47,3 @@ public:
 };
 
 }
-#endif /* CLISYSTEM_H_ */

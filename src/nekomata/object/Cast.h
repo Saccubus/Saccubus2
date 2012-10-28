@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAST_H_
-#define CAST_H_
-
+#pragma once
 #include <string>
 #include <vector>
 #include "Object.h"
@@ -64,5 +62,3 @@ std::string opt(const Handler<Object> obj, size_t index, const std::string& def)
 
 
 }}
-
-#endif /* CAST_H_ */

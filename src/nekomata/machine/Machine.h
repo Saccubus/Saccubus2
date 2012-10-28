@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MACHINE_H_
-#define MACHINE_H_
+#pragma once
 #include <vector>
 #include <map>
 #include <nekomata/classdefs.h>
@@ -92,4 +91,3 @@ public:
 };
 
 }}
-#endif /* MACHINE_H_ */

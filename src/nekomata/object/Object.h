@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MACHINE_OBJECT_H_
-#define MACHINE_OBJECT_H_
-
+#pragma once
 #include <string>
 #include <vector>
 #include <map>
@@ -445,4 +443,3 @@ public:
 };
 
 }}
-#endif /* MACHINE_OBJECT_H_ */

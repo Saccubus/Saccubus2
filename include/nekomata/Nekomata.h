@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_H_
-#define NEKOMATA_H_
+#pragma once
 #include <iostream>
 #include <vector>
 #include <cfloat>
@@ -45,4 +44,3 @@ public:
 };
 
 }
-#endif /* NEKOMATA_NEKOMATA_H_ */

@@ -20,6 +20,7 @@
 #include <nekomata/logging/Exception.h>
 #include <string>
 #include <vector>
+#include "DefaultAction.h"
 #include "ButtonAction.h"
 #include "NicosMessageLexer.h"
 #include "NicosMessageParser.h"
@@ -88,6 +89,7 @@ std::string toNiwango(const float vpos, const std::string& mail, const std::stri
 		std::string front = tokens.front();
 		tokens.erase(tokens.begin());
 		DEF_ACTION("＠ボタン", true, true, ButtonAction);
+		DEF_ACTION("＠デフォルト", false, false, DefaultAction);
 	}
 	return "";
 }

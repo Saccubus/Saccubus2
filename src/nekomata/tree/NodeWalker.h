@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEWALKER_H_
-#define NODEWALKER_H_
+#pragma once
 #include <nekomata/classdefs.h>
 
 namespace nekomata{
@@ -60,4 +59,3 @@ protected:
 };
 
 }}
-#endif /* NODEWALKER_H_ */

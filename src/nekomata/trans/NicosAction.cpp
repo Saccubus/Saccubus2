@@ -24,6 +24,9 @@
 namespace nekomata {
 namespace trans {
 
+/**
+ * ニワン語の一部として使えるようにエスケープする
+ */
 std::string escape(const std::string& str)
 {
 	std::stringstream ss;
@@ -41,15 +44,28 @@ std::string escape(const std::string& str)
 	return ss.str();
 }
 
+/**
+ * ニワン語の一部として使えるようにエスケープする
+ */
 std::string escape(bool val)
 {
 	return val ? "true" : "false";
 }
 
+/**
+ * 制御のための例外。
+ * 正常に成功して大域脱出するために使う。
+ * 正常なのに例外で制御？と思われると思いますが、
+ * ANTLRの作者が言ってたので間違いないと思います（敬語）
+ */
 class FinishException : public std::exception
 {
 
 };
+/**
+ * 制御のための例外。
+ * 正常なニコスクリプトの構文でないなどで失敗した事をしめす
+ */
 class FailException : public std::exception
 {
 
@@ -63,6 +79,9 @@ NicosAction::NicosAction(const float vpos, const std::string& mail, const std::v
 NicosAction::~NicosAction() {
 }
 
+/**
+ * すべてのアクションでこれを使う
+ */
 std::string NicosAction::trans()
 {
 	try{

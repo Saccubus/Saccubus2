@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_EXCEPTION_H_
-#define NEKOMATA_EXCEPTION_H_
-
+#pragma once
 #include <exception>
 #include <string>
 #include <cstdarg>
@@ -38,4 +36,3 @@ public:
 };
 
 }}
-#endif /* NEKOMATA_EXCEPTION_H_ */

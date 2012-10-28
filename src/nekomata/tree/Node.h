@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_H_
-#define NODE_H_
-
+#pragma once
 #include <map>
 #include <vector>
 #include <tr1/memory>
@@ -278,4 +276,3 @@ public:
 };
 
 }}
-#endif /* NODE_H_ */

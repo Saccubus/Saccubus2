@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_CLASSDEFS_H_
-#define NEKOMATA_CLASSDEFS_H_
-
+#pragma once
 namespace nekomata {
 
 class Nekomata;
@@ -94,5 +92,3 @@ class ContNode;
 }
 
 }
-
-#endif /* NEKOMATA_CLASSDEFS_H_ */

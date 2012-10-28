@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STACK_H_
-#define STACK_H_
-
+#pragma once
 #include <vector>
 
 namespace nekomata{
@@ -85,4 +83,3 @@ public:
 };
 
 }}
-#endif /* STACK_H_ */

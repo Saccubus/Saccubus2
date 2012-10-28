@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_LOGGING_H_
-#define NEKOMATA_LOGGING_H_
-
+#pragma once
 #include <string>
 #include <map>
 #include <vector>
@@ -80,5 +78,3 @@ private:
 };
 
 }}
-
-#endif /* NEKOMATA_LOGGING_H_ */

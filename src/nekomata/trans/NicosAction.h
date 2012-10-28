@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Nekomata_NICOSACTION_H__CPP_
-#define Nekomata_NICOSACTION_H__CPP_
-
+#pragma once
 #include <string>
 #include <vector>
 
@@ -56,4 +54,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

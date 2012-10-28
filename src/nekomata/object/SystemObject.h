@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SYSTEMOBJECT_H_
-#define SYSTEMOBJECT_H_
-
+#pragma once
 #include <nekomata/system/System.h>
 #include "Object.h"
 
@@ -196,4 +194,3 @@ public:
 };
 
 }}
-#endif /* SYSTEMOBJECT_H_ */

@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Nekomata_BUTTONACTION_H__CPP_
-#define Nekomata_BUTTONACTION_H__CPP_
-
+#pragma once
 #include "NicosAction.h"
 
 namespace nekomata {
@@ -40,4 +38,3 @@ private:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

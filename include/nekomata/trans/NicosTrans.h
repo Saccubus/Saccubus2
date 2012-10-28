@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Nekomata_NICOSTRANS_H__CPP_
-#define Nekomata_NICOSTRANS_H__CPP_
-
+#pragma once
 #include <string>
 
 namespace nekomata {
@@ -27,4 +25,3 @@ namespace trans {
 std::string toNiwango(const float vpos, const std::string& mail, const std::string& message, bool isOwner, bool isPremium);
 
 }}
-#endif /* INCLUDE_GUARD */

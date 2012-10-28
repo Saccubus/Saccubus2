@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MACHINE_HEAP_H_
-#define MACHINE_HEAP_H_
+#pragma once
 #include <string>
 #include <vector>
 #include <map>
@@ -114,5 +113,3 @@ public:
 };
 
 }}
-
-#endif /* MACHINE_HEAP_H_ */

@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_PARSER_H_
-#define NEKOMATA_PARSER_H_
+#pragma once
 #include <nekomata/classdefs.h>
 #include <tr1/memory>
 #include <iostream>
@@ -42,4 +41,4 @@ public:
 
 
 }}
-#endif /* NEKOMATA_PARSER_H_ */
+

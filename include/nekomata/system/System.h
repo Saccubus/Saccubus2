@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_SYSTEM_H_
-#define NEKOMATA_SYSTEM_H_
-
+#pragma once
 #include <cmath>
 #include <string>
 #include <set>
@@ -460,4 +458,3 @@ protected: /* INFO: 各サブシステムで再実装すること。 */
 #undef SET_DEFAULT
 
 }}
-#endif /* NEKOMATA_SYSTEM_H_ */

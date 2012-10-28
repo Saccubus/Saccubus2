@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PARSEUTIL_H_
-#define PARSEUTIL_H_
-
+#pragma once
 #include <string>
 #include <tr1/memory>
 #include <antlr3.h>
@@ -36,4 +34,3 @@ const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Nod
 const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
 
 }}}
-#endif /* PARSEUTIL_H_ */

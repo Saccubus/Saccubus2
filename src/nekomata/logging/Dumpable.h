@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEKOMATA_DUMPABLE_H_
-#define NEKOMATA_DUMPABLE_H_
-
+#pragma once
 #include <nekomata/classdefs.h>
 
 namespace nekomata{
@@ -33,4 +31,3 @@ public:
 };
 
 }}
-#endif /* NEKOMATA_DUMPABLE_H_ */

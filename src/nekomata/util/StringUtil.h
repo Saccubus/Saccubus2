@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STRINGUTIL_H_
-#define STRINGUTIL_H_
-
+#pragma once
 #include <string>
 #include <cstdarg>
 #include <vector>
@@ -44,4 +42,3 @@ std::string generateRandomString(size_t len);
 const std::string unescapeString(const std::string& str);
 
 }}
-#endif /* STRINGUTIL_H_ */

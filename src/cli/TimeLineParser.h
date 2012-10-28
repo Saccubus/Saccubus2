@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TIMELINEPARSER_H_
-#define TIMELINEPARSER_H_
-
+#pragma once
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -39,4 +37,3 @@ public:
 };
 
 }
-#endif /* TIMELINEPARSER_H_ */
