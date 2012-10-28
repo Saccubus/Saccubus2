@@ -16,10 +16,11 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-import urllib;
-import http;
-from .error import LoginError;
-from .constant import COOKIE_DOMAIN, LOGIN_URL;
+import urllib
+import urllib.request
+import http
+from saccubus.net.login.error import LoginError;
+from saccubus.net.login.constant import COOKIE_DOMAIN, COOKIE_NAME, LOGIN_URL;
 
 def login(userid, password):
 	auth = {
@@ -30,14 +31,15 @@ def login(userid, password):
 	authPayload = urllib.parse.urlencode(auth).encode('utf-8')
 	request = urllib.request.Request(LOGIN_URL, authPayload)
 	opener = urllib.request.build_opener(
-		urllib.request.HTTPCookieProcessor(jar),
+		urllib.request.HTTPSHandler(check_hostname=False, debuglevel=2),
+		urllib.request.HTTPCookieProcessor(jar)
 		)
 	try:
 		resp = opener.open(request)
 	except urllib.error.HTTPError:
-		raise LoginError("Failed to login Nicovideo. Please check your Email and password.");
+		raise LoginError("Failed to login Nicovideo. Please check your email address and password.");
 	resp.close()
 	for cookie in jar:
-		if cookie.domain == COOKIE_DOMAIN:
+		if cookie.domain == COOKIE_DOMAIN and cookie.name == COOKIE_NAME:
 			return jar
 	raise LoginError("Failed to login Nicovideo.");

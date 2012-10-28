@@ -16,12 +16,19 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+
 import unittest
+if __name__ == "__main__":
+	import sys
+	import os
+	abs = os.path.abspath(os.path.join(os.path.dirname(__file__), "..","..",".."))
+	sys.path.append(abs)
+
 from saccubus.net.login import own;
 from saccubus.net.login.error import LoginError;
 from saccubus import test_common;
 
-class Test(unittest.TestCase):
+class OwnLoginTest(unittest.TestCase):
 
 
 	def setUp(self):
@@ -33,32 +40,30 @@ class Test(unittest.TestCase):
 
 
 	def testNone(self):
+		jar = None
 		try:
-			own.login(None, None)
+			jar=own.login(None, None)
 		except LoginError:
 			pass
 		except:
 			self.fail("ログイン中に未知のエラーが発生")
 		else:
-			self.fail("(None, None)でログイン成功？")
+			self.fail("(None, None)でログイン成功？: {0}".format(str(jar)))
 
 	def testLogin(self):
-		self.assertIsNotNone(
-			own.login(test_common.TEST_USER,test_common.TEST_PASS),
-			"正しいパスワードでもログインできません"
-			)
+		jar = own.login(test_common.TEST_USER,test_common.TEST_PASS)
+		self.assertIsNotNone(jar,"正しいパスワードでもログインできません")
 
 	def testLoginFailure(self):
+		jar=None
 		try:
-			own.login(test_common.TEST_USER,"__invalid_password__")
+			jar=own.login(test_common.TEST_USER,"__invalid_password__")
 		except LoginError:
 			pass
 		except:
-			self.fail("ログイン中に未知のエラーが発生")
+			self.fail("ログイン中に未知のエラーが発生: {0}".format(repr(jar)))
 		else:
-			self.fail("間違ったパスワードでログインできちゃう？？")
-
+			self.fail("間違ったパスワードでログインできちゃう？？: {0}".format(repr(jar)))
 
 if __name__ == "__main__":
-	#import sys;sys.argv = ['', 'Test.testLogin']
-	unittest.main()
+	unittest.main(verbosity=2)
