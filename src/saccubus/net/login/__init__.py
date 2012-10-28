@@ -17,9 +17,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from . import chrome, firefox, own, ie;
-from .util import isLoggedIn;
-from ..error import SaccubusError;
+from saccubus.net.login import chrome, firefox, own, ie;
+from saccubus.net.login.util import isLoggedIn;
+from saccubus.error import SaccubusError;
 
 '''
 ニコニコ動画にログインし、CookieJarを返します。

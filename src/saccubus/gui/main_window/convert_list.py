@@ -26,7 +26,6 @@ from saccubus.resource import rule
 import os
 import re
 import tempfile
-import shlex
 
 class TaskRunner(threading.Thread):
 	def __init__(self, task):
@@ -87,6 +86,7 @@ class TaskRunner(threading.Thread):
 			raise Exception("動画{0}の変換に失敗しました。".format(self.task.videoId));
 		print("[{0}] executed".format(self.task.videoId));
 	def launchPosix(self, ffarg):
+		import shlex
 		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
 		logfile=shlex.quote(logfile)
 		cmdline = "{arg} 2>&1 | tee -a {log}".format(arg=ffarg, log=logfile)
