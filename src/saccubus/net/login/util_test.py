@@ -40,6 +40,7 @@ class Test(unittest.TestCase):
 		jar = util.searchNicoSessionFrom(
 			"/home/psi/.mozilla/firefox",
 			"C:/Users/psi/AppData/Roaming/Mozilla/Firefox/Profiles/3whnmkfi.default",
+			"C:/Users/psi/AppData/Local/Google/Chrome/User Data/Default"
 			);
 		self.assertIsNotNone(jar);
 		self.assertTrue(util.isLoggedIn(jar))
