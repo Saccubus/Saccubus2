@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef Saccubus_OPTIONPARSER_H__CPP_
-#define Saccubus_OPTIONPARSER_H__CPP_
-
+#pragma once
 #include <vector>
 #include <string>
 #include "ClassAccessor.h"
@@ -45,7 +43,7 @@ public:
 	DEF_ATTR_ACCESSOR(public, private, enum Type, type);
 	DEF_ATTR_ACCESSOR(public, private, enum Argument, argument);
 protected:
-	Option(const std::string& name, enum Type t, enum Argument a);
+	Option(std::string const& name, enum Type t, enum Argument a);
 public:
 	virtual ~Option();
 public:
@@ -63,4 +61,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

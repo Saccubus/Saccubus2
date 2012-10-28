@@ -79,7 +79,7 @@ void OptionParser::parse(int argc, char** argv, std::vector<std::string>& left)
 	}
 }
 
-Option::Option(const std::string& name, enum Type t, enum Argument a)
+Option::Option(std::string const& name, enum Type t, enum Argument a)
 {
 	this->name(name);
 	this->type(t);

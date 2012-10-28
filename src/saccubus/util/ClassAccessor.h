@@ -16,15 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CLASSACCESSOR_H_
-#define CLASSACCESSOR_H_
-
+#pragma once
 #define DEF_ATTR_ACCESSOR(rscope, wscope, type, name)\
 private:\
 	type _##name;\
 rscope:\
-	inline type name() const{return _##name;}\
+	inline type const& name() const{return _##name;}\
+	inline type& name(){return _##name;}\
 wscope:\
-	inline void name(type const& val){_##name = val;}
-
-#endif /* CLASSACCESSOR_H_ */
+	inline void name(type const& val){ this->_##name = val; }
