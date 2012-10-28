@@ -17,11 +17,11 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from . import meta_info;
-from . import play_info;
-from . import login;
-from .. import test_common;
-from . import video;
+from saccubus.net import meta_info;
+from saccubus.net import play_info;
+from saccubus.net import login;
+from saccubus import test_common;
+from saccubus.net import video;
 import os;
 
 TEST_VIDEO_ID='1339405721' #ニャル子さん。テスト時に変えたほうが良いかもしれぬ

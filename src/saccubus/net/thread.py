@@ -52,24 +52,25 @@ def getThreadKey(jar, thread_id):
 	return dict(urllib.parse.parse_qsl(resp.read().decode('utf-8')))
 
 def constructCommand(jar, play_info, thread_id_key, commentOpt):
-	lst = minidom.NodeList();
+	docImpl = minidom.getDOMImplementation()
+	doc = docImpl.createDocument(None, "packet", None)
+	packet = doc.documentElement
 	#デフォルトコメント
-	th = minidom.Element('thread')
+	th = doc.createElement('thread')
 	th.setAttribute('thread', play_info[thread_id_key])
 	th.setAttribute('version', '20090904')
 	th.setAttribute('user_id', play_info['user_id'])
 	th.setAttribute('scores', '1')
-	lst.append(th)
-	leave = minidom.Element('thread_leaves')
+	packet.appendChild(th)
+	leave = doc.createElement('thread_leaves')
 	leave.setAttribute('thread', play_info[thread_id_key])
 	leave.setAttribute('user_id', play_info['user_id'])
 	leave.setAttribute('scores', '1')
-	txt=minidom.Text();
-	txt.data = "0-{to}:100,{back}".format(back=str(commentOpt['comment-back']), to=str(int(play_info['l'])+59//60))
+	txt=doc.createTextNode("0-{to}:100,{back}".format(back=str(commentOpt['comment-back']), to=str(int(play_info['l'])+59//60)));
 	leave.appendChild(txt)
-	lst.append(leave)
+	packet.appendChild(leave)
 	#投稿者コメント
-	fth = minidom.Element('thread')
+	fth = doc.createElement('thread')
 	fth.setAttribute('thread', play_info[thread_id_key])
 	fth.setAttribute('version', '20061206')
 	fth.setAttribute('res_from', '-1000')
@@ -77,7 +78,7 @@ def constructCommand(jar, play_info, thread_id_key, commentOpt):
 	fth.setAttribute('user_id', play_info['user_id'])
 	fth.setAttribute('scores', '1')
 	fth.setAttribute('click_revision', '-1')
-	lst.append(fth)
+	packet.appendChild(fth)
 	# スレッドキーが必要な場合は取得
 	if 'needs_key' in play_info:
 		key_dict = getThreadKey(jar, play_info[thread_id_key])
@@ -85,16 +86,5 @@ def constructCommand(jar, play_info, thread_id_key, commentOpt):
 			th.setAttribute(k, v)
 			fth.setAttribute(k, v)
 			leave.setAttribute(k, v)
-	return constructPacketPayload(lst)
-
-'''
-コマンドのリストから、取得用のPOSTデータを取得する
-'''
-def constructPacketPayload(commandNodes):
-	doc = minidom.Document()
-	packet = doc.createElement("packet");
-	doc.appendChild(packet)
-	for node in commandNodes:
-		packet.appendChild(node)
 	return doc.toxml('utf-8')
 

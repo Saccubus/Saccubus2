@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from .error import LoginError;
+from saccubus.net.login.error import LoginError;
 
 class Test(unittest.TestCase):
 	def testLoginErrorCatch(self):

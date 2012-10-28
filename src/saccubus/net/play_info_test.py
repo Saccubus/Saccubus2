@@ -17,10 +17,10 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from . import login;
-from .login import util;
-from . import play_info;
-from .. import test_common;
+from saccubus.net import login;
+from saccubus.net.login import util;
+from saccubus.net import play_info;
+from saccubus import test_common;
 import os;
 
 class Test(unittest.TestCase):

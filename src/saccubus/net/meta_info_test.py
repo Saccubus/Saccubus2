@@ -17,9 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from . import meta_info;
-from . import error;
-from .. import test_common;
+from saccubus.net import meta_info, error;
+from saccubus import test_common;
 import os;
 class Test(unittest.TestCase):
 	def testSucceed(self):

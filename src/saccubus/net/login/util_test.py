@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from . import util;
+from saccubus.net.login import util;
 
 class Test(unittest.TestCase):
 

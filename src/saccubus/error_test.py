@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from .error import SaccubusError;
+from saccubus.error import SaccubusError;
 
 class Test(unittest.TestCase):
 	def setUp(self):

@@ -26,6 +26,7 @@ from saccubus.resource import rule
 import os
 import re
 import tempfile
+import shlex
 
 class TaskRunner(threading.Thread):
 	def __init__(self, task):
@@ -63,7 +64,14 @@ class TaskRunner(threading.Thread):
 		finally:
 			self.task.onExecuted(self)
 	def launchWin(self, ffarg):
+		# TODO: shlex.quoteに相当するものがWindows版Pythonにないので再発明
+		# http://up-cat.net/%25A5%25B3%25A5%25DE%25A5%25F3%25A5%25C9%25A5%25D7%25A5%25ED%25A5%25F3%25A5%25D7%25A5%25C8%25A4%25CE%25A5%25A8%25A5%25B9%25A5%25B1%25A1%25BC%25A5%25D7%25BB%25C5%25CD%25CD.html
+		def quoteWin(arg):
+			arg = "\\\\".join(arg.split("\\"))
+			arg = "\\\"".join(arg.split("\""))
+			return arg
 		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
+		logfile=quoteWin(logfile)
 		cmdline = "{arg} 2>&1 | tee.exe -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.bat', delete=False)
 		tmp.write(bytes("@echo executing... > {0}\r\n".format(logfile), 'CP932'))
@@ -80,9 +88,10 @@ class TaskRunner(threading.Thread):
 		print("[{0}] executed".format(self.task.videoId));
 	def launchPosix(self, ffarg):
 		logfile = os.path.join(self.task.conf['sacc']['resolve-resource-path'], rule.formatLogFilename(self.task.videoId))
+		logfile=shlex.quote(logfile)
 		cmdline = "{arg} 2>&1 | tee -a {log}".format(arg=ffarg, log=logfile)
 		tmp = tempfile.NamedTemporaryFile('w+b', suffix='.sh', delete=False)
-
+		
 		tmp.write(bytes("echo executing... > {0}\n".format(logfile), 'utf-8'))
 		tmp.write(bytes("echo \"{0}\" >> {1}\n".format(cmdline, logfile), 'utf-8'))
 		tmp.write(bytes("echo result: >> {0}\n".format(logfile), 'utf-8'))

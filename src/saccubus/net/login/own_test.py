@@ -17,9 +17,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from . import own;
-from .error import LoginError;
-from ... import test_common;
+from saccubus.net.login import own;
+from saccubus.net.login.error import LoginError;
+from saccubus import test_common;
 
 class Test(unittest.TestCase):
 

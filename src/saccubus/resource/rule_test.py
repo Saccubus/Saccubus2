@@ -6,7 +6,7 @@ Created on 2012/04/19
 @author: psi
 '''
 import unittest
-from . import rule;
+from saccubus.resource import rule;
 
 class Test(unittest.TestCase):
 

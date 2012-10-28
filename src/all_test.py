@@ -16,26 +16,21 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+import imp
+import os
 import unittest
-import os.path;
-from saccubus import test_common;
-from saccubus.net.login import firefox, constant;
-
-class Test(unittest.TestCase):
-	def setUp(self):
-		pass
-	def tearDown(self):
-		pass
-	def testReadDatabase(self):
-		jar = firefox.readDatabase(os.path.join(test_common.PATH, "net", "login", "firefox.sqlite"));
-		for cookie in jar:
-			if cookie.name=="user_session" and cookie.domain==constant.COOKIE_DOMAIN:
-				self.assertEqual("user_session_26735140_14681406081901241868", cookie.value);
-				#self.assertTrue(util.isLoggedIn(jar));
-				return
-		self.fail("Failed to read fiurefox cookie!");
-
+import sys
 
 if __name__ == "__main__":
-	#import sys;sys.argv = ['', 'Test.testName']
-	unittest.main()
+	suite = unittest.TestSuite()
+	loader = unittest.TestLoader()
+	abs = os.path.abspath(os.path.dirname(__file__))
+	sys.path.append(abs)
+	for dpath,dnames,fnames in os.walk(abs):
+		for fname in fnames:
+			file=os.path.join(dpath, fname)
+			if os.path.isfile(file) and file.endswith('_test.py'):
+				print("Test: {0}".format(file))
+				mod = imp.load_source(os.path.splitext(file)[0], file)
+				suite.addTest(loader.loadTestsFromModule(mod))
+	unittest.TextTestRunner(verbosity=3).run(suite)

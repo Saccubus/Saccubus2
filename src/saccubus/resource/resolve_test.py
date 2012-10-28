@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import unittest
-from .resolve import Resolver, fromNative;
+from saccubus.resource.resolve import Resolver, fromNative;
 from saccubus import test_common;
 from saccubus.error import SaccubusError;
 import os.path;

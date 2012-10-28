@@ -6,9 +6,9 @@ Created on 2012/04/19
 @author: psi
 '''
 import unittest
-from . import login;
-from ..error import SaccubusError;
-from ... import test_common;
+from saccubus.net.login import login;
+from saccubus.error import SaccubusError;
+from saccubus import test_common;
 
 class Test(unittest.TestCase):
 

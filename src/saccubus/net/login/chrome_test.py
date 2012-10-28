@@ -18,8 +18,8 @@
 '''
 import unittest
 import os;
-from ... import test_common;
-from . import chrome, constant;
+from saccubus import test_common;
+from saccubus.net.login import chrome, constant;
 
 class Test(unittest.TestCase):
 
