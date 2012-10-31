@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef METAINFO_H_
-#define METAINFO_H_
-
+#pragma once
 #include "../classdefs.h"
 #include "../util/ClassAccessor.h"
 #include "ReplaceTable.h"
@@ -40,4 +37,3 @@ private:
 };
 
 }}
-#endif /* METAINFO_H_ */

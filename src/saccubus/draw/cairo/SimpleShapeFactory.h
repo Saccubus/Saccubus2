@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CAIRO_SIMPLESHAPEFACTORY_H__CPP_
-#define CAIRO_SIMPLESHAPEFACTORY_H__CPP_
-
+#pragma once
 #include "Renderer.h"
 #include "../ShapeFactory.h"
 
@@ -36,4 +33,3 @@ public:
 };
 
 }}}
-#endif /* INCLUDE_GUARD */

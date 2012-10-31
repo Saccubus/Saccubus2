@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef REPLACEITEM_H_
-#define REPLACEITEM_H_
-
+#pragma once
 #include <string>
 
 namespace saccubus {
@@ -47,4 +44,3 @@ public:
 };
 
 }}
-#endif /* REPLACEITEM_H_ */

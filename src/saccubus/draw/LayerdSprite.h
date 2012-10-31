@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef DRAW_LAYERDSPRITE_H_
-#define DRAW_LAYERDSPRITE_H_
+#pragma once
 
 #include <vector>
 #include "../classdefs.h"
@@ -45,4 +43,3 @@ public:
 };
 
 }}
-#endif /* DRAW_LAYERDSPRITE_H_ */

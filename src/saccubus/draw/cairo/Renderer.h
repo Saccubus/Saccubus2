@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CAIRO_RENDERER_H_
-#define CAIRO_RENDERER_H_
-
+#pragma once
 #include <map>
 #include <cairo/cairo.h>
 #include "../Renderer.h"
@@ -43,4 +40,3 @@ public: /* 各実装がこれを実際に実装する */
 };
 
 }}}
-#endif /* INCLUDE_GUARD */

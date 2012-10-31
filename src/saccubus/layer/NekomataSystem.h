@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_NEKOMATASYSTEM_H__CPP_
-#define Saccubus_NEKOMATASYSTEM_H__CPP_
-
+#pragma once
 #include <nekomata/system/System.h>
 #include <deque>
 #include "../draw/CommentFactory.h"
@@ -66,4 +63,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

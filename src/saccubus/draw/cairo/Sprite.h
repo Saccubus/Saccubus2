@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CAIRO_SPRITE_H_
-#define CAIRO_SPRITE_H_
-
+#pragma once
 #include <cairo/cairo.h>
 #include "../Sprite.h"
 #include "Renderer.h"
@@ -39,5 +36,3 @@ public:
 };
 
 }}}
-
-#endif /* CAIRO_SPRITE_H_ */

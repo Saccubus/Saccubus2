@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef SCRIPTEXCEPTION_H_
-#define SCRIPTEXCEPTION_H_
-
+#pragma once
 #include "../logging/Exception.h"
 #include <cstdarg>
 
@@ -32,4 +29,3 @@ public:
 };
 
 }}
-#endif /* SCRIPTEXCEPTION_H_ */

@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_BUTTON_H__CPP_
-#define Saccubus_BUTTON_H__CPP_
-
+#pragma once
 #include "Comment.h"
 
 namespace saccubus {
@@ -69,4 +66,3 @@ protected:
 };
 
 }}}
-#endif /* INCLUDE_GUARD */

@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef SACCUBUS_H_
-#define SACCUBUS_H_
-
+#pragma once
 #include <string>
 #include <map>
 #include <iostream>
@@ -88,4 +85,3 @@ public: // 内部から呼ばれます
 };
 
 }
-#endif /* SACCUBUS_H_ */

@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_NEKOITEM_H__CPP_
-#define Saccubus_NEKOITEM_H__CPP_
-
+#pragma once
 #include <nekomata/system/System.h>
 #include "Item.h"
 
@@ -55,4 +52,3 @@ private:
 };
 
 }}}
-#endif /* INCLUDE_GUARD */

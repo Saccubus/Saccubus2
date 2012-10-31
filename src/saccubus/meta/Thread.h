@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef THREAD_H_
-#define THREAD_H_
-
+#pragma once
 #include <string>
 #include <libxml2/libxml/tree.h>
 #include "Comment.h"
@@ -52,4 +49,3 @@ public:
 };
 
 }}
-#endif /* THREAD_H_ */

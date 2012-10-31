@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef DRAW_SPRITE_H_
-#define DRAW_SPRITE_H_
-
+#pragma once
 #include <tr1/memory>
 #include "../logging/Exception.h"
 #include "../classdefs.h"
@@ -165,6 +162,3 @@ void swap(Sprite::Handler<T>& a, Sprite::Handler<T>& b)
 }
 
 }}
-
-
-#endif /* DRAW_SPRITE_H_ */

@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SACCUBUS_TESTCOMMON_H_
-#define SACCUBUS_TESTCOMMON_H_
-
+#pragma once
 #include <tr1/memory>
 using std::tr1::shared_ptr;
 #include <gtest/gtest.h>
@@ -38,4 +36,3 @@ public:\
 	type name() {return this->super::name(); }\
 	void name(type const& val) { this->super::name(val); }
 
-#endif /* SACCUBUS_TESTCOMMON_H_ */

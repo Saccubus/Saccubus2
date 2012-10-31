@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CAIRO_ARTISTIC_COMMENT_FACTORY_H_
-#define CAIRO_ARTISTIC_COMMENT_FACTORY_H_
+#pragma once
 
 #define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
 
@@ -61,4 +59,3 @@ public:
 };
 
 }}}
-#endif /* INCLUDE GUARD */

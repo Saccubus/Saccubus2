@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef COMMENTLAYER_H_
-#define COMMENTLAYER_H_
-
+#pragma once
 #include <vector>
 #include "Layer.h"
 #include <tr1/memory>
@@ -41,4 +38,3 @@ public:
 
 }}
 
-#endif /* COMMENTLAYER_H_ */

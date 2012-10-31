@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_SHAPEFACTORY_H__CPP_
-#define Saccubus_SHAPEFACTORY_H__CPP_
+#pragma once
 #include "RawSprite.h"
 #include "../util/ClassAccessor.h"
 #include <nekomata/system/System.h>
@@ -39,4 +37,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef THREADLAYER_H_
-#define THREADLAYER_H_
-
+#pragma once
 #include <nekomata/Nekomata.h>
 #include <vector>
 #include "../classdefs.h"
@@ -62,4 +59,3 @@ public:
 };
 
 }}
-#endif /* THREADLAYER_H_ */

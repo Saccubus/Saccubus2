@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef BUNDLE_H_
-#define BUNDLE_H_
-
+#pragma once
 #include <string>
 #include <map>
 #include <vector>
@@ -48,4 +45,3 @@ public:
 };
 
 }}
-#endif /* BUNDLE_H_ */

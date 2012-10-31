@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef UTIL_H_
-#define UTIL_H_
-
+#pragma once
 #include <string>
 #include <libxml2/libxml/tree.h>
 
@@ -50,4 +47,3 @@ bool compareNodeName(xmlNode* node, const std::string& name);
 std::string readNodeContent(xmlNode* node);
 
 }}
-#endif /* UTIL_H_ */

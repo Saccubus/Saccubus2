@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CONTEXT_COMMENT_H_
-#define CONTEXT_COMMENT_H_
-
+#pragma once
 #include <nekomata/system/System.h>
 #include <string>
 #include <tr1/memory>
@@ -130,4 +127,3 @@ private:
 };
 
 }}}
-#endif /* CONTEXT_COMMENT_H_ */

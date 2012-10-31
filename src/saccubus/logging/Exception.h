@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef SACCUBUS_EXCEPTION_H_
-#define SACCUBUS_EXCEPTION_H_
-
+#pragma once
 #include <exception>
 #include <string>
 #include <cstdarg>
@@ -53,4 +50,3 @@ public:
 };
 
 }}
-#endif /* SACCUBUS_EXCEPTION_H_ */

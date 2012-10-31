@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CONTEXT_ITEM_H_
-#define CONTEXT_ITEM_H_
-
+#pragma once
 #include "../../draw/Sprite.h"
 
 namespace saccubus {
@@ -49,4 +46,3 @@ public:
 };
 
 }}}
-#endif /* CONTEXT_ITEM_H_ */

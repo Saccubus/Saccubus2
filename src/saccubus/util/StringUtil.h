@@ -15,13 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#pragma once
 #include <cstdarg>
 #include <string>
 #include <vector>
-
-#ifndef SACCUBUS_STRINGUTIL_H_
-#define SACCUBUS_STRINGUTIL_H_
 /* FIXME: 明らかに猫又側と被ってる。
  * 共有ライブラリとしてくくりだしたいけど、
  * 猫又の独立性を高めたい、というのもある。 */
@@ -45,4 +42,3 @@ bool startsWith(const std::string& target, const std::string& prefix);
 bool endsWith(const std::string& target, const std::string& suffix);
 
 }}
-#endif /* SACCUBUS_STRINGUTIL_H_ */

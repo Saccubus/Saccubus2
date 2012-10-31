@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SACCUBUS_CLASSDEFS_H_
-#define SACCUBUS_CLASSDEFS_H_
+#pragma once
 
 /**
  * *ちゅうい！*
@@ -77,4 +76,3 @@ class Bundle;
 }
 
 }
-#endif /* SACCUBUS_CLASSDEFS_H_ */

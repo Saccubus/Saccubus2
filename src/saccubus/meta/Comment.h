@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef META_COMMENT_H_
-#define META_COMMENT_H_
-
+#pragma once
 #include <nekomata/classdefs.h>
 #include <string>
 #include <vector>
@@ -74,4 +71,3 @@ public:
 };
 
 }}
-#endif /* META_COMMENT_H_ */

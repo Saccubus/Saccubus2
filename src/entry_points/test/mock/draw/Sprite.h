@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef MOCK_DRAW_SPRITE_H_
-#define MOCK_DRAW_SPRITE_H_
-
+#pragma once
 #include "../../../../saccubus/draw/RawSprite.h"
 
 namespace saccubus {
@@ -35,4 +32,3 @@ public:
 };
 
 }}}
-#endif /* MOCK_DRAW_SPRITE_H_ */

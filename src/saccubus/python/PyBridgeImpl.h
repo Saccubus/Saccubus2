@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef PYBRIDGEIMPL_H_
-#define PYBRIDGEIMPL_H_
-
+#pragma once
 #include <Python.h>
 #include <string>
 #include <auto_ptr.h>
@@ -76,4 +73,3 @@ public:
 };
 
 }}
-#endif /* PYBRIDGEIMPL_H_ */

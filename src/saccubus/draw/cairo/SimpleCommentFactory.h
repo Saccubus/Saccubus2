@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef CAIRO_SIMPLECOMMENTFACTORY_H_
-#define CAIRO_SIMPLECOMMENTFACTORY_H_
-
+#pragma once
 #define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
 
 #include <map>
@@ -61,4 +58,3 @@ public:
 };
 
 }}}
-#endif /* CAIRO_SIMPLECOMMENTFACTORY_H_ */

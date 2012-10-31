@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_DRAW_CONTEXT_H__CPP_
-#define Saccubus_DRAW_CONTEXT_H__CPP_
-
+#pragma once
 #include <tr1/memory>
 #include "../NicoConstant.h"
 #include "../classdefs.h"
@@ -42,4 +39,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

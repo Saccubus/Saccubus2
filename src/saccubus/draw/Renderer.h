@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef DRAW_RENDERER_H_
-#define DRAW_RENDERER_H_
+#pragma once
 #include "RawSprite.h"
 #include "../classdefs.h"
 #include <vector>
@@ -68,4 +66,3 @@ public: /* 各実装がこれを実際に実装する */
 };
 
 }}
-#endif /* DRAW_RENDERER_H_ */

@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef VIDEO_H_
-#define VIDEO_H_
-
+#pragma once
 #include <map>
 #include <vector>
 #include <string>
@@ -53,4 +50,3 @@ public:
 };
 
 }}
-#endif /* VIDEO_H_ */

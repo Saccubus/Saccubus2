@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef Saccubus_NULLSPRITE_H__CPP_
-#define Saccubus_NULLSPRITE_H__CPP_
+#pragma once
 
 #include "Sprite.h"
 
@@ -44,4 +42,3 @@ public:
 };
 
 }}
-#endif /* INCLUDE_GUARD */

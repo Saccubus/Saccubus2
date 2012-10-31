@@ -15,8 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SACCUBUS_FF_ADAPTER_H
-#define SACCUBUS_FF_ADAPTER_H
+#pragma once
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -86,4 +85,3 @@ extern SaccReleaseFn SaccRelease;
 #ifdef __cplusplus
 }
 #endif
-#endif /* INCLUDE_GUARD */

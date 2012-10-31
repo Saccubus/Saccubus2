@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef MOCK_RENDERER_H_
-#define MOCK_RENDERER_H_
-
+#pragma once
 #include "../../../../saccubus/draw/Renderer.h"
 
 namespace saccubus {
@@ -38,4 +35,3 @@ public:
 	std::tr1::shared_ptr<saccubus::draw::Context> createContext();
 };
 }}}
-#endif /* MOCK_RENDERER_H_ */
