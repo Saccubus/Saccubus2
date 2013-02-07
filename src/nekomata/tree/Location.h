@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LOCATION_H_
-#define LOCATION_H_
-
+#pragma once
 #include <string>
 
 namespace nekomata{
@@ -48,4 +46,3 @@ public:
 };
 
 }}
-#endif /* LOCATION_H_ */
