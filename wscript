@@ -66,7 +66,7 @@ def configureLibrary(conf):
 	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST')
 	conf.check(features='cxx cxxprogram', lib=['antlr3c'], cflags=['-Wall'], uselib_store='ANTLR')
 	conf.check(features='cxx cxxprogram', lib=['python32'], cflags=['-Wall'], uselib_store='PYTHON')
-	conf.check(features='cxx cxxprogram', lib=['nekomata'], cflags=['-Wall'], uselib_store='NEKOMATA')
+	conf.check_cfg(package='nekomata', uselib_store='NEKOMATA', mandatory=True, args='--cflags --libs')
 
 def build(bld):
 	if not bld.variant:
