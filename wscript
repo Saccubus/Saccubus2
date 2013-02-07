@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import copy
 
 APPNAME = 'Saccubus'
 VERSION = '2.0.0'
@@ -29,14 +30,14 @@ def enum(dirname, exclude=[], exts=['.cpp','.c']):
 SACC_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
 SACC_SRC=enum('src/saccubus')
 
-CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'entry_points','cli')
-CLI_SRC=enum('entry_points/cli')
+CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','cli')
+CLI_SRC=enum('src/entry_points/cli')
 
-TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'entry_points','test')
-TEST_SRC=enum('entry_points/test')
+TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','test')
+TEST_SRC=enum('src/entry_points/test')
 
-FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'entry_points','ffmpeg')
-FFMPEG_SRC=enum('entry_points/ffmpeg')
+FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
+FFMPEG_SRC=enum('src/entry_points/ffmpeg')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
@@ -60,51 +61,37 @@ def configure(conf):
 
 def configureLibrary(conf):
 	conf.load('compiler_c compiler_cxx')
-	conf.check_cfg(package='icu-uc icu-i18n', uselib_store='ICU', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='libxml-2.0', uselib_store='LIBXML2', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='cairo', uselib_store='CAIRO', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs')
+	conf.check_cfg(package='fontconfig', uselib_store='FONTCONFIG', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='sdl2', uselib_store='SDL2', mandatory=True, args='--cflags --libs')
-	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST')
-	conf.check(features='cxx cxxprogram', lib=['antlr3c'], cflags=['-Wall'], uselib_store='ANTLR')
 	conf.check(features='cxx cxxprogram', lib=['python32'], cflags=['-Wall'], uselib_store='PYTHON')
 	conf.check_cfg(package='nekomata', uselib_store='NEKOMATA', mandatory=True, args='--cflags --libs')
+	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST', mandatory=False)
 
 def build(bld):
-	myenv = bld.env
 	if not bld.variant:
-		if bld.options.debug:
-			myenv = bld.all_envs['debug']
-		else:
-			myenv = bld.all_envs['release'];
+		bld.set_env(bld.all_envs['debug' if (bld.options.debug) else 'release'])
 	bld(
-		features = 'cxx cxxprogram',
+		features = 'cxx cprogram',
 		source = SACC_SRC+CLI_SRC,
 		target = 'SaccubusCLI',
-		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA'],
-		env=myenv
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA']
 		)
-
 	bld(
 		features = 'cxx cxxshlib',
 		source = SACC_SRC+FFMPEG_SRC,
 		target = 'Saccubus',
-		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA'],
-		env=myenv
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA']
 		)
-
-	test_env = None
-	if "coverage" in bld.all_envs:
-		test_env = bld.all_envs["coverage"]
-	else:
-		test_env = myenv
-	bld(
-		features = 'cxx cprogram',
-		source = SACC_SRC+TEST_SRC,
-		target = 'SaccubusTest',
-		env = test_env,
-		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA']
-		)
+#	bld(
+#		features = 'cxx cprogram',
+#		source = SACC_SRC+TEST_SRC,
+#		target = 'SaccubusTest',
+#		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
+#		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA', 'GTEST']
+#		)
 
 # from http://docs.waf.googlecode.com/git/book_16/single.html#_custom_build_outputs
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext
