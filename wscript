@@ -40,13 +40,15 @@ FFMPEG_SRC=enum('entry_points/ffmpeg')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
+	opt.add_option('--debug', action='store_true', default=False, help='debug build')
 	opt.load('compiler_c compiler_cxx')
 
 def configure(conf):
+	# release
 	conf.setenv('release')
 	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
 	configureLibrary(conf)
-	
+	# debug
 	conf.setenv('debug')
 	denv = conf.env;
 	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
@@ -69,28 +71,33 @@ def configureLibrary(conf):
 	conf.check_cfg(package='nekomata', uselib_store='NEKOMATA', mandatory=True, args='--cflags --libs')
 
 def build(bld):
+	myenv = bld.env
 	if not bld.variant:
-		bld.fatal('call "waf build_debug" or "waf build_release", and try "waf --help"')
-	srcdir=repr(bld.path)
+		if bld.options.debug:
+			myenv = bld.all_envs['debug']
+		else:
+			myenv = bld.all_envs['release'];
 	bld(
 		features = 'cxx cxxprogram',
 		source = SACC_SRC+CLI_SRC,
 		target = 'SaccubusCLI',
-		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA']
+		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA'],
+		env=myenv
 		)
 
 	bld(
 		features = 'cxx cxxshlib',
 		source = SACC_SRC+FFMPEG_SRC,
 		target = 'Saccubus',
-		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA']
+		use=['PPROF', 'ICU', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'SDL2', 'PYTHON', 'ANTLR', 'NEKOMATA'],
+		env=myenv
 		)
 
 	test_env = None
 	if "coverage" in bld.all_envs:
 		test_env = bld.all_envs["coverage"]
 	else:
-		test_env = bld.env
+		test_env = myenv
 	bld(
 		features = 'cxx cprogram',
 		source = SACC_SRC+TEST_SRC,
@@ -101,7 +108,6 @@ def build(bld):
 
 # from http://docs.waf.googlecode.com/git/book_16/single.html#_custom_build_outputs
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext
-
 for x in 'debug release'.split():
 	for y in (BuildContext, CleanContext, InstallContext, UninstallContext):
 		name = y.__name__.replace('Context','').lower()
