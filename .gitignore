@@ -2,8 +2,7 @@ src/nekomata/parser/niwango.tokens
 src/nekomata/trans/NicosMessage.tokens
 .cproject
 .project
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-cmake_uninstall.cmake
-Makefile
+.waf*
+waf*
+build/
+.lock*
