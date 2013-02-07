@@ -36,6 +36,7 @@ CLI_SRC=enum('src/cli')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
+	opt.add_option('--debug', action='store_true', default=False, help='debug build')
 	opt.load('compiler_c compiler_cxx')
 
 def configure(conf):
@@ -65,30 +66,35 @@ PRG_SRC=\
 		CLI_SRC
 
 def build(bld):
+	myenv = bld.env
 	if not bld.variant:
-		bld.fatal('call "waf build_debug" or "waf build_release", and try "waf --help"')
-	srcdir=repr(bld.path)
+		if bld.options.debug:
+			myenv = bld.all_envs['debug']
+		else:
+			myenv = bld.all_envs['release'];
 	bld(
 		is_install=True,
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC,
 		target = 'nekomata',
 		use=['PPROF', 'ICU','ANTLR'],
-		includes=[NEKOMATA_INC])
+		includes=[NEKOMATA_INC],
+		env=myenv)
 	bld(
 		features = 'cxx cxxprogram',
 		source = PRG_SRC,
 		target = 'NekoCLI',
 		use=['PPROF', 'ICU','ANTLR'],
-		includes=[NEKOMATA_INC])
-	print(bld.options.prefix)
+		includes=[NEKOMATA_INC],
+		env=myenv)
 	bld(
 		features = "subst",
 		source= "pkgconfig/nekomata.pc.in",
 		target= "nekomata.pc",
 		install_path='${PREFIX}/lib/pkgconfig/',
 		PREFIX = bld.env['PREFIX'],
-		VER=VERSION)
+		VER=VERSION,
+		env=myenv)
 	bld.install_files("${PREFIX}", enum('include',[],['.h']), relative_trick=True)
 	bld.install_files("${PREFIX}/lib", 'libnekomata.a')
 	#test_env = None
@@ -99,7 +105,6 @@ def build(bld):
 
 # from http://docs.waf.googlecode.com/git/book_16/single.html#_custom_build_outputs
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext
-
 for x in 'debug release'.split():
 	for y in (BuildContext, CleanContext, InstallContext, UninstallContext):
 		name = y.__name__.replace('Context','').lower()
@@ -109,4 +114,3 @@ for x in 'debug release'.split():
 
 def shutdown(ctx):
 	pass
-

@@ -1,0 +1,6 @@
+#!/bin/sh
+rm -rf build/
+rm -f .lock*
+rm -rf .waf-*
+rm -rf waf-*
+python ./waf configure $*
