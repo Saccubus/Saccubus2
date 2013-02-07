@@ -1,9 +1,8 @@
 *.dll
 .cproject
 .project
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-cmake_uninstall.cmake
-Makefile
-
+.waf*
+waf*
+build/
+.lock*
+__pycache__
