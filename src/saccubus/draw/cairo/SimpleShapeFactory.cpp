@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cmath>
 #include <cairo/cairo.h>
 #include "SimpleShapeFactory.h"
 #include "./Context.h"
@@ -109,7 +108,7 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(std::tr1::shared_p
 		if(shape->shape()=="circle"){
 			const double hw=w/2.0f;
 			cairo_scale(cairo, 1, (float)h/w);
-			cairo_arc(cairo, hw, hw, hw, 0, M_PI*2);
+			cairo_arc(cairo, hw, hw, hw, 0, draw::PI*2);
 			cairo_fill(cairo);
 		}else if(shape->shape()=="rect"){
 			cairo_paint(cairo);

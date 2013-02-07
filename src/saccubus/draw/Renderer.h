@@ -20,11 +20,17 @@
 #include "../classdefs.h"
 #include <vector>
 #include <tr1/memory>
+#include <cmath>
 
 namespace saccubus {
 namespace draw {
 
-const std::size_t MaxCachedRawSprites = 100;
+constexpr const std::size_t MaxCachedRawSprites = 100;
+#ifdef M_PI
+constexpr const float PI=M_PI;
+#else
+constexpr const float PI=3.1415926535897932384626433832795028841971693993751058209;
+#endif
 
 class Renderer {
 public:
