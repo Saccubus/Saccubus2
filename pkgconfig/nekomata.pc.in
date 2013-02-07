@@ -7,5 +7,6 @@ Name: nekomata
 Version: @VER@
 Description: the Open Niwan Language
 URL: http://http://saccubus.sourceforge.jp/
-Libs: -L${libdir} -lnekomata
+Libs: -L${libdir} -lnekomata -lantlr3c
 Cflags: -I${includedir}
+Requires: icu-uc icu-i18n

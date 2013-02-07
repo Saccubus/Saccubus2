@@ -66,35 +66,31 @@ PRG_SRC=\
 		CLI_SRC
 
 def build(bld):
-	myenv = bld.env
 	if not bld.variant:
-		if bld.options.debug:
-			myenv = bld.all_envs['debug']
-		else:
-			myenv = bld.all_envs['release'];
+		bld.set_env(bld.all_envs['debug' if (bld.options.debug) else 'release'])
 	bld(
 		is_install=True,
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC,
 		target = 'nekomata',
 		use=['PPROF', 'ICU','ANTLR'],
-		includes=[NEKOMATA_INC],
-		env=myenv)
+		includes=[NEKOMATA_INC]
+		)
 	bld(
 		features = 'cxx cxxprogram',
 		source = PRG_SRC,
-		target = 'NekoCLI',
+		target = 'Nekomata',
 		use=['PPROF', 'ICU','ANTLR'],
-		includes=[NEKOMATA_INC],
-		env=myenv)
+		includes=[NEKOMATA_INC]
+		)
 	bld(
 		features = "subst",
 		source= "pkgconfig/nekomata.pc.in",
 		target= "nekomata.pc",
 		install_path='${PREFIX}/lib/pkgconfig/',
 		PREFIX = bld.env['PREFIX'],
-		VER=VERSION,
-		env=myenv)
+		VER=VERSION
+		)
 	bld.install_files("${PREFIX}", enum('include',[],['.h']), relative_trick=True)
 	bld.install_files("${PREFIX}/lib", 'libnekomata.a')
 	#test_env = None
