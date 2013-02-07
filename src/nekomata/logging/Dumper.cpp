@@ -17,7 +17,7 @@
  */
 
 #include <sstream>
-#include <tr1/memory>
+#include <memory>
 #include <assert.h>
 #include <nekomata/logging/Logging.h>
 
@@ -27,7 +27,7 @@
 namespace nekomata{
 namespace logging
 {
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 
 Dumper::Dumper(std::ostream& stream)
 : indent(0), stream(stream)

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <tr1/memory>
+#include <memory>
 #include <cmath>
 #include <nekomata/logging/Logging.h>
 #include <nekomata/system/System.h>
@@ -29,8 +29,6 @@
 
 namespace nekomata{
 namespace system {
-
-using namespace std::tr1;
 
 static const std::string TAG("System");
 
@@ -103,8 +101,8 @@ void System::commentTrigger(float const timer, util::Handler<object::LazyEvalObj
 			timer, node->location().getLineNo(), node->location().getColNo(), node->location().getFilename().c_str(),
 			this->ctrigLine.size()
 			);
-	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, obj));
-	this->ctrigLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime(), evt));
+	std::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, obj));
+	this->ctrigLine.insert(std::pair<float, std::shared_ptr<EventEntry> >(currentTime(), evt));
 }
 void System::timer(float const timer, util::Handler<object::LazyEvalObject> obj)
 {
@@ -115,8 +113,8 @@ void System::timer(float const timer, util::Handler<object::LazyEvalObject> obj)
 			node->location().getLineNo(), node->location().getColNo(), node->location().getFilename().c_str(),
 			this->timerLine.size()+1
 			);
-	std::tr1::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, obj));
-	this->timerLine.insert(std::pair<float, std::tr1::shared_ptr<EventEntry> >(currentTime()+timer, evt));
+	std::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, obj));
+	this->timerLine.insert(std::pair<float, std::shared_ptr<EventEntry> >(currentTime()+timer, evt));
 }
 void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
 {
@@ -272,22 +270,22 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 		log.e(TAG, 0, "[BUG] FIXME: time was not synchronized correctly %f != %f.", currentTime(), from);
 	}
 	log.t(TAG, 0, "Running: <%f -> %f>", from, to);
-	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = messageQueue.begin();
+	std::deque<std::shared_ptr<const nekomata::system::Message> >::iterator it = messageQueue.begin();
 	for(; it != messageQueue.end() && (*it)->vpos() < to; ++it){
-		std::tr1::shared_ptr<const nekomata::system::Message> msg = *it;
+		std::shared_ptr<const nekomata::system::Message> msg = *it;
 		dispatchTimer(machine, currentTime());
 		currentTime(msg->vpos());
 		switch(msg->type)
 		{
 		case Message::COMMENT:
 		{
-			std::tr1::shared_ptr<const Comment> com = std::tr1::dynamic_pointer_cast<const Comment>(msg);
+			std::shared_ptr<const Comment> com = std::dynamic_pointer_cast<const Comment>(msg);
 			dispatchCommentTrigger(machine, com);
 		}
 			break;
 		case Message::SCRIPT:
 		{
-			std::tr1::shared_ptr<const Script> script = std::tr1::dynamic_pointer_cast<const Script>(msg);
+			std::shared_ptr<const Script> script = std::dynamic_pointer_cast<const Script>(msg);
 			machine.eval(script->node().get());
 		}
 			break;
@@ -301,19 +299,19 @@ void System::seek(machine::Machine& machine, const double from, const double to)
 	dispatchTimer(machine, currentTime());
 }
 
-void System::queueMessage(std::tr1::shared_ptr<const Message> message)
+void System::queueMessage(std::shared_ptr<const Message> message)
 {
-	std::deque<std::tr1::shared_ptr<const nekomata::system::Message> >::iterator it = std::upper_bound(this->messageQueue.begin(), this->messageQueue.end(), message, Message::ComparatorByVpos());
+	std::deque<std::shared_ptr<const nekomata::system::Message> >::iterator it = std::upper_bound(this->messageQueue.begin(), this->messageQueue.end(), message, Message::ComparatorByVpos());
 	this->messageQueue.insert(it, message);
 }
 
 void System::dispatchTimer(machine::Machine& machine, const double to)
 {
-	std::multimap<float, std::tr1::shared_ptr<EventEntry> >::iterator it = timerLine.begin();
-	std::multimap<float, std::tr1::shared_ptr<EventEntry> >::iterator end = timerLine.end();
+	std::multimap<float, std::shared_ptr<EventEntry> >::iterator it = timerLine.begin();
+	std::multimap<float, std::shared_ptr<EventEntry> >::iterator end = timerLine.end();
 	while(it != end){
 		if(to < it->first) break;
-		const std::tr1::shared_ptr<EventEntry> nextTimer = it->second;
+		const std::shared_ptr<EventEntry> nextTimer = it->second;
 		currentTime(it->first);
 		log.v(TAG, nextTimer->location(), "Current: %f Dispatching timer at: %f left:%d", currentTime(), it->first, timerLine.size());
 		nextTimer->eval();
@@ -324,7 +322,7 @@ void System::dispatchTimer(machine::Machine& machine, const double to)
 	currentTime(to);
 }
 
-void System::dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_ptr<const Comment> comment)
+void System::dispatchCommentTrigger(machine::Machine& machine, std::shared_ptr<const Comment> comment)
 {
 	this->dispatchCommentTrigger(machine,
 			comment->message(),
@@ -341,8 +339,8 @@ void System::dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_
 void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
-	for(std::multimap<float, std::tr1::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){
-		const std::tr1::shared_ptr<EventEntry> trigger = it->second;
+	for(std::multimap<float, std::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){
+		const std::shared_ptr<EventEntry> trigger = it->second;
 		log.v(TAG, trigger->location(), "Dispatching comment trigger for \"%s\"", message.c_str());
 		if(trigger->from() <= vpos && vpos < trigger->to()){
 			trigger->eval();

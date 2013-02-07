@@ -19,7 +19,7 @@
 #include <cmath>
 #include <sstream>
 #include <algorithm>
-#include <tr1/functional>
+#include <functional>
 #include <nekomata/logging/Logging.h>
 #include "Object.h"
 #include "Cast.h"
@@ -435,7 +435,7 @@ bool Object::_sort_func(machine::Machine* machine, Object* const self, Object* c
 DEF_BUILTIN(Object, sort)
 {
 	const Handler<Object> self(machine.getSelf());
-	std::sort(self->objectList.begin(), self->objectList.end(),std::tr1::bind(&Object::_sort_func, &machine, std::tr1::placeholders::_1, std::tr1::placeholders::_2));
+	std::sort(self->objectList.begin(), self->objectList.end(),std::bind(&Object::_sort_func, &machine, std::placeholders::_1, std::placeholders::_2));
 	machine.pushResult(self);
 }
 DEF_BUILTIN(Object, sum)

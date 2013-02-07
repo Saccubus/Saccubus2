@@ -21,7 +21,7 @@
 #include "../tree/Node.h"
 #include "ParseUtil.h"
 
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 namespace nekomata{
 namespace parser{
 namespace util{
@@ -39,7 +39,7 @@ const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok){
 const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok){
 	return tree::Location(createStringFromString(tok->input->fileName), tok->getLine(tok), tok->getCharPositionInLine(tok), createStringFromToken(tok));
 }
-const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node){
+const tree::Location createLocationFromNode(std::shared_ptr<const tree::Node> node){
 	return tree::Location(node->location());
 }
 

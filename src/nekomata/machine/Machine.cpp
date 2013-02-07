@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <tr1/memory>
+#include <memory>
 #include <nekomata/logging/Logging.h>
 
 #include "Machine.h"
@@ -26,7 +26,7 @@
 #include "../tree/Node.h"
 
 using namespace nekomata::tree;
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 
 namespace nekomata{
 namespace machine{

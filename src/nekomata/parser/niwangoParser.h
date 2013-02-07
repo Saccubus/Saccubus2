@@ -153,7 +153,7 @@ typedef struct niwangoParser_Ctx_struct niwangoParser, * pniwangoParser;
 
 #include <string>
 #include <iostream>
-#include <tr1/memory>
+#include <memory>
 #include <cstdlib>
 #include "ParseUtil.h"
 #include "../util/StringUtil.h"
@@ -161,7 +161,7 @@ typedef struct niwangoParser_Ctx_struct niwangoParser, * pniwangoParser;
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
 using nekomata::util::unescapeString;
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 typedef pANTLR3_COMMON_TOKEN Token;
 
 

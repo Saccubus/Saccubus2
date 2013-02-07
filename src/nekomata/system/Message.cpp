@@ -40,7 +40,7 @@ Comment::Comment(const std::string& message, double vpos, bool isYourPost, const
 
 }
 
-Script::Script(const float vpos, std::tr1::shared_ptr<const tree::Node> node)
+Script::Script(const float vpos, std::shared_ptr<const tree::Node> node)
 :Message(Message::SCRIPT, vpos)
 ,node_(node)
 {
@@ -59,15 +59,15 @@ bool Message::ComparatorByVpos::operator() (const float& a, const Message& b)
 {
 	return a < b.vpos();
 }
-bool Message::ComparatorByVpos::operator() (const std::tr1::shared_ptr<const Message>& a, const std::tr1::shared_ptr<const Message>& b)
+bool Message::ComparatorByVpos::operator() (const std::shared_ptr<const Message>& a, const std::shared_ptr<const Message>& b)
 {
 	return a->vpos() < b->vpos();
 }
-bool Message::ComparatorByVpos::operator() (const std::tr1::shared_ptr<const Message>& a, const float& b)
+bool Message::ComparatorByVpos::operator() (const std::shared_ptr<const Message>& a, const float& b)
 {
 	return a->vpos() < b;
 }
-bool Message::ComparatorByVpos::operator() (const float& a, const std::tr1::shared_ptr<const Message>& b)
+bool Message::ComparatorByVpos::operator() (const float& a, const std::shared_ptr<const Message>& b)
 {
 	return a < b->vpos();
 }

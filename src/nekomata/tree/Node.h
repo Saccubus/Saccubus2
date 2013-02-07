@@ -19,7 +19,7 @@
 #pragma once
 #include <map>
 #include <vector>
-#include <tr1/memory>
+#include <memory>
 #include "../logging/Dumpable.h"
 #include "Location.h"
 #include "NodeWalker.h"
@@ -51,10 +51,10 @@ public:
 class ContNode : public ExprNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> firstNode;
-	std::tr1::shared_ptr<const ExprNode> nextNode;
+	std::shared_ptr<const ExprNode> firstNode;
+	std::shared_ptr<const ExprNode> nextNode;
 public:
-	explicit ContNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> fistNode, std::tr1::shared_ptr<const ExprNode> nextNode)
+	explicit ContNode(const Location& loc, std::shared_ptr<const ExprNode> fistNode, std::shared_ptr<const ExprNode> nextNode)
 	:ExprNode(loc), firstNode(fistNode), nextNode(nextNode){};
 	virtual ~ContNode(){};
 	void dump(logging::Dumper& dumper) const;
@@ -66,10 +66,10 @@ public:
 class InvokeNode : public ExprNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> exprNode;
+	std::shared_ptr<const ExprNode> exprNode;
 	const std::string messageName;
 public:
-	explicit InvokeNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> exprNode, std::string messageName)
+	explicit InvokeNode(const Location& loc, std::shared_ptr<const ExprNode> exprNode, std::string messageName)
 	:ExprNode(loc), exprNode(exprNode), messageName(messageName) {};
 	virtual ~InvokeNode(){};
 	void dump(logging::Dumper& dumper) const;
@@ -82,12 +82,12 @@ public:
 class ObjectNode : public ExprNode
 {
 private:
-	std::map<std::string, std::tr1::shared_ptr<const ExprNode> > exprMap;
-	std::vector<std::tr1::shared_ptr<const ExprNode> > exprList;
+	std::map<std::string, std::shared_ptr<const ExprNode> > exprMap;
+	std::vector<std::shared_ptr<const ExprNode> > exprList;
 public:
 	explicit ObjectNode(const Location& loc);
 	virtual ~ObjectNode(){};
-	void append(std::string name, std::tr1::shared_ptr<const ExprNode> exprNode);
+	void append(std::string name, std::shared_ptr<const ExprNode> exprNode);
 	void dump(logging::Dumper& dumper) const;
 	void accept(NodeWalker& walker) const;
 	bool has(const std::string& name) const{return exprMap.count(name) > 0;}
@@ -102,11 +102,11 @@ public:
 
 class BinOpNode : public ExprNode{
 private:
-	std::tr1::shared_ptr<const ExprNode> leftNode;
+	std::shared_ptr<const ExprNode> leftNode;
 	const std::string op;
-	std::tr1::shared_ptr<const ExprNode> rightNode;
+	std::shared_ptr<const ExprNode> rightNode;
 public:
-	explicit BinOpNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> leftNode, const std::string op, std::tr1::shared_ptr<const ExprNode> rightNode)
+	explicit BinOpNode(const Location& loc, std::shared_ptr<const ExprNode> leftNode, const std::string op, std::shared_ptr<const ExprNode> rightNode)
 		:ExprNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
 	{};
 	virtual ~BinOpNode(){};
@@ -120,10 +120,10 @@ public:
 
 class PreOpNode : public ExprNode{
 private:
-	std::tr1::shared_ptr<const ExprNode> exprNode;
+	std::shared_ptr<const ExprNode> exprNode;
 	std::string op;
 public:
-	explicit PreOpNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> exprNode, std::string op)
+	explicit PreOpNode(const Location& loc, std::shared_ptr<const ExprNode> exprNode, std::string op)
 		:ExprNode(loc), exprNode(exprNode), op(op)
 	{};
 	virtual ~PreOpNode(){};
@@ -136,10 +136,10 @@ public:
 
 class PostOpNode : public ExprNode{
 private:
-	std::tr1::shared_ptr<const ExprNode> exprNode;
+	std::shared_ptr<const ExprNode> exprNode;
 	std::string op;
 public:
-	explicit PostOpNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> exprNode, std::string op)
+	explicit PostOpNode(const Location& loc, std::shared_ptr<const ExprNode> exprNode, std::string op)
 		:ExprNode(loc), exprNode(exprNode), op(op)
 	{};
 	virtual ~PostOpNode(){};
@@ -153,10 +153,10 @@ public:
 class BindNode : public ExprNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> exprNode;
-	std::tr1::shared_ptr<const ObjectNode> objectNode;
+	std::shared_ptr<const ExprNode> exprNode;
+	std::shared_ptr<const ObjectNode> objectNode;
 public:
-	explicit BindNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> exprNode, std::tr1::shared_ptr<const ObjectNode> objectNode)
+	explicit BindNode(const Location& loc, std::shared_ptr<const ExprNode> exprNode, std::shared_ptr<const ObjectNode> objectNode)
 		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
 	{};
 	virtual ~BindNode(){};
@@ -170,10 +170,10 @@ public:
 class IndexAcessNode : public ExprNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> exprNode;
-	std::tr1::shared_ptr<const ObjectNode> objectNode;
+	std::shared_ptr<const ExprNode> exprNode;
+	std::shared_ptr<const ObjectNode> objectNode;
 public:
-	explicit IndexAcessNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> exprNode, std::tr1::shared_ptr<const ObjectNode> objectNode)
+	explicit IndexAcessNode(const Location& loc, std::shared_ptr<const ExprNode> exprNode, std::shared_ptr<const ObjectNode> objectNode)
 		:ExprNode(loc), exprNode(exprNode), objectNode(objectNode)
 	{};
 	virtual ~IndexAcessNode(){};
@@ -195,11 +195,11 @@ public:
 class AssignNode : public AbstractAssignNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> leftNode;
-	std::tr1::shared_ptr<const ExprNode> rightNode;
+	std::shared_ptr<const ExprNode> leftNode;
+	std::shared_ptr<const ExprNode> rightNode;
 	const bool local;
 public:
-	explicit AssignNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> leftNode, std::tr1::shared_ptr<const ExprNode> rightNode, const bool isLocal)
+	explicit AssignNode(const Location& loc, std::shared_ptr<const ExprNode> leftNode, std::shared_ptr<const ExprNode> rightNode, const bool isLocal)
 		:AbstractAssignNode(loc), leftNode(leftNode), rightNode(rightNode), local(isLocal)
 	{};
 	virtual ~AssignNode(){};
@@ -214,11 +214,11 @@ public:
 class OpAssignNode : public AbstractAssignNode
 {
 private:
-	std::tr1::shared_ptr<const ExprNode> leftNode;
+	std::shared_ptr<const ExprNode> leftNode;
 	std::string op;
-	std::tr1::shared_ptr<const ExprNode> rightNode;
+	std::shared_ptr<const ExprNode> rightNode;
 public:
-	explicit OpAssignNode(const Location& loc, std::tr1::shared_ptr<const ExprNode> leftNode, const std::string op, std::tr1::shared_ptr<const ExprNode> rightNode)
+	explicit OpAssignNode(const Location& loc, std::shared_ptr<const ExprNode> leftNode, const std::string op, std::shared_ptr<const ExprNode> rightNode)
 		:AbstractAssignNode(loc), leftNode(leftNode), op(op), rightNode(rightNode)
 	{};
 	virtual ~OpAssignNode(){};

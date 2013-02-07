@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <tr1/memory>
+#include <memory>
 #include <nekomata/classdefs.h>
 #include "Object.h"
 #include "SystemObject.h"

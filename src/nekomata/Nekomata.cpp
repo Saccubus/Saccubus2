@@ -13,8 +13,6 @@
 #include "machine/Machine.h"
 #include "tree/Node.h"
 
-using namespace std::tr1;
-
 namespace nekomata {
 
 static const std::string TAG("Nekomata");
@@ -44,7 +42,7 @@ float Nekomata::currentTime()
 	return system.currentTime();
 }
 
-void Nekomata::queueMessage(std::tr1::shared_ptr<const nekomata::system::Message> msg)
+void Nekomata::queueMessage(std::shared_ptr<const nekomata::system::Message> msg)
 {
 	system.queueMessage(msg);
 }

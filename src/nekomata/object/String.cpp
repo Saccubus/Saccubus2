@@ -19,7 +19,7 @@
 #include <sstream>
 #include <cmath>
 #include <cstdlib>
-#include <tr1/memory>
+#include <memory>
 #include <unicode/unistr.h>
 #include <nekomata/parser/Parser.h>
 
@@ -209,7 +209,7 @@ DEF_BUILTIN(StringObject, toFloat)
 DEF_BUILTIN(StringObject, eval)
 {
 	const Handler<StringObject> self(machine.getSelf());
-	std::tr1::shared_ptr<const tree::Node> node = parser::Parser::fromString(self->toString())->parseProgram();
+	std::shared_ptr<const tree::Node> node = parser::Parser::fromString(self->toString())->parseProgram();
 	const Handler<Object> result(machine.eval(node.get()));
 	machine.pushResult(result);
 }

@@ -18,7 +18,7 @@
 
 #pragma once
 #include <string>
-#include <tr1/memory>
+#include <memory>
 #include <antlr3.h>
 #include <nekomata/classdefs.h>
 
@@ -30,7 +30,7 @@ namespace util{
 
 const std::string createStringFromString(pANTLR3_STRING string);
 const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok);
-const tree::Location createLocationFromNode(std::tr1::shared_ptr<const tree::Node> node);
+const tree::Location createLocationFromNode(std::shared_ptr<const tree::Node> node);
 const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
 
 }}}

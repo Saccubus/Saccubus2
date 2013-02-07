@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <tr1/memory>
+#include <memory>
 #include <nekomata/logging/Exception.h>
 #include <nekomata/parser/Parser.h>
 #include "niwangoLexer.h"
@@ -110,9 +110,9 @@ public:
 		return fromString(src, filename, 0);
 	}
 public:
-	std::tr1::shared_ptr<const tree::ExprNode> parseProgram()
+	std::shared_ptr<const tree::ExprNode> parseProgram()
 	{
-		std::tr1::shared_ptr<const tree::ExprNode> node(parser->program(parser));
+		std::shared_ptr<const tree::ExprNode> node(parser->program(parser));
 		if(parser->pParser->rec->state->error)
 		{
 			ANTLR3_EXCEPTION* ex = parser->pParser->rec->state->exception;
@@ -122,7 +122,7 @@ public:
 	}
 };
 
-Parser::Parser(std::tr1::shared_ptr<ParserImpl> impl)
+Parser::Parser(std::shared_ptr<ParserImpl> impl)
 :impl(impl)
 {
 	if(!impl){
@@ -132,28 +132,28 @@ Parser::Parser(std::tr1::shared_ptr<ParserImpl> impl)
 Parser::~Parser()
 {
 }
-std::tr1::shared_ptr<Parser> Parser::fromFile(const std::string& filename)
+std::shared_ptr<Parser> Parser::fromFile(const std::string& filename)
 {
-	std::tr1::shared_ptr<ParserImpl> impl(new ParserImpl);
+	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromFile(filename);
-	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
+	std::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<Parser> Parser::fromString(const std::string& src, const std::string& filename, int line)
+std::shared_ptr<Parser> Parser::fromString(const std::string& src, const std::string& filename, int line)
 {
-	std::tr1::shared_ptr<ParserImpl> impl(new ParserImpl);
+	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromString(src, filename, line);
-	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
+	std::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std::string& filename)
+std::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std::string& filename)
 {
-	std::tr1::shared_ptr<ParserImpl> impl(new ParserImpl);
+	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromStream(stream_, filename);
-	std::tr1::shared_ptr<Parser> parser(new Parser(impl));
+	std::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::tr1::shared_ptr<const tree::Node> Parser::parseProgram()
+std::shared_ptr<const tree::Node> Parser::parseProgram()
 {
 	return impl->parseProgram();
 }

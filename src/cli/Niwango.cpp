@@ -29,7 +29,6 @@
 #include "CLISystem.h"
 
 using namespace std;
-using namespace std::tr1;
 
 const std::string TAG("CLI");
 
@@ -116,7 +115,7 @@ int main(int argc, char* argv[]){
 
 	nekomata::logging::Logger log(std::cout, level);
 	log.t(TAG, 0, "Logger created. Level: %d", level);
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> > commentLine;
+	std::multimap<float, std::shared_ptr<const nekomata::system::Message> > commentLine;
 
 	if(optind == argc){
 		log.t(TAG, 0, "Parsing timeline from input stream.");
@@ -134,18 +133,18 @@ int main(int argc, char* argv[]){
 	if(dump){
 		log.t(TAG, 0, "Dumping timeline.");
 		nekomata::logging::Dumper dumper(std::cout);
-		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
+		for(std::multimap<float, std::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
 			std::cout << "time: " << it->first << std::endl;
 			std::cout.flush();
 			if(it->second->type == nekomata::system::Message::SCRIPT){
-				std::tr1::dynamic_pointer_cast<const nekomata::system::Script>(it->second)->node()->dump(dumper);
+				std::dynamic_pointer_cast<const nekomata::system::Script>(it->second)->node()->dump(dumper);
 			}else{
-				std::cout << "Comment: " << std::tr1::dynamic_pointer_cast<const nekomata::system::Comment>(it->second)->message() << std::endl;
+				std::cout << "Comment: " << std::dynamic_pointer_cast<const nekomata::system::Comment>(it->second)->message() << std::endl;
 			}
 		}
 		return 0;
 	}else{
-		for(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
+		for(std::multimap<float, std::shared_ptr<const nekomata::system::Message> >::const_iterator it = commentLine.begin(); it != commentLine.end(); ++it){
 			nekomata.queueMessage(it->second);
 			last = it->first;
 		}

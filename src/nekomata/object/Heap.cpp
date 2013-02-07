@@ -20,7 +20,7 @@
 #include <cmath>
 #include <set>
 #include <algorithm>
-#include <tr1/functional>
+#include <functional>
 #include <memory>
 #include <nekomata/logging/Logging.h>
 
@@ -213,7 +213,7 @@ Handler<LambdaObject> ObjectHeap::newLambdaObject(const Handler<Object> scope, c
 	return obj;
 }
 
-bool deleteFunc(int color, std::set<Object*, std::tr1::function<bool(Object*, Object*)> >* unused, Object* obj)
+bool deleteFunc(int color, std::set<Object*, std::function<bool(Object*, Object*)> >* unused, Object* obj)
 {
 	if(obj->getColor() == color){
 		return false;

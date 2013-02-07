@@ -20,7 +20,6 @@
 #include "Node.h"
 
 using nekomata::logging::Dumper;
-using namespace std::tr1;
 
 namespace nekomata{
 namespace tree{
@@ -78,9 +77,9 @@ void BinOpNode::dump(Dumper& dumper) const{
 }
 void ObjectNode::dump(Dumper& dumper) const{
 	dumper.printName("ObjectNode", location());
-	std::vector<std::tr1::shared_ptr<const nekomata::logging::Dumpable> > list(this->exprList.begin(), this->exprList.end());
+	std::vector<std::shared_ptr<const nekomata::logging::Dumpable> > list(this->exprList.begin(), this->exprList.end());
 	dumper.printDumpableList("exprList", list);
-	const std::map<std::string, std::tr1::shared_ptr<const nekomata::logging::Dumpable> > map(exprMap.begin(), exprMap.end());
+	const std::map<std::string, std::shared_ptr<const nekomata::logging::Dumpable> > map(exprMap.begin(), exprMap.end());
 	dumper.printDumpableList("exprMap", map);
 }
 void InvokeNode::dump(Dumper& dumper) const{

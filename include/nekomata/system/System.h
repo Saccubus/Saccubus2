@@ -22,7 +22,7 @@
 #include <set>
 #include <vector>
 #include <map>
-#include <tr1/memory>
+#include <memory>
 #include <deque>
 #include "../classdefs.h"
 #include "../util/Handler.h"
@@ -292,9 +292,9 @@ public:
 		bool operator() (const Message& a, const Message& b);
 		bool operator() (const Message& a, const float& b);
 		bool operator() (const float& a, const Message& b);
-		bool operator() (const std::tr1::shared_ptr<const Message>& a, const std::tr1::shared_ptr<const Message>& b);
-		bool operator() (const std::tr1::shared_ptr<const Message>& a, const float& b);
-		bool operator() (const float& a, const std::tr1::shared_ptr<const Message>& b);
+		bool operator() (const std::shared_ptr<const Message>& a, const std::shared_ptr<const Message>& b);
+		bool operator() (const std::shared_ptr<const Message>& a, const float& b);
+		bool operator() (const float& a, const std::shared_ptr<const Message>& b);
 	};
 };
 
@@ -326,12 +326,12 @@ public:
 class Script : public Message
 {
 public:
-	explicit Script(const float vpos, std::tr1::shared_ptr<const tree::Node> node);
+	explicit Script(const float vpos, std::shared_ptr<const tree::Node> node);
 	virtual ~Script(){};
 private:
-	std::tr1::shared_ptr<const tree::Node> node_;
+	std::shared_ptr<const tree::Node> node_;
 public:
-	std::tr1::shared_ptr<const tree::Node> node() const{return node_;};
+	std::shared_ptr<const tree::Node> node() const{return node_;};
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ public:
 protected:
 	void currentTime(float time){_currentTime=time;}
 private:
-	void dispatchCommentTrigger(machine::Machine& machine, std::tr1::shared_ptr<const Comment> comment);
+	void dispatchCommentTrigger(machine::Machine& machine, std::shared_ptr<const Comment> comment);
 	void dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
 	void dispatchTimer(machine::Machine& machine, const double to);
 //---------------------------------------------------------------------------------------------------------------------
@@ -424,9 +424,9 @@ private:
 public:
 	void fetchDrawables(std::vector<Drawable*>& lst);
 private:
-	std::deque<std::tr1::shared_ptr<const Message> > messageQueue;
-	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > timerLine;
-	std::multimap<float, std::tr1::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
+	std::deque<std::shared_ptr<const Message> > messageQueue;
+	std::multimap<float, std::shared_ptr<EventEntry>, std::less<float> > timerLine;
+	std::multimap<float, std::shared_ptr<EventEntry>, std::less<float> > ctrigLine;
 public: /* SystemItemからのコールバック関数 */
 	void regist(Shape* const shape);
 	void unregist(Shape* const shape);
@@ -444,7 +444,7 @@ public: /* SystemItemからのコールバック関数 */
 	void unregist(Replace* const replace);
 public: /* Nekomataから操作される */
 	void seek(machine::Machine& machine, const double from, const double to);
-	void queueMessage(std::tr1::shared_ptr<const Message> message);
+	void queueMessage(std::shared_ptr<const Message> message);
 protected: /* INFO: 各サブシステムで再実装すること。 */
 	virtual std::string inspect();
 	void onChanged();

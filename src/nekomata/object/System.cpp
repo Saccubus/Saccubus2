@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <tr1/memory>
+#include <memory>
 #include <cmath>
 #include <cfloat>
 #include <nekomata/logging/Exception.h>
@@ -26,9 +26,6 @@
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 #include "../util/StringUtil.h"
-
-
-using namespace std::tr1;
 
 namespace nekomata{
 namespace object{

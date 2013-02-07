@@ -21,7 +21,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
-#include <tr1/memory>
+#include <memory>
 #include <cstdarg>
 
 #include <nekomata/classdefs.h>
@@ -63,9 +63,9 @@ public:
 	virtual ~Dumper();
 	void printName(const std::string& name);
 	void printName(const std::string& name, const tree::Location& loc);
-	void printDumpable(const std::string& name, const std::tr1::shared_ptr<const Dumpable> member);
-	void printDumpableList(const std::string& name, const std::vector<std::tr1::shared_ptr<const Dumpable> >& memberList);
-	void printDumpableList(const std::string& name, const std::map<std::string, std::tr1::shared_ptr<const Dumpable> >& memberList);
+	void printDumpable(const std::string& name, const std::shared_ptr<const Dumpable> member);
+	void printDumpableList(const std::string& name, const std::vector<std::shared_ptr<const Dumpable> >& memberList);
+	void printDumpableList(const std::string& name, const std::map<std::string, std::shared_ptr<const Dumpable> >& memberList);
 	void print(const std::string& name, const std::string& member);
 	void print(const std::string& name, const double member);
 	void print(const std::string& name, const bool member);

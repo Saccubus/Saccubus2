@@ -32,7 +32,7 @@ TimeLineParser::TimeLineParser(std::istream& stream, const std::string& filename
 TimeLineParser::~TimeLineParser() {
 }
 
-void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line, int lineno)
+void TimeLineParser::parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line, int lineno)
 {
 	if(line.size() <= 0){
 		return;
@@ -60,29 +60,29 @@ void TimeLineParser::parseLine(std::multimap<float, std::tr1::shared_ptr<const n
 	{
 	case '\%':
 	{
-		std::tr1::shared_ptr<const nekomata::system::Comment> com(new nekomata::system::Comment(message.substr(1), time, true, mail, false, false, 0xffffff, 30, 0));
-		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Comment> >(time, com));
+		std::shared_ptr<const nekomata::system::Comment> com(new nekomata::system::Comment(message.substr(1), time, true, mail, false, false, 0xffffff, 30, 0));
+		timeLine.insert(std::pair<float, std::shared_ptr<const nekomata::system::Comment> >(time, com));
 		break;
 	}
 	case '/':
 	{
-		std::tr1::shared_ptr<const nekomata::tree::Node> node(nekomata::parser::Parser::fromString(message.substr(1), filename, lineno)->parseProgram());
-		std::tr1::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Script(time, node));
-		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Message> >(time, com));
+		std::shared_ptr<const nekomata::tree::Node> node(nekomata::parser::Parser::fromString(message.substr(1), filename, lineno)->parseProgram());
+		std::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Script(time, node));
+		timeLine.insert(std::pair<float, std::shared_ptr<const nekomata::system::Message> >(time, com));
 		break;
 	}
 	default:
 	{
-		std::tr1::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Comment(message, time, true, mail, false, false, 0xffffff, 30, 0));
-		timeLine.insert(std::pair<float, std::tr1::shared_ptr<const nekomata::system::Message> >(time, com));
+		std::shared_ptr<const nekomata::system::Message> com(new nekomata::system::Comment(message, time, true, mail, false, false, 0xffffff, 30, 0));
+		timeLine.insert(std::pair<float, std::shared_ptr<const nekomata::system::Message> >(time, com));
 		break;
 	}
 	}
 }
 
-std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > TimeLineParser::parse()
+std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> > TimeLineParser::parse()
 {
-	std::multimap<float, std::tr1::shared_ptr<const nekomata::system::Message>, std::less<float> > timeLine;
+	std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> > timeLine;
 	std::string buf;
 	int count = 0;
 	while(stream && std::getline(stream, buf)){
