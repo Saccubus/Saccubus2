@@ -23,7 +23,7 @@
 namespace saccubus {
 namespace draw {
 
-RawSprite::RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h)
+RawSprite::RawSprite(std::shared_ptr<Renderer*> _renderer, int w, int h)
 :Sprite()
 ,_renderer(_renderer)
 ,_locked(false)

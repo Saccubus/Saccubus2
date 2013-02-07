@@ -49,7 +49,7 @@ void Exception::init(const char* file, const size_t line, const std::string& fmt
 	}catch(...){
 		this->_line = 0;
 		this->_file = __FILE__;
-		this->_loc = "line ? in "__FILE__": ";
+		this->_loc = "line ? in " __FILE__ ": ";
 		this->_msg = "[BUG] Failed to format string!!";
 	}
 }

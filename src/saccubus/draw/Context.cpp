@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace draw {
 
-Context::Context(logging::Logger& log, std::tr1::shared_ptr<Renderer*> renderer)
+Context::Context(logging::Logger& log, std::shared_ptr<Renderer*> renderer)
 :_renderer(renderer)
 ,log(log)
 {

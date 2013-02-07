@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <tr1/memory>
+#include <memory>
 #include "../../TestCommon.h"
 #include "../../../../saccubus/draw/cairo/Sprite.h"
 #include "../../../../saccubus/draw/cairo/Renderer.h"
@@ -35,13 +35,13 @@ class CairoTest : public ::testing::Test
 {
 protected:
 	saccubus::draw::cairo::Renderer* renderer;
-	std::tr1::shared_ptr<saccubus::draw::Context> ctx;
+	std::shared_ptr<saccubus::draw::Context> ctx;
 	saccubus::draw::cairo::SimpleCommentFactory* commentFactory;
 	saccubus::draw::cairo::SimpleShapeFactory* shapeFactory;
 public:
 	void SetUp(){
 		renderer = new saccubus::draw::cairo::Renderer(log_err);
-		ctx=std::tr1::shared_ptr<saccubus::draw::Context>(renderer->createContext(saccubus::draw::cairo::Renderer::RGBA32, 0, 0, 0, 0));
+		ctx=std::shared_ptr<saccubus::draw::Context>(renderer->createContext(saccubus::draw::cairo::Renderer::RGBA32, 0, 0, 0, 0));
 		commentFactory = new saccubus::draw::cairo::SimpleCommentFactory(log_err, renderer);
 		shapeFactory = new saccubus::draw::cairo::SimpleShapeFactory(log_err, renderer);
 	}

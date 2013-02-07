@@ -156,9 +156,9 @@ void Comment::parse()
 }
 
 
-std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
+std::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 {
-	return std::tr1::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
+	return std::shared_ptr<nekomata::system::Comment>(new nekomata::system::Comment(
 			this->originalMessage(),
 			this->vpos(),
 			this->isYourPost(),
@@ -171,7 +171,7 @@ std::tr1::shared_ptr<nekomata::system::Message> Comment::createNekomataMessage()
 			));
 }
 
-draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+draw::Sprite::Handler<draw::Sprite> Comment::createSprite(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	return commentFactory()->renderCommentText(ctx, this);
 }

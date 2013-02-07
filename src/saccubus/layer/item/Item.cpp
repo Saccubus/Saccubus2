@@ -39,20 +39,20 @@ Item::~Item()
 {
 }
 
-void Item::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
+void Item::draw(std::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
 {
 	querySprite(ctx)->draw(ctx, x, y);
 }
-float Item::width(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+float Item::width(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	return querySprite(ctx)->width();
 }
-float Item::height(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+float Item::height(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	return querySprite(ctx)->height();
 }
 
-draw::Sprite::Handler<draw::Sprite> Item::querySprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+draw::Sprite::Handler<draw::Sprite> Item::querySprite(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	if(!sprite){
 		sprite = this->createSprite(ctx);

@@ -19,6 +19,7 @@
 #include <nekomata/trans/NicosTrans.h>
 #include <nekomata/parser/Parser.h>
 #include <sstream>
+#include <memory>
 #include "Comment.h"
 #include "Util.h"
 #include "../util/StringUtil.h"
@@ -90,6 +91,6 @@ Comment::~Comment() {
 
 bool Comment::haveScript() const
 {
-	return this->node();
+	return bool(this->node());
 }
 }}

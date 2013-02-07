@@ -68,7 +68,7 @@ bool Button::onClick(int relX, int relY)
 		return false;
 	}
 	if(comvisible()){
-		std::tr1::shared_ptr<item::Comment> post(
+		std::shared_ptr<item::Comment> post(
 				new Comment(
 						commentFactory(), shapeFactory(),
 						true, true, true, Comment::Forked,
@@ -77,7 +77,7 @@ bool Button::onClick(int relX, int relY)
 		);
 		postLayer->queueComment(post);
 	}else if(postLayer){
-		std::tr1::shared_ptr<item::Comment> post(
+		std::shared_ptr<item::Comment> post(
 				new Comment(
 						commentFactory(), shapeFactory(),
 						true, true, true, Comment::Script,
@@ -90,7 +90,7 @@ bool Button::onClick(int relX, int relY)
 	invalidate();
 	return true;
 }
-draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	if(!leftSprite){
 		size_t left = this->message().find("[");
@@ -148,7 +148,7 @@ draw::Sprite::Handler<draw::Sprite> Button::createSprite(std::tr1::shared_ptr<sa
 	return spr;
 }
 
-void Button::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
+void Button::draw(std::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
 {
 	this->Comment::draw(ctx, x, y);
 	if(isClicked > 0 && (--isClicked) == 0){

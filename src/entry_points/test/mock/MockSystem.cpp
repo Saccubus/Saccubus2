@@ -32,8 +32,8 @@ MockSystem::~MockSystem() {
 	delete &log;
 }
 
-std::tr1::shared_ptr<const nekomata::system::Comment> MockSystem::nextComment()
+std::shared_ptr<const nekomata::system::Comment> MockSystem::nextComment()
 {
-	return std::tr1::shared_ptr<const nekomata::system::Comment>();
+	return std::shared_ptr<const nekomata::system::Comment>();
 }
 }}

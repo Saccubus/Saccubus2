@@ -36,12 +36,12 @@ saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
 	return new Sprite(handler(), w, h);
 }
 
-std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
+std::shared_ptr<saccubus::draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
 {
-	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
+	return std::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
 }
-std::tr1::shared_ptr<saccubus::draw::Context> Renderer::createContext()
+std::shared_ptr<saccubus::draw::Context> Renderer::createContext()
 {
-	return std::tr1::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
+	return std::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
 }
 }}}

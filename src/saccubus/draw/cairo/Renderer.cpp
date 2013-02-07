@@ -41,9 +41,9 @@ draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
 	return new cairo::Sprite(this->handler(), w, h);
 }
-std::tr1::shared_ptr<draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
+std::shared_ptr<draw::Context> Renderer::createContext(enum Format fmt, void* data, int w, int h, int stride)
 {
-	return std::tr1::shared_ptr<draw::Context>(new Context(log, handler(), fmt, data, w, h, stride));
+	return std::shared_ptr<draw::Context>(new Context(log, handler(), fmt, data, w, h, stride));
 }
 
 cairo_format_t Renderer::toCairoFormat(draw::Renderer::Format fmt)

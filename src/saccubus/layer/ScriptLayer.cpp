@@ -47,7 +47,7 @@ ScriptLayer::~ScriptLayer() {
 /******************************************************************************************************************
  * レイヤ
  ******************************************************************************************************************/
-void ScriptLayer::resolvePos(std::tr1::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y)
+void ScriptLayer::resolvePos(std::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y)
 {
 	switch(nekoItem->posX()){
 	case item::NekoItem::CenterX:
@@ -76,7 +76,7 @@ void ScriptLayer::resolvePos(std::tr1::shared_ptr<saccubus::draw::Context> ctx, 
 		throw logging::Exception(__FILE__, __LINE__, "[BUG] Unknown NekoItem PosY type.");
 	}
 }
-void ScriptLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
+void ScriptLayer::draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	std::vector<nekomata::system::Drawable*> lst;
 	nekoSystem()->fetchDrawables(lst);

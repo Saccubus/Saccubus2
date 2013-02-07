@@ -38,7 +38,7 @@ void Shape::onChanged()
 {
 	this->invalidate();
 }
-draw::Sprite::Handler<draw::Sprite> Shape::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+draw::Sprite::Handler<draw::Sprite> Shape::createSprite(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	return this->shapeFactory()->renderShape(ctx, this);
 }

@@ -84,8 +84,8 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.add(new FlagOption<logging::Logger::Level>("info", level, logging::Logger::INFO_));
 		parser.add(new FlagOption<logging::Logger::Level>("warning", level, logging::Logger::WARN_));
 		parser.add(new FlagOption<logging::Logger::Level>("error", level, logging::Logger::ERROR_));
-		parser.add(new FunctionOption("version", std::tr1::bind(&version, &logStream, argc, argv)));
-		parser.add(new FunctionOption("help", std::tr1::bind(&usage, &logStream, argc, argv)));
+		parser.add(new FunctionOption("version", std::bind(&version, &logStream, argc, argv)));
+		parser.add(new FunctionOption("help", std::bind(&usage, &logStream, argc, argv)));
 		parser.add(new FlagOption<bool>("enable-tas", this->_tasEnabled, true));
 		parser.add(new ValueOption<std::string>("ng-script", this->ngScript));
 		parser.add(new PreifxOption<std::multimap<std::string, std::string> >("resolve-", this->resolveOpts));
@@ -146,7 +146,7 @@ void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* 
 	}
 }
 
-void Saccubus::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, std::tr1::shared_ptr<saccubus::draw::Sprite> video, float vpos)
+void Saccubus::draw(std::shared_ptr<saccubus::draw::Context> ctx, std::shared_ptr<saccubus::draw::Sprite> video, float vpos)
 {
 	if(video.get()){
 		video->draw(ctx, static_cast<int>((ctx->width()-video->width())/2), static_cast<int>((ctx->height()-video->height())/2));
@@ -169,13 +169,13 @@ void Saccubus::click(int x, int y)
 	}
 }
 
-std::tr1::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+std::shared_ptr<saccubus::draw::Context> Saccubus::createContext(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 {
 	return this->renderer()->createContext(fmt, data, w, h, stride);
 }
-std::tr1::shared_ptr<saccubus::draw::Sprite> Saccubus::createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+std::shared_ptr<saccubus::draw::Sprite> Saccubus::createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 {
-	return std::tr1::shared_ptr<saccubus::draw::Sprite>(this->renderer()->createRawSprite(fmt, data, w, h, stride));
+	return std::shared_ptr<saccubus::draw::Sprite>(this->renderer()->createRawSprite(fmt, data, w, h, stride));
 }
 
 void Saccubus::onVideoChanged(const std::string& videoId)

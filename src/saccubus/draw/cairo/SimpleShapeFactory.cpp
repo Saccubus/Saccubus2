@@ -35,7 +35,7 @@ SimpleShapeFactory::~SimpleShapeFactory()
 {
 }
 
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int _w, int _h, unsigned int color)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::shared_ptr<saccubus::draw::Context> ctx, int _w, int _h, unsigned int color)
 {
 	const int w = std::ceil(_w * ctx->factor());
 	const int h = std::ceil(_h * ctx->factor());
@@ -82,7 +82,7 @@ Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderButton(std::tr1::shared_
 	}
 	return spr;
 }
-Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape)
+Sprite::Handler<draw::Sprite> SimpleShapeFactory::renderShape(std::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape)
 {
 	const int w = std::ceil(shape->width() * ctx->factor());
 	const int h = std::ceil(shape->height() * ctx->factor());

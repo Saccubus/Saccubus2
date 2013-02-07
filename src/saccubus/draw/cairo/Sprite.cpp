@@ -24,13 +24,13 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Sprite::Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, int w, int h)
+Sprite::Sprite(std::shared_ptr<draw::Renderer*> renderer, int w, int h)
 :draw::RawSprite(renderer, w, h)
 {
 	this->surface(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h));
 }
 
-Sprite::Sprite(std::tr1::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+Sprite::Sprite(std::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 :draw::RawSprite(renderer, w, h)
 {
 	cairo_format_t cfmt = cairo::Renderer::toCairoFormat(fmt);
@@ -52,7 +52,7 @@ Sprite::~Sprite() {
 	this->surface(0);
 }
 
-void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
+void Sprite::draw(std::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
 {
 	cairo::Context& ctx = dynamic_cast<cairo::Context&>(*(_ctx.get()));
 	cairo_set_source_surface(ctx.cairo(), this->surface(), x, y);

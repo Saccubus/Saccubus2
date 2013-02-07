@@ -25,7 +25,7 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
+Sprite::Sprite(std::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
 :saccubus::draw::RawSprite(_renderer, w, h)
 {
 
@@ -34,7 +34,7 @@ Sprite::Sprite(std::tr1::shared_ptr<saccubus::draw::Renderer*> _renderer, int w,
 Sprite::~Sprite() {
 }
 
-void Sprite::draw(std::tr1::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
+void Sprite::draw(std::shared_ptr<saccubus::draw::Context> _ctx, int x, int y)
 {
 	Context* const ctx = dynamic_cast<Context*>(_ctx.get());
 	ctx->draw(x, y, this);

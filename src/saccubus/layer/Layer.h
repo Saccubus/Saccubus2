@@ -38,7 +38,7 @@ public:
 	//wとhが指定されたサイズです。measuredWidthやmeasuredHeightにレイヤが必要とするサイズを指定してください。
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 	//描画
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
+	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos) = 0;
 	//クリックイベント
 	// イベントが消費される場合はtrue、下レイヤのボタンにイベントが透過する場合はfalseを返す。
 	virtual bool onClick(int x, int y) = 0;

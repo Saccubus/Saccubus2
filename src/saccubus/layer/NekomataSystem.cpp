@@ -103,7 +103,7 @@ void NekomataSystem::addButton(
 		int limit, bool hidden) {
 	vpos = vpos != vpos ? currentTime() : vpos;
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
-	std::tr1::shared_ptr<item::Button> btn(
+	std::shared_ptr<item::Button> btn(
 		new item::Button(
 			this->commentFactory, this->shapeFactory, this, this->forkedCommentLayer,
 			true, false, true, item::Comment::Forked,

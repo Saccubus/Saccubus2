@@ -17,7 +17,7 @@
  */
 
 #include <algorithm>
-#include <tr1/memory>
+#include <memory>
 #include "ThreadLayer.h"
 #include "item/Comment.h"
 #include "../python/PyBridge.h"
@@ -60,14 +60,14 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 				continue;
 			}
 			if((*it)->haveScript()){
-				this->neko->queueMessage(std::tr1::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
+				this->neko->queueMessage(std::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
 			}else if((*it)->fork()){
 				this->forkedCommentLayer->queueComment(
-						std::tr1::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
 						);
 			}else{
 				this->mainCommentLayer->queueComment(
-						std::tr1::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
 						);
 			}
 		}
@@ -103,7 +103,7 @@ ThreadLayer::~ThreadLayer() {
 	}
 }
 
-void ThreadLayer::draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos)
+void ThreadLayer::draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 {
 	this->neko->seek(vpos);
 	this->scriptLayer->draw(ctx, vpos);

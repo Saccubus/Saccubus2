@@ -44,15 +44,15 @@ bool Comment::StartTimeCompare::operator() (const Comment* a, const float& b)
 {
 	return a->from() < b;
 }
-bool Comment::StartTimeCompare::operator() (const std::tr1::shared_ptr<Comment>& a, const std::tr1::shared_ptr<Comment>& b)
+bool Comment::StartTimeCompare::operator() (const std::shared_ptr<Comment>& a, const std::shared_ptr<Comment>& b)
 {
 	return a->from() < b->from();
 }
-bool Comment::StartTimeCompare::operator() (const float& a, const std::tr1::shared_ptr<Comment>& b)
+bool Comment::StartTimeCompare::operator() (const float& a, const std::shared_ptr<Comment>& b)
 {
 	return a < b->from();
 }
-bool Comment::StartTimeCompare::operator() (const std::tr1::shared_ptr<Comment>& a, const float& b)
+bool Comment::StartTimeCompare::operator() (const std::shared_ptr<Comment>& a, const float& b)
 {
 	return a->from() < b;
 }

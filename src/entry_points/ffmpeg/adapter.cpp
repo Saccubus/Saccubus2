@@ -105,14 +105,14 @@ public:
 		SDL_FillRect(dst, 0, SDL_MapRGB(dst->format, 0, 0, 0));
 		SDL_LockSurface(dst);
 		{
-			std::tr1::shared_ptr<saccubus::draw::Context> dctx =
+			std::shared_ptr<saccubus::draw::Context> dctx =
 				this->parent()->createContext(saccubus::draw::Renderer::RGB32,
 						dst->pixels,
 						dst->w,
 						dst->h,
 						dst->pitch
 						);
-			std::tr1::shared_ptr<saccubus::draw::Sprite> vspr =
+			std::shared_ptr<saccubus::draw::Sprite> vspr =
 				this->parent()->createRawSprite(saccubus::draw::Renderer::RGB32,
 				video->data,
 				video->w,

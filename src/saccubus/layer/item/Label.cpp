@@ -38,7 +38,7 @@ void Label::onChanged()
 {
 	this->invalidate();
 }
-draw::Sprite::Handler<draw::Sprite> Label::createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx)
+draw::Sprite::Handler<draw::Sprite> Label::createSprite(std::shared_ptr<saccubus::draw::Context> ctx)
 {
 	return this->commentFactory()->renderLabelText(ctx, this);
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <tr1/functional>
+#include <functional>
 #include <nekomata/system/System.h>
 #include <cstdlib>
 #include "../../classdefs.h"
@@ -44,7 +44,7 @@ public:
 	const enum ArgType argType;
 	const std::string name;
 	const enum Permission permission;
-	typedef std::tr1::function<bool(const std::string& name, Comment* comment)> Func;
+	typedef std::function<bool(const std::string& name, Comment* comment)> Func;
 	const Func func;
 	MailOperation(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
 	:argType(argType), name(name), permission(permission), func(func){};
@@ -188,8 +188,8 @@ bool Comment::MailOperation::execute(const std::string& command, Comment* commen
 	return false;
 }
 
-using namespace std::tr1;
-using namespace std::tr1::placeholders;
+using namespace std;
+using namespace std::placeholders;
 using saccubus::layer::item::Comment;
 
 const struct Comment::MailOperation Comment::MailOperation::Instance[] = {
