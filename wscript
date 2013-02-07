@@ -8,9 +8,8 @@ VERSION = '1.0.0'
 srcdir = '.'
 blddir = 'build'
 
-def enum(dirname, exclude=[]):
+def enum(dirname, exclude=[], exts=['.cpp','.c']):
 	dirname = os.path.join(*(dirname.split('/')))
-	COMPILED_EXT=['.cpp','.c']
 	f = []
 	for root,dirs,files in os.walk(dirname):
 		matched = False
@@ -23,9 +22,10 @@ def enum(dirname, exclude=[]):
 		for fitem in files:
 			fabs = os.path.join(root, fitem)
 			_, ext = os.path.splitext(fabs)
-			if ext in COMPILED_EXT:
+			if ext in exts:
 				f.append(os.path.relpath(fabs))
 	return f
+
 
 NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'nekomata')
 NEKOMATA_SRC=enum('src/nekomata')
@@ -69,20 +69,29 @@ def build(bld):
 		bld.fatal('call "waf build_debug" or "waf build_release", and try "waf --help"')
 	srcdir=repr(bld.path)
 	bld(
-		features = 'cxx cxxprogram',
-		source = PRG_SRC,
-		target = 'nekomata',
-		use=['PPROF', 'ICU','ANTLR'],
-		includes=[NEKOMATA_INC])
-
-	bld(
+		is_install=True,
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC,
 		target = 'nekomata',
 		use=['PPROF', 'ICU','ANTLR'],
 		includes=[NEKOMATA_INC])
-
-		#test_env = None
+	bld(
+		features = 'cxx cxxprogram',
+		source = PRG_SRC,
+		target = 'NekoCLI',
+		use=['PPROF', 'ICU','ANTLR'],
+		includes=[NEKOMATA_INC])
+	print(bld.options.prefix)
+	bld(
+		features = "subst",
+		source= "pkgconfig/nekomata.pc.in",
+		target= "nekomata.pc",
+		install_path='${PREFIX}/lib/pkgconfig/',
+		PREFIX = bld.env['PREFIX'],
+		VER=VERSION)
+	bld.install_files("${PREFIX}", enum('include',[],['.h']), relative_trick=True)
+	bld.install_files("${PREFIX}/lib", 'libnekomata.a')
+	#test_env = None
 	#if "coverage" in bld.all_envs:
 	#	test_env = bld.all_envs["coverage"]
 	#else:

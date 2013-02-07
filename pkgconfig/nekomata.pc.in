@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: nekomata
+Version: @VER@
+Description: the Open Niwan Language
+URL: http://http://saccubus.sourceforge.jp/
+Libs: -L${libdir} -lnekomata
+Cflags: -I${includedir}
