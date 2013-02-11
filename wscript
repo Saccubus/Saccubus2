@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-import copy
 
 APPNAME = 'Saccubus'
 VERSION = '2.0.0'
