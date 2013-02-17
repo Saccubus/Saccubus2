@@ -33,7 +33,7 @@ public:
 	static Sprite::Handler<LayerdSprite> newInstance();
 	virtual ~LayerdSprite();
 public:
-	virtual void draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y);
+	virtual void draw(std::shared_ptr<draw::Context> ctx, int x, int y);
 	std::size_t size();
 	void addSprite(int x, int y, Sprite::Handler<Sprite> spr);
 	virtual void onFree();

@@ -49,13 +49,13 @@ public:
 	virtual ~ArtisticCommentFactory();
 private:
 	void setColor(cairo_t* cairo, unsigned int color);
-	void setupCairo(std::tr1::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize);
+	void setupCairo(std::shared_ptr<saccubus::draw::Context> ctx, cairo_t* cairo, double fontSize);
 private:
-	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLine(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size);
-	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLines(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size);
+	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLine(std::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size);
+	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLines(std::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size);
 public:
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment);
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderCommentText(std::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Comment* comment);
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabelText(std::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label);
 };
 
 }}}

@@ -28,10 +28,10 @@ public:
 	Renderer(logging::Logger& log);
 	virtual ~Renderer();
 public:
-	const std::tr1::shared_ptr<saccubus::draw::Renderer*> handler() { return this->saccubus::draw::Renderer::handler(); };
+	const std::shared_ptr<saccubus::draw::Renderer*> handler() { return this->saccubus::draw::Renderer::handler(); };
 public:
 	virtual saccubus::draw::RawSprite* createRawSprite(int w, int h);
-	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
-	std::tr1::shared_ptr<saccubus::draw::Context> createContext();
+	virtual std::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
+	std::shared_ptr<saccubus::draw::Context> createContext();
 };
 }}}

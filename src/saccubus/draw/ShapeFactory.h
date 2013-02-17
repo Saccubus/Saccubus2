@@ -32,8 +32,8 @@ public:
 	ShapeFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~ShapeFactory();
 public:
-	virtual Sprite::Handler<Sprite> renderButton(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color) = 0;
-	virtual Sprite::Handler<Sprite> renderShape(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape) = 0;
+	virtual Sprite::Handler<Sprite> renderButton(std::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color) = 0;
+	virtual Sprite::Handler<Sprite> renderShape(std::shared_ptr<saccubus::draw::Context> ctx, const nekomata::system::Shape* const shape) = 0;
 };
 
 }}

@@ -26,9 +26,9 @@ namespace saccubus {
 class FunctionOption : public util::Option
 {
 private:
-	std::tr1::function<void()> const func;
+	std::function<void()> const func;
 public:
-	FunctionOption(const std::string& name, std::tr1::function<void()> func)
+	FunctionOption(const std::string& name, std::function<void()> func)
 	:util::Option(name, util::Option::Normal, util::Option::No)
 	,func(func){};
 	virtual ~FunctionOption(){};

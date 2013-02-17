@@ -43,7 +43,7 @@ public:
 		int stride() const;
 	};
 private:
-	std::tr1::shared_ptr<Renderer*> _renderer;
+	std::shared_ptr<Renderer*> _renderer;
 	bool _locked;
 	int _width;
 	int _height;
@@ -58,8 +58,8 @@ protected:
 	void width(int val);
 	void height(int val);
 protected:
-	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer);
-	RawSprite(std::tr1::shared_ptr<Renderer*> _renderer, int w, int h);
+	RawSprite(std::shared_ptr<Renderer*> _renderer);
+	RawSprite(std::shared_ptr<Renderer*> _renderer, int w, int h);
 	Renderer* renderer(){ return *(_renderer.get()); };
 public:
 	virtual ~RawSprite();
@@ -68,7 +68,7 @@ protected:
 	virtual void unlock() = 0;
 	virtual void onFree();
 public:
-	virtual void draw(std::tr1::shared_ptr<draw::Context> ctx, int x, int y) = 0;
+	virtual void draw(std::shared_ptr<draw::Context> ctx, int x, int y) = 0;
 	virtual void resize(int w, int h);
 };
 

@@ -42,7 +42,7 @@ private:
 	draw::Sprite::Handler<draw::Sprite> rightSprite;
 
 	draw::Sprite::Handler<draw::Sprite> buttonSprite;
-	void constructComment(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+	void constructComment(std::shared_ptr<saccubus::draw::Context> ctx);
 private:
 	Button();
 	Button(const Button& other);
@@ -60,9 +60,9 @@ public:
 	virtual bool isButton() const;
 public:
 	virtual bool onClick(int relX, int relY);
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
+	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, int x, int y);
 protected:
-	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::shared_ptr<saccubus::draw::Context> ctx);
 };
 
 }}}

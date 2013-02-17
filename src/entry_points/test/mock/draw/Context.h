@@ -28,7 +28,7 @@ namespace draw {
 
 class Context: public saccubus::draw::Context {
 public:
-	Context(logging::Logger& log, std::tr1::shared_ptr<saccubus::draw::Renderer*> renderer);
+	Context(logging::Logger& log, std::shared_ptr<saccubus::draw::Renderer*> renderer);
 	virtual ~Context();
 private:
 	std::vector<std::pair<std::pair<int, int>, Sprite* > > drawQuery;

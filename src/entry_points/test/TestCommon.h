@@ -18,7 +18,7 @@
 
 #pragma once
 #include <tr1/memory>
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 #include <gtest/gtest.h>
 #include <iostream>
 #include "../../saccubus/logging/Exception.h"

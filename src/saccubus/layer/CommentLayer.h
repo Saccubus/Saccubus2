@@ -33,7 +33,7 @@ public:
 	CommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked);
 	virtual ~CommentLayer();
 public:
-	virtual void queueComment(std::tr1::shared_ptr<item::Comment> comment) = 0;
+	virtual void queueComment(std::shared_ptr<item::Comment> comment) = 0;
 };
 
 }}

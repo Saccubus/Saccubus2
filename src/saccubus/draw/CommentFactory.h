@@ -30,8 +30,8 @@ public:
 	CommentFactory(logging::Logger& log, Renderer* renderer);
 	virtual ~CommentFactory();
 public:
-	virtual Sprite::Handler<Sprite> renderCommentText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const layer::item::Comment* comment) = 0;
-	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabelText(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label) = 0;
+	virtual Sprite::Handler<Sprite> renderCommentText(std::shared_ptr<saccubus::draw::Context> ctx, const layer::item::Comment* comment) = 0;
+	virtual saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> renderLabelText(std::shared_ptr<saccubus::draw::Context> ctx, const saccubus::layer::item::Label* label) = 0;
 };
 
 }}

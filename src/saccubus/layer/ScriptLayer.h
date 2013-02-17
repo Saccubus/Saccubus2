@@ -30,14 +30,14 @@ namespace layer {
 class ScriptLayer: public Layer {
 	DEF_ATTR_ACCESSOR(private, private, NekomataSystem*, nekoSystem);
 private:
-	void resolvePos(std::tr1::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y);
+	void resolvePos(std::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y);
 public:
 	ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem);
 	virtual ~ScriptLayer();
 	/******************************************************************************************************************
 	 * レイヤ
 	 ******************************************************************************************************************/
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
+	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 };

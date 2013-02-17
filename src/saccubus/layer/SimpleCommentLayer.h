@@ -32,12 +32,12 @@ private:
 		DEF_ATTR_ACCESSOR(public, public, int, x);
 		DEF_ATTR_ACCESSOR(public, public, float, width);
 		DEF_ATTR_ACCESSOR(public, public, float, height);
-		DEF_ATTR_ACCESSOR(public, private, std::tr1::shared_ptr<item::Comment>, comment);
+		DEF_ATTR_ACCESSOR(public, private, std::shared_ptr<item::Comment>, comment);
 	private:
 		Slot& operator=(const Slot& other){return *this;};
 		Slot(const Slot& other){};
 	public:
-		Slot(std::tr1::shared_ptr<item::Comment> comment);
+		Slot(std::shared_ptr<item::Comment> comment);
 		virtual ~Slot();
 	public: /* setで比較する時用 */
 		bool operator !=(const Slot& other);
@@ -52,22 +52,22 @@ private:
 private:
 	static const float CommentAheadTime;
 private:
-	std::vector<std::tr1::shared_ptr<item::Comment> > deployQueue;
-	typedef std::vector<std::tr1::shared_ptr<item::Comment> >::iterator DeployQueueIterator;
-	std::vector<std::tr1::shared_ptr<Slot> > comments;
-	typedef std::vector<std::tr1::shared_ptr<Slot> >::iterator CommentIterator;
-	typedef std::vector<std::tr1::shared_ptr<Slot> >::const_iterator CommentConstIterator;
+	std::vector<std::shared_ptr<item::Comment> > deployQueue;
+	typedef std::vector<std::shared_ptr<item::Comment> >::iterator DeployQueueIterator;
+	std::vector<std::shared_ptr<Slot> > comments;
+	typedef std::vector<std::shared_ptr<Slot> >::iterator CommentIterator;
+	typedef std::vector<std::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
 	SimpleCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
 	virtual ~SimpleCommentLayer();
 	float last;
 public:
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
+	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
-	virtual void queueComment(std::tr1::shared_ptr<item::Comment> comment);
+	virtual void queueComment(std::shared_ptr<item::Comment> comment);
 private:
-	void deploy(std::tr1::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::tr1::shared_ptr<Slot> layout);
-	float getX(float vpos, float screenWidth, std::tr1::shared_ptr<const Slot> layout);
+	void deploy(std::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::shared_ptr<Slot> layout);
+	float getX(float vpos, float screenWidth, std::shared_ptr<const Slot> layout);
 };
 
 }}

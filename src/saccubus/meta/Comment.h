@@ -44,7 +44,7 @@ class Comment {
 	DEF_ATTR_ACCESSOR(public, protected, bool, leaf)
 	DEF_ATTR_ACCESSOR(public, protected, bool, premium)
 	DEF_ATTR_ACCESSOR(public, protected, bool, fork)
-	DEF_ATTR_ACCESSOR(public, protected, std::tr1::shared_ptr<const nekomata::tree::Node>, node)
+	DEF_ATTR_ACCESSOR(public, protected, std::shared_ptr<const nekomata::tree::Node>, node)
 public:
 	bool haveScript() const;
 protected:

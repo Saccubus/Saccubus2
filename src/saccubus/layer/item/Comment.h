@@ -93,7 +93,7 @@ public:
 			);
 	virtual ~Comment();
 public:
-	std::tr1::shared_ptr<nekomata::system::Message> createNekomataMessage();
+	std::shared_ptr<nekomata::system::Message> createNekomataMessage();
 	float size() const;
 private:
 	void init();
@@ -107,7 +107,7 @@ public:
 	 * Item Methods
 	 */
 protected:
-	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::shared_ptr<saccubus::draw::Context> ctx);
 /* 補助的なデータ構造他 */
 public:
 	struct StartTimeCompare{
@@ -117,9 +117,9 @@ public:
 		bool operator() (const Comment* a, const Comment* b);
 		bool operator() (const float& a, const Comment* b);
 		bool operator() (const Comment* a, const float& b);
-		bool operator() (const std::tr1::shared_ptr<Comment>& a, const std::tr1::shared_ptr<Comment>& b);
-		bool operator() (const float& a, const std::tr1::shared_ptr<Comment>& b);
-		bool operator() (const std::tr1::shared_ptr<Comment>& a, const float& b);
+		bool operator() (const std::shared_ptr<Comment>& a, const std::shared_ptr<Comment>& b);
+		bool operator() (const float& a, const std::shared_ptr<Comment>& b);
+		bool operator() (const std::shared_ptr<Comment>& a, const float& b);
 	};
 private:
 	struct MailOperation;

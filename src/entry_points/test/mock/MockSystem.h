@@ -25,7 +25,7 @@ class MockSystem: public nekomata::system::System {
 public:
 	MockSystem();
 	virtual ~MockSystem();
-	virtual std::tr1::shared_ptr<const nekomata::system::Comment> nextComment();
+	virtual std::shared_ptr<const nekomata::system::Comment> nextComment();
 };
 
 }}

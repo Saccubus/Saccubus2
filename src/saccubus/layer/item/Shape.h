@@ -31,7 +31,7 @@ public:
 	virtual ~Shape();
 	virtual void onChanged();
 protected:
-	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::tr1::shared_ptr<saccubus::draw::Context> ctx);
+	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::shared_ptr<saccubus::draw::Context> ctx);
 };
 
 }}}

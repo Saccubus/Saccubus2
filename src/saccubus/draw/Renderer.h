@@ -47,9 +47,9 @@ public:
  * スプライト管理機構
  **************************************************************************************************/
 private:
-	const std::tr1::shared_ptr<Renderer*> _handler;
+	const std::shared_ptr<Renderer*> _handler;
 protected:
-	const std::tr1::shared_ptr<Renderer*> handler() { return _handler; };
+	const std::shared_ptr<Renderer*> handler() { return _handler; };
 private:
 	struct order
 	{
@@ -66,7 +66,7 @@ public:
 public: /* Spriteからのコールバック関数 */
 	void backRawSprite(RawSprite* spr);
 public: /* 各実装がこれを実際に実装する */
-	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride) = 0;
+	virtual std::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride) = 0;
 	virtual RawSprite* createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride) = 0;
 	virtual RawSprite* createRawSprite(int w, int h) = 0;
 };

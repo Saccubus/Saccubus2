@@ -34,7 +34,7 @@ public:
 public:
 	static cairo_format_t toCairoFormat(draw::Renderer::Format fmt);
 public: /* 各実装がこれを実際に実装する */
-	virtual std::tr1::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
+	virtual std::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
 	virtual draw::RawSprite* createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
 	virtual draw::RawSprite* createRawSprite(int w, int h);
 };

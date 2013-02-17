@@ -25,12 +25,12 @@ namespace draw {
 
 class Context {
 private:
-	std::tr1::shared_ptr<Renderer*> _renderer;
+	std::shared_ptr<Renderer*> _renderer;
 protected:
 	logging::Logger& log;
 	Renderer* renderer();
 public:
-	Context(logging::Logger& log, std::tr1::shared_ptr<Renderer*> renderer);
+	Context(logging::Logger& log, std::shared_ptr<Renderer*> renderer);
 	virtual ~Context();
 public:
 	virtual float width() const = 0;

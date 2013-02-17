@@ -53,7 +53,7 @@ public:
 	ThreadLayer(logging::Logger& log, const meta::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
-	virtual void draw(std::tr1::shared_ptr<saccubus::draw::Context> ctx, float vpos);
+	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);
 	virtual bool onClick(int x, int y);
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);
 };

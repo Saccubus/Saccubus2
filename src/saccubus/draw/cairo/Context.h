@@ -29,7 +29,7 @@ class Context: public saccubus::draw::Context {
 	DEF_ATTR_ACCESSOR(public, private, cairo_t*, cairo);
 	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, surface);
 public:
-	Context(logging::Logger& log, std::tr1::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
+	Context(logging::Logger& log, std::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
 	virtual ~Context();
 public:
 	virtual float width() const;
