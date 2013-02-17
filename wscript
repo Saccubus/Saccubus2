@@ -61,12 +61,12 @@ def options(opt):
 
 def configure(conf):
 	conf.setenv('release')
-	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
+	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1', '-fPIC'])
 	configureLibrary(conf)
 	
 	conf.setenv('debug')
 	denv = conf.env;
-	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
+	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG', '-fPIC'])
 	configureLibrary(conf)
 	if conf.options.coverage:
 		conf.setenv('coverage', denv)
