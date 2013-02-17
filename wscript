@@ -65,7 +65,9 @@ def configureLibrary(conf):
 	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='fontconfig', uselib_store='FONTCONFIG', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='sdl2', uselib_store='SDL2', mandatory=True, args='--cflags --libs')
-	conf.check(features='cxx cxxprogram', lib=['python32'], cflags=['-Wall'], uselib_store='PYTHON')
+	if None == conf.check_cfg(package='python3', uselib_store='PYTHON', mandatory=True, args='--cflags --libs'):
+		conf.check(features='cxx cxxprogram', lib=['python32'], cflags=['-Wall'], uselib_store='PYTHON', mandatory=False)
+
 	conf.check_cfg(package='nekomata', uselib_store='NEKOMATA', mandatory=True, args='--cflags --libs')
 	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST', mandatory=False)
 
