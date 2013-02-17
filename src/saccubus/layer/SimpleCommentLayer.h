@@ -44,9 +44,9 @@ private:
 		bool operator ==(const Slot& other);
 	public:
 		struct EndTimeComparator{
-			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const std::tr1::shared_ptr<const Slot>& b);
-			bool operator() (const float& a, const std::tr1::shared_ptr<const Slot>& b);
-			bool operator() (const std::tr1::shared_ptr<const Slot>& a, const float& b);
+			bool operator() (const std::shared_ptr<const Slot>& a, const std::shared_ptr<const Slot>& b);
+			bool operator() (const float& a, const std::shared_ptr<const Slot>& b);
+			bool operator() (const std::shared_ptr<const Slot>& a, const float& b);
 		};
 	};
 private:
