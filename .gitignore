@@ -1,6 +1,4 @@
 *.dll
-.cproject
-.project
 .waf*
 waf*
 build/

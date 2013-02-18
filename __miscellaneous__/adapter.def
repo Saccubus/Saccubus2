@@ -1,0 +1,6 @@
+; Linker scripts for Windows
+EXPORTS
+	SaccRelease
+	SaccProcess
+	SaccMeasure
+	SaccConfigure

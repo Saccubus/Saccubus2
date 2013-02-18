@@ -21,16 +21,11 @@
 #include <cstdlib>
 #include <SDL2/SDL.h>
 #include <signal.h>
+#define SACC_DLL_EXPORT 1
 #include "saccubus_adapter.h"
 #include "../../saccubus/Saccubus.h"
 
 namespace ffmpeg {
-
-#ifdef WIN32
-#define DLLEXPORT extern "C" __declspec(dllexport)
-#else
-#define DLLEXPORT
-#endif
 
 void errorwait(bool exit=false)
 {
@@ -180,7 +175,7 @@ public:
 
 //---------------------------------------------------------------------------------------------------------------------
 
-DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[])
+DYNAPI int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[])
 {
 	if( SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -212,7 +207,7 @@ DLLEXPORT int SaccConfigure(void **sacc, SaccToolBox *box, int argc, char *argv[
 	return 0;
 }
 
-DLLEXPORT int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHeight, int* dstWidth, int* dstHeight)
+DYNAPI int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHeight, int* dstWidth, int* dstHeight)
 {
 	try{
 		ffmpeg::Context* const ctx = reinterpret_cast<ffmpeg::Context*>(sacc);
@@ -233,7 +228,7 @@ DLLEXPORT int SaccMeasure(void *sacc, SaccToolBox *box, int srcWidth, int srcHei
 	return 0;
 }
 
-DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccFrame* video)
+DYNAPI int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccFrame* video)
 {
 	try {
 		ffmpeg::Context* const ctx = reinterpret_cast<ffmpeg::Context*>(sacc);
@@ -254,7 +249,7 @@ DLLEXPORT int SaccProcess(void *sacc, SaccToolBox *box, SaccFrame *target, SaccF
 	return 0;
 }
 
-DLLEXPORT int SaccRelease(void *sacc, SaccToolBox *box)
+DYNAPI int SaccRelease(void *sacc, SaccToolBox *box)
 {
 	try {
 		ffmpeg::Context* ctx = reinterpret_cast<ffmpeg::Context*>(sacc);
