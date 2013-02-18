@@ -17,7 +17,12 @@
  */
 #pragma once
 
-#define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
+#ifndef IS_WINDOWS
+#define IS_WINDOWS (defined(WIN32) || defined(WIN64) || defined(__WIN32__) || defined(__WIN64__))
+#endif
+#ifndef USE_WINDOWS_NATIVE
+#define USE_WINDOWS_NATIVE IS_WINDOWS
+#endif
 
 #include <map>
 #if USE_WINDOWS_NATIVE

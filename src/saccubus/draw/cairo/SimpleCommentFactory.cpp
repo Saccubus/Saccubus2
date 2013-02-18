@@ -42,6 +42,7 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 {
 #if USE_WINDOWS_NATIVE
 	{
+		log.d(TAG, "Rendering With win32 GDI");
 		LOGFONTW logf;
 		memset(&logf, 0, sizeof(LOGFONTW));
 		logf.lfEscapement = 0;
@@ -60,6 +61,7 @@ SimpleCommentFactory::SimpleCommentFactory(logging::Logger& log, cairo::Renderer
 		this->face(ft);
 	}
 #else
+	log.d(TAG, "Rendering With freetype2");
 	{ /* パターンの作成 */
 		FcPattern* pattern = FcPatternCreate();
 		this->pattern(pattern);

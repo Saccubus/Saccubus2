@@ -16,7 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#define USE_WINDOWS_NATIVE (defined(WIN32) && (1))
+
+//XXX: ど～なっつやちさで同様の判定を用意してある。統合しましょう。
+#define IS_WINDOWS (defined(WIN32) || defined(WIN64) || defined(__WIN32__) || defined(__WIN64__))
+#define USE_WINDOWS_NATIVE IS_WINDOWS
 
 #include <map>
 #if USE_WINDOWS_NATIVE
