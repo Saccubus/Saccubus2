@@ -1,6 +1,7 @@
 *.dll
 .waf*
 waf*
+!waf
 build/
 .lock*
 __pycache__
