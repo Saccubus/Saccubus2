@@ -4,5 +4,6 @@ src/nekomata/trans/NicosMessage.tokens
 .project
 .waf*
 waf*
+!waf
 build/
 .lock*
