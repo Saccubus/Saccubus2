@@ -29,10 +29,6 @@ def enum(dirname, exclude=[], exts=['.cpp','.c']):
 def checkPython(conf):
 	# Pythonを探す
 	python_bin = conf.find_program('python')
-	# add python path
-	pypath=conf.cmd_and_log("{} -c \"import sys; import os;sys.stdout.write(os.pathsep.join(sys.path))\"".format(python_bin))
-	conf.msg("PythonPath", pypath)
-	conf.env.append_value('PYTHONPATH', pypath)
 	# Linuxなどではpkg-configを使って設定する
 	if conf.check_cfg(package='python3', uselib_store='PYTHON', mandatory=False, args='--cflags --libs'):
 		return
@@ -115,9 +111,8 @@ def build(bld):
 		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA'],
 		defs = '__miscellaneous__/adapter.def'
 		)
-	os.environ['PYTHONPATH'] = os.pathsep.join(bld.env['PYTHONPATH'])
 	bld(
-		features = 'cxx cprogram test_exec',
+		features = 'cxx cprogram',
 		source = SACC_SRC+TEST_SRC,
 		target = 'SaccubusTest',
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
