@@ -18,10 +18,16 @@
 #ifndef SACCUBUS_FF_ADAPTER_H
 #define SACCUBUS_FF_ADAPTER_H
 
-#if defined(SACC_DLL_EXPORT) && defined(WIN32)
-#define DYNAPI extern "C" __declspec(dllexport) __stdcall
+#if ((defined(WIN32) || defined(WIN64) || defined(__WIN32__) || defined(__WIN64__)))
+
+#if defined(SACC_DLL_EXPORT)
+#define DYNAPI __declspec(dllexport)
 #else
-#define DYNAPI extern
+#define DYNAPI __declspec(dllimport)
+#endif
+
+#else
+#define DYNAPI
 #endif
 
 #ifdef __cplusplus
@@ -73,22 +79,30 @@ struct SaccFrame{
 // configure用
 typedef int (SaccConfigureFn)(void **sacc, SaccToolBox *box, int argc, char *argv[]);
 typedef SaccConfigureFn *SaccConfigureFnPtr;
-DYNAPI SaccConfigureFn SaccConfigure;
+#ifdef SACC_DLL_EXPORT
+extern SaccConfigureFn DYNAPI SaccConfigure;
+#endif
 
 // 与えられた動画サイズから、出力サイズを決定する。一度だけ、呼ばれる。
 typedef int (SaccMeasureFn)(void *sacc, SaccToolBox *box, int srcWidth, int srcHeight, int* dstWidth, int* dstHeight);
 typedef SaccMeasureFn *SaccMeasureFnPtr;
-DYNAPI SaccMeasureFn SaccMeasure;
+#ifdef SACC_DLL_EXPORT
+extern SaccMeasureFn DYNAPI SaccMeasure;
+#endif
 
 // フレームに画像を焼きこむ
 typedef int (SaccProcessFn)(void *sacc, SaccToolBox *box, SaccFrame *target, SaccFrame* video);
 typedef SaccProcessFn *SaccProcessFnPtr;
-DYNAPI SaccProcessFn SaccProcess;
+#ifdef SACC_DLL_EXPORT
+extern SaccProcessFn DYNAPI SaccProcess;
+#endif
 
 // 終了時に呼ぶ
 typedef int (SaccReleaseFn)(void *sacc, SaccToolBox *box);
 typedef SaccReleaseFn *SaccReleaseFnPtr;
-DYNAPI SaccReleaseFn SaccRelease;
+#ifdef SACC_DLL_EXPORT
+extern SaccReleaseFn DYNAPI SaccRelease;
+#endif
 
 #ifdef __cplusplus
 }
