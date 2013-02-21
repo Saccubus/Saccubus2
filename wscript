@@ -26,6 +26,30 @@ def enum(dirname, exclude=[], exts=['.cpp','.c']):
 				f.append(os.path.relpath(fabs))
 	return f
 
+def checkPython(conf):
+	if conf.check_cfg(package='python3', uselib_store='PYTHON', mandatory=False, args='--cflags --libs'):
+		return
+	#XXX: Windows版Pythonの変なディレクトリ構成にあわせる
+	if sys.platform == 'win32' or sys.platform == 'win64':
+		# Pythonを探す
+		python_path = conf.find_program('python')
+		if not python_path:
+			conf.fatal('could not find python!')
+		# Python.exeのパスから、includeとlibをチェック
+		dname = os.path.dirname(python_path)
+		dinc = os.path.abspath(os.path.join(dname,'include'))
+		dlib = os.path.abspath(os.path.join(dname,'libs'))
+		# フォルダのチェック
+		if not os.path.isdir(dinc):
+			conf.fatal('could not find python include directory!: {}'.format(dinc))
+		elif not os.path.isdir(dlib):
+			conf.fatal('could not find python library directory!: {}'.format(dlib))
+		conf.check(features='cxx cxxprogram', lib=['python33'], cflags=['-I'+dinc], linkflags=["-L"+dlib], uselib_store='PYTHON', mandatory=True)
+		conf.env.append_value('INCLUDES_PYTHON', [dinc])
+		conf.env.append_value('LIBPATH_PYTHON', [dlib])
+	else:
+		conf.fatal('could not find python!')
+
 SACC_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
 SACC_SRC=enum('src/saccubus')
 
@@ -67,8 +91,7 @@ def configureLibrary(conf):
 	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='fontconfig', uselib_store='FONTCONFIG', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='sdl2', uselib_store='SDL2', mandatory=True, args='--cflags --libs')
-	if None == conf.check_cfg(package='python3', uselib_store='PYTHON', mandatory=False, args='--cflags --libs'):
-		conf.check(features='cxx cxxprogram', lib=['python33'], cflags=['-Wall'], uselib_store='PYTHON', mandatory=True)
+	checkPython(conf)
 
 	conf.check_cfg(package='nekomata', uselib_store='NEKOMATA', mandatory=True, args='--cflags --libs')
 	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST', mandatory=False)
