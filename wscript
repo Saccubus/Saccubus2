@@ -27,16 +27,19 @@ def enum(dirname, exclude=[], exts=['.cpp','.c']):
 	return f
 
 def checkPython(conf):
+	# Pythonを探す
+	python_bin = conf.find_program('python')
+	# add python path
+	pypath=conf.cmd_and_log("{} -c \"import sys; import os;sys.stdout.write(os.pathsep.join(sys.path))\"".format(python_bin))
+	conf.msg("PythonPath", pypath)
+	conf.env.append_value('PYTHONPATH', pypath)
+	# Linuxなどではpkg-configを使って設定する
 	if conf.check_cfg(package='python3', uselib_store='PYTHON', mandatory=False, args='--cflags --libs'):
 		return
 	#XXX: Windows版Pythonの変なディレクトリ構成にあわせる
 	if sys.platform == 'win32' or sys.platform == 'win64':
-		# Pythonを探す
-		python_path = conf.find_program('python')
-		if not python_path:
-			conf.fatal('could not find python!')
 		# Python.exeのパスから、includeとlibをチェック
-		dname = os.path.dirname(python_path)
+		dname = os.path.dirname(python_bin)
 		dinc = os.path.abspath(os.path.join(dname,'include'))
 		dlib = os.path.abspath(os.path.join(dname,'libs'))
 		# フォルダのチェック
@@ -112,8 +115,9 @@ def build(bld):
 		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA'],
 		defs = '__miscellaneous__/adapter.def'
 		)
+	os.environ['PYTHONPATH'] = os.pathsep.join(bld.env['PYTHONPATH'])
 	bld(
-		features = 'cxx cprogram',
+		features = 'cxx cprogram test_exec',
 		source = SACC_SRC+TEST_SRC,
 		target = 'SaccubusTest',
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
