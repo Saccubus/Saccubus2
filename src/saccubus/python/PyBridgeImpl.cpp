@@ -39,11 +39,9 @@ PyBridgeImpl::PyBridgeImpl(logging::Logger& log)
 		throw logging::Exception(__FILE__, __LINE__, "Failed to init Python!!");
 	}
 }
-std::auto_ptr<Session> PyBridgeImpl::createSession()
+std::unique_ptr<Session> PyBridgeImpl::createSession()
 {
-	std::auto_ptr<Session> session(new Session(this->log));
-
-	return session;
+	return std::unique_ptr<Session>(new Session(this->log));
 }
 PyBridgeImpl::~PyBridgeImpl() {
 	Py_Finalize();

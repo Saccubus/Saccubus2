@@ -36,7 +36,7 @@ PyBridge::PyBridge(logging::Logger& log)
 
 const meta::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
 {
-	std::auto_ptr<Session> session = impl->createSession();
+	std::unique_ptr<Session> session = impl->createSession();
 	std::multimap<std::string, std::string> callArgs(args.begin(), args.end());
 	callArgs.insert(std::pair<std::string, std::string>("video-id", video_id));
 	std::map<std::string, std::string> res = session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
@@ -65,7 +65,7 @@ bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const meta
 	if(!(&filename) || filename.size() <= 0){
 		return false;
 	}
-	std::auto_ptr<Session> session = impl->createSession();
+	std::unique_ptr<Session> session = impl->createSession();
 	session->loadFile(filename);
 	std::multimap<std::string, std::string> callArgs;
 	callArgs.insert(std::pair<std::string, std::string>("thread", util::format("%llu", com.thread()).c_str()));

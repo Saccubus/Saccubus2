@@ -18,7 +18,7 @@
 #pragma once
 #include <Python.h>
 #include <string>
-#include <auto_ptr.h>
+#include <memory>
 #include <map>
 #include <vector>
 #include "../classdefs.h"
@@ -34,7 +34,7 @@ private:
 public:
 	PyBridgeImpl(logging::Logger& log);
 	virtual ~PyBridgeImpl();
-	std::auto_ptr<Session> createSession();
+	std::unique_ptr<Session> createSession();
 };
 
 class Session {
