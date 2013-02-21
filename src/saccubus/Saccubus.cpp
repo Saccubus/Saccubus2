@@ -148,7 +148,7 @@ void Saccubus::measure(const int w, const int h, int* const measuredWidth, int* 
 
 void Saccubus::draw(std::shared_ptr<saccubus::draw::Context> ctx, std::shared_ptr<saccubus::draw::Sprite> video, float vpos)
 {
-	if(video.get()){
+	if( video ){
 		video->draw(ctx, static_cast<int>((ctx->width()-video->width())/2), static_cast<int>((ctx->height()-video->height())/2));
 	}
 	if(this->mainThradLayer){
