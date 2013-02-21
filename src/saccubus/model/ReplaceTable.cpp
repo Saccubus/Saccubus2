@@ -22,7 +22,7 @@
 #include "../util/StringUtil.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 ReplaceTable::ReplaceTable(const std::string& entry) {
 	std::istringstream ss(entry);

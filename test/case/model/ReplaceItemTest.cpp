@@ -17,30 +17,31 @@
  */
 
 #include "../../TestCommon.h"
-#include <fstream>
-#include "../../../src/saccubus/meta/Video.h"
-using namespace saccubus::meta;
+#include "../../../src/saccubus/model/ReplaceItem.h"
+using namespace saccubus::model;
 
 namespace saccubus{
 namespace test {
-namespace meta {
+namespace model {
 
-
-TEST(VideoTest, ReadingTest)
+TEST(ReplaceItemTest, SetGetTest)
 {
-	Video video(log_err);
-	std::vector<std::string> threads;
-	threads.push_back(MATERIAL_DIR"sm14097905_thread_1302222473.xml");
-	video.initVideoFile(MATERIAL_DIR"sm14097905_video_test.mp4");
-	video.initMetaInfo(MATERIAL_DIR"sm14097905_meta_info.xml");
-	video.initPlayInfo(MATERIAL_DIR"getflv.txt");
-	video.initThread(threads);
+	const ReplaceItem item("a", "b", true);
+	ASSERT_EQ("a", item.from());
+	ASSERT_EQ("b", item.to());
+	ASSERT_TRUE(item.whole());
+}
 
-	ASSERT_TRUE(video.metaInfo());
-	ASSERT_TRUE(video.playInfo());
-	ASSERT_EQ(1U, video.threadSize());
-	ASSERT_FALSE(video.threadBegin() == video.threadEnd());
-	ASSERT_TRUE(video.hasThread(1302222473L));
+
+TEST(ReplaceItemTest, ReplaceTest)
+{
+	const ReplaceItem item("a", "b", false);
+	ASSERT_EQ("bbbb", item.replace("abab"));
+	ASSERT_EQ("cbcb", item.replace("cbcb"));
+
+	const ReplaceItem itemWhole("a", "b", true);
+	ASSERT_EQ("b", itemWhole.replace("abab"));
+	ASSERT_EQ("bbbc", itemWhole.replace("bbbc"));
 }
 
 }}}

@@ -20,8 +20,8 @@
 #include <cmath>
 #include <nekomata/system/System.h>
 #include "../../NicoConstant.h"
-#include "../../meta/Comment.h"
-#include "../../meta/ReplaceTable.h"
+#include "../../model/Comment.h"
+#include "../../model/ReplaceTable.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
 #include "../../util/StringUtil.h"
@@ -54,7 +54,7 @@ Comment::Comment(
 
 	parse();
 }
-Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, const meta::Comment* meta)
+Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const model::ReplaceTable* replaceTable, const model::Comment* meta)
 {
 	init();
 

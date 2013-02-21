@@ -20,7 +20,7 @@
 #include <libxml2/libxml/tree.h>
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 template <typename T>
 T readNodeProp(xmlNode* node, const std::string& name, const T& def);

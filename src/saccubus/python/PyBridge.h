@@ -33,8 +33,8 @@ public:
 	PyBridge(logging::Logger& log);
 	virtual ~PyBridge();
 public:
-	const meta::Video* resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args);
-	bool askCommentShouldBeIgnored(const std::string& filename, const meta::Comment& com);
+	const model::Video* resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args);
+	bool askCommentShouldBeIgnored(const std::string& filename, const model::Comment& com);
 };
 
 }}

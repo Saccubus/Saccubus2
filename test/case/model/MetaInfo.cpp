@@ -17,31 +17,17 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../src/saccubus/meta/ReplaceItem.h"
-using namespace saccubus::meta;
+#include "../../../src/saccubus/model/MetaInfo.h"
+using namespace saccubus::model;
 
 namespace saccubus{
 namespace test {
-namespace meta {
+namespace model {
 
-TEST(ReplaceItemTest, SetGetTest)
+TEST(MetaInfoTest, BasicReadingTest)
 {
-	const ReplaceItem item("a", "b", true);
-	ASSERT_EQ("a", item.from());
-	ASSERT_EQ("b", item.to());
-	ASSERT_TRUE(item.whole());
-}
-
-
-TEST(ReplaceItemTest, ReplaceTest)
-{
-	const ReplaceItem item("a", "b", false);
-	ASSERT_EQ("bbbb", item.replace("abab"));
-	ASSERT_EQ("cbcb", item.replace("cbcb"));
-
-	const ReplaceItem itemWhole("a", "b", true);
-	ASSERT_EQ("b", itemWhole.replace("abab"));
-	ASSERT_EQ("bbbc", itemWhole.replace("bbbc"));
+	MetaInfo info(log_err, MATERIAL_DIR"sm14097905_meta_info.xml");
+	ASSERT_EQ("【NIVA】 みくみくにしてあげる♪ 【サンプル1】", info.title());
 }
 
 }}}

@@ -22,7 +22,7 @@
 #include <nekomata/system/System.h>
 #include "../../../../src/saccubus/layer/item/Comment.h"
 #include "../../../../src/saccubus/layer/item/CommentPipeLine.h"
-#include "../../../mock/meta/Comment.h"
+#include "../../../mock/model/Comment.h"
 #include "../../../mock/MockSystem.h"
 using namespace saccubus::mock;
 using nekomata::system::Replace;

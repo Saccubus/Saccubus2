@@ -23,7 +23,7 @@
 #include "Thread.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 static std::string TAG("Thread");
 

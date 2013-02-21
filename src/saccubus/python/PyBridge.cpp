@@ -18,11 +18,11 @@
 
 #include <map>
 #include <sstream>
-#include "../meta/Video.h"
+#include "../model/Video.h"
 #include "PyBridge.h"
 #include "PyBridgeImpl.h"
 #include "ScriptException.h"
-#include "../meta/Comment.h"
+#include "../model/Comment.h"
 #include "../util/StringUtil.h"
 
 namespace saccubus {
@@ -34,14 +34,14 @@ PyBridge::PyBridge(logging::Logger& log)
 {
 }
 
-const meta::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
+const model::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
 {
 	std::unique_ptr<Session> session = impl->createSession();
 	std::multimap<std::string, std::string> callArgs(args.begin(), args.end());
 	callArgs.insert(std::pair<std::string, std::string>("video-id", video_id));
 	std::map<std::string, std::string> res = session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
 	std::map<std::string, std::string>::const_iterator end = res.end();
-	meta::Video* ctx = new meta::Video(this->log);
+	model::Video* ctx = new model::Video(this->log);
 	if(res.find("video") == end){
 		throw ScriptException(__FILE__, __LINE__, "Resolve failed. There is no videofile.");
 	}
@@ -60,7 +60,7 @@ const meta::Video* PyBridge::resolveResource(const std::string& video_id, const 
 	return ctx;
 }
 
-bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const meta::Comment& com)
+bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const model::Comment& com)
 {
 	if(!(&filename) || filename.size() <= 0){
 		return false;

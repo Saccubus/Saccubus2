@@ -57,7 +57,7 @@ class VideoLayer;
 class NekomataSystem;
 }
 
-namespace meta{
+namespace model{
 class Comment;
 class ReplaceItem;
 class ReplaceTable;

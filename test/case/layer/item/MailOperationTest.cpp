@@ -21,7 +21,7 @@
 #include "../../../TestCommon.h"
 #include "../../../../src/saccubus/layer/item/Comment.h"
 #include "../../../../src/saccubus/layer/item/CommentPipeLine.h"
-#include "../../../mock/meta/Comment.h"
+#include "../../../mock/model/Comment.h"
 using namespace saccubus::mock;
 using saccubus::layer::item::MailOperation;
 using saccubus::layer::item::Comment;

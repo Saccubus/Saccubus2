@@ -25,7 +25,7 @@
 #include "../util/StringUtil.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 static std::string TAG("Comment");
 

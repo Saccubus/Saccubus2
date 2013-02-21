@@ -22,7 +22,7 @@
 #include "../logging/Exception.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 template<>
 std::string readNodeProp(xmlNode* node, const std::string& name, const std::string& def)

@@ -60,7 +60,7 @@ private:
 	std::string programPath;
 	std::multimap<std::string, std::string> resolveOpts;
 	std::string firstVideoId;
-	const meta::Video* currentVideo;
+	const model::Video* currentVideo;
 private:
 	layer::ThreadLayer* mainThradLayer;
 	layer::ThreadLayer* optionalThradLayer;

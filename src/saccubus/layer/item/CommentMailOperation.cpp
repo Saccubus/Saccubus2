@@ -21,7 +21,7 @@
 #include <cstdlib>
 #include "../../classdefs.h"
 #include "Comment.h"
-#include "../../meta/Comment.h"
+#include "../../model/Comment.h"
 #include "../../util/StringUtil.h"
 #include "../../logging/Exception.h"
 

@@ -15,32 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-#include <string>
-#include "../util/ClassAccessor.h"
-#include "../classdefs.h"
+
+#include "Comment.h"
 
 namespace saccubus {
-namespace meta {
+namespace mock {
+namespace model {
 
-/**
- * getflv内で指定される、
- * 動画の情報を表現するクラス
- * ！！　イミュータブル　！！
- */
-class PlayInfo {
-private:
-	const util::Bundle* bundle;
-	const ReplaceTable* _replaceTable;
-	DEF_ATTR_ACCESSOR(public, private, long long, user_id);
-	DEF_ATTR_ACCESSOR(public, private, bool, is_premium);
-	DEF_ATTR_ACCESSOR(public, private, long long, thread);
-	DEF_ATTR_ACCESSOR(public, private, long long, optional_thread);
-public:
-	PlayInfo(logging::Logger& log, const std::string& filename);
-	virtual ~PlayInfo();
-public:
-	const ReplaceTable* replaceTable() const;
-};
+Comment::Comment() {
+}
 
-}}
+Comment::~Comment() {
+}
+
+
+}}}

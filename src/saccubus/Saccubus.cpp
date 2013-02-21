@@ -25,9 +25,9 @@
 #include "util/StringUtil.h"
 #include "logging/Exception.h"
 #include "logging/Logger.h"
-#include "meta/MetaInfo.h"
-#include "meta/PlayInfo.h"
-#include "meta/Video.h"
+#include "model/MetaInfo.h"
+#include "model/PlayInfo.h"
+#include "model/Video.h"
 #include "PluginOrganizer.h"
 #include "Saccubus.h"
 #include "draw/Renderer.h"
@@ -199,7 +199,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 	{ /* 新しいビデオの、XMLファイルやメタ情報・プレイ情報のパース */
 		std::multimap<std::string, std::string> arg(this->resolveOpts.begin(), this->resolveOpts.end());
 		arg.insert(std::pair<std::string, std::string>("video-id", videoId));
-		const meta::Video* video = bridge->resolveResource(videoId, arg);
+		const model::Video* video = bridge->resolveResource(videoId, arg);
 		this->currentVideo = video;
 		this->log->i(TAG, "Context entered: %s", this->currentVideo->metaInfo()->title().c_str());
 	}

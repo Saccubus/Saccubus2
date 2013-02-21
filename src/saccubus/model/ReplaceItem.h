@@ -16,24 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "../classdefs.h"
-#include "../util/ClassAccessor.h"
-#include "ReplaceTable.h"
 #include <string>
-#include <libxml2/libxml/tree.h>
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
-class MetaInfo{
-	DEF_ATTR_ACCESSOR(public, private, std::string, title);
-public:
-	MetaInfo(logging::Logger& log, xmlNode* node);
-	MetaInfo(logging::Logger& log, xmlDoc* doc);
-	MetaInfo(logging::Logger& log, const std::string& filename);
-	virtual ~MetaInfo();
+/**
+ * getflv内で指定される、
+ * コメントフィルタ機能の置換テーブルの一つを表現
+ * ！！　イミュータブル　！！
+ */
+class ReplaceItem {
 private:
-	void read(logging::Logger& log, xmlNode* node);
+	const std::string from_;
+	const std::string to_;
+	bool whole_;
+public:
+	ReplaceItem(const std::string& from, const std::string& to, bool whole);
+	ReplaceItem(const ReplaceItem& other);
+	virtual ~ReplaceItem();
+public:
+	std::string from() const;
+	std::string to() const;
+	bool whole() const;
+public:
+	std::string replace(const std::string& target) const;
 };
 
 }}

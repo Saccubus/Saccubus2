@@ -21,7 +21,7 @@
 #include "Util.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 const static std::string TAG("MetaInfo");
 

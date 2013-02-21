@@ -24,7 +24,7 @@
 #include "../util/ClassAccessor.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 /**
  * XML内のコメントを表現するクラス。

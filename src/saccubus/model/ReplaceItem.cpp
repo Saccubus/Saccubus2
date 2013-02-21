@@ -19,7 +19,7 @@
 #include "ReplaceItem.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 ReplaceItem::ReplaceItem(const std::string& from, const std::string& to, bool whole)
 :from_(from), to_(to), whole_(whole)

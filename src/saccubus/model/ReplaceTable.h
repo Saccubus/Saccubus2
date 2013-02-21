@@ -21,7 +21,7 @@
 #include "./ReplaceItem.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 /**
  * getflv内で指定される、
  * コメントフィルタ機能の置換テーブル全体を表現

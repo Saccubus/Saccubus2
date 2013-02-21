@@ -21,7 +21,7 @@
 #include "ThreadLayer.h"
 #include "item/Comment.h"
 #include "../python/PyBridge.h"
-#include "../meta/Thread.h"
+#include "../model/Thread.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
@@ -30,7 +30,7 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const meta::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
+ThreadLayer::ThreadLayer(logging::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,thread(thread)
 ,ngScript(ngScript)
@@ -55,7 +55,7 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const meta::Thread& thread, const
 	this->nekoSystem()->tellCommentLayers(this->forkedCommentLayer, this->mainCommentLayer);
 
 	{ /* 確定済みコメントを渡す */
-		for(meta::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
+		for(model::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
 			if(bridge->askCommentShouldBeIgnored(this->ngScript, **it)){
 				continue;
 			}

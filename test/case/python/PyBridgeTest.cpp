@@ -22,10 +22,10 @@
 #include <memory>
 #include "../../TestCommon.h"
 #include "../../../src/saccubus/python/PyBridge.h"
-#include "../../../src/saccubus/meta/Thread.h"
-#include "../../../src/saccubus/meta/Video.h"
+#include "../../../src/saccubus/model/Thread.h"
+#include "../../../src/saccubus/model/Video.h"
 using namespace saccubus::python;
-using namespace saccubus::meta;
+using namespace saccubus::model;
 
 namespace saccubus{
 namespace test {

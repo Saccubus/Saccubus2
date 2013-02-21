@@ -23,7 +23,7 @@
 #include "../classdefs.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 class Video {
 	DEF_ATTR_ACCESSOR(public, private, std::string, videofile);

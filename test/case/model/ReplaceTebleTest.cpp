@@ -17,12 +17,12 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../src/saccubus/meta/ReplaceTable.h"
-using namespace saccubus::meta;
+#include "../../../src/saccubus/model/ReplaceTable.h"
+using namespace saccubus::model;
 
 namespace saccubus{
 namespace test {
-namespace meta {
+namespace model {
 
 TEST(ReplaceTableTest, SimpleTest)
 {

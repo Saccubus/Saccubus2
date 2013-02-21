@@ -20,7 +20,7 @@
 
 #include "../../../TestCommon.h"
 #include "../../../../src/saccubus/layer/item/Comment.h"
-#include "../../../mock/meta/Comment.h"
+#include "../../../mock/model/Comment.h"
 using namespace saccubus::mock;
 
 namespace saccubus{
@@ -43,7 +43,7 @@ public:
 
 TEST_F(CommentTest, InterpretTest)
 {
-	saccubus::mock::meta::Comment orig;
+	saccubus::mock::model::Comment orig;
 	orig.mail("invisible");
 	{
 		saccubus::layer::item::Comment* ctx = pipeLine->process(&orig);
@@ -54,7 +54,7 @@ TEST_F(CommentTest, InterpretTest)
 
 TEST_F(CommentTest, MultiInterpretTest)
 {
-	saccubus::mock::meta::Comment orig;
+	saccubus::mock::model::Comment orig;
 	orig.mail("sage docomo");
 	{
 		saccubus::layer::item::Comment* ctx = pipeLine->process(&orig);

@@ -17,13 +17,13 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../src/saccubus/meta/Thread.h"
-#include "../../../src/saccubus/meta/Comment.h"
-using namespace saccubus::meta;
+#include "../../../src/saccubus/model/Thread.h"
+#include "../../../src/saccubus/model/Comment.h"
+using namespace saccubus::model;
 
 namespace saccubus{
 namespace test {
-namespace meta {
+namespace model {
 
 TEST(ThreadTest, ThreadTest_ThradInfo)
 {

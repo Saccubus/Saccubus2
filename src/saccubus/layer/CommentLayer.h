@@ -20,7 +20,7 @@
 #include "Layer.h"
 #include <tr1/memory>
 #include "../util/ClassAccessor.h"
-#include "../meta/Comment.h"
+#include "../model/Comment.h"
 #include "NekomataSystem.h"
 
 namespace saccubus {

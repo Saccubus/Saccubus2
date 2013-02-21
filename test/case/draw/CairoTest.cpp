@@ -25,7 +25,7 @@
 #include "../../../src/saccubus/draw/cairo/SimpleCommentFactory.h"
 #include "../../../src/saccubus/draw/cairo/SimpleShapeFactory.h"
 #include "../../../src/saccubus/layer/item/Comment.h"
-#include "../../mock/meta/Comment.h"
+#include "../../mock/model/Comment.h"
 #include "../../mock/MockSystem.h"
 
 namespace saccubus{

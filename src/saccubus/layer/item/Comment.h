@@ -86,7 +86,7 @@ private:
 	Comment& operator = (const Comment& other);
 public:
 	Comment(const Comment& other);
-	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const meta::ReplaceTable* replaceTable, const meta::Comment* meta);
+	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const model::ReplaceTable* replaceTable, const model::Comment* meta);
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
 			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
 			const float& vpos, const std::string& message, const std::string& mail

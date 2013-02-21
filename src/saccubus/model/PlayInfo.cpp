@@ -23,7 +23,7 @@
 #include "ReplaceTable.h"
 
 namespace saccubus {
-namespace meta {
+namespace model {
 
 PlayInfo::PlayInfo(logging::Logger& log, const std::string& filename)
 :bundle(0)
