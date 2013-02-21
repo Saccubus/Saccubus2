@@ -196,12 +196,13 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> SimpleCommentFactory::re
 	if(lines.size() <= 0){
 		return renderLine(ctx, str, fitToScreen, color, shadowColor, size);
 	}else if(lines.size() == 1){
-		return renderLine(ctx, lines.front(), fitToScreen, color, shadowColor, size);
+		std::string const& firstLine = lines.front();
+		return renderLine(ctx, firstLine, fitToScreen, color, shadowColor, size);
 	}
 	saccubus::draw::Sprite::Handler<saccubus::draw::LayerdSprite> spr = saccubus::draw::LayerdSprite::newInstance();
 	int y = 0;
-	for(std::vector<std::string>::const_iterator it = lines.begin(); it != lines.end(); ++it){
-		saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> line = renderLine(ctx, *it, fitToScreen, color, shadowColor, size);
+	for(std::string const& strline : lines) {
+		saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> line = renderLine(ctx, strline, fitToScreen, color, shadowColor, size);
 		spr->addSprite(0, y, line);
 		y += line->height();
 	}

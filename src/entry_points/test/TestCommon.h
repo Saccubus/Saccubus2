@@ -17,9 +17,14 @@
  */
 
 #pragma once
-#include <tr1/memory>
-using std::shared_ptr;
+#include <stdio.h>
 #include <gtest/gtest.h>
+
+#include <memory>
+#if defined(__MINGW__) || defined(__MINGW32__)
+//#error "fail"
+#endif
+using std::shared_ptr;
 #include <iostream>
 #include "../../saccubus/logging/Exception.h"
 #include "../../saccubus/logging/Logger.h"

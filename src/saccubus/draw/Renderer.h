@@ -19,7 +19,6 @@
 #include "RawSprite.h"
 #include "../classdefs.h"
 #include <vector>
-#include <tr1/memory>
 #include <cmath>
 
 namespace saccubus {

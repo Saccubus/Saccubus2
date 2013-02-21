@@ -31,6 +31,10 @@ Renderer::Renderer(logging::Logger& log)
 Renderer::~Renderer() {
 }
 
+saccubus::draw::RawSprite* Renderer::createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+{
+	return new Sprite(handler(), w, h);
+}
 saccubus::draw::RawSprite* Renderer::createRawSprite(int w, int h)
 {
 	return new Sprite(handler(), w, h);

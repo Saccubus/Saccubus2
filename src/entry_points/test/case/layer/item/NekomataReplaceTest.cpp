@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if 0
+
 #include "../../../TestCommon.h"
 #include <nekomata/system/System.h>
 #include "../../../../../saccubus/layer/item/Comment.h"
@@ -84,3 +86,5 @@ TEST_F(NekomataReplaceOperationTest, SrcTest)
 }
 
 }}}}
+
+#endif

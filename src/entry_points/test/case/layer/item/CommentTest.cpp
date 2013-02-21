@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if 0
+
 #include "../../../TestCommon.h"
 #include "../../../../../saccubus/layer/item/Comment.h"
-#include "../../../../../saccubus/layer/item/CommentPipeLine.h"
 #include "../../../mock/meta/Comment.h"
 using namespace saccubus::mock;
 
@@ -65,4 +66,5 @@ TEST_F(CommentTest, MultiInterpretTest)
 
 }}}}
 
+#endif
 

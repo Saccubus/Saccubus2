@@ -70,13 +70,13 @@ def options(opt):
 def configure(conf):
 	# release
 	conf.setenv('release')
-	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
+	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 	configureLibrary(conf)
 	# debug
 	conf.setenv('debug')
 	denv = conf.env;
-	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=c++0x', '-std=c++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
+	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 	configureLibrary(conf)
 	if conf.options.coverage:
@@ -112,13 +112,13 @@ def build(bld):
 		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA'],
 		defs = '__miscellaneous__/adapter.def'
 		)
-#	bld(
-#		features = 'cxx cprogram',
-#		source = SACC_SRC+TEST_SRC,
-#		target = 'SaccubusTest',
-#		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
-#		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA', 'GTEST']
-#		)
+	bld(
+		features = 'cxx cprogram',
+		source = SACC_SRC+TEST_SRC,
+		target = 'SaccubusTest',
+		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA', 'GTEST']
+		)
 
 # from http://docs.waf.googlecode.com/git/book_16/single.html#_custom_build_outputs
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext

@@ -45,7 +45,6 @@ TEST(ThreadTest, ThreadTest_CommentInfo)
 	ASSERT_EQ(1302222473LLU, com->thread());
 	ASSERT_TRUE(com->fork());
 	ASSERT_FLOAT_EQ(0.0f, com->vpos());
-	ASSERT_EQ(0U, com->mailSize());
 	ASSERT_EQ(1LLU, com->no());
 	ASSERT_EQ(1310831408LLU, com->date());
 
@@ -55,8 +54,7 @@ TEST(ThreadTest, ThreadTest_CommentInfo)
 	ASSERT_EQ(100U, com->no());
 	ASSERT_FLOAT_EQ(109.86f, com->vpos());
 	ASSERT_EQ(1302637189LLU, com->date());
-	ASSERT_EQ(1U, com->mailSize());
-	ASSERT_STREQ("184", com->mailBegin()->c_str());
+	ASSERT_TRUE(com->anonymity());
 	delete th;
 }
 
