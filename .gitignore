@@ -5,3 +5,4 @@ waf*
 build/
 .lock*
 __pycache__
+__miscellaneous__/path_to_SaccubusFront.txt
