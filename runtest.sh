@@ -33,14 +33,17 @@ echo "SaccubusFront path: $front_path"
 pypath="$(python -c 'import sys; import os;sys.stdout.write(os.pathsep.join(sys.path)+os.pathsep)')$front_path"
 if [ -f $DIRNAME/build/debug/SaccubusTest ]; then
 	echo "Running debug test"
+	echo PYTHONPATH=$pypath build/debug/SaccubusTest $*
 	PYTHONPATH=$pypath build/debug/SaccubusTest $*
 fi
 if [ -f $DIRNAME/build/release/SaccubusTest ]; then
 	echo "Running release test"
+	echo PYTHONPATH=$pypath build/release/SaccubusTest $*
 	PYTHONPATH=$pypath build/release/SaccubusTest $*
 fi
 if [ -f $DIRNAME/build/SaccubusTest ]; then
 	echo "Running test"
+	echo PYTHONPATH=$pypath build/SaccubusTest $*
 	PYTHONPATH=$pypath build/SaccubusTest $*
 fi
 

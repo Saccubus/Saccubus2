@@ -19,7 +19,7 @@
 #include "Renderer.h"
 #include "Sprite.h"
 #include "Context.h"
-#include "../../../../saccubus/logging/Exception.h"
+#include "../../../src/saccubus/logging/Exception.h"
 
 namespace saccubus {
 namespace mock {

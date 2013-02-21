@@ -17,7 +17,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/logging/Exception.h"
+#include "../../../src/saccubus/logging/Exception.h"
 using namespace saccubus::logging;
 
 namespace saccubus{

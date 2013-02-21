@@ -19,11 +19,11 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <auto_ptr.h>
+#include <memory>
 #include "../../TestCommon.h"
-#include "../../../../saccubus/python/PyBridge.h"
-#include "../../../../saccubus/meta/Thread.h"
-#include "../../../../saccubus/meta/Video.h"
+#include "../../../src/saccubus/python/PyBridge.h"
+#include "../../../src/saccubus/meta/Thread.h"
+#include "../../../src/saccubus/meta/Video.h"
 using namespace saccubus::python;
 using namespace saccubus::meta;
 

@@ -20,8 +20,8 @@
 
 #include "../../../TestCommon.h"
 #include <nekomata/system/System.h>
-#include "../../../../../saccubus/layer/item/Comment.h"
-#include "../../../../../saccubus/layer/item/CommentPipeLine.h"
+#include "../../../../src/saccubus/layer/item/Comment.h"
+#include "../../../../src/saccubus/layer/item/CommentPipeLine.h"
 #include "../../../mock/meta/Comment.h"
 #include "../../../mock/MockSystem.h"
 using namespace saccubus::mock;

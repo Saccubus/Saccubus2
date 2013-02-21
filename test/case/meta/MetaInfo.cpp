@@ -17,7 +17,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/meta/MetaInfo.h"
+#include "../../../src/saccubus/meta/MetaInfo.h"
 using namespace saccubus::meta;
 
 namespace saccubus{

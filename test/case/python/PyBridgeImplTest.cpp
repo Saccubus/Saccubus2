@@ -18,8 +18,8 @@
 
 #include <cstdio>
 #include "../../TestCommon.h"
-#include "../../../../saccubus/python/PyBridgeImpl.h"
-#include "../../../../saccubus/python/ScriptException.h"
+#include "../../../src/saccubus/python/PyBridgeImpl.h"
+#include "../../../src/saccubus/python/ScriptException.h"
 using namespace saccubus::python;
 
 namespace saccubus{
@@ -29,13 +29,14 @@ namespace python {
 class PyBridgeImplTest : public ::testing::Test{
 protected:
 	PyBridgeImpl* bridge;
-	std::auto_ptr<Session> session;
+	std::unique_ptr<Session> session;
 public:
 	void SetUp(){
 		bridge = new PyBridgeImpl(log_err);
 		session = this->bridge->createSession();
 	}
 	void TearDown(){
+		session.reset();
 		delete bridge;
 	}
 };

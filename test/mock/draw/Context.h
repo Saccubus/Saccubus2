@@ -19,8 +19,8 @@
 
 #include <vector>
 #include "Sprite.h"
-#include "../../../../saccubus/classdefs.h"
-#include "../../../../saccubus/draw/Context.h"
+#include "../../../src/saccubus/classdefs.h"
+#include "../../../src/saccubus/draw/Context.h"
 
 namespace saccubus {
 namespace mock {

@@ -23,8 +23,8 @@
 #include <memory>
 using std::shared_ptr;
 #include <iostream>
-#include "../../saccubus/logging/Exception.h"
-#include "../../saccubus/logging/Logger.h"
+#include "../src/saccubus/logging/Exception.h"
+#include "../src/saccubus/logging/Logger.h"
 using namespace saccubus::logging;
 
 #define MATERIAL_DIR "_TestMaterials/"

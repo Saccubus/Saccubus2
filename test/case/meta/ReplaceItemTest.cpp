@@ -17,7 +17,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/meta/ReplaceItem.h"
+#include "../../../src/saccubus/meta/ReplaceItem.h"
 using namespace saccubus::meta;
 
 namespace saccubus{

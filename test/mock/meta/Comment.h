@@ -17,7 +17,7 @@
  */
 #pragma once
 #include "../../TestCommon.h"
-#include "../../../../saccubus/meta/Comment.h"
+#include "../../../src/saccubus/meta/Comment.h"
 
 namespace saccubus {
 namespace mock {

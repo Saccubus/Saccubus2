@@ -17,7 +17,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/logging/Logger.h"
+#include "../../../src/saccubus/logging/Logger.h"
 #include <sstream>
 
 namespace saccubus{

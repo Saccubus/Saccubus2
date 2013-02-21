@@ -17,8 +17,8 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/meta/PlayInfo.h"
-#include "../../../../saccubus/meta/ReplaceTable.h"
+#include "../../../src/saccubus/meta/PlayInfo.h"
+#include "../../../src/saccubus/meta/ReplaceTable.h"
 using namespace saccubus::meta;
 
 namespace saccubus{

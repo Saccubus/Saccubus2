@@ -20,7 +20,7 @@
 #include <fstream>
 #include <istream>
 #include <string>
-#include "../../../../saccubus/util/Bundle.h"
+#include "../../../src/saccubus/util/Bundle.h"
 using namespace saccubus::util;
 
 namespace saccubus{

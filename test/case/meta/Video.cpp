@@ -18,7 +18,7 @@
 
 #include "../../TestCommon.h"
 #include <fstream>
-#include "../../../../saccubus/meta/Video.h"
+#include "../../../src/saccubus/meta/Video.h"
 using namespace saccubus::meta;
 
 namespace saccubus{

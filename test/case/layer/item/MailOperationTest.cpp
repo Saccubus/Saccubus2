@@ -19,8 +19,8 @@
 #if 0
 
 #include "../../../TestCommon.h"
-#include "../../../../../saccubus/layer/item/Comment.h"
-#include "../../../../../saccubus/layer/item/CommentPipeLine.h"
+#include "../../../../src/saccubus/layer/item/Comment.h"
+#include "../../../../src/saccubus/layer/item/CommentPipeLine.h"
 #include "../../../mock/meta/Comment.h"
 using namespace saccubus::mock;
 using saccubus::layer::item::MailOperation;

@@ -19,12 +19,12 @@
 #if 0
 #include <memory>
 #include "../../TestCommon.h"
-#include "../../../../saccubus/draw/cairo/Sprite.h"
-#include "../../../../saccubus/draw/cairo/Renderer.h"
-#include "../../../../saccubus/draw/cairo/Context.h"
-#include "../../../../saccubus/draw/cairo/SimpleCommentFactory.h"
-#include "../../../../saccubus/draw/cairo/SimpleShapeFactory.h"
-#include "../../../../saccubus/layer/item/Comment.h"
+#include "../../../src/saccubus/draw/cairo/Sprite.h"
+#include "../../../src/saccubus/draw/cairo/Renderer.h"
+#include "../../../src/saccubus/draw/cairo/Context.h"
+#include "../../../src/saccubus/draw/cairo/SimpleCommentFactory.h"
+#include "../../../src/saccubus/draw/cairo/SimpleShapeFactory.h"
+#include "../../../src/saccubus/layer/item/Comment.h"
 #include "../../mock/meta/Comment.h"
 #include "../../mock/MockSystem.h"
 

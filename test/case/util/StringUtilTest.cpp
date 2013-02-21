@@ -17,7 +17,7 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/util/StringUtil.h"
+#include "../../../src/saccubus/util/StringUtil.h"
 using namespace saccubus::util;
 
 namespace saccubus{

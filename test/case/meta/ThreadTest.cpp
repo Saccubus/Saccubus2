@@ -17,8 +17,8 @@
  */
 
 #include "../../TestCommon.h"
-#include "../../../../saccubus/meta/Thread.h"
-#include "../../../../saccubus/meta/Comment.h"
+#include "../../../src/saccubus/meta/Thread.h"
+#include "../../../src/saccubus/meta/Comment.h"
 using namespace saccubus::meta;
 
 namespace saccubus{

@@ -19,7 +19,7 @@
 #include "../../TestCommon.h"
 #include "../../mock/draw/Sprite.h"
 #include "../../mock/draw/Renderer.h"
-#include "../../../../saccubus/draw/LayerdSprite.h"
+#include "../../../src/saccubus/draw/LayerdSprite.h"
 
 using namespace saccubus::mock::draw;
 using saccubus::draw::LayerdSprite;
