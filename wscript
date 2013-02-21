@@ -55,8 +55,8 @@ SACC_SRC=enum('src/saccubus')
 CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','cli')
 CLI_SRC=enum('src/entry_points/cli')
 
-TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','test')
-TEST_SRC=enum('src/entry_points/test')
+TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','test')
+TEST_SRC=enum('src/test')
 
 FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
 FFMPEG_SRC=enum('src/entry_points/ffmpeg')
