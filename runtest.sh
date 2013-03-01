@@ -22,13 +22,12 @@ function validateSaccubusFront() {
 
 while validateSaccubusFront $PATH_TO_FRONT_FILE ;do
 	echo "Please input path to SaccubusFront"
-	echo "ex) in windows: c:/somewhere/SaccubusFront"
-	echo "ex) in linux  : /dir/somewhere/SaccubusFront"
-	read front_path
-	echo $front_path > $PATH_TO_FRONT_FILE
+	echo "ex) /dir/somewhere/SaccubusFront"
+	read -er front_path
+	echo $(cd $front_path; pwd -PLW) > $PATH_TO_FRONT_FILE
 done
 front_path=`cat $PATH_TO_FRONT_FILE`/src
-echo "SaccubusFront path: $front_path"
+echo "SaccubusFront path detected: $front_path"
 
 pypath="$(python -c 'import sys; import os;sys.stdout.write(os.pathsep.join(sys.path)+os.pathsep)')$front_path"
 if [ -f $DIRNAME/build/debug/SaccubusTest ]; then
