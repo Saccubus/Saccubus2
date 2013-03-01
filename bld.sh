@@ -75,26 +75,47 @@ function ensureConfigure() {
 	return 0
 }
 
-detectCompiler
-ensureConfigure
+function parse() {
+	consumed=1
+	if [ "$1" = "debug" ] ; then
+		MODE=$1; consumed=0
+	elif [ "$1" = "release" ] ; then
+		MODE=$1; consumed=0
+	elif [ "$1" = "build" ] ; then
+		TARGET=$1; consumed=0
+	elif [ "$1" = "clean" ] ; then
+		TARGET=$1; consumed=0
+	elif [ "$1" = "install" ] ; then
+		TARGET=$1; consumed=0
+	elif [ "$1" = "uninstall" ] ; then
+		TARGET=$1; consumed=0
+	elif [ ! -z "$1" ]; then
+		export CUSTOM=1
+	fi
 
-MODE=$1
-if [ "$MODE" = "debug" ] ; then
-	shift
-elif [ "$MODE" = "release" ] ; then
-	shift
+	if [ -z "$MODE" ]; then
+		MODE="debug"
+	fi
+	if [ -z "$TARGET" ]; then
+		TARGET="build"
+	fi
+	return $consumed
+}
+
+# parsing command line
+CUSTOM=0
+parse $1 && shift
+parse $1 && shift
+
+if [ $CUSTOM -eq 0 ]; then
+	echo "Normal launch"
+	detectCompiler
+	ensureConfigure
+	BLD_WAF_CMD="$PYTHON ./waf --out $BUILDDIR --progress ${TARGET}_${MODE} $*"
 else
-	MODE="debug"
+	echo "Custom launch"
+	BLD_WAF_CMD="$PYTHON ./waf --out $BUILDDIR --progress $*"
 fi
-
-TARGET=$1
-if [ -z $TARGET ] ; then
-	TARGET="build"
-else
-	shift
-fi
-
-BLD_WAF_CMD="$PYTHON ./waf --out $BUILDDIR --progress ${TARGET}_${MODE} $*"
 
 echo "building: $BLD_WAF_CMD"
 $BLD_WAF_CMD 2>&1
