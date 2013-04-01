@@ -1,9 +1,0 @@
-src/nekomata/parser/niwango.tokens
-src/nekomata/trans/NicosMessage.tokens
-.cproject
-.project
-.waf*
-waf*
-!waf
-build/
-.lock*
