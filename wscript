@@ -52,24 +52,24 @@ def checkPython(conf):
 	else:
 		conf.fatal('could not find python!')
 
-SACC_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
-SACC_SRC=Util.enum('src/saccubus')
+SACCUBUS_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
+SACCUBUS_SRC=Util.enum('src/saccubus')
 
-CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','cli')
-CLI_SRC=Util.enum('src/entry_points/cli')
+SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','cli')
+SACCUBUS_CLI_SRC=Util.enum('src/entry_points/cli')
 
-TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'test')
-TEST_SRC=Util.enum('test')
+SACCUBUS_TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'test')
+SACCUBUS_TEST_SRC=Util.enum('test')
 
-FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
-FFMPEG_SRC=Util.enum('src/entry_points/ffmpeg')
+SACCUBUS_FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
+SACCUBUS_FFMPEG_SRC=Util.enum('src/entry_points/ffmpeg')
 
 NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'nekomata')
 NEKOMATA_SRC=Util.enum('src/nekomata')
 NEKOMATA_INC=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'include')
 
-NEKOCLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'cli')
-NEKOCLI_SRC=Util.enum('src/cli')
+NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'cli')
+NEKOMATA_CLI_SRC=Util.enum('src/cli')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
@@ -111,26 +111,6 @@ def build(bld):
 	if not bld.variant:
 		bld.set_env(bld.all_envs['debug' if (bld.options.debug) else 'release'])
 	bld(
-		features = 'cxx cprogram',
-		source = SACC_SRC+CLI_SRC,
-		target = 'SaccubusCLI',
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA']
-		)
-	bld(
-		features = 'cxx cxxshlib',
-		source = SACC_SRC+FFMPEG_SRC,
-		target = 'Saccubus',
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA'],
-		defs = '__miscellaneous__/adapter.def'
-		)
-	bld(
-		features = 'cxx cprogram',
-		source = SACC_SRC+TEST_SRC,
-		target = 'SaccubusTest',
-		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'NEKOMATA', 'GTEST']
-		)
-	bld(
 		is_install=True,
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC,
@@ -140,10 +120,44 @@ def build(bld):
 		)
 	bld(
 		features = 'cxx cxxprogram',
-		source = NEKOMATA_SRC+NEKOCLI_SRC,
-		target = 'Nekomata',
-		use=['PPROF', 'ICU','ANTLR'],
+		source = NEKOMATA_CLI_SRC,
+		target = 'NekomataCLI',
+		use=['PPROF', 'ICU','ANTLR', 'nekomata'],
 		includes=[NEKOMATA_INC]
+		)
+	bld(
+		is_install=True,
+		features = 'cxx cxxstlib',
+		source = SACCUBUS_SRC,
+		target = 'saccubus',
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
+		includes=[NEKOMATA_INC]
+		)
+	bld(
+		features = 'cxx cprogram',
+		source = SACCUBUS_CLI_SRC,
+		target = 'SaccubusCLI',
+		includes=[NEKOMATA_INC],
+		use_local=['nekomata'],
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		)
+	bld(
+		features = 'cxx cxxshlib',
+		source = SACCUBUS_FFMPEG_SRC,
+		target = 'Saccubus',
+		includes=[NEKOMATA_INC],
+		use_local=['nekomata'],
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		defs = '__miscellaneous__/adapter.def'
+		)
+	bld(
+		features = 'cxx cprogram',
+		source = SACCUBUS_TEST_SRC,
+		target = 'SaccubusTest',
+		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
+		includes=[NEKOMATA_INC],
+		use_local=['nekomata'],
+		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
 		)
 	bld(
 		features = "subst",
