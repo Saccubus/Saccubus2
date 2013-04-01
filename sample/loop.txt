@@ -1,0 +1,1 @@
+0::/x=Object.clone();dt("x: "+x)
