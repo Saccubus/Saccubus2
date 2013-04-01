@@ -1,8 +1,8 @@
 
-./.waf*
-./waf*
-./.lock*
-!./waf
+/.waf*
+/waf*
+/.lock*
+!/waf
 
 src/nekomata/parser/niwango.tokens
 src/nekomata/trans/NicosMessage.tokens
