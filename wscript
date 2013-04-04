@@ -80,13 +80,13 @@ def options(opt):
 def configure(conf):
 	# release
 	conf.setenv('release')
-	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
+	conf.env.append_value('CXXFLAGS', ['-fPIC', '-O3', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 	configureLibrary(conf)
 	# debug
 	conf.setenv('debug')
 	denv = conf.env;
-	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
+	conf.env.append_value('CXXFLAGS', ['-fPIC', '-ggdb','-O0', '-Wall', '-std=gnu++11', '-D__GXX_EXPERIMENTAL_CXX0X__=1','-DDEBUG'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 
 	configureLibrary(conf)
