@@ -76,6 +76,7 @@ def options(opt):
 	opt.add_option('--debug', action='store_true', default=False, help='debug build')
 	opt.load('compiler_c compiler_cxx')
 	opt.load('boost')
+	opt.load('cinamo', tooldir='external/WafHelper')
 
 def configure(conf):
 	# release
@@ -106,6 +107,7 @@ def configureLibrary(conf):
 	checkPython(conf)
 	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST', mandatory=False)
 	conf.check(features='cxx cxxprogram', lib=['antlr3c'], cflags=['-Wall'], uselib_store='ANTLR')
+	conf.check_cinamo()
 
 def build(bld):
 	if not bld.variant:
