@@ -19,34 +19,20 @@
 #include <exception>
 #include <string>
 #include <cstdarg>
+#include <cinamo/Exception.h>
 
 namespace saccubus {
 namespace logging {
 
 /**
- * FIXME: 猫又と被ってる。括りだししたほうがいい？
- */
-
-/**
  * さきゅばすは基本的にこの例外を投げる
  */
-class Exception : public std::exception {
-private:
-	std::string _loc;
-	std::string _msg;
-	std::string _file;
-	size_t _line;
-protected:
-	void init(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
+class Exception : public cinamo::Exception {
 public:
-	Exception(const char* file, const size_t line) throw();
-	Exception(const char* file, const size_t line, const std::string& fmt, ...) throw();
-	Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw();
-	virtual ~Exception() throw();
-	std::string what();
-	std::string msg();
-	std::string file();
-	size_t line();
+	Exception(const char* file, const size_t line) throw():cinamo::Exception(file, line){};
+	template <typename... Args>
+	Exception(const char* file, const size_t line, const std::string& fmt, Args... args):cinamo::Exception(file, line, fmt, args...){};
+	Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw():cinamo::Exception(file, line, fmt, lst){};
 };
 
 }}

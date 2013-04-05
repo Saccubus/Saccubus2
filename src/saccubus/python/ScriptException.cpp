@@ -21,15 +21,6 @@
 namespace saccubus {
 namespace python {
 
-ScriptException::ScriptException(const char* file, const size_t line, const std::string& fmt, ...)
-:Exception(file, line)
-{
-	va_list lst;
-	va_start(lst, fmt);
-	init(file, line, fmt, lst);
-	va_end(lst);
-}
-
 ScriptException::~ScriptException() throw(){
 }
 
