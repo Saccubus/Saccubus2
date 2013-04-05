@@ -19,8 +19,9 @@
 #include <cstdlib>
 #include <sstream>
 #include <algorithm>
+#include <cinamo/Url.h>
+#include <cinamo/String.h>
 #include "Bundle.h"
-#include "./StringUtil.h"
 #include "../logging/Exception.h"
 
 namespace saccubus {
@@ -35,14 +36,14 @@ Bundle::~Bundle() {
 void Bundle::readURLEncoded(const std::string& data)
 {
 	/* ☆車☆輪☆の☆再☆発☆明☆ */
-	std::vector<std::string> elements;
-	util::split(data, "&", elements);
+	std::vector<std::string> elements(cinamo::split(data, "&"));
 	for(std::vector<std::string>::const_iterator it = elements.begin(); it != elements.end(); ++it){
-		const size_t split = it->find("=");
-		std::string key=it->substr(0, split);
-		std::string val=it->substr(split+1);
-		key = util::decodePercent(key);
-		val = util::decodePercent(val);
+		std::string const& str = *it;
+		const size_t split = str.find("=");
+		std::string key=str.substr(0, split);
+		std::string val=str.substr(split+1);
+		key = cinamo::url::decodePercent(key);
+		val = cinamo::url::decodePercent(val);
 		this->map.insert(std::pair<std::string, std::string>(key, val));
 	}
 }

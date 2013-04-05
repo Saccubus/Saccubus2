@@ -18,12 +18,12 @@
 
 #include <map>
 #include <sstream>
+#include <cinamo/String.h>
 #include "../model/Video.h"
 #include "PyBridge.h"
 #include "PyBridgeImpl.h"
 #include "ScriptException.h"
 #include "../model/Comment.h"
-#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace python {
@@ -48,7 +48,7 @@ const model::Video* PyBridge::resolveResource(const std::string& video_id, const
 	ctx->initVideoFile(res.find("video")->second);
 	std::vector<std::string> threads;
 	if(res.find("thread") != end){
-		util::splitLine(res.find("thread")->second, threads);
+		threads = cinamo::splitLine(res.find("thread")->second);
 	}
 	ctx->initThread(threads);
 	if(res.find("meta_info") != end){
@@ -68,12 +68,12 @@ bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const mode
 	std::unique_ptr<Session> session = impl->createSession();
 	session->loadFile(filename);
 	std::multimap<std::string, std::string> callArgs;
-	callArgs.insert(std::pair<std::string, std::string>("thread", util::format("%llu", com.thread()).c_str()));
-	callArgs.insert(std::pair<std::string, std::string>("no", util::format("%llu", com.no()).c_str()));
-	callArgs.insert(std::pair<std::string, std::string>("vpos", util::format("%f", com.vpos()).c_str()));
-	callArgs.insert(std::pair<std::string, std::string>("date", util::format("%llu", com.date()).c_str()));
-	callArgs.insert(std::pair<std::string, std::string>("deleted", util::format("%llu", com.deleted()).c_str()));
-	callArgs.insert(std::pair<std::string, std::string>("score", util::format("%lld", com.score()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("thread", cinamo::format("%llu", com.thread()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("no", cinamo::format("%llu", com.no()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("vpos", cinamo::format("%f", com.vpos()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("date", cinamo::format("%llu", com.date()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("deleted", cinamo::format("%llu", com.deleted()).c_str()));
+	callArgs.insert(std::pair<std::string, std::string>("score", cinamo::format("%lld", com.score()).c_str()));
 	callArgs.insert(std::pair<std::string, std::string>("user_id", com.user_id().c_str()));
 	callArgs.insert(std::pair<std::string, std::string>("mail", com.mail().c_str()));
 	callArgs.insert(std::pair<std::string, std::string>("message", com.message().c_str()));

@@ -19,9 +19,9 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <cinamo/String.h>
 #include "Logger.h"
 #include "Exception.h"
-#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace logging{
@@ -60,7 +60,7 @@ void Logger::msg(enum Level level, const std::string& tag, const std::string& fm
 		throw Exception(__FILE__, __LINE__, "[BUG][FIXME] Invalid log level!!");
 	}
 	ss << "[" << std::setw(16) << tag << "] ";
-	ss << util::formatv(fmt, args) << std::endl;
+	ss << cinamo::formatv(fmt, args) << std::endl;
 	_stream << ss.str();
 	_stream.flags();
 }

@@ -17,9 +17,9 @@
  */
 
 #include <sstream>
+#include <cinamo/Url.h>
 #include "ReplaceTable.h"
 #include "../util/Bundle.h"
-#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace model {
@@ -30,8 +30,8 @@ ReplaceTable::ReplaceTable(const std::string& entry) {
 	//FIXME:  FormEncoded形式だが、オーダーを保存しなければならないので、自分でパース…。
 	while(std::getline(ss, elem, '&')){
 		size_t center = elem.find('=');
-		std::string from(util::decodePercent(elem.substr(0, center)));
-		std::string to(util::decodePercent(elem.substr(center+1)));
+		std::string from(cinamo::url::decodePercent(elem.substr(0, center)));
+		std::string to(cinamo::url::decodePercent(elem.substr(center+1)));
 		if(from.at(0) == '*'){
 			replaceList.insert(replaceList.begin(), new ReplaceItem(from.substr(1), to, true));
 		}else{
@@ -51,7 +51,8 @@ std::string ReplaceTable::replace(const std::string& target) const
 {
 	std::string replaced(target);
 	for(std::vector<const ReplaceItem*>::const_iterator it = replaceList.begin(); it != replaceList.end(); ++it){
-		replaced = (*it)->replace(replaced);
+		const ReplaceItem* const obj = *it;
+		replaced = obj->replace(replaced);
 	}
 	return replaced;
 }

@@ -20,7 +20,6 @@
 #include "../logging/Logger.h"
 #include <iostream>
 #include <sstream>
-#include "../util/StringUtil.h"
 #include "item/Label.h"
 #include "item/Shape.h"
 #include "../draw/Context.h"
@@ -81,8 +80,9 @@ void ScriptLayer::draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos)
 	std::vector<nekomata::system::Drawable*> lst;
 	nekoSystem()->fetchDrawables(lst);
 	for(std::vector<nekomata::system::Drawable*>::const_iterator it = lst.begin(); it != lst.end(); ++it){
-		if(!(*it)->visible()) continue;
-		item::NekoItem* item = dynamic_cast<item::NekoItem*>(*it);
+		nekomata::system::Drawable* const obj = *it;
+		if(!obj->visible()) continue;
+		item::NekoItem* const item = dynamic_cast<item::NekoItem*>(obj);
 		if(!item){
 			// FIXME: 仮。他のコマンドもすべて実装したら、これはNULL（dynamic_cast失敗）にはならないはず。
 			continue;

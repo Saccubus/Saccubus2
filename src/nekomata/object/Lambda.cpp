@@ -58,9 +58,10 @@ DEF_BUILTIN(LambdaObject, index)
 	}
 	std::vector<std::string> names = arg->getSlotNames();
 	for(std::vector<std::string>::const_iterator it = names.begin();it!=names.end();++it){
+		std::string const& str = *it;
 		ss.str("");
 		ss << "@" << (*it);
-		local->setSlot(ss.str(), arg->getSlot(*it));
+		local->setSlot(ss.str(), arg->getSlot(str));
 	}
 
 	machine.enterLocal(machine.getSelf(), local, self->Object::getSlot("$$scope"));

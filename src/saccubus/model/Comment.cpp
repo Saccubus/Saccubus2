@@ -20,9 +20,9 @@
 #include <nekomata/parser/Parser.h>
 #include <sstream>
 #include <memory>
+#include <cinamo/String.h>
 #include "Comment.h"
 #include "Util.h"
-#include "../util/StringUtil.h"
 
 namespace saccubus {
 namespace model {
@@ -44,9 +44,9 @@ Comment::Comment(logging::Logger& log, xmlNode* node) {
 	this->mail(readNodeProp(node, "mail", ""));
 	this->message(readNodeContent(node));
 
-	if(util::startsWith(this->message(), "/")){ /* スクリプト */
+	if(cinamo::startsWith(this->message(), "/")){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->message().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
-	} else if(util::startsWith(this->message(), "＠")){
+	} else if(cinamo::startsWith(this->message(), "＠")){
 		std::string translated = nekomata::trans::toNiwango(this->vpos(),this->mail(), this->message(), this->fork(), this->premium());
 		this->node(nekomata::parser::Parser::fromString(translated, "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
 	}

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cinamo/String.h>
 #include "OptionParser.h"
-#include "StringUtil.h"
 #include "../logging/Exception.h"
 
 namespace saccubus {
@@ -43,7 +43,7 @@ void OptionParser::parse(int argc, char** argv, std::vector<std::string>& left)
 {
 	for(int i = 0; i < argc; ++i){
 		std::string current(argv[i]);
-		if(!util::startsWith(current, "--")){
+		if(!cinamo::startsWith(current, "--")){
 			left.push_back(current);
 			continue;
 		}
@@ -53,11 +53,11 @@ void OptionParser::parse(int argc, char** argv, std::vector<std::string>& left)
 			Option* const opt = *it;
 			if(Option::Normal == opt->type() && current != opt->name()){
 				continue;
-			}else if(Option::Prefix == opt->type() && !util::startsWith(current, opt->name())){
+			}else if(Option::Prefix == opt->type() && !cinamo::startsWith(current, opt->name())){
 				continue;
 			}
 			// 次の引数の有無
-			bool haveArgument = i != argc-1 && !util::startsWith(argv[i+1], "--");
+			bool haveArgument = i != argc-1 && !cinamo::startsWith(argv[i+1], "--");
 			if(!haveArgument && Option::Require == opt->argument() ){ //かつ引数必須
 				throw logging::Exception(__FILE__, __LINE__, "You need an argument for %s", current.c_str());
 			}

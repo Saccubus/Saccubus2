@@ -17,7 +17,7 @@
  */
 
 #include "NekoItem.h"
-#include "../../util/StringUtil.h"
+#include <cinamo/String.h>
 
 namespace saccubus {
 namespace layer {
@@ -31,8 +31,7 @@ NekoItem::NekoItem(nekomata::system::Drawable* nekoDrawable)
 
 void NekoItem::reload()
 {
-	std::vector<std::string> posList;
-	util::splitSpace(drawable()->pos(), posList);
+	std::vector<std::string> posList( cinamo::splitSpace(drawable()->pos()) );
 	_posX = CenterX;
 	_posY = CenterY;
 	for(std::vector<std::string>::const_iterator it = posList.begin(); it != posList.end(); ++it)

@@ -17,6 +17,7 @@
  */
 
 #include <cmath>
+#include <cinamo/String.h>
 #include "ArtisticCommentFactory.h"
 #include "Renderer.h"
 #include "Sprite.h"
@@ -28,7 +29,6 @@
 #include "../NullSprite.h"
 #include "../../logging/Logger.h"
 #include "../../util/ColorUtil.h"
-#include "../../util/StringUtil.h"
 
 namespace saccubus {
 namespace draw {
@@ -190,8 +190,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::
 
 saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLines(std::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
-	std::vector<std::string> lines;
-	util::splitLine(str, lines);
+	std::vector<std::string> lines( cinamo::splitLine(str) );
 	if(lines.size() <= 0){
 		return renderLine(ctx, str, fitToScreen, color, shadowColor, size);
 	}else if(lines.size() == 1){

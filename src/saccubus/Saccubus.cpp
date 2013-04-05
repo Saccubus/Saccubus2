@@ -22,7 +22,6 @@
 #include <libgen.h>
 #include <string.h>
 #include "python/PyBridge.h"
-#include "util/StringUtil.h"
 #include "logging/Exception.h"
 #include "logging/Logger.h"
 #include "model/MetaInfo.h"

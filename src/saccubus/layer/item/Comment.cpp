@@ -18,13 +18,13 @@
 
 #include "Comment.h"
 #include <cmath>
+#include <cinamo/String.h>
 #include <nekomata/system/System.h>
 #include "../../NicoConstant.h"
 #include "../../model/Comment.h"
 #include "../../model/ReplaceTable.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
-#include "../../util/StringUtil.h"
 
 namespace saccubus {
 namespace layer {
@@ -134,10 +134,10 @@ void Comment::init(){
 
 void Comment::parse()
 {
-	std::vector<std::string> lst;
-	util::splitSpace(this->mail(), lst);
+	std::vector<std::string> lst = cinamo::splitSpace(this->mail());
 	for(std::vector<std::string>::const_iterator it= lst.begin(); it != lst.end(); ++it){
-		if(!this->applyMail(*it)){
+		std::string const& str=*it;
+		if(!this->applyMail(str)){
 			//log.v(TAG, "Unknwon command: %s", it->c_str());
 		}
 	}

@@ -17,9 +17,9 @@
  */
 
 #include <sstream>
+#include <cinamo/String.h>
 #include "Comment.h"
 #include "../../logging/Logger.h"
-#include "../../util/StringUtil.h"
 #include "../NekomataSystem.h"
 
 namespace saccubus {
@@ -47,8 +47,7 @@ void Comment::NekomataReplaceOperation::apply(nekomata::system::Replace* replace
 		return; //マッチしなかった。
 	}
 
-	std::vector<std::string> targets;
-	util::splitSpace(replace->target(), targets);
+	std::vector<std::string> targets(cinamo::splitSpace(replace->target()));
 	if(targets.size() > 0){
 		for(std::vector<std::string>::const_iterator it = targets.begin(); it != targets.end(); ++it){
 			if(
@@ -80,8 +79,7 @@ void Comment::NekomataReplaceOperation::apply(nekomata::system::Replace* replace
 				comment->message(replace->dest());
 			}
 		}else{
-			std::vector<std::string> lst;
-			util::split(comment->message(), replace->src(), lst);
+			std::vector<std::string> lst(cinamo::split(comment->message(), replace->src()));
 			std::stringstream ss;
 			for(std::vector<std::string>::const_iterator it = lst.begin(); it != lst.end(); ++it){
 				if(ss.tellg() > 0){

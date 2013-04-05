@@ -119,7 +119,8 @@ void Object::mark(int color)
 	}
 	this->color = color;
 	for(std::vector<Object*>::const_iterator it=objectList.begin();it!=objectList.end();++it){
-		(*it)->mark(color);
+		Object* const obj = *it;
+		obj->mark(color);
 	}
 	for(std::map<std::string, Object*>::const_iterator it=objectMap.begin();it!=objectMap.end();++it){
 		it->second->mark(color);

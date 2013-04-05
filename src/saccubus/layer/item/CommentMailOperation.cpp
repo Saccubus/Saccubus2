@@ -17,12 +17,12 @@
  */
 
 #include <functional>
+#include <cinamo/String.h>
 #include <nekomata/system/System.h>
 #include <cstdlib>
 #include "../../classdefs.h"
 #include "Comment.h"
 #include "../../model/Comment.h"
-#include "../../util/StringUtil.h"
 #include "../../logging/Exception.h"
 
 namespace saccubus {
@@ -177,7 +177,7 @@ bool Comment::MailOperation::execute(const std::string& command, Comment* commen
 	}
 	case Comment::MailOperation::StartsWith:
 	{
-		if(util::startsWith(command, this->name)){
+		if(cinamo::startsWith(command, this->name)){
 			return this->func(command, comment);
 		}
 		break;

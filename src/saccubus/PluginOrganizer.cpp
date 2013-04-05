@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cinamo/String.h>
 #include "PluginOrganizer.h"
 #include "logging/Exception.h"
 #include "logging/Logger.h"
-#include "util/StringUtil.h"
 #include "draw/cairo/SimpleCommentFactory.h"
 #include "draw/cairo/ArtisticCommentFactory.h"
 #include "draw/cairo/SimpleShapeFactory.h"
@@ -40,25 +40,25 @@ PluginOrganizer::PluginOrganizer(logging::Logger& log, const std::map<std::strin
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_SHAPE, PLUGIN_IMPL_SIMPLE));
 	this->config.insert(std::pair<std::string, std::string>(PLUGIN_DEPLOY, PLUGIN_IMPL_SIMPLE));
 	for(std::map<std::string, std::string>::const_iterator it = config.begin(); it != config.end(); ++it){
-		if(util::startsWith(it->first, PLUGIN_GRAPHIC_CFG_PREFIX)){
+		if(cinamo::startsWith(it->first, PLUGIN_GRAPHIC_CFG_PREFIX)){
 			this->rendererConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_GRAPHIC_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(it->first, PLUGIN_FONT_CFG_PREFIX)){
+		}else if(cinamo::startsWith(it->first, PLUGIN_FONT_CFG_PREFIX)){
 			this->commentFactoryConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_FONT_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(it->first, PLUGIN_DEPLOY_CFG_PREFIX)){
+		}else if(cinamo::startsWith(it->first, PLUGIN_DEPLOY_CFG_PREFIX)){
 			this->commentLayerConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_DEPLOY_CFG_PREFIX.length()),
 							it->second
 					));
-		}else if(util::startsWith(it->first, PLUGIN_SHAPE_CFG_PREFIX)){
+		}else if(cinamo::startsWith(it->first, PLUGIN_SHAPE_CFG_PREFIX)){
 			this->shapeFactoryConfig.insert(
 					std::pair<std::string, std::string>(
 							it->first.substr(PLUGIN_SHAPE_CFG_PREFIX.length()),

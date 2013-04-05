@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../util/StringUtil.h"
+#include <cinamo/String.h>
 #include "Exception.h"
 
 namespace saccubus {
@@ -44,8 +44,8 @@ void Exception::init(const char* file, const size_t line, const std::string& fmt
 	try{
 		this->_line = line;
 		this->_file = std::string(file);
-		this->_loc = util::format("(in %s:%d): ", file, line);
-		this->_msg = util::formatv(fmt, lst);
+		this->_loc = cinamo::format("(in %s:%d): ", file, line);
+		this->_msg = cinamo::formatv(fmt, lst);
 	}catch(...){
 		this->_line = 0;
 		this->_file = __FILE__;
