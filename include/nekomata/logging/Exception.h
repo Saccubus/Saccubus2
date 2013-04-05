@@ -20,19 +20,16 @@
 #include <exception>
 #include <string>
 #include <cstdarg>
+#include <cinamo/Exception.h>
 
 namespace nekomata {
 namespace logging{
 
-class Exception: public std::exception {
-private:
-	std::string msg;
-	std::string fname;
-	size_t line;
+class Exception: public cinamo::Exception {
 public:
-	Exception(const std::string& fname, size_t line, const std::string& msg, ...) throw();
-	virtual ~Exception() throw();
-	virtual const std::string& what() throw(){return msg;};
+	template <typename... Args>
+	Exception(const char* fname, size_t line, const std::string& msg, Args... args) throw()
+	:cinamo::Exception(fname, line, msg, args...){};
 };
 
 }}
