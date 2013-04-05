@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/functional>
+#include <cinamo/Logger.h>
+#include <functional>
 #include <map>
-#include "logging/Logger.h"
 #include "util/OptionParser.h"
 
 namespace saccubus {

@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ScriptLayer.h"
-#include "../logging/Logger.h"
 #include <iostream>
 #include <sstream>
+#include <cinamo/Logger.h>
+#include "ScriptLayer.h"
 #include "item/Label.h"
 #include "item/Shape.h"
 #include "../draw/Context.h"
@@ -31,7 +31,7 @@ const static std::string TAG("ScriptLayer");
 
 using nekomata::system::System;
 
-ScriptLayer::ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem)
+ScriptLayer::ScriptLayer(cinamo::Logger& log, NekomataSystem* nekoSystem)
 :Layer(log)
 {
 	this->nekoSystem(nekoSystem);

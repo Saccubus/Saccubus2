@@ -19,6 +19,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <cinamo/Logger.h>
 #include "../util/ClassAccessor.h"
 #include "../classdefs.h"
 
@@ -31,9 +32,9 @@ class Video {
 	DEF_ATTR_ACCESSOR(public, private, const PlayInfo*, playInfo);
 	std::map<unsigned long long, const Thread*> threadList;
 private:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	Video(logging::Logger& log);
+	Video(cinamo::Logger& log);
 	virtual ~Video();
 public:
 	void initVideoFile(const std::string& videofile);

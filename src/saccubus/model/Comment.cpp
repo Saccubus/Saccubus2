@@ -29,7 +29,7 @@ namespace model {
 
 static std::string TAG("Comment");
 
-Comment::Comment(logging::Logger& log, xmlNode* node) {
+Comment::Comment(cinamo::Logger& log, xmlNode* node) {
 	this->thread(readNodeProp(node, "thread", (unsigned long long)0));
 	this->no(readNodeProp(node, "no", (unsigned long long)0));
 	this->vpos(readNodeProp(node, "vpos", (float)0)/100);

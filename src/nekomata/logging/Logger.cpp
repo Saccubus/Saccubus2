@@ -28,8 +28,8 @@
 
 namespace nekomata{
 namespace logging{
-Logger::Logger(std::ostream& stream, enum Level level)
-:level(level), stream(stream)
+Logger::Logger(cinamo::Logger& spirit)
+:spirit_(spirit)
 {
 
 }
@@ -42,84 +42,59 @@ void Logger::e(const std::string& tag, const tree::Location* loc, const std::str
 {
 	va_list list;
 	va_start(list, str);
-	msg(ERROR_, tag, loc, str, list);
+	msg(cinamo::Logger::ERROR_, tag, loc, str, list);
 	va_end(list);
 }
 
 void Logger::e(Exception& exception)
 {
-	msg(ERROR_, "Exception", 0, exception.what(), 0);
+	msg(cinamo::Logger::ERROR_, "Exception", 0, exception.what(), 0);
 }
 void Logger::w(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(WARNING_, tag, loc, str, list);
+	msg(cinamo::Logger::WARN_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::i(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(INFO_, tag, loc, str, list);
+	msg(cinamo::Logger::INFO_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::d(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(DEBUG_, tag, loc, str, list);
+	msg(cinamo::Logger::DEBUG_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::v(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(VERBOSE_, tag, loc, str, list);
+	msg(cinamo::Logger::VERBOSE_, tag, loc, str, list);
 	va_end(list);
 }
 void Logger::t(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
 {
 	va_list list;
 	va_start(list, str);
-	msg(TRACE_, tag, loc, str, list);
+	msg(cinamo::Logger::TRACE_, tag, loc, str, list);
 	va_end(list);
 }
 
-void Logger::msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list)
+void Logger::msg(enum cinamo::Logger::Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list)
 {
-	if(level < this->level){
-		return;
-	}
 	std::stringstream ss;
-	switch(level){
-	case TRACE_:
-		ss << "[T]";
-		break;
-	case VERBOSE_:
-		ss << "[V]";
-		break;
-	case DEBUG_:
-		ss << "[D]";
-		break;
-	case INFO_:
-		ss << "[I]";
-		break;
-	case WARNING_:
-		ss << "[W]";
-		break;
-	case ERROR_:
-		ss << "[E]";
-		break;
-	}
-	ss << "[" << std::setw(10) << tag << "]";
 	if(loc){
 		ss << "[" << std::setw(3) <<  loc->getLineNo() << "," << std::setw(3) << loc->getColNo() << "]";
 	}
 
-	ss << " " << cinamo::formatv(str.c_str(), list);
-	stream << ss.str() << std::endl;
-	stream.flush();
+	ss << " " << str;
+	spirit_.msg(level, tag, ss.str(), list);
 }
 
 }}

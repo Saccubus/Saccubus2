@@ -28,7 +28,7 @@
 namespace saccubus {
 namespace python {
 
-PyBridge::PyBridge(logging::Logger& log)
+PyBridge::PyBridge(cinamo::Logger& log)
 :log(log)
 ,impl(new PyBridgeImpl(log))
 {

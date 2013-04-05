@@ -17,9 +17,9 @@
  */
 #pragma once
 #include <string>
+#include <cinamo/Logger.h>
 #include <libxml2/libxml/tree.h>
 #include "Comment.h"
-#include "../logging/Logger.h"
 #include "../util/ClassAccessor.h"
 
 namespace saccubus {
@@ -36,12 +36,12 @@ class Thread {
 	std::vector<const Comment*> chatList;
 public:
 	typedef std::vector<const Comment*>::const_iterator Iterator;
-	Thread(logging::Logger& log, xmlNode* node);
-	Thread(logging::Logger& log, xmlDoc* doc);
-	Thread(logging::Logger& log, const std::string& filename);
+	Thread(cinamo::Logger& log, xmlNode* node);
+	Thread(cinamo::Logger& log, xmlDoc* doc);
+	Thread(cinamo::Logger& log, const std::string& filename);
 	virtual ~Thread();
 private:
-	void read(logging::Logger& log, xmlNode* node);
+	void read(cinamo::Logger& log, xmlNode* node);
 public:
 	Iterator begin() const;
 	Iterator end() const;

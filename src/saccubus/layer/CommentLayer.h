@@ -30,7 +30,7 @@ class CommentLayer: public saccubus::layer::Layer {
 	DEF_ATTR_ACCESSOR(protected, private, layer::ThreadLayer*, thread);
 	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
 public:
-	CommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked);
+	CommentLayer(cinamo::Logger& log, layer::ThreadLayer* thread, bool isForked);
 	virtual ~CommentLayer();
 public:
 	virtual void queueComment(std::shared_ptr<item::Comment> comment) = 0;

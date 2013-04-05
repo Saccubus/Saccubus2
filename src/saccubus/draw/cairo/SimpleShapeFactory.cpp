@@ -25,7 +25,7 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-SimpleShapeFactory::SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
+SimpleShapeFactory::SimpleShapeFactory(cinamo::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
 :ShapeFactory(log, renderer)
 {
 	/* 何も生成しないし何も設定しない */

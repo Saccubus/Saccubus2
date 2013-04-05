@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace layer {
 
-Layer::Layer(logging::Logger& log)
+Layer::Layer(cinamo::Logger& log)
 :log(log)
 {
 

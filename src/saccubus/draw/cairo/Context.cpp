@@ -23,7 +23,7 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Context::Context(logging::Logger& log, std::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
+Context::Context(cinamo::Logger& log, std::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride)
 :draw::Context(log, renderer)
 {
 	cairo_format_t cfmt = cairo::Renderer::toCairoFormat(fmt);

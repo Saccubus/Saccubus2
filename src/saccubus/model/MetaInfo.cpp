@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../logging/Logger.h"
+#include <cinamo/Logger.h>
 #include "MetaInfo.h"
 #include "Util.h"
 
@@ -25,18 +25,18 @@ namespace model {
 
 const static std::string TAG("MetaInfo");
 
-MetaInfo::MetaInfo(logging::Logger& log, xmlNode* node)
+MetaInfo::MetaInfo(cinamo::Logger& log, xmlNode* node)
 {
 	read(log, node);
 }
 
-MetaInfo::MetaInfo(logging::Logger& log, xmlDoc* doc)
+MetaInfo::MetaInfo(cinamo::Logger& log, xmlDoc* doc)
 {
 	xmlNode* root = xmlDocGetRootElement(doc);
 	read(log, root);
 }
 
-MetaInfo::MetaInfo(logging::Logger& log, const std::string& filename)
+MetaInfo::MetaInfo(cinamo::Logger& log, const std::string& filename)
 {
 	xmlDoc* doc = xmlReadFile(filename.c_str(), NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(doc);
@@ -47,7 +47,7 @@ MetaInfo::MetaInfo(logging::Logger& log, const std::string& filename)
 MetaInfo::~MetaInfo() {
 }
 
-void MetaInfo::read(logging::Logger& log, xmlNode* node)
+void MetaInfo::read(cinamo::Logger& log, xmlNode* node)
 {
 	std::string stat = readNodeProp(node, "status", "");
 	if(!compareNodeName(node, "nicovideo_thumb_response") || stat != "ok"){

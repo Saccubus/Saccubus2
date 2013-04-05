@@ -21,6 +21,7 @@
 #include "ReplaceTable.h"
 #include <string>
 #include <libxml2/libxml/tree.h>
+#include <cinamo/Logger.h>
 
 namespace saccubus {
 namespace model {
@@ -28,12 +29,12 @@ namespace model {
 class MetaInfo{
 	DEF_ATTR_ACCESSOR(public, private, std::string, title);
 public:
-	MetaInfo(logging::Logger& log, xmlNode* node);
-	MetaInfo(logging::Logger& log, xmlDoc* doc);
-	MetaInfo(logging::Logger& log, const std::string& filename);
+	MetaInfo(cinamo::Logger& log, xmlNode* node);
+	MetaInfo(cinamo::Logger& log, xmlDoc* doc);
+	MetaInfo(cinamo::Logger& log, const std::string& filename);
 	virtual ~MetaInfo();
 private:
-	void read(logging::Logger& log, xmlNode* node);
+	void read(cinamo::Logger& log, xmlNode* node);
 };
 
 }}

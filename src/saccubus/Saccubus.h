@@ -68,7 +68,7 @@ private:
 	PluginOrganizer* pluginOrganizer;
 private:
 	python::PyBridge* bridge;
-	logging::Logger* log;
+	cinamo::Logger* log;
 public: //
 	Saccubus(std::ostream& logStream, int argc, char** argv);
 	virtual ~Saccubus();

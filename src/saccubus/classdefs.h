@@ -39,7 +39,6 @@ class ShapeFactory;
 }
 
 namespace logging{
-class Logger;
 class Exception;
 }
 

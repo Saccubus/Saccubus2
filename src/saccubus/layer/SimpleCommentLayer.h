@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/memory>
+#include <memory>
 #include "CommentLayer.h"
 #include <vector>
 #include <set>
@@ -58,7 +58,7 @@ private:
 	typedef std::vector<std::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
-	SimpleCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
+	SimpleCommentLayer(cinamo::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
 	virtual ~SimpleCommentLayer();
 	float last;
 public:

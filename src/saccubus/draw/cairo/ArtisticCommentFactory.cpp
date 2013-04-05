@@ -27,7 +27,6 @@
 #include "../../layer/item/Comment.h"
 #include "../../layer/item/Label.h"
 #include "../NullSprite.h"
-#include "../../logging/Logger.h"
 #include "../../util/ColorUtil.h"
 
 namespace saccubus {
@@ -38,10 +37,10 @@ const std::string TAG("ArtisticCommentFactory");
 
 const double ArtisticCommentFactory::ShadowWidth = 5.0;
 
-ArtisticCommentFactory::ArtisticCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
+ArtisticCommentFactory::ArtisticCommentFactory(cinamo::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config)
 :CommentFactory(log, renderer)
 {
-#if USE_WINDOWS_NATIVE
+#if CINAMO_WINDOWS
 	{
 		LOGFONTW logf;
 		memset(&logf, 0, sizeof(LOGFONTW));
@@ -92,7 +91,7 @@ ArtisticCommentFactory::~ArtisticCommentFactory() {
 	this->emptySurface(0);
 	cairo_font_face_destroy(this->face());
 	this->face(0);
-#if USE_WINDOWS_NATIVE
+#if CINAMO_WINDOWS
 	// do nothing!
 #else
 	FcPatternDestroy(this->pattern());

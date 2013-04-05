@@ -25,7 +25,7 @@ namespace draw {
 class Sprite;
 class Renderer: public saccubus::draw::Renderer {
 public:
-	Renderer(logging::Logger& log);
+	Renderer(cinamo::Logger& log);
 	virtual ~Renderer();
 public:
 	const std::shared_ptr<saccubus::draw::Renderer*> handler() { return this->saccubus::draw::Renderer::handler(); };

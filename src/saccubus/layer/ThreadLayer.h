@@ -50,7 +50,7 @@ private:
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(logging::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(cinamo::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
 	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);

@@ -23,15 +23,15 @@
 #include <memory>
 using std::shared_ptr;
 #include <iostream>
+#include <cinamo/Logger.h>
 #include "../src/saccubus/logging/Exception.h"
-#include "../src/saccubus/logging/Logger.h"
 using namespace saccubus::logging;
 
 #define MATERIAL_DIR "_TestMaterials/"
 
 #define NULL_STREAM (*((std::ostream*)0))
-static Logger log_trace(std::cout, Logger::TRACE_);
-static Logger log_err(std::cout, Logger::ERROR_);
+static cinamo::Logger log_trace(std::cout, cinamo::Logger::TRACE_);
+static cinamo::Logger log_err(std::cout, cinamo::Logger::ERROR_);
 
 #define MOCK_ACCESSOR_EXPAND(super, type, name)\
 public:\

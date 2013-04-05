@@ -18,6 +18,7 @@
 #pragma once
 #include <map>
 #include <cairo/cairo.h>
+#include <cinamo/Logger.h>
 #include "../Renderer.h"
 #include "../../util/ClassAccessor.h"
 #include "../../classdefs.h"
@@ -29,7 +30,7 @@ namespace cairo {
 class Renderer : public saccubus::draw::Renderer {
 	DEF_ATTR_ACCESSOR(public, private, cairo_t*, cairo);
 public:
-	Renderer(logging::Logger& log, const std::map<std::string, std::string> & config);
+	Renderer(cinamo::Logger& log, const std::map<std::string, std::string> & config);
 	virtual ~Renderer();
 public:
 	static cairo_format_t toCairoFormat(draw::Renderer::Format fmt);

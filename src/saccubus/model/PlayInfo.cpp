@@ -25,7 +25,7 @@
 namespace saccubus {
 namespace model {
 
-PlayInfo::PlayInfo(logging::Logger& log, const std::string& filename)
+PlayInfo::PlayInfo(cinamo::Logger& log, const std::string& filename)
 :bundle(0)
 ,_replaceTable(0)
 {

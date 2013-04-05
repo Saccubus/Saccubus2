@@ -27,16 +27,16 @@ namespace model {
 
 static std::string TAG("Thread");
 
-Thread::Thread(logging::Logger& log, xmlNode* node)
+Thread::Thread(cinamo::Logger& log, xmlNode* node)
 {
 	read(log, node);
 }
-Thread::Thread(logging::Logger& log, xmlDoc* doc)
+Thread::Thread(cinamo::Logger& log, xmlDoc* doc)
 {
 	xmlNode* root = xmlDocGetRootElement(doc);
 	read(log, root);
 }
-Thread::Thread(logging::Logger& log, const std::string& filename)
+Thread::Thread(cinamo::Logger& log, const std::string& filename)
 {
 	xmlDoc* doc = xmlReadFile(filename.c_str(), NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(doc);
@@ -51,7 +51,7 @@ Thread::~Thread() {
 }
 
 
-void Thread::read(logging::Logger& log, xmlNode* node)
+void Thread::read(cinamo::Logger& log, xmlNode* node)
 {
 	bool infoGrabbed = false;
 	if(!compareNodeName(node, "packet")){

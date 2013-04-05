@@ -18,12 +18,13 @@
 
 #include "MockSystem.h"
 #include <nekomata/logging/Logging.h>
+#include "../TestCommon.h"
 
 namespace saccubus {
 namespace mock {
 
 MockSystem::MockSystem()
-:System(*(new nekomata::logging::Logger(std::cout, nekomata::logging::Logger::WARNING_)))
+:System(*(new nekomata::logging::Logger(log_trace)))
 {
 
 }

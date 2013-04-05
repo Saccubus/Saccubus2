@@ -21,9 +21,9 @@
 #include <iomanip>
 #include <libgen.h>
 #include <string.h>
+#include <cinamo/Logger.h>
 #include "python/PyBridge.h"
 #include "logging/Exception.h"
-#include "logging/Logger.h"
 #include "model/MetaInfo.h"
 #include "model/PlayInfo.h"
 #include "model/Video.h"
@@ -71,18 +71,18 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		this->programPath = dirname(argv0);
 		delete [] argv0;
 	}
-	logging::Logger::Level level = logging::Logger::WARN_;
+	cinamo::Logger::Level level = cinamo::Logger::WARN_;
 	std::map<std::string, std::string> organizerArg;
 	std::vector<std::string> left;
 
 	{ /* オプションのパース */
 		util::OptionParser parser;
-		parser.add(new FlagOption<logging::Logger::Level>("trace", level, logging::Logger::TRACE_));
-		parser.add(new FlagOption<logging::Logger::Level>("verbose", level, logging::Logger::VERBOSE_));
-		parser.add(new FlagOption<logging::Logger::Level>("debug", level, logging::Logger::DEBUG_));
-		parser.add(new FlagOption<logging::Logger::Level>("info", level, logging::Logger::INFO_));
-		parser.add(new FlagOption<logging::Logger::Level>("warning", level, logging::Logger::WARN_));
-		parser.add(new FlagOption<logging::Logger::Level>("error", level, logging::Logger::ERROR_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("trace", level, cinamo::Logger::TRACE_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("verbose", level, cinamo::Logger::VERBOSE_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("debug", level, cinamo::Logger::DEBUG_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("info", level, cinamo::Logger::INFO_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("warning", level, cinamo::Logger::WARN_));
+		parser.add(new FlagOption<cinamo::Logger::Level>("error", level, cinamo::Logger::ERROR_));
 		parser.add(new FunctionOption("version", std::bind(&version, &logStream, argc, argv)));
 		parser.add(new FunctionOption("help", std::bind(&usage, &logStream, argc, argv)));
 		parser.add(new FlagOption<bool>("enable-tas", this->_tasEnabled, true));
@@ -93,7 +93,7 @@ Saccubus::Saccubus(std::ostream& logStream, int argc, char** argv)
 		parser.parse(argc-1, argv+1, left);
 	}
 
-	this->log = new logging::Logger(logStream, level);
+	this->log = new cinamo::Logger(logStream, level);
 	this->bridge = new python::PyBridge(*this->log);
 	this->pluginOrganizer = new PluginOrganizer(*this->log, organizerArg);
 

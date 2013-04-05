@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <cinamo/Logger.h>
 #include "RawSprite.h"
 #include "../util/ClassAccessor.h"
 namespace saccubus {
@@ -25,9 +26,9 @@ class CommentFactory {
 private:
 	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
 protected:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	CommentFactory(logging::Logger& log, Renderer* renderer);
+	CommentFactory(cinamo::Logger& log, Renderer* renderer);
 	virtual ~CommentFactory();
 public:
 	virtual Sprite::Handler<Sprite> renderCommentText(std::shared_ptr<saccubus::draw::Context> ctx, const layer::item::Comment* comment) = 0;

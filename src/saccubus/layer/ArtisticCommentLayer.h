@@ -58,7 +58,7 @@ private:
 	typedef std::vector<std::shared_ptr<Slot> >::iterator CommentIterator;
 	typedef std::vector<std::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
-	ArtisticCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
+	ArtisticCommentLayer(cinamo::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
 	virtual ~ArtisticCommentLayer();
 	float last;
 public:

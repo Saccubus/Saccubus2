@@ -18,10 +18,10 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <cinamo/Logger.h>
 #include "../../saccubus/Saccubus.h"
 #include "../../saccubus/draw/Renderer.h"
 #include "../../saccubus/logging/Exception.h"
-#include "../../saccubus/logging/Logger.h"
 using namespace std;
 namespace entry_points {
 namespace cli {

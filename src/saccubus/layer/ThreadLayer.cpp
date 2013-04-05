@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <cinamo/Logger.h>
 #include "ThreadLayer.h"
 #include "item/Comment.h"
 #include "../python/PyBridge.h"
@@ -30,7 +31,7 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(logging::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
+ThreadLayer::ThreadLayer(cinamo::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,thread(thread)
 ,ngScript(ngScript)
@@ -41,7 +42,7 @@ ThreadLayer::ThreadLayer(logging::Logger& log, const model::Thread& thread, cons
 		this->commentFactory(pluginOrganizer->newCommentFactory(renderer));
 	}
 	{ // ねこまたとの接続
-		this->nekoLogger = new nekomata::logging::Logger(log.stream(), log.levelAsNekomataLogger());
+		this->nekoLogger = new nekomata::logging::Logger(log);
 		this->nekoSystem(new NekomataSystem(*this->nekoLogger, this->commentFactory(), this->shapeFactory()));
 		this->neko = new nekomata::Nekomata(*(this->nekoSystem()), *this->nekoLogger);
 	}

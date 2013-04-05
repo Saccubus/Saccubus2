@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <nekomata/system/System.h>
+#include <cinamo/Logger.h>
 #include "RawSprite.h"
 #include "../util/ClassAccessor.h"
-#include <nekomata/system/System.h>
 
 namespace saccubus {
 namespace draw {
@@ -27,9 +28,9 @@ class ShapeFactory {
 private:
 	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
 protected:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	ShapeFactory(logging::Logger& log, Renderer* renderer);
+	ShapeFactory(cinamo::Logger& log, Renderer* renderer);
 	virtual ~ShapeFactory();
 public:
 	virtual Sprite::Handler<Sprite> renderButton(std::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color) = 0;

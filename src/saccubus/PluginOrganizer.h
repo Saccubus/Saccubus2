@@ -16,7 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/memory>
+#include <memory>
+#include <cinamo/Logger.h>
 #include <map>
 #include <string>
 #include "classdefs.h"
@@ -42,7 +43,7 @@ const std::string PLUGIN_IMPL_SIMPLE("simple");
  */
 class PluginOrganizer {
 private:
-	logging::Logger& log;
+	cinamo::Logger& log;
 private:
 	std::map<std::string, std::string> config;
 private:
@@ -51,7 +52,7 @@ private:
 	std::map<std::string, std::string> shapeFactoryConfig;
 	std::map<std::string, std::string> commentLayerConfig;
 public:
-	PluginOrganizer(logging::Logger& log, const std::map<std::string, std::string>& config);
+	PluginOrganizer(cinamo::Logger& log, const std::map<std::string, std::string>& config);
 	virtual ~PluginOrganizer();
 public:
 	saccubus::draw::Renderer* newRenderer();

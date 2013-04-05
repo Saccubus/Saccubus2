@@ -17,17 +17,16 @@
  */
 #pragma once
 
-//XXX: ど～なっつやちさで同様の判定を用意してある。統合しましょう。
-#define IS_WINDOWS (defined(WIN32) || defined(WIN64) || defined(__WIN32__) || defined(__WIN64__))
-#define USE_WINDOWS_NATIVE IS_WINDOWS
+#include <cinamo/Platform.h>
 
 #include <map>
-#if USE_WINDOWS_NATIVE
+#if CINAMO_WINDOWS
 #include <cairo/cairo-win32.h>
 #else
 #include <cairo/cairo-ft.h>
 #endif
 #include <fontconfig/fontconfig.h>
+#include <cinamo/Logger.h>
 #include "../../classdefs.h"
 #include "../CommentFactory.h"
 
@@ -40,14 +39,14 @@ class SimpleCommentFactory: public saccubus::draw::CommentFactory {
 private:
 	static const double ShadowWidth;
 private:
-#if !(USE_WINDOWS_NATIVE)
+#if !(CINAMO_WINDOWS)
 	DEF_ATTR_ACCESSOR(private, private, FcPattern*, pattern);
 #endif
 	DEF_ATTR_ACCESSOR(private, private, cairo_font_face_t*, face);
 	DEF_ATTR_ACCESSOR(private, private, cairo_t*, emptyCairo);
 	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, emptySurface);
 public:
-	SimpleCommentFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
+	SimpleCommentFactory(cinamo::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
 	virtual ~SimpleCommentFactory();
 private:
 	void setColor(cairo_t* cairo, unsigned int color);

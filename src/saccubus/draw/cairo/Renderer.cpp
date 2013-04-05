@@ -25,7 +25,7 @@ namespace saccubus {
 namespace draw {
 namespace cairo {
 
-Renderer::Renderer(logging::Logger& log, const std::map<std::string, std::string> & config)
+Renderer::Renderer(cinamo::Logger& log, const std::map<std::string, std::string> & config)
 :saccubus::draw::Renderer(log)
 {
 }

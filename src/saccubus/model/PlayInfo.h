@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <string>
+#include <cinamo/Logger.h>
 #include "../util/ClassAccessor.h"
 #include "../classdefs.h"
 
@@ -37,7 +38,7 @@ private:
 	DEF_ATTR_ACCESSOR(public, private, long long, thread);
 	DEF_ATTR_ACCESSOR(public, private, long long, optional_thread);
 public:
-	PlayInfo(logging::Logger& log, const std::string& filename);
+	PlayInfo(cinamo::Logger& log, const std::string& filename);
 	virtual ~PlayInfo();
 public:
 	const ReplaceTable* replaceTable() const;

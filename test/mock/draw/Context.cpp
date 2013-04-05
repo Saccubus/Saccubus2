@@ -22,7 +22,7 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Context::Context(logging::Logger& log, std::shared_ptr<saccubus::draw::Renderer*> renderer)
+Context::Context(cinamo::Logger& log, std::shared_ptr<saccubus::draw::Renderer*> renderer)
 :saccubus::draw::Context(log, renderer)
 {
 }

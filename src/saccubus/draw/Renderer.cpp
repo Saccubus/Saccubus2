@@ -19,14 +19,13 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "../logging/Exception.h"
-#include "../logging/Logger.h"
 
 namespace saccubus {
 namespace draw {
 
 const std::string TAG("draw::Renderer");
 
-Renderer::Renderer(logging::Logger& log)
+Renderer::Renderer(cinamo::Logger& log)
 :log(log),_handler(new Renderer*(this))
 {
 }

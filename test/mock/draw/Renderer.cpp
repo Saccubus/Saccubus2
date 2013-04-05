@@ -24,7 +24,7 @@ namespace saccubus {
 namespace mock {
 namespace draw {
 
-Renderer::Renderer(logging::Logger& log)
+Renderer::Renderer(cinamo::Logger& log)
 :saccubus::draw::Renderer(log){
 }
 

@@ -29,7 +29,7 @@ const static std::string TAG("SimpleCommentLayer");
 
 const float SimpleCommentLayer::CommentAheadTime = 1.0f;
 
-SimpleCommentLayer::SimpleCommentLayer(logging::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked)
+SimpleCommentLayer::SimpleCommentLayer(cinamo::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked)
 :CommentLayer(log, thread, isForked)
 ,last(0)
 {

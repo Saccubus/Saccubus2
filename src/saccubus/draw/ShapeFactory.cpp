@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace draw {
 
-ShapeFactory::ShapeFactory(logging::Logger& log, Renderer* renderer)
+ShapeFactory::ShapeFactory(cinamo::Logger& log, Renderer* renderer)
 :log(log){
 	this->renderer(renderer);
 }

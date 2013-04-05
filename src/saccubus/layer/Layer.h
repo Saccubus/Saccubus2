@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <cinamo/Logger.h>
 #include "../draw/Renderer.h"
 
 namespace saccubus {
@@ -30,9 +31,9 @@ namespace layer {
  */
 class Layer {
 protected:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	Layer(logging::Logger& log);
+	Layer(cinamo::Logger& log);
 	virtual ~Layer();
 public:
 	//wとhが指定されたサイズです。measuredWidthやmeasuredHeightにレイヤが必要とするサイズを指定してください。

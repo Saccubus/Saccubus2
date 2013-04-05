@@ -16,7 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/memory>
+#include <cinamo/Logger.h>
+#include <memory>
 #include "../NicoConstant.h"
 #include "../classdefs.h"
 
@@ -27,10 +28,10 @@ class Context {
 private:
 	std::shared_ptr<Renderer*> _renderer;
 protected:
-	logging::Logger& log;
+	cinamo::Logger& log;
 	Renderer* renderer();
 public:
-	Context(logging::Logger& log, std::shared_ptr<Renderer*> renderer);
+	Context(cinamo::Logger& log, std::shared_ptr<Renderer*> renderer);
 	virtual ~Context();
 public:
 	virtual float width() const = 0;

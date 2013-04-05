@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <cinamo/Logger.h>
 #include "Renderer.h"
 #include "../ShapeFactory.h"
 
@@ -25,7 +26,7 @@ namespace cairo {
 
 class SimpleShapeFactory: public saccubus::draw::ShapeFactory {
 public:
-	SimpleShapeFactory(logging::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
+	SimpleShapeFactory(cinamo::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
 	virtual ~SimpleShapeFactory();
 public:
 	virtual Sprite::Handler<draw::Sprite> renderButton(std::shared_ptr<saccubus::draw::Context> ctx, int w, int h, unsigned int color);

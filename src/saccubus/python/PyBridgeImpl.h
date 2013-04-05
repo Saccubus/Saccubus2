@@ -21,6 +21,7 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <cinamo/Logger.h>
 #include "../classdefs.h"
 
 namespace saccubus {
@@ -30,16 +31,16 @@ class Session;
 
 class PyBridgeImpl {
 private:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	PyBridgeImpl(logging::Logger& log);
+	PyBridgeImpl(cinamo::Logger& log);
 	virtual ~PyBridgeImpl();
 	std::unique_ptr<Session> createSession();
 };
 
 class Session {
 private:
-	logging::Logger& log;
+	cinamo::Logger& log;
 private:
 	PyObject* global;
 	PyObject* local;
@@ -62,7 +63,7 @@ private:
 	std::string toString(PyObject* obj);
 	std::string toRepr(PyObject* obj);
 public:
-	Session(logging::Logger& log);
+	Session(cinamo::Logger& log);
 	virtual ~Session();
 public:
 	void loadFile(const std::string& file);

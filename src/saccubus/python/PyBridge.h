@@ -27,10 +27,10 @@ namespace python {
 class PyBridgeImpl;
 class PyBridge {
 private:
-	logging::Logger& log;
+	cinamo::Logger& log;
 	PyBridgeImpl* const impl;
 public:
-	PyBridge(logging::Logger& log);
+	PyBridge(cinamo::Logger& log);
 	virtual ~PyBridge();
 public:
 	const model::Video* resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args);

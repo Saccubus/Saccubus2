@@ -16,11 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <nekomata/classdefs.h>
+#include <memory>
 #include <string>
 #include <vector>
+#include <cinamo/Logger.h>
+#include <nekomata/classdefs.h>
 #include <libxml2/libxml/tree.h>
-#include "../logging/Logger.h"
 #include "../util/ClassAccessor.h"
 
 namespace saccubus {
@@ -50,7 +51,7 @@ public:
 protected:
 	Comment();
 public:
-	Comment(logging::Logger& log, xmlNode* node);
+	Comment(cinamo::Logger& log, xmlNode* node);
 	virtual ~Comment();
 public:
 	struct CompareLessByVpos

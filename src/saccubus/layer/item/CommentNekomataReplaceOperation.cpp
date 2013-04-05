@@ -18,8 +18,8 @@
 
 #include <sstream>
 #include <cinamo/String.h>
+#include <cinamo/Logger.h>
 #include "Comment.h"
-#include "../../logging/Logger.h"
 #include "../NekomataSystem.h"
 
 namespace saccubus {

@@ -17,9 +17,9 @@
  */
 
 #include <cinamo/String.h>
+#include <cinamo/Logger.h>
 #include "PluginOrganizer.h"
 #include "logging/Exception.h"
-#include "logging/Logger.h"
 #include "draw/cairo/SimpleCommentFactory.h"
 #include "draw/cairo/ArtisticCommentFactory.h"
 #include "draw/cairo/SimpleShapeFactory.h"
@@ -31,7 +31,7 @@ namespace saccubus {
 
 const std::string TAG("PluginOrganizer");
 
-PluginOrganizer::PluginOrganizer(logging::Logger& log, const std::map<std::string, std::string>& config)
+PluginOrganizer::PluginOrganizer(cinamo::Logger& log, const std::map<std::string, std::string>& config)
 :log(log), config(config.begin(), config.end()){
 	//デフォルトの値を設定
 	// insertは、すでに値がある場合は上書きされない。

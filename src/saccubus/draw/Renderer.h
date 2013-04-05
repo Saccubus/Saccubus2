@@ -16,10 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "RawSprite.h"
-#include "../classdefs.h"
 #include <vector>
 #include <cmath>
+#include <cinamo/Logger.h>
+#include "RawSprite.h"
+#include "../classdefs.h"
 
 namespace saccubus {
 namespace draw {
@@ -38,9 +39,9 @@ public:
 		RGB32
 	};
 protected:
-	logging::Logger& log;
+	cinamo::Logger& log;
 public:
-	Renderer(logging::Logger& log);
+	Renderer(cinamo::Logger& log);
 	virtual ~Renderer();
 /**************************************************************************************************
  * スプライト管理機構

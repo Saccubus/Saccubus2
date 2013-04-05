@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cinamo/Logger.h>
 #include "Video.h"
-#include "../logging/Logger.h"
 #include "Thread.h"
 #include "MetaInfo.h"
 #include "PlayInfo.h"
@@ -27,7 +27,7 @@ namespace model {
 
 const static std::string TAG("VideoContext");
 
-Video::Video(logging::Logger& log)
+Video::Video(cinamo::Logger& log)
 :log(log)
 {
 	this->metaInfo(0);

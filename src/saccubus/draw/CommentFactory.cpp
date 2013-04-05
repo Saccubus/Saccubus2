@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace draw {
 
-CommentFactory::CommentFactory(logging::Logger& log, Renderer* renderer)
+CommentFactory::CommentFactory(cinamo::Logger& log, Renderer* renderer)
 :log(log)
 {
 	this->renderer(renderer);

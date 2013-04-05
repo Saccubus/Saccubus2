@@ -23,6 +23,7 @@
 #include <iostream>
 #include <memory>
 #include <cstdarg>
+#include <cinamo/Logger.h>
 
 #include <nekomata/classdefs.h>
 
@@ -31,17 +32,10 @@ namespace logging{
 
 class Logger
 {
+private:
+	cinamo::Logger& spirit_;
 public:
-	enum Level{
-		TRACE_=0,
-		VERBOSE_=1,
-		DEBUG_=2,
-		INFO_=3,
-		WARNING_=4,
-		ERROR_=5,
-	};
-public:
-	Logger(std::ostream& stream, enum Level level = VERBOSE_);
+	Logger(cinamo::Logger& spirit);
 	virtual ~Logger();
 	void e(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void e(Exception& exception);
@@ -51,9 +45,7 @@ public:
 	void v(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 	void t(const std::string& tag, const tree::Location* loc, const std::string& str, ...);
 private:
-	void msg(enum Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list);
-	enum Level level;
-	std::ostream& stream;
+	void msg(enum cinamo::Logger::Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list);
 };
 
 class Dumper

@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <nekomata/system/System.h>
+#include <cinamo/Logger.h>
 
 #include "../classdefs.h"
 #include "Layer.h"
@@ -32,7 +33,7 @@ class ScriptLayer: public Layer {
 private:
 	void resolvePos(std::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y);
 public:
-	ScriptLayer(logging::Logger& log, NekomataSystem* nekoSystem);
+	ScriptLayer(cinamo::Logger& log, NekomataSystem* nekoSystem);
 	virtual ~ScriptLayer();
 	/******************************************************************************************************************
 	 * レイヤ

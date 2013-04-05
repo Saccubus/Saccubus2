@@ -21,7 +21,6 @@
 #include <sstream>
 
 #include "../logging/Exception.h"
-#include "../logging/Logger.h"
 #include "./ScriptException.h"
 
 #include "PyBridgeImpl.h"
@@ -31,7 +30,7 @@ namespace python {
 
 static const std::string TAG("PyBridgeImpl");
 
-PyBridgeImpl::PyBridgeImpl(logging::Logger& log)
+PyBridgeImpl::PyBridgeImpl(cinamo::Logger& log)
 :log(log)
 {
 	Py_Initialize();
@@ -47,7 +46,7 @@ PyBridgeImpl::~PyBridgeImpl() {
 	Py_Finalize();
 }
 
-Session::Session(logging::Logger& log)
+Session::Session(cinamo::Logger& log)
 :log(log)
 {
 	PyObject* module = PyImport_AddModule("__main__");

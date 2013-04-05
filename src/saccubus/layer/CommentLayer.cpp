@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace layer {
 
-CommentLayer::CommentLayer(logging::Logger& log, layer::ThreadLayer* thread, bool isForked)
+CommentLayer::CommentLayer(cinamo::Logger& log, layer::ThreadLayer* thread, bool isForked)
 :Layer(log)
 {
 	this->thread(thread);
