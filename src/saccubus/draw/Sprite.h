@@ -108,7 +108,7 @@ public:
 			}
 			return Handler<T>::__internal__fromRawPointerWithoutCheck(spr);
 		}
-		virtual ~Handler()
+		virtual ~Handler() noexcept
 		{
 			if(this->sprite){
 				this->sprite->decref();

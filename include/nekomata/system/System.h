@@ -24,11 +24,12 @@
 #include <map>
 #include <memory>
 #include <deque>
+#include <cinamo/Handler.h>
 #include "../classdefs.h"
-#include "../util/Handler.h"
 
 namespace nekomata{
 namespace system {
+using cinamo::Handler;
 
 #define DEF_ADAPTER_ACCESSOR(rscope, wscope, type, name)\
 protected:\
@@ -47,22 +48,17 @@ wscope:\
 #define SET_PARAM_CONST(name, val) this->_##name = val;
 #define SET_DEFAULT(name, val) _##name(val)
 
-class SystemItem
+class SystemItem : public cinamo::HandlerBody<SystemItem>
 {
 protected:
 	System& system;
-private:
-	int nativeRef;
 public:
-	explicit SystemItem(System& system):system(system), nativeRef(0){};
-	virtual ~SystemItem(){};
+	explicit SystemItem(System& system):system(system){};
+	virtual ~SystemItem() noexcept = default;
+	bool onFree() noexcept { return false; };
 protected:
 	virtual void onChanged();
 	virtual std::string inspect() = 0;
-public:
-	int getNativeRef(){return nativeRef;}
-	virtual void incNativeRef();
-	virtual void decNativeRef();
 };
 
 class Drawable : public SystemItem
@@ -77,7 +73,7 @@ protected:
 	:SystemItem(system)
 	,SET_DEFAULT(x, 0),SET_DEFAULT(y, 0),SET_DEFAULT(z, 0),SET_DEFAULT(visible, false),SET_DEFAULT(pos, ""){};
 public:
-	virtual ~Drawable(){};
+	virtual ~Drawable() noexcept = default;
 public:
 	struct ComparatorByZ{
 		bool operator () (Drawable* const a, Drawable* const b);
@@ -119,9 +115,9 @@ public:
 public:
 	explicit Shape(System& system)
 	:Drawable(system) {};
-	virtual ~Shape(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
+	virtual ~Shape() noexcept = default;
+	void incref(bool opt);
+	void decref();
 	virtual std::string inspect();
 };
 
@@ -156,15 +152,15 @@ public:
 public:
 	explicit Sum(System& system)
 	:Drawable(system){};
-	virtual ~Sum(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
+	virtual ~Sum() noexcept = default;
+	void incref(bool opt);
+	void decref();
 	virtual std::string inspect();
 };
 class SumResult : public Drawable
 {
 public:
-	virtual void load(double _x, double _y, unsigned int _color,bool _visible, const std::string& _pos, const std::string& _unit, bool _asc, std::vector<util::Handler<Sum> > _sum)
+	virtual void load(double _x, double _y, unsigned int _color,bool _visible, const std::string& _pos, const std::string& _unit, bool _asc, std::vector<Handler<Sum> > _sum)
 	{
 		SET_PARAM(x);
 		SET_PARAM(y);
@@ -181,15 +177,15 @@ public:
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, pos);
 	DEF_ADAPTER_ACCESSOR(public, public, std::string, unit);
 	DEF_ADAPTER_ACCESSOR(public, public, bool, asc);
-	DEF_ADAPTER_ACCESSOR(public, public, std::vector<util::Handler<Sum> >, sum);
+	DEF_ADAPTER_ACCESSOR(public, public, std::vector<Handler<Sum> >, sum);
 public:
 	explicit SumResult(System& system)
 	:Drawable(system){
 		SET_PARAM_CONST(visible, false);
 	};
-	virtual ~SumResult(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
+	virtual ~SumResult() noexcept = default;
+	void incref(bool opt);
+	void decref();
 	virtual std::string inspect();
 };
 class Label : public Drawable
@@ -221,9 +217,9 @@ public:
 public:
 	explicit Label(System& system):
 	Drawable(system){};
-	virtual ~Label(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
+	virtual ~Label() noexcept = default;
+	void incref(bool opt);
+	void decref();
 	virtual std::string inspect();
 };
 
@@ -258,9 +254,9 @@ public:
 	};
 	explicit Replace(System& system)
 	:SystemItem(system), SET_DEFAULT(enabled, false){};
-	virtual ~Replace(){};
-	virtual void incNativeRef();
-	virtual void decNativeRef();
+	virtual ~Replace() noexcept = default;
+	void incref(bool opt);
+	void decref();
 	virtual std::string inspect();
 };
 
@@ -354,12 +350,12 @@ class System
 private:
 	class EventEntry{
 	public:
-		EventEntry(float const from, float const to, util::Handler<object::LazyEvalObject> obj);
+		EventEntry(float const from, float const to, Handler<object::LazyEvalObject> obj);
 		virtual ~EventEntry();
 	private:
 		const float _from;
 		const float _to;
-		const util::Handler<object::LazyEvalObject> _obj;
+		const Handler<object::LazyEvalObject> _obj;
 	public:
 		float from(){return _from;}
 		float to(){return _to;}
@@ -374,8 +370,8 @@ private:
 	float _currentTime;
 public:
 	float currentTime(){return _currentTime;}
-	void commentTrigger(float const timer, util::Handler<object::LazyEvalObject> obj);
-	void timer(float const timer, util::Handler<object::LazyEvalObject> obj);
+	void commentTrigger(float const timer, Handler<object::LazyEvalObject> obj);
+	void timer(float const timer, Handler<object::LazyEvalObject> obj);
 protected:
 	void currentTime(float time){_currentTime=time;}
 private:
@@ -384,16 +380,16 @@ private:
 	void dispatchTimer(machine::Machine& machine, const double to);
 //---------------------------------------------------------------------------------------------------------------------
 public: /* スクリプトから参照される */
-	virtual util::Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
-	virtual util::Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual Handler<Shape> drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover);
+	virtual Handler<Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
 	virtual void jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow);
 	virtual void jumpCancel();
 	virtual void seek(double vpos, const std::string& msg);
 	virtual void addMarker(const std::string& name, double vpos);
 	virtual double getMarker(const std::string& name);
-	virtual util::Handler<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
-	virtual util::Handler<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<util::Handler<Sum> >& sum);
-	virtual util::Handler<Replace> replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
+	virtual Handler<Sum> sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial);
+	virtual Handler<SumResult> showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<Handler<Sum> >& sum);
+	virtual Handler<Replace> replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos);
 	virtual double screenWidth();
 	virtual double screenHeight();
 	virtual void addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden);

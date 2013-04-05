@@ -21,9 +21,9 @@
 #include <cstdio>
 #include <nekomata/logging/Exception.h>
 #include <nekomata/logging/Logging.h>
+#include <cinamo/String.h>
 
 #include "Dumpable.h"
-#include "../util/StringUtil.h"
 #include "../tree/Location.h"
 
 namespace nekomata{
@@ -117,7 +117,7 @@ void Logger::msg(enum Level level, const std::string& tag, const tree::Location*
 		ss << "[" << std::setw(3) <<  loc->getLineNo() << "," << std::setw(3) << loc->getColNo() << "]";
 	}
 
-	ss << " " << util::formatv(str.c_str(), list);
+	ss << " " << cinamo::formatv(str.c_str(), list);
 	stream << ss.str() << std::endl;
 	stream.flush();
 }

@@ -117,14 +117,14 @@ def build(bld):
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC,
 		target = 'nekomata',
-		use=['PPROF', 'ICU','ANTLR'],
+		use=['CINAMO', 'PPROF', 'ICU','ANTLR'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
 		features = 'cxx cxxprogram',
 		source = NEKOMATA_CLI_SRC,
 		target = 'NekomataCLI',
-		use=['PPROF', 'ICU','ANTLR', 'nekomata'],
+		use=['CINAMO', 'PPROF', 'ICU','ANTLR', 'nekomata'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
@@ -132,7 +132,7 @@ def build(bld):
 		features = 'cxx cxxstlib',
 		source = SACCUBUS_SRC,
 		target = 'saccubus',
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
+		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
@@ -141,7 +141,7 @@ def build(bld):
 		target = 'SaccubusCLI',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
 		)
 	bld(
 		features = 'cxx cxxshlib',
@@ -149,7 +149,7 @@ def build(bld):
 		target = 'Saccubus',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
 		defs = '__miscellaneous__/adapter.def'
 		)
 	bld(
@@ -159,7 +159,7 @@ def build(bld):
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
+		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
 		)
 	bld(
 		features = "subst",

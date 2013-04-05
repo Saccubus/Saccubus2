@@ -20,20 +20,17 @@
 #include <sstream>
 #include <algorithm>
 #include <functional>
+#include <cinamo/String.h>
+
 #include "Object.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object
 {
 NativeMethodObject::NativeMethodObject(ObjectHeap& heap, Method method)
 :MethodObject(heap), method(method){
-
-}
-NativeMethodObject::~NativeMethodObject()
-{
 
 }
 void NativeMethodObject::eval(machine::Machine& machine)
@@ -43,7 +40,7 @@ void NativeMethodObject::eval(machine::Machine& machine)
 
 std::string NativeMethodObject::toString()
 {
-	return util::format("<<NathiveMethodObject:%d>>", getHash());
+	return cinamo::format("<<NathiveMethodObject:%d>>", getHash());
 }
 
 

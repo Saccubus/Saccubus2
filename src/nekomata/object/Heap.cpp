@@ -67,8 +67,8 @@ ObjectHeap::~ObjectHeap()
 	for(std::vector<Object*>::iterator it = from->begin();it!=from->begin();++it)
 	{
 		Object* const obj = *it;
-		if(obj->getNativeRef() > 0){
-			int nativeRef = obj->getNativeRef();
+		if(obj->refcount() > 0){
+			const int nativeRef = obj->refcount();
 			log.e(TAG, 0, "[FIXME] Memory leaked! %s has %d native refs on exit.", cast<std::string>(Handler<Object>(obj)).c_str(), nativeRef);
 		}
 		delete *it;
@@ -239,17 +239,19 @@ void ObjectHeap::gc()
 	//ネイティブから参照されてるオブジェクトもルート扱い。
 	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
 	{
-		if((*it)->getNativeRef() > 0){
-			(*it)->mark(gcCount);
+		Object* const obj = *it;
+		if(obj->refcount() > 0){
+			obj->mark(gcCount);
 		}
 	}
 	std::set<Object*> unused;
 	for(std::vector<Object*>::const_iterator it=from->begin();it!=from->end();++it)
 	{
-		if((*it)->getColor() != gcCount){
-			unused.insert(*it);
+		Object* const obj = *it;
+		if(obj->getColor() != gcCount){
+			unused.insert(obj);
 		}else{
-			to->push_back(*it);
+			to->push_back(obj);
 		}
 	}
 

@@ -47,22 +47,22 @@ void NekomataSystem::tellCommentLayers(CommentLayer* forkedCommentLayer, Comment
 	this->forkedCommentLayer = forkedCommentLayer;
 	this->mainCommentLayer = mainCommentLayer;
 }
-nekomata::util::Handler<nekomata::system::Shape> NekomataSystem::drawShape(
+Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 		double x, double y, double z, const std::string& shape, double width,
 		double height, unsigned int color, bool visible, const std::string& pos,
 		bool mask, bool commentmask, double alpha, double rotation,
 		const std::string& mover)
 {
-	nekomata::util::Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory));
+	Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory));
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
 
-nekomata::util::Handler<nekomata::system::Label> NekomataSystem::drawText(
+Handler<nekomata::system::Label> NekomataSystem::drawText(
 		const std::string& text, double x, double y, double z, double size,
 		const std::string& pos, unsigned int color, bool bold, bool visible,
 		const std::string& filter, double alpha, const std::string& mover) {
-	nekomata::util::Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory));
+	Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory));
 	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return label;
 }
@@ -81,7 +81,7 @@ void NekomataSystem::seek(double vpos, const std::string& msg) {
 	this->log.e(TAG, 0, "Sorry, 'seek' not supported yet!!");
 }
 
-nekomata::util::Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
+Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
 		double y, double size, unsigned int color, bool visible, bool enabled,
 		const std::string& pos, bool asc, const std::string& unit,
 		bool buttononly, const std::vector<std::string>& words, bool partial) {
@@ -89,10 +89,10 @@ nekomata::util::Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
 	return System::sum(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 }
 
-nekomata::util::Handler<nekomata::system::SumResult> NekomataSystem::showResult(
+Handler<nekomata::system::SumResult> NekomataSystem::showResult(
 		double x, double y, unsigned int color, bool visible,
 		const std::string& pos, const std::string& unit, bool asc,
-		const std::vector<nekomata::util::Handler<nekomata::system::Sum> >& sum) {
+		const std::vector<Handler<nekomata::system::Sum> >& sum) {
 	//FIXME: ちゃんと実装すること。
 	return System::showResult(x, y, color, visible, pos, unit, asc, sum);
 }

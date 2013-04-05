@@ -29,9 +29,6 @@ NekoItem::NekoItem(nekomata::system::Drawable* nekoDrawable)
 	this->drawable(nekoDrawable);
 }
 
-NekoItem::~NekoItem() {
-}
-
 void NekoItem::reload()
 {
 	std::vector<std::string> posList;

@@ -52,9 +52,6 @@ Button::Button(
 	this->hidden(hidden);
 }
 
-Button::~Button() {
-}
-
 bool Button::isButton() const
 {
 	return true;

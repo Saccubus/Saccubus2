@@ -21,7 +21,7 @@
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include "../util/StringUtil.h"
+#include <cinamo/String.h>
 
 using namespace nekomata::tree;
 
@@ -41,9 +41,6 @@ LazyEvalObject::LazyEvalObject(Object& parent, const unsigned int hash, machine:
 {
 	Object::setSlot("$$local", machine.getLocal());
 	Object::setSlot("$$self", machine.getSelf());
-}
-LazyEvalObject::~LazyEvalObject(){
-
 }
 
 Handler<Object> LazyEvalObject::forceEvalNode(const tree::ExprNode* const node)
@@ -165,12 +162,12 @@ size_t LazyEvalObject::slotSize()
 
 std::string LazyEvalObject::toString()
 {
-	return util::format("<<LazyEvalObject:%d>>", getHash());
+	return cinamo::format("<<LazyEvalObject:%d>>", getHash());
 }
 
 DEF_BUILTIN(LazyEvalObject, clone)
 {
-	const Handler<LazyEvalObject> self(machine.getSelf());
+	const Handler<LazyEvalObject> self(machine.getSelf().cast<LazyEvalObject>());
 	machine.pushResult( self->getHeap().newUndefinedObject() );
 }
 

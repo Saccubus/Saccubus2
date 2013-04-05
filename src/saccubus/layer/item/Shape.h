@@ -28,7 +28,7 @@ class Shape: public saccubus::layer::item::NekoItem, public nekomata::system::Sh
 	DEF_ATTR_ACCESSOR(protected, private, draw::ShapeFactory*, shapeFactory);
 public:
 	Shape(nekomata::system::System& system, draw::ShapeFactory* shapeFactory);
-	virtual ~Shape();
+	virtual ~Shape() noexcept = default;
 	virtual void onChanged();
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::shared_ptr<saccubus::draw::Context> ctx);

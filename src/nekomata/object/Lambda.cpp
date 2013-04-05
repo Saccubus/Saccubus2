@@ -18,9 +18,9 @@
 
 #include <sstream>
 #include <nekomata/logging/Exception.h>
+#include <cinamo/String.h>
 
 #include "Object.h"
-#include "../util/StringUtil.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
 
@@ -39,11 +39,9 @@ LambdaObject::LambdaObject(LambdaObject& parent, const unsigned int hash, const 
 	Object::setSlot("$$scope", scope);
 }
 
-LambdaObject::~LambdaObject(){
-}
 DEF_BUILTIN(LambdaObject, index)
 {
-	const Handler<LambdaObject> self(machine.getSelf());
+	const Handler<LambdaObject> self(machine.getSelf().cast<LambdaObject>());
 	if(!self){
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!!");
 	}
@@ -72,7 +70,7 @@ DEF_BUILTIN(LambdaObject, index)
 
 std::string LambdaObject::toString()
 {
-	return util::format("<<LambdaObject:%d>>", getHash());
+	return cinamo::format("<<LambdaObject:%d>>", getHash());
 }
 
 LambdaScopeObject::LambdaScopeObject(Object& parent)
@@ -87,12 +85,9 @@ LambdaScopeObject::LambdaScopeObject(LambdaScopeObject& parent, const unsigned i
 {
 	Object::setSlot("$$arg", arg);
 }
-LambdaScopeObject::~LambdaScopeObject()
-{
-}
 DEF_BUILTIN(LambdaScopeObject, atmark)
 {
-	const Handler<LazyEvalObject> mergeArg(machine.getArgument());
+	const Handler<LazyEvalObject> mergeArg(machine.getArgument().cast<LazyEvalObject>());
 	if(!mergeArg){
 		throw  logging::Exception(__FILE__, __LINE__, "Invalid Lambda Object!! Argument is not LazyEvalObject");
 	}
@@ -110,7 +105,7 @@ DEF_BUILTIN(LambdaScopeObject, atmark)
 
 std::string LambdaScopeObject::toString()
 {
-	return util::format("<<LambdaScopeObject:%d>>", getHash());
+	return cinamo::format("<<LambdaScopeObject:%d>>", getHash());
 }
 
 }}

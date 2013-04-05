@@ -28,7 +28,7 @@ protected:
 	Item(const Item& other);
 	Item& operator = (const Item& other);
 public:
-	virtual ~Item();
+	virtual ~Item() noexcept = default;
 private:
 	draw::Sprite::Handler<draw::Sprite> sprite;
 private:

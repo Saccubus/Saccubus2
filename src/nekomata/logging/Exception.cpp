@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <nekomata/logging/Exception.h>
-#include "../util/StringUtil.h"
 #include <sstream>
+#include <nekomata/logging/Exception.h>
+#include <cinamo/String.h>
 
 namespace nekomata{
 namespace logging{
@@ -29,7 +29,7 @@ Exception::Exception(const std::string& fname, size_t line, const std::string& m
 		ss << "<line " << line << " in " << fname << "> : ";
 		va_list arg;
 		va_start(arg, msg);
-		std::string fmtmsg(util::formatv(msg, arg));
+		std::string fmtmsg(cinamo::formatv(msg, arg));
 		ss << fmtmsg;
 		this->msg = ss.str();
 		va_end(arg);

@@ -27,11 +27,10 @@ options {
 @header {
 #include <string>
 #include <vector>
+#include <cinamo/String.h>
 #include "../parser/ParseUtil.h"
-#include "../util/StringUtil.h"
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
-using nekomata::util::unescapeString;
 }
 
 script returns [std::vector<std::string> val]

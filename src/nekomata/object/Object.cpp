@@ -25,7 +25,7 @@
 #include "Cast.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include "../util/StringUtil.h"
+#include <cinamo/String.h>
 
 namespace nekomata{
 namespace object
@@ -82,7 +82,7 @@ Object::Object(Object& parent, const unsigned int hash)
 }
 
 
-Object::~Object()
+Object::~Object() noexcept
 {
 	if(builtins){
 		for(BuiltinMethods::iterator it = builtins->begin(); builtins->end() != it; ++it){
@@ -135,21 +135,6 @@ logging::Logger& Object::log()
 
 int Object::getColor(){
 	return this->color;
-}
-int Object::getNativeRef(){
-	return this->nativeRef;
-}
-
-void Object::incNativeRef()
-{
-	++nativeRef;
-}
-void Object::decNativeRef()
-{
-	--nativeRef;
-	if(nativeRef < 0){
-		log().e(TAG, 0, "[BUG] Native ref = %d < 0 on %s", nativeRef, cast<std::string>(Handler<Object>(this)).c_str());
-	}
 }
 
 bool Object::frozen()
@@ -292,7 +277,7 @@ bool Object::isUndefined(){
 
 std::string Object::toString()
 {
-	return util::format("<<Object:%d>>", getHash());
+	return cinamo::format("<<Object:%d>>", getHash());
 }
 double Object::toNumeric()
 {
@@ -310,7 +295,7 @@ bool Object::toBool()
 DEF_BUILTIN(Object, def)
 {
 	const Handler<Object> self(machine.getSelf());
-	const Handler<LazyEvalObject> arg(machine.getArgument());
+	const Handler<LazyEvalObject> arg(machine.getArgument().cast<LazyEvalObject>());
 	if(!arg || arg->size() < 2){
 		machine.log.w(TAG, 0, "Invalid method define call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
@@ -351,7 +336,7 @@ DEF_BUILTIN(Object, def)
 DEF_BUILTIN(Object, def_kari)
 {
 	const Handler<Object> self(machine.getSelf());
-	const Handler<LazyEvalObject> arg(machine.getArgument());
+	const Handler<LazyEvalObject> arg(machine.getArgument().cast<LazyEvalObject>());
 	if(!arg || arg->size() < 2){
 		machine.log.w(TAG, 0, "Invalid def_kari call. There is neither name nor method body.");
 		machine.pushResult(self->getHeap().newUndefinedObject());
@@ -520,7 +505,7 @@ DEF_BUILTIN(Object, if)
 }
 DEF_BUILTIN(Object, while_kari)
 {
-	const Handler<LazyEvalObject> arg(machine.getArgument());
+	const Handler<LazyEvalObject> arg(machine.getArgument().cast<LazyEvalObject>());
 	if(arg){
 		const tree::ObjectNode* const node = arg->getRawNode();
 		if(node->size() < 2){
@@ -541,7 +526,7 @@ DEF_BUILTIN(Object, while_kari)
 DEF_BUILTIN(Object, lambda)
 {
 	const Handler<Object> self(machine.getSelf());
-	const Handler<LazyEvalObject> arg(machine.getArgument());
+	const Handler<LazyEvalObject> arg(machine.getArgument().cast<LazyEvalObject>());
 	if(!arg || arg->size() < 1){
 		machine.log.w(TAG, 0, "Invalid lambda call.");
 		machine.pushResult(self->getHeap().newUndefinedObject());

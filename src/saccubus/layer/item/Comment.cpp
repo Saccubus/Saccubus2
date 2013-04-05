@@ -104,9 +104,6 @@ Comment::Comment(const Comment& other)
 	this->shadowColor(other.shadowColor());
 }
 
-Comment::~Comment() {
-}
-
 void Comment::init(){
 	this->commentFactory(0);
 	this->shapeFactory(0);

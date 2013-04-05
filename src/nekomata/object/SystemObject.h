@@ -27,7 +27,7 @@ class SystemObject : public HookableObject
 	system::System& system;
 public:
 	explicit SystemObject(Object& parent, system::System& system);
-	virtual ~SystemObject();
+	virtual ~SystemObject() noexcept = default;
 public:
 	void setChat(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no);
 public:
@@ -77,7 +77,7 @@ private:
 public:
 	explicit ShapeObject(Object& parent);
 	explicit ShapeObject(ShapeObject& parent, int hash, Handler<system::Shape> shape);
-	virtual ~ShapeObject();
+	virtual ~ShapeObject() noexcept = default;
 	Handler<system::Shape> getShape();
 public:
 	DEC_HOOK_ACCESSOR(x);
@@ -105,7 +105,7 @@ private:
 public:
 	explicit SumObject(Object& parent);
 	explicit SumObject(SumObject& parent, int hash, Handler<system::Sum> sum);
-	virtual ~SumObject();
+	virtual ~SumObject() noexcept = default;
 	Handler<system::Sum> getSum();
 public:
 	DEC_HOOK_ACCESSOR(x);
@@ -130,7 +130,7 @@ private:
 public:
 	explicit SumResultObject(Object& parent);
 	explicit SumResultObject(SumResultObject& parent, int hash, Handler<system::SumResult> sumResult);
-	virtual ~SumResultObject();
+	virtual ~SumResultObject() noexcept = default;
 	Handler<system::SumResult> getSumResult();
 public:
 	DEC_HOOK_ACCESSOR(x);
@@ -151,7 +151,7 @@ private:
 public:
 	explicit LabelObject(Object& parent);
 	explicit LabelObject(LabelObject& parent, int hash, Handler<system::Label> Label);
-	virtual ~LabelObject();
+	virtual ~LabelObject() noexcept = default;
 	Handler<system::Label> getLabel();
 public:
 	DEC_HOOK_ACCESSOR(text);
@@ -177,7 +177,7 @@ private:
 public:
 	explicit ReplaceObject(Object& parent);
 	explicit ReplaceObject(ReplaceObject& parent, int hash, Handler<system::Replace> replace);
-	virtual ~ReplaceObject();
+	virtual ~ReplaceObject() noexcept = default;
 	Handler<system::Replace> getReplace();
 public:
 	DEC_HOOK_ACCESSOR(src);

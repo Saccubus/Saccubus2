@@ -35,10 +35,6 @@ Item& Item::operator = (const Item& other)
 	return *this;
 }
 
-Item::~Item()
-{
-}
-
 void Item::draw(std::shared_ptr<saccubus::draw::Context> ctx, int x, int y)
 {
 	querySprite(ctx)->draw(ctx, x, y);

@@ -18,10 +18,10 @@
 
 #include <nekomata/logging/Exception.h>
 #include <nekomata/parser/Parser.h>
+#include <cinamo/String.h>
 #include <cstdlib>
 #include "TimeLineParser.h"
 #include "../nekomata/tree/Node.h"
-#include "../nekomata/util/StringUtil.h"
 
 namespace cli{
 

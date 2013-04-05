@@ -26,10 +26,6 @@ UndefinedObject::UndefinedObject(Object& parent)
 {
 	freeze();
 }
-UndefinedObject::~UndefinedObject()
-{
-
-}
 std::string UndefinedObject::toString()
 {
 	return "undefined";

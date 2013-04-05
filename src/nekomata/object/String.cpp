@@ -63,9 +63,6 @@ StringObject::StringObject(StringObject& parent, int hash, const std::string& li
 {
 	freeze();
 }
-StringObject::~StringObject()
-{
-}
 double StringObject::toNumeric()
 {
 	double val = strtol(this->value.c_str(), 0, 0);
@@ -88,43 +85,43 @@ const std::string& StringObject::getValue() /* toStringだと、std::stringオ�
 
 DEF_BUILTIN(StringObject, equals)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() == other ) );
 }
 DEF_BUILTIN(StringObject, notEquals)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() != other ) );
 }
 DEF_BUILTIN(StringObject, notLessThan)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() >= other ) );
 }
 DEF_BUILTIN(StringObject, notGreaterThan)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() <= other ) );
 }
 DEF_BUILTIN(StringObject, greaterThan)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() > other ) );
 }
 DEF_BUILTIN(StringObject, lessThan)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( self->getValue() < other ) );
 }
 DEF_BUILTIN(StringObject, index)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	const Handler<Object> arg(machine.getArgument());
 	UnicodeString uni(self->getValue().c_str(), "utf-8");
 	size_t idx = cast<size_t>(arg->index(0));
@@ -134,13 +131,13 @@ DEF_BUILTIN(StringObject, index)
 }
 DEF_BUILTIN(StringObject, size)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	UnicodeString uni(self->getValue().c_str(), "utf-8");
 	machine.pushResult( self->getHeap().newNumericObject(uni.length()) );
 }
 DEF_BUILTIN(StringObject, indexOf)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	const Handler<Object> arg(machine.getArgument());
 	std::string key = cast<std::string>(arg->index(0));
 	size_t from = 0;
@@ -153,7 +150,7 @@ DEF_BUILTIN(StringObject, indexOf)
 }
 DEF_BUILTIN(StringObject, slice)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	UnicodeString uni(self->getValue().c_str(), "utf-8");
 	const Handler<Object> arg(machine.getArgument());
 	if(arg->size() <= 0){
@@ -180,7 +177,7 @@ DEF_BUILTIN(StringObject, slice)
 }
 DEF_BUILTIN(StringObject, toInteger)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	char* ptr;
 	const size_t len = self->getValue().size();
 	const char* str = self->getValue().c_str();
@@ -193,7 +190,7 @@ DEF_BUILTIN(StringObject, toInteger)
 }
 DEF_BUILTIN(StringObject, toFloat)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	char* ptr;
 	const size_t len = self->getValue().size();
 	const char* str = self->getValue().c_str();
@@ -208,7 +205,7 @@ DEF_BUILTIN(StringObject, toFloat)
 
 DEF_BUILTIN(StringObject, eval)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::shared_ptr<const tree::Node> node = parser::Parser::fromString(self->toString())->parseProgram();
 	const Handler<Object> result(machine.eval(node.get()));
 	machine.pushResult(result);
@@ -216,20 +213,20 @@ DEF_BUILTIN(StringObject, eval)
 
 DEF_BUILTIN(StringObject, clone)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	machine.pushResult( self->getHeap().newStringObject( self->toString() ) );
 }
 
 DEF_BUILTIN(StringObject, add)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::string const other = cast<std::string>(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newStringObject(self->getValue()+other) );
 }
 
 DEF_BUILTIN(StringObject, multiply)
 {
-	const Handler<StringObject> self(machine.getSelf());
+	const Handler<StringObject> self(machine.getSelf().cast<StringObject>());
 	std::stringstream ss;
 	const int max = cast<int>(machine.getArgument()->index(0));
 	for(int i=0;i<max;++i){

@@ -55,7 +55,7 @@ public:
 			const float& vpos, const std::string& message, const std::string& mail,
 			const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden
 			);
-	virtual ~Button();
+	virtual ~Button() noexcept = default;
 public:
 	virtual bool isButton() const;
 public:

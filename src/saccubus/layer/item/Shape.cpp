@@ -30,10 +30,6 @@ Shape::Shape(nekomata::system::System& system, draw::ShapeFactory* shapeFactory)
 	this->shapeFactory(shapeFactory);
 }
 
-Shape::~Shape()
-{
-}
-
 void Shape::onChanged()
 {
 	this->invalidate();

@@ -18,7 +18,7 @@
 
 #include "../machine/Machine.h"
 #include "Object.h"
-#include "../util/StringUtil.h"
+#include <cinamo/String.h>
 
 namespace nekomata{
 namespace object{
@@ -34,11 +34,6 @@ HookableObject::HookableObject(HookableObject& parent, int hash)
 {
 	this->getterList.insert(parent.getterList.begin(),parent.getterList.end());
 	this->setterList.insert(parent.setterList.begin(),parent.setterList.end());
-}
-
-HookableObject::~HookableObject()
-{
-
 }
 
 void HookableObject::addGetter(const std::string& name, Getter getter)
@@ -87,12 +82,12 @@ size_t HookableObject::slotSize()
 
 std::string HookableObject::toString()
 {
-	return util::format("<<HookableObject:%d>>", getHash());
+	return cinamo::format("<<HookableObject:%d>>", getHash());
 }
 
 DEF_BUILTIN(HookableObject, clone)
 {
-	const Handler<HookableObject> self(machine.getSelf());
+	const Handler<HookableObject> self(machine.getSelf().cast<HookableObject>());
 	return machine.pushResult( self->getHeap().newUndefinedObject() );
 }
 

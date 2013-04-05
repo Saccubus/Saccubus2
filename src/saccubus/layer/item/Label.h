@@ -28,7 +28,7 @@ class Label: public saccubus::layer::item::NekoItem, public nekomata::system::La
 	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
 public:
 	explicit Label(nekomata::system::System& system, draw::CommentFactory* commentFactory);
-	virtual ~Label();
+	virtual ~Label() noexcept = default;
 	virtual void onChanged();
 protected:
 	virtual draw::Sprite::Handler<draw::Sprite> createSprite(std::shared_ptr<saccubus::draw::Context> ctx);

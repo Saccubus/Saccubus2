@@ -42,7 +42,7 @@ public:
 	DEF_ATTR_ACCESSOR(public, private, nekomata::system::Drawable*, drawable);
 public:
 	NekoItem(nekomata::system::Drawable* nekoDrawable);
-	virtual ~NekoItem();
+	virtual ~NekoItem() noexcept = default;
 public:
 	virtual void invalidate();
 	enum PosX posX();

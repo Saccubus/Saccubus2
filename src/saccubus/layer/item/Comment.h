@@ -91,7 +91,7 @@ public:
 			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
 			const float& vpos, const std::string& message, const std::string& mail
 			);
-	virtual ~Comment();
+	virtual ~Comment() noexcept = default;
 public:
 	std::shared_ptr<nekomata::system::Message> createNekomataMessage();
 	float size() const;

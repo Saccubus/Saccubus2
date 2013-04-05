@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <exception>
 #include <nekomata/Nekomata.h>
+#include <nekomata/logging/Exception.h>
 #include "TimeLineParser.h"
 #include "../nekomata/tree/Node.h"
 

@@ -19,11 +19,13 @@
 #include <vector>
 #include <sstream>
 #include <nekomata/logging/Logging.h>
+#include <nekomata/logging/Exception.h>
+#include <cinamo/String.h>
+
 #include "Object.h"
 #include "Heap.h"
 #include "../machine/Machine.h"
 #include "../tree/Node.h"
-#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object{
@@ -39,10 +41,6 @@ MethodNodeObject::MethodNodeObject(Object& parent, const unsigned int hash, cons
 :MethodObject(parent, hash), node(node),rule(rule)
 {
 	Object::setSlot("$$scope", scope);
-}
-MethodNodeObject::~MethodNodeObject()
-{
-
 }
 void MethodNodeObject::mergeArg(machine::Machine& machine, const Handler<Object> local, const Handler<Object> arg)
 {
@@ -104,7 +102,7 @@ void MethodNodeObject::eval(machine::Machine& machine)
 
 std::string MethodNodeObject::toString()
 {
-	return util::format("<<MethodNodeObject:%d>>", getHash());
+	return cinamo::format("<<MethodNodeObject:%d>>", getHash());
 }
 
 

@@ -28,15 +28,14 @@ options {
 @header {
 #include <string>
 #include <iostream>
-#include <tr1/memory>
+#include <memory>
 #include <cstdlib>
+#include <cinamo/String.h>
 #include "ParseUtil.h"
-#include "../util/StringUtil.h"
 #include "../tree/Node.h"
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
-using nekomata::util::unescapeString;
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 typedef pANTLR3_COMMON_TOKEN Token;
 }
 

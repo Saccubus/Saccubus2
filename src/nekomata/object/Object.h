@@ -21,15 +21,15 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <cinamo/Handler.h>
 #include <nekomata/classdefs.h>
-#include <nekomata/util/Handler.h>
 
 namespace nekomata{
 namespace object{
 
-using util::Handler;
+using cinamo::Handler;
 
-class Object
+class Object : public cinamo::HandlerBody<Object>
 {
 protected:
 	Object();
@@ -40,7 +40,9 @@ public:
 	explicit Object(ObjectHeap& heap);
 	explicit Object(ObjectHeap& heap, bool isRaw);
 	explicit Object(Object& parent, const unsigned int hash);
-	virtual ~Object();
+	virtual ~Object() noexcept;
+	bool onFree() noexcept { return true; };
+	using cinamo::HandlerBody<Object>::refcount;
 public: /* Builtin Method Utils */
 #define ADD_BUILTIN(name) \
 		addBuiltin(#name, new NativeMethodObject(getHeap(), _method_##name));
@@ -78,9 +80,6 @@ public:
 	int getHash(){return hash;};
 	void mark(int color);
 	int getColor();
-	int getNativeRef();
-	void incNativeRef();
-	void decNativeRef();
 public: /* INDEXアクセス */
 	virtual Handler<Object> unshift(const Handler<Object> item);
 	virtual Handler<Object> push(const Handler<Object> item);
@@ -146,7 +145,7 @@ public:
 	typedef void (*Setter)(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj);
 	explicit HookableObject(Object& parent);
 	explicit HookableObject(HookableObject& parent, int hash);
-	virtual ~HookableObject();
+	virtual ~HookableObject() noexcept = default;
 #define ADD_HOOK_ACCESSOR(name) \
 		addGetter(#name, _getter_##name);\
 		addSetter(#name, _setter_##name);
@@ -161,40 +160,40 @@ public:
 #define DEF_HOOK_ACCESSOR_STR(clazz, name, adapter) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)\
 	{\
-		return heap.newStringObject(Handler<clazz>(self)->adapter->name());\
+		return heap.newStringObject(self.cast<clazz>()->adapter->name());\
 	}\
 	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
-		Handler<clazz>(self)->adapter->name(obj->toString());\
+		self.cast<clazz>()->adapter->name(obj->toString());\
 	}
 
 #define DEF_HOOK_ACCESSOR_DOUBLE(clazz, name, adapter) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)\
 	{\
-		return heap.newNumericObject(Handler<clazz>(self)->adapter->name());\
+		return heap.newNumericObject(self.cast<clazz>()->adapter->name());\
 	}\
 	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
-		Handler<clazz>(self)->adapter->name(obj->toNumeric());\
+		self.cast<clazz>()->adapter->name(obj->toNumeric());\
 	}
 
 #define DEF_HOOK_ACCESSOR_INT(clazz, name, adapter, type) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)\
 	{\
-		return heap.newNumericObject(Handler<clazz>(self)->adapter->name());\
+		return heap.newNumericObject(self.cast<clazz>()->adapter->name());\
 	}\
 	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
-		Handler<clazz>(self)->adapter->name(static_cast<type>(obj->toNumeric()));\
+		self.cast<clazz>()->adapter->name(static_cast<type>(obj->toNumeric()));\
 	}
 #define DEF_HOOK_ACCESSOR_BOOL(clazz, name, adapter) \
 	Handler<Object> clazz::_getter_##name(Handler<HookableObject> self, ObjectHeap& heap)\
 	{\
-		return heap.newBooleanObject(Handler<clazz>(self)->adapter->name());\
+		return heap.newBooleanObject(self.cast<clazz>()->adapter->name());\
 	}\
 	void clazz::_setter_##name(Handler<HookableObject> self, ObjectHeap& heap, const Handler<Object> obj)\
 	{\
-		Handler<clazz>(self)->adapter->name(obj->toBool());\
+		self.cast<clazz>()->adapter->name(obj->toBool());\
 	}
 
 private:
@@ -229,7 +228,7 @@ private:
 public:
 	explicit LazyEvalObject(Object& parent);
 	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
-	virtual ~LazyEvalObject();
+	virtual ~LazyEvalObject() noexcept = default;
 	Handler<Object> forceEval(size_t idx);
 	Handler<Object> forceEval(const std::string& name);
 public: /* INDEXアクセス */
@@ -261,7 +260,7 @@ class MethodObject : public Object{
 protected:
 	MethodObject(ObjectHeap& heap):Object(heap){};
 	MethodObject(Object& parent, const unsigned int hash):Object(parent, hash){};
-	virtual ~MethodObject(){}
+	virtual ~MethodObject() noexcept = default;
 public:
 	virtual std::string toString() = 0;
 };
@@ -274,7 +273,7 @@ private:
 	const Method method;
 public:
 	explicit NativeMethodObject(ObjectHeap& heap, Method method);
-	virtual ~NativeMethodObject();
+	virtual ~NativeMethodObject() noexcept = default;
 	virtual void eval(machine::Machine& machine);
 public:
 	virtual std::string toString();
@@ -294,7 +293,7 @@ private:
 public:
 	explicit MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule, std::vector<std::string>& argList);
 	explicit MethodNodeObject(Object& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node, LocalScopeRule rule);
-	virtual ~MethodNodeObject();
+	virtual ~MethodNodeObject() noexcept = default;
 	virtual void eval(machine::Machine& machine);
 public:
 	virtual std::string toString();
@@ -307,7 +306,7 @@ private:
 public:
 	explicit LambdaObject(ObjectHeap& heap);
 	explicit LambdaObject(LambdaObject& parent, const unsigned int hash, const Handler<Object> scope, const tree::Node* const node);
-	virtual ~LambdaObject();
+	virtual ~LambdaObject() noexcept = default;
 public:
 	DEC_BUILTIN(index);
 public:
@@ -321,7 +320,7 @@ class LambdaScopeObject : public Object
 public:
 	explicit LambdaScopeObject(Object& parent);
 	explicit LambdaScopeObject(LambdaScopeObject& parent, const unsigned int hash, const Handler<Object> arg);
-	virtual ~LambdaScopeObject();
+	virtual ~LambdaScopeObject() noexcept = default;
 public:
 	DEC_BUILTIN(atmark);
 public:
@@ -335,7 +334,7 @@ class LiteralObject : public Object
 protected:
 	explicit LiteralObject(Object& parent):Object(parent, 0){};
 	explicit LiteralObject(LiteralObject& parent, int hash):Object(parent, hash){};
-	virtual ~LiteralObject(){};
+	virtual ~LiteralObject() noexcept = default;
 public:
 	virtual std::string toString() = 0;
 };
@@ -348,7 +347,7 @@ private:
 public:
 	explicit StringObject(Object& parent);
 	explicit StringObject(StringObject& parent, int hash, const std::string& literal);
-	virtual ~StringObject();
+	virtual ~StringObject() noexcept = default;
 	virtual std::string toString();
 	virtual double toNumeric();
 	virtual bool toBool();
@@ -378,7 +377,7 @@ private:
 	const bool value;
 public:
 	explicit BooleanObject(Object& parent, bool literal);
-	virtual ~BooleanObject();
+	virtual ~BooleanObject() noexcept = default;
 	virtual std::string toString();
 	virtual double toNumeric();
 	virtual bool toBool();
@@ -397,7 +396,7 @@ public:
 	const static double EPSILON;
 	explicit NumericObject(Object& parent);
 	explicit NumericObject(NumericObject& parent, int hash, const double literal);
-	virtual ~NumericObject();
+	virtual ~NumericObject() noexcept = default;
 	virtual std::string toString();
 	virtual double toNumeric();
 	virtual bool toBool();
@@ -434,7 +433,7 @@ class UndefinedObject : public Object
 {
 public:
 	explicit UndefinedObject(Object& parent);
-	virtual ~UndefinedObject();
+	virtual ~UndefinedObject() noexcept = default;
 public:
 	virtual std::string toString();
 	virtual double toNumeric();

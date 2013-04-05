@@ -39,9 +39,6 @@ BooleanObject::BooleanObject(Object& parent, bool literal)
 	includeBuitin();
 	freeze();
 }
-BooleanObject::~BooleanObject()
-{
-}
 std::string BooleanObject::toString()
 {
 	if(value){
@@ -66,24 +63,24 @@ bool BooleanObject::toBool()
 
 DEF_BUILTIN(BooleanObject, and)
 {
-	Handler<BooleanObject> self(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf().cast<BooleanObject>());
 	const bool other = cast<bool>(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() && other));
 }
 DEF_BUILTIN(BooleanObject, or)
 {
-	Handler<BooleanObject> self(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf().cast<BooleanObject>());
 	const bool other = cast<bool>(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newBooleanObject(self->toBool() || other));
 }
 DEF_BUILTIN(BooleanObject, not)
 {
-	Handler<BooleanObject> self(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf().cast<BooleanObject>());
 	machine.pushResult(self->getHeap().newBooleanObject(!self->toBool()));
 }
 DEF_BUILTIN(BooleanObject, alternate)
 {
-	Handler<BooleanObject> self(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf().cast<BooleanObject>());
 	if(self->toBool()){
 		machine.pushResult(machine.getArgument()->index(0));
 	}else{
@@ -93,7 +90,7 @@ DEF_BUILTIN(BooleanObject, alternate)
 
 DEF_BUILTIN(BooleanObject, clone)
 {
-	Handler<BooleanObject> self(machine.getSelf());
+	Handler<BooleanObject> self(machine.getSelf().cast<BooleanObject>());
 	machine.pushResult( self );
 }
 

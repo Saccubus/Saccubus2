@@ -32,5 +32,6 @@ const std::string createStringFromString(pANTLR3_STRING string);
 const std::string createStringFromToken(pANTLR3_COMMON_TOKEN tok);
 const tree::Location createLocationFromNode(std::shared_ptr<const tree::Node> node);
 const tree::Location createLocationFromToken(pANTLR3_COMMON_TOKEN tok);
+std::string unescapeString(std::string const& str);
 
 }}}

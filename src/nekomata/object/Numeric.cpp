@@ -66,9 +66,6 @@ NumericObject::NumericObject(NumericObject& parent, int hash, const double liter
 {
 	freeze();
 }
-NumericObject::~NumericObject()
-{
-}
 std::string NumericObject::toString()
 {
 	std::stringstream ss;
@@ -89,45 +86,45 @@ double NumericObject::toNumeric(){
 }
 
 DEF_BUILTIN(NumericObject, plus){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult(self->getHeap().newNumericObject( self->toNumeric() ));
 }
 DEF_BUILTIN(NumericObject, minus){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult(self->getHeap().newNumericObject(-1* self->toNumeric() ));
 }
 DEF_BUILTIN(NumericObject, increase){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()+1));
 }
 DEF_BUILTIN(NumericObject, decrease){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()-1));
 }
 DEF_BUILTIN(NumericObject, add){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()+other->toNumeric()));
 }
 DEF_BUILTIN(NumericObject, subtract){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()-other->toNumeric()));
 }
 DEF_BUILTIN(NumericObject, multiply){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()*other->toNumeric()));
 }
 DEF_BUILTIN(NumericObject, divide){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult(self->getHeap().newNumericObject(self->toNumeric()/other->toNumeric()));
 }
 DEF_BUILTIN(NumericObject, modulo){
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
-	if(other == 0.0 || other != other){
+	if(other->toNumeric() == 0.0 || other != other){
 		machine.pushResult(self->getHeap().newNumericObject( NAN ) );
 	}else{
 		machine.pushResult(self->getHeap().newNumericObject( self->toNumeric() - static_cast<int>(self->toNumeric() / other->toNumeric())*other->toNumeric() ) );
@@ -135,13 +132,13 @@ DEF_BUILTIN(NumericObject, modulo){
 }
 DEF_BUILTIN(NumericObject, clone)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult(self->getHeap().newNumericObject( self->toNumeric() ));
 }
 
 DEF_BUILTIN(NumericObject, compare)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	const bool eq = std::fabs(self->toNumeric() - other->toNumeric()) < NumericObject::EPSILON;
 	if (eq) {
@@ -155,65 +152,65 @@ DEF_BUILTIN(NumericObject, compare)
 
 DEF_BUILTIN(NumericObject, equals)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( std::fabs(self->toNumeric() - other->toNumeric()) < NumericObject::EPSILON ) );
 }
 DEF_BUILTIN(NumericObject, notEquals)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( std::fabs(self->toNumeric() - other->toNumeric()) >= NumericObject::EPSILON ) );
 }
 DEF_BUILTIN(NumericObject, notLessThan)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( (self->toNumeric() - other->toNumeric()) >= -NumericObject::EPSILON ) );
 }
 DEF_BUILTIN(NumericObject, notGreaterThan)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject( (self->toNumeric() - other->toNumeric()) <= NumericObject::EPSILON ) );
 }
 DEF_BUILTIN(NumericObject, greaterThan)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() > other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, lessThan)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newBooleanObject(self->toNumeric() < other->toNumeric() ) );
 }
 DEF_BUILTIN(NumericObject, floor)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult( self->getHeap().newNumericObject( floor(self->toNumeric()) ) );
 }
 DEF_BUILTIN(NumericObject, sin)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult( self->getHeap().newNumericObject( sin(self->toNumeric()) ) );
 }
 DEF_BUILTIN(NumericObject, cos)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	machine.pushResult( self->getHeap().newNumericObject( cos(self->toNumeric()) ) );
 }
 DEF_BUILTIN(NumericObject, pow)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> other(machine.getArgument()->index(0));
 	machine.pushResult( self->getHeap().newNumericObject( pow(self->toNumeric(), other->toNumeric()) ) );
 }
 
 DEF_BUILTIN(NumericObject, times)
 {
-	const Handler<NumericObject> self(machine.getSelf());
+	const Handler<NumericObject> self(machine.getSelf().cast<NumericObject>());
 	const Handler<Object> lambda(machine.getArgument()->index(0));
 	const int cnt = static_cast<int>( self->toNumeric() );
 	Handler<Object> val = self->getHeap().newUndefinedObject();

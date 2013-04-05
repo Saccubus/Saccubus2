@@ -21,12 +21,15 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <cinamo/Handler.h>
 #include <nekomata/classdefs.h>
 #include "Object.h"
 #include "SystemObject.h"
 
 namespace nekomata{
 namespace object{
+
+using cinamo::Handler;
 
 class RootHolder{
 public:

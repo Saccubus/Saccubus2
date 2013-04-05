@@ -32,7 +32,7 @@ namespace system {
 
 static const std::string TAG("System");
 
-System::EventEntry::EventEntry(float const from, float const to, util::Handler<object::LazyEvalObject> obj)
+System::EventEntry::EventEntry(float const from, float const to, Handler<object::LazyEvalObject> obj)
 :_from(from),_to(to), _obj(obj) {
 
 }
@@ -73,27 +73,27 @@ System::~System() {
 }
 
 
-util::Handler<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+Handler<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
 {
 	log.v(TAG, 0,
 			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
 			x, y, z, shape.c_str(), width, height, color, visible, pos.c_str(), mask, commentmask, alpha, rotation, mover.c_str()
 			);
-	util::Handler<Shape> _shape(new Shape(*this));
+	Handler<Shape> _shape(new Shape(*this));
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
-util::Handler<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+Handler<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
 {
 	log.v(TAG, 0,
 			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
 			text.c_str(), x, y, z, size, pos.c_str(), color, bold, visible, filter.c_str(), alpha, mover.c_str()
 			);
-	util::Handler<Label> _label(new Label(*this));
+	Handler<Label> _label(new Label(*this));
 	_label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return _label;
 }
-void System::commentTrigger(float const timer, util::Handler<object::LazyEvalObject> obj)
+void System::commentTrigger(float const timer, Handler<object::LazyEvalObject> obj)
 {
 	const tree::Node* node = obj->getRawNode();
 	log.v(TAG, 0,
@@ -104,7 +104,7 @@ void System::commentTrigger(float const timer, util::Handler<object::LazyEvalObj
 	std::shared_ptr<EventEntry> evt(new EventEntry(currentTime(), currentTime()+timer, obj));
 	this->ctrigLine.insert(std::pair<float, std::shared_ptr<EventEntry> >(currentTime(), evt));
 }
-void System::timer(float const timer, util::Handler<object::LazyEvalObject> obj)
+void System::timer(float const timer, Handler<object::LazyEvalObject> obj)
 {
 	const tree::Node* node = obj->getRawNode();
 	log.v(TAG, 0,
@@ -156,19 +156,19 @@ double System::getMarker(const std::string& name)
 		return NAN;
 	}
 }
-util::Handler<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+Handler<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
 {
 	log.v(TAG, 0,
 			"sum(x: %f, y: %f, size: %f, color: %x, visible: %d, enabled: %d, pos: %s, asc: %d, unit: %s, buttononly: %d, words: %d word(s), partial: %d)",
 			x, y, size, color, visible, enabled, pos.c_str(), asc, unit.c_str(), buttononly, words.size(), partial
 			);
-	util::Handler<Sum> _sum(new Sum(*this));
+	Handler<Sum> _sum(new Sum(*this));
 	_sum->load(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 	return _sum;
 }
-util::Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<util::Handler<Sum> >& sum)
+Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<Handler<Sum> >& sum)
 {
-	util::Handler<SumResult> _sumResult(new SumResult(*this));
+	Handler<SumResult> _sumResult(new SumResult(*this));
 	log.v(TAG, 0,
 			"showResult(x: %f, y: %f, color: %x, visible: %d, pos: %s, asc: %d, unit: %s, sum: %ditem(s))",
 			x, y, color, visible, pos.c_str(), asc, unit.c_str(), sum.size()
@@ -176,9 +176,9 @@ util::Handler<SumResult> System::showResult(double x, double y, unsigned int col
 	_sumResult->load(x, y, color, visible, pos, unit, asc, sum);
 	return _sumResult;
 }
-util::Handler<Replace> System::replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+Handler<Replace> System::replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
 {
-	util::Handler<Replace> _replace(new Replace(*this));
+	Handler<Replace> _replace(new Replace(*this));
 	log.v(TAG, 0,
 			"replace(src: %s, dst: %s, enabled: %d, target: %s, fill: %d, partial: %d, color: %x, size: %s, pos: %s)",
 			src.c_str(), dest.c_str(), enabled, target.c_str(), fill, partial, color, size.c_str(), pos.c_str()

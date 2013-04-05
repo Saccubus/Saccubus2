@@ -17,10 +17,10 @@
  */
 
 #include <nekomata/system/System.h>
+#include <cinamo/String.h>
 #include "SystemObject.h"
 #include "Heap.h"
 #include "Cast.h"
-#include "../util/StringUtil.h"
 
 namespace nekomata{
 namespace object{
@@ -59,10 +59,6 @@ LabelObject::LabelObject(LabelObject& parent, int hash, Handler<system::Label> l
 {
 
 }
-LabelObject::~LabelObject()
-{
-
-}
 
 Handler<system::Label> LabelObject::getLabel(){
 	return label;
@@ -70,7 +66,7 @@ Handler<system::Label> LabelObject::getLabel(){
 
 std::string LabelObject::toString()
 {
-	return util::format("<<LabelObject:%d>>", getHash());
+	return cinamo::format("<<LabelObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -103,17 +99,13 @@ ReplaceObject::ReplaceObject(ReplaceObject& parent, int hash, Handler<system::Re
 {
 
 }
-ReplaceObject::~ReplaceObject()
-{
-
-}
 
 Handler<system::Replace> ReplaceObject::getReplace(){
 	return replace;
 }
 std::string ReplaceObject::toString()
 {
-	return util::format("<<ReplaceObject:%d>>", getHash());
+	return cinamo::format("<<ReplaceObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -155,10 +147,6 @@ ShapeObject::ShapeObject(ShapeObject& parent, int hash, Handler<system::Shape> s
 {
 
 }
-ShapeObject::~ShapeObject()
-{
-
-}
 
 Handler<system::Shape> ShapeObject::getShape(){
 	return shape;
@@ -166,7 +154,7 @@ Handler<system::Shape> ShapeObject::getShape(){
 
 std::string ShapeObject::toString()
 {
-	return util::format("<<ShapeObject:%d>>", getHash());
+	return cinamo::format("<<ShapeObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -198,7 +186,7 @@ DEF_HOOK_ACCESSOR_STR(SumObject, unit, sum);
 DEF_HOOK_ACCESSOR_BOOL(SumObject, buttononly, sum);
 DEF_HOOK_GETTER(SumObject, words)
 {
-	const std::vector<std::string>& vec = Handler<SumObject>(self)->sum->words();
+	const std::vector<std::string>& vec = self.cast<SumObject>()->sum->words();
 	const Handler<Object> obj(heap.newObject());
 	for(std::vector<std::string>::const_iterator it = vec.begin();it != vec.end();++it)
 	{
@@ -212,16 +200,12 @@ DEF_HOOK_SETTER(SumObject, words)
 	for(size_t i = 0;i<obj->size();++i){
 		vec.push_back(cast<std::string>(obj->index(i)));
 	}
-	Handler<SumObject>(self)->sum->words(vec);
+	self.cast<SumObject>()->sum->words(vec);
 }
 DEF_HOOK_ACCESSOR_BOOL(SumObject, partial, sum);
 
 SumObject::SumObject(SumObject& parent, int hash, Handler<system::Sum> sum)
 :HookableObject(parent, hash), sum(sum)
-{
-
-}
-SumObject::~SumObject()
 {
 
 }
@@ -232,7 +216,7 @@ Handler<system::Sum> SumObject::getSum(){
 
 std::string SumObject::toString()
 {
-	return util::format("<<SumObject:%d>>", getHash());
+	return cinamo::format("<<SumObject:%d>>", getHash());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -257,7 +241,7 @@ DEF_HOOK_ACCESSOR_BOOL(SumResultObject, asc, sumResult);
 DEF_HOOK_ACCESSOR_STR(SumResultObject, unit, sumResult);
 DEF_HOOK_GETTER(SumResultObject, sum)
 {
-	const std::vector<Handler<system::Sum> >& vec = Handler<SumResultObject>(self)->sumResult->sum();
+	const std::vector<Handler<system::Sum> >& vec = self.cast<SumResultObject>()->sumResult->sum();
 	const Handler<Object> obj(heap.newObject());
 	for(std::vector<Handler<system::Sum> >::const_iterator it = vec.begin();it != vec.end();++it)
 	{
@@ -269,20 +253,16 @@ DEF_HOOK_SETTER(SumResultObject, sum)
 {
 	std::vector<Handler<system::Sum> > vec;
 	for(size_t i = 0;i<obj->size();++i){
-		const Handler<SumObject> sumObj(obj->index(i));
+		const Handler<SumObject> sumObj(obj->index(i).cast<SumObject>());
 		if(sumObj){
 			vec.push_back(sumObj->getSum());
 		}
 	}
-	Handler<SumResultObject>(self)->sumResult->sum(vec);
+	self.cast<SumResultObject>()->sumResult->sum(vec);
 }
 
 SumResultObject::SumResultObject(SumResultObject& parent, int hash, Handler<system::SumResult> sumResult)
 :HookableObject(parent, hash), sumResult(sumResult)
-{
-
-}
-SumResultObject::~SumResultObject()
 {
 
 }
@@ -293,7 +273,7 @@ Handler<system::SumResult> SumResultObject::getSumResult(){
 
 std::string SumResultObject::toString()
 {
-	return util::format("<<SumResultObject:%d>>", getHash());
+	return cinamo::format("<<SumResultObject:%d>>", getHash());
 }
 
 

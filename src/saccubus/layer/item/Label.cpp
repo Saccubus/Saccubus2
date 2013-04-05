@@ -30,10 +30,6 @@ Label::Label(nekomata::system::System& system, draw::CommentFactory* commentFact
 	this->commentFactory(commentFactory);
 }
 
-Label::~Label()
-{
-}
-
 void Label::onChanged()
 {
 	this->invalidate();

@@ -45,7 +45,7 @@ std::vector<Handler<system::Sum> > cast<std::vector<Handler<system::Sum> > >(con
 	std::vector<Handler<system::Sum> > vec;
 	const size_t max = obj->size();
 	for(size_t i=0;i<max;++i){
-		const Handler<SumObject> sumObj(obj->index(i));
+		const Handler<SumObject> sumObj(obj->index(i).tryCast<SumObject>());
 		if(sumObj){
 			vec.push_back(sumObj->getSum());
 		}
