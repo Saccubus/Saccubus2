@@ -23,7 +23,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1943079064" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<option id="gnu.both.asm.option.include.paths.1979608680" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\include&quot;"/>
-									<listOptionValue builtIn="false" value="../."/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Saccubus/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1929770428" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -35,7 +38,10 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.include.paths.1307839087" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;D:\software\dev\etc\python3\include&quot;"/>
-									<listOptionValue builtIn="false" value="../."/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Saccubus/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.701369349" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -91,6 +97,8 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.include.paths.453885119" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Saccubus/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.869158790" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -100,6 +108,8 @@
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.2077921857" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.160885273" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Saccubus/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1860717440" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -115,6 +125,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.814488730" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1645839449" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Saccubus/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1825286530" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -131,10 +143,10 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Linux">
+		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/Saccubus"/>
 		</configuration>
-		<configuration configurationName="Default">
+		<configuration configurationName="Linux">
 			<resource resourceType="PROJECT" workspacePath="/Saccubus"/>
 		</configuration>
 		<configuration configurationName="Windows"/>

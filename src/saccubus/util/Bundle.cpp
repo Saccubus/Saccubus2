@@ -42,8 +42,8 @@ void Bundle::readURLEncoded(const std::string& data)
 		const size_t split = str.find("=");
 		std::string key=str.substr(0, split);
 		std::string val=str.substr(split+1);
-		key = cinamo::url::decodePercent(key);
-		val = cinamo::url::decodePercent(val);
+		key = cinamo::url::decodeForm(key);
+		val = cinamo::url::decodeForm(val);
 		this->map.insert(std::pair<std::string, std::string>(key, val));
 	}
 }

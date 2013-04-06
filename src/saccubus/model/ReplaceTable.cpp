@@ -30,8 +30,8 @@ ReplaceTable::ReplaceTable(const std::string& entry) {
 	//FIXME:  FormEncoded形式だが、オーダーを保存しなければならないので、自分でパース…。
 	while(std::getline(ss, elem, '&')){
 		size_t center = elem.find('=');
-		std::string from(cinamo::url::decodePercent(elem.substr(0, center)));
-		std::string to(cinamo::url::decodePercent(elem.substr(center+1)));
+		std::string from(cinamo::url::decodeForm(elem.substr(0, center)));
+		std::string to(cinamo::url::decodeForm(elem.substr(center+1)));
 		if(from.at(0) == '*'){
 			replaceList.insert(replaceList.begin(), new ReplaceItem(from.substr(1), to, true));
 		}else{
