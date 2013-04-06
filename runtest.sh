@@ -49,7 +49,7 @@ function run() {
 		echo "%" $ECMD
 		PYTHONPATH=$PYPATH $ECMD
 	else
-		echo "not found: $PROG"
+		echo "not found: \"$PROG\", skip."
 		return 1
 	fi
 }
