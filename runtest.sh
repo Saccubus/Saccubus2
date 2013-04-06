@@ -1,8 +1,13 @@
-#! /bin/sh
+#! /bin/bash
 
 DIRNAME=$(cd $(dirname $0);pwd)
 PATH_TO_FRONT_FILE=$DIRNAME/__miscellaneous__/path_to_SaccubusFront.txt
 TEST_FILE=SaccubusTest
+if [ "$MSYSTEM" = "MINGW32" ] ; then
+	LONG_PWD=pwd -LPW
+else
+	LONG_PWD=pwd
+fi
 
 function validateSaccubusFront() {
 	if [ ! -f $1 ];then
@@ -25,7 +30,7 @@ while validateSaccubusFront $PATH_TO_FRONT_FILE ;do
 	echo "Please input path to SaccubusFront"
 	echo "ex) /dir/somewhere/SaccubusFront"
 	read -er front_path
-	echo $(cd $front_path; pwd -PLW) > $PATH_TO_FRONT_FILE
+	echo $(cd $front_path; $LONG_PWD) > $PATH_TO_FRONT_FILE
 done
 front_path=`cat $PATH_TO_FRONT_FILE`/src
 echo "SaccubusFront path detected: $front_path"
