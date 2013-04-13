@@ -20,8 +20,7 @@
 #include "Sprite.h"
 #include "Context.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 Renderer::Renderer(cinamo::Logger& log)
@@ -48,4 +47,5 @@ std::shared_ptr<saccubus::draw::Context> Renderer::createContext()
 {
 	return std::shared_ptr<saccubus::draw::Context>(new Context(this->log, handler()));
 }
-}}}
+
+}}

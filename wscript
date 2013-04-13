@@ -59,21 +59,20 @@ NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'neko
 NEKOMATA_SRC=Util.enum('src/nekomata')
 NEKOMATA_INC=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'include')
 
+NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','nekomata_cli')
+NEKOMATA_CLI_SRC=Util.enum('src/entry_points/nekomata_cli')
+
 SACCUBUS_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
 SACCUBUS_SRC=Util.enum('src/saccubus')
 
-SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','cli')
-SACCUBUS_CLI_SRC=Util.enum('src/entry_points/cli')
+SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','saccubus_cli')
+SACCUBUS_CLI_SRC=Util.enum('src/entry_points/nekomata_cli')
 
 SACCUBUS_TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'test')
 SACCUBUS_TEST_SRC=Util.enum('test')
 
 SACCUBUS_FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
 SACCUBUS_FFMPEG_SRC=Util.enum('src/entry_points/ffmpeg')
-
-
-NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'cli')
-NEKOMATA_CLI_SRC=Util.enum('src/cli')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
@@ -102,7 +101,6 @@ def configure(conf):
 
 def configureLibrary(conf):
 	conf.load('compiler_c compiler_cxx')
-	conf.check_cfg(package='libxml-2.0', uselib_store='LIBXML2', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='icu-uc icu-i18n', uselib_store='ICU', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='cairo', uselib_store='CAIRO', mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs')
@@ -136,7 +134,7 @@ def build(bld):
 		features = 'cxx cxxstlib',
 		source = SACCUBUS_SRC,
 		target = 'saccubus',
-		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
+		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
@@ -145,7 +143,7 @@ def build(bld):
 		target = 'SaccubusCLI',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
 		)
 	bld(
 		features = 'cxx cxxshlib',
@@ -153,7 +151,7 @@ def build(bld):
 		target = 'Saccubus',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
 		defs = '__miscellaneous__/adapter.def'
 		)
 	bld(
@@ -163,7 +161,7 @@ def build(bld):
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'LIBXML2', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
+		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
 		)
 	bld(
 		features = "subst",

@@ -18,8 +18,7 @@
 #pragma once
 #include <nekomata/system/System.h>
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 
 class MockSystem: public nekomata::system::System {
 public:
@@ -28,4 +27,4 @@ public:
 	virtual std::shared_ptr<const nekomata::system::Comment> nextComment();
 };
 
-}}
+}

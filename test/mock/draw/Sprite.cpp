@@ -21,8 +21,7 @@
 #include "Context.h"
 #include "../../../src/saccubus/logging/Exception.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 Sprite::Sprite(std::shared_ptr<saccubus::draw::Renderer*> _renderer, int w, int h)
@@ -53,4 +52,4 @@ void Sprite::unlock()
 
 }
 
-}}}
+}}

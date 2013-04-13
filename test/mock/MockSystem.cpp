@@ -20,8 +20,7 @@
 #include <nekomata/logging/Logging.h>
 #include "../TestCommon.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 
 MockSystem::MockSystem()
 :System(*(new nekomata::logging::Logger(log_trace)))
@@ -37,4 +36,5 @@ std::shared_ptr<const nekomata::system::Comment> MockSystem::nextComment()
 {
 	return std::shared_ptr<const nekomata::system::Comment>();
 }
-}}
+
+}

@@ -18,8 +18,7 @@
 
 #include "Context.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 Context::Context(cinamo::Logger& log, std::shared_ptr<saccubus::draw::Renderer*> renderer)
@@ -58,4 +57,4 @@ float Context::height() const
 }
 
 
-}}}
+}}

@@ -18,8 +18,7 @@
 #pragma once
 #include "../../../src/saccubus/draw/RawSprite.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 class Sprite: public saccubus::draw::RawSprite {
@@ -31,4 +30,4 @@ public:
 	virtual void unlock();
 };
 
-}}}
+}}

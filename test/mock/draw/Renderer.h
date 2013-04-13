@@ -18,8 +18,7 @@
 #pragma once
 #include "../../../src/saccubus/draw/Renderer.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 class Sprite;
@@ -35,4 +34,5 @@ public:
 	virtual std::shared_ptr<saccubus::draw::Context> createContext(enum Format fmt, void* data, int w, int h, int stride);
 	std::shared_ptr<saccubus::draw::Context> createContext();
 };
-}}}
+
+}}

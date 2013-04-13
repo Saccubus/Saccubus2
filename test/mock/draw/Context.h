@@ -22,8 +22,7 @@
 #include "../../../src/saccubus/classdefs.h"
 #include "../../../src/saccubus/draw/Context.h"
 
-namespace saccubus {
-namespace mock {
+namespace samock {
 namespace draw {
 
 class Context: public saccubus::draw::Context {
@@ -45,4 +44,4 @@ public:
 
 };
 
-}}}
+}}
