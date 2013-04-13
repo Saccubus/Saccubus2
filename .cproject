@@ -96,6 +96,7 @@
 									<listOptionValue builtIn="false" value="DEBUG=1"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.include.paths.453885119" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;/usr/include/python3.3m&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
@@ -107,6 +108,7 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.847650633" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.2077921857" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.160885273" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;/usr/include/python3.3m&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>
@@ -124,6 +126,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.814488730" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1645839449" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;/usr/include/python3.3m&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/external/tinyxml2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cinamo/build/debug}&quot;"/>

@@ -16,27 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <nekomata/system/System.h>
 #include <string>
-#include <tr1/memory>
-#include <tr1/functional>
+#include <memory>
+#include <functional>
 #include <vector>
+#include <nekomata/system/System.h>
+#include <cinamo/ClassUtil.h>
+#include <nicomo/Model.h>
 #include "Item.h"
 #include "../../classdefs.h"
-#include "../../util/ClassAccessor.h"
 #include "../../draw/Sprite.h"
 
 namespace nekomata{
 namespace system{
 class Message;
 }}
+
 namespace saccubus {
 namespace layer {
 namespace item {
 
 class Comment : public Item {
-	DEF_ATTR_ACCESSOR(protected, private, draw::CommentFactory*, commentFactory);
-	DEF_ATTR_ACCESSOR(protected, private, draw::ShapeFactory*, shapeFactory);
+	DEFINE_MEMBER(protected, private, draw::CommentFactory*, commentFactory);
+	DEFINE_MEMBER(protected, private, draw::ShapeFactory*, shapeFactory);
 public:
 	enum Layer {
 		Normal,
@@ -60,33 +62,33 @@ public:
 		Middle,
 		Bottom,
 	};
-	DEF_ATTR_ACCESSOR(public , private, std::string, originalMessage);
-	DEF_ATTR_ACCESSOR(public , protected, std::string, message);
-	DEF_ATTR_ACCESSOR(public , private  , std::string, mail);
-	DEF_ATTR_ACCESSOR(public , private  , unsigned int, no);
-	DEF_ATTR_ACCESSOR(public , private  , float, from);
-	DEF_ATTR_ACCESSOR(public , private  , float, vpos);
-	DEF_ATTR_ACCESSOR(private, private  , float, span);
-	DEF_ATTR_ACCESSOR(public , private  , float, to);
-	DEF_ATTR_ACCESSOR(public , private  , bool, isYourPost);
-	DEF_ATTR_ACCESSOR(public , private  , bool, fromButton);
-	DEF_ATTR_ACCESSOR(public , private  , bool, isPremium);
-	DEF_ATTR_ACCESSOR(public , private  , bool, full);
-	DEF_ATTR_ACCESSOR(public , private  , bool, sage);
-	DEF_ATTR_ACCESSOR(public , private  , bool, patissier);
-	DEF_ATTR_ACCESSOR(public , private  , enum Device, device);
-	DEF_ATTR_ACCESSOR(public , private  , bool, visibility);
-	DEF_ATTR_ACCESSOR(public , private  , enum Size, sizeType);
-	DEF_ATTR_ACCESSOR(public , private  , enum Layer, layer);
-	DEF_ATTR_ACCESSOR(public , private  , enum PlaceY, placeY);
-	DEF_ATTR_ACCESSOR(public , protected, unsigned int, color);
-	DEF_ATTR_ACCESSOR(public , protected, unsigned int, shadowColor);
+	DEFINE_MEMBER(public , private, std::string, originalMessage);
+	DEFINE_MEMBER(public , protected, std::string, message);
+	DEFINE_MEMBER(public , private  , std::string, mail);
+	DEFINE_MEMBER(public , private  , unsigned int, no);
+	DEFINE_MEMBER(public , private  , float, from);
+	DEFINE_MEMBER(public , private  , float, vpos);
+	DEFINE_MEMBER(private, private  , float, span);
+	DEFINE_MEMBER(public , private  , float, to);
+	DEFINE_MEMBER(public , private  , bool, isYourPost);
+	DEFINE_MEMBER(public , private  , bool, fromButton);
+	DEFINE_MEMBER(public , private  , bool, isPremium);
+	DEFINE_MEMBER(public , private  , bool, full);
+	DEFINE_MEMBER(public , private  , bool, sage);
+	DEFINE_MEMBER(public , private  , bool, patissier);
+	DEFINE_MEMBER(public , private  , enum Device, device);
+	DEFINE_MEMBER(public , private  , bool, visibility);
+	DEFINE_MEMBER(public , private  , enum Size, sizeType);
+	DEFINE_MEMBER(public , private  , enum Layer, layer);
+	DEFINE_MEMBER(public , private  , enum PlaceY, placeY);
+	DEFINE_MEMBER(public , protected, unsigned int, color);
+	DEFINE_MEMBER(public , protected, unsigned int, shadowColor);
 private:
 	Comment();
 	Comment& operator = (const Comment& other);
 public:
 	Comment(const Comment& other);
-	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const model::ReplaceTable* replaceTable, const model::Comment* meta);
+	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const nicomo::model::ReplaceTable* replaceTable, const nicomo::model::Comment* meta);
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
 			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
 			const float& vpos, const std::string& message, const std::string& mail

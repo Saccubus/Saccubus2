@@ -25,7 +25,7 @@ namespace draw {
 namespace cairo {
 
 class Sprite : public draw::RawSprite {
-	DEF_ATTR_ACCESSOR(public, private, cairo_surface_t*, surface);
+	DEFINE_MEMBER(public, private, cairo_surface_t*, surface);
 public:
 	Sprite(std::shared_ptr<draw::Renderer*> renderer, int w, int h);
 	Sprite(std::shared_ptr<draw::Renderer*> renderer, enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);

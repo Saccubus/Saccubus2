@@ -19,7 +19,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "ClassAccessor.h"
+#include <cinamo/ClassUtil.h>
 
 /**
  * FIXME: これはひどい車輪の再発明
@@ -39,9 +39,9 @@ public:
 		Require,
 		Optional
 	};
-	DEF_ATTR_ACCESSOR(public, private, std::string, name);
-	DEF_ATTR_ACCESSOR(public, private, enum Type, type);
-	DEF_ATTR_ACCESSOR(public, private, enum Argument, argument);
+	DEFINE_MEMBER(public, private, std::string, name);
+	DEFINE_MEMBER(public, private, enum Type, type);
+	DEFINE_MEMBER(public, private, enum Argument, argument);
 protected:
 	Option(std::string const& name, enum Type t, enum Argument a);
 public:

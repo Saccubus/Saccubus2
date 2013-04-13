@@ -18,10 +18,10 @@
 #pragma once
 #include <nekomata/system/System.h>
 #include <cinamo/Logger.h>
+#include <cinamo/ClassUtil.h>
 
 #include "../classdefs.h"
 #include "Layer.h"
-#include "../util/ClassAccessor.h"
 #include "NekomataSystem.h"
 #include "item/NekoItem.h"
 
@@ -29,7 +29,7 @@ namespace saccubus {
 namespace layer {
 
 class ScriptLayer: public Layer {
-	DEF_ATTR_ACCESSOR(private, private, NekomataSystem*, nekoSystem);
+	DEFINE_MEMBER(private, private, NekomataSystem*, nekoSystem);
 private:
 	void resolvePos(std::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y);
 public:

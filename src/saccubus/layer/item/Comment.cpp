@@ -19,10 +19,10 @@
 #include "Comment.h"
 #include <cmath>
 #include <cinamo/String.h>
+#include <nicomo/model/Comment.h>
+#include <nicomo/model/ReplaceTable.h>
 #include <nekomata/system/System.h>
 #include "../../NicoConstant.h"
-#include "../../model/Comment.h"
-#include "../../model/ReplaceTable.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
 
@@ -54,7 +54,7 @@ Comment::Comment(
 
 	parse();
 }
-Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const model::ReplaceTable* replaceTable, const model::Comment* meta)
+Comment::Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const nicomo::model::ReplaceTable* replaceTable, const nicomo::model::Comment* meta)
 {
 	init();
 

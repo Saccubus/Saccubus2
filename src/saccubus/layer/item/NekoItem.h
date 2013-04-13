@@ -39,7 +39,7 @@ public:
 	};
 	enum PosX _posX;
 	enum PosY _posY;
-	DEF_ATTR_ACCESSOR(public, private, nekomata::system::Drawable*, drawable);
+	DEFINE_MEMBER(public, private, nekomata::system::Drawable*, drawable);
 public:
 	NekoItem(nekomata::system::Drawable* nekoDrawable);
 	virtual ~NekoItem() noexcept = default;

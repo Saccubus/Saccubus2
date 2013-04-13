@@ -17,14 +17,14 @@
  */
 #pragma once
 #include <cinamo/Logger.h>
+#include <cinamo/ClassUtil.h>
 #include "RawSprite.h"
-#include "../util/ClassAccessor.h"
 namespace saccubus {
 namespace draw {
 
 class CommentFactory {
 private:
-	DEF_ATTR_ACCESSOR(protected, private, Renderer*, renderer);
+	DEFINE_MEMBER(protected, private, Renderer*, renderer);
 protected:
 	cinamo::Logger& log;
 public:

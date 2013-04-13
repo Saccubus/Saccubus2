@@ -35,7 +35,11 @@ done
 front_path=`cat $PATH_TO_FRONT_FILE`/src
 echo "SaccubusFront path detected: $front_path"
 
-PYPATH="$(python -c 'import sys; import os;sys.stdout.write(os.pathsep.join(sys.path)+os.pathsep)')$front_path"
+if [ -z "$PYTHON" ]; then
+	PYTHON=python
+fi
+
+PYPATH="$(${PYTHON} -c 'import sys; import os;sys.stdout.write(os.pathsep.join(sys.path)+os.pathsep)')$front_path"
 function run() {
 	PROG=$1/$TEST_FILE
 	MODE=$2

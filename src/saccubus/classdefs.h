@@ -56,16 +56,6 @@ class VideoLayer;
 class NekomataSystem;
 }
 
-namespace model{
-class Comment;
-class ReplaceItem;
-class ReplaceTable;
-class Thread;
-class MetaInfo;
-class PlayInfo;
-class Video;
-}
-
 namespace python{
 class PyBridge;
 }

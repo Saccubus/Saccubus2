@@ -38,7 +38,7 @@ void errorwait(bool exit=false)
 
 class FFmpegAdapter : public saccubus::Adapter
 {
-	DEF_ATTR_ACCESSOR(private, private, saccubus::Saccubus*, parent);
+	DEFINE_MEMBER(private, private, saccubus::Saccubus*, parent);
 private:
 	SaccToolBox* const box;
 private:
@@ -156,8 +156,8 @@ public:
 
 class Context{
 private:
-	DEF_ATTR_ACCESSOR(private, private, saccubus::Saccubus*, saccubus)
-	DEF_ATTR_ACCESSOR(public, private, FFmpegAdapter*, adapter)
+	DEFINE_MEMBER(private, private, saccubus::Saccubus*, saccubus)
+	DEFINE_MEMBER(public, private, FFmpegAdapter*, adapter)
 public:
 	Context(saccubus::Saccubus* const saccubus, FFmpegAdapter* const adapter)
 	{

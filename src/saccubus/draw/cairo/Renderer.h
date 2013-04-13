@@ -19,8 +19,8 @@
 #include <map>
 #include <cairo/cairo.h>
 #include <cinamo/Logger.h>
+#include <cinamo/ClassUtil.h>
 #include "../Renderer.h"
-#include "../../util/ClassAccessor.h"
 #include "../../classdefs.h"
 
 namespace saccubus {
@@ -28,7 +28,7 @@ namespace draw {
 namespace cairo {
 
 class Renderer : public saccubus::draw::Renderer {
-	DEF_ATTR_ACCESSOR(public, private, cairo_t*, cairo);
+	DEFINE_MEMBER(public, private, cairo_t*, cairo);
 public:
 	Renderer(cinamo::Logger& log, const std::map<std::string, std::string> & config);
 	virtual ~Renderer();

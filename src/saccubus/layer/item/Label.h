@@ -25,7 +25,7 @@ namespace layer {
 namespace item {
 
 class Label: public saccubus::layer::item::NekoItem, public nekomata::system::Label {
-	DEF_ATTR_ACCESSOR(private, private, draw::CommentFactory*, commentFactory);
+	DEFINE_MEMBER(private, private, draw::CommentFactory*, commentFactory);
 public:
 	explicit Label(nekomata::system::System& system, draw::CommentFactory* commentFactory);
 	virtual ~Label() noexcept = default;

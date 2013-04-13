@@ -25,7 +25,7 @@ namespace item {
 
 class Shape: public saccubus::layer::item::NekoItem, public nekomata::system::Shape
 {
-	DEF_ATTR_ACCESSOR(protected, private, draw::ShapeFactory*, shapeFactory);
+	DEFINE_MEMBER(protected, private, draw::ShapeFactory*, shapeFactory);
 public:
 	Shape(nekomata::system::System& system, draw::ShapeFactory* shapeFactory);
 	virtual ~Shape() noexcept = default;

@@ -17,12 +17,15 @@
  */
 
 #include <functional>
-#include <cinamo/String.h>
-#include <nekomata/system/System.h>
 #include <cstdlib>
+
+#include <cinamo/String.h>
+#include <nicomo/model/Comment.h>
+
+#include <nekomata/system/System.h>
+
 #include "../../classdefs.h"
 #include "Comment.h"
-#include "../../model/Comment.h"
 #include "../../logging/Exception.h"
 
 namespace saccubus {

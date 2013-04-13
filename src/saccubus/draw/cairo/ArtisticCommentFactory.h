@@ -40,11 +40,11 @@ private:
 	static const double ShadowWidth;
 private:
 #if !(CINAMO_WINDOWS)
-	DEF_ATTR_ACCESSOR(private, private, FcPattern*, pattern);
+	DEFINE_MEMBER(private, private, FcPattern*, pattern);
 #endif
-	DEF_ATTR_ACCESSOR(private, private, cairo_font_face_t*, face);
-	DEF_ATTR_ACCESSOR(private, private, cairo_t*, emptyCairo);
-	DEF_ATTR_ACCESSOR(private, private, cairo_surface_t*, emptySurface);
+	DEFINE_MEMBER(private, private, cairo_font_face_t*, face);
+	DEFINE_MEMBER(private, private, cairo_t*, emptyCairo);
+	DEFINE_MEMBER(private, private, cairo_surface_t*, emptySurface);
 public:
 	ArtisticCommentFactory(cinamo::Logger& log, cairo::Renderer* renderer, const std::map<std::string, std::string> & config);
 	virtual ~ArtisticCommentFactory();

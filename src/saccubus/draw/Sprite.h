@@ -16,17 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/memory>
+#include <memory>
+#include <cinamo/ClassUtil.h>
 #include "../logging/Exception.h"
 #include "../classdefs.h"
-#include "../util/ClassAccessor.h"
 
 namespace saccubus {
 namespace draw {
 
 class Point{
-	DEF_ATTR_ACCESSOR(public, public, int, x);
-	DEF_ATTR_ACCESSOR(public, public, int, y);
+	DEFINE_MEMBER(public, public, int, x);
+	DEFINE_MEMBER(public, public, int, y);
 public:
 	Point(int x, int y){this->x(x);this->y(y);};
 	Point(const Point& other){this->x(other.x());this->y(other.y());};

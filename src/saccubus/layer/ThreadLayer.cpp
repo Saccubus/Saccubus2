@@ -16,13 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <algorithm>
 #include <memory>
+#include <algorithm>
 #include <cinamo/Logger.h>
+#include <nicomo/model/Thread.h>
+
 #include "ThreadLayer.h"
 #include "item/Comment.h"
 #include "../python/PyBridge.h"
-#include "../model/Thread.h"
 #include "../PluginOrganizer.h"
 #include "../draw/CommentFactory.h"
 #include "../draw/Renderer.h"
@@ -31,7 +32,7 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(cinamo::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
+ThreadLayer::ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const nicomo::model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,thread(thread)
 ,ngScript(ngScript)
@@ -56,19 +57,20 @@ ThreadLayer::ThreadLayer(cinamo::Logger& log, const model::Thread& thread, const
 	this->nekoSystem()->tellCommentLayers(this->forkedCommentLayer, this->mainCommentLayer);
 
 	{ /* 確定済みコメントを渡す */
-		for(model::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
-			if(bridge->askCommentShouldBeIgnored(this->ngScript, **it)){
+		for(nicomo::model::Thread::Iterator it = thread.begin(); it != thread.end(); ++it){
+			const nicomo::model::Comment* const obj = *it;
+			if(bridge->askCommentShouldBeIgnored(this->ngScript, *obj)){
 				continue;
 			}
-			if((*it)->haveScript()){
-				this->neko->queueMessage(std::shared_ptr<nekomata::system::Message>(new nekomata::system::Script((*it)->vpos(), (*it)->node())));
-			}else if((*it)->fork()){
+			if(obj->haveScript()){
+				this->neko->queueMessage(std::shared_ptr<nekomata::system::Message>(new nekomata::system::Script(obj->vpos(), obj->node())));
+			}else if(obj->fork()){
 				this->forkedCommentLayer->queueComment(
-						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, obj))
 						);
 			}else{
 				this->mainCommentLayer->queueComment(
-						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, *it))
+						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, obj))
 						);
 			}
 		}

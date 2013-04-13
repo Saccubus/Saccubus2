@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <tr1/memory>
-#include "CommentLayer.h"
-#include <vector>
+#include <memory>
 #include <set>
-#include "../util/ClassAccessor.h"
+#include <vector>
+#include <cinamo/ClassUtil.h>
+#include "CommentLayer.h"
 
 namespace saccubus {
 namespace layer {
@@ -28,11 +28,11 @@ namespace layer {
 class ArtisticCommentLayer: public saccubus::layer::CommentLayer {
 private:
 	class Slot{
-		DEF_ATTR_ACCESSOR(public, public, int, y);
-		DEF_ATTR_ACCESSOR(public, public, int, x);
-		DEF_ATTR_ACCESSOR(public, public, float, width);
-		DEF_ATTR_ACCESSOR(public, public, float, height);
-		DEF_ATTR_ACCESSOR(public, private, std::shared_ptr<item::Comment>, comment);
+		DEFINE_MEMBER(public, public, int, y);
+		DEFINE_MEMBER(public, public, int, x);
+		DEFINE_MEMBER(public, public, float, width);
+		DEFINE_MEMBER(public, public, float, height);
+		DEFINE_MEMBER(public, private, std::shared_ptr<item::Comment>, comment);
 	private:
 		Slot& operator=(const Slot& other){return *this;};
 		Slot(const Slot& other){};

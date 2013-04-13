@@ -52,6 +52,13 @@ def checkPython(conf):
 	else:
 		conf.fatal('could not find python!')
 
+NICOMO_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'nicomo')
+NICOMO_SRC=Util.enum('src/nicomo')
+
+NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'nekomata')
+NEKOMATA_SRC=Util.enum('src/nekomata')
+NEKOMATA_INC=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'include')
+
 SACCUBUS_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
 SACCUBUS_SRC=Util.enum('src/saccubus')
 
@@ -64,9 +71,6 @@ SACCUBUS_TEST_SRC=Util.enum('test')
 SACCUBUS_FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
 SACCUBUS_FFMPEG_SRC=Util.enum('src/entry_points/ffmpeg')
 
-NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'nekomata')
-NEKOMATA_SRC=Util.enum('src/nekomata')
-NEKOMATA_INC=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'include')
 
 NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'cli')
 NEKOMATA_CLI_SRC=Util.enum('src/cli')
@@ -115,7 +119,7 @@ def build(bld):
 	bld(
 		is_install=True,
 		features = 'cxx cxxstlib',
-		source = NEKOMATA_SRC,
+		source = NEKOMATA_SRC+NICOMO_SRC,
 		target = 'nekomata',
 		use=['CINAMO', 'PPROF', 'ICU','ANTLR'],
 		includes=[NEKOMATA_INC]

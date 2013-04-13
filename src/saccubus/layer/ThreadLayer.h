@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <nekomata/Nekomata.h>
 #include <vector>
+#include <nekomata/Nekomata.h>
+#include <nicomo/Model.h>
 #include "../classdefs.h"
 #include "NekomataSystem.h"
 #include "CommentLayer.h"
@@ -34,11 +35,11 @@ class CommentPipeLine;
  * 複数のコメントレイヤと、猫又レイヤを持つ。
  */
 class ThreadLayer : public Layer {
-	DEF_ATTR_ACCESSOR(public, private, draw::CommentFactory*, commentFactory);
-	DEF_ATTR_ACCESSOR(public, private, draw::ShapeFactory*, shapeFactory);
-	DEF_ATTR_ACCESSOR(public, private, NekomataSystem*, nekoSystem);
+	DEFINE_MEMBER(public, private, draw::CommentFactory*, commentFactory);
+	DEFINE_MEMBER(public, private, draw::ShapeFactory*, shapeFactory);
+	DEFINE_MEMBER(public, private, NekomataSystem*, nekoSystem);
 private:
-	const model::Thread& thread;
+	const nicomo::model::Thread& thread;
 	const std::string ngScript;
 	python::PyBridge* bridge;
 private:
@@ -50,7 +51,7 @@ private:
 	CommentLayer* mainCommentLayer;
 	CommentLayer* forkedCommentLayer;
 public:
-	ThreadLayer(cinamo::Logger& log, const model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
+	ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const nicomo::model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* organizer);
 	virtual ~ThreadLayer();
 public:
 	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);

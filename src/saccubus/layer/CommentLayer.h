@@ -17,18 +17,18 @@
  */
 #pragma once
 #include <vector>
+#include <memory>
+#include <cinamo/ClassUtil.h>
+#include <nicomo/model/Comment.h>
 #include "Layer.h"
-#include <tr1/memory>
-#include "../util/ClassAccessor.h"
-#include "../model/Comment.h"
 #include "NekomataSystem.h"
 
 namespace saccubus {
 namespace layer {
 
 class CommentLayer: public saccubus::layer::Layer {
-	DEF_ATTR_ACCESSOR(protected, private, layer::ThreadLayer*, thread);
-	DEF_ATTR_ACCESSOR(protected, private, bool, isForked);
+	DEFINE_MEMBER(protected, private, layer::ThreadLayer*, thread);
+	DEFINE_MEMBER(protected, private, bool, isForked);
 public:
 	CommentLayer(cinamo::Logger& log, layer::ThreadLayer* thread, bool isForked);
 	virtual ~CommentLayer();

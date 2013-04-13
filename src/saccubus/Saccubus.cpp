@@ -24,9 +24,9 @@
 #include <cinamo/Logger.h>
 #include "python/PyBridge.h"
 #include "logging/Exception.h"
-#include "model/MetaInfo.h"
-#include "model/PlayInfo.h"
-#include "model/Video.h"
+#include <nicomo/model/MetaInfo.h>
+#include <nicomo/model/PlayInfo.h>
+#include <nicomo/model/Video.h>
 #include "PluginOrganizer.h"
 #include "Saccubus.h"
 #include "draw/Renderer.h"
@@ -198,7 +198,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 	{ /* 新しいビデオの、XMLファイルやメタ情報・プレイ情報のパース */
 		std::multimap<std::string, std::string> arg(this->resolveOpts.begin(), this->resolveOpts.end());
 		arg.insert(std::pair<std::string, std::string>("video-id", videoId));
-		const model::Video* video = bridge->resolveResource(videoId, arg);
+		const Video* video = bridge->resolveResource(videoId, arg);
 		this->currentVideo = video;
 		this->log->i(TAG, "Context entered: %s", this->currentVideo->metaInfo()->title().c_str());
 	}
@@ -211,8 +211,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 				this->bridge,
 				this->currentVideo->playInfo()->replaceTable(),
 				this->renderer(),
-				this->pluginOrganizer
-				);
+				this->pluginOrganizer);
 		if(this->currentVideo->playInfo()->optional_thread() >= 0){
 			this->optionalThradLayer = new layer::ThreadLayer(
 					*log,
@@ -221,8 +220,7 @@ void Saccubus::onVideoChanged(const std::string& videoId)
 					this->bridge,
 					this->currentVideo->playInfo()->replaceTable(),
 					this->renderer(),
-					this->pluginOrganizer
-					);
+					this->pluginOrganizer);
 		}
 	}
 

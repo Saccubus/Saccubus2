@@ -24,6 +24,7 @@
 #include "./ScriptException.h"
 
 #include "PyBridgeImpl.h"
+#include <pythonrun.h>
 #include <frameobject.h>
 namespace saccubus {
 namespace python {
@@ -60,7 +61,7 @@ Session::Session(cinamo::Logger& log)
  */
 void Session::loadFile(const std::string& file)
 {
-	std::ifstream stream(file.c_str());
+	std::ifstream stream(file.c_str(), std::ios::binary | std::ios::in);
 	//ファイルのオープン
 	if(!stream){
 		log.e(TAG, "File \"%s\" not found.", file.c_str());

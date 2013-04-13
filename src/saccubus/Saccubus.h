@@ -20,7 +20,8 @@
 #include <map>
 #include <iostream>
 #include <memory>
-#include "util/ClassAccessor.h"
+#include <cinamo/ClassUtil.h>
+#include <nicomo/Model.h>
 #include "classdefs.h"
 #include "draw/Renderer.h"
 
@@ -47,8 +48,10 @@ public:
 	virtual void onSeek(const std::string& videoId, float vpos) = 0;
 };
 
+using namespace nicomo::model;
+
 class Saccubus {
-	DEF_ATTR_ACCESSOR(private, private, draw::Renderer*, renderer);
+	DEFINE_MEMBER(private, private, draw::Renderer*, renderer);
 private: /* option */
 	bool _tasEnabled;
 	std::string ngScript;
@@ -60,7 +63,7 @@ private:
 	std::string programPath;
 	std::multimap<std::string, std::string> resolveOpts;
 	std::string firstVideoId;
-	const model::Video* currentVideo;
+	const Video* currentVideo;
 private:
 	layer::ThreadLayer* mainThradLayer;
 	layer::ThreadLayer* optionalThradLayer;

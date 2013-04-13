@@ -20,15 +20,12 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <nicomo/Model.h>
 #include "../../TestCommon.h"
 #include "../../../src/saccubus/python/PyBridge.h"
-#include "../../../src/saccubus/model/Thread.h"
-#include "../../../src/saccubus/model/Video.h"
-using namespace saccubus::python;
-using namespace saccubus::model;
+using namespace nicomo::model;
 
 namespace saccubus{
-namespace test {
 namespace python {
 
 TEST(PyBridgeTest, InitTest)
@@ -60,4 +57,4 @@ TEST(PyBridgeTest, BasicFilterTest)
 	ASSERT_EQ(true, bridge.askCommentShouldBeIgnored(MATERIAL_DIR"test_filter.py", *com));
 }
 
-}}}
+}}

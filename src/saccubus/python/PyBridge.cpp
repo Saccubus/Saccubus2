@@ -18,12 +18,15 @@
 
 #include <map>
 #include <sstream>
+
 #include <cinamo/String.h>
-#include "../model/Video.h"
+
+#include <nicomo/model/Video.h>
+#include <nicomo/model/Comment.h>
+
 #include "PyBridge.h"
 #include "PyBridgeImpl.h"
 #include "ScriptException.h"
-#include "../model/Comment.h"
 
 namespace saccubus {
 namespace python {
@@ -34,14 +37,15 @@ PyBridge::PyBridge(cinamo::Logger& log)
 {
 }
 
-const model::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
+const nicomo::model::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
 {
+	using nicomo::model::Video;
 	std::unique_ptr<Session> session = impl->createSession();
 	std::multimap<std::string, std::string> callArgs(args.begin(), args.end());
 	callArgs.insert(std::pair<std::string, std::string>("video-id", video_id));
 	std::map<std::string, std::string> res = session->executeMethodDict("saccubus.resource.resolve", "fromNative", callArgs);
 	std::map<std::string, std::string>::const_iterator end = res.end();
-	model::Video* ctx = new model::Video(this->log);
+	Video* ctx = new Video(this->log);
 	if(res.find("video") == end){
 		throw ScriptException(__FILE__, __LINE__, "Resolve failed. There is no videofile.");
 	}
@@ -60,7 +64,7 @@ const model::Video* PyBridge::resolveResource(const std::string& video_id, const
 	return ctx;
 }
 
-bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const model::Comment& com)
+bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const nicomo::model::Comment& com)
 {
 	if(!(&filename) || filename.size() <= 0){
 		return false;

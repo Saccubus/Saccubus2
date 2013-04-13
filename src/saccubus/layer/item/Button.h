@@ -23,12 +23,12 @@ namespace layer {
 namespace item {
 
 class Button: public saccubus::layer::item::Comment {
-	DEF_ATTR_ACCESSOR(private, private, unsigned int, buttonColor);
-	DEF_ATTR_ACCESSOR(private, private, std::string, commes);
-	DEF_ATTR_ACCESSOR(private, private, std::string, commail);
-	DEF_ATTR_ACCESSOR(private, private, bool, comvisible);
-	DEF_ATTR_ACCESSOR(private, private, int, limit);
-	DEF_ATTR_ACCESSOR(private, private, bool, hidden);
+	DEFINE_MEMBER(private, private, unsigned int, buttonColor);
+	DEFINE_MEMBER(private, private, std::string, commes);
+	DEFINE_MEMBER(private, private, std::string, commail);
+	DEFINE_MEMBER(private, private, bool, comvisible);
+	DEFINE_MEMBER(private, private, int, limit);
+	DEFINE_MEMBER(private, private, bool, hidden);
 private:
 	int isClicked;
 private:
