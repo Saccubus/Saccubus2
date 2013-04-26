@@ -66,7 +66,7 @@ SACCUBUS_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'sacc
 SACCUBUS_SRC=Util.enum('src/saccubus')
 
 SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','saccubus_cli')
-SACCUBUS_CLI_SRC=Util.enum('src/entry_points/nekomata_cli')
+SACCUBUS_CLI_SRC=Util.enum('src/entry_points/saccubus_cli')
 
 SACCUBUS_TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'test')
 SACCUBUS_TEST_SRC=Util.enum('test')
