@@ -348,10 +348,10 @@ public:\
 class System
 {
 private:
-	class EventEntry{
+	class EventEntry final{
 	public:
 		EventEntry(float const from, float const to, Handler<object::LazyEvalObject> obj);
-		virtual ~EventEntry();
+		~EventEntry() = default;
 	private:
 		const float _from;
 		const float _to;
@@ -365,7 +365,7 @@ private:
 public:
 	logging::Logger& log;
 	explicit System(logging::Logger& log);
-	virtual ~System();
+	virtual ~System() = 0;
 private:
 	float _currentTime;
 public:

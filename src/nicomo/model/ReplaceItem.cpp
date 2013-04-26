@@ -30,19 +30,6 @@ ReplaceItem::ReplaceItem(const ReplaceItem& other)
 {
 
 }
-
-std::string ReplaceItem::from() const
-{
-	return from_;
-}
-std::string ReplaceItem::to() const
-{
-	return to_;
-}
-bool ReplaceItem::whole() const
-{
-	return whole_;
-}
 std::string ReplaceItem::replace(const std::string& target) const
 {
 	if(whole()){

@@ -109,7 +109,7 @@ void Object::includeBuitin()
 }
 
 void Object::eval(machine::Machine& machine){
-	machine.pushResult(Handler<Object>(this));
+	machine.pushResult(self());
 }
 
 void Object::mark(int color)
@@ -155,7 +155,7 @@ Handler<Object> Object::unshift(const Handler<Object> item)
 	}else{
 		objectList.insert(objectList.begin(), item.get());
 	}
-	return Handler<Object>(this);
+	return self();
 }
 Handler<Object> Object::push(const Handler<Object> item)
 {
@@ -164,7 +164,7 @@ Handler<Object> Object::push(const Handler<Object> item)
 	}else{
 		objectList.push_back(item.get());
 	}
-	return Handler<Object>(this);
+	return self();
 }
 Handler<Object> Object::shift()
 {
@@ -253,7 +253,7 @@ Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> i
 	}
 	objectMap.erase(name);
 	objectMap.insert(SlotMapPair(name, item.get()));
-	return Handler<Object>(this);
+	return this->self();
 }
 Handler<Object> Object::getSlot(const std::string& name){
 	SlotMapIterator it = objectMap.find(name);
@@ -263,7 +263,7 @@ Handler<Object> Object::getSlot(const std::string& name){
 	}else if(it == objectMap.end()){
 		return getHeap().newUndefinedObject();
 	}else{
-		return Handler<Object>(it->second);
+		return Handler<Object>::__internal__fromRawPointerWithoutCheck(it->second);
 	}
 }
 

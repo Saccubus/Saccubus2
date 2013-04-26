@@ -37,9 +37,6 @@ System::EventEntry::EventEntry(float const from, float const to, Handler<object:
 
 }
 
-System::EventEntry::~EventEntry()
-{
-}
 void System::EventEntry::eval(){
 	if(_obj->has("then")){
 		_obj->forceEval("then");

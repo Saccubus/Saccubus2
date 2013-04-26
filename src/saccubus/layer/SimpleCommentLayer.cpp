@@ -35,10 +35,6 @@ SimpleCommentLayer::SimpleCommentLayer(cinamo::Logger& log, const std::map<std::
 {
 }
 
-SimpleCommentLayer::~SimpleCommentLayer()
-{
-}
-
 void SimpleCommentLayer::deploy(std::shared_ptr<saccubus::draw::Context> ctx, const float vpos, std::shared_ptr<Slot> slot)
 {
 	slot->width(slot->comment()->width(ctx));

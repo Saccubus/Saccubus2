@@ -28,13 +28,13 @@
 namespace saccubus {
 namespace layer {
 
-class ScriptLayer: public Layer {
+class ScriptLayer final: public Layer {
 	DEFINE_MEMBER(private, private, NekomataSystem*, nekoSystem);
 private:
 	void resolvePos(std::shared_ptr<saccubus::draw::Context> ctx, item::NekoItem* nekoItem, float screenWidth, float screenHeight, float* x, float* y);
 public:
 	ScriptLayer(cinamo::Logger& log, NekomataSystem* nekoSystem);
-	virtual ~ScriptLayer();
+	virtual ~ScriptLayer() = default;
 	/******************************************************************************************************************
 	 * レイヤ
 	 ******************************************************************************************************************/

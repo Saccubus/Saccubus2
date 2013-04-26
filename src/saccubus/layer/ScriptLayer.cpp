@@ -33,15 +33,11 @@ using nekomata::system::System;
 
 ScriptLayer::ScriptLayer(cinamo::Logger& log, NekomataSystem* nekoSystem)
 :Layer(log)
+,nekoSystem_(nullptr)
 {
 	this->nekoSystem(nekoSystem);
 
 }
-
-ScriptLayer::~ScriptLayer() {
-}
-
-
 
 /******************************************************************************************************************
  * レイヤ

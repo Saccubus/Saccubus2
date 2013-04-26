@@ -77,7 +77,7 @@ ObjectHeap::~ObjectHeap()
 
 Handler<SystemObject> ObjectHeap::getSystemObject()
 {
-	return Handler<SystemObject>(&systemObject);
+	return Handler<SystemObject>::__internal__fromRawPointerWithoutCheck(&systemObject);
 }
 
 Handler<LabelObject> ObjectHeap::newLabelObject(Handler<system::Label> label)
@@ -166,9 +166,9 @@ Handler<StringObject> ObjectHeap::newStringObject(const std::string & str)
 Handler<BooleanObject> ObjectHeap::newBooleanObject(const bool val)
 {
 	if(val){
-		return Handler<BooleanObject>(&trueObject);
+		return Handler<BooleanObject>::__internal__fromRawPointerWithoutCheck(&trueObject);
 	}else{
-		return Handler<BooleanObject>(&falseObject);
+		return Handler<BooleanObject>::__internal__fromRawPointerWithoutCheck(&falseObject);
 	}
 }
 
@@ -183,7 +183,7 @@ Handler<NumericObject> ObjectHeap::newNumericObject(const double num)
 
 Handler<UndefinedObject> ObjectHeap::newUndefinedObject()
 {
-	return Handler<UndefinedObject>(&undefinedObject);
+	return Handler<UndefinedObject>::__internal__fromRawPointerWithoutCheck(&undefinedObject);
 }
 
 Handler<LazyEvalObject> ObjectHeap::newLazyEvalObject(machine::Machine& machine, const tree::ObjectNode *objNode)

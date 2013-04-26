@@ -30,12 +30,13 @@ class PlayInfo;
 class Thread;
 
 class Video {
+private:
+	cinamo::Logger& log;
 	DEFINE_MEMBER(public, private, std::string, videofile);
 	DEFINE_MEMBER(public, private, const MetaInfo*, metaInfo);
 	DEFINE_MEMBER(public, private, const PlayInfo*, playInfo);
-	std::map<unsigned long long, const Thread*> threadList;
 private:
-	cinamo::Logger& log;
+	std::map<unsigned long long, const Thread*> threadList;
 public:
 	Video(cinamo::Logger& log);
 	virtual ~Video();

@@ -29,6 +29,9 @@ const static std::string TAG("VideoContext");
 
 Video::Video(cinamo::Logger& log)
 :log(log)
+,videofile_()
+,metaInfo_(nullptr)
+,playInfo_(nullptr)
 {
 	this->metaInfo(0);
 	this->playInfo(0);
@@ -37,14 +40,16 @@ Video::Video(cinamo::Logger& log)
 Video::~Video() {
 	if(this->metaInfo()){
 		delete this->metaInfo();
+		metaInfo(nullptr);
 	}
 	if(this->playInfo()){
 		delete this->playInfo();
+		playInfo(nullptr);
 	}
 	for(std::map<unsigned long long, const Thread*>::const_iterator it = threadList.begin(); it != threadList.end();++it){
 		delete it->second;
 	}
-	threadList.clear();
+	decltype(threadList)().swap(threadList);
 }
 
 void Video::initVideoFile(const std::string& videofile)
@@ -63,7 +68,8 @@ void Video::initMetaInfo(const std::string& metafile)
 void Video::initThread(std::vector<std::string>& threads)
 {
 	for(std::vector<std::string>::const_iterator it=threads.begin(); it != threads.end(); ++it){
-		Thread* th = new Thread(this->log, *it);
+		std::string const& th__ = *it;
+		Thread* th = new Thread(this->log, th__);
 		this->threadList.insert(std::pair<unsigned long long, const Thread*>(th->thread(), th));
 	}
 }

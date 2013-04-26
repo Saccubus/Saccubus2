@@ -25,7 +25,7 @@
 namespace saccubus {
 namespace layer {
 
-class SimpleCommentLayer: public saccubus::layer::CommentLayer {
+class SimpleCommentLayer final: public saccubus::layer::CommentLayer {
 private:
 	class Slot{
 		DEFINE_MEMBER(public, public, int, y);
@@ -59,7 +59,7 @@ private:
 	typedef std::vector<std::shared_ptr<Slot> >::const_iterator CommentConstIterator;
 public:
 	SimpleCommentLayer(cinamo::Logger& log, const std::map<std::string, std::string> & config, layer::ThreadLayer* thread, bool isForked);
-	virtual ~SimpleCommentLayer();
+	virtual ~SimpleCommentLayer() = default;
 	float last;
 public:
 	virtual void draw(std::shared_ptr<saccubus::draw::Context> ctx, float vpos);

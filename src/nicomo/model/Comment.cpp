@@ -32,7 +32,21 @@ namespace model {
 
 static std::string TAG("Comment");
 
-Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem) {
+Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem)
+:thread_(0LLU)
+,no_(0LLU)
+,vpos_(-1)
+,date_(0LLU)
+,deleted_(0LLU)
+,score_(0)
+,user_id_("")
+,message_("")
+,mail_("")
+,anonymity_(false)
+,leaf_(false)
+,premium_(false)
+,fork_(false)
+{
 	cinamo::xml::parseAttr("thread", this->thread_, (unsigned long long)0, elem);
 	cinamo::xml::parseAttr("no", this->no_, (unsigned long long)0, elem);
 	cinamo::xml::parseAttr("vpos",this->vpos_, (float)0/100, elem);
@@ -50,7 +64,7 @@ Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem) {
 	PARSE_BOOL_INT("leaf", leaf);
 	PARSE_BOOL_INT("fork", fork);
 	cinamo::xml::parseAttr("mail", this->mail_, std::string(""), elem);
-	cinamo::xml::parseAttr("message", this->message_, std::string(""), elem);
+	this->message ( elem->GetText() ? elem->GetText() : "" );
 
 	if(cinamo::startsWith(this->message(), "/")){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->message().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
@@ -85,8 +99,8 @@ Comment::Comment()
 ,deleted_(0LLU)
 ,score_(0)
 ,user_id_("")
-,mail_("")
 ,message_("")
+,mail_("")
 ,anonymity_(false)
 ,leaf_(false)
 ,premium_(false)

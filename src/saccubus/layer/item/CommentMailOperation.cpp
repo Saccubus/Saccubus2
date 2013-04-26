@@ -191,82 +191,81 @@ bool Comment::MailOperation::execute(const std::string& command, Comment* commen
 	return false;
 }
 
-using namespace std;
-using namespace std::placeholders;
+using std::bind;
 using saccubus::layer::item::Comment;
 
 const struct Comment::MailOperation Comment::MailOperation::Instance[] = {
 		/* カラーコード */
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "white",          Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xFFFFFF, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "red",            Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xFF0000, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "pink",           Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xFF8080, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "orange",         Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xFFC000, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "yellow",         Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xFFFF00, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "green",          Comment::MailOperation::Normal , bind(color_func, _1, _2, 0x00FF00, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "cyan",           Comment::MailOperation::Normal , bind(color_func, _1, _2, 0x00FFFF, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "blue",           Comment::MailOperation::Normal , bind(color_func, _1, _2, 0x0000FF, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "purple",         Comment::MailOperation::Normal , bind(color_func, _1, _2, 0xC000FF, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "black",          Comment::MailOperation::Normal , bind(color_func, _1, _2, 0x000000, 0xFFFFFF)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "white",          Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFFFFFF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "red",            Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFF0000, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "pink",           Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFF8080, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "orange",         Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFFC000, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "yellow",         Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFFFF00, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "green",          Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x00FF00, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "cyan",           Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x00FFFF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "blue",           Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x0000FF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "purple",         Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xC000FF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "black",          Comment::MailOperation::Normal , bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x000000, 0xFFFFFF)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "white2",         Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xCCCC99, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "niconicowhite",  Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xCCCC99, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "white2",         Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xCCCC99, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "niconicowhite",  Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xCCCC99, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "red2",           Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xCC0033, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "truered",        Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xCC0033, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "red2",           Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xCC0033, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "truered",        Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xCC0033, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "pink2",          Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xFF33CC, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "pink2",          Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFF33CC, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "orange2",        Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xFF6600, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "passionorange",  Comment::MailOperation::Premium, bind(color_func, _1, _2, 0xFF6600, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "orange2",        Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFF6600, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "passionorange",  Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0xFF6600, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "yello2",         Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x999900, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "madyellow",      Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x999900, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "yello2",         Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x999900, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "madyellow",      Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x999900, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "green2",         Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x00CC66, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "elementalgreen", Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x00CC66, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "green2",         Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x00CC66, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "elementalgreen", Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x00CC66, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "cyan2",          Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x00CCCC, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "cyan2",          Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x00CCCC, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "blue2",          Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x3399FF, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "marineblue",     Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x3399FF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "blue2",          Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x3399FF, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "marineblue",     Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x3399FF, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "purple2",        Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x6633CC, 0x000000)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "nobleviolet",    Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x6633CC, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "purple2",        Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x6633CC, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "nobleviolet",    Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x6633CC, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "black2",         Comment::MailOperation::Premium, bind(color_func, _1, _2, 0x666666, 0x000000)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "black2",         Comment::MailOperation::Premium, bind(color_func, std::placeholders::_1, std::placeholders::_2, 0x666666, 0x000000)),
 
-		Comment::MailOperation(Comment::MailOperation::StartsWith, "#",              Comment::MailOperation::Premium, bind(colorCode_func, _1, _2)),
+		Comment::MailOperation(Comment::MailOperation::StartsWith, "#",              Comment::MailOperation::Premium, bind(colorCode_func, std::placeholders::_1, std::placeholders::_2)),
 
 		/* 大きさ */
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "small",          Comment::MailOperation::Normal , bind(size_func, _1, _2, item::Comment::Small)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "big",            Comment::MailOperation::Normal , bind(size_func, _1, _2, item::Comment::Big)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "medium",         Comment::MailOperation::Normal , bind(size_func, _1, _2, item::Comment::Medium)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "small",          Comment::MailOperation::Normal , bind(size_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Small)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "big",            Comment::MailOperation::Normal , bind(size_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Big)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "medium",         Comment::MailOperation::Normal , bind(size_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Medium)),
 
 		/* 位置Y */
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "ue",             Comment::MailOperation::Normal , bind(placeY_func, _1, _2, item::Comment::Top)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "shita",          Comment::MailOperation::Normal , bind(placeY_func, _1, _2, item::Comment::Bottom)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "naka",           Comment::MailOperation::Normal , bind(placeY_func, _1, _2, item::Comment::Middle)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "ue",             Comment::MailOperation::Normal , bind(placeY_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Top)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "shita",          Comment::MailOperation::Normal , bind(placeY_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Bottom)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "naka",           Comment::MailOperation::Normal , bind(placeY_func, std::placeholders::_1, std::placeholders::_2, item::Comment::Middle)),
 
 		/* デバイス */
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "docomo",         Comment::MailOperation::Normal , bind(device_func, _1, _2, item::Comment::docomo)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "iPhone",         Comment::MailOperation::Normal , bind(device_func, _1, _2, item::Comment::iPhone)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "softbank",       Comment::MailOperation::Normal , bind(device_func, _1, _2, item::Comment::softbank)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "docomo",         Comment::MailOperation::Normal , bind(device_func, std::placeholders::_1, std::placeholders::_2, item::Comment::docomo)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "iPhone",         Comment::MailOperation::Normal , bind(device_func, std::placeholders::_1, std::placeholders::_2, item::Comment::iPhone)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "softbank",       Comment::MailOperation::Normal , bind(device_func, std::placeholders::_1, std::placeholders::_2, item::Comment::softbank)),
 
 		/* etc */
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "full",           Comment::MailOperation::Normal , bind(full_func, _1, _2)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "sage",           Comment::MailOperation::Normal , bind(sage_func, _1, _2)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "invisible",      Comment::MailOperation::Normal , bind(invisible_func, _1, _2)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "patissier",      Comment::MailOperation::Normal , bind(patissier_func, _1, _2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "full",           Comment::MailOperation::Normal , bind(full_func, std::placeholders::_1, std::placeholders::_2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "sage",           Comment::MailOperation::Normal , bind(sage_func, std::placeholders::_1, std::placeholders::_2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "invisible",      Comment::MailOperation::Normal , bind(invisible_func, std::placeholders::_1, std::placeholders::_2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "patissier",      Comment::MailOperation::Normal , bind(patissier_func, std::placeholders::_1, std::placeholders::_2)),
 
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "from_button",    Comment::MailOperation::Normal , bind(from_button_func, _1, _2)),
-		Comment::MailOperation(Comment::MailOperation::Exactly,    "is_button",      Comment::MailOperation::Normal , bind(is_button_func, _1, _2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "from_button",    Comment::MailOperation::Normal , bind(from_button_func, std::placeholders::_1, std::placeholders::_2)),
+		Comment::MailOperation(Comment::MailOperation::Exactly,    "is_button",      Comment::MailOperation::Normal , bind(is_button_func, std::placeholders::_1, std::placeholders::_2)),
 
 		/*
 		 * 投稿者コメントだけ！
 		 */
 
 		/* 表示時間 */
-		Comment::MailOperation(Comment::MailOperation::StartsWith, "@",              Comment::MailOperation::Forked , bind(timeCode_func, _1, _2)),
+		Comment::MailOperation(Comment::MailOperation::StartsWith, "@",              Comment::MailOperation::Forked , bind(timeCode_func, std::placeholders::_1, std::placeholders::_2)),
 };
 const size_t Comment::MailOperation::Count = sizeof(Instance)/sizeof(Comment::MailOperation);
 

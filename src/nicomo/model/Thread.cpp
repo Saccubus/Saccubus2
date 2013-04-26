@@ -27,14 +27,23 @@ namespace model {
 static std::string TAG("Thread");
 
 Thread::Thread(cinamo::Logger& log, tinyxml2::XMLElement* elm)
+:thread_(0xFFFFFFFF)
+,ticket_(0xFFFFFFFF)
+,server_time_(0xFFFFFFFF)
 {
 	read(log, elm);
 }
 Thread::Thread(cinamo::Logger& log, tinyxml2::XMLDocument* doc)
+:thread_(0xFFFFFFFF)
+,ticket_(0xFFFFFFFF)
+,server_time_(0xFFFFFFFF)
 {
 	read(log, doc->RootElement());
 }
 Thread::Thread(cinamo::Logger& log, const std::string& filename)
+:thread_(0xFFFFFFFF)
+,ticket_(0xFFFFFFFF)
+,server_time_(0xFFFFFFFF)
 {
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile(filename.c_str());
@@ -45,6 +54,7 @@ Thread::~Thread() {
 	for(std::vector<const Comment*>::iterator it = chatList.begin();it != chatList.end();++it){
 		delete *it;
 	}
+	decltype(chatList)().swap(chatList);
 }
 
 

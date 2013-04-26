@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <string>
+#include <cinamo/ClassUtil.h>
 
 namespace nicomo {
 namespace model {
@@ -28,17 +29,13 @@ namespace model {
  */
 class ReplaceItem final{
 private:
-	const std::string from_;
-	const std::string to_;
-	bool whole_;
+	DEFINE_MEMBER_CONST(public, std::string, from);
+	DEFINE_MEMBER_CONST(public, std::string, to);
+	DEFINE_MEMBER_CONST(public, bool, whole);
 public:
 	ReplaceItem(const std::string& from, const std::string& to, bool whole);
 	ReplaceItem(const ReplaceItem& other);
 	~ReplaceItem() = default;
-public:
-	std::string from() const;
-	std::string to() const;
-	bool whole() const;
 public:
 	std::string replace(const std::string& target) const;
 };

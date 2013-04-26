@@ -34,7 +34,7 @@ protected:
 	cinamo::Logger& log;
 public:
 	Layer(cinamo::Logger& log);
-	virtual ~Layer();
+	virtual ~Layer() = 0;
 public:
 	//wとhが指定されたサイズです。measuredWidthやmeasuredHeightにレイヤが必要とするサイズを指定してください。
 	virtual void measure(int const w, int const h, int* const measuredWidth, int* const measuredHeight);

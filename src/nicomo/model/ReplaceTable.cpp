@@ -43,7 +43,7 @@ ReplaceTable::~ReplaceTable() {
 	for(std::vector<const ReplaceItem*>::const_iterator it = replaceList.begin(); it != replaceList.end(); ++it){
 		delete *it;
 	}
-	replaceList.clear();
+	decltype(this->replaceList)().swap(this->replaceList);
 }
 
 std::string ReplaceTable::replace(const std::string& target) const
