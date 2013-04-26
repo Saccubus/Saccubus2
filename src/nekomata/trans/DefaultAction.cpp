@@ -22,8 +22,8 @@
 namespace nekomata {
 namespace trans {
 
-DefaultAction::DefaultAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens)
-:NicosAction(vpos, mail, tokens)
+DefaultAction::DefaultAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens)
+:NicosAction(com, tokens)
 ,_message()
 ,_commsg()
 ,_local(true)
@@ -49,8 +49,8 @@ std::string DefaultAction::write()
 	std::stringstream ss;
 	ss << "addDefault(";
 	ss << "message:" << escape(_message) << ",";
-	ss << "mail:" << escape(mail) << ",";
-	ss << "vpos:" << vpos << ",";
+	ss << "mail:" << escape(com().mail()) << ",";
+	ss << "vpos:" << com().vpos() << ",";
 	ss << "commes:" << escape(_commsg) << ",";
 	ss << "commail:" << escape(_commail) << ",";
 	ss << "comvisible:" << escape(_local) << ",";

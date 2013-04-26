@@ -24,7 +24,7 @@ namespace trans {
 
 class DefaultAction: public nekomata::trans::NicosAction {
 public:
-	DefaultAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens);
+	DefaultAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~DefaultAction();
 protected:
 	virtual void read();

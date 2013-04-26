@@ -82,11 +82,11 @@ public:
 };
 
 #define DEF_ACTION(cmd, shouldBeOwner, shouldBePremium, clazz)\
-	if((front == cmd) && (shouldBeOwner ? isOwner : true) && (shouldBePremium ? isPremium : true) ) return clazz(vpos, mail, tokens).trans();
+	if((front == cmd) && (shouldBeOwner ? com.fork() : true) && (shouldBePremium ? com.premium() : true) ) return clazz(com, tokens).trans();
 
-std::string toNiwango(const float vpos, const std::string& mail, const std::string& message, bool isOwner, bool isPremium)
+std::string toNiwango(nicomo::model::Comment const& com)
 {
-	std::vector<std::string> tokens = Impl(message).parse();
+	std::vector<std::string> tokens = Impl(com.message()).parse();
 	if(tokens.size() > 0){
 		std::string const front ( tokens.front() );
 		tokens.erase(tokens.begin());

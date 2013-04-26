@@ -71,8 +71,8 @@ class FailException final : public std::exception
 
 };
 
-NicosAction::NicosAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens)
-:vpos(vpos), mail(mail), msgIndex(0), msgTokens(tokens)
+NicosAction::NicosAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens)
+:com_(com), msgIndex(0), msgTokens(tokens)
 {
 }
 

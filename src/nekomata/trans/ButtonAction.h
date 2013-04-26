@@ -24,7 +24,7 @@ namespace trans {
 
 class ButtonAction: public nekomata::trans::NicosAction {
 public:
-	ButtonAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens);
+	ButtonAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~ButtonAction();
 protected:
 	virtual void read();

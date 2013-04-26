@@ -19,6 +19,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cinamo/ClassUtil.h>
+#include <nicomo/model/Comment.h>
 
 namespace nekomata {
 namespace trans {
@@ -27,19 +29,14 @@ std::string escape(const std::string& str);
 std::string escape(bool val);
 
 class NicosAction {
-protected:
-	const float vpos;
-	const std::string mail;
-private:
-	NicosAction();
-	NicosAction(const NicosAction& other);
-	NicosAction& operator = (const NicosAction& other);
+	DISABLE_COPY_AND_ASSIGN(NicosAction);
+	DEFINE_MEMBER_REF(public, nicomo::model::Comment const, com)
 private:
 	std::size_t msgIndex;
 	std::vector<std::string> msgTokens;
 	std::string nextToken(bool require);
 public:
-	NicosAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens);
+	NicosAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~NicosAction() = 0;
 public:
 	std::string trans();

@@ -68,11 +68,10 @@ Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem)
 	cinamo::xml::parseAttr("mail", this->mail_, std::string(""), elem);
 	this->message ( elem->GetText() ? elem->GetText() : "" );
 
-	if(cinamo::startsWith(this->message(), "/")){ /* スクリプト */
+	if(cinamo::startsWith(this->message(), std::string(u8"/"))){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->message().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
-	} else if(cinamo::startsWith(this->message(), "＠")){
-		std::string translated = nekomata::trans::toNiwango(this->vpos(),this->mail(), this->message(), this->fork(), this->premium());
-		this->node(nekomata::parser::Parser::fromString(translated, "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
+	} else if(cinamo::startsWith(this->message(), std::string(u8"＠"))){
+		this->node(nekomata::parser::Parser::fromString(nekomata::trans::toNiwango(*this), "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
 	}
 
 	if(log.t()){

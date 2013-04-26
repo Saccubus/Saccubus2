@@ -18,10 +18,11 @@
 
 #pragma once
 #include <string>
+#include <nicomo/model/Comment.h>
 
 namespace nekomata {
 namespace trans {
 
-std::string toNiwango(const float vpos, const std::string& mail, const std::string& message, bool isOwner, bool isPremium);
+std::string toNiwango(nicomo::model::Comment const& com);
 
 }}
