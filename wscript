@@ -138,7 +138,7 @@ def build(bld):
 		includes=[NEKOMATA_INC]
 		)
 	bld(
-		features = 'cxx cprogram',
+		features = 'cxx cxxprogram',
 		source = SACCUBUS_CLI_SRC,
 		target = 'SaccubusCLI',
 		includes=[NEKOMATA_INC],
@@ -155,7 +155,7 @@ def build(bld):
 		defs = '__miscellaneous__/adapter.def'
 		)
 	bld(
-		features = 'cxx cprogram',
+		features = 'cxx cxxprogram',
 		source = SACCUBUS_TEST_SRC,
 		target = 'SaccubusTest',
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
