@@ -29,7 +29,7 @@ enum Token {
 	Number=1
 };
 
-class Nicos {
+class Nicos final{
 public:
 	Nicos();
 	~Nicos() = default;

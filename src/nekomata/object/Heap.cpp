@@ -132,7 +132,7 @@ Handler<Object> ObjectHeap::newArrayObject(const size_t argc, ...)
 	va_list list;
 	va_start(list, argc);
 	for(size_t i=0;i<argc;++i){
-		obj->push(Handler<Object>(va_arg(list, Object*)));
+		obj->push(Handler<Object>::__internal__fromRawPointerWithoutCheck(va_arg(list, Object*)));
 	}
 	va_end(list);
 

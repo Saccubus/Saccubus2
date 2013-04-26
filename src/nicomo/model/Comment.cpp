@@ -59,10 +59,12 @@ Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem)
 		int anon;\
 		cinamo::xml::parseAttr(NAME, anon, 0, elem);\
 		this->TO(anon);\
-	} while(0);
+	} while(false);
 	PARSE_BOOL_INT("anonymity", anonymity);
 	PARSE_BOOL_INT("leaf", leaf);
 	PARSE_BOOL_INT("fork", fork);
+	PARSE_BOOL_INT("premium", premium);
+#undef PARSE_BOOL_INT
 	cinamo::xml::parseAttr("mail", this->mail_, std::string(""), elem);
 	this->message ( elem->GetText() ? elem->GetText() : "" );
 

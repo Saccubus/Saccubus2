@@ -58,7 +58,7 @@ std::string escape(bool val)
  * 正常なのに例外で制御？と思われると思いますが、
  * ANTLRの作者が言ってたので間違いないと思います（敬語）
  */
-class FinishException : public std::exception
+class FinishException final : public std::exception
 {
 
 };
@@ -66,7 +66,7 @@ class FinishException : public std::exception
  * 制御のための例外。
  * 正常なニコスクリプトの構文でないなどで失敗した事をしめす
  */
-class FailException : public std::exception
+class FailException final : public std::exception
 {
 
 };

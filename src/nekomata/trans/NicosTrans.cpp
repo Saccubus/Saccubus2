@@ -25,6 +25,8 @@
 #include "NicosMessageLexer.h"
 #include "NicosMessageParser.h"
 
+#include <iostream>
+
 namespace nekomata {
 namespace trans {
 
@@ -80,16 +82,16 @@ public:
 };
 
 #define DEF_ACTION(cmd, shouldBeOwner, shouldBePremium, clazz)\
-	if(front==cmd && (shouldBeOwner ? isOwner : true) && (shouldBePremium ? isPremium : true) ) return clazz(vpos, mail, tokens).trans();
+	if((front == cmd) && (shouldBeOwner ? isOwner : true) && (shouldBePremium ? isPremium : true) ) return clazz(vpos, mail, tokens).trans();
 
 std::string toNiwango(const float vpos, const std::string& mail, const std::string& message, bool isOwner, bool isPremium)
 {
 	std::vector<std::string> tokens = Impl(message).parse();
 	if(tokens.size() > 0){
-		std::string front = tokens.front();
+		std::string const front ( tokens.front() );
 		tokens.erase(tokens.begin());
-		DEF_ACTION("＠ボタン", true, true, ButtonAction);
-		DEF_ACTION("＠デフォルト", false, false, DefaultAction);
+		DEF_ACTION(std::string(u8"＠ボタン"), true, true, ButtonAction);
+		DEF_ACTION(std::string(u8"＠デフォルト"), false, false, DefaultAction);
 	}
 	return "";
 }

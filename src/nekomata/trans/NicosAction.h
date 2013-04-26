@@ -40,7 +40,7 @@ private:
 	std::string nextToken(bool require);
 public:
 	NicosAction(const float vpos, const std::string& mail, const std::vector<std::string>& tokens);
-	virtual ~NicosAction();
+	virtual ~NicosAction() = 0;
 public:
 	std::string trans();
 protected:

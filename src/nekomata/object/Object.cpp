@@ -199,7 +199,8 @@ Handler<Object> Object::pop()
 Handler<Object> Object::index(size_t idx)
 {
 	if(Object::has(idx)){
-		return Handler<Object>(objectList.at(idx));
+		Object* const obj = objectList.at(idx);
+		return Handler<Object>::__internal__fromRawPointerWithoutCheck(obj);
 	}else{
 		return heap.newUndefinedObject();
 	}
@@ -245,11 +246,11 @@ Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> i
 {
 	if(frozen()){
 		log().w(TAG, 0, "\"setSlot\" to property %s called, but obj \"%s\" is frozen.", name.c_str(), toString().c_str());
-		return Handler<Object>(this);
+		return self();
 	}
 	if(specialMap.find(name) != specialMap.end()){
 		log().w(TAG, 0, "\"setSlot\" to property %s called, but this is special object.", name.c_str());
-		return Handler<Object>(this);
+		return self();
 	}
 	objectMap.erase(name);
 	objectMap.insert(SlotMapPair(name, item.get()));
@@ -259,7 +260,7 @@ Handler<Object> Object::getSlot(const std::string& name){
 	SlotMapIterator it = objectMap.find(name);
 	SlotMapIterator special = specialMap.find(name);
 	if(special != specialMap.end()){
-		return Handler<Object>(special->second);
+		return Handler<Object>::__internal__fromRawPointerWithoutCheck(special->second);
 	}else if(it == objectMap.end()){
 		return getHeap().newUndefinedObject();
 	}else{

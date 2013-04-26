@@ -61,17 +61,17 @@ void Machine::pushResult(Handler<object::Object> obj){
 	resultStack.push(obj.get());
 }
 Handler<object::Object> Machine::getArgument(){
-	return Handler<object::Object>(argStack.top());
+	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(argStack.top());
 }
 Handler<object::Object> Machine::getSelf(){
-	return Handler<object::Object>(selfStack.top());
+	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(selfStack.top());
 }
 Handler<object::SystemObject> Machine::getTopLevel(){
-	return Handler<object::SystemObject>(heap.getSystemObject());
+	return heap.getSystemObject();
 }
 Handler<object::Object> Machine::getLocal()
 {
-	return Handler<object::Object>(scopeStack.top());
+	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(scopeStack.top());
 }
 void Machine::enterLocal(Handler<object::Object> self, Handler<object::Object> local, Handler<object::Object> parent)
 {
@@ -126,7 +126,7 @@ Handler<object::Object> Machine::eval(const Node * node, const Handler<object::O
 	}
 	node->accept(*this);
 	argStack.pop();
-	return Handler<object::Object>(resultStack.pop());
+	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(resultStack.pop());
 }
 Handler<object::Object> Machine::send(const Handler<object::Object>& self, const std::string& message, const Handler<object::Object>& arg){
 	this->log.t(TAG, 0, "Sending %s on %s.",
@@ -146,7 +146,7 @@ Handler<object::Object> Machine::send(const Handler<object::Object>& self, const
 		self->getSlot(message)->eval(*this);
 	}
 	argStack.pop();
-	return Handler<object::Object>(resultStack.pop());
+	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(resultStack.pop());
 }
 
 void Machine::walkImpl(const BoolLiteralNode & node)
