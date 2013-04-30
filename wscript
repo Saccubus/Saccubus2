@@ -59,20 +59,20 @@ NEKOMATA_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'neko
 NEKOMATA_SRC=Util.enum('src/nekomata')
 NEKOMATA_INC=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'include')
 
-NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','nekomata_cli')
-NEKOMATA_CLI_SRC=Util.enum('src/entry_points/nekomata_cli')
+NEKOMATA_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entrypoint','nekomata')
+NEKOMATA_CLI_SRC=Util.enum('src/entrypoint/nekomata')
 
 SACCUBUS_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src', 'saccubus')
 SACCUBUS_SRC=Util.enum('src/saccubus')
 
-SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','saccubus_cli')
-SACCUBUS_CLI_SRC=Util.enum('src/entry_points/saccubus_cli')
+SACCUBUS_CLI_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entrypoint','saccubus')
+SACCUBUS_CLI_SRC=Util.enum('src/entrypoint/saccubus')
 
 SACCUBUS_TEST_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'test')
 SACCUBUS_TEST_SRC=Util.enum('test')
 
-SACCUBUS_FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entry_points','ffmpeg')
-SACCUBUS_FFMPEG_SRC=Util.enum('src/entry_points/ffmpeg')
+SACCUBUS_FFMPEG_DIR=os.path.join(os.path.abspath(os.path.dirname(srcdir)), 'src','entrypoint','ffmpeg')
+SACCUBUS_FFMPEG_SRC=Util.enum('src/entrypoint/ffmpeg')
 
 def options(opt):
 	opt.add_option('--coverage', action='store_true', default=False, help='Enabling coverage measuring.')
