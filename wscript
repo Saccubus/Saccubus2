@@ -101,15 +101,14 @@ def configure(conf):
 
 def configureLibrary(conf):
 	conf.load('compiler_c compiler_cxx')
-	conf.check_cfg(package='icu-uc icu-i18n', uselib_store='ICU', mandatory=True, args='--cflags --libs')
-	conf.check_cfg(package='cairo', uselib_store='CAIRO', mandatory=True, args='--cflags --libs')
-	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs')
-	conf.check_cfg(package='fontconfig', uselib_store='FONTCONFIG', mandatory=True, args='--cflags --libs')
-	conf.check_cfg(package='sdl2', uselib_store='SDL2', mandatory=True, args='--cflags --libs')
+	conf.check_cinamo()
+	conf.check_cfg(package='cairo', uselib_store='CAIRO', mandatory=True, args='--cflags --libs --static')
+	conf.check_cfg(package='freetype2', uselib_store='FREETYPE2', mandatory=True, args='--cflags --libs --static')
+	conf.check_cfg(package='fontconfig', uselib_store='FONTCONFIG', mandatory=True, args='--cflags --libs --static')
+	conf.check_cfg(package='sdl2', uselib_store='SDL2', mandatory=True, args='--cflags --libs --static')
 	checkPython(conf)
 	conf.check(features='cxx cxxprogram', lib=['gtest', 'gtest_main', 'pthread'], cflags=['-Wall'], uselib_store='GTEST', mandatory=False)
 	conf.check(features='cxx cxxprogram', lib=['antlr3c'], cflags=['-Wall'], uselib_store='ANTLR')
-	conf.check_cinamo()
 
 def build(bld):
 	if not bld.variant:
@@ -119,14 +118,14 @@ def build(bld):
 		features = 'cxx cxxstlib',
 		source = NEKOMATA_SRC+NICOMO_SRC,
 		target = 'nekomata',
-		use=['CINAMO', 'PPROF', 'ICU','ANTLR'],
+		use=['CINAMO', 'PPROF', 'ANTLR'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
 		features = 'cxx cxxprogram',
 		source = NEKOMATA_CLI_SRC,
 		target = 'NekomataCLI',
-		use=['CINAMO', 'PPROF', 'ICU','ANTLR', 'nekomata'],
+		use=['PPROF', 'nekomata'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
@@ -134,7 +133,7 @@ def build(bld):
 		features = 'cxx cxxstlib',
 		source = SACCUBUS_SRC,
 		target = 'saccubus',
-		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata'],
+		use=['nekomata', 'CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
@@ -143,7 +142,7 @@ def build(bld):
 		target = 'SaccubusCLI',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['saccubus', 'nekomata', 'CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2'],
 		)
 	bld(
 		features = 'cxx cxxshlib',
@@ -151,7 +150,7 @@ def build(bld):
 		target = 'Saccubus',
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'nekomata', 'saccubus'],
+		use=['saccubus', 'nekomata', 'CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2'],
 		defs = '__miscellaneous__/adapter.def'
 		)
 	bld(
@@ -161,7 +160,7 @@ def build(bld):
 		env = ( bld.all_envs["coverage"] if ("coverage" in bld.all_envs) else bld.env ),
 		includes=[NEKOMATA_INC],
 		use_local=['nekomata'],
-		use=['CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'PYTHON', 'GTEST', 'nekomata', 'saccubus']
+		use=['saccubus', 'nekomata', 'CINAMO', 'PPROF', 'CAIRO', 'FREETYPE2', 'FONTCONFIG', 'SDL2', 'GTEST']
 		)
 	bld(
 		features = "subst",
