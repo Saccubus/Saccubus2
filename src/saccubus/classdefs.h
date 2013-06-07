@@ -1,28 +1,17 @@
+/* coding: utf-8 */
 /**
  * Saccubus
- * Copyright (C) 2012 psi
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright 2007-2013, PSI
  */
 
 #pragma once
 
 /**
- * *ã¡ã‚…ã†ã„ï¼*
- * ã“ã®ã‚¯ãƒ©ã‚¹ä¸€è¦§ã«ã¯ã€æŠ½è±¡çš„ãªã‚¯ãƒ©ã‚¹ï¼Šã®ã¿ï¼Šè¨˜è¿°ã™ã‚‹ã€‚
- * å®Ÿéš›ã®æç”»ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚„ã€é…ç½®ãƒ­ã‚¸ãƒƒã‚¯ã«ä¾å­˜ã—ãŸã‚¯ãƒ©ã‚¹ã¯ã€PluginOrganizerãªã©ã‚’ç”¨ã„ã¦
- * ä¾å­˜æ€§æ³¨å…¥ã™ã‚‹ã“ã¨ã€‚
+ * *‚¿‚ã‚¤‚¢I*
+ * ‚±‚ÌƒNƒ‰ƒXˆê——‚É‚ÍA’ŠÛ“I‚ÈƒNƒ‰ƒX–‚Ì‚İ–‹Lq‚·‚éB
+ * ÀÛ‚Ì•`‰æƒ‰ƒCƒuƒ‰ƒŠ‚âA”z’uƒƒWƒbƒN‚ÉˆË‘¶‚µ‚½ƒNƒ‰ƒX‚ÍAPluginOrganizer‚È‚Ç‚ğ—p‚¢‚Ä
+ * ˆË‘¶«’“ü‚·‚é‚±‚ÆB
  */
 namespace saccubus{
 class Saccubus;
