@@ -4,7 +4,7 @@ DIRNAME=$(cd $(dirname $0);pwd)
 ANTLR=${DIRNAME}/external/antlr/antlr-3.4-complete.jar
 PARSER_SRC=${DIRNAME}/src/nekomata/parser
 PARSER_OUT=${PARSER_SRC}
-TRANS_SRC=${DIRNAME}/src/nekomata/trans
+TRANS_SRC=${DIRNAME}/src/saccubus/nicos
 TRANS_OUT=${TRANS_SRC}
 
 if [ "$MSYSTEM" = "MINGW32" ] ; then

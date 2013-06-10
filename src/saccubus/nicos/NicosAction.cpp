@@ -10,8 +10,8 @@
 #include <cstdlib>
 #include <sstream>
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
 /**
  * ニワン語の一部として使えるようにエスケープする
@@ -41,6 +41,15 @@ std::string escape(bool val)
 	return val ? "true" : "false";
 }
 
+std::string escape(int val)
+{
+	return cinamo::format("%d", val);
+}
+std::string escape(float val)
+{
+	return cinamo::format("%f", val);
+}
+
 /**
  * 制御のための例外。
  * 正常に成功して大域脱出するために使う。
@@ -61,8 +70,15 @@ class FailException final : public std::exception
 };
 
 NicosAction::NicosAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens)
-:com_(com), msgIndex(0), msgTokens(tokens)
+:com_(com)
+,msgIndex_(0)
+,msgTokens_(tokens)
+// FIXME: saccubus::layer::Commentでもほぼ同様の処理が入っているので何とかしたいところ…
+,mailTokens_(cinamo::splitSpace(com.mail()))
 {
+	for( std::string& tk : mailTokens_ ){
+		tk = cinamo::trim(tk);
+	}
 }
 
 NicosAction::~NicosAction() {
@@ -83,32 +99,36 @@ std::string NicosAction::trans()
 	return write();
 }
 
+bool NicosAction::hasMail(std::string const& token) const
+{
+	for(std::string const& tok : mailTokens_) {
+		if(tok == token) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool NicosAction::visilibity(bool require)
 {
 	std::string token = nextToken(require);
-	if(token == "表示"){
-		return true;
-	}else{
-		return false;
-	}
+	return token == "表示" ? true : false;
 }
 int NicosAction::times(bool require)
 {
-	std::string token = nextToken(require);
-	int ret = std::strtol(token.c_str(), 0, 10);
-	return ret;
+	return std::strtol(nextToken(require).c_str(), 0, 10);
 }
 
 std::string NicosAction::nextToken(bool require)
 {
-	if(this->msgIndex >= this->msgTokens.size()){
+	if(this->msgIndex_ >= this->msgTokens_.size()){
 		if(require){
 			throw FailException();
 		}else{
 			throw FinishException();
 		}
 	}
-	return this->msgTokens.at(this->msgIndex++);
+	return this->msgTokens_.at(this->msgIndex_++);
 }
 
 std::string NicosAction::string(bool require)

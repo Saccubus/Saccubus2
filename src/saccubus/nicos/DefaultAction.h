@@ -8,10 +8,10 @@
 #pragma once
 #include "NicosAction.h"
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
-class DefaultAction: public nekomata::trans::NicosAction {
+class DefaultAction: public NicosAction {
 public:
 	DefaultAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~DefaultAction();
@@ -19,11 +19,11 @@ protected:
 	virtual void read();
 	virtual std::string write();
 private:
-	std::string _message;
-	std::string _commsg;
-	bool _local;
-	std::string _commail;
-	int _times;
+	std::string message_;
+	std::string commsg_;
+	bool local_;
+	std::string commail_;
+	int times_;
 };
 
 }}

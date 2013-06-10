@@ -11,18 +11,21 @@
 #include <cinamo/ClassUtil.h>
 #include <nicomo/model/Comment.h>
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
 std::string escape(const std::string& str);
 std::string escape(bool val);
+std::string escape(int val);
+std::string escape(float val);
 
 class NicosAction {
 	DISABLE_COPY_AND_ASSIGN(NicosAction);
 	DEFINE_MEMBER_REF(public, nicomo::model::Comment const, com)
 private:
-	std::size_t msgIndex;
-	std::vector<std::string> msgTokens;
+	std::size_t msgIndex_;
+	std::vector<std::string> msgTokens_;
+	std::vector<std::string> mailTokens_;
 	std::string nextToken(bool require);
 public:
 	NicosAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
@@ -37,6 +40,7 @@ public:
 	std::string string(bool require=false);
 	bool visilibity(bool require=false);
 	int times(bool require=false);
+	bool hasMail(std::string const& token) const;
 };
 
 }}

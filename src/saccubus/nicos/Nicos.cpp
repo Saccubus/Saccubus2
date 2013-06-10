@@ -8,8 +8,8 @@
 #include "Nicos.h"
 #include <cinamo/functional/Parser.h>
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
 Nicos::Nicos()
 {

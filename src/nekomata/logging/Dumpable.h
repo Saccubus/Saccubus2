@@ -1,9 +1,10 @@
 /* coding: utf-8 */
 /**
- * Saccubus
+ * Nekomata
  *
- * Copyright 2007-2013, PSI
+ * Copyright 2012-2013, PSI
  */
+
 #pragma once
 #include <nekomata/classdefs.h>
 

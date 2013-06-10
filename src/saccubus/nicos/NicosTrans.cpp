@@ -16,8 +16,8 @@
 
 #include <iostream>
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
 class Impl
 {

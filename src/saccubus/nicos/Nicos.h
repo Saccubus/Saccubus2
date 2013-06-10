@@ -11,8 +11,8 @@
 #include <vector>
 #include <utility>
 
-namespace nekomata {
-namespace trans {
+namespace saccubus {
+namespace nicos {
 
 enum Token {
 	String=0,

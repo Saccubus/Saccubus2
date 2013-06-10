@@ -1,0 +1,8 @@
+DoubleElement=4
+DoubleString=5
+Escape=6
+JapString=7
+NoSpacedString=8
+SingleElement=9
+SingleString=10
+WS=11
