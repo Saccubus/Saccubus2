@@ -40,6 +40,7 @@ class MainWindow(tkinter.Tk):
 		self.title("Saccubus");
 		self.configure(menu=self.initMenu(self))
 		
+		
 		mainFrame = tkinter.ttk.Frame(self);
 		videoAddPanel = self.initVideoAddPanel(self)
 		statusbar = self.initStatusBar(self);

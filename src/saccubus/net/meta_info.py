@@ -26,12 +26,12 @@ import os;
 
 __all__=['downloadMetaInfo']
 
-'''
-動画のメタ情報を取得し、ファイルを書き出す。
-タイトルなどが含まれる
-ファイル名と、パースした結果のタプルを返します
-'''
 def downloadMetaInfo(video_id, resDir):
+	'''
+	動画のメタ情報を取得し、ファイルを書き出す。
+	タイトルなどが含まれる
+	ファイル名と、パースした結果のタプルを返します
+	'''
 	fname=os.path.join(resDir, rule.formatMetaInfoFilename(video_id))
 	if os.path.exists(fname):
 		dom = xml.dom.minidom.parse(fname).documentElement
@@ -44,10 +44,10 @@ def downloadMetaInfo(video_id, resDir):
 	resp.close();
 	return fname, parseMetaInfo(dom, video_id)
 
-'''
-DOMを解析する
-'''
 def parseMetaInfo(dom, video_id):
+	'''
+	DOMを解析する
+	'''
 	if dom.attributes['status'].value != 'ok':
 		raise error.LoadError("Video {0} not found", video_id);
 	thumb_node = dom.getElementsByTagName('thumb')[0];

@@ -17,6 +17,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import sys;
 import tkinter.font;
 import saccubus.gui.dialog;
 
@@ -43,10 +44,12 @@ class VersionInfoWindow(saccubus.gui.dialog.Dialog):
 		authorLabel = tkinter.Label(panel, text="""Developed by
 PSI 2007〜
 orz 2011〜""");
+		pyverLabel = tkinter.Label(panel, text="Python: \n"+sys.version.replace(" [", "\n["))
 		panel.columnconfigure(0, weight=1)
 		titleLabel.grid(column=0, row=0, sticky=tkinter.W+tkinter.E);
 		versionLabel.grid(column=0, row=1, sticky=tkinter.W+tkinter.E);
 		authorLabel.grid(column=0, row=2, sticky=tkinter.W+tkinter.E);
+		pyverLabel.grid(column=0, row=3, sticky=tkinter.W+tkinter.E);
 		return panel;
 	
 	def initExitPanel(self, master):

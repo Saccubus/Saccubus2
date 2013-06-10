@@ -41,6 +41,7 @@ class TaskRunner(threading.Thread):
 			val['saccubus-opts'] = subprocess.list2cmdline(arg)
 			#FIXME: 動画情報だけ先に取得してしまう。見苦し。
 			try:
+				#FIXME: このとき、リソースフォルダがないとネットエラーなのにファイルエラーという悲惨なエラーになる、避けるべき
 				_, metainfo = meta_info.downloadMetaInfo(self.task.videoId, self.task.conf['sacc']['resolve-resource-path']);
 			except Exception as e:
 				raise Exception("ネットへの接続に失敗しました。", e);
@@ -57,7 +58,7 @@ class TaskRunner(threading.Thread):
 			elif os.name=='nt':
 				self.launchWin(cmdline)
 			else:
-				raise Exception("Unsupported platform!");
+				raise Exception("サポートしていないプラットフォーム：{}".format(os.name));
 		except BaseException as e:
 			self.task.onExecutingError(e)
 		finally:
