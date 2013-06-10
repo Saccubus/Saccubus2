@@ -72,6 +72,7 @@ public:
 	DEFINE_MEMBER(public , private  , enum PlaceY, placeY);
 	DEFINE_MEMBER(public , protected, unsigned int, color);
 	DEFINE_MEMBER(public , protected, unsigned int, shadowColor);
+	DEFINE_MEMBER(public, protected, std::shared_ptr<const nekomata::tree::Node>, node)
 private:
 	Comment();
 	Comment& operator = (const Comment& other);
@@ -115,6 +116,8 @@ public:
 private:
 	struct MailOperation;
 	struct NekomataReplaceOperation;
+public:
+	inline bool haveScript() const { return bool(this->node()); }
 };
 
 }}}

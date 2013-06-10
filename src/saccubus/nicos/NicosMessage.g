@@ -17,7 +17,7 @@ options {
 #include <string>
 #include <vector>
 #include <cinamo/String.h>
-#include "../parser/ParseUtil.h"
+#include "../../nekomata/parser/ParseUtil.h"
 using namespace nekomata::parser::util;
 using namespace nekomata::tree;
 }

@@ -51,16 +51,13 @@ ThreadLayer::ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& threa
 			if(bridge->askCommentShouldBeIgnored(this->ngScript, *obj)){
 				continue;
 			}
-			if(obj->haveScript()){
-				this->neko->queueMessage(std::shared_ptr<nekomata::system::Message>(new nekomata::system::Script(obj->vpos(), obj->node())));
+			std::shared_ptr<item::Comment> com(new item::Comment(commentFactory(), shapeFactory(), table, obj));
+			if(com->haveScript()){
+				this->neko->queueMessage(std::shared_ptr<nekomata::system::Message>(new nekomata::system::Script(obj->vpos(), com->node())));
 			}else if(obj->fork()){
-				this->forkedCommentLayer->queueComment(
-						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, obj))
-						);
+				this->forkedCommentLayer->queueComment(com);
 			}else{
-				this->mainCommentLayer->queueComment(
-						std::shared_ptr<item::Comment>(new item::Comment(commentFactory(), shapeFactory(), table, obj))
-						);
+				this->mainCommentLayer->queueComment(com);
 			}
 		}
 	}

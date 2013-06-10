@@ -13,7 +13,7 @@ namespace nicos {
 
 class ButtonAction: public NicosAction {
 public:
-	ButtonAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
+	ButtonAction(layer::item::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~ButtonAction();
 protected:
 	virtual void read();

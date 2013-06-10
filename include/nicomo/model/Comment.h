@@ -10,7 +10,6 @@
 #include <vector>
 #include <cinamo/Logger.h>
 #include <cinamo/ClassUtil.h>
-#include <nekomata/classdefs.h>
 #include <tinyxml2.h>
 
 namespace nicomo {
@@ -34,9 +33,6 @@ class Comment{
 	DEFINE_MEMBER(public, protected, bool, leaf)
 	DEFINE_MEMBER(public, protected, bool, premium)
 	DEFINE_MEMBER(public, protected, bool, fork)
-	DEFINE_MEMBER(public, protected, std::shared_ptr<const nekomata::tree::Node>, node)
-public:
-	bool haveScript() const;
 protected:
 	Comment();
 public:

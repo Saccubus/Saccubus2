@@ -6,6 +6,7 @@
  */
 
 #include "NicosAction.h"
+#include <cinamo/String.h>
 #include <exception>
 #include <cstdlib>
 #include <sstream>
@@ -69,11 +70,10 @@ class FailException final : public std::exception
 
 };
 
-NicosAction::NicosAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens)
+NicosAction::NicosAction(layer::item::Comment const& com, const std::vector<std::string>& tokens)
 :com_(com)
 ,msgIndex_(0)
 ,msgTokens_(tokens)
-// FIXME: saccubus::layer::Commentでもほぼ同様の処理が入っているので何とかしたいところ…
 ,mailTokens_(cinamo::splitSpace(com.mail()))
 {
 	for( std::string& tk : mailTokens_ ){

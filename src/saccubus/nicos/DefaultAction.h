@@ -13,7 +13,7 @@ namespace nicos {
 
 class DefaultAction: public NicosAction {
 public:
-	DefaultAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens);
+	DefaultAction(layer::item::Comment const& com, const std::vector<std::string>& tokens);
 	virtual ~DefaultAction();
 protected:
 	virtual void read();

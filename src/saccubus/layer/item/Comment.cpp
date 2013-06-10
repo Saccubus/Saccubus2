@@ -11,9 +11,11 @@
 #include <nicomo/model/Comment.h>
 #include <nicomo/model/ReplaceTable.h>
 #include <nekomata/system/System.h>
+#include <nekomata/parser/Parser.h>
 #include "../../NicoConstant.h"
 #include "../../draw/CommentFactory.h"
 #include "../../draw/ShapeFactory.h"
+#include "../../nicos/NicosTrans.h"
 
 namespace saccubus {
 namespace layer {
@@ -124,6 +126,15 @@ void Comment::init(){
 void Comment::parse()
 {
 	std::vector<std::string> lst = cinamo::splitSpace(this->mail());
+
+	if(cinamo::startsWith(this->originalMessage(), std::string(u8"/"))){ /* スクリプト */
+		this->node(nekomata::parser::Parser::fromString(this->originalMessage().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
+	} else if(cinamo::startsWith(this->originalMessage(), std::string(u8"＠"))){
+		this->node(nekomata::parser::Parser::fromString(nicos::toNiwango(*this), "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
+	}else{
+		this->node(nullptr);
+	}
+
 	for(std::vector<std::string>::const_iterator it= lst.begin(); it != lst.end(); ++it){
 		std::string const& str=*it;
 		if(!this->applyMail(str)){

@@ -11,7 +11,7 @@
 namespace saccubus {
 namespace nicos {
 
-ButtonAction::ButtonAction(nicomo::model::Comment const& com, const std::vector<std::string>& tokens)
+ButtonAction::ButtonAction(layer::item::Comment const& com, const std::vector<std::string>& tokens)
 :NicosAction(com, tokens)
 ,message_()
 ,commsg_()

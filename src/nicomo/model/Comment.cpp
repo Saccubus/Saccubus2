@@ -11,9 +11,7 @@
 #include <cinamo/String.h>
 #include <cinamo/XMLAttrParser.h>
 
-#include <nekomata/trans/NicosTrans.h>
 #include <nekomata/parser/Parser.h>
-
 #include <nicomo/model/Comment.h>
 
 namespace nicomo {
@@ -57,12 +55,6 @@ Comment::Comment(cinamo::Logger& log, tinyxml2::XMLElement* const elem)
 	cinamo::xml::parseAttr("mail", this->mail_, std::string(""), elem);
 	this->message ( elem->GetText() ? elem->GetText() : "" );
 
-	if(cinamo::startsWith(this->message(), std::string(u8"/"))){ /* スクリプト */
-		this->node(nekomata::parser::Parser::fromString(this->message().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
-	} else if(cinamo::startsWith(this->message(), std::string(u8"＠"))){
-		this->node(nekomata::parser::Parser::fromString(nekomata::trans::toNiwango(*this), "NicoS", static_cast<int>(this->vpos()*100))->parseProgram());
-	}
-
 	if(log.t()){
 		log.t(TAG, "Thread: %llu No:%llu vpos:%f Date:%llu Deleted:%llu Score:%llu UserId:%s Anon:%d Leaf:%d Premium:%d Fork:%d -> %s",
 				this->thread(),
@@ -98,8 +90,4 @@ Comment::Comment()
 {
 }
 
-bool Comment::haveScript() const
-{
-	return bool(this->node());
-}
 }}

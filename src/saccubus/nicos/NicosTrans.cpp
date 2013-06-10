@@ -5,7 +5,7 @@
  * Copyright 2012-2013, PSI
  */
 
-#include <nekomata/trans/NicosTrans.h>
+#include "./NicosTrans.h"
 #include <nekomata/logging/Exception.h>
 #include <string>
 #include <vector>
@@ -71,9 +71,9 @@ public:
 };
 
 #define DEF_ACTION(cmd, shouldBeOwner, shouldBePremium, clazz)\
-	if((front == cmd) && (shouldBeOwner ? com.fork() : true) && (shouldBePremium ? com.premium() : true) ) return clazz(com, tokens).trans();
+	if((front == cmd) && (shouldBeOwner ? com.layer() == layer::item::Comment::Forked : true) && (shouldBePremium ? com.isPremium() : true) ) return clazz(com, tokens).trans();
 
-std::string toNiwango(nicomo::model::Comment const& com)
+std::string toNiwango(layer::item::Comment const& com)
 {
 	std::vector<std::string> tokens = Impl(com.message()).parse();
 	if(tokens.size() > 0){
