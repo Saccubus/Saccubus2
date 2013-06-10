@@ -1,6 +1,6 @@
 /* coding: utf-8 */
 /**
- * Nekomata
+ * Saccubus
  *
  * Copyright 2012-2013, PSI
  */
