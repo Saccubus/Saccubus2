@@ -30,9 +30,10 @@ def login(userid, password):
 	jar = http.cookiejar.CookieJar()
 	authPayload = urllib.parse.urlencode(auth).encode('utf-8')
 	request = urllib.request.Request(LOGIN_URL, authPayload)
+	import ssl
 	opener = urllib.request.build_opener(
-		urllib.request.HTTPSHandler(check_hostname=False, debuglevel=2),
-		urllib.request.HTTPCookieProcessor(jar)
+		urllib.request.HTTPCookieProcessor(jar),
+		urllib.request.HTTPSHandler(check_hostname=False, debuglevel=2, context=ssl.SSLContext(ssl.PROTOCOL_SSLv3))
 		)
 	try:
 		resp = opener.open(request)
