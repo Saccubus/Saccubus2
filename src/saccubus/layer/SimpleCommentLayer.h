@@ -24,7 +24,7 @@ private:
 		DEFINE_MEMBER(public, private, std::shared_ptr<item::Comment>, comment);
 	private:
 		Slot& operator=(const Slot& other){return *this;};
-		Slot(const Slot& other){};
+		Slot(const Slot& other) = delete;
 	public:
 		Slot(std::shared_ptr<item::Comment> comment);
 		virtual ~Slot();

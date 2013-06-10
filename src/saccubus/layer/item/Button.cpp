@@ -24,7 +24,13 @@ Button::Button(
 	const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden
 	)
 :Comment(commentFactory, shapeFactory, fromButton, isYourPost, isPremium, layer, vpos, message, mail)
+,buttonColor_(0)
+,comvisible_(false)
+,limit_(0)
+,hidden_(false)
 ,isClicked(0)
+,btnRelX(0.0f)
+,btnRelY(0.0f)
 ,nekoSystem(nekoSystem)
 ,postLayer(postLayer)
 {

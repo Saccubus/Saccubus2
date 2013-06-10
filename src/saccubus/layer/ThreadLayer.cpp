@@ -23,9 +23,17 @@ namespace layer {
 
 ThreadLayer::ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const nicomo::model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
+,commentFactory_(nullptr)
+,shapeFactory_(nullptr)
+,nekoSystem_(nullptr)
 ,thread(thread)
 ,ngScript(ngScript)
 ,bridge(bridge)
+,scriptLayer(nullptr)
+,localCommentLayer(nullptr)
+,mainCommentLayer(nullptr)
+,forkedCommentLayer(nullptr)
+
 {
 	{ // ファクトリ
 		this->shapeFactory(pluginOrganizer->newShapeFactory(renderer));

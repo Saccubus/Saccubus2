@@ -12,6 +12,8 @@ namespace layer {
 
 CommentLayer::CommentLayer(cinamo::Logger& log, layer::ThreadLayer* thread, bool isForked)
 :Layer(log)
+,thread_(nullptr)
+,isForked_(false)
 {
 	this->thread(thread);
 	this->isForked(isForked);

@@ -164,10 +164,12 @@ bool ArtisticCommentLayer::Slot::EndTimeComparator::operator() (const std::share
 }
 
 ArtisticCommentLayer::Slot::Slot(std::shared_ptr<item::Comment> comment)
+:y_(-1)
+,x_(-1)
+,width_(-1)
+,height_(-1)
 {
 	this->comment(comment);
-	this->x(-1);
-	this->y(-1);
 }
 ArtisticCommentLayer::Slot::~Slot()
 {
