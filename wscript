@@ -46,7 +46,8 @@ def checkPython(conf):
 			conf.fatal('could not find python include directory!: {}'.format(dinc))
 		elif not os.path.isdir(dlib):
 			conf.fatal('could not find python library directory!: {}'.format(dlib))
-		conf.check(features='cxx cxxprogram', lib=['python33'], cflags=['-I'+dinc], linkflags=["-L"+dlib], uselib_store='PYTHON', mandatory=True)
+		if not conf.check(features='cxx cxxprogram', lib=['python33'], cflags=['-I'+dinc], linkflags=["-L"+dlib], uselib_store='PYTHON', mandatory=False):
+			conf.check(features='cxx cxxprogram', lib=['python32'], cflags=['-I'+dinc], linkflags=["-L"+dlib], uselib_store='PYTHON', mandatory=True)
 		conf.env.append_value('INCLUDES_PYTHON', [dinc])
 		conf.env.append_value('LIBPATH_PYTHON', [dlib])
 	else:
