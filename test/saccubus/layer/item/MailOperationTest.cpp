@@ -108,8 +108,8 @@ TEST_F(MailOperationTest, EtcTest)
 		orig.mail(#name);\
 		saccubus::layer::item::Comment com(nullptr, nullptr, nullptr, &orig);\
 		saccubus::layer::item::Comment comDef(nullptr, nullptr, nullptr, &def);\
-		ASSERT_EQ(_A, comDef.meth());\
-		ASSERT_EQ(_B, com.meth());\
+		ASSERT_EQ(bool(_A), bool(comDef.meth()));\
+		ASSERT_EQ(bool(_B), bool(com.meth()));\
 	} while(false);
 
 	SWITCH_FROM(false, true, full, full);
