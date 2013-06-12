@@ -112,7 +112,7 @@ void Comment::init(){
 	this->fromButton(false);
 	this->isPremium(false);
 	this->full(false);
-	this->sage(true);
+	this->sage(false);
 	this->patissier(false);
 	this->device(Comment::Unspecified);
 	this->visibility(true);
@@ -125,7 +125,7 @@ void Comment::init(){
 
 void Comment::parse()
 {
-	std::vector<std::string> lst = cinamo::splitSpace(this->mail());
+	std::vector<std::string> const lst ( cinamo::splitSpace(this->mail()) );
 
 	if(cinamo::startsWith(this->originalMessage(), std::string(u8"/"))){ /* スクリプト */
 		this->node(nekomata::parser::Parser::fromString(this->originalMessage().substr(1), this->message(), static_cast<int>(this->vpos()*100))->parseProgram());
@@ -135,8 +135,7 @@ void Comment::parse()
 		this->node(nullptr);
 	}
 
-	for(std::vector<std::string>::const_iterator it= lst.begin(); it != lst.end(); ++it){
-		std::string const& str=*it;
+	for(std::string const& str : lst){
 		if(!this->applyMail(str)){
 			//log.v(TAG, "Unknwon command: %s", it->c_str());
 		}

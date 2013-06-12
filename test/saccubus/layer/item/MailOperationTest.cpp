@@ -5,15 +5,9 @@
  * Copyright 2007-2013, PSI
  */
 
-#if 0
-
 #include "../../../TestCommon.h"
 #include "../../../../src/saccubus/layer/item/Comment.h"
-#include "../../../../src/saccubus/layer/item/CommentPipeLine.h"
-#include "../../../mock/model/Comment.h"
-using namespace saccubus::mock;
-using saccubus::layer::item::MailOperation;
-using saccubus::layer::item::Comment;
+#include "../../../nicomo/model/Comment.h"
 
 namespace saccubus{
 namespace test {
@@ -22,164 +16,126 @@ namespace item {
 
 class MailOperationTest : public ::testing::Test
 {
-protected:
-	saccubus::layer::item::Comment* com;
 public:
 	void SetUp(){
-		this->com = new saccubus::layer::item::Comment(0, 0);
 	}
 	void TearDown(){
-		delete com;
 	}
 };
 
+#define COLOROP(_ispremium,_mail, _color, _shadow) \
+	do {\
+		saccubus::layer::item::Comment com(nullptr, nullptr, false, false, _ispremium, saccubus::layer::item::Comment::Normal,0.0f, "test", _mail);\
+		ASSERT_EQ(_color, com.color());\
+		ASSERT_EQ(_shadow,com.shadowColor());\
+	} while(false);
+
+#define COLOROP_NOT(_ispremium,_mail, _color, _shadow) \
+	do {\
+		saccubus::layer::item::Comment com(nullptr, nullptr, false, false, _ispremium, saccubus::layer::item::Comment::Normal,0.0f, "test", _mail);\
+		ASSERT_NE(_color, com.color());\
+	} while(false);
+
+
 TEST_F(MailOperationTest, ColorTest)
 {
-	{
-		ASSERT_TRUE(MailOperation::apply("red", com));
-		ASSERT_EQ(0xFF0000U, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
+	COLOROP(false, "red", 0xFF0000U, 0x000000U);
+	COLOROP(false, "black", 0x000000U, 0xFFFFFFU);
 
-	{
-		ASSERT_TRUE(MailOperation::apply("black", com));
-		ASSERT_EQ(0x000000U, com->color());
-		ASSERT_EQ(0xFFFFFFU, com->shadowColor());
-	}
+	COLOROP(true, "red", 0xFF0000U, 0x000000U);
+	COLOROP(true, "black", 0x000000U, 0xFFFFFFU);
 }
 TEST_F(MailOperationTest, PremiumColorTest)
 {
-	com->isPremium(true);
-	{
-		ASSERT_TRUE(MailOperation::apply("purple2", com));
-		ASSERT_EQ(0x6633CCU, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
-	{
-		ASSERT_TRUE(MailOperation::apply("white2", com));
-		ASSERT_EQ(0xCCCC99U, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
-	{
-		ASSERT_TRUE(MailOperation::apply("niconicowhite", com));
-		ASSERT_EQ(0xCCCC99U, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
+	COLOROP(true, "purple2", 0x6633CCU, 0x000000U);
+	COLOROP(true, "white2", 0xCCCC99U, 0x000000U);
+	COLOROP(true, "niconicowhite", 0xCCCC99U, 0x000000U);
+	COLOROP(true, "#123456", 0x123456U, 0x000000U);
 }
 
 TEST_F(MailOperationTest, PermissionTest)
 {
-	com->isPremium(false);
-	com->color(0U);
-	com->shadowColor(0U);
-	{
-		ASSERT_FALSE(MailOperation::apply("purple2", com));
-		ASSERT_EQ(0x0U, com->color());
-		ASSERT_EQ(0x0U, com->shadowColor());
-	}
-	{
-		ASSERT_FALSE(MailOperation::apply("white2", com));
-		ASSERT_EQ(0x0U, com->color());
-		ASSERT_EQ(0x0U, com->shadowColor());
-	}
-	{
-		ASSERT_FALSE(MailOperation::apply("niconicowhite", com));
-		ASSERT_EQ(0x0U, com->color());
-		ASSERT_EQ(0x0U, com->shadowColor());
-	}
-	{
-		ASSERT_FALSE(MailOperation::apply("#123456", com));
-		ASSERT_EQ(0x0U, com->color());
-		ASSERT_EQ(0x0U, com->shadowColor());
-	}
+	COLOROP_NOT(false, "purple2", 0x6633CCU, 0x000000U);
+	COLOROP_NOT(false, "white2", 0xCCCC99U, 0x000000U);
+	COLOROP_NOT(false, "niconicowhite", 0xCCCC99U, 0x000000U);
+	COLOROP_NOT(false, "#123456", 0x123456U, 0x000000U);
 }
 
 TEST_F(MailOperationTest, PremiumColorCodeTest)
 {
-	com->isPremium(true);
-	{
-		ASSERT_TRUE(MailOperation::apply("#123456", com));
-		ASSERT_EQ(0x123456U, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
-	{
-		ASSERT_TRUE(MailOperation::apply("#FFFFFF", com));
-		ASSERT_EQ(0xFFFFFFU, com->color());
-		ASSERT_EQ(0x000000U, com->shadowColor());
-	}
+	COLOROP(true, "#123456", 0x123456U, 0x000000U);
+	COLOROP(true, "#FFFFFF", 0xFFFFFFU, 0x000000U);
 }
+
+#undef COLOROP
+#undef COLOROP_NOT
+
+#define OPPLACE(_mail, pos) \
+	do {\
+		saccubus::layer::item::Comment com(nullptr, nullptr, false, false, false, saccubus::layer::item::Comment::Normal,0.0f, "test", _mail);\
+		ASSERT_EQ(saccubus::layer::item::Comment::pos, com.placeY());\
+	} while(false);\
 
 TEST_F(MailOperationTest, PlaceYTest)
 {
-	ASSERT_EQ(Comment::Middle, com->placeY());
-	{
-		ASSERT_TRUE(MailOperation::apply("shita", com));
-		ASSERT_EQ(Comment::Bottom, com->placeY());
-	}
-	{
-		ASSERT_TRUE(MailOperation::apply("ue", com));
-		ASSERT_EQ(Comment::Top, com->placeY());
-	}
-	{
-		ASSERT_TRUE(MailOperation::apply("naka", com));
-		ASSERT_EQ(Comment::Middle, com->placeY());
-	}
+	OPPLACE("shita", Bottom);
+	OPPLACE("ue", Top);
+	OPPLACE("naka", Middle);
 }
+
+#undef OPPLACE
+
+#define OPTIME(_mail, pos) \
+	do {\
+		ASSERT_EQ(saccubus::layer::item::Comment::pos, com.placeY());\
+	} while(false);\
 
 TEST_F(MailOperationTest, TimeTest)
 {
-	{
-		com->vpos(0);
-		com->from(0);
-		com->to(0);
-		com->layer(Comment::Forked);
-		ASSERT_TRUE(MailOperation::apply("@10", com));
-		ASSERT_FLOAT_EQ(10.0, com->to()-com->from());
-
-	}
+	saccubus::layer::item::Comment com(
+			nullptr, nullptr, false, false, false, saccubus::layer::item::Comment::Forked,
+			0.0f,
+			"test", "@10");\
+		ASSERT_FLOAT_EQ(10.0, com.to()-com.from());
 }
+
 
 TEST_F(MailOperationTest, EtcTest)
 {
-	{
-		com->full(false);
-		ASSERT_FALSE(com->full());
-		ASSERT_TRUE(MailOperation::apply("full", com));
-		ASSERT_TRUE(com->full());
-	}
-	{
-		com->sage(false);
-		ASSERT_FALSE(com->sage());
-		ASSERT_TRUE(MailOperation::apply("sage", com));
-		ASSERT_TRUE(com->sage());
-	}
-	{
-		com->patissier(false);
-		ASSERT_FALSE(com->patissier());
-		ASSERT_TRUE(MailOperation::apply("patissier", com));
-		ASSERT_TRUE(com->patissier());
-	}
-	{
-		com->visibility(true);
-		ASSERT_TRUE(com->visibility());
-		ASSERT_TRUE(MailOperation::apply("invisible", com));
-		ASSERT_FALSE(com->visibility());
-	}
-	{
-		com->fromButton(false);
-		ASSERT_FALSE(com->fromButton());
-		ASSERT_TRUE(MailOperation::apply("from_button", com));
-		ASSERT_TRUE(com->fromButton());
-	}
+#define SWITCH_FROM(_A,_B,name,meth) \
+	do {\
+		nicomock::model::Comment orig,def;\
+		orig.mail(#name);\
+		saccubus::layer::item::Comment com(nullptr, nullptr, nullptr, &orig);\
+		saccubus::layer::item::Comment comDef(nullptr, nullptr, nullptr, &def);\
+		ASSERT_EQ(_A, comDef.meth());\
+		ASSERT_EQ(_B, com.meth());\
+	} while(false);
+
+	SWITCH_FROM(false, true, full, full);
+	SWITCH_FROM(false, true, sage, sage);
+	SWITCH_FROM(false, true, patissier, patissier);
+	SWITCH_FROM(true, false, invisible, visibility);
+	SWITCH_FROM(false, true, from_button, fromButton);
+
+#undef SWICTH_FROM
 }
 
 TEST_F(MailOperationTest, BrokenCommandTest)
 {
-	com->isPremium(true);
-	ASSERT_TRUE(MailOperation::apply("#123456", com));
-	ASSERT_FALSE(MailOperation::apply("#12ker3", com));
+	nicomock::model::Comment orig,def;
+	orig.premium(true);
+	orig.mail("#123456");
+	{
+		saccubus::layer::item::Comment com(nullptr, nullptr, nullptr, &orig);
+		ASSERT_EQ(0x123456, com.color());
+	}
+	orig.mail("#12ker3");
+	{
+		saccubus::layer::item::Comment com(nullptr, nullptr, nullptr, &orig);
+		saccubus::layer::item::Comment comDef(nullptr, nullptr, nullptr, &def);
+		ASSERT_EQ(comDef.color(), com.color());
+	}
 }
 
 }}}}
-
-#endif
