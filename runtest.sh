@@ -39,6 +39,8 @@ if [ -z "$PYTHON" ]; then
 fi
 
 PYPATH="$(${PYTHON} -c 'import sys; import os;sys.stdout.write(os.pathsep.join(sys.path)+os.pathsep)')$front_path"
+echo $PYPATH
+
 function run() {
 	PROG=$1/$TEST_FILE
 	MODE=$2
