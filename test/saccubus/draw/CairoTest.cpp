@@ -5,7 +5,6 @@
  * Copyright 2007-2013, PSI
  */
 
-#if 0
 #include <memory>
 #include "../../TestCommon.h"
 #include "../../../src/saccubus/draw/cairo/Sprite.h"
@@ -14,7 +13,7 @@
 #include "../../../src/saccubus/draw/cairo/SimpleCommentFactory.h"
 #include "../../../src/saccubus/draw/cairo/SimpleShapeFactory.h"
 #include "../../../src/saccubus/layer/item/Comment.h"
-#include "../../mock/model/Comment.h"
+#include "../../nicomo/model/Comment.h"
 #include "../../mock/MockSystem.h"
 
 namespace saccubus{
@@ -31,7 +30,7 @@ protected:
 public:
 	void SetUp(){
 		renderer = new saccubus::draw::cairo::Renderer(log_err, std::map<std::string, std::string>());
-		ctx=std::shared_ptr<saccubus::draw::Context>(renderer->createContext(saccubus::draw::Renderer::ARGB32, 0, 0, 0, 0));
+		ctx=std::shared_ptr<saccubus::draw::Context>(renderer->createContext(saccubus::draw::Renderer::ARGB32, nullptr, nico::ScreenHeight, nico::ScreenHeight, nico::ScreenHeight*4));
 		commentFactory = new saccubus::draw::cairo::SimpleCommentFactory(log_err, renderer, std::map<std::string, std::string>());
 		shapeFactory = new saccubus::draw::cairo::SimpleShapeFactory(log_err, renderer, std::map<std::string, std::string>());
 	}
@@ -45,28 +44,25 @@ public:
 
 TEST_F(CairoTest, QureyTest)
 {
-	layer::item::Comment comment = layer::item::Comment(commentFactory, shapeFactory);
-	comment.message("おいしいうどんが食べたいな");
-	comment.sizeType(saccubus::layer::item::Comment::Big);
+	nicomock::model::Comment orig;
+	orig.message(std::string(u8"あいうえお、かきくけこ。"));
+	orig.mail("big");
+	layer::item::Comment comment ( commentFactory, shapeFactory, nullptr, &orig);
 
-	saccubus::draw::Sprite::Handler<saccubus::draw::cairo::Sprite> spr, dspr;
-	ASSERT_NO_THROW(spr = comment.querySprite(ctx).cast<saccubus::draw::cairo::Sprite>());
-	ASSERT_GT(spr->width(), 0);
-	ASSERT_GT(spr->height(), 0);
+	ASSERT_GT(comment.width(ctx), 5);
+	ASSERT_GT(comment.height(ctx), 5);
 
-	ASSERT_NO_THROW(dspr = commentFactory->renderComment(ctx, &comment).cast<saccubus::draw::cairo::Sprite>());
+	ASSERT_NO_THROW(commentFactory->renderCommentText(ctx, &comment).cast<saccubus::draw::cairo::Sprite>());
 }
 
 TEST_F(CairoTest, EmptyStringTest)
 {
-	layer::item::Comment comment = layer::item::Comment(commentFactory, shapeFactory);
-	comment.message("");
-	comment.sizeType(layer::item::Comment::Big);
+	nicomock::model::Comment orig;
+	orig.message("");
+	orig.mail("big");
+	layer::item::Comment comment ( commentFactory, shapeFactory, nullptr, &orig);
 
-	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> spr;
-	ASSERT_NO_THROW(spr = commentFactory->renderComment(ctx, &comment));
-	ASSERT_EQ(0, spr->width());
-	ASSERT_EQ(0, spr->height());
+	ASSERT_LT(comment.width(ctx), 10);
 }
 
 /*
@@ -90,11 +86,8 @@ TEST_F(CairoTest, ShapeTest)
 TEST_F(CairoTest, ButtonTest)
 {
 	saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> spr = shapeFactory->renderButton(ctx, 300, 100, 0xff0000);
-
 	ASSERT_EQ(300, spr->width());
 	ASSERT_EQ(100, spr->height());
 }
 
 }}}
-
-#endif
