@@ -36,30 +36,4 @@ Script::Script(const float vpos, std::shared_ptr<const tree::Node> node)
 
 }
 
-bool Message::ComparatorByVpos::operator() (const Message& a, const Message& b)
-{
-	return a.vpos() < b.vpos();
-}
-bool Message::ComparatorByVpos::operator() (const Message& a, const float& b)
-{
-	return a.vpos() < b;
-}
-bool Message::ComparatorByVpos::operator() (const float& a, const Message& b)
-{
-	return a < b.vpos();
-}
-bool Message::ComparatorByVpos::operator() (const std::shared_ptr<const Message>& a, const std::shared_ptr<const Message>& b)
-{
-	return a->vpos() < b->vpos();
-}
-bool Message::ComparatorByVpos::operator() (const std::shared_ptr<const Message>& a, const float& b)
-{
-	return a->vpos() < b;
-}
-bool Message::ComparatorByVpos::operator() (const float& a, const std::shared_ptr<const Message>& b)
-{
-	return a < b->vpos();
-}
-
-
 }}

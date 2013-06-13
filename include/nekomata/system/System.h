@@ -22,20 +22,20 @@ using cinamo::Handler;
 
 #define DEF_ADAPTER_ACCESSOR(rscope, wscope, type, name)\
 protected:\
-	type _##name;\
+	type name##_;\
 rscope:\
-	inline type name() const{return _##name;}\
+	inline type const& name() const{return name##_;}\
 wscope:\
 	virtual void name(type const& val){\
-		if(this->_##name != val){\
-			this->_##name=val;\
+		if(this->name##_ != val){\
+			this->name##_=val;\
 			this->onChanged();\
 		}\
 	}
 
-#define SET_PARAM(name) this->_##name = _##name;
-#define SET_PARAM_CONST(name, val) this->_##name = val;
-#define SET_DEFAULT(name, val) _##name(val)
+#define SET_PARAM(name) this->name##_ = name##_;
+#define SET_PARAM_CONST(name, val) this->name##_ = val;
+#define SET_DEFAULT(name, val) name##_(val)
 
 class SystemItem : public cinamo::HandlerBody<SystemItem>
 {
@@ -274,12 +274,12 @@ public:
 	virtual ~Message(){};
 	struct ComparatorByVpos
 	{
-		bool operator() (const Message& a, const Message& b);
-		bool operator() (const Message& a, const float& b);
-		bool operator() (const float& a, const Message& b);
-		bool operator() (const std::shared_ptr<const Message>& a, const std::shared_ptr<const Message>& b);
-		bool operator() (const std::shared_ptr<const Message>& a, const float& b);
-		bool operator() (const float& a, const std::shared_ptr<const Message>& b);
+		inline bool operator() (const Message& a, const Message& b) const { return a.vpos() < b.vpos(); };
+		inline bool operator() (const Message& a, const float& b) const { return a.vpos() < b; };
+		inline bool operator() (const float& a, const Message& b) const { return a < b.vpos(); };
+		inline bool operator() (const std::shared_ptr<const Message>& a, const std::shared_ptr<const Message>& b) const { return a->vpos() < b->vpos(); };
+		inline bool operator() (const std::shared_ptr<const Message>& a, const float& b) const { return a->vpos() < b; };
+		inline bool operator() (const float& a, const std::shared_ptr<const Message>& b) const { return a < b->vpos(); };
 	};
 };
 
