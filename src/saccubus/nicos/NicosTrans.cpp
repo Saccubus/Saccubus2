@@ -11,6 +11,7 @@
 #include <vector>
 #include "DefaultAction.h"
 #include "ButtonAction.h"
+#include "ReplaceAction.h"
 #include "NicosMessageLexer.h"
 #include "NicosMessageParser.h"
 
@@ -79,8 +80,9 @@ std::string toNiwango(layer::item::Comment const& com)
 	if(tokens.size() > 0){
 		std::string const front ( tokens.front() );
 		tokens.erase(tokens.begin());
+		DEF_ACTION(std::string(u8"＠デフォルト"), true, false, DefaultAction);
 		DEF_ACTION(std::string(u8"＠ボタン"), true, true, ButtonAction);
-		DEF_ACTION(std::string(u8"＠デフォルト"), false, false, DefaultAction);
+		DEF_ACTION(std::string(u8"＠置換"), true, false, ReplaceAction);
 	}
 	return "";
 }
