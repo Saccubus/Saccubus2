@@ -51,6 +51,7 @@
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="Network.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

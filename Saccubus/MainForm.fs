@@ -6,23 +6,32 @@ open System.Windows.Forms
 
 type public MainForm() as form =
     inherit Form()
-    let x = [("",""); ("",""); ("","")];
-
+    
     // TODO define your controls
+    let t1 = new TabPage()
+    let t2 = new TabPage()
     let formLabel = new Label()
+    let formLabel2 = new Label()
+    let panel = new System.Windows.Forms.TabControl()
     
     // TODO initialize your controls
     let initControls() = 
+        t1.Controls.Add(formLabel)
+        t2.Controls.Add(formLabel2)
         formLabel.Text <- "Main form data" 
         formLabel.DoubleClick.AddHandler(new EventHandler 
             (fun sender e -> form.eventLabel_DoubleClick(sender, e)))   
+        formLabel2.Text <- "Main form data!!" 
+        panel.Controls.Add(t1)
+        panel.Controls.Add(t2)
+        ()
 
     do
         form.SuspendLayout();
         initControls()
 
         // TODO add controls to the form
-        form.Controls.Add(formLabel)
+        form.Controls.Add(panel)
 
         // TODO define form properties
         form.ClientSize <- new Size(600, 600)
