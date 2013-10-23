@@ -21,7 +21,7 @@
 namespace saccubus {
 namespace layer {
 
-ThreadLayer::ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& thread, const std::string& ngScript, python::PyBridge* bridge, const nicomo::model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
+ThreadLayer::ThreadLayer(cinamo::Logger& log, const nicomo::model::Thread& thread, std::string const& ngScript, python::PyBridge* bridge, const nicomo::model::ReplaceTable* table, draw::Renderer* renderer, PluginOrganizer* pluginOrganizer)
 :Layer(log)
 ,commentFactory_(nullptr)
 ,shapeFactory_(nullptr)

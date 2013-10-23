@@ -36,41 +36,41 @@ public:
 	const enum ArgType argType;
 	const std::string name;
 	const enum Permission permission;
-	typedef std::function<bool(const std::string& name, Comment* comment)> Func;
+	typedef std::function<bool(std::string const& name, Comment* comment)> Func;
 	const Func func;
-	MailOperation(const enum ArgType argType, const std::string& name, const enum Permission permission, Func func)
+	MailOperation(const enum ArgType argType, std::string const& name, const enum Permission permission, Func func)
 	:argType(argType), name(name), permission(permission), func(func){};
 	virtual ~MailOperation(){};
-	bool execute(const std::string& command, Comment* comment) const;
+	bool execute(std::string const& command, Comment* comment) const;
 private:
-	static bool color_func(const std::string& command, Comment* comment, unsigned int color, unsigned int shadowColor);
-	static bool colorCode_func(const std::string& command, Comment* comment);
-	static bool size_func(const std::string& command, Comment* comment, item::Comment::Size size);
-	static bool placeY_func(const std::string& command, Comment* comment, item::Comment::PlaceY y);
-	static bool placeX_func(const std::string& command, Comment* comment, item::Comment::PlaceY y);
-	static bool device_func(const std::string& command, Comment* comment, item::Comment::Device device);
-	static bool full_func(const std::string& command, Comment* comment);
-	static bool sage_func(const std::string& command, Comment* comment);
-	static bool invisible_func(const std::string& command, Comment* comment);
-	static bool patissier_func(const std::string& command, Comment* comment);
-	static bool from_button_func(const std::string& command, Comment* comment);
-	static bool is_button_func(const std::string& command, Comment* comment);
-	static bool timeCode_func(const std::string& command, Comment* comment);
+	static bool color_func(std::string const& command, Comment* comment, unsigned int color, unsigned int shadowColor);
+	static bool colorCode_func(std::string const& command, Comment* comment);
+	static bool size_func(std::string const& command, Comment* comment, item::Comment::Size size);
+	static bool placeY_func(std::string const& command, Comment* comment, item::Comment::PlaceY y);
+	static bool placeX_func(std::string const& command, Comment* comment, item::Comment::PlaceY y);
+	static bool device_func(std::string const& command, Comment* comment, item::Comment::Device device);
+	static bool full_func(std::string const& command, Comment* comment);
+	static bool sage_func(std::string const& command, Comment* comment);
+	static bool invisible_func(std::string const& command, Comment* comment);
+	static bool patissier_func(std::string const& command, Comment* comment);
+	static bool from_button_func(std::string const& command, Comment* comment);
+	static bool is_button_func(std::string const& command, Comment* comment);
+	static bool timeCode_func(std::string const& command, Comment* comment);
 private:
 	static const struct MailOperation Instance[];
 	static const size_t Count;
 public:
-	static bool apply(const std::string& mail, Comment* product);
+	static bool apply(std::string const& mail, Comment* product);
 };
 
-bool Comment::MailOperation::color_func(const std::string& command, Comment* comment, unsigned int color, unsigned int shadowColor)
+bool Comment::MailOperation::color_func(std::string const& command, Comment* comment, unsigned int color, unsigned int shadowColor)
 {
 	comment->color(color);
 	comment->shadowColor(shadowColor);
 	return true;
 }
 
-bool Comment::MailOperation::colorCode_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::colorCode_func(std::string const& command, Comment* comment)
 {
 	char* left;
 	std::string str = command.substr(1);
@@ -90,56 +90,56 @@ bool Comment::MailOperation::colorCode_func(const std::string& command, Comment*
 	return true;
 }
 
-bool Comment::MailOperation::size_func(const std::string& command, Comment* comment, item::Comment::Size size)
+bool Comment::MailOperation::size_func(std::string const& command, Comment* comment, item::Comment::Size size)
 {
 	comment->sizeType(size);
 	return true;
 }
 
-bool Comment::MailOperation::placeY_func(const std::string& command, Comment* comment, item::Comment::PlaceY y)
+bool Comment::MailOperation::placeY_func(std::string const& command, Comment* comment, item::Comment::PlaceY y)
 {
 	comment->placeY(y);
 	return true;
 }
 
-bool Comment::MailOperation::device_func(const std::string& command, Comment* comment, item::Comment::Device device)
+bool Comment::MailOperation::device_func(std::string const& command, Comment* comment, item::Comment::Device device)
 {
 	comment->device(device);
 	return true;
 }
 
-bool Comment::MailOperation::full_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::full_func(std::string const& command, Comment* comment)
 {
 	comment->full(true);
 	return true;
 }
-bool Comment::MailOperation::sage_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::sage_func(std::string const& command, Comment* comment)
 {
 	comment->sage(true);
 	return true;
 }
-bool Comment::MailOperation::invisible_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::invisible_func(std::string const& command, Comment* comment)
 {
 	comment->visibility(false);
 	return true;
 }
-bool Comment::MailOperation::patissier_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::patissier_func(std::string const& command, Comment* comment)
 {
 	comment->patissier(true);
 	return true;
 }
-bool Comment::MailOperation::from_button_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::from_button_func(std::string const& command, Comment* comment)
 {
 	comment->fromButton(true);
 	return true;
 }
-bool Comment::MailOperation::is_button_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::is_button_func(std::string const& command, Comment* comment)
 {
 	//comment->isButton(true);
 	return true;
 }
 
-bool Comment::MailOperation::timeCode_func(const std::string& command, Comment* comment)
+bool Comment::MailOperation::timeCode_func(std::string const& command, Comment* comment)
 {
 	char* left;
 	std::string str = command.substr(1);
@@ -151,7 +151,7 @@ bool Comment::MailOperation::timeCode_func(const std::string& command, Comment* 
 	return true;
 }
 
-bool Comment::MailOperation::execute(const std::string& command, Comment* comment) const
+bool Comment::MailOperation::execute(std::string const& command, Comment* comment) const
 {
 	if(
 		(permission == Comment::MailOperation::Premium && (!comment->isPremium())) ||
@@ -258,7 +258,7 @@ const struct Comment::MailOperation Comment::MailOperation::Instance[] = {
 };
 const size_t Comment::MailOperation::Count = sizeof(Instance)/sizeof(Comment::MailOperation);
 
-bool Comment::MailOperation::apply(const std::string& mail, Comment* product)
+bool Comment::MailOperation::apply(std::string const& mail, Comment* product)
 {
 	for(size_t i = 0;i < MailOperation::Count;++i){
 		const MailOperation* cmd = &MailOperation::Instance[i];
@@ -269,7 +269,7 @@ bool Comment::MailOperation::apply(const std::string& mail, Comment* product)
 	return false;
 }
 
-bool Comment::applyMail(const std::string& ml)
+bool Comment::applyMail(std::string const& ml)
 {
 	return MailOperation::apply(ml, this);
 }

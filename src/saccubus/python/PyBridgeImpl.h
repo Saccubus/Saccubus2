@@ -39,8 +39,8 @@ private:
 	/**
 	 * これらの関数は、新しい参照を返しますし、引数の参照カウントを削ります。
 	 */
-	PyObject* findMethod(const std::string& module, const std::string& name);
-	PyObject* findMethod(const std::string& name);
+	PyObject* findMethod(std::string const& module, std::string const& name);
+	PyObject* findMethod(std::string const& name);
 	PyObject* executeCallable(PyObject* obj, PyObject* argList,PyObject* argDict);
 	std::map<std::string, std::string> parseDict(PyObject* dictObj);
 	bool parseBool(PyObject* boolObj);
@@ -55,11 +55,11 @@ public:
 	Session(cinamo::Logger& log);
 	virtual ~Session();
 public:
-	void loadFile(const std::string& file);
-	std::map<std::string, std::string> executeMethodDict(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args);
-	std::map<std::string, std::string> executeMethodDict(const std::string& name, const std::multimap<std::string, std::string>& args);
-	bool executeMethodBool(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args);
-	bool executeMethodBool(const std::string& name, const std::multimap<std::string, std::string>& args);
+	void loadFile(std::string const& file);
+	std::map<std::string, std::string> executeMethodDict(std::string const& module, std::string const& name, const std::multimap<std::string, std::string>& args);
+	std::map<std::string, std::string> executeMethodDict(std::string const& name, const std::multimap<std::string, std::string>& args);
+	bool executeMethodBool(std::string const& module, std::string const& name, const std::multimap<std::string, std::string>& args);
+	bool executeMethodBool(std::string const& name, const std::multimap<std::string, std::string>& args);
 };
 
 }}

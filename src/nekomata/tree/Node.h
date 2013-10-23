@@ -65,7 +65,7 @@ public:
 	void accept(NodeWalker& walker) const;
 public:
 	const ExprNode* getExprNode() const{return exprNode.get();}
-	const std::string& getMessageName() const{return messageName;}
+	std::string const& getMessageName() const{return messageName;}
 };
 
 class ObjectNode : public ExprNode
@@ -79,9 +79,9 @@ public:
 	void append(std::string name, std::shared_ptr<const ExprNode> exprNode);
 	void dump(logging::Dumper& dumper) const;
 	void accept(NodeWalker& walker) const;
-	bool has(const std::string& name) const{return exprMap.count(name) > 0;}
+	bool has(std::string const& name) const{return exprMap.count(name) > 0;}
 	bool has(const size_t idx) const{return idx>=0 && idx < exprList.size();}
-	const ExprNode* getSlot(const std::string& name) const;
+	const ExprNode* getSlot(std::string const& name) const;
 	const ExprNode* index(const size_t idx) const;
 	std::vector<std::string> getSlotNames() const;
 	size_t size() const;
@@ -103,7 +103,7 @@ public:
 	void accept(NodeWalker& walker) const;
 public:
 	const ExprNode* getLeftNode() const{return leftNode.get();}
-	const std::string& getOp() const{return op;}
+	std::string const& getOp() const{return op;}
 	const ExprNode* getRightNode() const{return rightNode.get();}
 };
 
@@ -120,7 +120,7 @@ public:
 	void accept(NodeWalker& walker) const;
 public:
 	const ExprNode* getExprNode() const{return exprNode.get();}
-	const std::string& getOp() const{return op;}
+	std::string const& getOp() const{return op;}
 };
 
 class PostOpNode : public ExprNode{
@@ -136,7 +136,7 @@ public:
 	void accept(NodeWalker& walker) const;
 public:
 	const ExprNode* getExprNode() const{return exprNode.get();}
-	const std::string& getOp() const{return op;}
+	std::string const& getOp() const{return op;}
 };
 
 class BindNode : public ExprNode
@@ -216,7 +216,7 @@ public:
 public:
 	const ExprNode* getLeftNode() const{return leftNode.get();};
 	const ExprNode* getRightNode() const{return rightNode.get();};
-	const std::string& getOp() const{return op;}
+	std::string const& getOp() const{return op;}
 };
 
 class LiteralNode : public ExprNode
@@ -232,12 +232,12 @@ class StringLiteralNode : public LiteralNode
 private:
 	const std::string literal;
 public:
-	explicit StringLiteralNode(const Location& loc, const std::string& literal);
+	explicit StringLiteralNode(const Location& loc, std::string const& literal);
 	virtual ~StringLiteralNode(){};
 	void dump(logging::Dumper& dumper) const;
 	void accept(NodeWalker& walker) const;
 
-	const std::string& getLiteral() const;
+	std::string const& getLiteral() const;
 };
 
 class NumericLiteralNode : public LiteralNode

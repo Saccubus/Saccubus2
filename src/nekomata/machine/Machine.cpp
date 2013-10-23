@@ -83,7 +83,7 @@ void Machine::endLocal(Handler<object::Object> self, Handler<object::Object> loc
 	selfStack.pop();
 }
 
-Handler<object::Object> Machine::resolveScope(const std::string& name)
+Handler<object::Object> Machine::resolveScope(std::string const& name)
 {
 	if(name.compare("self") == 0){
 		this->log.t(TAG, 0, "Scope resolved: self");
@@ -117,7 +117,7 @@ Handler<object::Object> Machine::eval(const Node * node, const Handler<object::O
 	argStack.pop();
 	return Handler<object::Object>::__internal__fromRawPointerWithoutCheck(resultStack.pop());
 }
-Handler<object::Object> Machine::send(const Handler<object::Object>& self, const std::string& message, const Handler<object::Object>& arg){
+Handler<object::Object> Machine::send(const Handler<object::Object>& self, std::string const& message, const Handler<object::Object>& arg){
 	this->log.t(TAG, 0, "Sending %s on %s.",
 			message.c_str(),
 			object::cast<std::string>(self).c_str()

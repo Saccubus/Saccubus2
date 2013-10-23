@@ -36,7 +36,7 @@ protected:
 public:
 	virtual ~Option();
 public:
-	virtual void invoke(const std::string& name, const std::string* arg) = 0;
+	virtual void invoke(std::string const& name, const std::string* arg) = 0;
 };
 
 class OptionParser {

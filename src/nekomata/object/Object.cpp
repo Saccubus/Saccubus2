@@ -80,7 +80,7 @@ Object::~Object() noexcept
 		delete builtins;
 	}
 }
-void Object::addBuiltin(const std::string& name, NativeMethodObject* obj)
+void Object::addBuiltin(std::string const& name, NativeMethodObject* obj)
 {
 	if(!builtins){
 		builtins = new BuiltinMethods();
@@ -218,7 +218,7 @@ bool Object::has(size_t idx)
 	return idx >= 0 && idx < Object::size();
 }
 
-bool Object::has(const std::string& key)
+bool Object::has(std::string const& key)
 {
 	return objectMap.count(key) > 0;
 }
@@ -231,7 +231,7 @@ std::vector<std::string> Object::getSlotNames()
 	return slotList;
 }
 
-Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> item)
+Handler<Object> Object::setSlot(std::string const& name, const Handler<Object> item)
 {
 	if(frozen()){
 		log().w(TAG, 0, "\"setSlot\" to property %s called, but obj \"%s\" is frozen.", name.c_str(), toString().c_str());
@@ -245,7 +245,7 @@ Handler<Object> Object::setSlot(const std::string& name, const Handler<Object> i
 	objectMap.insert(SlotMapPair(name, item.get()));
 	return this->self();
 }
-Handler<Object> Object::getSlot(const std::string& name){
+Handler<Object> Object::getSlot(std::string const& name){
 	SlotMapIterator it = objectMap.find(name);
 	SlotMapIterator special = specialMap.find(name);
 	if(special != specialMap.end()){

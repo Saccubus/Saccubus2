@@ -27,7 +27,7 @@ Logger::~Logger()
 
 }
 
-void Logger::e(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::e(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
@@ -39,35 +39,35 @@ void Logger::e(Exception& exception)
 {
 	msg(cinamo::Logger::ERROR_, "Exception", 0, exception.what(), 0);
 }
-void Logger::w(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::w(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(cinamo::Logger::WARN_, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::i(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::i(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(cinamo::Logger::INFO_, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::d(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::d(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(cinamo::Logger::DEBUG_, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::v(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::v(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
 	msg(cinamo::Logger::VERBOSE_, tag, loc, str, list);
 	va_end(list);
 }
-void Logger::t(const std::string& tag, const tree::Location* loc, const std::string& str, ...)
+void Logger::t(std::string const& tag, const tree::Location* loc, std::string const& str, ...)
 {
 	va_list list;
 	va_start(list, str);
@@ -75,7 +75,7 @@ void Logger::t(const std::string& tag, const tree::Location* loc, const std::str
 	va_end(list);
 }
 
-void Logger::msg(enum cinamo::Logger::Level level, const std::string& tag, const tree::Location* loc, const std::string& str, va_list list)
+void Logger::msg(enum cinamo::Logger::Level level, std::string const& tag, const tree::Location* loc, std::string const& str, va_list list)
 {
 	std::stringstream ss;
 	if(loc){

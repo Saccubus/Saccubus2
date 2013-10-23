@@ -47,7 +47,7 @@ Handler<Object> LazyEvalObject::forceEval(size_t idx)
 		return getHeap().newUndefinedObject();
 	}
 }
-Handler<Object> LazyEvalObject::forceEval(const std::string& name)
+Handler<Object> LazyEvalObject::forceEval(std::string const& name)
 {
 	if(node->has(name)){
 		return forceEvalNode(node->getSlot(name));
@@ -116,13 +116,13 @@ bool LazyEvalObject::has(size_t idx)
 /*******************************************************************
  *  KEYアクセス
  *******************************************************************/
-Handler<Object> LazyEvalObject::setSlot(const std::string& key, const Handler<Object> value)
+Handler<Object> LazyEvalObject::setSlot(std::string const& key, const Handler<Object> value)
 {
 	/* セットはできない。アクセスだけ。 */
 	log().w(TAG, &this->node->location(), "LazyEvalObj does not support setSlot");
 	return Handler<Object>(this);
 }
-Handler<Object> LazyEvalObject::getSlot(const std::string& key)
+Handler<Object> LazyEvalObject::getSlot(std::string const& key)
 {
 	if(slotEvalState.count(key) > 0){ //すでに評価済み
 		return Object::getSlot(key);
@@ -136,7 +136,7 @@ Handler<Object> LazyEvalObject::getSlot(const std::string& key)
 		return result;
 	}
 }
-bool LazyEvalObject::has(const std::string& key)
+bool LazyEvalObject::has(std::string const& key)
 {
 	return node->has(key);
 }

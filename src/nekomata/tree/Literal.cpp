@@ -24,7 +24,7 @@ StringLiteralNode::StringLiteralNode(const Location & loc, const std::string & l
 {
 }
 
-const std::string& StringLiteralNode::getLiteral() const
+std::string const& StringLiteralNode::getLiteral() const
 {
 	return literal;
 }

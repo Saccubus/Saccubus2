@@ -20,8 +20,8 @@ Button::Button(
 	draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
 	NekomataSystem* const nekoSystem, CommentLayer* const postLayer,
 	bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
-	const float& vpos, const std::string& message, const std::string& mail,
-	const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden
+	const float& vpos, std::string const& message, std::string const& mail,
+	std::string const& commes, std::string const& commail, bool comvisible, int limit, bool hidden
 	)
 :Comment(commentFactory, shapeFactory, fromButton, isYourPost, isPremium, layer, vpos, message, mail)
 ,buttonColor_(0)

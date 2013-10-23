@@ -63,7 +63,7 @@ public:
 		}
 	}
 
-	ParserImpl& fromFile(const std::string& filename)
+	ParserImpl& fromFile(std::string const& filename)
 	{
 		this->filename = filename;
 		stream = antlr3FileStreamNew((ANTLR3_UINT8*)filename.c_str(), ANTLR3_ENC_UTF8);
@@ -73,7 +73,7 @@ public:
 		setup();
 		return *this;
 	}
-	ParserImpl& fromString(const std::string& src, const std::string& filename, int line)
+	ParserImpl& fromString(std::string const& src, std::string const& filename, int line)
 	{
 		this->src = src;
 		this->filename = filename;
@@ -121,21 +121,21 @@ Parser::Parser(std::shared_ptr<ParserImpl> impl)
 Parser::~Parser()
 {
 }
-std::shared_ptr<Parser> Parser::fromFile(const std::string& filename)
+std::shared_ptr<Parser> Parser::fromFile(std::string const& filename)
 {
 	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromFile(filename);
 	std::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::shared_ptr<Parser> Parser::fromString(const std::string& src, const std::string& filename, int line)
+std::shared_ptr<Parser> Parser::fromString(std::string const& src, std::string const& filename, int line)
 {
 	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromString(src, filename, line);
 	std::shared_ptr<Parser> parser(new Parser(impl));
 	return parser;
 }
-std::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, const std::string& filename)
+std::shared_ptr<Parser> Parser::fromStream(std::istream& stream_, std::string const& filename)
 {
 	std::shared_ptr<ParserImpl> impl(new ParserImpl);
 	impl->fromStream(stream_, filename);

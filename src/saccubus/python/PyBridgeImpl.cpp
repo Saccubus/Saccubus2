@@ -48,7 +48,7 @@ Session::Session(cinamo::Logger& log)
  * ユーザースクリプトの読み込みなどに。
  * （さきゅばす本体はパスに入っているので、これを使わなくても読み込めます）
  */
-void Session::loadFile(const std::string& file)
+void Session::loadFile(std::string const& file)
 {
 	std::ifstream stream(file.c_str(), std::ios::binary | std::ios::in);
 	//ファイルのオープン
@@ -157,7 +157,7 @@ void Session::printExceptionLog()
 /**
  * from {module} import {name}して、その{name}の関数ポインタを返します。
  */
-PyObject* Session::findMethod(const std::string& module, const std::string& name)
+PyObject* Session::findMethod(std::string const& module, std::string const& name)
 {
 	PyObject* imported = 0;
 	{
@@ -196,7 +196,7 @@ PyObject* Session::findMethod(const std::string& module, const std::string& name
  * import済みのシンボルを返します。
  * ユーザースクリプトや、ビルトイン関数用。
  */
-PyObject* Session::findMethod(const std::string& name)
+PyObject* Session::findMethod(std::string const& name)
 {
 	PyObject* func = PyDict_GetItemString(this->local, name.c_str());
 	if(!func){
@@ -320,20 +320,20 @@ PyObject* Session::executeCallable(PyObject* obj, PyObject* argTuple,PyObject* a
 	return res;
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args)
+std::map<std::string, std::string> Session::executeMethodDict(std::string const& module, std::string const& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseDict(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
 
-std::map<std::string, std::string> Session::executeMethodDict(const std::string& name, const std::multimap<std::string, std::string>& args)
+std::map<std::string, std::string> Session::executeMethodDict(std::string const& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseDict(executeCallable(findMethod(name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& module, const std::string& name, const std::multimap<std::string, std::string>& args)
+bool Session::executeMethodBool(std::string const& module, std::string const& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseBool(executeCallable(findMethod(module, name), createArgTuple(args), 0));
 }
-bool Session::executeMethodBool(const std::string& name, const std::multimap<std::string, std::string>& args)
+bool Session::executeMethodBool(std::string const& name, const std::multimap<std::string, std::string>& args)
 {
 	return parseBool(executeCallable(findMethod(name), createArgTuple(args), 0));
 }

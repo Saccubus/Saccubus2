@@ -11,7 +11,7 @@
 namespace nicomo {
 namespace model {
 
-ReplaceTable::ReplaceTable(const std::string& entry) {
+ReplaceTable::ReplaceTable(std::string const& entry) {
 	std::istringstream ss(entry);
 	std::string elem;
 	//FIXME:  FormEncoded形式だが、オーダーを保存しなければならないので、自分でパース…。
@@ -34,7 +34,7 @@ ReplaceTable::~ReplaceTable() {
 	decltype(this->replaceList)().swap(this->replaceList);
 }
 
-std::string ReplaceTable::replace(const std::string& target) const
+std::string ReplaceTable::replace(std::string const& target) const
 {
 	std::string replaced(target);
 	for(std::vector<const ReplaceItem*>::const_iterator it = replaceList.begin(); it != replaceList.end(); ++it){

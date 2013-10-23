@@ -22,7 +22,7 @@ public:
 	virtual ~CLISystem();
 public:
 	std::ostream& stream(){return _stream;};
-	virtual Handler<nekomata::system::Label> drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover);
+	virtual Handler<nekomata::system::Label> drawText(std::string const& text, double x, double y, double z, double size, std::string const& pos, unsigned int color, bool bold, bool visible, std::string const& filter, double alpha, std::string const& mover);
 };
 
 class CLILabel : public nekomata::system::Label

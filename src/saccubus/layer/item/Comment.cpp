@@ -26,7 +26,7 @@ static const std::string TAG("item::Comment");
 Comment::Comment(
 	draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
 	bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
-	const float& vpos, const std::string& message, const std::string& mail
+	const float& vpos, std::string const& message, std::string const& mail
 ){
 	init();
 

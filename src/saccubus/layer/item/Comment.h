@@ -81,7 +81,7 @@ public:
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory, const nicomo::model::ReplaceTable* replaceTable, const nicomo::model::Comment* meta);
 	Comment(draw::CommentFactory* commentFactory, draw::ShapeFactory* shapeFactory,
 			bool fromButton, bool isYourPost, const bool isPremium, enum Layer layer,
-			const float& vpos, const std::string& message, const std::string& mail
+			const float& vpos, std::string const& message, std::string const& mail
 			);
 	virtual ~Comment() noexcept = default;
 public:
@@ -90,7 +90,7 @@ public:
 private:
 	void init();
 	void parse();
-	bool applyMail(const std::string& ml);
+	bool applyMail(std::string const& ml);
 public:
 	void onDeploy(nekomata::system::System* system);
 public:

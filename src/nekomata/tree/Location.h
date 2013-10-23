@@ -18,7 +18,7 @@ private:
 	const int colNo;
 	const std::string origin;
 public:
-	Location(const std::string& fname, int lineNo, int colNo, const std::string& origin):
+	Location(std::string const& fname, int lineNo, int colNo, std::string const& origin):
 		filename(fname), lineNo(lineNo), colNo(colNo), origin(origin)
 	{}
 	Location(const Location& loc):

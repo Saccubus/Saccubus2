@@ -15,7 +15,7 @@
 namespace saccubus {
 namespace nicos {
 
-std::string escape(const std::string& str);
+std::string escape(std::string const& str);
 std::string escape(bool val);
 std::string escape(int val);
 std::string escape(float val);

@@ -25,17 +25,17 @@ HookableObject::HookableObject(HookableObject& parent, int hash)
 	this->setterList.insert(parent.setterList.begin(),parent.setterList.end());
 }
 
-void HookableObject::addGetter(const std::string& name, Getter getter)
+void HookableObject::addGetter(std::string const& name, Getter getter)
 {
 	this->getterList.insert(std::pair<std::string, Getter>(name, getter));
 }
-void HookableObject::addSetter(const std::string& name, Setter setter)
+void HookableObject::addSetter(std::string const& name, Setter setter)
 {
 	this->setterList.insert(std::pair<std::string, Setter>(name, setter));
 }
 
 
-Handler<Object> HookableObject::setSlot(const std::string& key, const Handler<Object> value)
+Handler<Object> HookableObject::setSlot(std::string const& key, const Handler<Object> value)
 {
 	if(setterList.count(key) > 0){
 		setterList.at(key)(self().cast<HookableObject>(), getHeap(), value);
@@ -44,7 +44,7 @@ Handler<Object> HookableObject::setSlot(const std::string& key, const Handler<Ob
 		return Object::setSlot(key, value);
 	}
 }
-Handler<Object> HookableObject::getSlot(const std::string& key)
+Handler<Object> HookableObject::getSlot(std::string const& key)
 {
 	if(getterList.count(key) > 0){
 		return getterList.at(key)(this->self().cast<HookableObject>(), getHeap());
@@ -52,7 +52,7 @@ Handler<Object> HookableObject::getSlot(const std::string& key)
 		return Object::getSlot(key);
 	}
 }
-bool HookableObject::has(const std::string& key)
+bool HookableObject::has(std::string const& key)
 {
 	return getterList.count(key) > 0 || Object::has(key);
 }

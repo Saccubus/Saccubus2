@@ -22,7 +22,7 @@ void ObjectNode::append(std::string name, std::shared_ptr<const ExprNode> exprNo
 		exprMap.insert(std::pair<std::string, std::shared_ptr<const ExprNode> >(name, exprNode));
 	}
 }
-const ExprNode* ObjectNode::getSlot(const std::string& name) const
+const ExprNode* ObjectNode::getSlot(std::string const& name) const
 {
 	std::map<std::string, std::shared_ptr<const ExprNode> >::const_iterator it = exprMap.find(name);
 	if(it != exprMap.end()){

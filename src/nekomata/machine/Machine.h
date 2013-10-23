@@ -32,7 +32,7 @@ public:
 	explicit Machine(logging::Logger& log, system::System& system);
 	virtual ~Machine();
 	object::Handler<object::Object> eval(const tree::Node* node, const object::Handler<object::Object>& arg=object::Handler<object::Object>(0));
-	object::Handler<object::Object> send(const object::Handler<object::Object>& self, const std::string& message, const object::Handler<object::Object>& arg=object::Handler<object::Object>(0));
+	object::Handler<object::Object> send(const object::Handler<object::Object>& self, std::string const& message, const object::Handler<object::Object>& arg=object::Handler<object::Object>(0));
 	logging::Logger& log;
 public: //for Object
 	void pushResult(object::Handler<object::Object> obj);
@@ -59,7 +59,7 @@ protected: //for tree
 	void walkImpl(const tree::InvokeNode& node);
 	void walkImpl(const tree::ContNode& node);
 private:
-	object::Handler<object::Object> resolveScope(const std::string& name);
+	object::Handler<object::Object> resolveScope(std::string const& name);
 private:
 	class RootIterator : public object::RootHolder::Iterator
 	{

@@ -20,8 +20,8 @@ class Exception : public cinamo::Exception {
 public:
 	Exception(const char* file, const size_t line) throw():cinamo::Exception(file, line){};
 	template <typename... Args>
-	Exception(const char* file, const size_t line, const std::string& fmt, Args... args):cinamo::Exception(file, line, fmt, args...){};
-	Exception(const char* file, const size_t line, const std::string& fmt, va_list lst) throw():cinamo::Exception(file, line, fmt, lst){};
+	Exception(const char* file, const size_t line, std::string const& fmt, Args... args):cinamo::Exception(file, line, fmt, args...){};
+	Exception(const char* file, const size_t line, std::string const& fmt, va_list lst) throw():cinamo::Exception(file, line, fmt, lst){};
 };
 
 }}

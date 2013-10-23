@@ -28,7 +28,7 @@ template<> std::vector<std::string> cast<std::vector<std::string> >(const Handle
 //---------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-T opt(const Handler<Object> obj, const std::string& key, const T& def)
+T opt(const Handler<Object> obj, std::string const& key, const T& def)
 {
 	if(obj->has(key)){
 		return cast<T>(obj->getSlot(key));
@@ -37,7 +37,7 @@ T opt(const Handler<Object> obj, const std::string& key, const T& def)
 	}
 }
 
-std::string opt(const Handler<Object> obj, const std::string& key, const std::string& def);
+std::string opt(const Handler<Object> obj, std::string const& key, std::string const& def);
 template <typename T>
 T opt(Object* const obj, size_t index, const T& def)
 {
@@ -47,7 +47,7 @@ T opt(Object* const obj, size_t index, const T& def)
 		return def;
 	}
 }
-std::string opt(const Handler<Object> obj, size_t index, const std::string& def);
+std::string opt(const Handler<Object> obj, size_t index, std::string const& def);
 
 
 }}

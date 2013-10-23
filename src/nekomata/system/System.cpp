@@ -59,7 +59,7 @@ System::~System() {
 }
 
 
-Handler<Shape> System::drawShape(double x, double y, double z, const std::string& shape, double width, double height, unsigned int color, bool visible, const std::string& pos, bool mask, bool commentmask, double alpha, double rotation, const std::string& mover)
+Handler<Shape> System::drawShape(double x, double y, double z, std::string const& shape, double width, double height, unsigned int color, bool visible, std::string const& pos, bool mask, bool commentmask, double alpha, double rotation, std::string const& mover)
 {
 	log.v(TAG, 0,
 			"drawShape(x: %f, y: %f, z: %f, shape: %s, width: %f, height: %f, color:%x, visible: %d, pos: %s, mask: %d, commentmask: %d, alpha: %f, rotation:%f, mover: %s",
@@ -69,7 +69,7 @@ Handler<Shape> System::drawShape(double x, double y, double z, const std::string
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
 	return _shape;
 }
-Handler<Label> System::drawText(const std::string& text, double x, double y, double z, double size, const std::string& pos, unsigned int color, bool bold, bool visible, const std::string& filter, double alpha, const std::string& mover)
+Handler<Label> System::drawText(std::string const& text, double x, double y, double z, double size, std::string const& pos, unsigned int color, bool bold, bool visible, std::string const& filter, double alpha, std::string const& mover)
 {
 	log.v(TAG, 0,
 			"drawText(text:%s , x: %f, y: %f, z: %f, size: %f, pos: %s, color: %d, bold: %d, visible: %d, filter: %s, alpha: %f, mover: %s)",
@@ -102,7 +102,7 @@ void System::timer(float const timer, Handler<object::LazyEvalObject> obj)
 	std::shared_ptr<EventEntry> evt(new EventEntry(currentTime()+timer, currentTime()+timer, obj));
 	this->timerLine.insert(std::pair<float, std::shared_ptr<EventEntry> >(currentTime()+timer, evt));
 }
-void System::jump(const std::string& id, const std::string& msg, double from, double length, bool _return, const std::string& returnmsg, bool newwindow)
+void System::jump(std::string const& id, std::string const& msg, double from, double length, bool _return, std::string const& returnmsg, bool newwindow)
 {
 	log.v(TAG, 0,
 			"jump(id:%s , msg:%s , from: %d, length: %d, _return: %d, returnmsg: %s,newwindow: %d)",
@@ -114,14 +114,14 @@ void System::jumpCancel()
 {
 	log.v(TAG, 0,"jumpCancel()");
 }
-void System::seek(double vpos, const std::string& msg)
+void System::seek(double vpos, std::string const& msg)
 {
 	log.v(TAG, 0,
 			"seek(vpos: %f, msg: %s)",
 			vpos, msg.c_str()
 			);
 }
-void System::addMarker(const std::string& name, double vpos)
+void System::addMarker(std::string const& name, double vpos)
 {
 	log.v(TAG, 0,
 			"addMarker(name: %s, vpos: %f)",
@@ -129,7 +129,7 @@ void System::addMarker(const std::string& name, double vpos)
 			);
 	markerMap.insert(std::pair<std::string, double>(name, vpos));
 }
-double System::getMarker(const std::string& name)
+double System::getMarker(std::string const& name)
 {
 	log.v(TAG, 0,
 			"getMarker(name: %s)",
@@ -142,7 +142,7 @@ double System::getMarker(const std::string& name)
 		return NAN;
 	}
 }
-Handler<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, const std::string& pos, bool asc, const std::string& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
+Handler<Sum> System::sum(double x, double y, double size, unsigned int color,bool visible, bool enabled, std::string const& pos, bool asc, std::string const& unit, bool buttononly, const std::vector<std::string>& words, bool partial)
 {
 	log.v(TAG, 0,
 			"sum(x: %f, y: %f, size: %f, color: %x, visible: %d, enabled: %d, pos: %s, asc: %d, unit: %s, buttononly: %d, words: %d word(s), partial: %d)",
@@ -152,7 +152,7 @@ Handler<Sum> System::sum(double x, double y, double size, unsigned int color,boo
 	_sum->load(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
 	return _sum;
 }
-Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, const std::string& pos, const std::string& unit, bool asc, const std::vector<Handler<Sum> >& sum)
+Handler<SumResult> System::showResult(double x, double y, unsigned int color,bool visible, std::string const& pos, std::string const& unit, bool asc, const std::vector<Handler<Sum> >& sum)
 {
 	Handler<SumResult> _sumResult(new SumResult(*this));
 	log.v(TAG, 0,
@@ -162,7 +162,7 @@ Handler<SumResult> System::showResult(double x, double y, unsigned int color,boo
 	_sumResult->load(x, y, color, visible, pos, unit, asc, sum);
 	return _sumResult;
 }
-Handler<Replace> System::replace(const std::string& src, const std::string& dest, bool enabled, const std::string& target, bool fill, bool partial, unsigned int color, const std::string& size, const std::string& pos)
+Handler<Replace> System::replace(std::string const& src, std::string const& dest, bool enabled, std::string const& target, bool fill, bool partial, unsigned int color, std::string const& size, std::string const& pos)
 {
 	Handler<Replace> _replace(new Replace(*this));
 	log.v(TAG, 0,
@@ -182,7 +182,7 @@ double System::screenHeight()
 	log.v(TAG, 0,"screenHeight()");
 	return 384; //DEFAULT(4:3)
 }
-void System::addButton(const std::string& message, const std::string& mail, double vpos, const std::string& commes, const std::string& commail, bool comvisible, int limit, bool hidden)
+void System::addButton(std::string const& message, std::string const& mail, double vpos, std::string const& commes, std::string const& commail, bool comvisible, int limit, bool hidden)
 {
 	log.v(TAG, 0,
 			"addButton(message: %s, mail: %s, vpos: %f, commes: %s, commail: %s, comvisible: %d, limit: %d, hidden:%d)",
@@ -194,7 +194,7 @@ double System::playStartTime()
 	log.v(TAG, 0,"playStartTime()");
 	return 0;
 }
-void System::BGM(const std::string& id, double x, double y, double width, double height, bool visual, double volume)
+void System::BGM(std::string const& id, double x, double y, double width, double height, bool visual, double volume)
 {
 	log.v(TAG, 0,
 			"BGM(id: %s, x: %f, y: %f, width: %f, height: %f, visual: %d, volume: %f)",
@@ -218,7 +218,7 @@ void System::addAtPausePoint(double vpos, double wait)
 			);
 
 }
-void System::addPostRoute(const std::string& match, const std::string& id, const std::string& button)
+void System::addPostRoute(std::string const& match, std::string const& id, std::string const& button)
 {
 	log.v(TAG, 0,
 			"addPostRoute(match: %s, id: %s, button: %s)",
@@ -226,7 +226,7 @@ void System::addPostRoute(const std::string& match, const std::string& id, const
 			);
 
 }
-void System::CM(const std::string& id, double time, bool pause, const std::string& link, double volume)
+void System::CM(std::string const& id, double time, bool pause, std::string const& link, double volume)
 {
 	log.v(TAG, 0,
 			"addPostRoute(id: %s, time: %f, pause: %d, link: %s, volume: %f)",
@@ -322,7 +322,7 @@ void System::dispatchCommentTrigger(machine::Machine& machine, std::shared_ptr<c
 			comment->no());
 }
 
-void System::dispatchCommentTrigger(machine::Machine& machine, const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+void System::dispatchCommentTrigger(machine::Machine& machine, std::string const& message, double vpos, bool isYourPost, std::string const& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	machine.getTopLevel()->setChat(message, vpos, isYourPost, mail, fromButton, isPremium, color, size, no);
 	for(std::multimap<float, std::shared_ptr<EventEntry> >::const_iterator it = ctrigLine.begin();it != ctrigLine.end();++it){

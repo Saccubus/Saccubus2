@@ -105,7 +105,7 @@ void ArtisticCommentFactory::setColor(cairo_t* cairo, unsigned int color)
 	cairo_set_source_rgba(cairo, r, g, b, 1);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLine(std::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLine(std::shared_ptr<saccubus::draw::Context> ctx, std::string const& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
 	double scale = 1.0;
 	double x = 0;
@@ -175,7 +175,7 @@ saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::
 	return saccubus::draw::Sprite::Handler<saccubus::draw::Sprite>(spr);
 }
 
-saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLines(std::shared_ptr<saccubus::draw::Context> ctx, const std::string& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
+saccubus::draw::Sprite::Handler<saccubus::draw::Sprite> ArtisticCommentFactory::renderLines(std::shared_ptr<saccubus::draw::Context> ctx, std::string const& str, bool fitToScreen, unsigned long color, unsigned long shadowColor, double size)
 {
 	std::vector<std::string> lines( cinamo::splitLine(str) );
 	if(lines.size() <= 0){

@@ -47,7 +47,7 @@ StringObject::StringObject(Object& parent)
 	freeze();
 }
 
-StringObject::StringObject(StringObject& parent, int hash, const std::string& literal)
+StringObject::StringObject(StringObject& parent, int hash, std::string const& literal)
 :LiteralObject(parent, hash), value(literal)
 {
 	freeze();
@@ -66,7 +66,7 @@ std::string StringObject::toString()
 	return value;
 }
 
-const std::string& StringObject::getValue() /* toStringだと、std::stringオブジェクトがコピーされてしまう。 */
+std::string const& StringObject::getValue() /* toStringだと、std::stringオブジェクトがコピーされてしまう。 */
 {
 	return value;
 }

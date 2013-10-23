@@ -166,7 +166,7 @@ std::shared_ptr<saccubus::draw::Sprite> Saccubus::createRawSprite(enum draw::Ren
 	return std::shared_ptr<saccubus::draw::Sprite>(this->renderer()->createRawSprite(fmt, data, w, h, stride));
 }
 
-void Saccubus::onVideoChanged(const std::string& videoId)
+void Saccubus::onVideoChanged(std::string const& videoId)
 {
 	{ /* 現在のスレッドの削除 */
 		if(this->currentVideo){

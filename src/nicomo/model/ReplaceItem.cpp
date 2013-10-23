@@ -9,7 +9,7 @@
 namespace nicomo {
 namespace model {
 
-ReplaceItem::ReplaceItem(const std::string& from, const std::string& to, bool whole)
+ReplaceItem::ReplaceItem(std::string const& from, std::string const& to, bool whole)
 :from_(from), to_(to), whole_(whole)
 {
 }
@@ -18,7 +18,7 @@ ReplaceItem::ReplaceItem(const ReplaceItem& other)
 {
 
 }
-std::string ReplaceItem::replace(const std::string& target) const
+std::string ReplaceItem::replace(std::string const& target) const
 {
 	if(whole()){
 		if(target.find(from()) != std::string::npos){

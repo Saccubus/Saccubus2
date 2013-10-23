@@ -12,7 +12,7 @@
 namespace nicomo {
 namespace model {
 
-PlayInfo::PlayInfo(cinamo::Logger& log, const std::string& filename)
+PlayInfo::PlayInfo(cinamo::Logger& log, std::string const& filename)
 :replaceTable_(nullptr)
 {
 	std::ifstream stream(filename.c_str());

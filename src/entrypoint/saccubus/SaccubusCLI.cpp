@@ -49,7 +49,7 @@ public:
 	 * 最初や、ニワン語でjumpが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	virtual void onVideoChanged(const std::string& videoId, const std::string& filepath)
+	virtual void onVideoChanged(std::string const& videoId, std::string const& filepath)
 	{
 		initSDL(640, 480);
 	}
@@ -104,7 +104,7 @@ public:
 	 * ニワン語でseekが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	virtual void onSeek(const std::string& videoId, float vpos)
+	virtual void onSeek(std::string const& videoId, float vpos)
 	{
 	}
 };

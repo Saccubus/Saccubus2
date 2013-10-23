@@ -53,7 +53,7 @@ std::vector<std::string> cast<std::vector<std::string> >(const Handler<Object> o
 	return vec;
 }
 
-std::string opt(const Handler<Object> obj, const std::string& key, const std::string& def)
+std::string opt(const Handler<Object> obj, std::string const& key, std::string const& def)
 {
 	if(obj->has(key)){
 		return cast<std::string>(obj->getSlot(key));
@@ -62,7 +62,7 @@ std::string opt(const Handler<Object> obj, const std::string& key, const std::st
 	}
 }
 
-std::string opt(const Handler<Object> obj, size_t index, const std::string& def)
+std::string opt(const Handler<Object> obj, size_t index, std::string const& def)
 {
 	if(obj->has(index)){
 		return cast<std::string>(obj->index(index));

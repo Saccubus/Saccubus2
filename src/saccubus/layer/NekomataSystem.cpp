@@ -37,10 +37,10 @@ void NekomataSystem::tellCommentLayers(CommentLayer* forkedCommentLayer, Comment
 	this->mainCommentLayer = mainCommentLayer;
 }
 Handler<nekomata::system::Shape> NekomataSystem::drawShape(
-		double x, double y, double z, const std::string& shape, double width,
-		double height, unsigned int color, bool visible, const std::string& pos,
+		double x, double y, double z, std::string const& shape, double width,
+		double height, unsigned int color, bool visible, std::string const& pos,
 		bool mask, bool commentmask, double alpha, double rotation,
-		const std::string& mover)
+		std::string const& mover)
 {
 	Handler<nekomata::system::Shape> _shape(new item::Shape(*this, this->shapeFactory));
 	_shape->load(x, y, z, shape, width, height, color, visible, pos, mask, commentmask, alpha, rotation, mover);
@@ -48,16 +48,16 @@ Handler<nekomata::system::Shape> NekomataSystem::drawShape(
 }
 
 Handler<nekomata::system::Label> NekomataSystem::drawText(
-		const std::string& text, double x, double y, double z, double size,
-		const std::string& pos, unsigned int color, bool bold, bool visible,
-		const std::string& filter, double alpha, const std::string& mover) {
+		std::string const& text, double x, double y, double z, double size,
+		std::string const& pos, unsigned int color, bool bold, bool visible,
+		std::string const& filter, double alpha, std::string const& mover) {
 	Handler<nekomata::system::Label> label(new item::Label(*this, this->commentFactory));
 	label->load(text, x, y, z, size, pos, color, bold, visible, filter, alpha, mover);
 	return label;
 }
 
-void NekomataSystem::jump(const std::string& id, const std::string& msg,
-		double from, double length, bool _return, const std::string& returnmsg,
+void NekomataSystem::jump(std::string const& id, std::string const& msg,
+		double from, double length, bool _return, std::string const& returnmsg,
 		bool newwindow) {
 	this->log.e(TAG, 0, "Sorry, 'jump' not supported yet!!");
 }
@@ -66,13 +66,13 @@ void NekomataSystem::jumpCancel() {
 	this->log.e(TAG, 0, "Sorry, 'jumpCancel' not supported yet!!");
 }
 
-void NekomataSystem::seek(double vpos, const std::string& msg) {
+void NekomataSystem::seek(double vpos, std::string const& msg) {
 	this->log.e(TAG, 0, "Sorry, 'seek' not supported yet!!");
 }
 
 Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
 		double y, double size, unsigned int color, bool visible, bool enabled,
-		const std::string& pos, bool asc, const std::string& unit,
+		std::string const& pos, bool asc, std::string const& unit,
 		bool buttononly, const std::vector<std::string>& words, bool partial) {
 	//FIXME: ちゃんと実装すること。
 	return System::sum(x, y, size, color, visible, enabled, pos, asc, unit, buttononly, words, partial);
@@ -80,15 +80,15 @@ Handler<nekomata::system::Sum> NekomataSystem::sum(double x,
 
 Handler<nekomata::system::SumResult> NekomataSystem::showResult(
 		double x, double y, unsigned int color, bool visible,
-		const std::string& pos, const std::string& unit, bool asc,
+		std::string const& pos, std::string const& unit, bool asc,
 		const std::vector<Handler<nekomata::system::Sum> >& sum) {
 	//FIXME: ちゃんと実装すること。
 	return System::showResult(x, y, color, visible, pos, unit, asc, sum);
 }
 
 void NekomataSystem::addButton(
-		const std::string& message, const std::string& mail, double vpos,
-		const std::string& commes, const std::string& commail, bool comvisible,
+		std::string const& message, std::string const& mail, double vpos,
+		std::string const& commes, std::string const& commail, bool comvisible,
 		int limit, bool hidden) {
 	vpos = vpos != vpos ? currentTime() : vpos;
 	/* FIXME: ユーザとオーナー、どうやって区別する？ */
@@ -103,7 +103,7 @@ void NekomataSystem::addButton(
 	this->forkedCommentLayer->queueComment(btn);
 }
 
-void NekomataSystem::BGM(const std::string& id, double x, double y,
+void NekomataSystem::BGM(std::string const& id, double x, double y,
 		double width, double height, bool visual, double volume) {
 }
 
@@ -119,13 +119,13 @@ void NekomataSystem::addAtPausePoint(double vpos, double wait) {
 	this->log.e(TAG, 0, "Sorry, 'addAtPausePoint' not supported yet!!");
 }
 
-void NekomataSystem::addPostRoute(const std::string& match,
-		const std::string& id, const std::string& button) {
+void NekomataSystem::addPostRoute(std::string const& match,
+		std::string const& id, std::string const& button) {
 	this->log.e(TAG, 0, "Sorry, 'addPostRoute' not supported yet!!");
 }
 
-void NekomataSystem::CM(const std::string& id, double time, bool pause,
-		const std::string& link, double volume) {
+void NekomataSystem::CM(std::string const& id, double time, bool pause,
+		std::string const& link, double volume) {
 	this->log.e(TAG, 0, "Sorry, 'CM' not supported yet!!");
 }
 

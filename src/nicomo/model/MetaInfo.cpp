@@ -24,7 +24,7 @@ MetaInfo::MetaInfo(cinamo::Logger& log, tinyxml2::XMLDocument* doc)
 	read(log, doc->RootElement());
 }
 
-MetaInfo::MetaInfo(cinamo::Logger& log, const std::string& filename)
+MetaInfo::MetaInfo(cinamo::Logger& log, std::string const& filename)
 {
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile(filename.c_str());

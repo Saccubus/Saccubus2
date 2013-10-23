@@ -27,32 +27,32 @@ Dumper::~Dumper()
 {
 }
 
-void Dumper::printName(const std::string& name)
+void Dumper::printName(std::string const& name)
 {
 	this->startLine();
 	stream << "<<" << name << ">>" << std::endl;
 }
-void Dumper::printName(const std::string& name, const tree::Location& loc)
+void Dumper::printName(std::string const& name, const tree::Location& loc)
 {
 	this->startLine();
 	stream << "<<" << name << ">>" << " (pos: " << loc.getLineNo() << "," << loc.getColNo() << ")" << std::endl;
 }
-void Dumper::print(const std::string& name, const std::string& member)
+void Dumper::print(std::string const& name, std::string const& member)
 {
 	this->startLine();
 	stream << name << ":" << member << std::endl;
 }
-void Dumper::print(const std::string& name, const bool member)
+void Dumper::print(std::string const& name, const bool member)
 {
 	this->startLine();
 	stream << name << ":" << (member?"true":"false") << std::endl;
 }
-void Dumper::print(const std::string& name, const double member)
+void Dumper::print(std::string const& name, const double member)
 {
 	this->startLine();
 	stream << name << ":" << member << std::endl;
 }
-void Dumper::printDumpable(const std::string& name, const shared_ptr<const Dumpable> member)
+void Dumper::printDumpable(std::string const& name, const shared_ptr<const Dumpable> member)
 {
 	this->startLine();
 	if(member.get() == 0){
@@ -64,7 +64,7 @@ void Dumper::printDumpable(const std::string& name, const shared_ptr<const Dumpa
 		this->out();
 	}
 }
-void Dumper::printDumpableList(const std::string& name, const std::vector<shared_ptr<const Dumpable> >& memberList)
+void Dumper::printDumpableList(std::string const& name, const std::vector<shared_ptr<const Dumpable> >& memberList)
 {
 	std::stringstream ss;
 	int i=0;
@@ -79,7 +79,7 @@ void Dumper::printDumpableList(const std::string& name, const std::vector<shared
 	}
 	out();
 }
-void Dumper::printDumpableList(const std::string& name, const std::map<std::string, shared_ptr<const Dumpable> >& memberList)
+void Dumper::printDumpableList(std::string const& name, const std::map<std::string, shared_ptr<const Dumpable> >& memberList)
 {
 	this->startLine();
 	stream << name << ":" << std::endl;

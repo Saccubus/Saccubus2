@@ -45,7 +45,7 @@ public: /* Builtin Method Utils */
 	typedef std::map<std::string, NativeMethodObject*> BuiltinMethods;
 	typedef std::pair<std::string, NativeMethodObject*> BuiltinMethodPair;
 protected:
-	void addBuiltin(const std::string& name, NativeMethodObject* obj);
+	void addBuiltin(std::string const& name, NativeMethodObject* obj);
 	void includeBuitin();
 public: /* SlotTypeDefinition */
 	typedef std::vector<Object*>::const_iterator SlotListIterator;
@@ -79,9 +79,9 @@ public: /* INDEXアクセス */
 	virtual size_t size();
 	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
-	virtual Handler<Object> getSlot(const std::string& key);
-	virtual bool has(const std::string& key);
+	virtual Handler<Object> setSlot(std::string const& key, const Handler<Object> value);
+	virtual Handler<Object> getSlot(std::string const& key);
+	virtual bool has(std::string const& key);
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 public: /* 基本操作 */
@@ -189,12 +189,12 @@ private:
 	std::map<std::string, Getter> getterList;
 	std::map<std::string, Setter> setterList;
 protected:
-	void addGetter(const std::string& name, Getter getter);
-	void addSetter(const std::string& name, Setter setter);
+	void addGetter(std::string const& name, Getter getter);
+	void addSetter(std::string const& name, Setter setter);
 public:
-	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
-	virtual Handler<Object> getSlot(const std::string& key);
-	virtual bool has(const std::string& key);
+	virtual Handler<Object> setSlot(std::string const& key, const Handler<Object> value);
+	virtual Handler<Object> getSlot(std::string const& key);
+	virtual bool has(std::string const& key);
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 	virtual std::string toString();
@@ -219,7 +219,7 @@ public:
 	explicit LazyEvalObject(Object& parent, const unsigned int hash, machine::Machine& machine, const tree::ObjectNode* const node);
 	virtual ~LazyEvalObject() noexcept = default;
 	Handler<Object> forceEval(size_t idx);
-	Handler<Object> forceEval(const std::string& name);
+	Handler<Object> forceEval(std::string const& name);
 public: /* INDEXアクセス */
 	virtual Handler<Object> unshift(const Handler<Object> item);
 	virtual Handler<Object> push(const Handler<Object> item);
@@ -230,9 +230,9 @@ public: /* INDEXアクセス */
 	virtual size_t size();
 	virtual bool has(size_t idx);
 public: /* KEYアクセス */
-	virtual Handler<Object> setSlot(const std::string& key, const Handler<Object> value);
-	virtual Handler<Object> getSlot(const std::string& key);
-	virtual bool has(const std::string& key);
+	virtual Handler<Object> setSlot(std::string const& key, const Handler<Object> value);
+	virtual Handler<Object> getSlot(std::string const& key);
+	virtual bool has(std::string const& key);
 	virtual std::vector<std::string> getSlotNames();
 	virtual size_t slotSize();
 public:
@@ -332,10 +332,10 @@ class StringObject : public LiteralObject
 private:
 	const std::string value;
 private:
-	const std::string& getValue();
+	std::string const& getValue();
 public:
 	explicit StringObject(Object& parent);
-	explicit StringObject(StringObject& parent, int hash, const std::string& literal);
+	explicit StringObject(StringObject& parent, int hash, std::string const& literal);
 	virtual ~StringObject() noexcept = default;
 	virtual std::string toString();
 	virtual double toNumeric();

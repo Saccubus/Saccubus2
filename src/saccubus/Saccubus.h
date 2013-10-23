@@ -29,12 +29,12 @@ public:
 	 * 最初や、ニワン語でjumpが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	virtual void onVideoChanged(const std::string& videoId, const std::string& filepath) = 0;
+	virtual void onVideoChanged(std::string const& videoId, std::string const& filepath) = 0;
 	/**
 	 * ニワン語でseekが起こった時に呼ばれる。
 	 * このコールの次のdraw()には、ちゃんと指定された動画の内容を渡すこと。
 	 */
-	virtual void onSeek(const std::string& videoId, float vpos) = 0;
+	virtual void onSeek(std::string const& videoId, float vpos) = 0;
 };
 
 using namespace nicomo::model;
@@ -73,7 +73,7 @@ public: /* 外界との接続 */
 	std::shared_ptr<saccubus::draw::Sprite> createRawSprite(enum draw::Renderer::Format fmt, void* data, int w, int h, int stride);
 	void click(int x, int y);
 public: // 内部から呼ばれます
-	void onVideoChanged(const std::string& videoId);
+	void onVideoChanged(std::string const& videoId);
 };
 
 }

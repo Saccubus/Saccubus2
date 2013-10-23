@@ -28,7 +28,7 @@ Thread::Thread(cinamo::Logger& log, tinyxml2::XMLDocument* doc)
 {
 	read(log, doc->RootElement());
 }
-Thread::Thread(cinamo::Logger& log, const std::string& filename)
+Thread::Thread(cinamo::Logger& log, std::string const& filename)
 :thread_(0xFFFFFFFF)
 ,ticket_(0xFFFFFFFF)
 ,server_time_(0xFFFFFFFF)

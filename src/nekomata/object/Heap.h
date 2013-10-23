@@ -96,7 +96,7 @@ public:
 	Handler<MethodNodeObject> newMethodNodeObject(const Handler<Object> scope, const tree::Node* node, MethodNodeObject::LocalScopeRule rule);
 	Handler<LambdaObject> newLambdaObject(const Handler<Object> scope, const tree::Node* node);
 public:
-	Handler<StringObject> newStringObject(const std::string& str);
+	Handler<StringObject> newStringObject(std::string const& str);
 	Handler<BooleanObject> newBooleanObject(const bool val);
 	Handler<NumericObject> newNumericObject(const double num);
 	Handler<UndefinedObject> newUndefinedObject();

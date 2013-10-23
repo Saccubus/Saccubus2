@@ -28,7 +28,7 @@ public:
 	pANTLR3_COMMON_TOKEN_STREAM tokenStream;
 	pNicosMessageParser parser;
 public:
-	Impl(const std::string& str)
+	Impl(std::string const& str)
 	:stream(0), lexer(0), tokenStream(0), parser(0){
 		stream = antlr3StringStreamNew((pANTLR3_UINT8)str.c_str(), ANTLR3_ENC_UTF8, str.size(), (pANTLR3_UINT8)"Nicos");
 		if(!stream){

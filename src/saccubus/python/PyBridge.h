@@ -23,8 +23,8 @@ public:
 	PyBridge(cinamo::Logger& log);
 	virtual ~PyBridge();
 public:
-	const nicomo::model::Video* resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args);
-	bool askCommentShouldBeIgnored(const std::string& filename, const nicomo::model::Comment& com);
+	const nicomo::model::Video* resolveResource(std::string const& video_id, const std::multimap<std::string, std::string>& args);
+	bool askCommentShouldBeIgnored(std::string const& filename, const nicomo::model::Comment& com);
 };
 
 }}

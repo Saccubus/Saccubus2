@@ -40,16 +40,16 @@ Video::~Video() {
 	decltype(threadList)().swap(threadList);
 }
 
-void Video::initVideoFile(const std::string& videofile)
+void Video::initVideoFile(std::string const& videofile)
 {
 	this->videofile(videofile);
 }
 
-void Video::initPlayInfo(const std::string& playfile)
+void Video::initPlayInfo(std::string const& playfile)
 {
 	this->playInfo(new PlayInfo(this->log, playfile));
 }
-void Video::initMetaInfo(const std::string& metafile)
+void Video::initMetaInfo(std::string const& metafile)
 {
 	this->metaInfo(new MetaInfo(this->log, metafile));
 }

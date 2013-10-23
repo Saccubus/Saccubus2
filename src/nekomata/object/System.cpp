@@ -67,7 +67,7 @@ SystemObject::SystemObject(Object& parent, system::System& system)
 
 }
 
-void SystemObject::setChat(const std::string& message, double vpos, bool isYourPost, const std::string& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
+void SystemObject::setChat(std::string const& message, double vpos, bool isYourPost, std::string const& mail, bool fromButton, bool isPremium, unsigned int color, double size, unsigned int no)
 {
 	ObjectHeap& heap = this->getHeap();
 	const Handler<Object> chat(heap.newRawObject());

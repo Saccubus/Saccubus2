@@ -17,7 +17,7 @@ namespace nicos {
 /**
  * ニワン語の一部として使えるようにエスケープする
  */
-std::string escape(const std::string& str)
+std::string escape(std::string const& str)
 {
 	std::stringstream ss;
 	size_t idx;

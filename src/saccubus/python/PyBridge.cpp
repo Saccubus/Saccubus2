@@ -26,7 +26,7 @@ PyBridge::PyBridge(cinamo::Logger& log)
 {
 }
 
-const nicomo::model::Video* PyBridge::resolveResource(const std::string& video_id, const std::multimap<std::string, std::string>& args)
+const nicomo::model::Video* PyBridge::resolveResource(std::string const& video_id, const std::multimap<std::string, std::string>& args)
 {
 	using nicomo::model::Video;
 	std::unique_ptr<Session> session = impl->createSession();
@@ -53,7 +53,7 @@ const nicomo::model::Video* PyBridge::resolveResource(const std::string& video_i
 	return ctx;
 }
 
-bool PyBridge::askCommentShouldBeIgnored(const std::string& filename, const nicomo::model::Comment& com)
+bool PyBridge::askCommentShouldBeIgnored(std::string const& filename, const nicomo::model::Comment& com)
 {
 	if(!(&filename) || filename.size() <= 0){
 		return false;

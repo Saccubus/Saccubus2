@@ -14,14 +14,14 @@
 
 namespace cli{
 
-TimeLineParser::TimeLineParser(std::istream& stream, const std::string& filename)
+TimeLineParser::TimeLineParser(std::istream& stream, std::string const& filename)
 :stream(stream), filename(filename){
 }
 
 TimeLineParser::~TimeLineParser() {
 }
 
-void TimeLineParser::parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line, int lineno)
+void TimeLineParser::parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, std::string const& line, int lineno)
 {
 	if(line.size() <= 0){
 		return;

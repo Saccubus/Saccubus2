@@ -17,10 +17,10 @@ class TimeLineParser {
 	std::istream& stream;
 	const std::string filename;
 public:
-	TimeLineParser(std::istream& stream, const std::string& filename="<UNSPECIFIED>");
+	TimeLineParser(std::istream& stream, std::string const& filename="<UNSPECIFIED>");
 	virtual ~TimeLineParser();
 private:
-	void parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, const std::string& line, int lineno);
+	void parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, std::string const& line, int lineno);
 public:
 	std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> > parse();
 };
