@@ -20,7 +20,7 @@
 """
 import sys
 import os
-sys.path.append('external/WafHelper')
+sys.path.append('.helper')
 import Util
 
 APPNAME = 'Saccubus'
@@ -80,7 +80,7 @@ def options(opt):
 	opt.add_option('--debug', action='store_true', default=False, help='debug build')
 	opt.load('compiler_c compiler_cxx')
 	opt.load('boost')
-	opt.load('cinamo', tooldir='external/WafHelper')
+	opt.load('cinamo', tooldir='.helper')
 
 def configure(conf):
 	# release
@@ -178,7 +178,6 @@ def build(bld):
 	#	test_env = bld.all_envs["coverage"]
 	#else:
 	#	test_env = bld.env
-
 
 def shutdown(ctx):
 	pass
