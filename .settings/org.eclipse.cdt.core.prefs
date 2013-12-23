@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.base.685369388/CONF_OPT/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.base.685369388/CONF_OPT/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.base.685369388/CONF_OPT/value=--with-cinamo\=/home/psi/Dropbox/donut/Cinamo
+environment/project/cdt.managedbuild.toolchain.gnu.base.685369388/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.base.685369388/appendContributed=true
