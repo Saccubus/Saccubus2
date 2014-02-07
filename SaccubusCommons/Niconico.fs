@@ -68,7 +68,8 @@ module Niconico =
             userId : string;
             filter : seq<(string*string)>;
             messageServer : string;
-            needsKey : bool
+            needsKey : bool;
+            length : int;
         }
         let fetchMetaInfo videoId (fn:Either<exn, MetaInfo> -> unit) =
             let META_INFO_API="http://ext.nicovideo.jp/api/getthumbinfo/";
@@ -119,6 +120,7 @@ module Niconico =
                         filter = filter;
                         messageServer = info.Get("ms");
                         needsKey = info.Get("needs_key") = "1"
+                        length = int (info.Get("l"))
                     }
                     return (fn (Right playInfo))
                 else
@@ -127,7 +129,7 @@ module Niconico =
         type CommentOption = {
             comment_back : int
         };
-        let fetchThreadKey (contex:LoginContext) (threadId:string) (fn:Either<exn, Map<string, string>> -> unit>) =
+        let fetchThreadKey (contex:LoginContext) (threadId:string) (fn:Either<exn, Map<string, string>> -> unit) =
             let API_URL = "http://flapi.nicovideo.jp/api/getthreadkey?thread={0}"
             let url = System.String.Format(API_URL, threadId);
             let chand = new System.Net.Http.HttpClientHandler();
