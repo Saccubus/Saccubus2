@@ -13,4 +13,8 @@ module Functional =
         match x with
             | Left x -> Left x
             | Right _ -> y
-    let (|>) = (>>=)
+    type EitherBuilder() =
+        member x.Bind(comp : Either<'e, 'a>, func : ('a -> Either<'e, 'b>)) = comp >>= func
+        member x.Return(value:'a) : Either<'e, 'a> = Right value
+        member x.ReturnFrom(value : Either<'e, 'a>) : Either<'e, 'a> = value
+    let either = new EitherBuilder()

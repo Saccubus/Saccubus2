@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XmlTest.fs" />
     <Compile Include="NetworkTest.fs" />
+    <Compile Include="NicoTest.fs" />
+    <Compile Include="XmlTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SaccubusCommons\SaccubusCommons.fsproj">

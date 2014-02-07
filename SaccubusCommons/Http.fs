@@ -11,15 +11,24 @@ open SaccubusCommons.Functional;
 
 module Http =
     let getBytes (url:string) : Either<Exception, byte[]> = 
-        let cl = new System.Net.WebClient();
         try
-            Right (cl.DownloadData(url))
+            let req:HttpWebRequest = HttpWebRequest.Create(url) :?> HttpWebRequest;
+            req.Method <- "GET"
+            let resp = req.GetResponse();
+            let size = resp.ContentLength;
+            let stream = resp.GetResponseStream();
+            let data : byte array = Array.zeroCreate (int size);
+            let mutable left = size
+            while (left > (int64 0)) do
+                let read = stream.Read(data, (int (size-left)), (int left));
+                left <- left - (int64 read);
+            Right ( data )
         with
             | err -> Left err
 
     let getString (url:string) (enc:string) : Either<Exception, string> = 
         let enc = System.Text.Encoding.GetEncoding(enc)
-        let cl = new System.Net.WebClient();
+        let cl = new WebClient()
         let st = cl.OpenRead(url)
         let sr = new System.IO.StreamReader(st, enc)
         try
@@ -56,9 +65,10 @@ module Http =
     let postString (url:string) (enc_:string) (hash) =
         try
             let enc = System.Text.Encoding.GetEncoding(enc_)
-            let data = postBytes url hash
-            data
-            |> fun raw -> Right (enc.GetString(raw))
+            either {
+                let! data = postBytes url hash;
+                return enc.GetString(data)
+            }
         with
             | err -> Left err
     let postAsyncString (url:string) (enc:string) (hash) (cont:Either<Exception, string> -> 'a) =
