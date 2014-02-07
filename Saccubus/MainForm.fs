@@ -37,7 +37,7 @@ type public MainForm() as form =
 
         // TODO define form properties
         form.ClientSize <- new Size(600, 600)
-        form.Text <- "Main Form"
+        form.Text <- "さきゅばす"
 
         // TODO define any required for events
         form.Load.AddHandler(new System.EventHandler 
