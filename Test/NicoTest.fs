@@ -25,15 +25,29 @@ type NetworkTest() =
             ) |> Async.RunSynchronously
     [<TestMethod>]
     member this.TestGetMetaInfo() =
-        fetchMetaInfo "sm60" (
+        Video.fetchMetaInfo "sm60" (
             fun r ->
                 match r with
                     | Right x -> Assert.AreEqual(x.title, "なに勘違いしているんだ") |> ignore
                     | Left x -> Assert.Fail(x.Message)
         ) |> Async.RunSynchronously
-        fetchMetaInfo "sm61" (
+        Video.fetchMetaInfo "sm61" (
             fun r ->
                 match r with
                     | Right x -> Assert.Fail("失敗しないとおかしい")
                     | Left x -> ()
         ) |> Async.RunSynchronously
+    [<TestMethod>]
+    member this.TestPlayInfo() =
+        login (Own ("saccubus@gmail.com","test1234")) (
+                fun r ->
+                    match r with
+                        | Right x ->
+                            Video.fetchPlayInfo x "sm14097905" (
+                                fun r ->
+                                    match r with
+                                        | Right x -> Assert.AreEqual("1302222473", x.threadId)
+                                        | Left x -> Assert.Fail(x.Message)
+                            ) |> Async.RunSynchronously
+                        | Left x -> Assert.Fail(x.Message)
+            ) |> Async.RunSynchronously
