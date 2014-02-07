@@ -127,13 +127,26 @@ module Niconico =
         type CommentOption = {
             comment_back : int
         };
-        let fetchThreadKey (contex:LoginContext) (threadId:string) : Map<string, string> =
-            let lst = new System.Collections.Generic.Dictionary<string, string>()
-            Map.ofSeq (Seq.zip lst.Keys lst.Values)
+        let fetchThreadKey (contex:LoginContext) (threadId:string) (fn:Either<exn, Map<string, string>> -> unit>) =
+            let API_URL = "http://flapi.nicovideo.jp/api/getthreadkey?thread={0}"
+            let url = System.String.Format(API_URL, threadId);
+            let chand = new System.Net.Http.HttpClientHandler();
+            let cl = new System.Net.Http.HttpClient(chand);
+            chand.CookieContainer <- contex.cookie
+            async {
+                let! resp = Async.AwaitTask (cl.GetAsync(url))
+                if resp.IsSuccessStatusCode then
+                    let! dat = Async.AwaitTask (resp.Content.ReadAsStringAsync())
+                    let pair = System.Web.HttpUtility.ParseQueryString(dat);
+                    return (fn (Right (seq { for k in pair.AllKeys -> (k, pair.Get(k)) } |> Map.ofSeq)))
+                else
+                    return (fn (Left (new System.Net.WebException("ネットワークエラーです：" + resp.StatusCode.ToString()) :> exn)))
+            }
         let constructThreadCommand
           (loginContext:LoginContext)
           (playInfo:PlayInfo)
-          (commentOpt : CommentOption) =
+          (commentOpt : CommentOption)
+          (fn : Either<exn, System.Xml.XmlDocument> -> unit) =
             let doc = new System.Xml.XmlDocument()
             doc.AppendChild(doc.CreateXmlDeclaration( "1.0", "UTF-8", null )) |> ignore
             let packet = doc.CreateElement("packet")
@@ -162,14 +175,24 @@ module Niconico =
             fth.SetAttribute("scores", "1")
             fth.SetAttribute("click_revision", "-1")
             packet.AppendChild(fth) |> ignore
+
             (* スレッドキーが必要な場合は取得 *)
             if playInfo.needsKey then
-                let dic = fetchThreadKey loginContext playInfo.threadId
-                for (k,v) in Map.toSeq dic do
-                    th.SetAttribute(k, v)
-                    fth.SetAttribute(k, v)
-                    leave.SetAttribute(k, v)
-            doc
+                fetchThreadKey loginContext playInfo.threadId (
+                    fun dic ->
+                        match dic with
+                            | Left x -> fn (Left x)
+                            | Right dic ->
+                                for (k,v) in Map.toSeq dic do
+                                    th.SetAttribute(k, v)
+                                    fth.SetAttribute(k, v)
+                                    leave.SetAttribute(k, v)
+                                fn (Right doc)
+                )
+            else
+                async {
+                    fn (Right doc)
+                }
         let fetchComment
           (loginContext:LoginContext)
           (playInfo:PlayInfo)
