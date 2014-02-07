@@ -37,11 +37,39 @@ module Http =
                 let _ = cont (getString url enc)
                 ()
                 );
-    let getAsyncBytes (url:string) (enc:string) (cont:Either<Exception, byte[]> -> 'a) =
+    let getAsyncBytes (url:string) (cont:Either<Exception, byte[]> -> 'a) =
         ThreadPool.QueueUserWorkItem (
             fun (state) ->
                 let _ = cont (getBytes url)
                 ()
                 );
-    let postBytes (url:string) (hash:Hashtable) = 
-        null
+    let postBytes (url:string) (hash:System.Collections.Specialized.NameValueCollection) =
+        let wc = new WebClient();
+        try
+            try
+                let data = wc.UploadValues(url, hash)
+                Right data
+            with
+                | err -> Left err
+        finally
+            wc.Dispose()
+    let postString (url:string) (enc_:string) (hash) =
+        try
+            let enc = System.Text.Encoding.GetEncoding(enc_)
+            let data = postBytes url hash
+            data
+            |> fun raw -> Right (enc.GetString(raw))
+        with
+            | err -> Left err
+    let postAsyncString (url:string) (enc:string) (hash) (cont:Either<Exception, string> -> 'a) =
+        ThreadPool.QueueUserWorkItem (
+            fun (state) ->
+                let _ = cont (postString url enc hash)
+                ()
+                );
+    let postAsyncBytes (url:string) (enc:string) (hash) (cont:Either<Exception, byte[]> -> 'a) =
+        ThreadPool.QueueUserWorkItem (
+            fun (state) ->
+                let _ = cont (postBytes url hash)
+                ()
+                );
