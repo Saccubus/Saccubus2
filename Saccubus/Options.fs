@@ -190,14 +190,30 @@ module Options =
         fr
     let itemToPanel (item:Description.ArgumentItem) =
         match item with
-            | Description.ArgumentItem.Flag x -> true
-            | Description.ArgumentItem.Directory x -> true
-            | Description.ArgumentItem.File x -> true
-            | Description.ArgumentItem.FileInDirectory x -> true
-            | Description.ArgumentItem.IntValue x -> true
-            | Description.ArgumentItem.StringValue x -> true
-            | Description.ArgumentItem.EnumValue x -> true
-            | Description.ArgumentItem.EnumFlag x -> true
+            | Description.ArgumentItem.Flag x -> 
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.Directory x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.File x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.FileInDirectory x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.IntValue x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.StringValue x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.EnumValue x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
+            | Description.ArgumentItem.EnumFlag x ->
+                let c:System.Windows.Forms.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel()
+                wrapDialog(c, x.title, x.description)
     let rec createControlFromSection<'a> (f:Description.Argument -> System.Windows.Forms.Control ) (x:Description.Section) : System.Windows.Forms.Control =
         match x with
             | Description.Section.Node lst ->

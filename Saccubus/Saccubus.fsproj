@@ -55,8 +55,6 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <Compile Include="Functional.fs" />
-    <Compile Include="Network.fs" />
     <Compile Include="Options.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="MainForm.fs" />

@@ -17,6 +17,8 @@ type public MainForm() as form =
     // TODO initialize your controls
     let initControls() = 
         t1.Controls.Add(formLabel)
+        t1.Text<-"test1"
+        t2.Text<-"test2"
         t2.Controls.Add(formLabel2)
         formLabel.Text <- "Main form data" 
         formLabel.DoubleClick.AddHandler(new EventHandler 
