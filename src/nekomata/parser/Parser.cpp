@@ -5,6 +5,7 @@
  * Copyright 2012-2013, PSI
  */
 
+#include <utility>
 #include <iostream>
 #include <sstream>
 #include <memory>
