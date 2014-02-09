@@ -9,6 +9,7 @@
 #include <nekomata/parser/Parser.h>
 #include <cinamo/String.h>
 #include <cstdlib>
+#include <memory>
 #include "../../nekomata/tree/Node.h"
 #include "TimeLineParser.h"
 
@@ -23,6 +24,7 @@ TimeLineParser::~TimeLineParser() {
 
 void TimeLineParser::parseLine(std::multimap<float, std::shared_ptr<const nekomata::system::Message>, std::less<float> >& timeLine, std::string const& line, int lineno)
 {
+	using namespace std;
 	if(line.size() <= 0){
 		return;
 	}
@@ -37,7 +39,7 @@ void TimeLineParser::parseLine(std::multimap<float, std::shared_ptr<const nekoma
 	const std::string timeStr(line.substr(0, firstSep));
 	const char* timeCstr = timeStr.c_str();
 	char* endPtr=0;
-	const float time = std::strtof(timeCstr, &endPtr);
+	const float time = strtof(timeCstr, &endPtr);
 	if(!endPtr && *endPtr != '\0'){
 		throw nekomata::logging::Exception(__FILE__, __LINE__, "failed to parse time string: \"%s\", invalid sequence: \"%s\"", timeCstr, endPtr);
 	}
