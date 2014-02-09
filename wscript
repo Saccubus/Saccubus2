@@ -85,13 +85,17 @@ def options(opt):
 def configure(conf):
 	# release
 	conf.setenv('release')
-	conf.env.append_value('CXXFLAGS', ['-fPIC', '-O3', '-Wall', '-std=gnu++11'])
+	if sys.platform != 'win32' and sys.platform != 'win64':
+		conf.env.append_value('CXXFLAGS', ['-fPIC'])
+	conf.env.append_value('CXXFLAGS', ['-O3', '-Wall', '-std=gnu++11'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 	configureLibrary(conf)
 	# debug
 	conf.setenv('debug')
 	denv = conf.env;
-	conf.env.append_value('CXXFLAGS', ['-fPIC', '-ggdb','-O0', '-Wall', '-std=gnu++11','-DDEBUG'])
+	if sys.platform != 'win32' and sys.platform != 'win64':
+		conf.env.append_value('CXXFLAGS', ['-fPIC'])
+	conf.env.append_value('CXXFLAGS', ['-ggdb','-O0', '-Wall', '-std=gnu++11','-DDEBUG'])
 	conf.env.append_value('LINKFLAGS', ['-fvisibility=hidden'])
 
 	configureLibrary(conf)
@@ -126,7 +130,7 @@ def build(bld):
 		features = 'cxx cxxprogram',
 		source = NEKOMATA_CLI_SRC,
 		target = 'NekomataCLI',
-		use=['PPROF', 'nekomata'],
+		use=['nekomata', 'PPROF'],
 		includes=[NEKOMATA_INC]
 		)
 	bld(
